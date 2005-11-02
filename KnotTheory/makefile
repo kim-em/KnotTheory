@@ -1,9 +1,7 @@
-src = /home/KnotTheory/KnotTheory/
-PackageSources = $(src)/Base.m $(src)/Braids.m $(src)/TubePlot.m \
-	$(src)/DrawPD.m $(src)/Data.m $(src)/BraidData.m $(src)/GaussCode.m \
-	$(src)/GC2PD.m $(src)/Indiana.m $(src)/HOMFLYPT.m \
-	$(src)/Kauffman.m $(src)/Kh.m $(src)/MorseLink.m
-	$(src)/DrawMorseLink.m $(src)/ML2PD.m $(src)/AlexanderConway.m
-	$(src)/VogelsAlgorithm.m $(src)/MultivariableAlexander.m
-	$(src)/REngine.m $(src)/TestRMatrix.m \
-	$(src)/CJREngine.m $(src)/ColouredJones.m
+PackageSources = Base.m Braids.m TubePlot.m DrawPD.m Data.m \
+	BraidData.m GaussCode.m GC2PD.m Indiana.m HOMFLYPT.m Kauffman.m \
+	Kh.m MorseLink.m DrawMorseLink.m ML2PD.m AlexanderConway.m \
+	VogelsAlgorithm.m MultivariableAlexander.m REngine.m TestRMatrix.m \
+	CJREngine.m ColouredJones.m
+
+init.m
