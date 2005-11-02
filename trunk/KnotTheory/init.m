@@ -1,3 +1,5 @@
+(*Subversion test *) 
+
 BeginPackage["KnotTheory`"]
 
 KnotTheoryVersion::usage = "
