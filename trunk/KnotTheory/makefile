@@ -1,4 +1,4 @@
-src = /home/KnotTheory/???
+src = /home/KnotTheory/KnotTheory/
 PackageSources = $(src)/Base.m $(src)/Braids.m $(src)/TubePlot.m \
 	$(src)/DrawPD.m $(src)/Data.m $(src)/BraidData.m $(src)/GaussCode.m \
 	$(src)/GC2PD.m $(src)/Indiana.m $(src)/HOMFLYPT.m \
