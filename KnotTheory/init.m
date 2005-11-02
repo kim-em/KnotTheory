@@ -1,4 +1,4 @@
-(*Subversion test *) 
+(*Subversion email test *) 
 
 BeginPackage["KnotTheory`"]
 
