@@ -14,7 +14,7 @@ Comments:
 
 * "makefile" packs src/ to make init.m and KnotTheory/ to make
   KnotTheory.tar.gz and KnotTheory.zip. It is run automatically every time
-  changes to this repository are committed with a fresh version of the file
+  changes to this repository are committed with a changed version of the file
   "post". The file "post" is never read; its only purpose is to signal a post
   command to the makefile.
 
