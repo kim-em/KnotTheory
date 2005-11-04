@@ -36,3 +36,4 @@ DTCodes4Knots12To16.tar.gz: KnotTheory/*.dts;
 DTCodes4Knots12To16.zip: KnotTheory/*.dts;
 	/bin/rm -f web/DTCodes4Knots12To16.zip
 	zip -r DTCodes4Knots12To16.zip KnotTheory/*.dts
+
