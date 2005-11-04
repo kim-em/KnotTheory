@@ -1,20 +1,19 @@
-<html>
 This is the subversion repository for the Mathematica package KnotTheory`.
 
-<p>Comments:
+Comments:
 
-<ul>
-<li> The subdirectory KnotTheory/ contains precisely the "export"
+* The subdirectory KnotTheory/ contains precisely the "export"
   part of the package. It is packed to produce KnotTheory.tar.gz,
   KnotTheory.zip, DTCodes4Knots12To16.tar.gz and DTCodes4Knots12To16.zip
   and these files are downloaded by users.
-<li> The subdirectory src/ contains the modules that make up the
+
+* The subdirectory src/ contains the modules that make up the
   "computational" part of KnotTheory`, plus some support files and old
   leftovers. The modules are packed together to form the file init.m in
   KnotTheory/.
-<li> "makefile" packs src/ to make init.m and KnotTheory/ to make
+
+* "makefile" packs src/ to make init.m and KnotTheory/ to make
   KnotTheory.tar.gz and KnotTheory.zip. It is run automatically every time
   changes to this repository are committed.
-<li> All other files are not documented here. Sorry.
-</ul>
-</html>
+
+* All other files are not documented here. Sorry.
