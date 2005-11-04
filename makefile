@@ -6,8 +6,15 @@ PackageSources = src/Base.m src/Braids.m src/TubePlot.m \
 	src/MultivariableAlexander.m src/REngine.m src/TestRMatrix.m \
 	src/CJREngine.m src/ColouredJones.m
 
-all: KnotTheory.tar.gz KnotTheory.zip DTCodes4Knots12To16.tar.gz \
+posted_files = KnotTheory.tar.gz KnotTheory.zip DTCodes4Knots12To16.tar.gz \
 	DTCodes4Knots12To16.zip
+
+post_target = /www/html/KnotTheory/
+
+posted:	post;
+	make $(posted_files)
+	/bin/cp -f $(posted_files) $(post_target)
+	/bin/touch posted
 
 KnotTheory/init.m:	src/System.mm $(PackageSources) KnotTheory/JavaKh/*;
 	/bin/rm -f KnotTheory/init.m
