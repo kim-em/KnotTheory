@@ -18,7 +18,7 @@ posted:	post;
 
 KnotTheory/init.m:	src/System.mm $(PackageSources) KnotTheory/JavaKh/*;
 	/bin/rm -f KnotTheory/init.m
-	cat src/System.mm > KnotTheory/init.m
+	sed -e 's=---date---=`date "+{%Y, %m, %d, %H, %M, %S.%N}"`=' src/System.mm > KnotTheory/init.m
 	cat $(PackageSources) >> KnotTheory/init.m
 
 KnotTheory.tar.gz: KnotTheory/init.m KnotTheory/*.m KnotTheory/JavaKh/*;
