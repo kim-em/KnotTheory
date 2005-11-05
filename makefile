@@ -25,7 +25,7 @@ KnotTheory/init.m:	src/System.mm $(PackageSources) KnotTheory/JavaKh/*;
 
 KnotTheory.tar.gz: KnotTheory/init.m KnotTheory/*.m KnotTheory/JavaKh/*;
 	tar cvf KnotTheory.tar KnotTheory/*.m KnotTheory/JavaKh/*
-	gzip -9 KnotTheory.tar
+	gzip -9 -f KnotTheory.tar
 
 KnotTheory.zip: KnotTheory/init.m KnotTheory/*.m KnotTheory/JavaKh/*;
 	/bin/rm -f KnotTheory.zip
