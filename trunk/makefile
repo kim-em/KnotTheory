@@ -11,6 +11,8 @@ posted_files = KnotTheory.tar.gz KnotTheory.zip DTCodes4Knots12To16.tar.gz \
 
 post_target = /www/html/KnotTheory/
 
+all: posted KnotTheory/init.m;
+
 posted:	post;
 	make $(posted_files)
 	/bin/cp -f $(posted_files) $(post_target)
