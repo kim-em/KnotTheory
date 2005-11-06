@@ -24,7 +24,7 @@ location on the host computer. It can be reset by the user.
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2005,11,05,21,53,40.253480000};
+KnotTheoryVersion[] = {2005,11,05,21,59,11.348624000};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
@@ -57,6 +57,7 @@ KnotTheoryWelcomeMessage[] = StringJoin[
 Print[KnotTheoryWelcomeMessage[]]
 
 End[]; EndPackage[];
+
 
 BeginPackage["KnotTheory`"]
 
