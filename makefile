@@ -15,7 +15,7 @@ all: posted KnotTheory/init.m;
 
 posted:	post;
 	make $(posted_files)
-	/bin/cp -f $(posted_files) $(post_target)
+	/bin/cp -f $(posted_files) web
 	/bin/touch posted
 
 KnotTheory/init.m:	src/System.mm $(PackageSources) KnotTheory/JavaKh/*;
