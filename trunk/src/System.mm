@@ -58,4 +58,3 @@ Print[KnotTheoryWelcomeMessage[]]
 
 End[]; EndPackage[];
 
-
