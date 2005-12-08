@@ -122,11 +122,7 @@ DT4Knots[n_, t_] /; (12<=n<=16) := DT4Knots[n, t] = Module[
   ts = t /. {Alternating -> "A", NonAlternating -> "N"};
   fn = "KnotTheory/"<>ToString[n]<>ts<>".dts";
   Message[KnotTheory::loading, fn];
-  f = OpenRead[fn];
-  Table[
-    StringTake[Read[f, String], n],
-    {NumberOfKnots[n, t]}
-  ]
+  Import[fn, "Lines"]
 ]
 
 DTCode[Knot[n_, t_, k_]] /; (12<=n<=16) := DTCode @@ (
