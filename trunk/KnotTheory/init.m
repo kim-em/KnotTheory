@@ -24,7 +24,7 @@ location on the host computer. It can be reset by the user.
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2005,11,05,21,59,11.348624000};
+KnotTheoryVersion[] = {2005,12,08,11,27,17.245038000};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
@@ -1529,11 +1529,7 @@ DT4Knots[n_, t_] /; (12<=n<=16) := DT4Knots[n, t] = Module[
   ts = t /. {Alternating -> "A", NonAlternating -> "N"};
   fn = "KnotTheory/"<>ToString[n]<>ts<>".dts";
   Message[KnotTheory::loading, fn];
-  f = OpenRead[fn];
-  Table[
-    StringTake[Read[f, String], n],
-    {NumberOfKnots[n, t]}
-  ]
+  Import[fn, "Lines"]
 ]
 
 DTCode[Knot[n_, t_, k_]] /; (12<=n<=16) := DTCode @@ (
