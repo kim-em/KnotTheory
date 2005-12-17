@@ -24,7 +24,7 @@ location on the host computer. It can be reset by the user.
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2005,12,08,11,27,17.245038000};
+KnotTheoryVersion[] = {2005,12,16,19,19,29.023171000};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
