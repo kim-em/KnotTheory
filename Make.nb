@@ -1,0 +1,165 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.1'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      3883,        113]*)
+(*NotebookOutlinePosition[      4532,        135]*)
+(*  CellTagsIndexPosition[      4488,        131]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["KnotTheory` Make.nb", "Title"],
+
+Cell["\<\
+This notebook generates KnotTheory/init.m from the modules in src/. It should \
+be evaulated every time you wish to generate a new local copy of init.m to \
+test changes you have made to src/. In the future this notebook will \
+supersede the \"makefile\". In the future this notebook will also contain \
+unit testing code.\
+\>", "Text"],
+
+Cell["\<\
+Change the following line to whatever the path of \"trunk\" is on you system.\
+\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(SetDirectory["\<C:/drorbn/projects/KnotTheory/svn/trunk\>"]\)], "Input"],
+
+Cell[BoxData[
+    \("C:\\drorbn\\projects\\KnotTheory\\svn\\trunk"\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+PackageSources is identical to the corresponding variable in the makefile\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(PackageSources\  = \ \(\(("\<src/\>" <> #)\) &\)\  /@ \ {\
+\[IndentingNewLine]"\<Base.m\>", \ "\<Braids.m\>", \ "\<TubePlot.m\>", \ \
+"\<DrawPD.m\>", \ "\<Data.m\>", \ "\<BraidData.m\>", \ "\<GaussCode.m\>", \ "\
+\<GC2PD.m\>", \ "\<Indiana.m\>", \ "\<HOMFLYPT.m\>", \ "\<Kauffman.m\>", \ \
+"\<Kh.m\>", \ "\<MorseLink.m\>", \ "\<DrawMorseLink.m\>", \ "\<ML2PD.m\>", \ \
+"\<AlexanderConway.m\>", \ "\<VogelsAlgorithm.m\>", \ \
+"\<MultivariableAlexander.m\>", \ "\<REngine.m\>", \ "\<TestRMatrix.m\>", \ "\
+\<CJREngine.m\>", \ "\<ColouredJones.m\>"\[IndentingNewLine]};\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(UnifiedFile\  = \ "\<KnotTheory/init.m\>";\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(lines\  = \ \(StringReplace[#, \[IndentingNewLine]"\<---date---\>"\  \
+\[Rule] \ ToString[Date[]]\[IndentingNewLine]] &\)\  /@ \ 
+          Import["\<src/System.mm\>", \ "\<Lines\>"];\)\), "\
+\[IndentingNewLine]", 
+    \(\(lines\  = \ 
+        Flatten[{\[IndentingNewLine]lines, \[IndentingNewLine]\(Import[#, \ "\
+\<Lines\>"] &\)\  /@ \ 
+              PackageSources\[IndentingNewLine]}];\)\), \
+"\[IndentingNewLine]", 
+    \(Export[UnifiedFile, \ lines, \ "\<Lines\>"]\)}], "Input"],
+
+Cell[BoxData[
+    \("KnotTheory/init.m"\)], "Output"]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.1 for Microsoft Windows",
+ScreenRectangle->{{0, 1600}, {0, 1155}},
+WindowSize->{721, 864},
+WindowMargins->{{Automatic, -1497}, {Automatic, 87}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 36, 0, 95, "Title"],
+Cell[1815, 55, 346, 6, 71, "Text"],
+Cell[2164, 63, 103, 3, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[2292, 70, 92, 1, 30, "Input"],
+Cell[2387, 73, 80, 1, 29, "Output"]
+}, Open  ]],
+Cell[2482, 77, 97, 2, 33, "Text"],
+Cell[2582, 81, 603, 8, 150, "Input"],
+Cell[3188, 91, 79, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[3292, 96, 507, 10, 170, "Input"],
+Cell[3802, 108, 53, 1, 29, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
