@@ -29,6 +29,8 @@ MultivariableAlexander[ BR[ 2, braidWord_List ] ] :=
 MultivariableAlexander[BR[numberOfStrings_Integer, permutations_List]] /; numberOfStrings >= 3 := MultivariableAlexander[BR[numberOfStrings, permutations]] = Module[
 {data},
 
+	CreditMessage["The multivariable Alexander program was written by Dan Carney at the University of Toronto in the summer of 2005."];
+
     	If[ numberOfStrings > 2 , Null, Return[ error ];, Return[ error ] ];
 
 	If[ 	!Scan[ If[ Abs[ #1 ] < numberOfStrings, Null, Return[ False ]; ]; & , permutations ], Return[ error ]; ];

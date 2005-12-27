@@ -13,6 +13,8 @@ PD[in_GaussCode] :=
     Module[ {chords=List@@in,
         int = Range[Max[List@@in]] /. x_Integer \[Rule] {}, 
         dirlist = Table[0, {Max[List@@in]}], edgelist, output={}, ol={{}} },
+
+      CreditMessage["The GaussCode to PD conversion was written by Siddarth Sankaran at the University of Toronto in the summer of 2005."];
       
       If[AtomQ[chords[[1]] ], 
         chords = {chords} ]; (*make a knot into a 1-

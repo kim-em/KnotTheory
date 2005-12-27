@@ -75,6 +75,7 @@ Decorate[code_SignedGaussCode]:= Nest[
 ] /.DecoratedGaussCode -> State
 
 HOMFLYPT[pd_PD] := HOMFLYPT[pd] = (
+  CreditMessage["The HOMFLYPT program was written by Scott Morrison."];
   loops = Position[pd, _Loop];
   L = Delete[pd, loops];
   Function[{a, z},

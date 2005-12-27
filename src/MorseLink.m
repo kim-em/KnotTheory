@@ -31,6 +31,9 @@ MorseLink[PD[Loop[1]]] := MorseLink[Cup[1,2], Cap[2,1]];
 MorseLink[input_] := MorseLink[PD[input]];
 MorseLink[crossings_PD] := 
     Module[ {strands,  output={}, adjpos, found=0, in, dirlist,k=1} , 
+    CreditMessage["MorseLink was added to KnotTheory` by Siddarth Sankaran
+at the University of Toronto in the summer of 2005."];
+      
       in = crossings;
       (* setup first crossing *)
       

@@ -30,6 +30,7 @@ Alexander[K_] := Alexander[K] = Alexander[PD[K]]
 Alexander[PD[Loop[_]], r_Integer] := {1}& 
 Alexander[K_, r_] /; Head[K] =!= PD := Alexander[PD[K], r]
 Alexander[K_PD, r_Integer] := (Alexander[K, r] = (
+CreditMessage["The program Alexander[K, r] to compute Alexander ideals was written by Jana Archibald at the University of Toronto in the summer of 2005."];
 L = {};
 For[i = 1, i <= Length[K], i++, Which[K[[i]][[4]] == 1,
       L = 

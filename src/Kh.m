@@ -502,6 +502,7 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     Function @@ {KhPoly[KhComplex[L1]] /. {q -> #1, t -> #2}}
   ),
   "JavaKh", (
+    CreditMessage["The Khovanov homology program JavaKh was written by Jeremy Green in the summer of 2005 at the University of Toronto."];
     dir = Directory[];
     SetDirectory[ToFileName[KnotTheoryDirectory[], "JavaKh"]];
     f = OpenWrite["pd", PageWidth -> Infinity];

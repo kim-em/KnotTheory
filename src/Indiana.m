@@ -19,6 +19,12 @@ KnotTheory`. The possible types are: Reversible, FullyAmphicheiral,
 NegativeAmphicheiral and Chiral.
 "
 
+SymmetryType::about = "
+The symmetry type data known to KnotTheory` is taken from Charles
+Livingston's \"Table of Knot Invariants\",
+http://www.indiana.edu/~knotinfo/.
+"
+
 UnknottingNumber::usage = "
 UnknottingNumber[K] returns the unknotting number of the knot K, if known
 to KnotTheory`. If only a range of possible values is known, a list of the
@@ -86,36 +92,42 @@ http://www.indiana.edu/~knotinfo/.
 Begin["`Indiana`"]
 
 BraidIndex[K_]  := (
+  CreditMessage["The braid index data known to KnotTheory` is taken from Charles Livingston's http://www.indiana.edu/~knotinfo/."];
   Needs["KnotTheory`IndianaData`"];
   Unset[BraidIndex[K1_]];
   BraidIndex[K]
 )
 
 BridgeIndex[K_]  := (
+  CreditMessage["The bridge index data known to KnotTheory` is taken from Charles Livingston's http://www.indiana.edu/~knotinfo/."];
   Needs["KnotTheory`IndianaData`"];
   Unset[BridgeIndex[K1_]];
   BridgeIndex[K]
 )
 
 NakanishiIndex[K_]  := (
+  CreditMessage["The Nakanishi index data known to KnotTheory` is taken from Charles Livingston's http://www.indiana.edu/~knotinfo/."];
   Needs["KnotTheory`IndianaData`"];
   Unset[NakanishiIndex[K1_]];
   NakanishiIndex[K]
 )
 
 SuperBridgeIndex[K_]  := (
+  CreditMessage["The super bridge index data known to KnotTheory` is taken from Charles Livingston's http://www.indiana.edu/~knotinfo/."];
   Needs["KnotTheory`IndianaData`"];
   Unset[SuperBridgeIndex[K1_]];
   SuperBridgeIndex[K]
 )
 
 SymmetryType[K_]  := (
+  CreditMessage["The symmetry type data known to KnotTheory` is taken from Charles Livingston's http://www.indiana.edu/~knotinfo/."];
   Needs["KnotTheory`IndianaData`"];
   Unset[SymmetryType[K1_]];
   SymmetryType[K]
 )
 
 ThreeGenus[K_]  := (
+  CreditMessage["The 3-genus data known to KnotTheory` is taken from Charles Livingston's http://www.indiana.edu/~knotinfo/."];
   Needs["KnotTheory`IndianaData`"];
   Unset[ThreeGenus[K1_]];
   ThreeGenus[K]
@@ -123,6 +135,7 @@ ThreeGenus[K_]  := (
 
 UnknottingNumber[TorusKnot[p_, q_]] := (p-1)(q-1)/2;
 UnknottingNumber[K_]  := (
+  CreditMessage["The tabulated unknotting numbers known to KnotTheory` are taken from Charles Livingston's http://www.indiana.edu/~knotinfo/."];
   Needs["KnotTheory`IndianaData`"];
   Unset[UnknottingNumber[K1_]];
   UnknottingNumber[K]

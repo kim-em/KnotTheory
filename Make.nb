@@ -42,8 +42,8 @@ Wolfram Research.
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
 (*NotebookOptionsPosition[      3883,        113]*)
-(*NotebookOutlinePosition[      4532,        135]*)
-(*  CellTagsIndexPosition[      4488,        131]*)
+(*NotebookOutlinePosition[      4528,        135]*)
+(*  CellTagsIndexPosition[      4484,        131]*)
 (*WindowFrame->Normal*)
 
 
@@ -112,9 +112,9 @@ Cell[BoxData[
 }, Open  ]]
 },
 FrontEndVersion->"5.1 for Microsoft Windows",
-ScreenRectangle->{{0, 1600}, {0, 1155}},
+ScreenRectangle->{{0, 1600}, {0, 1102}},
 WindowSize->{721, 864},
-WindowMargins->{{Automatic, -1497}, {Automatic, 87}}
+WindowMargins->{{Automatic, 0}, {Automatic, 87}}
 ]
 
 (*******************************************************************

@@ -22,6 +22,10 @@ DrawMorseLink[ml_MorseLink, opts___] :=
         l, Edge, Mid, lc,
         as =(ArrowSize *0.25) /. {opts} /. If[Count[ml, _X] \[LessEqual] 4, ArrowSize \[Rule] 0.2, Options[DrawMorseLink] ],
         crgap=(0.5- Gap/2) /. {opts} /. Options[DrawMorseLink] },
+
+	CreditMessage["DrawMorseLink was written by Siddarth Sankaran
+at the University of Toronto in the summer of 2005."];
+
       (*set parameters *)
       
       lc[1] = RGBColor[0., 0., 0.];
