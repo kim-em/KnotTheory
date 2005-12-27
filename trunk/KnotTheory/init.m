@@ -1,27 +1,36 @@
 BeginPackage["KnotTheory`"];
+
 KnotTheoryVersion::usage = "
 KnotTheoryVersion[] returns the date of the current version of the
 package KnotTheory`. KnotTheoryVersion[k] returns the kth field in
 KnotTheoryVersion[].
 "
+
 KnotTheoryVersionString::usage = "
 KnotTheoryVersionString[] returns a string containing the date and
 time of the current version of the package KnotTheory`. It is generated
 from KnotTheoryVersion[].
 "
+
 KnotTheoryWelcomeMessage::usage = "
 KnotTheoryWelcomeMessage[] returns a string containing the welcome message
 printed when KnotTheory` is first loaded.
 "
+
 KnotTheoryDirectory::usage = "
 KnotTheoryDirectory[] returns the best guess KnotTheory` has for its
 location on the host computer. It can be reset by the user.
 "
+
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
+
 KnotTheory::credits = "`1`";
+
 Begin["`System`"]
-KnotTheoryVersion[] = {2005, 12, 25, 20, 53, 22.9939968};
+
+KnotTheoryVersion[] = {2005,12,27,17,50,11.234161000};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
+
 KnotTheoryVersionString[] = StringJoin[
   {
     "January", "February", "March", "April", "May", "June",
@@ -38,42 +47,52 @@ KnotTheoryVersionString[] = StringJoin[
   ":",
   ToString[KnotTheoryVersion[6]]
 ]
+
 KnotTheoryDirectory[] = (
   File /. Flatten[FileInformation[ToFileName[#,"KnotTheory"]] & /@ $Path]
 )
+
 KnotTheoryWelcomeMessage[] = StringJoin[
   "Loading KnotTheory` (version of ",
   KnotTheoryVersionString[],
 ")..."
 ]
+
 Print[KnotTheoryWelcomeMessage[]]
+
 CreditMessage[cm_String] := Module[
   {l},
   l=Length[$MessageList];
   Message[KnotTheory::credits, cm];
   If[Length[$MessageList] > l, CreditMessage[cm] = Null];
 ]
+
 End[]; EndPackage[];
 BeginPackage["KnotTheory`"]
+
 Knot::usage = "
   Knot[n, k] denotes the kth knot with n crossings in the Rolfsen table.
   Knot[11, Alternating, k] denotes the kth alternating 11-crossing knot in
   the Hoste-Thistlethwaite table. Knot[11, NonAlternating, k] denotes the
   kth non alternating 11-crossing knot in the Hoste-Thistlethwaite table.
 "
+
 Link::usage = "
   Link[n, Alternating, k] denotes the kth alternating n-crossing link in
   the Thistlethwaite table. Link[n, NonAlternating, k] denotes the kth
   non alternating n-crossing link in the Thistlethwaite table.
 "
+
 TorusKnot::usage = "
   TorusKnot[m, n] represents the (m,n) torus knot.
 "
+
 PD::usage = "
   PD[v1, v2, ...] represents a planar diagram whose vertices are v1, v2,
   .... PD also acts as a \"type caster\", so for example, PD[K] where K is 
   is a named knot (or link) returns the PD presentation of that knot.
 "
+
 X::usage = "
   X[i,j,k,l] represents a crossing between the edges labeled i, j, k
   and l starting from the incoming lower strand i and going
@@ -81,6 +100,7 @@ X::usage = "
   orientation of the upper strand is determined by the ordering of
   {j,l}.
 "
+
 Xp::usage = "
   Xp[i,j,k,l] represents a positive (right handed) crossing between the
   edges labeled i, j, k and l starting from the incoming lower strand i
@@ -88,6 +108,7 @@ Xp::usage = "
   therefore oriented from l to j regardless of the ordering of {j,l}.
   Presently Xp is only lightly supported.
 "
+
 Xm::usage = "
   Xm[i,j,k,l] represents a negative (left handed) crossing between the
   edges labeled i, j, k and l starting from the incoming lower strand i
@@ -95,47 +116,63 @@ Xm::usage = "
   therefore oriented from j to l regardless of the ordering of {j,l}.
   Presently Xm is only lightly supported.
 "
+
 PositiveQ::usage = "
   PositiveQ[xing] returns True if xing is a positive (right handed)
   crossing and False if it is negative (left handed).
 "
+
 NegativeQ::usage = "
   NegativeQ[xing] returns True if xing is a negative (left handed)
   crossing and False if it is positive (right handed).
 "
+
 P::usage = "
   P[i,j] represents a bivalent vertex whose adjacent edges are i and j
   (i.e., a \"Point\" between the segment i and the segment j). Presently P
   is only lightly supported.
 "
+
 Loop::usage = "
   Loop[i] represents a crossingsless loop labeled i.
 "
+
 Crossings::usage = "
   Crossings[L] returns the number of crossings of a knot/link L (in its
   given presentation).
 "
+
 PositiveCrossings::usage = "
   PositiveCrossings[L] returns the number of positive (right handed)
   crossings in a knot/link L (in its given presentation).
 "
+
 NegativeCrossings::usage = "
   NegativeCrossings[L] returns the number of negaitve (left handed)
   crossings in a knot/link L (in its given presentation).
 "
+
 ConnectedSum::usage = "
   ConnectedSum[K1, K2] represents the connected sum of the knots K1 and
   K2 (ConnectedSum may not work with links).
 "
+
 KnotTheory::loading = "Loading precomputed data in `1`."
+
 (* Lightly documented features: *)
+
 NumberOfKnots::usage = "NumberOfKnots[type] return the number of knots of a
 given type.";
+
 Skeleton; Orient; NumberOfLinks; Alternating; NonAlternating; BR;
 Mirror;
+
 Begin["`Private`"]
+
 SetAttributes[P, Orderless]
+
 PD[pd_PD] := pd
+
 PD[BR[k_, {}]] := PD @@ (Loop /@ Range[k])
 PD[BR[k_Integer, l_List]] := Module[
   {
@@ -160,9 +197,11 @@ PD[BR[k_Integer, l_List]] := Module[
     Loop /@ PD @@ Range[len + 1, len + loops]
   ]
 ]
+
 BR[TorusKnot[m_, n_]] /; m > 0 && n > 0 :=
   BR[n, Flatten[Table[Range[n - 1], {m}]]]
 PD[TorusKnot[m_, n_]] /; m > 0 && n > 0 := PD[BR[TorusKnot[m, n]]]
+
 RotateToMinimal[l_] := Module[
   {bl=l,rl=RotateLeft[l]},
   While[rl=!=l,
@@ -171,6 +210,7 @@ RotateToMinimal[l_] := Module[
   ];
   bl
 ]
+
 Skeleton[pd_PD] := Sort[RotateToMinimal /@ (
   c = Times @@ pd /. {
     X[i_, j_, k_, l_] /; (l-j==1 || j-l>1) :> path[i, k] path[j, l],
@@ -188,27 +228,33 @@ Skeleton[pd_PD] := Sort[RotateToMinimal /@ (
   If[Head[c] === Times, List @@ c, {c}]
 )]
 Skeleton[L_] := Skeleton[PD[L]]
+
 Mirror[PD[Xs___X]] := PD[Xs] /. {
   X[i_,j_,k_,l_] /; j-l==1 || l-j>1 :> X[l,i,j,k],
   X[i_,j_,k_,l_] /; l-j==1 || j-l>1 :> X[j,k,l,i]
 }
+
 Crossings[pd_PD] := Count[pd, _X|_Xp|_Xm]
 Crossings[Knot[n_,__]] := n
 Crossings[Link[n_,__]] := n
 Crossings[TorusKnot[m_, n_]] /; (m>0 && n>0) := m*(n-1)
 Crossings[L_] := Crossings[PD[L]]
+
 PositiveQ[X[i_,j_,k_,l_]] /; j-l==1 || l-j>1 = True;
 PositiveQ[X[i_,j_,k_,l_]] /; l-j==1 || j-l>1 = False;
 PositiveQ[_Xp] = True;
 PositiveQ[_Xm] = False;
+
 NegativeQ[X[i_,j_,k_,l_]] /; j-l==1 || l-j>1 = False;
 NegativeQ[X[i_,j_,k_,l_]] /; l-j==1 || j-l>1 = True;
 NegativeQ[_Xp] = False;
 NegativeQ[_Xm] = True;
+
 PositiveCrossings[pd_PD] := Count[pd, _?PositiveQ];
 PositiveCrossings[L_] := PositiveCrossings[PD[L]];
 NegativeCrossings[pd_PD] := Count[pd, _?NegativeQ];
 NegativeCrossings[L_] := NegativeCrossings[PD[L]];
+
 ConnectedSum[pd1_PD, pd2_PD] := Module[
   {c1, c2, l2, npd1, npd2},
   If[Head[First[pd1]] === Loop, Return[Join[Drop[pd1, 1], pd2]]];
@@ -223,12 +269,16 @@ ConnectedSum[pd1_PD, pd2_PD] := Module[
   Join[npd1, npd2]
 ];
 PD[ConnectedSum[K1_, K2_]] := ConnectedSum[PD[K1], PD[K2]]
+
 End[]; EndPackage[]
+
 BeginPackage["KnotTheory`"]
+
 Jones::usage = "
   Jones[L][q] computes the Jones polynomial of a knot or link L as a
   function of the variable q.
 "
+
 Vassiliev::usage = "
   Vassiliev[2][K] computes the (standardly normalized) type 2 Vassiliev
   invariant of the knot K, i.e., the coefficient of z^2 in Conway[K][z].
@@ -236,12 +286,16 @@ Vassiliev::usage = "
   Vassiliev invariant of the knot K, i.e., 3J''(1)-(1/36)J'''(1) where
   J is the Jones polynomial of K.
 "
+
 A2Invariant::usage = "
   A2Invariant[L][q] computes the A2 (sl(3)) invariant of a knot or link L
   as a function of the variable q.
 "
+
 Conway;
+
 Begin["`Private`"]
+
 KB[PD[],_,web_] := Expand[web];
 KB[PD[_Loop, x___], inside_, web_] := Expand[(-A^2-1/A^2)KB[PD[x], inside, web]]
 KB[pd_PD, inside_, web_] := Module[
@@ -265,6 +319,7 @@ KB[pd_PD, inside_, web_] := Module[
     ]
   }
 ]
+
 Jones[Knot[n_, k_]] := (
   Needs["KnotTheory`Jones4Knots`"];
   Unset[Jones[Knot[n1_, k1_]]];
@@ -285,17 +340,21 @@ Jones[TorusKnot[m_, n_]] := (
   Unset[Jones[TorusKnot[m1_, n1_]]];
   Jones[TorusKnot[m, n]]
 )
+
 Jones[pd_PD] := Jones[pd] = Function @@ {Expand[Together[
   KB[pd, {}, 1] * (-A^3)^(PositiveCrossings[pd]-NegativeCrossings[pd]) / (-A^2-1/A^2) /. A -> #^(1/4)
 ]]}
 Jones[L_] := Jones[L] = Jones[PD[L]] 
+
 Vassiliev[2][K_] := Module[{z},
   Coefficient[Conway[K][z], z, 2]
 ]
+
 Vassiliev[3][K_] := Module[{q, J},
   J = Jones[K][q];
   -1/36(D[J, {q, 3}] + 3D[J, {q, 2}]) /. q -> 1
 ]
+
 SetAttributes[{Yo, Yi}, Orderless]
 A2Quick[PD[], _, web_] := Expand[web];
 A2Quick[pd_PD, inside_, web_] := Module[
@@ -328,6 +387,7 @@ A2Quick[pd_PD, inside_, web_] := Module[
       ]
    ]
 ]
+
 A2Invariant[Knot[n_, k_]] := (
   Needs["KnotTheory`A2Invariant4Knots`"];
   Unset[A2Invariant[Knot[n1_, k1_]]];
@@ -348,6 +408,7 @@ A2Invariant[TorusKnot[m_, n_]] := (
   Unset[A2Invariant[TorusKnot[m1_, n1_]]];
   A2Invariant[TorusKnot[m, n]]
 )
+
 A2Invariant[L_] := A2Invariant[L] = Module[
   {pd = PD[L], loops},
   loops = Position[pd, _Loop];
@@ -358,12 +419,17 @@ A2Invariant[L_] := A2Invariant[L] = Module[
     ] /. q -> #
   }
 ]
+
 End[]; EndPackage[]
+
 BeginPackage["KnotTheory`"]
+
 KnotSignature::usage = "
   KnotSignature[K] returns the signature of a knot K.
 "
+
 Begin["`Private`"]
+
 KnotSignature[PD[Loop[_]]] = 0
 KnotSignature[pd_PD] := KnotSignature[pd] = Module[
   {spd, a, s = 0, c, cs, A, es},
@@ -387,8 +453,10 @@ KnotSignature[pd_PD] := KnotSignature[pd] = Module[
   -Plus @@ Sign /@ es
 ]
 KnotSignature[K_] := KnotSignature[PD[K]]
+
 End[]; EndPackage[]
 BeginPackage["KnotTheory`"]		(* Braids *)
+
 BR::usage = "BR stands for Braid Representative. BR[k,l] represents a
 braid on k strands with crossings l={i1,i2,...}, where a positive index
 i within the list l indicates a right-handed crossing between strand
@@ -399,36 +467,48 @@ list of non-adjacent (i.e., commuting) indices. BR also acts as a
 given in any format that KnotTheory` understands. BR[K] where K is is a
 named knot with up to 10 crossings returns a minimum braid
 representative for that knot."
+
 BR::about = "
 The minimum braids representing the knots with up to 10 crossings were
 provided by Thomas Gittings. See his article on the subject at
 arXiv:math.GT/0401051. Vogel's algorithm was implemented by Dan Carney in
 the summer of 2005 at the University of Toronto.
 "
+
 BraidLength::usage = "
 BraidLength[K] returns the braid length of the knot K, if known to
 KnotTheory`.
 "
+
 Mirror::usage = "
   Mirror[br] return the mirror braid of br.
 "
+
 CollapseBraid::usage = "
   CollapseBraid[br] groups together commuting generators in the braid
   br. Useful in conjunction with BraidPlot to produce compact braid plots.
 "
+
 BraidPlot::usage = "
   BraidPlot[br, opts] produces a plot of the braid br. Possible options
   are Mode, HTMLOpts, WikiOpts and Images.
 "
+
 NotAvailable; Mode; HTMLOpts; Images; WikiOpts;
+
 Begin["`Private`"]
+
 BR[br_BR] := br;
+
 BR[k_, s_String] := BR[
   k, ToCharacterCode[s] /. j_Integer :> If[j < 97, 64 - j, j - 96]
 ]
+
 Mirror[BR[k_Integer, l_List]] := BR[k, -l]
 BR[Mirror[K_]] := Mirror[BR[K]]
+
 BraidLength[Knot[n_Integer, k_Integer]] /; 0<=n<=10 && 1<=k<=NumberOfKnots[n] := Crossings[BR[K]]
+
 CollapseBraid[NotAvailable] = NotAvailable
 CollapseBraid[BR[k_, l_List]] := Module[
   {
@@ -445,13 +525,16 @@ CollapseBraid[BR[k_, l_List]] := Module[
   ];
   BR[k, collapsed]
 ]
+
 BraidPlot[NotAvailable, ___] := NotAvailable
+
 Options[BraidPlot] = {
   Mode -> "Graphics",
   Images -> {"0.gif", "1.gif", "2.gif", "3.gif", "4.gif"},
   HTMLOpts -> "",
   WikiOpts -> ""
 }
+
 BraidPlot[BR[k_Integer, l_List], opts___Rule] := Module[
   {
     mat, i, j, ll, g, t, x, y,
@@ -527,8 +610,12 @@ BraidPlot[BR[k_Integer, l_List], opts___Rule] := Module[
     _, mat
   ]
 ]
+
 End[]; EndPackage[]
+
+
 BeginPackage["TubePlot`", {"Utilities`FilterOptions`"}]
+
 TubePlot::usage = "
   TubePlot[gamma, {t, t0, t1}, r, opts] plots the space curve gamma
   with the variable t running from t0 to t1, as a tube of radius r. The
@@ -537,11 +624,13 @@ TubePlot::usage = "
   TubePlot[TorusKnot[m, n], opts] produces a tube plot of the (m,n)
   torus knot.
 "
+
 TubeSubdivision::usage = "
   TubeSubdivision is an option for TubePlot. TubePlot[__, TubeSubdivision
   -> {l, m} draws the tube subdivided to l pieces lengthwise and m pieces
   around. The default is TubeSubdivision -> {50, 12}.
 "
+
 TubeFraming::usage = "
   TubeFraming is an option for TubePlot. TubePlot[gamma, {t, __},
   _, TubeFraming -> n] sets the framing of the tube (visible when
@@ -550,6 +639,7 @@ TubeFraming::usage = "
   \"blackboard framing\". TubeFraming -> Normal (default) uses the normal
   vector of the curve gamma.
 "
+
 TubePlotPrelude::usage = "
   TubePlotPrelude is an option for TubePlot. Its value is passed to
   Graphics3D before the main part of the plot, allowing to set various
@@ -557,7 +647,9 @@ TubePlotPrelude::usage = "
   suppress the drawing of edges between the polygons making up the tube.
   The default is TubePlotPrelude -> {}.
 "
+
 Begin["`Private`"]
+
 Options[TubePlot] = {
   TubeSubdivision -> {50, 12}, TubeFraming -> Normal, TubePlotPrelude -> {}
 };
@@ -591,7 +683,9 @@ TubePlot[gamma_, {t_, t1_, t2_}, r_, opts___Rule] := Module[
     {i, 2, l + 1}, {j, m}
   ]}, FilterOptions[Graphics3D, opts]]
 ]
+
 End[]; EndPackage[]
+
 TubePlot[TorusKnot[m_, n_], opts___] := TubePlot[
   {Cos[n t], Sin[n t], 0} + 
     0.5{Cos[m t]Cos[n t], Cos[m t]Sin[n t], -Sin[m t]},
@@ -600,7 +694,9 @@ TubePlot[TorusKnot[m_, n_], opts___] := TubePlot[
   TubePlotPrelude -> EdgeForm[{}], Boxed -> False, ViewPoint -> {0, 0, 1}
 ];
 BeginPackage["KnotTheory`"]
+
 PD; X; OuterFace; Gap; Colour; StrandColour
+
 DrawPD::usage = "
   DrawPD[pd] takes the planar diagram description pd and creates a
   graphics object containing a picture of the knot.
@@ -611,21 +707,27 @@ DrawPD::usage = "
   the planar diagram description.  Gap->g sets the size of the gap
   around a crossing to length g.
 "
+
 DrawPD::about = "
   DrawPD was written by Emily Redelmeier at the University of Toronto in
   the summers of 2003 and 2004.
 "
+
 Begin["`DrawPD`"]
+
 (* Representation Manipulation *)
+
 (* Positions of the various fields *)
 neighbours=1;
 type=2;
 r=3;
 centre=4;
 graphicsObjs=5;
+
 FieldValues[triangulation_,field_]:=
   Table[triangulation[[i,field]],{i,
       Length[triangulation]}]
+
 AddField[triangulation_,field_,values_]:=
   Table[ReplacePart[
       If[Length[triangulation[[i]]]<
@@ -634,17 +736,22 @@ AddField[triangulation_,field_,values_]:=
         triangulation[[i]]],
       values[[i]],field],{i,
       Length[triangulation]}]
+
 ChangeField[triangulation_,field_,f_]:=
   MapAt[f,triangulation,Table[{i,field},{i,Length[triangulation]}]]
+
 DeriveField[triangulation_,field_,f_]:=
   AddField[triangulation,field,Map[f,triangulation]]
+
 (* PD Graph Manipulation *)
+
 OtherVertex[pd_,coordinates_]:=
   Complement[
       Position[pd,
         Extract[pd,
           coordinates]],{coordinates}][[1\
 ]]
+
 Faces[pd_]:=
   Select[Flatten[
       Table[NestWhileList[
@@ -660,6 +767,7 @@ Faces[pd_]:=
     Function[{face},
       face[[1]]==
         Sort[face][[1]]]]
+
 Triangulate[pd_]:=(facelist=Faces[pd];
     Join[Table[{Flatten[
             Table[{Length[pd]+
@@ -688,6 +796,7 @@ Triangulate[pd_]:=(facelist=Faces[pd];
                 Length[facelist[[
                     face]]]}]],"f"},{face,
           Length[facelist]}]])
+
 GetOuterFace[triangulation_,edges_]:=
   Select[Range[Length[triangulation]],
       Function[v,
@@ -703,11 +812,13 @@ GetOuterFace[triangulation_,edges_]:=
                 triangulation[[v,
                   neighbours]]]]]][[1\
 ]]
+
 NthOrderNeighbours[triangulation_,v_,0]:={v}
 NthOrderNeighbours[triangulation_,v_,n_/;n>0]:=
   Apply[Union,
     Map[triangulation[[#,neighbours]]&,
       NthOrderNeighbours[triangulation,v,n-1]]]
+
 DefaultOuterFace[triangulation_]:=
   Sort[Select[Range[Length[triangulation]],
         triangulation[[#,
@@ -717,10 +828,14 @@ DefaultOuterFace[triangulation_]:=
             triangulation[[#2,
               neighbours]]]&][[1\
 ]]
+
 (* generalize to accept other types of vertices (v, etc.) *)
+
 (* Circle Packing: Radii *)
+
 CircleAngle[r_,r1_,r2_]:=
   ArcCos[((r1+r)^2+(r2+r)^2-(r1+r2)^2)/(2(r1+r)(r2+r))]
+
 FlowerAngle[triangulation_,v_,radii_]:=
   Plus@@(CircleAngle[radii[[v]],#1,#2]&@@@
         Map[radii[[#]]&,
@@ -729,6 +844,7 @@ FlowerAngle[triangulation_,v_,radii_]:=
               RotateRight[
                 triangulation[[v,
                   neighbours]]]}],{2}])
+
 AdjustRadius[triangulation_,v_,targetAngle_,radii_]:=
   N[radii[[v]]((1-
               Cos[FlowerAngle[triangulation,v,radii]/
@@ -746,6 +862,7 @@ AdjustRadius[triangulation_,v_,targetAngle_,radii_]:=
                     targetAngle/
                       Length[triangulation[[v,
                           neighbours]]]])]-1)]
+
 PackingStep[triangulation_,targetAngles_]:=(
     radii=Table[Unique[radius],{Length[triangulation]}];
     Compile[Evaluate[radii],
@@ -756,10 +873,12 @@ PackingStep[triangulation_,targetAngles_]:=(
               targetAngles[[v]],
               radii]],{v,Length[triangulation]}]]]
     )
+
 GetRadii[triangulation_,targetAngles_,radii_]:=(
     EvaluatedPackingStep=PackingStep[triangulation,targetAngles];
     NestWhile[EvaluatedPackingStep@@#&,radii,Unequal,2]
     )
+
 DefaultDirichlet[triangulation_]:=
   AddField[triangulation,r,
     GetRadii[triangulation,
@@ -768,7 +887,9 @@ DefaultDirichlet[triangulation_]:=
               1]]},{triangulation[[1,
               neighbours,2]]}}],
       Table[1,{Length[triangulation]}]]]
+
 (* Circle Packing: Positions *)
+
 PlaceFlower[triangulation_,v_,neighbour_]:=
   For[w=triangulation[[v,neighbours,
         neighbour]];
@@ -789,6 +910,7 @@ PlaceFlower[triangulation_,v_,neighbour_]:=
         currentr];lastr=currentr;
     z[w]=z[v]+(triangulation[[v,r]]+
               currentr)Exp[I*theta];placed=Union[placed,{w}]]
+
 PackCircles[triangulation_]:=(Clear[z];placed={};surrounded={};v1=1;z[v1]=0;
     placed=Union[placed,{v1}];
     v2=triangulation[[v1,neighbours,1]];
@@ -805,6 +927,7 @@ PackCircles[triangulation_]:=(Clear[z];placed={};surrounded={};v1=1;z[v1]=0;
             w_/;MemberQ[placed,w]][[1,
           1]]];surrounded=Union[surrounded,{v}]];
     Table[z[i],{i,Length[triangulation]}])
+
 PackCirclesBound[triangulation_]:=(Clear[z];placed={};surrounded={};
     v1=Select[Range[Length[triangulation]],
           FlowerAngle[triangulation,#,
@@ -828,17 +951,23 @@ PackCirclesBound[triangulation_]:=(Clear[z];placed={};surrounded={};
             w_/;MemberQ[placed,w]][[1,
           1]]];surrounded=Union[surrounded,{v}]];
     Table[z[i],{i,Length[triangulation]}])
+
 AddPositions[triangulation_]:=
   AddField[triangulation,centre,PackCircles[triangulation]]
+
 AddPositionsBound[triangulation_]:=
   AddField[triangulation,centre,PackCirclesBound[triangulation]]
+
 (* Fractional Linear Transformations *)
+
 NewRadius[z_,radius_,{{a_,b_},{c_,d_}}]:=
   radius*Abs[a*d-b*c]/(Abs[c*z+d]^2-Abs[c]^2*radius^2)
+
 NewPosition[z_,
     radius_,{{a_,b_},{c_,d_}}]:=((a*z+b)*Conjugate[c*z+d]-
         a*Conjugate[c]*radius^2)/((c*z+d)*Conjugate[c*z+d]-
         c*Conjugate[c]*radius^2)
+
 ApplyFLMap[
     triangulation_,{{a_,b_},{c_,d_}}]:=(newRadii=
       Table[NewRadius[
@@ -851,26 +980,38 @@ ApplyFLMap[
           triangulation[[v,
             r]],{{a,b},{c,d}}],{v,Length[triangulation]}];
     AddField[AddField[triangulation,r,newRadii],centre,newPositions])
+
 Moebius[a_]:={{1,-a},{-Conjugate[a],1}}
+
 ComposeMoebius[a_,b_]:=(a+b)/(1+a*Conjugate[b])
+
 (* Inversion *)
+
 PutInside[triangulation_,outerFace_]:=
   ApplyFLMap[
     triangulation,{{0,
         triangulation[[outerFace,
           r]]},{1,-triangulation[[
             outerFace,centre]]}}]
+
 (* Balancing *)
+
 BalanceStep[triangulation_,moebiusConst_]:=
   ComposeMoebius[
     Plus@@FieldValues[ApplyFLMap[triangulation,Moebius[moebiusConst]],centre]/
       Length[triangulation],moebiusConst]
+
 BalanceMoebius[triangulation_]:=FixedPoint[BalanceStep[triangulation,#]&,0]
+
 Balance[triangulation_]:=
   ApplyFLMap[triangulation,Moebius[BalanceMoebius[triangulation]]]
+
 (* Graphics *)
+
 xyCoords[z_]:={Re[z],Im[z]}
+
 (* Graphics: Circle Packing *)
+
 PackingGraphics[triangulation_]:=Graphics[Join[
       Map[
         Circle[xyCoords[#[[centre]]],
@@ -880,15 +1021,19 @@ PackingGraphics[triangulation_]:=Graphics[Join[
             triangulation[[i,
               centre]]]],{i,Length[triangulation]}]],
     AspectRatio->1]
+
 (* Knot Manipulation *)
+
 ConnectedNeighbours[triangulation_,v_]:={{1,5},{3,7}}/;
     triangulation[[v,type]]=="X"
 ConnectedNeighbours[triangulation_,v_]:={{2,4}}/;
     triangulation[[v,type]]=="e"
 ConnectedNeighbours[triangulation_,v_]:={}/;
     triangulation[[v,type]]=="f"
+
 Xunder=1;
 Xover=2;
+
 OtherEnd[triangulation_,v_,neighbour_]:=
   Select[Select[
           Map[triangulation[[v,
@@ -897,6 +1042,7 @@ OtherEnd[triangulation_,v_,neighbour_]:=
           MemberQ[#,
               neighbour]&][[1]],#\
 !=neighbour&][[1]]
+
 AdjacentComponents[triangulation_,{v_,n_}]:=
   Select[Map[Take[#,2]&,
       Position[Table[
@@ -910,27 +1056,38 @@ AdjacentComponents[triangulation_,{v_,n_}]:=
           ConnectedNeighbours[triangulation,v][[
             n]]],
         component[[1]]]]]
+
 GetStrand[triangulation_,{v_,n_}]:=
   FixedPoint[
     Apply[Union,
         Append[Map[
             Function[component,
               AdjacentComponents[triangulation,component]],#],#]]&,{{v,n}}]
+
 ListStrands[triangulation_]:=
   Union[Map[GetStrand[triangulation,#]&,
       Flatten[Table[{v,n},{v,Length[triangulation]},{n,
             Length[ConnectedNeighbours[triangulation,v]]}],1]]]
+
 (* Graphics: Graphs *)
+
 gapParam=1;
+
 ArcCentre[z_,radius_,{z1_,z2_}]:=2*radius/Conjugate[Sign[z1-z]+Sign[z2-z]]
+
 ArcRadius[z_,radius_,{z1_,z2_}]:=
   Sqrt[Abs[ArcCentre[z,radius,{z1,z2}]]^2-radius^2]
+
 LinearProject[{v1_,v2_},w_]:=Re[v2-v1]*Cos[Arg[w]]+Im[v2-v1]*Sin[Arg[w]]
+
 ArcProject[{v1_,v2_},o_]:=Mod[Arg[v2-o]-Arg[v1-o],2*Pi,-\[Pi]]
+
 ArcOrientation[z_,radius_,{z1_,z2_}]:=
   Sign[ArcProject[{radius*Sign[z1-z],radius*Sign[z2-z]},
       ArcCentre[z,radius,{z1,z2}]]]
+
 (*find a way to consolidate the crossing functions*)
+
 ArcCrossing[
     radius_,{arc1_,
       arc2_}]:=(Re[arc1]*Im[arc2]-Im[arc1]*Re[arc2]-
@@ -938,12 +1095,14 @@ ArcCrossing[
             Sqrt[(Re[arc1]*Im[arc2]-Im[arc1]*Re[arc2])^2-
                 Abs[arc1-arc2]^2*radius^2])/
       Abs[arc1-arc2]^2*(arc1-arc2)*I
+
 ArcLineCrossing[
     radius_,{arc_,
       line_}]:=((Re[arc]*Re[line]+Im[arc]*Im[line]-
             Sign[Re[arc]*Re[line]+Im[arc]*Im[line]]*
               Sqrt[(Re[arc]*Re[line]+Im[arc]*Im[line])^2-
                   Abs[line]^2*radius^2])/Abs[line]^2)*line
+
 Crossing[z_,radius_,{{z1_,z2_},{z3_,z4_}}]:=
   If[Sign[z1-z]+Sign[z2-z]==0,
     If[Sign[z3-z]+Sign[z4-z]==0,0,
@@ -952,7 +1111,9 @@ Crossing[z_,radius_,{{z1_,z2_},{z3_,z4_}}]:=
       ArcLineCrossing[radius,{ArcCentre[z,radius,{z1,z2}],z4-z3}],
       ArcCrossing[
         radius,{ArcCentre[z,radius,{z1,z2}],ArcCentre[z,radius,{z3,z4}]}]]]
+
 arcConst=10^(-5);
+
 ArcDistance[z_,radius_,{z1_,z2_},{w1_,w2_}]:=
   Which[Sign[z1-z]+Sign[z2-z]==0,LinearProject[{w1,w2},z2-z1],
     Abs[ArcProject[{w1,w2},ArcCentre[z,radius,{z1,z2}]]](*==0*)(**)<
@@ -962,6 +1123,7 @@ ArcDistance[z_,radius_,{z1_,z2_},{w1_,w2_}]:=
             ArcCentre[z,radius,{z1,z2}])],True,
     ArcOrientation[z,radius,{z1,z2}]*ArcRadius[z,radius,{z1,z2}]*
       ArcProject[{w1,w2},ArcCentre[z,radius,{z1,z2}]]]
+
 GetArc[z_,radius_,{z1_,z2_},{w1_,w2_},{l1_,l2_}]:=
   Which[ArcDistance[z,radius,{z1,z2},{w1,w2}]<
       l1+l2,{},(*Mod[
@@ -1003,6 +1165,7 @@ GetArc[z_,radius_,{z1_,z2_},{w1_,w2_},{l1_,l2_}]:=
                 ArcOrientation[z,radius,{z1,z2}]<0,
                 Arg[radius*Sign[z2]-ArcCentre[z,radius,{z1,z2}]]-Pi/2]]},
           Less]]}]
+
 CircleParams[triangulation_,v_,
     n_]:={triangulation[[v,centre]],
     triangulation[[v,r]],
@@ -1010,6 +1173,7 @@ CircleParams[triangulation_,v_,
             neighbours,#]],centre]]&,
       Map[ConnectedNeighbours[triangulation,
               v][[#]]&,n,{-1}],{-1}]}
+
 ExtraGap[triangulation_,v_,neighbour_,gap_]:=
   If[MemberQ[
         Map[triangulation[[v,
@@ -1047,6 +1211,7 @@ ExtraGap[triangulation_,v_,neighbour_,gap_]:=
                     ConnectedNeighbours[triangulation,
                         v][[1]]]]}]]],0]/;
     triangulation[[v,type]]=="e"
+
 DefaultGap[triangulation_]:=
   
   Min[Table[
@@ -1067,6 +1232,7 @@ DefaultGap[triangulation_]:=
             ConnectedNeighbours[triangulation,v][[
               Xunder]]]],Infinity],{v,
         Length[triangulation]}]]
+
 GetGraphicsObjs[triangulation_,v_,
     graphicsParams_]:={Join[
         Apply[GetArc,
@@ -1155,17 +1321,22 @@ GetGraphicsObjs[triangulation_,v_,
     triangulation[[v,type]]=="e"
 GetGraphicsObjs[triangulation_,v_,graphicsParams_]:={}/;
     triangulation[[v,type]]=="f"
+
 AddGraphicsObjs[triangulation_,graphicsParams_]:=
   AddField[triangulation,graphicsObjs,
     Table[GetGraphicsObjs[triangulation,v,graphicsParams],{v,
         Length[triangulation]}]]
+
 Draw[triangulation_]:=
   Graphics[Flatten[
       FieldValues[triangulation,graphicsObjs]],{AspectRatio->1}]
+
 (* Colours *)
+
 colourList={RGBColor[0,0,0],RGBColor[1,0,0],RGBColor[0,1,0],RGBColor[1,1,0],
       RGBColor[0,0,1],RGBColor[0.5,0.25,0],RGBColor[1,0,1],
       RGBColor[1,0.5,0.5],RGBColor[1,0.5,0],RGBColor[0.5,0.5,0.5]};
+
 AddColour[triangulation_,components_,colour_]:=
   Insert[Insert[triangulation,colour,
       Table[{components[[i,1]],
@@ -1175,6 +1346,7 @@ AddColour[triangulation_,components_,colour_]:=
         graphicsObjs,
         components[[i,2]],-1},{i,
         Length[components]}]]
+
 ColourStrands[triangulation_,colouredStrands_]:=
   Fold[AddColour[#1,#2[[1]],#2\
 [[2]]]&,triangulation,
@@ -1188,10 +1360,12 @@ ColourStrands[triangulation_,colouredStrands_]:=
                         colouredStrands][[2\
 ]]],#]&],colouredStrands],
           Length[ListStrands[triangulation]]]}]]
+
 OuterFace="OuterFace";
 (* Commented out by Dror: Gap="Gap"; *)
 Colour="Colour";
 StrandColour="StrandColour";
+
 (* Dror: Add line and pd -> pd_PD *)
 DrawPD[L_] := DrawPD[PD[L]]
 DrawPD[L_,options_] := DrawPD[PD[L],options]
@@ -1239,16 +1413,23 @@ DrawPD[pd_PD,options_]:=(optionsList=Map[Apply[List,#]&,options];
                         optionsList,#[[1\
 ]]==StrandColour&][[1,
                       2]]]}]]]]];Draw[t])
+
 End[]; EndPackage[]
+
 BeginPackage["KnotTheory`"]		(* Data *)
+
 AllKnots::usage = "
   AllKnots[] return a list of all the named knots known to KnotTheory.m.
 "
+
 AllLinks::usage = "
   AllLinks[] return a list of all the named links known to KnotTheory.m.
 "
+
 DTCode;
+
 Begin["`Private`"]
+
 NumberOfKnots[0, Alternating] = 1
 NumberOfKnots[1, Alternating] = 0
 NumberOfKnots[2, Alternating] = 0
@@ -1266,6 +1447,7 @@ NumberOfKnots[13, Alternating] = 4878
 NumberOfKnots[14, Alternating] = 19536
 NumberOfKnots[15, Alternating] = 85263
 NumberOfKnots[16, Alternating] = 379799
+
 NumberOfKnots[0, NonAlternating] = 0
 NumberOfKnots[1, NonAlternating] = 0
 NumberOfKnots[2, NonAlternating] = 0
@@ -1283,8 +1465,10 @@ NumberOfKnots[13, NonAlternating] = 5110
 NumberOfKnots[14, NonAlternating] = 27436
 NumberOfKnots[15, NonAlternating] = 168030
 NumberOfKnots[16, NonAlternating] = 1008906
+
 NumberOfKnots[n_] :=
   NumberOfKnots[n, Alternating] + NumberOfKnots[n, NonAlternating]
+
 NumberOfLinks[2] = 1
 NumberOfLinks[3] = 0
 NumberOfLinks[4] = 1
@@ -1319,6 +1503,7 @@ NumberOfLinks[9, NonAlternating] = 28
 NumberOfLinks[10, NonAlternating] = 113
 NumberOfLinks[11, NonAlternating] = 459
 NumberOfLinks[12, NonAlternating] = 2256
+
 (* These are ordered lists for the purpose of data loading! Do not mess! *)
 AllKnots[] = Flatten[{
   Table[Knot[n,k], {n,0,10}, {k,NumberOfKnots[n]}],
@@ -1329,22 +1514,27 @@ AllLinks[] = Flatten[Table[{
   Table[Link[n, Alternating, k], {k,NumberOfLinks[n, Alternating]}],
   Table[Link[n, NonAlternating, k], {k,NumberOfLinks[n, NonAlternating]}]
 }, {n,2,11}]]
+
 PD[Knot[n_, k_]] := (
   Needs["KnotTheory`PD4Knots`"];
   Unset[PD[Knot[n1_, k1_]]];
   PD[Knot[n, k]]
 )
+
 DTCode[Knot[n_, t_, k_]] /; (n<=11) := (
   Needs["KnotTheory`DTCode4KnotsTo11`"];
   Unset[DTCode[Knot[n1_, t1_, k1_]] /; (n1<=11)];
   DTCode[Knot[n, t, k]]
 )
+
 PD[Knot[n_, t_, k_]] := PD[DTCode[Knot[n, t, k]]]
+
 PD[Link[n_, t_, k_]] := (
   Needs["KnotTheory`PD4Links`"];
   Unset[PD[Link[n1_, t1_, k1_]]];
   PD[Link[n, t, k]]
 )
+
 DT4Knots[n_, t_] /; (12<=n<=16) := DT4Knots[n, t] = Module[
   {ts, fn, f},
   ts = t /. {Alternating -> "A", NonAlternating -> "N"};
@@ -1352,17 +1542,23 @@ DT4Knots[n_, t_] /; (12<=n<=16) := DT4Knots[n, t] = Module[
   Message[KnotTheory::loading, fn];
   Import[fn, "Lines"]
 ]
+
 DTCode[Knot[n_, t_, k_]] /; (12<=n<=16) := DTCode @@ (
   If[# >= 97, 2(#-96), -2(#-64)]& /@ ToCharacterCode[DT4Knots[n, t][[k]]] 
 )
+
 End[]; EndPackage[]
 BeginPackage["KnotTheory`"]             (* Braid Data *)
+
 BR;
+
 Begin["`Private`"]
+
 br[bi_Integer, bs_String] := (
   CreditMessage["The minimum braids representing the knots with up to 10 crossings were provided by Thomas Gittings. See arXiv:math.GT/0401051."];
   BR[bi, bs]
 )
+
 BR[Knot[0,1]] := br[1, ""]
 BR[Knot[3, 1]] := br[2, "AAA"]
 BR[Knot[4, 1]] := br[3, "AbAb"]
@@ -1613,8 +1809,10 @@ BR[Knot[10, 162]] := br[4, "AABaaBBAcBc"]
 BR[Knot[10, 163]] := br[4, "aaBAAcbAbbc"]
 BR[Knot[10, 164]] := br[4, "aaBaBBCbAbC"]
 BR[Knot[10, 165]] := br[4, "aabACbAbccb"]
+
 End[]; EndPackage[]
 BeginPackage["KnotTheory`"]
+
 GaussCode::usage = "
   GaussCode[i1, i2, ...] represents a knot via its Gauss
   Code following the conventions used by the knotilus website,
@@ -1625,18 +1823,22 @@ GaussCode::usage = "
   example, GaussCode[K] where K is is a named knot (or link) returns
   the Gauss code of that knot.
 "
+
 KnotilusURL::usage = "
   KnotilusURL[K_] returns the URL of the knot/link K on the knotilus
   website,\n
   http://srankin.math.uwo.ca/cgi-bin/retrieve.cgi/html/start.html.
 "
+
 DTCode::usage = "
   DTCode[i1, i2, ...] represents a knot via its DT
   (Dowker-Thistlethwaite) code. DTCode also acts as a \"type caster\",
   so for example, DTCode[K] where K is is a named knot returns the DT
   code of that knot.
 "
+
 Begin["`GaussCode`"]
+
 GaussCode[K_] /; !MatchQ[Head[K], PD|DTCode|List] := GaussCode[PD[K]]
 GaussCode[PD[_Loop]] = GaussCode[]
 GaussCode[PD[l___, _Loop, r___]] := Append[
@@ -1667,6 +1869,7 @@ GaussCode[HoldPattern[DTCode[is___Integer]]] := Module[
   ];
   gc
 ]
+
 KnotilusURL[HoldPattern[GaussCode[is__Integer]]] := StringJoin[
   "http://srankin.math.uwo.ca/cgi-bin/retrieve.cgi/",
   StringReplace[
@@ -1684,6 +1887,7 @@ KnotilusURL[HoldPattern[GaussCode[ls__List]]] := StringJoin[
   "/goTop.html"
 ]
 KnotilusURL[K_] /; Head[K] =!= GaussCode := KnotilusURL[GaussCode[K]]
+
 DTCode[GaussCode[]] = DTCode[]
 DTCode[HoldPattern[GaussCode[is__Integer]]] := Module[
   {gc={is}, agc, inds, odds, evens, s},
@@ -1698,18 +1902,24 @@ DTCode[HoldPattern[GaussCode[is__Integer]]] := Module[
   ]]
 ]
 DTCode[K_] /; Head[K] =!= GaussCode := DTCode[GaussCode[K]]
+
 End[]; EndPackage[]
 BeginPackage["KnotTheory`"]
+
 PD::about = "
   The GaussCode to PD conversion was written by Siddarth Sankaran at
   the University of Toronto in the summer of 2005.
 "
+
 Begin["`GaussCode`"]
+
 PD[GaussCode[]] = PD[Loop[1]]
+
 PD[in_GaussCode] := 
     Module[ {chords=List@@in,
         int = Range[Max[List@@in]] /. x_Integer \[Rule] {}, 
         dirlist = Table[0, {Max[List@@in]}], edgelist, output={}, ol={{}} },
+
       CreditMessage["The GaussCode to PD conversion was written by Siddarth Sankaran at the University of Toronto in the summer of 2005."];
       
       If[AtomQ[chords[[1]] ], 
@@ -1768,6 +1978,7 @@ PD[in_GaussCode] :=
       
       (* compile a list of which chords intersect: 
               int[k] = {list of crossings whose chords intersect crossing k} *)
+
             Module[ {k,j,a,b},
         For[k = 1, k \[LessEqual] Max[chords], k++,
             {a,b} = Flatten[Position[Abs[chords], k] ];
@@ -1825,118 +2036,143 @@ PD[in_GaussCode] :=
       ] ;
  
 PD[dt_DTCode] := PD[GaussCode[dt]]
+
 End[]; EndPackage[]
 BeginPackage["KnotTheory`"]
+
 BraidIndex::usage = "
 BraidIndex[K] returns the braid index of the knot K, if known to
 KnotTheory`.
 "
+
 BraidIndex::about = "
 The braid index data known to KnotTheory` is taken from Charles
 Livingston's \"Table of Knot Invariants\",
 http://www.indiana.edu/~knotinfo/.
 "
+
 {Reversible, FullyAmphicheiral, NegativeAmphicheiral, Chiral};
+
 SymmetryType::usage = "
 SymmetryType[K] returns the symmetry type of the knot K, if known to
 KnotTheory`. The possible types are: Reversible, FullyAmphicheiral,
 NegativeAmphicheiral and Chiral.
 "
+
 SymmetryType::about = "
 The symmetry type data known to KnotTheory` is taken from Charles
 Livingston's \"Table of Knot Invariants\",
 http://www.indiana.edu/~knotinfo/.
 "
+
 UnknottingNumber::usage = "
 UnknottingNumber[K] returns the unknotting number of the knot K, if known
 to KnotTheory`. If only a range of possible values is known, a list of the
 form {min, max} is returned.
 "
+
 UnknottingNumber::about = "
 The unknotting numbers of torus knots are due to ???. All other
 unknotting numbers known to KnotTheory` are taken from Charles
 Livingston's \"Table of Knot Invariants\",
 http://www.indiana.edu/~knotinfo/.
 "
+
 ThreeGenus::usage = "
 ThreeGenus[K] returns the 3-genus of the knot K, if known to
 KnotTheory`.
 "
+
 ThreeGenus::about = "
 The 3-genus data known to KnotTheory` is taken from Charles
 Livingston's \"Table of Knot Invariants\",
 http://www.indiana.edu/~knotinfo/.
 "
+
 BridgeIndex::usage = "
 BridgeIndex[K] returns the bridge index of the knot K, if known to
 KnotTheory`.
 "
+
 BridgeIndex::about = "
 The bridge index data known to KnotTheory` is taken from Charles
 Livingston's \"Table of Knot Invariants\",
 http://www.indiana.edu/~knotinfo/.
 "
+
 SuperBridgeIndex::usage = "
 SuperBridgeIndex[K] returns the super bridge index of the knot K, if
 known to KnotTheory`. If only a range of possible values is known, a
 list of the form {min, max} is returned.
 "
+
 SuperBridgeIndex::about = "
 The super bridge index data known to KnotTheory` is taken from Charles
 Livingston's \"Table of Knot Invariants\",
 http://www.indiana.edu/~knotinfo/.
 "
+
 NakanishiIndex::usage = "
 NakanishiIndex[K] returns the Nakanishi index of the knot K, if known to
 KnotTheory`.
 "
+
 NakanishiIndex::about = "
 The Nakanishi index data known to KnotTheory` is taken from Charles
 Livingston's \"Table of Knot Invariants\",
 http://www.indiana.edu/~knotinfo/.
 "
+
 SymmetryType::about = "
 The symmetry type data known to KnotTheory` is taken from Charles
 Livingston's \"Table of Knot Invariants\",
 http://www.indiana.edu/~knotinfo/.
 "
+
 Begin["`Indiana`"]
+
 BraidIndex[K_]  := (
   CreditMessage["The braid index data known to KnotTheory` is taken from Charles Livingston's http://www.indiana.edu/~knotinfo/."];
   Needs["KnotTheory`IndianaData`"];
   Unset[BraidIndex[K1_]];
   BraidIndex[K]
 )
+
 BridgeIndex[K_]  := (
   CreditMessage["The bridge index data known to KnotTheory` is taken from Charles Livingston's http://www.indiana.edu/~knotinfo/."];
   Needs["KnotTheory`IndianaData`"];
   Unset[BridgeIndex[K1_]];
   BridgeIndex[K]
 )
+
 NakanishiIndex[K_]  := (
   CreditMessage["The Nakanishi index data known to KnotTheory` is taken from Charles Livingston's http://www.indiana.edu/~knotinfo/."];
   Needs["KnotTheory`IndianaData`"];
   Unset[NakanishiIndex[K1_]];
   NakanishiIndex[K]
 )
+
 SuperBridgeIndex[K_]  := (
   CreditMessage["The super bridge index data known to KnotTheory` is taken from Charles Livingston's http://www.indiana.edu/~knotinfo/."];
   Needs["KnotTheory`IndianaData`"];
   Unset[SuperBridgeIndex[K1_]];
   SuperBridgeIndex[K]
 )
+
 SymmetryType[K_]  := (
   CreditMessage["The symmetry type data known to KnotTheory` is taken from Charles Livingston's http://www.indiana.edu/~knotinfo/."];
   Needs["KnotTheory`IndianaData`"];
   Unset[SymmetryType[K1_]];
   SymmetryType[K]
 )
+
 ThreeGenus[K_]  := (
   CreditMessage["The 3-genus data known to KnotTheory` is taken from Charles Livingston's http://www.indiana.edu/~knotinfo/."];
   Needs["KnotTheory`IndianaData`"];
   Unset[ThreeGenus[K1_]];
   ThreeGenus[K]
 )
+
 UnknottingNumber[TorusKnot[p_, q_]] := (p-1)(q-1)/2;
 UnknottingNumber[K_]  := (
   CreditMessage["The tabulated unknotting numbers known to KnotTheory` are taken from Charles Livingston's http://www.indiana.edu/~knotinfo/."];
@@ -1944,37 +2180,49 @@ UnknottingNumber[K_]  := (
   Unset[UnknottingNumber[K1_]];
   UnknottingNumber[K]
 )
+
 End[];
+
 EndPackage[];
 BeginPackage["KnotTheory`"]
+
 HOMFLYPT::usage = "
 HOMFLYPT[K][a, z] computes the HOMFLY-PT (Hoste, Ocneanu, Millett,
 Freyd, Lickorish, Yetter, Przytycki and Traczyk) polynomial of a
 knot/link K, in the variables a and z.
 "
+
 HOMFLYPT::about = "
 The HOMFLYPT program was written by Scott Morrison.
 "
+
 Begin["`HOMFLYPT`"]
+
 CrossingSignList[pd_PD]:=
   List @@ pd /. X[i_,j_,k_,l_] :> If[j-l == 1 || l-j>1, +1, -1]
+
 SignedGaussCode[K_] /; Head[K]=!=PD && Head[K] =!= List :=
   SignedGaussCode[PD[K]]
+
 SignedGaussCode[pd_PD] := Module[
   {csl=CrossingSignList[pd],sgc},
   sgc=GaussCode[pd]/.n_Integer :> {n, csl[[Abs[n]]]};
   If[Depth[sgc] == 3,SignedGaussCode[List@@sgc],SignedGaussCode@@sgc]
 ]
+
 StateValuation[a_, z_][s_State] := Times[
   (-1)^Count[s, {_, -1, bullet}, 2],
   z^Count[s, {_, _, bullet}, 2],
   a^Writhe[s],
   ((a - 1/a)/z)^(Length[s]-1)
 ]
+
 Writhe[s_State] := Plus @@ Cases[Flatten[List @@ s, 1], {_, n_, o} :> n]/2
+
 Writhe[s_SignedGaussCode] := Plus @@ Flatten[
   List @@ s /.  {_, sign_Integer} :> sign
 ]/2
+
 Decorate[code_DecoratedGaussCode]:=Module[
   {t1, t2, switch, splice},
   {t1,t2} = Position[code,_?(Length[#] == 2&), {2}, 1][[1]];
@@ -2005,11 +2253,13 @@ Decorate[code_DecoratedGaussCode]:=Module[
     {switch,splice}
   ]
 ]
+
 Decorate[code_SignedGaussCode]:= Nest[
   Flatten[Decorate/@#]&,
   {DecoratedGaussCode@@code},
   Length[Flatten[List@@code]]/4
 ] /.DecoratedGaussCode -> State
+
 HOMFLYPT[pd_PD] := HOMFLYPT[pd] = (
   CreditMessage["The HOMFLYPT program was written by Scott Morrison."];
   loops = Position[pd, _Loop];
@@ -2026,21 +2276,28 @@ HOMFLYPT[pd_PD] := HOMFLYPT[pd] = (
   ]
 )
 HOMFLYPT[L_] := HOMFLYPT[PD[L]]
+
 End[]; EndPackage[];
 BeginPackage["KnotTheory`"]
+
 Kauffman::usage = "
 Kauffman[K][a, z] computes the Kauffman polynomial of a knot or link K,
 in the variables a and z.
 "
+
 Kauffman::about = "
 The Kauffman polynomial program was written by Scott Morrison.
 "
+
 Begin["`Kauffman`"]
+
 CrossingSign[X[i_,j_,k_,l_]]:=If[j-l==1 || l-j>1,1,-1]
+
 RotateToMinimal[l_] := Module[
   {bl=l,rl=RotateLeft[l]},
   While[rl=!=l,bl=First[Sort[{bl,rl}]]; rl=RotateLeft[rl]]; bl
 ]
+
 LinkSkeleton[pd_PD]:=Sort[RotateToMinimal/@(
   c=Times@@pd/.{
     X[i_,j_,k_,l_] :>
@@ -2051,9 +2308,13 @@ LinkSkeleton[pd_PD]:=Sort[RotateToMinimal/@(
   /. {path[i_,a___,i_]:>Loop[i,a]};
   If[Head[c]===Times,List@@c,{c}]
 )]
+
 LinkSkeleton[L_]:=LinkSkeleton[PD[L]]
+
 SignedGaussCode[PD[_Loop]]=SignedGaussCode[];
+
 SignedGaussCode[PD[l___,_Loop,r___]]:=Append[SignedGaussCode[PD[l,r]],{}]
+
 SignedGaussCode[PD[Xs___X]]:=Module[
   {pd=PD[Xs],c=0,s,kc},
   kc=KC@@(s=LinkSkeleton[pd]/.Loop->List);
@@ -2065,9 +2326,11 @@ SignedGaussCode[PD[Xs___X]]:=Module[
   );
   If[Length[s]==1,SignedGaussCode@@First[kc],SignedGaussCode@@kc]
 ]
+
 Writhe[s_SignedGaussCode] := 1/2 Plus @@ Flatten[
   List @@ s /. {_, sign_Integer} :> sign
 ]
+
 Decorate[code_DecoratedGaussCode] := Module[
   {t1,t2,switch, hsplice,vsplice},
   {t1,t2} = Position[code,_?(Length[#]==2&),{2}, 1][[1]];
@@ -2122,6 +2385,7 @@ Decorate[code_DecoratedGaussCode] := Module[
     {switch,hsplice,vsplice}
   ]
 ]
+
 Decorate[code_SignedGaussCode]:= Nest[
   Flatten[Decorate/@#]&,
   {If[Depth[code]==3,
@@ -2129,6 +2393,7 @@ Decorate[code_SignedGaussCode]:= Nest[
     DecoratedGaussCode@@code
   ]},
   Length[Flatten[List@@code]]/4] /. DecoratedGaussCode->State
+
 StateValuation[Alpha_, z_][s_State] := Module[
   {
     Mu = (Alpha - Alpha^(-1))/z + 1, 
@@ -2142,6 +2407,7 @@ StateValuation[Alpha_, z_][s_State] := Module[
   Alpha^((1/2)(Count[symbols, 1] - Count[symbols, -1])) *
   Mu^(length - 1)
 ]
+
 Kauffman[Knot[n_, k_]] := (
   Needs["KnotTheory`Kauffman4Knots`"];
   Unset[Kauffman[Knot[n1_, k1_]]];
@@ -2162,6 +2428,7 @@ Kauffman[TorusKnot[m_, n_]] := (
   Unset[Kauffman[TorusKnot[m1_, n1_]]];
   Kauffman[TorusKnot[m, n]]
 )
+
 Kauffman[pd_PD] := Kauffman[pd] = (
   CreditMessage["The Kauffman polynomial program was written by Scott Morrison."];
   loops = Position[pd, _Loop];
@@ -2180,10 +2447,14 @@ Kauffman[pd_PD] := Kauffman[pd] = (
   ]
 )
 Kauffman[L_] := Kauffman[PD[L]]
+
 End[];
+
 EndPackage[];
 BeginPackage["KnotTheory`"]
+
 $RecursionLimit = 65536;
+
 Kh::usage = "Kh[L][q, t] returns the Poincare polynomial of the
 Khovanov Homology of a knot/link L (over a field of characteristic 0)
 in terms of the variables q and t. Kh[L, Program -> prog] uses the
@@ -2196,17 +2467,23 @@ may not be available on some systems. \"JavaKh\" also takes the option
 \"Modulus -> p\" which changes the characteristic of the ground field
 to p. If p==0 JavaKh works over the rational numbers; if p==Null JavaKh
 works over Z (see ?ZMod for the output format)."
+
 JavaOptions::usage = "JavaOptions is an option to Kh. Kh[L, Program ->
 \"JavaKh\", JavaOptions -> jopts] calls java with options jopts. Thus
 for example, JavaOptions -> \"-Xmx256m\" sets the maximum java heap
 size to 256MB - useful for large computations."
+
 ZMod::usage = "ZMod[m] denotes the cyclic group Z/mZ. Thus if m=0 it is the
 infinite cyclic group Z and if m>0 it is the finite cyclic group with m
 elements. ZMod[m1, m2, ...] denotes the direct sum of ZMod[m1],
 ZMod[m2], ... .";
+
 ExpansionOrder; Program;
+
 Begin["`FastKh`"]
+
 bdot[_]^_ ^=0; tdot[_]^_ ^=0;
+
 EquivalenceClasses[l_List] := Fold[
       (
           pos = First /@ Position[#1, #2];
@@ -2214,6 +2491,7 @@ EquivalenceClasses[l_List] := Fold[
           )&,
       l, Union @@ l
 ];
+
 DotRule[top_, bot_] := DotRule[top, bot] = Flatten[Cases[
   DeleteCases[
     EquivalenceClasses[Join[
@@ -2224,6 +2502,7 @@ DotRule[top_, bot_] := DotRule[top, bot] = Flatten[Cases[
   ],
   l_List :> ((# -> First[l])& /@ l)
 ]];
+
 HCLaw[
         Cobordism[top1_Smoothing,bot1_Smoothing],
         Cobordism[top2_Smoothing,bot2_Smoothing]
@@ -2237,6 +2516,7 @@ HCLaw[
         ],
       {1,2,1}
       ];
+
 (*
   Note: Gluing d disks along z zippers, the result has b boundaries and
   genus g with 2g=2+z-d-b.
@@ -2294,13 +2574,16 @@ HCLaw[
   ] /. to -> Rule;
   {Cobordism[top, bot, decors], law}
 ];
+
 HC[0, _] = HC[_, 0] = 0;
 HC[Smoothing[s1_], Smoothing[s2_]]:= Smoothing[
   s1 s2 //. P[i_, j_][m_] P[j_, k_][n_]:> P[i, k][Min[m, n]]
     /. {P[i_, j_][m_]^2 :> Loop[m], P[i_, i_][m_] :> Loop[m]}
 ];
+
 HC[n1_.*e[t1__]*s1_Smoothing, n2_.*e[t2__]*s2_Smoothing] :=
     n1 n2 e[t1,t2]HC[s1, s2];
+
 HC[
       Cobordism[top1_Smoothing,bot1_Smoothing, ds1_],
       Cobordism[top2_Smoothing,bot2_Smoothing, ds2_]
@@ -2312,8 +2595,10 @@ HC[
       cob = MapAt[Expand[(ds1 ds2 /. law)*#]&, cob, 3];
       cob
       ];
+
 HC[a_Plus, b_] := HC[#, b]& /@ a;
 HC[a_, b_Plus] := HC[a, #]& /@ b;
+
 HC[Morphism[top_, bot_, a_+b_], s_] := Plus[
       HC[Morphism[top, bot, a],s],
       HC[Morphism[top, bot, b],s]
@@ -2327,7 +2612,9 @@ HC[Morphism[top_, bot_, MM[e[i___],e[j___], mat_]], e[k___] * s_Smoothing] :=
           ];
       MM[e[i,k], e[j,k], Expand[Last[cob]*(mat /. law)]]
       ];
+
 HC[s_, Morphism[top_, bot_, a_Plus]] := HC[s, Morphism[top, bot, #]]& /@ a
+
 HC[e[k___] * s_Smoothing, Morphism[top_, bot_, MM[e[i___],e[j___], mat_]]] :=
     Module[
       {cob, law},
@@ -2337,6 +2624,7 @@ HC[e[k___] * s_Smoothing, Morphism[top_, bot_, MM[e[i___],e[j___], mat_]]] :=
           ];
       MM[e[k,i], e[k,j], Expand[Last[cob]*(mat /. law)]]
       ];
+
 HC[
       Kom[f1_, obs1_, mos1_],
       Kom[f2_, obs2_, mos2_]
@@ -2381,6 +2669,7 @@ HC[
             ];
       ReTag[Kom[f1+f2, obs, mos]]
       ];
+
 ReTag[kom_Kom] := Module[
     {f, obs, mos, l},
     {f, obs, mos} = List @@ kom;
@@ -2402,6 +2691,7 @@ ReTag[kom_Kom] := Module[
       ];
     Kom[f, obs, mos]
     ]
+
 (*
   Note: Gluing d disks along z zippers, the result has b boundaries and
   genus g with 2g=2+z-d-b.
@@ -2452,6 +2742,7 @@ VCLaw[
     ];
   {law1, law2, decors}
 ];
+
 VC[a_, b_, c__] := VC[a, VC[b,c]];
 VC[
       Cobordism[top_Smoothing,mid_Smoothing, ds1_],
@@ -2465,6 +2756,7 @@ VC[
           ];
       cob
       ];
+
 DeLoop[kom_Kom] := Module[
       {f, obs, mos, l, dot},
       {f, obs, mos} = List @@ kom;
@@ -2501,6 +2793,7 @@ DeLoop[kom_Kom] := Module[
         ];
       ReTag[Kom[f, obs, mos] /. MM[_, _, {{0}}] -> 0]
       ];
+
 Contract[kom_Kom] := Module[
       {
         f, obs, mos, l, k, e2s0, e2s1, s2b, b, e2b0, e2b1, killed0, killed1, 
@@ -2574,6 +2867,7 @@ Contract[kom_Kom] := Module[
         ];
       ReTag[Kom[f, obs, mos]]
       ];
+
 KhComplex[X[i_,j_,k_,l_]]/;(j-l==1||l-j>1):=Kom[0, (* + xing *)
       Objects[
           e[1]Smoothing[Q P[i,j] P[k,l]],
@@ -2599,6 +2893,7 @@ KhComplex[pd_PD] /; (Length[pd] > 1) := Module[
       ];
     kom
     ]
+
 KhPoly[kom_Kom] := Module[
       {f, obs, mos},
       {f, obs, mos} = List @@ kom;
@@ -2608,6 +2903,7 @@ KhPoly[kom_Kom] := Module[
                 )]
         ]
       ];
+
 Kh[Knot[n_, k_]] := (
   Needs["KnotTheory`Kh4Knots`"];
   Unset[Kh[Knot[n1_, k1_]]];
@@ -2628,12 +2924,14 @@ Kh[TorusKnot[m_, n_]] := (
   Unset[Kh[TorusKnot[m1_, n1_]]];
   Kh[TorusKnot[m,n]]
 )
+
 Options[Kh] = {
   ExpansionOrder -> Automatic,
   Program -> "JavaKh",
   Modulus -> 0,
   JavaOptions -> ""
 };
+
 Kh[L_, opts___] := Kh[L, opts] = Module[
   {
     L1, pos, inside, L2, f, cl,
@@ -2679,8 +2977,10 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
   )
   ]
 ]
+
 End[]; EndPackage[]
 BeginPackage["KnotTheory`"];
+
 MorseLink::usage =
     "MorseLink[K] returns a presentation of the oriented link K, composed, in \
 successive order, of the following 'events':
@@ -2693,14 +2993,20 @@ directions of the bottom-left and bottom-right strands respectively through \
 the crossing.
     Cap[m,n] is a directed cap, from strand m to strand n.
     ";
+
 MorseLink::about = "MorseLink was added to KnotTheory` by Siddarth Sankaran
 at the University of Toronto in the summer of 2005."
+
 Cup::usage=Cap::usage=Up::usage=Down::usage=Over::usage=Under::usage=MorseLink::usage;
+
 Begin["`MorseLink`"]; 
+
 GetDir[a_,b_] := 
     If[Max[a,b] \[Equal] (Min[a,b] +1), 
       If[a<b, Return[Up], Return[Down]],
       If[a<b, Return[Down], Return[Up]]];
+
+
 s4[1]=2;s4[2]=3;s4[3]=4;s4[4]=1;  (*since a[[0]] is NOT the first element*)
 MorseLink[PD[Loop[1]]] := MorseLink[Cup[1,2], Cap[2,1]];
 MorseLink[input_] := MorseLink[PD[input]];
@@ -2885,18 +3191,25 @@ to use one or both of the options as in
     DrawMorseLink[L, Gap -> g, ArrowSize -> as ], with 0 < as, g < 1, where g controls \
 the amount of white space at each crossing, and as controls the size of the \
 orientation arrows. ";
+
 DrawMorseLink::about = "DrawMorseLink was written by Siddarth Sankaran
 at the University of Toronto in the summer of 2005."
+
 Options[DrawMorseLink] = {Gap \[Rule] 0.4, ArrowSize \[Rule] 0.5};
+
 Begin["`DrawMorseLink`"]; 
+
 DrawMorseLink[in_, opts___]/; Head[in] =!= MorseLink := DrawMorseLink[MorseLink[in], opts];
+
 DrawMorseLink[ml_MorseLink, opts___] := 
     Module[ {in={{}}, output={}, ch=1, cw=1,  dline, dcup, dcap, dslant, 
         l, Edge, Mid, lc,
         as =(ArrowSize *0.25) /. {opts} /. If[Count[ml, _X] \[LessEqual] 4, ArrowSize \[Rule] 0.2, Options[DrawMorseLink] ],
         crgap=(0.5- Gap/2) /. {opts} /. Options[DrawMorseLink] },
+
 	CreditMessage["DrawMorseLink was written by Siddarth Sankaran
 at the University of Toronto in the summer of 2005."];
+
       (*set parameters *)
       
       lc[1] = RGBColor[0., 0., 0.];
@@ -2982,6 +3295,7 @@ at the University of Toronto in the summer of 2005."];
                     )
                 };
         ];
+
       (*second pass, look ahead for lane changes and adjust accordingly, 
         and generate colours *)
       Module[ {t,caps,f, ac, pos, m},
@@ -3000,6 +3314,7 @@ at the University of Toronto in the summer of 2005."];
                     );
           ];
         (*generate colours *)
+
         Module[ {temp, k=0, ar, prod=1,prev, next, i, cur},
           
           t = t  /. {X[a_, b_, c_, ___] \[RuleDelayed]  
@@ -3041,6 +3356,7 @@ at the University of Toronto in the summer of 2005."];
           ];
         l = Table[t[[i,1]] , {i, Length[t]}] ;
         ];
+
       (*play tetris*)
       Module[ {cur, k,j,i, p1, p2}, 
         For[k=1, k\[LessEqual] Length[l], k++, 
@@ -3070,6 +3386,7 @@ at the University of Toronto in the summer of 2005."];
               ];
             ];
         ];
+
       (*at this point:
             X[str1, str2, over/under, col1, col2]
           Cup[str1, str2, col, edge/mid]
@@ -3168,8 +3485,11 @@ at the University of Toronto in the summer of 2005."];
 End[];
 EndPackage[];
 BeginPackage["KnotTheory`"]; 
+
 Begin["`MorseLink2PD`"]; 
+
 PD[MorseLink[Cup[1,2], Cap[2 , 1] ] ] := PD[Loop[1]]; 
+
 PD[in_MorseLink] := Module[ {pos, arrow, strands = {}, edgecount = 0, n, chains = 1, output = {}, a, b, x, y, i}, 
 	For[n = 1, n <= Length[in], n++, 
 		Switch[in[[n]], 
@@ -3205,11 +3525,17 @@ PD[in_MorseLink] := Module[ {pos, arrow, strands = {}, edgecount = 0, n, chains 
 End[]; 
 EndPackage[]; 
 BeginPackage["KnotTheory`"]
+
 Alexander::usage = "Alexander[K][t] computes the Alexander polynomial of a knot K as a function of the variable t.  Alexander[K, r][t] computes a basis of the r'th Alexander ideal of K in Z[t].";
+
 Alexander::about = "The program Alexander[K, r] to compute Alexander ideals was written by Jana Archibald at the University of Toronto in the summer of 2005."
+
 Conway::usage = "Conway[K][z] computes the Conway polynomial of a knot K as a function of the variable z."
+
 KnotDet::usage = "KnotDet[K] returns the determinant of a knot K."
+
 Begin["`AlexanderConway`"]
+
 Alexander[PD[Loop[_]]] = 1&
 Alexander[pd_PD] := Alexander[pd] = Function @@ {(
   n = Length[pd];
@@ -3226,6 +3552,7 @@ Alexander[pd_PD] := Alexander[pd] = Function @@ {(
   ]
 ) /. t->#}
 Alexander[K_] := Alexander[K] = Alexander[PD[K]]
+
 Alexander[PD[Loop[_]], r_Integer] := {1}& 
 Alexander[K_, r_] /; Head[K] =!= PD := Alexander[PD[K], r]
 Alexander[K_PD, r_Integer] := (Alexander[K, r] = (
@@ -3258,6 +3585,9 @@ For[i = 1, i <= Length[K], i++, Which[K[[i]][[4]] == 1,
             ReplacePart[
               ReplacePart[Table[0, {n, 2 Length[K]}], t, K[[i]][[3]]], -1, 
               K[[i]][[1]]], 1 - t, K[[i]][[4]]]]]];  
+
+
+
 P1 = {};
 For[i = 1, i <= Length[K], i++, P1 = Append[P1, Part[Part[K, i], 1]]];
 F := Sort[P1];
@@ -3270,6 +3600,7 @@ For[i = 1, i <= Length[K], i++,
             Part[F, 1] < j <= Part[F, Length[K]], 0],  {j, i}], 
       G = ReplacePart[G, 
           If[Part[F, i - 1] < j <= Part[F, i], 1, 0],  {j, i}]]]];
+
 Det[Rest[Transpose[Rest[L.G]]]];
 A = Union[Flatten[Minors[Rest[Transpose[Rest[L.G]]], Length[K] - r]]];
 A = DeleteCases[A, 0];
@@ -3381,6 +3712,7 @@ Block[{t}, Label[start]; A = B;
   If[B != A, Goto[start]]];
   Evaluate[B /. t->#]&
 ))
+
 Conway[K_] := Conway[K] = Function @@ {Module[{t},
   a = Alexander[K][t];
   While[0 < (h=Exponent[a, t, Max]),
@@ -3388,59 +3720,85 @@ Conway[K_] := Conway[K] = Function @@ {Module[{t},
   ];
   a /. z->z^2
 ] /. z -> #}
+
 KnotDet[K_] := Abs[Alexander[K][-1]]
+
 End[]
 EndPackage[]
+
 (* VogelsAlgorithm.m by Dan Carney *)
+
 BeginPackage["KnotTheory`"];
+
 BR; Mirror; NumberOfKnots; PD;
+
 Begin[ "`VogelsAlgorithm`" ];
+
 BR[K_] /; !(
   Head[K] === Mirror
   || MatchQ[K,
     Knot[n_Integer, k_Integer] /; 0<=n<=10 && 1 <= k <= NumberOfKnots[n]
   ]
 ) := CalculateBraid[PD[K]]
+
 CalculateBraid[K_] /; Head[K] =!= PD := ( CalculateBraid[PD[K]] )
+
 CalculateBraid[PD[Loop[_]]] := ( BR[1,{}] )
+
 CalculateBraid[ PD[ Xs__X ] ] := Module[
 { temp },
   CreditMessage["Vogel's algorithm was implemented by Dan Carney in the summer of 2005 at the University of Toronto."];
   temp = List @@@ {Xs};	
   CalculateBraid2[ temp, If[ #[[2]] - #[[4]] == 1 || #[[4]] - #[[2]] > 1, +1, -1 ] & /@ temp ]
 ];
+
 error;
+
 crossingIndex;
 crossingSign;
+
 edgeIndex;
 edgeMark;
 edgeCircle;
 edgeEnd;
 edgeStart;
+
 circleIndex;
 circleDescription;
+
 left;
 right;
 clockwise;
 counterClockwise;
+
 crossingDescription = { 1, 2, 3, 4 };
+
 dbgPrint = False;
+
 Dbg[ seq__ ]  := ( If[ dbgPrint, Print[ seq ] ]; )
+
 Append2[ a_, b_ ] := ( a = Append[ a, b ]; )
+
 Mark[ a__ ] := ( Scan[ If[ # =!= True, Set[ #, True ] ] & , { a } ]; )
+
 IsMarked[ a_ ] := ( If[ a === True, True, False, False ] )
+
 CalculateBraid2[ crossingsList_List, crossingSigns_List ] := Module[
 {next, current = {crossingsList, crossingSigns} },
+
 	While[ True, 
 		next = CalculateBraid3[ Sequence @@ current ];
 		If[ Head[next] =!= List, Return[next] ];
 		current = next;
 	];		
 ];
+
 CalculateBraid3[ crossingsList_List, crossingSigns_List ] := Module[
 {data, pair},
+
 	data[crossingIndex] = crossingsList;
 Dbg[ Unevaluated[ "Crossings ", data[crossingIndex] ] ];
+
 	MapThread[ data[ crossingSign, #1] = #2; & , { crossingsList, crossingSigns } ];
 Dbg[ Unevaluated[ "Signs ", data[crossingSign, #] & /@ data[crossingIndex] ] ];
 	
@@ -3457,34 +3815,44 @@ Dbg[ Unevaluated[ "Edges ", data[ edgeIndex ] ] ];
 Dbg[ Unevaluated[ "Starting crossings ", data[ edgeStart, # ] & /@ data[ edgeIndex ] ] ];
 Dbg[ Unevaluated[ "Ending crossings ", data[ edgeEnd, # ] & /@ data[ edgeIndex ] ] ];
 *)
+
 	CalculateSeifertCircles[ data ];
 Dbg[ Unevaluated[ "Seifert Circles ", { #, data[circleDescription, #]} & /@ data[circleIndex] ] ];
+
 	pair = CalculateSurfaces[ data ];
 	If[ pair =!= Null, Return[ VogelMove[ data, pair ] ]; ];
+
 	BuildReducedSeifertGraph[ data ];
 	
 (*	Return[ VerifyReducedSeifertGraph[ data ] ]; *)
 	 
 	ReadBraidWord[ data ]
 ];
+
 GetEnds[ { a_, _, _, b_ }, 1 ] := {a,b}
 GetEnds[ { a_, b_, _, _ }, -1 ] := {a,b}
+
 GetStarts[ { _, b_, a_, _ }, 1 ] := {a,b}
 GetStarts[ { _, _, a_, b_ }, -1 ] := {a,b}
+
 PreviousStrandEdge[ edge_, { _, _, edge_, x_ }, 1 ] := (x)
 PreviousStrandEdge[ edge_, { _, x_, edge_, _ }, -1 ] := (x)
 PreviousStrandEdge[ edge_, { x_, _, _, edge_ }, -1 ] := (x)
 PreviousStrandEdge[ edge_, { x_, edge_, _, _ }, 1 ] := (x)
+
 NextStrandEdge[ edge_, { edge_, x_,    _,  _     },  1 ] := (x)
 NextStrandEdge[ edge_, { edge_, _,     _,  x_    }, -1 ] := (x)
 NextStrandEdge[ edge_, { _,     _,     x_, edge_ },  1 ] := (x)
 NextStrandEdge[ edge_, { _,     edge_, x_, _     }, -1 ] := (x)
+
 IsNextCrossingRight[ edge_, { _, edge_, _, _ }, -1 ] := (True)
 IsNextCrossingRight[ edge_, { _, _, _, edge_ }, 1 ] := (False)
 IsNextCrossingRight[ edge_, { edge_, _, _, _ }, 1 ] := (True)
 IsNextCrossingRight[ edge_, { edge_, _, _, _ }, -1 ] := (False)
+
 CalculateSeifertCircles[ data_ ] := Module[ 
 { currentCircleIndex=0, currentEdge, nextCrossing, currentCircle },
+
 	Scan[ currentEdge = #;
 		If[ !IsMarked[ data[ edgeMark, currentEdge ] ], 
 			currentCircle = {};
@@ -3501,8 +3869,10 @@ CalculateSeifertCircles[ data_ ] := Module[
 	&, data[ edgeIndex ] ];
 	data[ circleIndex ] = Range[ currentCircleIndex ];
 ];
+
 CalculateSurfaces[ data_ ] := Module[
 { surface, edgeDirection, pair },
+
 	Scan[ 
 		currentEdge = #1;
 		edgeDirection = left;
@@ -3514,33 +3884,43 @@ CalculateSurfaces[ data_ ] := Module[
 	&, data[ edgeIndex ] ]
 	 
 ];
+
 AccumulateSurface[ currentEdge_, edgeDirection_, data_ ] := Module[ 
 {surface = {}, crossing },
+
 	If[ IsMarked[ data[ edgeMark, edgeDirection, currentEdge ] ], Return[]; ];
+
 	While[ !IsMarked[ data[ edgeMark, edgeDirection, currentEdge ] ], 
 		
 		Mark[ data[ edgeMark, edgeDirection, currentEdge ] ];		
 		Append2[ Unevaluated[ surface ], If[ edgeDirection === left, currentEdge, -currentEdge ] ];
+
 		crossing = data[ If[ edgeDirection === left, edgeEnd, edgeStart ], currentEdge ];
 		Scan[ If[ crossing[[#]] === currentEdge, 
 			currentEdge = crossing[[ If[ # == 4, 1, #+1 ] ]]; Return[Null];
 			 ]; &, crossingDescription ];
+
 		edgeDirection = If[ data[ edgeStart, currentEdge ] === crossing, left, right ];		
 	];
 	
 (* Dbg[ "Surface ", surface ]; *)
+
 	SearchSurfaceForAdmissiblePair[ surface, data ]
 ];
+
 SearchSurfaceForAdmissiblePair[ surface_, data_ ] := Module[ 
 {unorderedList, orderedList },
 	
 	unorderedList = Sign[#]*data[ edgeCircle, Abs[#] ] & /@ surface;
 	orderedList = Union[ unorderedList ];
+
 	If[ Length[ orderedList ] <= 1, Return[Null]; ];
+
 	If[ Sign[ orderedList[[1]] ] == Sign[ orderedList[[2]] ],
 		Return[ { 	surface[[ Position[ unorderedList, orderedList[[1]] ][[1]][[1]] ]] ,
 					surface[[ Position[ unorderedList, orderedList[[2]] ][[1]][[1]] ]] } ];
 	];
+
 	If[ Sign[ orderedList[[-1]] ] == Sign[ orderedList[[-2]] ],
 		Return[ { 	surface[[ Position[ unorderedList, orderedList[[-1]] ][[1]][[1]] ]] ,
 					surface[[ Position[ unorderedList, orderedList[[-2]] ][[1]][[1]] ]] } ];
@@ -3548,12 +3928,16 @@ SearchSurfaceForAdmissiblePair[ surface_, data_ ] := Module[
 	
 	Null
 ];
+
 VogelMove[ data_, pair_ ] := Module[
 { newCrossings, newSigns, direction, high, edgeA, edgeB },
+
 Dbg[ Unevaluated[ "Found pair ", pair  ] ];	
+
 	edgeA = Abs[ pair[[1]] ];
 	edgeB = Abs[ pair[[2]] ];
 	direction = If[ Sign[ pair[[1]] ] == 1, right, left ];
+
 	newSigns = Join[
 		data[ crossingSign, #] & /@ data[ crossingIndex ] , 
 		If[ direction === right, {1,-1}, {-1,1} ]
@@ -3576,23 +3960,30 @@ Dbg[ Unevaluated[ "Found pair ", pair  ] ];
 	 
 	{newCrossings, newSigns}
 ];
+
 BuildReducedSeifertGraph[ data_ ] := Module[
 { circleA, circleB },
+
 	Scan[ data[ circleNeighbour, # ] = {}; &, data[ circleIndex ] ];
+
 	Scan[
 		circleA = data[ edgeCircle, #[[3]] ];
 		circleB =  data[ edgeCircle, If[ data[ crossingSign, # ] == 1, #[[2]], #[[4]] ] ];
 		Append2[ Unevaluated[ data[ circleNeighbour, circleA ] ], circleB ];
 		Append2[ Unevaluated[ data[ circleNeighbour, circleB ] ], circleA ];
 		&, data[ crossingIndex ] ];
+
 	Scan[ data[ circleNeighbour, # ] = Union[ data[ circleNeighbour, # ] ]; &, data[ circleIndex ] ];
 Dbg[ "Neighbours ", data[ circleNeighbour, # ] & /@ data[ circleIndex  ] ];
+
 ];
+
 VerifyReducedSeifertGraph[ data_ ] := Module[
 { temp },
 	temp = Union[ Length[ data[ circleNeighbour, # ] ] & /@ data[ circleIndex ] ];
 	If[ MemberQ[ temp, 1 ] && Max[ Sequence[ temp ] ] <= 2, True, False, error ]
 ];
+
 CalculateStrandChain[ data_ ] := Module[
 { chain, current, next, temp, initialCrossing, initialEdge },
 	
@@ -3617,14 +4008,17 @@ CalculateStrandChain[ data_ ] := Module[
 	Dbg[ Unevaluated[ "Chain ", chain ] ];
 	data[ strands ] = chain;
 ];
+
 MarkStrandNeighbours[ data_ ] := Module[ 
 { temp },
 	temp = Null;
 	Scan[ data[ leftStrand, # ] = temp; data[ rightStrand, temp ] = #; temp = #; &, data[ strands ] ];
 	data[ rightStrand, Last[ data[ strands ] ] ] = Null;
 ];
+
 GetRightInitialEdge[ { _, _, _, x_ }, 1 ] := (x)
 GetRightInitialEdge[ { x_, _, _, _ }, -1 ] := (x)
+
 FindNextRightCrossing[ edgeIn_, data_ ] := Module[
 {crossing, edge = edgeIn},
 	crossing = data[ edgeEnd, edge ];
@@ -3637,46 +4031,63 @@ FindNextRightCrossing[ edgeIn_, data_ ] := Module[
 		crossing = data[ edgeEnd, edge ];
 	];
 ];
+
 CalculateInitialEdges[ data_ ] := Module[
 { edge, crossing, currentStrand, nextStrand, temp },
+
 	currentStrand = First[ data[ strands ] ];
 	nextStrand = data[ rightStrand, currentStrand ];
+
 	edge = First[ data[ circleDescription, currentStrand ] ];
 	data[ strandInitialEdge, currentStrand ] = edge;
+
 	While[ nextStrand =!= Null, 
+
 		currentStrand = nextStrand;
 		nextStrand = data[ rightStrand, nextStrand ];
+
 		crossing = FindNextRightCrossing[ edge, data ];
+
 		edge = GetRightInitialEdge[ crossing, data[ crossingSign, crossing ] ];
 		data[ strandInitialEdge, currentStrand ] = edge;
 	];
 	
 ];
+
 BraidSign[ leftEdge_, { leftEdge_, _, _, _ }, 1 ] := (1)
 BraidSign[ leftEdge_, { _, leftEdge_, _, _ }, -1 ] := (-1)
+
 VerifyBraidWord[ edgeFront_, data_ ] := Module[
 {temp},
+
 	temp = If[ edgeFront[ # ] ==  data[ strandInitialEdge, data[ strands][[#]] ], True, False, error ]  & /@
 				Range[ Length[ data[ circleIndex ] ] ];
 	temp = Union[ temp ];
 	
 	If[ Length[ temp ] != 1 && !temp[[1]], Return[ False ], Null, Return[ error ] ];
+
 	temp = IsMarked[ data[ braidMark, # ] ] & /@ data[ crossingIndex ];
 	temp = Union[ temp ];
 	If[ Length[ temp ] != 1 && !temp[[1]], Return[ False ], Null, Return[ error ] ];
+
 	True
 ];
+
 ReadBraidWord[ data_ ] := Module[
 { edgeFront, braidWord, braidWidth, leftEdge, rightEdge, crossing, sign },
+
 	CalculateStrandChain[ data ];
 	
 	MarkStrandNeighbours[ data ];
 	
 	CalculateInitialEdges[ data ];
 Dbg[ Unevaluated[ "Start Edges ", data[ strandInitialEdge, # ] & /@ data[ strands ] ] ];
+
 	braidWord = {};
 	braidWidth = Length[ data[ circleIndex ] ];
+
 	Scan[ ( edgeFront[ # ] = data[ strandInitialEdge, data[ strands][[#]] ] ) &, Range[ braidWidth ] ];
+
 	While[ True,
 	
 		For[ offset = 1, offset < braidWidth,
@@ -3700,35 +4111,52 @@ Dbg[ Unevaluated[ "Start Edges ", data[ strandInitialEdge, # ] & /@ data[ strand
 		
 		edgeFront[offset] = NextStrandEdge[ leftEdge, crossing, sign ];
 		edgeFront[offset+1] = NextStrandEdge[ rightEdge, crossing, sign ];		
+
 		braidWord = Append[ braidWord, offset*BraidSign[ leftEdge, crossing, sign ] ];
 	];
 ];
+
+
 End[];
 EndPackage[];
+
 (* End of VogelsAlgorithm.m *)
+
 BeginPackage["KnotTheory`"];
+
 MultivariableAlexander::usage = "
 MultivariableAlexander[L][t] returns the multivariable Alexander polynomial
 of a link L as a function of the variable t[1], t[2], ..., t[c], where c
 is the number of components of L.
 "
+
 MultivariableAlexander::about = "The multivariable Alexander program was
 written by Dan Carney at the University of Toronto in the summer of 2005."
+
 Begin["`MultivariableAlexanderPrivate`"];
+
 MultivariableAlexander[Link[n_, t_, k_]] := (
   Needs["KnotTheory`MultivariableAlexander4Links`"];
   Unset[MultivariableAlexander[Link[n1_, t1_, k1_]]];
   MultivariableAlexander[Link[n, t, k]]
 )
+
 MultivariableAlexander[K_] /; Head[K] =!= BR := ( MultivariableAlexander[BR[K]] )
+
 MultivariableAlexander[ BR[ NotAvailable ] ] := ( error & )
+
 MultivariableAlexander[ BR[ 1, {} ] ] := ( 1 & )
+
 MultivariableAlexander[ BR[ 2, braidWord_List ] ] := 
 	( MultivariableAlexander[ BR[ 3, Append[ braidWord, 2 ] ] ] )
+
 MultivariableAlexander[BR[numberOfStrings_Integer, permutations_List]] /; numberOfStrings >= 3 := MultivariableAlexander[BR[numberOfStrings, permutations]] = Module[
 {data},
+
 	CreditMessage["The multivariable Alexander program was written by Dan Carney at the University of Toronto in the summer of 2005."];
+
     	If[ numberOfStrings > 2 , Null, Return[ error ];, Return[ error ] ];
+
 	If[ 	!Scan[ If[ Abs[ #1 ] < numberOfStrings, Null, Return[ False ]; ]; & , permutations ], Return[ error ]; ];
 	
 	data[ braidWidth ] = numberOfStrings;
@@ -3737,6 +4165,7 @@ MultivariableAlexander[BR[numberOfStrings_Integer, permutations_List]] /; number
 	
 	MultivariableAlexanderInner[ data ]
 ];
+
 SetAttributes[ {
 	braidWidth, braidHead, braidTail,
 	braidWord, knotComponent, error,
@@ -3744,34 +4173,50 @@ SetAttributes[ {
 	variableName, polynomial
 	}, Protected
 ];
+
 dbgPrint = False;
 Dbg[ seq__ ]  := ( If[ dbgPrint, Print[ seq ] ]; )
+
 MultivariableAlexanderInner[ data_ ] := Module[
 	{temp}, 
+
 Dbg[ Unevaluated[ "Braid Word ", data[ braidWord ] ] ];
+
 	Scan[ data[ braidTail, # ] = #; &, data[ braidHead ] ];
+
 Dbg[ Unevaluated[ "Braid Tail ", data[ braidTail, # ] & /@ data[ braidHead ] ] ];
+
 	Scan[ (
 		PermutationFunction[ data, braidTail, # ];
 Dbg[ Unevaluated[ "Braid Tail ", data[ braidTail, # ] & /@ data[ braidHead ] ] ];
 		) &, data[ braidWord ] ];	
+
 	IdentifyElements[ data ];
 Dbg[ Unevaluated[ "Strand Components ", data[ components ] ] ];
 Dbg[ Unevaluated[ "Variables ", ReplaceAll[ data[ variableName, # ] & /@ data[ braidHead ], knotComponent->"T" ] ] ];
+
 	FormColouredBurauMatrix[ data ];
+
 Dbg[ Unevaluated[ "Burau ", ReplaceAll[ Expand[ data[ burau ] ], knotComponent->"T" ] // MatrixForm ] ]; 
 Dbg[ Unevaluated[ "Divisor ", ReplaceAll[ data[ divisor ], knotComponent->"T" ] // MatrixForm ] ]; 
+
 	temp = data[ burau ] - data[ divisor ]*IdentityMatrix[ data[ braidWidth ] - 1 ];
+
 	temp = Expand[ temp ];
+
 Dbg[ Unevaluated[ "Matrix ", ReplaceAll[ temp, knotComponent->"T" ] // MatrixForm ] ]; 
 	
 	temp = Det[ temp ];	
 	
 Dbg[ Unevaluated[ "Determinant ", ReplaceAll[ temp, knotComponent->"T" ] ] ]; 
+
 	data[polynomial] = Expand[ Simplify[ Factor[temp]/Factor[CalculateDivisor[ data ] ] ] ];
+
 Dbg[ Unevaluated[ "Polynomial ", ReplaceAll[ data[ polynomial ], knotComponent->"T" ] ] ]; 
+
 	CalculateOutput[ data ]
 ];
+
 PermutationFunction[ data_, list_, j_Integer ] := Module [
 	{temp,i},  
 	i = Abs[j];
@@ -3779,15 +4224,20 @@ PermutationFunction[ data_, list_, j_Integer ] := Module [
 	data[ list, i ] = data[ list, i+1 ];
 	data[ list, i+1 ] = temp;
 ];
+
 IdentifyElements[ data_ ] := Module[
 { marked, strand, component },
+
 	Scan[ ( data[ strandMapping, data[ braidTail, # ] ] = #; ) &, data[ braidHead ] ];
+
 Dbg[ Unevaluated[ "Strand Mapping ", data[ strandMapping, # ] & /@ data[ braidHead ] ] ];
+
 	data[ components ] = {};
 	Scan[ ( 
 		If[ marked[#] =!= True,
 			component = {};
 			strand = #;
+
 			While[ marked[strand] =!= True,
 				marked[strand] = True;
 				component = Append[ component, strand ];
@@ -3799,20 +4249,30 @@ Dbg[ Unevaluated[ "Strand Mapping ", data[ strandMapping, # ] & /@ data[ braidHe
 	) &, data[ braidHead ] ];
 	
 	data[ numberOfComponents ] = Length[ data[ components ] ];
+
 	For[ component = 1, component <= data[ numberOfComponents ], component++, 	
 		Scan[ ( data[ variableName, # ] = knotComponent[component] ) &, data[ components ][[component]] ];	
 	];
+
 ];
+
 CalculateDivisor[ data_ ] := Module [ 
 {temp = 1},
+
 	Scan[ ( temp *= data[ variableName, # ] ) &, data[ braidHead ] ];
+
 	temp = If[ data[ numberOfComponents ] == 1, (1-temp)/(1 - data[ variableName, 1 ]), 1 - temp ];
+
 Dbg[ Unevaluated[ "Divisor ", ReplaceAll[ temp, knotComponent->"T" ] ] ];
+
 	temp
 ];
+
 CalculateOutput[ data_ ] := Module [
 {temp=1,temp2, comps, term1},
+
 	If[ data[polynomial] == 0, Return[ 0 & ] ];
+
 	Scan[
 		( temp2 = knotComponent[#]^Exponent[ data[polynomial], knotComponent[#], Min ];
 		If[ temp2 =!= 0, temp *= temp2; ] )
@@ -3828,8 +4288,10 @@ CalculateOutput[ data_ ] := Module [
 	*)
 	Function @@ {ReplaceAll[ temp, knotComponent-> # ]}
 ];
+
 GetSubmatrix[ row_Integer, variableIndex_Integer, data_ ] := Module [
 {output, variable},
+
 	variable = data[ variableName, variableIndex ];
 	
 	output = IdentityMatrix[ data[ braidWidth ] - 1];
@@ -3837,11 +4299,15 @@ GetSubmatrix[ row_Integer, variableIndex_Integer, data_ ] := Module [
 	output[[ row, row ]] = - variable;
 	If[ row != data[ braidWidth ]-1, output[ [ row, row + 1 ] ] = 1, Null ];
 	If[ row != 1, output[ [ row, row - 1 ] ] = variable, Null ];
+
 Dbg[ Unevaluated[ "Submatrix ", ReplaceAll[ output, knotComponent->"T" ] // MatrixForm ] ]; 
+
 	data[ burau ] = data[ burau ].output;
 ];
+
 GetSubmatrixInverse[ row_Integer, variableIndex_Integer, data_ ] := Module [
 {output, variable},
+
 	variable = data[ variableName, variableIndex ];
 	data[ divisor ] = variable*data[ divisor ];
 	
@@ -3850,15 +4316,21 @@ GetSubmatrixInverse[ row_Integer, variableIndex_Integer, data_ ] := Module [
 	output[[ row, row ]] = - 1;	
 	If[ row != data[ braidWidth ] - 1, output[ [ row, row + 1 ] ] = 1, Null ];
 	If[ row != 1, output[ [ row, row - 1 ] ] = variable, Null ];
+
 Dbg[ Unevaluated[ "Submatrix ", ReplaceAll[ output, knotComponent->"T" ] // MatrixForm ] ]; 
+
 	data[ burau ] = data[ burau ].output;
 ];
+
 FormColouredBurauMatrix[ data_ ] := Module [
 {tempArray},
+
 	data[ divisor ] = 1;
 	
 	data[ burau ] = IdentityMatrix[ data[ braidWidth ] - 1 ];
+
 	Scan[ ( data[ tempArray, # ] = #; ) &, data[ braidHead ] ];
+
 	Scan[ (
 		If[ # < 0, 
 			GetSubmatrixInverse[ -1*#, data[ tempArray, -1*#+1 ], data ];,
@@ -3867,10 +4339,13 @@ FormColouredBurauMatrix[ data_ ] := Module [
 		PermutationFunction[ data, tempArray, # ];
 		) &, data[ braidWord ]
 	];
+
 ];
+
 End[];
 EndPackage[];
 BeginPackage["KnotTheory`"]
+
 REngine::usage = "REngine[K, Rp, Rn, Mcupl, Mcupr, Mcapl Mcapr] returns
 the invariant associated with the given R-matrices (Rp for positive
 crossings, Rn for negative crossings) and oriented creation and
@@ -3878,28 +4353,39 @@ annihilation M matrices, of the oriented knot or link K. See the Manual
 for details of convention. Note that REngine does not verify that the
 given matrices actually define an invariant, use TestRMatrix[..] for
 this purpose."
+
 REngine::about = "REngine was written by Siddarth Sankaran at the
 University of Toronto, in the summer of 2005."
+
 Begin["`REngine`"]
+
 REngine[in_, rmatrix_, rbar_, mcupl_, mcupr_, mcapl_, mcapr_] /; Head[in]=!= MorseLink := REngine[MorseLink[in], rmatrix, rbar, mcupl, mcupr, mcapr, mcapr];
+
 REngine[ml_MorseLink, rmatrix_, rbar_, mcupl_, mcupr_, mcapl_, mcapr_] := 
 	Module[ {F, k, var, varl, varm, varr, preprule, cr, capruler, caprulel, R, Rbar, n=Length[mcupl], a,b} ,
+
 	CreditMessage["The R-matrix engine was written by Siddarth Sankaran at the University of Toronto, in the summer of 2005."];
+
 		R[a_Integer, b_Integer, x_Integer, y_Integer] := (R[a,b,x,y] = rmatrix[[n*(x-1) + y, (a-1)n+b]]);
 		Rbar[a_Integer, b_Integer, x_Integer, y_Integer] := (Rbar[a,b,x,y] = rbar[[ (x-1)n + y, (a-1)n + b]]);
 		
 		cr[Over, Down, Down] := (cr[Over, Down, Down] = Dispatch[Flatten[Table[varm[a,b] -> Sum[varm[x,y]*R[a,b,x,y], {x,n}, {y,n}], {a,n}, {b,n}]]]);
 		cr[Under, Down, Down] := (cr[Under, Down, Down] = Dispatch[Flatten[Table[varm[a,b] -> Sum[varm[x,y]*Rbar[a,b,x,y], {x,n}, {y,n}], {a,n}, {b,n}]]]);
+
 		cr[Over, Down, Up] := (cr[Over, Down, Up] = Dispatch[Flatten[Table[varm[a,b] -> Sum[varm[x,y]*mcupr[[x,c]]*Rbar[c,a,y,d]*mcapr[[d,b]], {c,n}, {d,n}, {x,n}, {y,n}], {a,n}, {b,n}]]]);
 		cr[Under, Down, Up] := (cr[Under, Down, Up] = Dispatch[Flatten[Table[varm[a,b] -> Sum[varm[x,y]*mcupr[[x,c]]*R[c,a,y,d]*mcapr[[d,b]], {c,n}, {d,n}, {x,n}, {y,n}], {a,n}, {b,n}]]]);
+
 	cr[Over, Up, Down] := (cr[Over, Up, Down] = Dispatch[Flatten[Table[varm[a,b] -> Sum[varm[x,y]*mcapl[[a,c]]*Rbar[b,d,c,x]*mcupl[[d,y]], {c,n}, {d,n}, {x,n}, {y,n} ], {a,n}, {b,n}]]]);
 	cr[Under, Up, Down] := (cr[Under, Up, Down] = Dispatch[Flatten[Table[varm[a,b] -> Sum[varm[x,y]*mcapl[[a,c]]*R[b,d,c,x]*mcupl[[d,y]], {c,n}, {d,n}, {x,n}, {y,n} ], {a,n}, {b,n}]]]);
 	
 	cr[Over, Up, Up] := (cr[Over, Up,Up] = Dispatch[Flatten[Table[varm[a,b] -> Sum[varm[x,y]*mcupr[[x,f]]*mcupr[[y,e]]*R[e,f,d,c]*mcapr[[c,a]]*mcapr[[d,b]], {c,n}, {d,n}, {e,n}, {f,n}, {x,n}, {y,n}], {a,n}, {b,n}]]]);
 	cr[Under, Up, Up] := (cr[Under, Up,Up] = Dispatch[Flatten[Table[varm[a,b] -> Sum[varm[x,y]*mcupr[[x,f]]*mcupr[[y,e]]*Rbar[e,f,d,c]*mcapr[[c,a]]*mcapr[[d,b]], {c,n}, {d,n}, {e,n}, {f,n}, {x,n}, {y,n}], {a,n}, {b,n}]]]);
+
+
 	caprulel := (caprulel = Dispatch[Flatten[Table[varm[a,b] -> mcapl[[a,b]], {a,n}, {b,n}]]]);
 	capruler := (capruler = Dispatch[Flatten[Table[varm[a,b] -> mcapr[[a,b]], {a,n}, {b,n}]]]);
 	
+
 	preprule[a_] := (preprule[a] = var[a0___, b0_, c0_, d0___]/; (Length[List[a0]] +1 == a) :> varl[a0]varm[b0,c0]varr[d0]);
 	postrule := (varl[a0___]*varm[b0____]*varr[d0___] :> var[a0,b0,d0]);
 	 
@@ -3939,15 +4425,20 @@ REngine[ml_MorseLink, rmatrix_, rbar_, mcupl_, mcupr_, mcapl_, mcapr_] :=
 		]  
 		*)
 		F[k] = (Expand[F[k-1] /. preprule[a] /. cr[ml[[k,2]], ml[[k,3]], ml[[k,4]] ] ]) /. varl[x___]varm[y___]varr[z___] :> var[x,y,z] /. var[] -> 1;
+
 		
 		
 		];
 	(*Print["OUTPUT ",k,": ",F[k]];*) 
 	];
 	Return[F[Length[ml]]];
+
+
 ]
+
 End[];EndPackage[];
 BeginPackage["KnotTheory`"]
+
 TestRMatrix::usage = "TestRMatrix[Rp, Rn, McupL, McupR, McapL, McapR]
 checks if the invariant associated with the given R-matrices (Rp for
 positive crossings, Rn for negative crossings) along with the directed
@@ -3957,15 +4448,20 @@ manual entry for REngine for notational conventions. You may skip a
 test by using one or more of the options in TestRMatrix[Rp, Rn, McupL,
 McupR, McapL, McapR, opts] : SlideTest -> False, R2Test -> False,
 R3Test -> False."
+
 SlideTest;R2Test;R3Test;
 Options[TestRMatrix] = {SlideTest -> True, R3Test -> True, R2Test -> True};
+
 Begin["`TestRMatrix`"]
+
 TestRMatrix[r_, rb_, mcupl_, mcupr_, mcapl_, mcapr_, opts___] := 
 	Module[ {i, a, b,t, n=Length[mcupl], Rengine, slidetest, r2test, r3test, r2flag, slideflag, r3flag},
 	
 	{slideflag, r2flag, r3flag} = {SlideTest, R2Test, R3Test} /. {opts} /. Options[TestRMatrix];
+
 (*RENGINE*************************************************************)	
 	Rengine[instr_, ml_MorseLink, rmatrix_, rbar_, mcupL_, mcupR_, mcapL_, mcapR_] :=
+
 	Module[ { a,b,x,y, in,F, k, str, n=Length[mcupl], sumvars,v, instrands, outstrands,count },
 		R[a_Integer, b_Integer, x_Integer, y_Integer] := rmatrix[[n*(x-1) + y, (a-1)n+b]];
 		Rbar[a_Integer, b_Integer, x_Integer, y_Integer] := rbar[[ (x-1)n + y, (a-1)n + b]];
@@ -4014,9 +4510,11 @@ TestRMatrix[r_, rb_, mcupl_, mcupr_, mcapl_, mcapr_, opts___] :=
 		outstrands = str;
 		(*Print["outstr = ", outstrands]; *)	
 		Return[F[Length[in]] /. Table[instrands[[i]] -> sin[i], {i, Length[instrands]}] /. Table[outstrands[[i]] -> sout[i], {i, Length[outstrands]}]] ;
+
 ];
 		
 (*TEST DEF'NS***************************************************************)
+
 (* slide move*)
 slidetest[1,1] = MorseLink[X[1, Over, Up, Up], Cap[2,3]];
 slidetest[1,2] = MorseLink[X[2, Under, Up, Down], Cap[1,2]];
@@ -4051,6 +4549,7 @@ slidetest[15,1] = MorseLink[Cup[3,2], X[1, Under, Down, Up]];
 slidetest[15,2] = MorseLink[Cup[2,1], X[2, Over, Down, Down]];
 slidetest[16,1] = MorseLink[Cup[3,2], X[1, Under, Up, Up]];
 slidetest[16,2] = MorseLink[Cup[2,1], X[2, Over, Down, Up]];
+
 (* R3 *)
 r3test[1,1] = 
     MorseLink[ X[2, Under, Up,Up], X[1, Under, Up, Up], X[2, Over, Up, Up]];
@@ -4236,7 +4735,9 @@ r3test[32,1] =
 r3test[32,2] = 
     MorseLink[X[1, Under, Down, Down], X[2, Over, Down, Down], 
       X[1, Over, Down, Down]];
+
 (*r2  Horizontal*)
+
 r2test[1,1] = 
     MorseLink[Cup[2,3], X[1, Over, Up, Down], X[3, Under, Up, Down], 
       Cap[2,3]];
@@ -4307,6 +4808,7 @@ r2test[8,2] = MorseLink[Cap[2,1], Cup[2,1]];
 			];
 		];
 ];
+
 		(*R3*)
 			If[r3flag,		
 			For[ i=1, i<= 32, i++,
@@ -4321,9 +4823,13 @@ r2test[8,2] = MorseLink[Cap[2,1], Cup[2,1]];
 	
 	
 End[];EndPackage[];
+
 BeginPackage["KnotTheory`"]
+
 Begin["`CJREngine`"]
+
 CJ[K_, M_] :=  Module[ {N=M+1,cu, sq, kd, fp, fn, bp, bn, tt, t,ttb,r, rb, mcupl, mcapl, mcupr, mcapr},
+
 	(* generate matrices -- with only one colour!! (n=n1=n2)*)
 	cu[n_] := t^(2*n) - t^(-2*n);
 	cu[n_, k_] := (cu[n,k] = If[k >= 0, Product[cu[n-i+1], {i, k}], 0]);
@@ -4343,6 +4849,7 @@ CJ[K_, M_] :=  Module[ {N=M+1,cu, sq, kd, fp, fn, bp, bn, tt, t,ttb,r, rb, mcupl
 	tt = Table[Simplify[bp[N,N,a,b,c,d]], {a,0,N-1}, {b,0,N-1}, {c,0,N-1}, {d,0,N-1}];
 	
 	ttb = Table[Simplify[bn[N,N,a,b,c,d]], {a,0,N-1}, {b,0,N-1}, {c,0,N-1}, {d,0,N-1}];
+
 	r = Table[tt[[Ceiling[x/N], If[Mod[x,N] != 0, Mod[x,N],N], Ceiling[y/N], If[Mod[y,N] != 0, Mod[y,N], N] ]], {x, N^2}, {y, N^2}];
 	
 	rb = Table[ttb[[Ceiling[x/N], If[Mod[x,N] != 0, Mod[x,N],N], Ceiling[y/N], If[Mod[y,N] != 0, Mod[y,N], N] ]], {x, N^2}, {y, N^2}];	
@@ -4352,11 +4859,14 @@ CJ[K_, M_] :=  Module[ {N=M+1,cu, sq, kd, fp, fn, bp, bn, tt, t,ttb,r, rb, mcupl
 	
 	mcapr = Inverse[mcupr];
 	mcapl = Inverse[mcupl];
+
 Return[Function@@ {Apart[REngine[K, r, rb, mcupl, mcapl, mcupr, mcapr] / REngine[MorseLink[Knot[0,1]], r, rb, mcupl, mcapl, mcupr, mcapr] /. t -> #^(1/4)]}]
 	
 ]
+
 End[];EndPackage[];
 BeginPackage["KnotTheory`"]
+
 ColouredJones::usage = "ColouredJones[K, n][q] returns the coloured
 Jones polynomial of a knot in colour n (i.e., in the (n+1)-dimensional
 representation) in the indeterminate q. Some of these polynomials have
@@ -4372,6 +4882,7 @@ better to use \"Braid\" when (roughly): 1) a \"good\" braid
 representative is available for the knot, and 2) the length of this
 braid is less than the maximum width of the MorseLink presentation of
 the knot."
+
 ColouredJones::about = "
 The \"REngine\" algorithm was written by Siddarth Sankaran in the
 summer of 2005, while the \"Braid\" algorithm was written jointly by
@@ -4379,7 +4890,9 @@ Dror Bar-Natan and Stavros Garoufalidis. Both are based on formulas by
 Thang Le and Stavros Garoufalidis; see [Garoufalidis, S. and Le, T.
 \"The coloured Jones function is q-holonomic.\" Geom. Top., v9, 2005
 (1253-1293)]."
+
 ColoredJones::usage = "Type ColoredJones and see for yourself."
+
 CJ`Summand::usage = "
 CJ`Summand[br, n] returned a pair {s, vars} where s is the summand in the 
 the big sum that makes up ColouredJones[br, n][q] and where vars is the
@@ -4387,6 +4900,7 @@ list of variables that need to be summed over (from 0 to n) to get
 ColouredJones[br, n][q]. CJ`Summand[K, n] is the same for knots for
 which a braid representative is known to this program.
 "
+
 qPochhammer::usage = "
 qPochhammer[a, q, k] represents the q-shifted factorial of a in base
 q with index k. See Eric Weisstein's\n
@@ -4394,41 +4908,52 @@ http://mathworld.wolfram.com/q-PochhammerSymbol.html
 and Axel Riese's\n
 www.risc.uni-linz.ac.at/research/combinat/risc/software/qMultiSum/
 "
+
 qBinomial::usage = "
 qBinomial[n, k, q] represents the q-binomial coefficient of n and k in base
 q. For k<0 it is 0; otherwise it is\n
 qPochhammer[q^(n-k+1), q, k] / qPochhammer[q, q, k].
 "
+
 qExpand::usage = "
 qExpand[expr_] replaces all occurences of qPochhammer and qBinomial in
 expr by their definitions as products. See the documentation for
 qPochhammer and for qBinomial for details.
 "
+
 CJ`k; CJ`q; NotAvailable; Compute; Program
+
 Begin["`CJBraid`"]
+
 ColoredJones = ColouredJones;
+
 ColouredJones[Knot[n_, k_], nn_] := (
   Needs["KnotTheory`ColouredJones4Knots`"];
   Unset[ColouredJones[Knot[n1_, k1_], nn1_]];
   ColouredJones[Knot[n, k], nn]
 )
+
 ColouredJones[TorusKnot[m_, n_], nn_] := (
   Needs["KnotTheory`ColouredJones4TorusKnots`"];
   Unset[ColouredJones[TorusKnot[m1_, n1_], nn1_]];
   ColouredJones[TorusKnot[m, n], nn]
 )
+
 qExpand[expr_] := expr /. {
   qBinomial[n_, k_Integer, q_] :> qBin[n, k, q],
   qPochhammer[a_, q_, k_Integer] :> qPoc[a, q, k]
 }
+
 qPoc[a_, q_, k_Integer] /; k > 0 := qPoc[a,q,k] =
   Simplify[Product[(1 - a q^i), {i, 0, k - 1}]];
 qPoc[a_, q_, 0] = 1;
 qPoc[a_, q_, k_Integer] /; k < 0 := qPoc[a,q,k] =
   Simplify[Product[1/(1 - a q^(-i)), {i, 1, -k}]];
+
 qBin[n_, k_Integer, q_] /; k >= 0 := qBin[n,k,q] =
   Simplify[qPoc[q^(n - k + 1), q, k]/qPoc[q, q, k]];
 qBin[n_, k_Integer, q_] /; k < 0 := qBin[n,k,q] = 0;
+
 CJ`Summand[K_, n_] /; Head[K]=!=BR := CJ`Summand[BR[K], n]
 CJ`Summand[BR[s_, l_List], n_] := Module[
   {i, eqns, v, vars, sol, nulls, a = Range[s], m = s, j, B, summand},
@@ -4478,7 +5003,9 @@ CJ`Summand[BR[s_, l_List], n_] := Module[
   vars = Union[Cases[summand, _k, Infinity]];
   {summand /. q -> CJ`q, vars} /. Thread[Rule[vars, Array[CJ`k, Length[vars]]]]
 ]
+
 Options[ColouredJones] = {Compute -> True, Program -> "REngine"};
+
 ColouredJones[K_, n_Integer, opts___] := ColouredJones[K, n, opts] = Module[
   {prog = Program /. {opts} /. Options[ColouredJones]},
   Switch[prog,
@@ -4486,6 +5013,8 @@ ColouredJones[K_, n_Integer, opts___] := ColouredJones[K, n, opts] = Module[
     "Braid", KnotTheory`CJBraid`CJ[BR[K],n,opts]
   ]
 ];
+
+
 CJ[b_BR, n_Integer, opts___] := Module[
   {
     compute = Compute /. {opts} /. Options[ColouredJones],
@@ -4509,4 +5038,6 @@ CJ[b_BR, n_Integer, opts___] := Module[
     Function @@ {Expand[Simplify[out /. rule]]}
   ]
 ]
+
+
 End[]; EndPackage[];
