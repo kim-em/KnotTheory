@@ -6,7 +6,7 @@ in the variables a and z.
 "
 
 Kauffman::about = "
-The Kauffman program was written by Scott Morrison.
+The Kauffman polynomial program was written by Scott Morrison.
 "
 
 Begin["`Kauffman`"]
@@ -150,6 +150,7 @@ Kauffman[TorusKnot[m_, n_]] := (
 )
 
 Kauffman[pd_PD] := Kauffman[pd] = (
+  CreditMessage["The Kauffman polynomial program was written by Scott Morrison."];
   loops = Position[pd, _Loop];
   L = Delete[pd, loops];
   Function[{a, z},

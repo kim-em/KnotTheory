@@ -674,7 +674,9 @@ StrandColour="StrandColour";
 (* Dror: Add line and pd -> pd_PD *)
 DrawPD[L_] := DrawPD[PD[L]]
 DrawPD[L_,options_] := DrawPD[PD[L],options]
-DrawPD[pd_PD]:=(t=AddPositionsBound[DefaultDirichlet[Triangulate[pd]]];
+DrawPD[pd_PD]:=(
+    CreditMessage["DrawPD was written by Emily Redelmeier at the University of Toronto in the summers of 2003 and 2004."];
+    t=AddPositionsBound[DefaultDirichlet[Triangulate[pd]]];
     t=PutInside[t,DefaultOuterFace[t]];t=Balance[t];
     t=AddGraphicsObjs[t,{DefaultGap[t]}];t=ColourStrands[t,{}];Draw[t])
 DrawPD[pd_PD,options_]:=(optionsList=Map[Apply[List,#]&,options];

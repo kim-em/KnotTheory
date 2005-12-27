@@ -20,8 +20,9 @@ CalculateBraid[PD[Loop[_]]] := ( BR[1,{}] )
 
 CalculateBraid[ PD[ Xs__X ] ] := Module[
 { temp },
-	temp = List @@@ {Xs};	
-	CalculateBraid2[ temp, If[ #[[2]] - #[[4]] == 1 || #[[4]] - #[[2]] > 1, +1, -1 ] & /@ temp ]
+  CreditMessage["Vogel's algorithm was implemented by Dan Carney in the summer of 2005 at the University of Toronto."];
+  temp = List @@@ {Xs};	
+  CalculateBraid2[ temp, If[ #[[2]] - #[[4]] == 1 || #[[4]] - #[[2]] > 1, +1, -1 ] & /@ temp ]
 ];
 
 error;

@@ -1,4 +1,4 @@
-BeginPackage["KnotTheory`"]
+BeginPackage["KnotTheory`"];
 
 KnotTheoryVersion::usage = "
 KnotTheoryVersion[] returns the date of the current version of the
@@ -21,6 +21,10 @@ KnotTheoryDirectory::usage = "
 KnotTheoryDirectory[] returns the best guess KnotTheory` has for its
 location on the host computer. It can be reset by the user.
 "
+
+CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
+
+KnotTheory::credits = "`1`";
 
 Begin["`System`"]
 
@@ -56,6 +60,11 @@ KnotTheoryWelcomeMessage[] = StringJoin[
 
 Print[KnotTheoryWelcomeMessage[]]
 
+CreditMessage[cm_String] := Module[
+  {l},
+  l=Length[$MessageList];
+  Message[KnotTheory::credits, cm];
+  If[Length[$MessageList] > l, CreditMessage[cm] = Null];
+]
+
 End[]; EndPackage[];
-
-
