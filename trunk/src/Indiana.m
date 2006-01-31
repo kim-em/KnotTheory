@@ -39,14 +39,11 @@ http://www.indiana.edu/~knotinfo/.
 "
 
 ThreeGenus::usage = "
-ThreeGenus[K] returns the 3-genus of the knot K, if known to
-KnotTheory`.
+ThreeGenus[K] returns the 3-genus of the knot K or a list of the form {lower bound, upper bound}.
 "
 
 ThreeGenus::about = "
-The 3-genus data known to KnotTheory` is taken from Charles
-Livingston's \"Table of Knot Invariants\",
-http://www.indiana.edu/~knotinfo/.
+The 3-genus program was written by Jake Rasmussen of Princeton University. The program tries to compute the highest nonvanishing group in the knot Floer homology, using Ozsvath and Szabo's version of the Kauffman state model. 
 "
 
 BridgeIndex::usage = "
@@ -126,11 +123,18 @@ SymmetryType[K_]  := (
   SymmetryType[K]
 )
 
-ThreeGenus[K_]  := (
+ThreeGenus[Knot[n_, k_]] := (
   CreditMessage["The 3-genus data known to KnotTheory` is taken from Charles Livingston's http://www.indiana.edu/~knotinfo/."];
   Needs["KnotTheory`IndianaData`"];
-  Unset[ThreeGenus[K1_]];
-  ThreeGenus[K]
+  Unset[ThreeGenus[Knot[n1_, k1_]]];
+  ThreeGenus[Knot[n, k]]
+)
+
+ThreeGenus[Knot[11, type_, k_]] := (
+  CreditMessage["The 3-genus data known to KnotTheory` is taken from Charles Livingston's http://www.indiana.edu/~knotinfo/."];
+  Needs["KnotTheory`IndianaData`"];
+  Unset[ThreeGenus[Knot[11, type1_, k1_]]];
+  ThreeGenus[Knot[11, type, k]]
 )
 
 UnknottingNumber[TorusKnot[p_, q_]] := (p-1)(q-1)/2;
