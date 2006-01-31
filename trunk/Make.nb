@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      3883,        113]*)
-(*NotebookOutlinePosition[      4528,        135]*)
-(*  CellTagsIndexPosition[      4484,        131]*)
+(*NotebookOptionsPosition[      3904,        114]*)
+(*NotebookOutlinePosition[      4553,        136]*)
+(*  CellTagsIndexPosition[      4509,        132]*)
 (*WindowFrame->Normal*)
 
 
@@ -87,7 +87,8 @@ Cell[BoxData[
 "\<Kh.m\>", \ "\<MorseLink.m\>", \ "\<DrawMorseLink.m\>", \ "\<ML2PD.m\>", \ \
 "\<AlexanderConway.m\>", \ "\<VogelsAlgorithm.m\>", \ \
 "\<MultivariableAlexander.m\>", \ "\<REngine.m\>", \ "\<TestRMatrix.m\>", \ "\
-\<CJREngine.m\>", \ "\<ColouredJones.m\>"\[IndentingNewLine]};\)\)], "Input"],
+\<CJREngine.m\>", \ "\<ColouredJones.m\>", \ "\<HFGenus.m\>"\
+\[IndentingNewLine]};\)\)], "Input"],
 
 Cell[BoxData[
     \(\(UnifiedFile\  = \ "\<KnotTheory/init.m\>";\)\)], "Input"],
@@ -112,9 +113,9 @@ Cell[BoxData[
 }, Open  ]]
 },
 FrontEndVersion->"5.1 for Microsoft Windows",
-ScreenRectangle->{{0, 1600}, {0, 1102}},
+ScreenRectangle->{{0, 1600}, {0, 1155}},
 WindowSize->{721, 864},
-WindowMargins->{{Automatic, 0}, {Automatic, 87}}
+WindowMargins->{{Automatic, -1423}, {Automatic, 94}}
 ]
 
 (*******************************************************************
@@ -145,12 +146,12 @@ Cell[2292, 70, 92, 1, 30, "Input"],
 Cell[2387, 73, 80, 1, 29, "Output"]
 }, Open  ]],
 Cell[2482, 77, 97, 2, 33, "Text"],
-Cell[2582, 81, 603, 8, 150, "Input"],
-Cell[3188, 91, 79, 1, 30, "Input"],
+Cell[2582, 81, 624, 9, 150, "Input"],
+Cell[3209, 92, 79, 1, 30, "Input"],
 
 Cell[CellGroupData[{
-Cell[3292, 96, 507, 10, 170, "Input"],
-Cell[3802, 108, 53, 1, 29, "Output"]
+Cell[3313, 97, 507, 10, 170, "Input"],
+Cell[3823, 109, 53, 1, 29, "Output"]
 }, Open  ]]
 }, Open  ]]
 }
