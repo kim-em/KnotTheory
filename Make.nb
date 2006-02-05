@@ -1,5 +1,5 @@
 (************** Content-type: application/mathematica **************
-                     CreatedBy='Mathematica 5.1'
+                     CreatedBy='Mathematica 5.2'
 
                     Mathematica-Compatible Notebook
 
@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      3904,        114]*)
-(*NotebookOutlinePosition[      4553,        136]*)
-(*  CellTagsIndexPosition[      4509,        132]*)
+(*NotebookOptionsPosition[      5290,        164]*)
+(*NotebookOutlinePosition[      5937,        186]*)
+(*  CellTagsIndexPosition[      5893,        182]*)
 (*WindowFrame->Normal*)
 
 
@@ -60,6 +60,10 @@ test changes you have made to src/. In the future this notebook will \
 supersede the \"makefile\". In the future this notebook will also contain \
 unit testing code.\
 \>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["The Make Part", "Subtitle"],
 
 Cell["\<\
 Change the following line to whatever the path of \"trunk\" is on you system.\
@@ -110,12 +114,58 @@ Cell[BoxData[{
 Cell[BoxData[
     \("KnotTheory/init.m"\)], "Output"]
 }, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["The Test Part", "Subtitle"],
+
+Cell[BoxData[{
+    \(\(SetAttributes[Assert, \ HoldAll];\)\), "\[IndentingNewLine]", 
+    \(\(Assert[fact_]\  := \ 
+        Module[\[IndentingNewLine]{result}, \[IndentingNewLine]If[
+            result = 
+              fact, \[IndentingNewLine]True, \[IndentingNewLine]Print[\
+\[IndentingNewLine]StringTake[
+                ToString[
+                  Hold[fact]], \ {6, \(-2\)}], \[IndentingNewLine]"\< yields \
+\>", \ fact]\[IndentingNewLine]]\[IndentingNewLine]];\)\)}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(<< \ KnotTheory`\)], "Input"],
+
+Cell[BoxData[
+    \("Loading KnotTheory` (version of February 5, 2006, \
+12:34:10.8299)..."\)], "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Assert[\(Kh[PD[Knot[3, 1]]]\)[q, t] \[Equal] \ 
+        1\/q\^3 + 1\/q + 1\/\(q\^9\ t\^3\) + 1\/\(q\^5\ t\^2\)]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"PD4Knots`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"The Khovanov homology program JavaKh was written by Jeremy Green \
+in the summer of 2005 at the University of Toronto.\"\)"\)], "Message"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]]
+}, Open  ]]
 }, Open  ]]
 },
-FrontEndVersion->"5.1 for Microsoft Windows",
-ScreenRectangle->{{0, 1600}, {0, 1155}},
-WindowSize->{721, 864},
-WindowMargins->{{Automatic, -1423}, {Automatic, 94}}
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1600}, {0, 1102}},
+WindowSize->{721, 966},
+WindowMargins->{{Automatic, 117}, {Automatic, 18}}
 ]
 
 (*******************************************************************
@@ -139,19 +189,40 @@ Notebook[{
 Cell[CellGroupData[{
 Cell[1776, 53, 36, 0, 95, "Title"],
 Cell[1815, 55, 346, 6, 71, "Text"],
-Cell[2164, 63, 103, 3, 33, "Text"],
 
 Cell[CellGroupData[{
-Cell[2292, 70, 92, 1, 30, "Input"],
-Cell[2387, 73, 80, 1, 29, "Output"]
+Cell[2186, 65, 33, 0, 51, "Subtitle"],
+Cell[2222, 67, 103, 3, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[2350, 74, 92, 1, 30, "Input"],
+Cell[2445, 77, 80, 1, 29, "Output"]
 }, Open  ]],
-Cell[2482, 77, 97, 2, 33, "Text"],
-Cell[2582, 81, 624, 9, 150, "Input"],
-Cell[3209, 92, 79, 1, 30, "Input"],
+Cell[2540, 81, 97, 2, 33, "Text"],
+Cell[2640, 85, 624, 9, 150, "Input"],
+Cell[3267, 96, 79, 1, 30, "Input"],
 
 Cell[CellGroupData[{
-Cell[3313, 97, 507, 10, 170, "Input"],
-Cell[3823, 109, 53, 1, 29, "Output"]
+Cell[3371, 101, 507, 10, 170, "Input"],
+Cell[3881, 113, 53, 1, 29, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3983, 120, 33, 0, 51, "Subtitle"],
+Cell[4019, 122, 482, 9, 210, "Input"],
+
+Cell[CellGroupData[{
+Cell[4526, 135, 49, 1, 30, "Input"],
+Cell[4578, 138, 104, 2, 25, "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4719, 145, 144, 2, 44, "Input"],
+Cell[4866, 149, 130, 2, 22, "Message"],
+Cell[4999, 153, 210, 3, 52, "Message"],
+Cell[5212, 158, 38, 1, 29, "Output"]
+}, Open  ]]
 }, Open  ]]
 }, Open  ]]
 }
