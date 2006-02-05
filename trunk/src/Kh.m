@@ -503,20 +503,18 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
   ),
   "JavaKh", (
     CreditMessage["The Khovanov homology program JavaKh was written by Jeremy Green in the summer of 2005 at the University of Toronto."];
-    dir = Directory[];
-    SetDirectory[ToFileName[KnotTheoryDirectory[], "JavaKh"]];
     f = OpenWrite["pd", PageWidth -> Infinity];
     WriteString[f, ToString[L1]];
     Close[f];
     cl = StringJoin[
-      "!java ", javaoptions, " JavaKh ",
+      "!java -classpath ", ToFileName[KnotTheoryDirectory[], "JavaKh"],
+      " ", javaoptions, " JavaKh ",
       If[modulus === Null, "-Z", "-mod "<>ToString[modulus]],
       " < pd"
     ];
     f = OpenRead[cl];
     out = Read[f, Expression];
     Close[f];
-    SetDirectory[dir];
     out = StringReplace[out, {
       "q" -> "#1", "t" -> "#2", "Z" -> "ZMod"
     }];
