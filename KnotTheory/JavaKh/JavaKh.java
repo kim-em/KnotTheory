@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import BaseRing.BaseRing;
 public class JavaKh {
     public static boolean using_h = false;
     public static void main(String args[]) throws java.io.IOException {
