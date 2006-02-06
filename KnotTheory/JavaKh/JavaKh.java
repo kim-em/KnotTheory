@@ -5,7 +5,7 @@ public class JavaKh {
     public static void main(String args[]) throws java.io.IOException {
 	switch (args.length) {
 	case 0:
-	    BaseRing.setRing("Rational") ;
+	    BaseRing.setRing("Rational");
 	    break;
 	case 1:
 	    if (args[0].equals("-Q"))
