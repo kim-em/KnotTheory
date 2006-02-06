@@ -1,4 +1,4 @@
-public class CannedCobordism implements  Comparable<CannedCobordism> {
+public class CannedCobordism implements Comparable<CannedCobordism> {
     public static final int zerosize = 50;
     public static final int zeros[][] = fillZeros();
     public static final int counting[][] = fillCounting();

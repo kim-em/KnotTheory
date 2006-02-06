@@ -1,4 +1,4 @@
-public abstract class BaseRing  {
+public abstract class BaseRing {
     private static java.lang.reflect.Constructor<?> constructor;
     public static String ring;
     public static void setRing(String cls) {
