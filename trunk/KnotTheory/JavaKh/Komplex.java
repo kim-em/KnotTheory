@@ -1,7 +1,9 @@
-import java.util.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 public class Komplex {
     static final int MAXDEPTH = 3;
     int ncolumns, nfixed;
