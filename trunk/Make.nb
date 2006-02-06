@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      5290,        164]*)
-(*NotebookOutlinePosition[      5937,        186]*)
-(*  CellTagsIndexPosition[      5893,        182]*)
+(*NotebookOptionsPosition[      5289,        164]*)
+(*NotebookOutlinePosition[      5936,        186]*)
+(*  CellTagsIndexPosition[      5892,        182]*)
 (*WindowFrame->Normal*)
 
 
@@ -138,7 +138,7 @@ Cell[BoxData[
 
 Cell[BoxData[
     \("Loading KnotTheory` (version of February 5, 2006, \
-12:34:10.8299)..."\)], "Print"]
+22:0:29.5783)..."\)], "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -214,14 +214,14 @@ Cell[4019, 122, 482, 9, 210, "Input"],
 
 Cell[CellGroupData[{
 Cell[4526, 135, 49, 1, 30, "Input"],
-Cell[4578, 138, 104, 2, 25, "Print"]
+Cell[4578, 138, 103, 2, 25, "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[4719, 145, 144, 2, 44, "Input"],
-Cell[4866, 149, 130, 2, 22, "Message"],
-Cell[4999, 153, 210, 3, 52, "Message"],
-Cell[5212, 158, 38, 1, 29, "Output"]
+Cell[4718, 145, 144, 2, 44, "Input"],
+Cell[4865, 149, 130, 2, 22, "Message"],
+Cell[4998, 153, 210, 3, 52, "Message"],
+Cell[5211, 158, 38, 1, 29, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
