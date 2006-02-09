@@ -1,5 +1,5 @@
 (************** Content-type: application/mathematica **************
-                     CreatedBy='Mathematica 5.2'
+                     CreatedBy='Mathematica 5.1'
 
                     Mathematica-Compatible Notebook
 
@@ -42,8 +42,8 @@ Wolfram Research.
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
 (*NotebookOptionsPosition[      5290,        164]*)
-(*NotebookOutlinePosition[      5937,        186]*)
-(*  CellTagsIndexPosition[      5893,        182]*)
+(*NotebookOutlinePosition[      5939,        186]*)
+(*  CellTagsIndexPosition[      5895,        182]*)
 (*WindowFrame->Normal*)
 
 
@@ -137,8 +137,8 @@ Cell[BoxData[
     \(<< \ KnotTheory`\)], "Input"],
 
 Cell[BoxData[
-    \("Loading KnotTheory` (version of February 5, 2006, \
-12:34:10.8299)..."\)], "Print"]
+    \("Loading KnotTheory` (version of February 9, 2006, \
+16:11:14.7195)..."\)], "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -162,10 +162,10 @@ Cell[BoxData[
 }, Open  ]]
 }, Open  ]]
 },
-FrontEndVersion->"5.2 for Microsoft Windows",
-ScreenRectangle->{{0, 1600}, {0, 1102}},
+FrontEndVersion->"5.1 for Microsoft Windows",
+ScreenRectangle->{{0, 1600}, {0, 1155}},
 WindowSize->{721, 966},
-WindowMargins->{{Automatic, 117}, {Automatic, 18}}
+WindowMargins->{{Automatic, -1200}, {Automatic, 31}}
 ]
 
 (*******************************************************************
