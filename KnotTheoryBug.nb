@@ -1,5 +1,5 @@
 (************** Content-type: application/mathematica **************
-                     CreatedBy='Mathematica 5.1'
+                     CreatedBy='Mathematica 5.2'
 
                     Mathematica-Compatible Notebook
 
@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      2382,         79]*)
-(*NotebookOutlinePosition[      3025,        101]*)
-(*  CellTagsIndexPosition[      2981,         97]*)
+(*NotebookOptionsPosition[      3148,        107]*)
+(*NotebookOutlinePosition[      3794,        129]*)
+(*  CellTagsIndexPosition[      3750,        125]*)
 (*WindowFrame->Normal*)
 
 
@@ -51,8 +51,7 @@ NotebookFileLineBreakTest*)
 Notebook[{
 Cell[BoxData[
     \(\(installPath = \
-"\<c:\\scott\\math.berkeley.edu\\Work\\Mathematica\\KnotAtlas\\\>";\)\)], \
-"Input"],
+"\<C:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk\\\>";\)\)], "Input"],
 
 Cell[BoxData[
     \(\(SetDirectory[installPath];\)\)], "Input"],
@@ -63,8 +62,37 @@ Cell[BoxData[
     \(<< KnotTheory`\)], "Input"],
 
 Cell[BoxData[
-    \("Loading KnotTheory` (version of August 17, 2005, 14:44:34)..."\)], \
-"Print"]
+    \("Loading KnotTheory` (version of December 27, 2005, \
+17:50:11.2342)..."\)], "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(GaussCode[Knot[11, NonAlternating, 1]]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"DTCode4KnotsTo11`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"The GaussCode to PD conversion was wri\"\[Ellipsis]\"rsity of \
+Toronto in the summer of 2005.\"\)"\)], "Message"],
+
+Cell[BoxData[
+    \(GaussCode[1, \(-5\), 2, \(-1\), 3, \(-8\), 4, \(-2\), 
+      5, \(-3\), \(-6\), 10, \(-7\), \(-4\), 8, 6, \(-9\), 11, \(-10\), 
+      7, \(-11\), 9]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(NumberOfKnots[11, NonAlternating]\)], "Input"],
+
+Cell[BoxData[
+    \(185\)], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -77,10 +105,10 @@ Cell[BoxData[
       "Loading precomputed data in \!\(\"DTCode4KnotsTo11`\"\)."\)], "Message"]
 }, Open  ]]
 },
-FrontEndVersion->"5.1 for Microsoft Windows",
-ScreenRectangle->{{0, 1280}, {0, 683}},
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 713}},
 WindowSize->{495, 525},
-WindowMargins->{{0, Automatic}, {Automatic, 0}}
+WindowMargins->{{Automatic, 289}, {35, Automatic}}
 ]
 
 (*******************************************************************
@@ -100,17 +128,29 @@ CellTagsIndex->{}
 
 (*NotebookFileOutline
 Notebook[{
-Cell[1754, 51, 122, 3, 70, "Input"],
-Cell[1879, 56, 63, 1, 30, "Input"],
+Cell[1754, 51, 115, 2, 70, "Input"],
+Cell[1872, 55, 63, 1, 30, "Input"],
 
 Cell[CellGroupData[{
-Cell[1967, 61, 47, 1, 30, "Input"],
-Cell[2017, 64, 98, 2, 44, "Print"]
+Cell[1960, 60, 47, 1, 30, "Input"],
+Cell[2010, 63, 105, 2, 44, "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[2152, 71, 73, 1, 30, "Input"],
-Cell[2228, 74, 138, 2, 37, "Message"]
+Cell[2152, 70, 71, 1, 30, "Input"],
+Cell[2226, 73, 138, 2, 37, "Message"],
+Cell[2367, 77, 186, 3, 37, "Message"],
+Cell[2556, 82, 182, 3, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2775, 90, 66, 1, 30, "Input"],
+Cell[2844, 93, 37, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2918, 99, 73, 1, 30, "Input"],
+Cell[2994, 102, 138, 2, 37, "Message"]
 }, Open  ]]
 }
 ]

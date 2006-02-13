@@ -1,0 +1,569 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     13161,        404]*)
+(*NotebookOutlinePosition[     13840,        427]*)
+(*  CellTagsIndexPosition[     13796,        423]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["KnotTheory`WikiForm`", "Section",
+  InitializationCell->True],
+
+Cell["\<\
+This file is a subpackage of the KnotTheory` package, whose home is at \
+http://katlas.math.toronto.edu/
+
+It is concerned mostly with formatting of strings for use on the wiki Knot \
+Atlas, and as such is extremely boring. This is the place to be if \
+automatically uploaded data on the Knot Atlas is being formatted incorrectly, \
+but otherwise you should stay well away.\
+\>", "Text",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(BeginPackage["\<KnotTheory`Naming`\>", {"\<KnotTheory`\>"}];\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(WikiForm::usage = "\<ToString[expression_,WikiForm] attempts to \
+format expression in a manner suitable for a MediaWiki wiki. This is a \
+strange kludge of html and pseudo-latex, particularly for long polynomials. \
+It's not perfect, but not a disaster either.\>";\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(Begin["\<`Private`\>"]\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["WikiForm", "Subsection",
+  InitializationCell->True],
+
+Cell["\<\
+It's important not to wrap integers in <math> tags, so they can be spliced \
+into URLs, etc.\
+\>", "Text"],
+
+Cell[BoxData[
+    \(WikiForm /: ToString[a_Integer, WikiForm] := ToString[a]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(WikiForm /: ToString[a_?NumberQ, WikiForm] := ToString[a]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(WikiForm\  /: \ ToString["\<\>", \ WikiForm]\  := "\<\>"\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(WikiForm /: ToString[WikiForm[S_String], WikiForm] := S\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(WikiTextQ[
+        S_String] := \(! \((StringFreeQ[
+            S, {"\<<table\>", "\<<tr\>", "\<<td\>", "\<{|\>", "\<|-\>", "\<|+\
+\>", "\<|}\>", "\<{{\>" ~~ \(__ ~~ "\<}}\>"\), "\<[[\>" ~~ \(__ ~~ \
+"\<]]\>"\), "\<http://\>"}])\)\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(WikiForm\  /: \ ToString[s_String, \ WikiForm]\  := \ 
+      If[WikiTextQ[s], 
+        s, \[IndentingNewLine]StringReplace[\[IndentingNewLine]"\<<nowiki>\>" \
+<> s <> "\<</nowiki>\>", \[IndentingNewLine]{"\<|\>"\  \[Rule] \ \
+"\<&#124;\>"}\[IndentingNewLine]]\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(WikiForm /: ToString[K_Knot, WikiForm] := 
+      NameString[K]\), "\[IndentingNewLine]", 
+    \(WikiForm /: ToString[L_Link, WikiForm] := 
+      NameString[L]\), "\[IndentingNewLine]", 
+    \(WikiForm /: ToStirng[T_TorusKnot, WikiForm] := 
+      NameString[T]\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(WikiForm /: ToString[Null, WikiForm] = "\<\>";\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(MathTags[s_String] := "\<<math>\>" <> s <> "\<</math>\>"\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Presentations", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(listToString[{}, s_String] := "\<\>"\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(listToString[x_List, s_String] := 
+      StringJoin[
+        Drop[Flatten[
+            Transpose[{ToString /@ x, 
+                Table[s, {Length[x]}]}]], \(-1\)]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(WikiForm /: ToString[gc_GaussCode, WikiForm] := 
+      listToString[List @@ gc, "\<, \>"]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(WikiForm /: ToString[dtc_DTCode, WikiForm] := 
+      If[Length[dtc] \[Equal] 0, "\<\>", 
+        listToString[List @@ dtc, "\< \>"]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(WikiForm /: 
+        ToString[NotAvailable, 
+          WikiForm] = "\<\>";\)\), "\[IndentingNewLine]", 
+    \(\(WikiForm /: ToString[_NotAvailable, WikiForm] = "\<\>";\)\)}], "Input",\
+
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(\(WikiForm /: ToString[X[i_, j_, k_, l_], WikiForm] := 
+      Module[{i1 = ToString[i], j1 = ToString[j], k1 = ToString[k], 
+          l1 = ToString[l]}, 
+        If[{1, 1, 1, 1} \[Equal] StringLength /@ {i1, j1, k1, l1}, 
+          ToString[StringForm["\<X<sub>````````</sub>\>", i1, j1, k1, l1]], 
+          ToString[
+            StringForm["\<X<sub>``,``,``,``</sub>\>", i1, j1, k1, 
+              l1]]]]\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(WikiForm /: ToString[pd_PD, WikiForm] := 
+      StringJoin @@ 
+        Table[ToString[pd[\([i]\)], WikiForm] <> "\< \>", {i, 
+            Length[pd]}]\)}], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["SymmetryType values", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(WikiForm /: 
+        ToString[Reversible, WikiForm] = "\<Reversible\>";\)\), "\n", 
+    \(\(WikiForm /: 
+        ToString[FullyAmphicheiral, 
+          WikiForm] = "\<Fully amphicheiral\>";\)\), "\n", 
+    \(\(WikiForm /: 
+        ToString[NegativeAmphicheiral, 
+          WikiForm] = "\<Negative amphicheiral\>";\)\), "\n", 
+    \(\(WikiForm /: ToString[Chiral, WikiForm] = "\<Chiral\>";\)\)}], "Input",\
+
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(WikiForm /: 
+        ToString[_SymmetryType, 
+          WikiForm] = "\<\>";\)\), "\[IndentingNewLine]", 
+    \(\(WikiForm /: 
+        ToString[_UnknottingNumber, 
+          WikiForm] = "\<\>";\)\), "\[IndentingNewLine]", 
+    \(\(WikiForm /: 
+        ToString[_ThreeGenus, 
+          WikiForm] = "\<\>";\)\), "\[IndentingNewLine]", 
+    \(\(WikiForm /: 
+        ToString[_BridgeIndex, 
+          WikiForm] = "\<\>";\)\), "\[IndentingNewLine]", 
+    \(\(WikiForm /: 
+        ToString[_SuperBridgeIndex, 
+          WikiForm] = "\<\>";\)\), "\[IndentingNewLine]", 
+    \(\(WikiForm /: 
+        ToString[_NakanishiIndex, WikiForm] = "\<\>";\)\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(WikiForm /: 
+        ToString[NotHyperbolic, 
+          WikiForm] = "\<Not hyperbolic\>";\)\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Polynomials", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(WikiForm /: ToString[poly_?LaurentPolynomialQ, WikiForm] := 
+      MathTags[StringReplace[ToString[poly, TeXForm], 
+          LaurentPolynomialTeXReplacementRule]]\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Defaults for everything else.", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(WikiTeXForm /: ToString[a_, WikiTeXForm] := 
+      StringReplace[
+        ToString[a, 
+          TeXForm], "\<\\text{\>" \[Rule] "\<\\textrm{\>"]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(WikiForm /: ToString[a_, WikiForm] := 
+      MathTags[ToString[a, WikiTeXForm]]\)], "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Laurent polynomials", "Subsection",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(PowerQ[_Integer] := True;\)\), "\[IndentingNewLine]", 
+    \(\(PowerQ[_\^_Integer] = True;\)\), "\[IndentingNewLine]", 
+    \(\(PowerQ[_Symbol] = True;\)\), "\[IndentingNewLine]", 
+    \(\(PowerQ[_] = False;\)\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(PowerQ\\)\\\" is similar to existing symbol \
+\\\"\\!\\(Power\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[BoxData[
+    \(MonomialQ[x_Times] := And @@ \((PowerQ /@ \(List @@ x\))\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(MonomialQ[x_] := PowerQ[x]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(SplitMonomial[x_?MonomialQ] := 
+      If[MatchQ[x, _Times], List @@ x, {x}]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(MonomialStringQ[x_String] := 
+      MonomialQ[
+        ToExpression[
+          StringReplace[
+            x, {"\<{\>" \[Rule] "\<(\>", "\<}\>" \[Rule] "\<)\>"}], 
+          InputForm]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(MonomialStringQ[_] := False\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(PowerToString[x_?PowerQ] := 
+      x /. {k_Integer \[RuleDelayed] ToString[k] <> "\< \>", 
+          z_\^n_ \[RuleDelayed] 
+            ToString[z] <> "\<^{\>" <> ToString[n] <> "\<} \>", 
+          z_Symbol \[RuleDelayed] ToString[z]}\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(InvertMonomialString[x_?MonomialStringQ] := 
+      StringJoin @@ \((PowerToString /@ \(\((#\^\(-1\) &)\) /@ 
+              SplitMonomial[
+                ToExpression[
+                  StringReplace[
+                    x, {"\<{\>" \[Rule] "\<(\>", "\<}\>" \[Rule] "\<)\>"}], 
+                  InputForm]]\))\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(LaurentPolynomialQ[x_?MonomialQ] := True\), "\[IndentingNewLine]", 
+    \(LaurentPolynomialQ[x_Plus] := 
+      And @@ \((MonomialQ /@ \(List @@ x\))\)\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(IfNotOne["\<1\>"] = "\<\>";\)\), "\[IndentingNewLine]", 
+    \(IfNotOne[x_String] := x\)}], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(LaurentPolynomialTeXReplacementRule = "\<\\frac{\>" ~~ \(numerator : 
+                ShortestMatch[__] ~~ \("\<}{\>" ~~ \(denominator : 
+                    ShortestMatch[__] ~~ \("\<}\>" ~~ 
+                    rest : \(("\<+\>" | "\<-\>" | 
+                          EndOfString)\)\)\)\)\) \[RuleDelayed] 
+          IfNotOne[
+              numerator]\  ~~ \("\< \>" ~~ \(InvertMonomialString[
+                  denominator] ~~ rest\)\);\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(numerator\\)\\\" is similar to existing \
+symbol \\\"\\!\\(Numerator\\)\\\". \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], \
+"Message",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(denominator\\)\\\" is similar to existing \
+symbol \\\"\\!\\(Denominator\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\
+\", ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(rest\\)\\\" is similar to existing symbols \
+\\!\\({res, Rest}\\). \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell\\\"]\\)\"\>"}]], "Message",
+  InitializationCell->True]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["EndPackage", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(End[]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(EndPackage[]\)], "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 713}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{495, 589},
+WindowMargins->{{Automatic, 153}, {Automatic, 31}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 67, 1, 73, "Section",
+  InitializationCell->True],
+Cell[1846, 56, 424, 9, 147, "Text",
+  InitializationCell->True],
+Cell[2273, 67, 127, 3, 30, "Input",
+  InitializationCell->True],
+Cell[2403, 72, 330, 5, 150, "Input",
+  InitializationCell->True],
+Cell[2736, 79, 83, 2, 30, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[2844, 85, 58, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[2905, 88, 116, 3, 52, "Text"],
+Cell[3024, 93, 117, 2, 50, "Input",
+  InitializationCell->True],
+Cell[3144, 97, 118, 2, 50, "Input",
+  InitializationCell->True],
+Cell[3265, 101, 117, 2, 30, "Input",
+  InitializationCell->True],
+Cell[3385, 105, 116, 2, 50, "Input",
+  InitializationCell->True],
+Cell[3504, 109, 293, 6, 90, "Input",
+  InitializationCell->True],
+Cell[3800, 117, 340, 6, 150, "Input",
+  InitializationCell->True],
+Cell[4143, 125, 322, 7, 130, "Input",
+  InitializationCell->True],
+Cell[4468, 134, 111, 2, 30, "Input",
+  InitializationCell->True],
+Cell[4582, 138, 117, 2, 30, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[4724, 144, 66, 1, 29, "Subsubsection",
+  InitializationCell->True],
+Cell[4793, 147, 97, 2, 30, "Input",
+  InitializationCell->True],
+Cell[4893, 151, 225, 6, 30, "Input",
+  InitializationCell->True],
+Cell[5121, 159, 150, 3, 30, "Input",
+  InitializationCell->True],
+Cell[5274, 164, 193, 4, 30, "Input",
+  InitializationCell->True],
+Cell[5470, 170, 236, 6, 50, "Input",
+  InitializationCell->True],
+Cell[5709, 178, 671, 14, 270, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6417, 197, 72, 1, 29, "Subsubsection",
+  InitializationCell->True],
+Cell[6492, 200, 457, 11, 150, "Input",
+  InitializationCell->True],
+Cell[6952, 213, 703, 18, 170, "Input",
+  InitializationCell->True],
+Cell[7658, 233, 154, 4, 50, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7849, 242, 64, 1, 29, "Subsubsection",
+  InitializationCell->True],
+Cell[7916, 245, 224, 4, 90, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8177, 254, 82, 1, 29, "Subsubsection",
+  InitializationCell->True],
+Cell[8262, 257, 206, 5, 70, "Input",
+  InitializationCell->True],
+Cell[8471, 264, 140, 3, 50, "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8660, 273, 69, 1, 38, "Subsection",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[8754, 278, 274, 5, 91, "Input",
+  InitializationCell->True],
+Cell[9031, 285, 387, 6, 22, "Message",
+  InitializationCell->True]
+}, Open  ]],
+Cell[9433, 294, 119, 2, 30, "Input",
+  InitializationCell->True],
+Cell[9555, 298, 87, 2, 30, "Input",
+  InitializationCell->True],
+Cell[9645, 302, 136, 3, 30, "Input",
+  InitializationCell->True],
+Cell[9784, 307, 245, 7, 30, "Input",
+  InitializationCell->True],
+Cell[10032, 316, 88, 2, 30, "Input",
+  InitializationCell->True],
+Cell[10123, 320, 296, 6, 30, "Input",
+  InitializationCell->True],
+Cell[10422, 328, 373, 8, 51, "Input",
+  InitializationCell->True],
+Cell[10798, 338, 213, 4, 50, "Input",
+  InitializationCell->True],
+Cell[11014, 344, 151, 3, 50, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[11190, 351, 504, 9, 70, "Input",
+  InitializationCell->True],
+Cell[11697, 362, 396, 7, 22, "Message",
+  InitializationCell->True],
+Cell[12096, 371, 398, 6, 22, "Message",
+  InitializationCell->True],
+Cell[12497, 379, 382, 6, 22, "Message",
+  InitializationCell->True]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[12928, 391, 60, 1, 30, "Subsection",
+  InitializationCell->True],
+Cell[12991, 394, 66, 2, 30, "Input",
+  InitializationCell->True],
+Cell[13060, 398, 73, 2, 30, "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
