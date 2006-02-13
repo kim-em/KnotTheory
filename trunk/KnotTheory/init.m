@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 2, 9, 16, 11, 14.7195040};
+KnotTheoryVersion[] = {2006, 2, 13, 16, 37, 17.5073750};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -592,6 +592,9 @@ TubePlot[gamma_, {t_, t1_, t2_}, r_, opts___Rule] := Module[
   ]}, FilterOptions[Graphics3D, opts]]
 ]
 End[]; EndPackage[]
+BeginPackage["KnotTheory`", {"TubePlot`"}]
+TorusKnot;
+Begin["`Private`"]
 TubePlot[TorusKnot[m_, n_], opts___] := TubePlot[
   {Cos[n t], Sin[n t], 0} + 
     0.5{Cos[m t]Cos[n t], Cos[m t]Sin[n t], -Sin[m t]},
@@ -599,6 +602,7 @@ TubePlot[TorusKnot[m_, n_], opts___] := TubePlot[
   TubeSubdivision -> {40(m + 2n), 12}, TubeFraming -> {0,0,1},
   TubePlotPrelude -> EdgeForm[{}], Boxed -> False, ViewPoint -> {0, 0, 1}
 ];
+End[]; EndPackage[]
 BeginPackage["KnotTheory`"]
 PD; X; OuterFace; Gap; Colour; StrandColour
 DrawPD::usage = "
