@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[    709697,      18916]*)
-(*NotebookOutlinePosition[    710341,      18938]*)
-(*  CellTagsIndexPosition[    710297,      18934]*)
+(*NotebookOptionsPosition[    710001,      18930]*)
+(*NotebookOutlinePosition[    710645,      18952]*)
+(*  CellTagsIndexPosition[    710601,      18948]*)
 (*WindowFrame->Normal*)
 
 
@@ -70,6 +70,8 @@ Change the following line to whatever the path of \"trunk\" is on you system.\
 \
 \>", "Text"],
 
+Cell["Dror's version", "Text"],
+
 Cell[CellGroupData[{
 
 Cell[BoxData[
@@ -79,14 +81,26 @@ Cell[BoxData[
     \("C:\\drorbn\\projects\\KnotTheory\\svn\\trunk"\)], "Output"]
 }, Open  ]],
 
+Cell["Scott's version", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(SetDirectory["\<C:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk\>\
+"]\)], "Input"],
+
+Cell[BoxData[
+    \("C:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk"\)], "Output"]
+}, Open  ]],
+
 Cell["\<\
 PackageSources is identical to the corresponding variable in the makefile\
 \>", "Text"],
 
 Cell[BoxData[
     \(\(PackageSources\  = \ \(\(("\<src/\>" <> #)\) &\)\  /@ \ {\
-\[IndentingNewLine]"\<Base.m\>", "\<Naming.m\>", \ "\<Braids.m\>", \ \
-"\<TubePlot.m\>", \ "\<DrawPD.m\>", \ "\<Data.m\>", \ "\<BraidData.m\>", \
+\[IndentingNewLine]"\<Base.m\>", \ "\<Braids.m\>", \ "\<TubePlot.m\>", \ \
+"\<DrawPD.m\>", \ "\<Data.m\>", \ "\<BraidData.m\>", "\<Naming.m\>", \
 "\<WikiForm.m\>", \ "\<GaussCode.m\>", \ "\<GC2PD.m\>", \ "\<Indiana.m\>", \ \
 "\<HOMFLYPT.m\>", \ "\<Kauffman.m\>", \ "\<Kh.m\>", \ "\<MorseLink.m\>", \ \
 "\<DrawMorseLink.m\>", \ "\<ML2PD.m\>", \ "\<AlexanderConway.m\>", \ \
@@ -18945,42 +18959,49 @@ Cell[1815, 55, 346, 6, 71, "Text"],
 Cell[CellGroupData[{
 Cell[2186, 65, 33, 0, 51, "Subtitle"],
 Cell[2222, 67, 103, 3, 33, "Text"],
+Cell[2328, 72, 30, 0, 33, "Text"],
 
 Cell[CellGroupData[{
-Cell[2350, 74, 92, 1, 30, "Input"],
-Cell[2445, 77, 80, 1, 29, "Output"]
+Cell[2383, 76, 92, 1, 30, "Input"],
+Cell[2478, 79, 80, 1, 29, "Output"]
 }, Open  ]],
-Cell[2540, 81, 97, 2, 33, "Text"],
-Cell[2640, 85, 658, 9, 170, "Input"],
-Cell[3301, 96, 79, 1, 30, "Input"],
+Cell[2573, 83, 31, 0, 33, "Text"],
 
 Cell[CellGroupData[{
-Cell[3405, 101, 507, 10, 170, "Input"],
-Cell[3915, 113, 53, 1, 29, "Output"]
+Cell[2629, 87, 108, 2, 30, "Input"],
+Cell[2740, 91, 89, 1, 29, "Output"]
+}, Open  ]],
+Cell[2844, 95, 97, 2, 33, "Text"],
+Cell[2944, 99, 658, 9, 170, "Input"],
+Cell[3605, 110, 79, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[3709, 115, 507, 10, 170, "Input"],
+Cell[4219, 127, 53, 1, 29, "Output"]
 }, Open  ]]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[4017, 120, 33, 0, 51, "Subtitle"],
-Cell[4053, 122, 482, 9, 210, "Input"],
+Cell[4321, 134, 33, 0, 51, "Subtitle"],
+Cell[4357, 136, 482, 9, 210, "Input"],
 
 Cell[CellGroupData[{
-Cell[4560, 135, 49, 1, 30, "Input"],
-Cell[4612, 138, 105, 2, 25, "Print"]
+Cell[4864, 149, 49, 1, 30, "Input"],
+Cell[4916, 152, 105, 2, 25, "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[4754, 145, 144, 2, 44, "Input"],
-Cell[4901, 149, 130, 2, 22, "Message"],
-Cell[5034, 153, 210, 3, 52, "Message"],
-Cell[5247, 158, 38, 1, 29, "Output"]
+Cell[5058, 159, 144, 2, 44, "Input"],
+Cell[5205, 163, 130, 2, 22, "Message"],
+Cell[5338, 167, 210, 3, 52, "Message"],
+Cell[5551, 172, 38, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[5322, 164, 70, 1, 30, "Input"],
-Cell[5395, 167, 704127, 18739, 296, 634853, 17879, "GraphicsData", \
+Cell[5626, 178, 70, 1, 30, "Input"],
+Cell[5699, 181, 704127, 18739, 296, 634853, 17879, "GraphicsData", \
 "PostScript", "Graphics"],
-Cell[709525, 18908, 132, 3, 29, "Output"]
+Cell[709829, 18922, 132, 3, 29, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
