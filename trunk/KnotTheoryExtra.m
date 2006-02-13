@@ -33,26 +33,6 @@ KnotilusURL[GaussCode[]]="";
 
 
 
-AllKnots[n_]/;n\[LessEqual]10:=Table[Knot[n,k],{k,1,NumberOfKnots[n]}]
-AllKnots[n_]/;11\[LessEqual]n\[LessEqual]16:=
-  AllKnots[n,Alternating]~Join~AllKnots[n,NonAlternating]
-AllKnots[n_,t_]/;11\[LessEqual]n\[LessEqual]16:=
-  Table[Knot[n,t,k],{k,1,NumberOfKnots[n,t]}]
-AllKnots[n_,Alternating]/;n\[LessEqual]10:=
-  Table[Knot[n,k],{k,1,NumberOfKnots[n,Alternating]}]
-AllKnots[n_,NonAlternating]/;n\[LessEqual]10:=
-  Table[Knot[n,NumberOfKnots[n,Alternating]+k],{k,1,
-      NumberOfKnots[n,NonAlternating]}]
-
-AllKnots[{n_,m_}]:=Join@@Table[AllKnots[i],{i,n,m}]
-
-AllLinks[n_]/;2\[LessEqual]n\[LessEqual]11:=
-  AllLinks[n,Alternating]~Join~AllLinks[n,NonAlternating]
-AllLinks[n_,t_]/;2\[LessEqual]n\[LessEqual]11:=
-  Table[Link[n,t,k],{k,1,NumberOfLinks[n,t]}]
-
-AllLinks[{n_,m_}]:=Join@@Table[AllLinks[i],{i,n,m}]
-
 TorusKnots[Xmax_]:=Module[{res},
     res=Flatten[
         Table[Cases[Range[2,Min[Floor[1+Xmax/m],m-1]],

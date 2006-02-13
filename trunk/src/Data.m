@@ -1,11 +1,15 @@
 BeginPackage["KnotTheory`"]		(* Data *)
 
 AllKnots::usage = "
-  AllKnots[] return a list of all the named knots known to KnotTheory.m.
+  AllKnots[] return a list of all knots with up to 11 crossings. AllKnots[n_] returns
+  a list of all knots with n crossings, up to 16. AllKnots[{n_,m_}] returns a list of
+  all knots with between n and m crossings, and AllKnots[n_,Alternating|NonAlternating]
+  returns all knots with n crossings of the specified type.
 "
 
 AllLinks::usage = "
-  AllLinks[] return a list of all the named links known to KnotTheory.m.
+  AllLinks[] return a list of all links with up to 11 crossings. AllLinks[n_] returns
+  a list of all links with n crossings, up to 13.
 "
 
 DTCode;
@@ -96,6 +100,16 @@ AllLinks[] = Flatten[Table[{
   Table[Link[n, Alternating, k], {k,NumberOfLinks[n, Alternating]}],
   Table[Link[n, NonAlternating, k], {k,NumberOfLinks[n, NonAlternating]}]
 }, {n,2,11}]]
+
+AllKnots[n_]/;n<=10:=Table[Knot[n,k],{k,1,NumberOfKnots[n]}]
+AllKnots[n_]/;11<=n<=16:=AllKnots[n,Alternating]~Join~AllKnots[n,NonAlternating]
+AllKnots[n_,t_]/;11<=n<=16:=Table[Knot[n,t,k],{k,1,NumberOfKnots[n,t]}]
+AllKnots[n_,Alternating]/;n<=10:=Table[Knot[n,k],{k,1,NumberOfKnots[n,Alternating]}]
+AllKnots[n_,NonAlternating]/;n<=10:=Table[Knot[n,NumberOfKnots[n,Alternating]+k],{k,1,NumberOfKnots[n,NonAlternating]}]
+AllKnots[{n_,m_}]:=Join@@Table[AllKnots[i],{i,n,m}]
+AllLinks[n_]/;2<=n<=11:=AllLinks[n,Alternating]~Join~AllLinks[n,NonAlternating]
+AllLinks[n_,t_]/;2<=n<=11:=Table[Link[n,t,k],{k,1,NumberOfLinks[n,t]}]
+AllLinks[{n_,m_}]:=Join@@Table[AllLinks[i],{i,n,m}]
 
 PD[Knot[n_, k_]] := (
   Needs["KnotTheory`PD4Knots`"];
