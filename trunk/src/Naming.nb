@@ -1,0 +1,523 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     15232,        394]*)
+(*NotebookOutlinePosition[     15911,        417]*)
+(*  CellTagsIndexPosition[     15867,        413]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["KnotTheory`Naming`", "Section",
+  InitializationCell->True],
+
+Cell["\<\
+This file is a subpackage of the KnotTheory` package, whose home is at \
+http://katlas.math.toronto.edu/
+
+It is concerned mostly with names of knots, and provides several functions \
+translating names of knots, such as \"K11a33\" into more useful internal \
+formats. It's been added on late in the development of the KnotTheory` \
+package, so some code that ought to live here is buried elsewhere in the \
+package.\
+\>", "Text",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(BeginPackage["\<KnotTheory`Naming`\>", {"\<KnotTheory`\>"}];\)\)], \
+"Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(NameString::usage = "\<NameString[K_] returns the 'standard' string \
+name for the knot K. These names are used throughout the Knot Atlas, and can \
+be reinterpreted simply using the function Knot. Thus NameString[Knot[7,2]] \
+returns \"7_2\", and NameString[Knot[10,NonAlternating,124]] returns \
+\"K10n124\".\>";\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(NextKnot::usage = \(PreviousKnot::usage = "\<Use NextKnot and \
+PreviousKnot to traverse lists of knots. These functions mostly exist to \
+generate navigation links for the Knot Atlas.\>"\);\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(Begin["\<`Private`\>"]\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["NameString", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(NameString[
+          Knot[n_Integer?\((# \[LessEqual] 10 &)\), 
+            k_Integer]] /; \((k \[LessEqual] NumberOfKnots[n])\) := 
+      ToString[n] <> "\<_\>" <> ToString[k]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(NameString[
+          Knot[n_Integer?\((# \[GreaterEqual] 11 &)\), Alternating, 
+            k_Integer]] /; \((k \[LessEqual] 
+            NumberOfKnots[n, Alternating])\) := "\<K\>" <> 
+        ToString[n] <> "\<a\>" <> ToString[k]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(NameString[
+          Knot[n_Integer?\((# \[GreaterEqual] 11 &)\), NonAlternating, 
+            k_Integer]] /; \((k \[LessEqual] 
+            NumberOfKnots[n, NonAlternating])\) := "\<K\>" <> 
+        ToString[n] <> "\<n\>" <> ToString[k]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(NameString[
+          Link[n_Integer, Alternating, k_Integer]] /; \((k \[LessEqual] 
+            NumberOfLinks[n, Alternating])\) := "\<L\>" <> 
+        ToString[n] <> "\<a\>" <> ToString[k]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(NameString[
+          Link[n_Integer, NonAlternating, k_Integer]] /; \((k \[LessEqual] 
+            NumberOfLinks[n, NonAlternating])\) := "\<L\>" <> 
+        ToString[n] <> "\<n\>" <> ToString[k]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(NameString[TorusKnot[m_Integer, n_Integer]] := "\<T(\>" <> 
+        ToString[m] <> "\<,\>" <> ToString[n] <> "\<)\>"\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Recognise knot string names", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(Knot[
+          S_String?\((StringMatchQ[#, \((DigitCharacter .. )\) ~~ \("\<_\>" ~~ \
+\((DigitCharacter .. )\)\)] &)\)] /; \((\(\((#\[LeftDoubleBracket]1\
+\[RightDoubleBracket] \[LessEqual] 
+                    10 \[And] #\[LeftDoubleBracket]2\[RightDoubleBracket] \
+\[LessEqual] 
+                    NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket]]\
+)\) &\)[ToExpression /@ StringSplit[S, "\<_\>"]])\) := 
+      Knot @@ \((ToExpression /@ StringSplit[S, "\<_\>"])\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(Knot[
+          S_String?\((StringMatchQ[#, "\<K\>" ~~ \(\((DigitCharacter .. )\) ~~ \
+\("\<a\>" ~~ \((DigitCharacter .. )\)\)\)] &)\)] /; \((\(\((#\
+\[LeftDoubleBracket]1\[RightDoubleBracket] \[GreaterEqual] 
+                    11 \[And] #\[LeftDoubleBracket]2\[RightDoubleBracket] \
+\[LessEqual] NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket], 
+                      Alternating])\) &\)[
+            ToExpression /@ 
+              StringSplit[
+                S, {"\<K\>", "\<a\>"}]])\) := \(Knot[#\[LeftDoubleBracket]1\
+\[RightDoubleBracket], 
+            Alternating, #\[LeftDoubleBracket]2\[RightDoubleBracket]] \
+&\)[\((ToExpression /@ StringSplit[S, {"\<K\>", "\<a\>"}])\)]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(Knot[
+          S_String?\((StringMatchQ[#, "\<K\>" ~~ \(\((DigitCharacter .. )\) ~~ \
+\("\<n\>" ~~ \((DigitCharacter .. )\)\)\)] &)\)] /; \((\(\((#\
+\[LeftDoubleBracket]1\[RightDoubleBracket] \[GreaterEqual] 
+                    11 \[And] #\[LeftDoubleBracket]2\[RightDoubleBracket] \
+\[LessEqual] NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket], 
+                      NonAlternating])\) &\)[
+            ToExpression /@ 
+              StringSplit[
+                S, {"\<K\>", "\<n\>"}]])\) := \(Knot[#\[LeftDoubleBracket]1\
+\[RightDoubleBracket], 
+            NonAlternating, #\[LeftDoubleBracket]2\[RightDoubleBracket]] &\)[\
+\((ToExpression /@ StringSplit[S, {"\<K\>", "\<n\>"}])\)]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(Knot[
+          S_String?\((StringMatchQ[#, "\<L\>" ~~ \(\((DigitCharacter .. )\) ~~ \
+\("\<a\>" ~~ \((DigitCharacter .. )\)\)\)] &)\)] /; \((\(\((1 \[LessEqual] #\
+\[LeftDoubleBracket]2\[RightDoubleBracket] \[LessEqual] 
+                  NumberOfLinks[#\[LeftDoubleBracket]1\[RightDoubleBracket], 
+                    Alternating])\) &\)[
+            ToExpression /@ 
+              StringSplit[
+                S, {"\<L\>", "\<a\>"}]])\) := \(Link[#\[LeftDoubleBracket]1\
+\[RightDoubleBracket], 
+            Alternating, #\[LeftDoubleBracket]2\[RightDoubleBracket]] \
+&\)[\((ToExpression /@ StringSplit[S, {"\<L\>", "\<a\>"}])\)]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(Knot[
+          S_String?\((StringMatchQ[#, "\<L\>" ~~ \(\((DigitCharacter .. )\) ~~ \
+\("\<n\>" ~~ \((DigitCharacter .. )\)\)\)] &)\)] /; \((\(\((1 \[LessEqual] #\
+\[LeftDoubleBracket]2\[RightDoubleBracket] \[LessEqual] 
+                  NumberOfLinks[#\[LeftDoubleBracket]1\[RightDoubleBracket], 
+                    NonAlternating])\) &\)[
+            ToExpression /@ 
+              StringSplit[
+                S, {"\<L\>", "\<n\>"}]])\) := \(Link[#\[LeftDoubleBracket]1\
+\[RightDoubleBracket], 
+            NonAlternating, #\[LeftDoubleBracket]2\[RightDoubleBracket]] &\)[\
+\((ToExpression /@ StringSplit[S, {"\<L\>", "\<n\>"}])\)]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(Knot[
+        S_String?\((StringMatchQ[#, "\<T(\>" ~~ \(\((DigitCharacter .. )\) ~~ \
+\("\<,\>" ~~ \(\((DigitCharacter .. )\) ~~ "\<)\>"\)\)\)] &)\)] := \
+\(TorusKnot[#\[LeftDoubleBracket]1\[RightDoubleBracket], \
+#\[LeftDoubleBracket]2\[RightDoubleBracket]] &\)[\((ToExpression /@ 
+            StringSplit[S, {"\<T(\>", "\<,\>", "\<)\>"}])\)]\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["Recognise Livingston's naming system.", "Subsubsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(Knot[
+          S_String?\((StringMatchQ[#, \((DigitCharacter .. )\) ~~ \("\<a_\>" ~~ \
+\((DigitCharacter .. )\)\)] &)\)] /; \((\(\((#\[LeftDoubleBracket]1\
+\[RightDoubleBracket] \[GreaterEqual] 
+                    11 \[And] #\[LeftDoubleBracket]2\[RightDoubleBracket] \
+\[LessEqual] NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket], 
+                      Alternating])\) &\)[
+            ToExpression /@ 
+              StringSplit[
+                S, {"\<a_\>"}]])\) := \(Knot[#\[LeftDoubleBracket]1\
+\[RightDoubleBracket], 
+            Alternating, #\[LeftDoubleBracket]2\[RightDoubleBracket]] \
+&\)[\((ToExpression /@ StringSplit[S, {"\<a_\>"}])\)]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(Knot[
+          S_String?\((StringMatchQ[#, \((DigitCharacter .. )\) ~~ \("\<n_\>" ~~ \
+\((DigitCharacter .. )\)\)] &)\)] /; \((\(\((#\[LeftDoubleBracket]1\
+\[RightDoubleBracket] \[GreaterEqual] 
+                    11 \[And] #\[LeftDoubleBracket]2\[RightDoubleBracket] \
+\[LessEqual] NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket], 
+                      NonAlternating])\) &\)[
+            ToExpression /@ 
+              StringSplit[
+                S, {"\<n_\>"}]])\) := \(Knot[#\[LeftDoubleBracket]1\
+\[RightDoubleBracket], 
+            NonAlternating, #\[LeftDoubleBracket]2\[RightDoubleBracket]] &\)[\
+\((ToExpression /@ StringSplit[S, {"\<n_\>"}])\)]\)], "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["NextKnot and PreviousKnot", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(NextKnot[Knot[0, 1]] = Knot[3, 1];\)\), "\[IndentingNewLine]", 
+    \(NextKnot[
+          Knot[n_Integer?\((# \[LessEqual] 10 &)\), k_Integer]] /; \((k < 
+            NumberOfKnots[n])\) := Knot[n, k + 1]\), "\n", 
+    \(NextKnot[
+          Knot[n_Integer?\((# \[LessEqual] 9 &)\), k_Integer]] /; \((k == 
+            NumberOfKnots[n])\) := Knot[n + 1, 1]\), "\n", 
+    \(NextKnot[Knot[10, k_Integer]] /; \((k == NumberOfKnots[10])\) := 
+      Knot[11, Alternating, 1]\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(NextKnot[
+          Knot[n_Integer?\((# \[GreaterEqual] 11 &)\), t_, 
+            k_Integer]] /; \((k < NumberOfKnots[n, t])\) := 
+      Knot[n, t, k + 1]\), "\[IndentingNewLine]", 
+    \(NextKnot[
+          Knot[n_Integer?\((# \[GreaterEqual] 11 &)\), Alternating, 
+            k_Integer]] /; \((k == NumberOfKnots[n, Alternating])\) := 
+      Knot[n, NonAlternating, 1]\), "\[IndentingNewLine]", 
+    \(NextKnot[
+          Knot[n_Integer?\((# \[GreaterEqual] 11 &)\), NonAlternating, 
+            k_Integer]] /; \((k == NumberOfKnots[n, NonAlternating])\) := 
+      Knot[n + 1, Alternating, 1]\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(PreviousKnot[Knot[0, 1]] = Knot[0, 1];\)\), "\[IndentingNewLine]", 
+    \(\(PreviousKnot[Knot[3, 1]] = Knot[0, 1];\)\), "\[IndentingNewLine]", 
+    \(PreviousKnot[Knot[n_Integer?\((# \[LessEqual] 10 &)\), 1]] := 
+      Knot[n - 1, NumberOfKnots[n - 1]]\), "\[IndentingNewLine]", 
+    \(PreviousKnot[Knot[n_Integer?\((# \[LessEqual] 10 &)\), k_Integer]] := 
+      Knot[n, k - 1]\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(\(PreviousKnot[Knot[11, Alternating, 1]] = 
+        Knot[10, NumberOfKnots[10]];\)\), "\[IndentingNewLine]", 
+    \(PreviousKnot[
+        Knot[n_Integer?\((# \[GreaterEqual] 12 &)\), Alternating, 1]] := 
+      Knot[n - 1, NonAlternating, 
+        NumberOfKnots[n - 1, NonAlternating]]\), "\[IndentingNewLine]", 
+    \(PreviousKnot[
+        Knot[n_Integer?\((# \[GreaterEqual] 11 &)\), NonAlternating, 1]] := 
+      Knot[n, Alternating, 
+        NumberOfKnots[n, Alternating]]\), "\[IndentingNewLine]", 
+    \(PreviousKnot[
+        Knot[n_Integer?\((# \[GreaterEqual] 11 &)\), t_, k_Integer]] := 
+      Knot[n, t, k - 1]\)}], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(NextKnot[Last[AllLinks[]]] = 
+        Last[AllLinks[]];\)\), "\[IndentingNewLine]", 
+    \(\(PreviousKnot[Link[2, Alternating, 1]] := 
+        Link[2, Alternating, 1];\)\), "\[IndentingNewLine]", 
+    \(NextKnot[L_Link] := 
+      With[{all = AllLinks[]}, 
+        all\[LeftDoubleBracket]\(Position[all, L]\)\[LeftDoubleBracket]1, 
+              1\[RightDoubleBracket] + 
+            1\[RightDoubleBracket]]\), "\[IndentingNewLine]", 
+    \(PreviousKnot[L_Link] := 
+      With[{all = AllLinks[]}, 
+        all\[LeftDoubleBracket]\(Position[all, L]\)\[LeftDoubleBracket]1, 
+              1\[RightDoubleBracket] - 1\[RightDoubleBracket]]\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(all\\)\\\" is similar to existing symbol \
+\\\"\\!\\(All\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\(PreviousKnot[TorusKnot[3, 2]] = TorusKnot[3, 2];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(TorusKnotPosition[TorusKnot[m_, n_]] := 
+      Module[{l = 
+            36}, \[IndentingNewLine]While[\(! MemberQ[TorusKnots[l], 
+              TorusKnot[m, n]]\), 
+          l += 36]; \[IndentingNewLine]\(Position[TorusKnots[l], 
+            TorusKnot[m, n]]\)\[LeftDoubleBracket]1, 
+          1\[RightDoubleBracket]\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(PreviousKnot[
+        T_TorusKnot] := \(TorusKnots[Crossings[T]]\)\[LeftDoubleBracket]
+        TorusKnotPosition[T] - 1\[RightDoubleBracket]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(NextKnot[T_TorusKnot] := 
+      Module[{p = TorusKnotPosition[T] + 1, n = 36}, \[IndentingNewLine]While[
+          Length[TorusKnots[n]] < p, 
+          n += 36]; \[IndentingNewLine]\(TorusKnots[n]\)\[LeftDoubleBracket]
+          p\[RightDoubleBracket]\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["EndPackage", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(End[]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(EndPackage[]\)], "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 713}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{869, 555},
+WindowMargins->{{130, Automatic}, {Automatic, 36}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 65, 1, 73, "Section",
+  InitializationCell->True],
+Cell[1844, 56, 466, 10, 90, "Text",
+  InitializationCell->True],
+Cell[2313, 68, 127, 3, 30, "Input",
+  InitializationCell->True],
+Cell[2443, 73, 379, 6, 110, "Input",
+  InitializationCell->True],
+Cell[2825, 81, 255, 4, 90, "Input",
+  InitializationCell->True],
+Cell[3083, 87, 83, 2, 30, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[3191, 93, 60, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[3254, 96, 238, 5, 30, "Input",
+  InitializationCell->True],
+Cell[3495, 103, 293, 6, 50, "Input",
+  InitializationCell->True],
+Cell[3791, 111, 299, 6, 50, "Input",
+  InitializationCell->True],
+Cell[4093, 119, 251, 5, 50, "Input",
+  InitializationCell->True],
+Cell[4347, 126, 257, 5, 50, "Input",
+  InitializationCell->True],
+Cell[4607, 133, 177, 3, 30, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4821, 141, 77, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[4901, 144, 538, 10, 70, "Input",
+  InitializationCell->True],
+Cell[5442, 156, 753, 14, 70, "Input",
+  InitializationCell->True],
+Cell[6198, 172, 759, 14, 70, "Input",
+  InitializationCell->True],
+Cell[6960, 188, 692, 13, 70, "Input",
+  InitializationCell->True],
+Cell[7655, 203, 698, 13, 70, "Input",
+  InitializationCell->True],
+Cell[8356, 218, 404, 7, 50, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[8785, 229, 90, 1, 29, "Subsubsection",
+  InitializationCell->True],
+Cell[8878, 232, 723, 14, 70, "Input",
+  InitializationCell->True],
+Cell[9604, 248, 729, 14, 70, "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10382, 268, 75, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[10460, 271, 533, 10, 90, "Input",
+  InitializationCell->True],
+Cell[10996, 283, 658, 13, 110, "Input",
+  InitializationCell->True],
+Cell[11657, 298, 442, 7, 90, "Input",
+  InitializationCell->True],
+Cell[12102, 307, 682, 14, 130, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[12809, 325, 699, 14, 90, "Input",
+  InitializationCell->True],
+Cell[13511, 341, 382, 6, 22, "Message",
+  InitializationCell->True]
+}, Open  ]],
+Cell[13908, 350, 113, 2, 30, "Input",
+  InitializationCell->True],
+Cell[14024, 354, 398, 8, 90, "Input",
+  InitializationCell->True],
+Cell[14425, 364, 201, 4, 30, "Input",
+  InitializationCell->True],
+Cell[14629, 370, 333, 6, 90, "Input",
+  InitializationCell->True]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[14999, 381, 60, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[15062, 384, 66, 2, 30, "Input",
+  InitializationCell->True],
+Cell[15131, 388, 73, 2, 30, "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

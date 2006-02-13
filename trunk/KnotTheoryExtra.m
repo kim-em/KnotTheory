@@ -21,12 +21,6 @@ BeginPackage["KnotTheory`"];
 
 TorusKnots;
 
-NameString;
-
-NextKnot;PreviousKnot;
-
-WikiForm;
-
 NotHyperbolic;
 
 AlternatingQ;KnotNumber;
@@ -39,17 +33,25 @@ KnotilusURL[GaussCode[]]="";
 
 
 
-AllKnots[n_]:=Cases[AllKnots[],Knot[n,__]]
+AllKnots[n_]/;n\[LessEqual]10:=Table[Knot[n,k],{k,1,NumberOfKnots[n]}]
+AllKnots[n_]/;11\[LessEqual]n\[LessEqual]16:=
+  AllKnots[n,Alternating]~Join~AllKnots[n,NonAlternating]
+AllKnots[n_,t_]/;11\[LessEqual]n\[LessEqual]16:=
+  Table[Knot[n,t,k],{k,1,NumberOfKnots[n,t]}]
+AllKnots[n_,Alternating]/;n\[LessEqual]10:=
+  Table[Knot[n,k],{k,1,NumberOfKnots[n,Alternating]}]
+AllKnots[n_,NonAlternating]/;n\[LessEqual]10:=
+  Table[Knot[n,NumberOfKnots[n,Alternating]+k],{k,1,
+      NumberOfKnots[n,NonAlternating]}]
 
 AllKnots[{n_,m_}]:=Join@@Table[AllKnots[i],{i,n,m}]
 
-AllKnots[n_,t_]:=Cases[AllKnots[],Knot[n,t,_]]
-
-AllLinks[n_]:=Cases[AllLinks[],Link[n,__]]
+AllLinks[n_]/;2\[LessEqual]n\[LessEqual]11:=
+  AllLinks[n,Alternating]~Join~AllLinks[n,NonAlternating]
+AllLinks[n_,t_]/;2\[LessEqual]n\[LessEqual]11:=
+  Table[Link[n,t,k],{k,1,NumberOfLinks[n,t]}]
 
 AllLinks[{n_,m_}]:=Join@@Table[AllLinks[i],{i,n,m}]
-
-AllLinks[n_,t_]:=Cases[AllLinks[],Link[n,t,_]]
 
 TorusKnots[Xmax_]:=Module[{res},
     res=Flatten[
@@ -75,172 +77,6 @@ AlternatingQ[TorusKnot[_,_]]:=False
 KnotNumber[Knot[_,k_]]:=k
 KnotNumber[Knot[_,_,k_]]:=k
 KnotNumber[Link[_,_,k_]]:=k
-
-
-
-NameString[
-      Knot[n_Integer?(#\[LessEqual]10&),k_Integer]]/;(k\[LessEqual]
-        NumberOfKnots[n]):=ToString[n]<>"_"<>ToString[k]
-
-NameString[
-      Knot[n_Integer?(#\[GreaterEqual]11&),Alternating,
-        k_Integer]]/;(k\[LessEqual]NumberOfKnots[n,Alternating]):=
-  "K"<>ToString[n]<>"a"<>ToString[k]
-
-NameString[
-      Knot[n_Integer?(#\[GreaterEqual]11&),NonAlternating,
-        k_Integer]]/;(k\[LessEqual]NumberOfKnots[n,NonAlternating]):=
-  "K"<>ToString[n]<>"n"<>ToString[k]
-
-NameString[
-      Link[n_Integer,Alternating,k_Integer]]/;(k\[LessEqual]
-        NumberOfLinks[n,Alternating]):="L"<>ToString[n]<>"a"<>ToString[k]
-
-NameString[
-      Link[n_Integer,NonAlternating,k_Integer]]/;(k\[LessEqual]
-        NumberOfLinks[n,NonAlternating]):="L"<>ToString[n]<>"n"<>ToString[k]
-
-NameString[TorusKnot[m_Integer,n_Integer]]:=
-  "T("<>ToString[m]<>","<>ToString[n]<>")"
-
-
-
-Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
-                "_"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
-\[RightDoubleBracket]\[LessEqual]10\[And]#\[LeftDoubleBracket]2\
-\[RightDoubleBracket]\[LessEqual]
-                NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket]])&[
-        ToExpression/@StringSplit[S,"_"]]):=
-  Knot@@(ToExpression/@StringSplit[S,"_"])
-
-Knot[S_String?(StringMatchQ[#,
-              "K"~~(DigitCharacter..)~~
-                  "a"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
-\[RightDoubleBracket]\[GreaterEqual]11\[And]#\[LeftDoubleBracket]2\
-\[RightDoubleBracket]\[LessEqual]
-                NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket],
-                  Alternating])&[ToExpression/@StringSplit[S,{"K","a"}]]):=
-  Knot[#\[LeftDoubleBracket]1\[RightDoubleBracket],
-        Alternating,#\[LeftDoubleBracket]2\[RightDoubleBracket]]&[(\
-ToExpression/@StringSplit[S,{"K","a"}])]
-
-Knot[S_String?(StringMatchQ[#,
-              "K"~~(DigitCharacter..)~~
-                  "n"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
-\[RightDoubleBracket]\[GreaterEqual]11\[And]#\[LeftDoubleBracket]2\
-\[RightDoubleBracket]\[LessEqual]
-                NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket],
-                  NonAlternating])&[ToExpression/@StringSplit[S,{"K","n"}]]):=
-  Knot[#\[LeftDoubleBracket]1\[RightDoubleBracket],
-        NonAlternating,#\[LeftDoubleBracket]2\[RightDoubleBracket]]&[(\
-ToExpression/@StringSplit[S,{"K","n"}])]
-
-Knot[S_String?(StringMatchQ[#,
-              "L"~~(DigitCharacter..)~~
-                  "a"~~(DigitCharacter..)]&)]/;((1\[LessEqual]#\
-\[LeftDoubleBracket]2\[RightDoubleBracket]\[LessEqual]
-              NumberOfLinks[#\[LeftDoubleBracket]1\[RightDoubleBracket],
-                Alternating])&[ToExpression/@StringSplit[S,{"L","a"}]]):=
-  Link[#\[LeftDoubleBracket]1\[RightDoubleBracket],
-        Alternating,#\[LeftDoubleBracket]2\[RightDoubleBracket]]&[(\
-ToExpression/@StringSplit[S,{"L","a"}])]
-
-Knot[S_String?(StringMatchQ[#,
-              "L"~~(DigitCharacter..)~~
-                  "n"~~(DigitCharacter..)]&)]/;((1\[LessEqual]#\
-\[LeftDoubleBracket]2\[RightDoubleBracket]\[LessEqual]
-              NumberOfLinks[#\[LeftDoubleBracket]1\[RightDoubleBracket],
-                NonAlternating])&[ToExpression/@StringSplit[S,{"L","n"}]]):=
-  Link[#\[LeftDoubleBracket]1\[RightDoubleBracket],
-        NonAlternating,#\[LeftDoubleBracket]2\[RightDoubleBracket]]&[(\
-ToExpression/@StringSplit[S,{"L","n"}])]
-
-Knot[S_String?(StringMatchQ[#,
-            "T("~~(DigitCharacter..)~~","~~(DigitCharacter..)~~")"]&)]:=
-  TorusKnot[#\[LeftDoubleBracket]1\[RightDoubleBracket],#\[LeftDoubleBracket]\
-2\[RightDoubleBracket]]&[(ToExpression/@StringSplit[S,{"T(",",",")"}])]
-
-
-
-Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
-                "a_"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
-\[RightDoubleBracket]\[GreaterEqual]11\[And]#\[LeftDoubleBracket]2\
-\[RightDoubleBracket]\[LessEqual]
-                NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket],
-                  Alternating])&[ToExpression/@StringSplit[S,{"a_"}]]):=
-  Knot[#\[LeftDoubleBracket]1\[RightDoubleBracket],
-        Alternating,#\[LeftDoubleBracket]2\[RightDoubleBracket]]&[(\
-ToExpression/@StringSplit[S,{"a_"}])]
-
-Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
-                "n_"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
-\[RightDoubleBracket]\[GreaterEqual]11\[And]#\[LeftDoubleBracket]2\
-\[RightDoubleBracket]\[LessEqual]
-                NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket],
-                  NonAlternating])&[ToExpression/@StringSplit[S,{"n_"}]]):=
-  Knot[#\[LeftDoubleBracket]1\[RightDoubleBracket],
-        NonAlternating,#\[LeftDoubleBracket]2\[RightDoubleBracket]]&[(\
-ToExpression/@StringSplit[S,{"n_"}])]
-
-
-
-NextKnot[Knot[0,1]]=Knot[3,1];
-NextKnot[Knot[n_Integer?(#\[LessEqual]10&),k_Integer]]/;(k<NumberOfKnots[n]):=
-  Knot[n,k+1]
-NextKnot[Knot[n_Integer?(#\[LessEqual]9&),k_Integer]]/;(k==NumberOfKnots[n]):=
-  Knot[n+1,1]
-NextKnot[Knot[10,k_Integer]]/;(k==NumberOfKnots[10]):=Knot[11,Alternating,1]
-
-NextKnot[Knot[n_Integer?(#\[GreaterEqual]11&),t_,k_Integer]]/;(k<
-        NumberOfKnots[n,t]):=Knot[n,t,k+1]
-NextKnot[Knot[n_Integer?(#\[GreaterEqual]11&),Alternating,k_Integer]]/;(k==
-        NumberOfKnots[n,Alternating]):=Knot[n,NonAlternating,1]
-NextKnot[Knot[n_Integer?(#\[GreaterEqual]11&),NonAlternating,k_Integer]]/;(k==
-        NumberOfKnots[n,NonAlternating]):=Knot[n+1,Alternating,1]
-
-PreviousKnot[Knot[0,1]]=Knot[0,1];
-PreviousKnot[Knot[3,1]]=Knot[0,1];
-PreviousKnot[Knot[n_Integer?(#\[LessEqual]10&),1]]:=
-  Knot[n-1,NumberOfKnots[n-1]]
-PreviousKnot[Knot[n_Integer?(#\[LessEqual]10&),k_Integer]]:=Knot[n,k-1]
-
-PreviousKnot[Knot[11,Alternating,1]]=Knot[10,NumberOfKnots[10]];
-PreviousKnot[Knot[n_Integer?(#\[GreaterEqual]12&),Alternating,1]]:=
-  Knot[n-1,NonAlternating,NumberOfKnots[n-1,NonAlternating]]
-PreviousKnot[Knot[n_Integer?(#\[GreaterEqual]11&),NonAlternating,1]]:=
-  Knot[n,Alternating,NumberOfKnots[n,Alternating]]
-PreviousKnot[Knot[n_Integer?(#\[GreaterEqual]11&),t_,k_Integer]]:=
-  Knot[n,t,k-1]
-
-NextKnot[Last[AllLinks[]]]=Last[AllLinks[]];
-PreviousKnot[Link[2,Alternating,1]]:=Link[2,Alternating,1];
-NextKnot[L_Link]:=
-  With[{all=AllLinks[]},
-    all\[LeftDoubleBracket]Position[all,L]\[LeftDoubleBracket]1,
-          1\[RightDoubleBracket]+1\[RightDoubleBracket]]
-PreviousKnot[L_Link]:=
-  With[{all=AllLinks[]},
-    all\[LeftDoubleBracket]Position[all,L]\[LeftDoubleBracket]1,
-          1\[RightDoubleBracket]-1\[RightDoubleBracket]]
-
-
-
-PreviousKnot[TorusKnot[3,2]]=TorusKnot[3,2];
-
-TorusKnotPosition[TorusKnot[m_,n_]]:=Module[{l=36},
-    While[!MemberQ[TorusKnots[l],TorusKnot[m,n]],l+=36];
-    Position[TorusKnots[l],TorusKnot[m,n]]\[LeftDoubleBracket]1,
-      1\[RightDoubleBracket]
-    ]
-
-PreviousKnot[T_TorusKnot]:=
-  TorusKnots[Crossings[T]]\[LeftDoubleBracket]
-    TorusKnotPosition[T]-1\[RightDoubleBracket]
-
-NextKnot[T_TorusKnot]:=Module[{p=TorusKnotPosition[T]+1,n=36},
-    While[Length[TorusKnots[n]]<p,n+=36];
-    TorusKnots[n]\[LeftDoubleBracket]p\[RightDoubleBracket]
-    ]
 
 
 
@@ -270,132 +106,6 @@ SymmetryType["Reversible"]=Reversible;
 SymmetryType["Fully amphicheiral"]=FullyAmphicheiral;
 SymmetryType["Negative amphicheiral"]=NegativeAmphicheiral;
 SymmetryType["Chiral"]=Chiral;
-
-
-
-
-
-WikiForm/:ToString[a_Integer,WikiForm]:=ToString[a]
-
-WikiForm/:ToString[a_?NumberQ,WikiForm]:=ToString[a]
-
-WikiForm /: ToString["", WikiForm] :=""
-
-WikiForm/:ToString[WikiForm[S_String],WikiForm]:=S
-
-WikiTextQ[
-    S_String]:=!(StringFreeQ[
-        S,{"<table","<tr","<td","{|","|-","|+","|}","{{"~~__~~"}}","[["~~__~~"]]",
-          "http://"}])
-
-WikiForm /: ToString[s_String, WikiForm] := If[WikiTextQ[s],s,
-    StringReplace[
-      "<nowiki>"<>s<>"</nowiki>",
-      {"|" \[Rule] "&#124;"}
-      ]
-    ]
-
-WikiForm/:ToString[K_Knot,WikiForm]:=NameString[K]
-WikiForm/:ToString[L_Link,WikiForm]:=NameString[L]
-WikiForm/:ToStirng[T_TorusKnot,WikiForm]:=NameString[T]
-
-WikiForm/:ToString[Null,WikiForm]="";
-
-MathTags[s_String]:="<math>"<>s<>"</math>"
-
-
-
-listToString[{},s_String]:=""
-
-listToString[x_List,s_String]:=
-  StringJoin[Drop[Flatten[Transpose[{ToString/@x,Table[s,{Length[x]}]}]],-1]]
-
-WikiForm/:ToString[gc_GaussCode,WikiForm]:=listToString[List@@gc,", "]
-
-WikiForm/:ToString[dtc_DTCode,WikiForm]:=
-  If[Length[dtc]\[Equal]0,"",listToString[List@@dtc," "]]
-
-WikiForm/:ToString[NotAvailable,WikiForm]="";
-WikiForm/:ToString[_NotAvailable,WikiForm]="";
-
-WikiForm/:ToString[X[i_,j_,k_,l_],WikiForm]:=
-  Module[{i1=ToString[i],j1=ToString[j],k1=ToString[k],l1=ToString[l]},
-    If[{1,1,1,1}\[Equal]StringLength/@{i1,j1,k1,l1},
-      ToString[StringForm["X<sub>````````</sub>",i1,j1,k1,l1]],
-      ToString[StringForm["X<sub>``,``,``,``</sub>",i1,j1,k1,l1]]]]
-
-WikiForm/:ToString[pd_PD,WikiForm]:=
-  StringJoin@@Table[ToString[pd[[i]],WikiForm]<>" ",{i,Length[pd]}]
-
-
-
-WikiForm/:ToString[Reversible,WikiForm]="Reversible";
-WikiForm/:ToString[FullyAmphicheiral,WikiForm]="Fully amphicheiral";
-WikiForm/:ToString[NegativeAmphicheiral,WikiForm]="Negative amphicheiral";
-WikiForm/:ToString[Chiral,WikiForm]="Chiral";
-
-WikiForm/:ToString[_SymmetryType,WikiForm]="";
-WikiForm/:ToString[_UnknottingNumber,WikiForm]="";
-WikiForm/:ToString[_ThreeGenus,WikiForm]="";
-WikiForm/:ToString[_BridgeIndex,WikiForm]="";
-WikiForm/:ToString[_SuperBridgeIndex,WikiForm]="";
-WikiForm/:ToString[_NakanishiIndex,WikiForm]="";
-
-WikiForm/:ToString[NotHyperbolic,WikiForm]="Not hyperbolic";
-
-
-
-WikiForm/:ToString[poly_?LaurentPolynomialQ,WikiForm]:=
-  MathTags[StringReplace[ToString[poly,TeXForm],
-      LaurentPolynomialTeXReplacementRule]]
-
-
-
-WikiTeXForm/:ToString[a_,WikiTeXForm]:=
-  StringReplace[ToString[a,TeXForm],"\\text{"\[Rule]"\\textrm{"]
-
-WikiForm/:ToString[a_,WikiForm]:=MathTags[ToString[a,WikiTeXForm]]
-
-
-
-\!\(\(PowerQ[_Integer] := True;\)\[IndentingNewLine]
-  \(PowerQ[_\^_Integer] = True;\)\[IndentingNewLine]
-  \(PowerQ[_Symbol] = True;\)\[IndentingNewLine]
-  \(PowerQ[_] = False;\)\)
-
-
-
-MonomialQ[x_Times]:=And@@(PowerQ/@List@@x)
-
-MonomialQ[x_]:=PowerQ[x]
-
-SplitMonomial[x_?MonomialQ]:=If[MatchQ[x,_Times],List@@x,{x}]
-
-MonomialStringQ[x_String]:=
-  MonomialQ[
-    ToExpression[StringReplace[x,{"{"\[Rule]"(","}"\[Rule]")"}],InputForm]]
-
-MonomialStringQ[_]:=False
-
-\!\(PowerToString[x_?PowerQ] := x /. {k_Integer \[RuleDelayed] ToString[k] <> "\< \>", z_\^n_ \[RuleDelayed] ToString[z] <> "\<^{\>" <> ToString[n] <> "\<} \>", z_Symbol \[RuleDelayed] ToString[z]}\)
-
-\!\(InvertMonomialString[x_?MonomialStringQ] := StringJoin @@ \((PowerToString /@ \(\((#\^\(-1\) &)\) /@ SplitMonomial[ToExpression[StringReplace[x, {"\<{\>" \[Rule] "\<(\>", "\<}\>" \[Rule] "\<)\>"}], InputForm]]\))\)\)
-
-LaurentPolynomialQ[x_?MonomialQ]:=True
-LaurentPolynomialQ[x_Plus]:=And@@(MonomialQ/@List@@x)
-
-IfNotOne["1"]="";
-IfNotOne[x_String]:=x
-
-LaurentPolynomialTeXReplacementRule=
-    "\\frac{"~~numerator:ShortestMatch[__]~~
-          "}{"~~denominator:ShortestMatch[__]~~
-              "}"~~rest:("+"|"-"|EndOfString)\[RuleDelayed]
-      IfNotOne[numerator] ~~" "~~InvertMonomialString[denominator]~~rest;
-
-
-
-
 
 
 
