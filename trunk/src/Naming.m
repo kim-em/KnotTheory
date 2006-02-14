@@ -21,11 +21,20 @@ overwritten.
 
 BeginPackage["KnotTheory`Naming`",{"KnotTheory`"}];
 
+TorusKnots::usage="TorusKnots[n_] returns a list of all torus knots with up to n crossings.";
+
 NameString::usage="NameString[K_] returns the 'standard' string name for the knot K. These names are used throughout the Knot Atlas, and can be reinterpreted simply using the function Knot. Thus NameString[Knot[7,2]] returns \"7_2\", and NameString[Knot[10,NonAlternating,124]] returns \"K10n124\".";
 
 NextKnot::usage=PreviousKnot::usage="Use NextKnot and PreviousKnot to traverse lists of knots. These functions mostly exist to generate navigation links for the Knot Atlas.";
 
 Begin["`Private`"]
+
+TorusKnots[Xmax_]:=Module[{res},
+    res=Flatten[
+        Table[Cases[Range[2,Min[Floor[1+Xmax/m],m-1]],
+            n_/;GCD[m,n]\[Equal]1\[RuleDelayed]TorusKnot[m,n]],{m,3,Xmax}]];
+    Last/@Sort[{Crossings[#],#}&/@res]
+    ]
 
 
 
