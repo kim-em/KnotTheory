@@ -19,8 +19,6 @@ overwritten.
 
 BeginPackage["KnotTheory`"];
 
-TorusKnots;
-
 NotHyperbolic;
 
 AlternatingQ;KnotNumber;
@@ -32,13 +30,6 @@ Begin["`Private`"]
 KnotilusURL[GaussCode[]]="";
 
 
-
-TorusKnots[Xmax_]:=Module[{res},
-    res=Flatten[
-        Table[Cases[Range[2,Min[Floor[1+Xmax/m],m-1]],
-            n_/;GCD[m,n]\[Equal]1\[RuleDelayed]TorusKnot[m,n]],{m,3,Xmax}]];
-    Last/@Sort[{Crossings[#],#}&/@res]
-    ]
 
 
 
