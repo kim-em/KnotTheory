@@ -29,20 +29,6 @@ Begin["`Private`"]
 
 
 
-GaussCode[S_String]:=GaussCode@@ToExpression["{"<>S<>"}"]
-
-DTCode[S_String]:=
-  DTCode@@ToExpression["{"<>StringReplace[S," "\[Rule]","]<>"}"]
-
-PDStringSplit[S_String?(StringFreeQ[#,","]&)]:=ToExpression/@Characters[S]
-PDStringSplit[S_String]:=ToExpression/@StringSplit[S,","]
-
-PD[S_String]:=
-  PD@@((X@@PDStringSplit[#]&)/@
-        StringCases[S,"X<sub>"~~x:ShortestMatch[__]~~"</sub>"\[RuleDelayed]x])
-
-
-
 
 
 WikiForm/:ToString[a_Integer,WikiForm]:=ToString[a]

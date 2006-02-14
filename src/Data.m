@@ -9,7 +9,7 @@ AllKnots::usage = "
 
 AllLinks::usage = "
   AllLinks[] return a list of all links with up to 11 crossings. AllLinks[n_] returns
-  a list of all links with n crossings, up to 13.
+  a list of all links with n crossings, up to 12.
 "
 
 DTCode;
@@ -55,6 +55,9 @@ NumberOfKnots[16, NonAlternating] = 1008906
 NumberOfKnots[n_] :=
   NumberOfKnots[n, Alternating] + NumberOfKnots[n, NonAlternating]
 
+NumberOfKnots[{n_, m_}]:= Sum[NumberOfKnots[k], {k,n,m}]
+NumberOfKnots[{n_, m_}, t_]:= Sum[NumberOfKnots[k, t], {k,n,m}]
+
 NumberOfLinks[2] = 1
 NumberOfLinks[3] = 0
 NumberOfLinks[4] = 1
@@ -90,6 +93,9 @@ NumberOfLinks[10, NonAlternating] = 113
 NumberOfLinks[11, NonAlternating] = 459
 NumberOfLinks[12, NonAlternating] = 2256
 
+NumberOfLinks[{n_, m_}]:= Sum[NumberOfLinks[k], {k,n,m}]
+NumberOfLinks[{n_, m_}, t_]:= Sum[NumberOfLinks[k, t], {k,n,m}]
+
 (* These are ordered lists for the purpose of data loading! Do not mess! *)
 AllKnots[] = Flatten[{
   Table[Knot[n,k], {n,0,10}, {k,NumberOfKnots[n]}],
@@ -107,8 +113,8 @@ AllKnots[n_,t_]/;11<=n<=16:=Table[Knot[n,t,k],{k,1,NumberOfKnots[n,t]}]
 AllKnots[n_,Alternating]/;n<=10:=Table[Knot[n,k],{k,1,NumberOfKnots[n,Alternating]}]
 AllKnots[n_,NonAlternating]/;n<=10:=Table[Knot[n,NumberOfKnots[n,Alternating]+k],{k,1,NumberOfKnots[n,NonAlternating]}]
 AllKnots[{n_,m_}]:=Join@@Table[AllKnots[i],{i,n,m}]
-AllLinks[n_]/;2<=n<=11:=AllLinks[n,Alternating]~Join~AllLinks[n,NonAlternating]
-AllLinks[n_,t_]/;2<=n<=11:=Table[Link[n,t,k],{k,1,NumberOfLinks[n,t]}]
+AllLinks[n_]/;2<=n<=12:=AllLinks[n,Alternating]~Join~AllLinks[n,NonAlternating]
+AllLinks[n_,t_]/;2<=n<=12:=Table[Link[n,t,k],{k,1,NumberOfLinks[n,t]}]
 AllLinks[{n_,m_}]:=Join@@Table[AllLinks[i],{i,n,m}]
 
 PD[Knot[n_, k_]] := (

@@ -26,7 +26,7 @@ DTCode::usage = "
 
 Begin["`GaussCode`"]
 
-GaussCode[K_] /; !MatchQ[Head[K], PD|DTCode|List] := GaussCode[PD[K]]
+GaussCode[K_] /; !MatchQ[Head[K], PD|DTCode|List|String] := GaussCode[PD[K]]
 GaussCode[PD[_Loop]] = GaussCode[]
 GaussCode[PD[l___, _Loop, r___]] := Append[
   GaussCode[PD[l,r]],
@@ -56,6 +56,9 @@ GaussCode[HoldPattern[DTCode[is___Integer]]] := Module[
   ];
   gc
 ]
+
+(* This function translates the string representations of Gauss codes used in the Knot Atlas back to KnotTheory's standard representation of a Gauss code. *)
+GaussCode[S_String]:=GaussCode@@ToExpression["{"<>S<>"}"]
 
 KnotilusURL[HoldPattern[GaussCode[is__Integer]]] := StringJoin[
   "http://srankin.math.uwo.ca/cgi-bin/retrieve.cgi/",
@@ -88,6 +91,10 @@ DTCode[HoldPattern[GaussCode[is__Integer]]] := Module[
     {odds, evens}
   ]]
 ]
-DTCode[K_] /; Head[K] =!= GaussCode := DTCode[GaussCode[K]]
+DTCode[K_] /; !MatchQ[Head[K], DTCode|GaussCode|String] := DTCode[GaussCode[K]]
+
+(* This function translates the string representations of DT codes used in the Knot Atlas back to KnotTheory's standard representation of a DT code. *)
+DTCode[S_String]:=
+  DTCode@@ToExpression["{"<>StringReplace[S," "\[Rule]","]<>"}"]
 
 End[]; EndPackage[]
