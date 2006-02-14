@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 2, 14, 16, 1, 54.1782880};
+KnotTheoryVersion[] = {2006, 2, 14, 16, 16, 35.4095152};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -54,8 +54,6 @@ CreditMessage[cm_String] := Module[
   If[Length[$MessageList] > l, CreditMessage[cm] = Null];
 ]
 End[]; EndPackage[];
-(* Begin source file src/Base.m*)
-
 BeginPackage["KnotTheory`"]
 Knot::usage = "
   Knot[n, k] denotes the kth knot with n crossings in the Rolfsen table.
@@ -397,11 +395,6 @@ KnotSignature[pd_PD] := KnotSignature[pd] = Module[
 ]
 KnotSignature[K_] := KnotSignature[PD[K]]
 End[]; EndPackage[]
-(* End source file src/Base.m*)
-
-
-(* Begin source file src/Braids.m*)
-
 BeginPackage["KnotTheory`"]		(* Braids *)
 BR::usage = "BR stands for Braid Representative. BR[k,l] represents a
 braid on k strands with crossings l={i1,i2,...}, where a positive index
@@ -542,11 +535,6 @@ BraidPlot[BR[k_Integer, l_List], opts___Rule] := Module[
   ]
 ]
 End[]; EndPackage[]
-(* End source file src/Braids.m*)
-
-
-(* Begin source file src/TubePlot.m*)
-
 BeginPackage["TubePlot`", {"Utilities`FilterOptions`"}]
 TubePlot::usage = "
   TubePlot[gamma, {t, t0, t1}, r, opts] plots the space curve gamma
@@ -622,11 +610,6 @@ TubePlot[TorusKnot[m_, n_], opts___] := TubePlot[
   TubePlotPrelude -> EdgeForm[{}], Boxed -> False, ViewPoint -> {0, 0, 1}
 ];
 End[]; EndPackage[]
-(* End source file src/TubePlot.m*)
-
-
-(* Begin source file src/DrawPD.m*)
-
 BeginPackage["KnotTheory`"]
 PD; X; OuterFace; Gap; Colour; StrandColour
 DrawPD::usage = "
@@ -1267,11 +1250,6 @@ DrawPD[pd_PD,options_]:=(optionsList=Map[Apply[List,#]&,options];
 ]]==StrandColour&][[1,
                       2]]]}]]]]];Draw[t])
 End[]; EndPackage[]
-(* End source file src/DrawPD.m*)
-
-
-(* Begin source file src/Data.m*)
-
 BeginPackage["KnotTheory`"]		(* Data *)
 AllKnots::usage = "
   AllKnots[] return a list of all knots with up to 11 crossings. AllKnots[n_] returns
@@ -1405,11 +1383,6 @@ DTCode[Knot[n_, t_, k_]] /; (12<=n<=16) := DTCode @@ (
   If[# >= 97, 2(#-96), -2(#-64)]& /@ ToCharacterCode[DT4Knots[n, t][[k]]] 
 )
 End[]; EndPackage[]
-(* End source file src/Data.m*)
-
-
-(* Begin source file src/BraidData.m*)
-
 BeginPackage["KnotTheory`"]             (* Braid Data *)
 BR;
 Begin["`Private`"]
@@ -1668,11 +1641,6 @@ BR[Knot[10, 163]] := br[4, "aaBAAcbAbbc"]
 BR[Knot[10, 164]] := br[4, "aaBaBBCbAbC"]
 BR[Knot[10, 165]] := br[4, "aabACbAbccb"]
 End[]; EndPackage[]
-(* End source file src/BraidData.m*)
-
-
-(* Begin source file src/Naming.m*)
-
 (*******************************************************************
 This file was generated automatically by the Mathematica front end.
 It contains Initialization cells from a Notebook file, which
@@ -1782,6 +1750,7 @@ Knot[S_String?(StringMatchQ[#,
             "T("~~(DigitCharacter..)~~","~~(DigitCharacter..)~~")"]&)]:=
   TorusKnot[#\[LeftDoubleBracket]1\[RightDoubleBracket],#\[LeftDoubleBracket]\
 2\[RightDoubleBracket]]&[(ToExpression/@StringSplit[S,{"T(",",",")"}])]
+Link[S_String]:=Knot[S]
 Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
                 "a_"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
 \[RightDoubleBracket]\[GreaterEqual]11\[And]#\[LeftDoubleBracket]2\
@@ -1849,11 +1818,6 @@ NextKnot[T_TorusKnot]:=Module[{p=TorusKnotPosition[T]+1,n=36},
     ]
 End[]
 EndPackage[]
-(* End source file src/Naming.m*)
-
-
-(* Begin source file src/WikiForm.m*)
-
 (*******************************************************************
 This file was generated automatically by the Mathematica front end.
 It contains Initialization cells from a Notebook file, which
@@ -1951,11 +1915,6 @@ LaurentPolynomialTeXReplacementRule=
       IfNotOne[numerator] ~~" "~~InvertMonomialString[denominator]~~rest;
 End[]
 EndPackage[]
-(* End source file src/WikiForm.m*)
-
-
-(* Begin source file src/GaussCode.m*)
-
 BeginPackage["KnotTheory`"]
 GaussCode::usage = "
   GaussCode[i1, i2, ...] represents a knot via its Gauss
@@ -2046,11 +2005,6 @@ DTCode[K_] /; !MatchQ[Head[K], DTCode|GaussCode|String] := DTCode[GaussCode[K]]
 DTCode[S_String]:=
   DTCode@@ToExpression["{"<>StringReplace[S," "\[Rule]","]<>"}"]
 End[]; EndPackage[]
-(* End source file src/GaussCode.m*)
-
-
-(* Begin source file src/GC2PD.m*)
-
 BeginPackage["KnotTheory`"]
 PD::about = "
   The GaussCode to PD conversion was written by Siddarth Sankaran at
@@ -2178,11 +2132,6 @@ PD[in_GaussCode] :=
  
 PD[dt_DTCode] := PD[GaussCode[dt]]
 End[]; EndPackage[]
-(* End source file src/GC2PD.m*)
-
-
-(* Begin source file src/Indiana.m*)
-
 BeginPackage["KnotTheory`"]
 BraidIndex::usage = "
 BraidIndex[K] returns the braid index of the knot K, if known to
@@ -2306,11 +2255,6 @@ UnknottingNumber[K_]  := (
 )
 End[];
 EndPackage[];
-(* End source file src/Indiana.m*)
-
-
-(* Begin source file src/HOMFLYPT.m*)
-
 BeginPackage["KnotTheory`"]
 HOMFLYPT::usage = "
 HOMFLYPT[K][a, z] computes the HOMFLY-PT (Hoste, Ocneanu, Millett,
@@ -2392,11 +2336,6 @@ HOMFLYPT[pd_PD] := HOMFLYPT[pd] = (
 )
 HOMFLYPT[L_] := HOMFLYPT[PD[L]]
 End[]; EndPackage[];
-(* End source file src/HOMFLYPT.m*)
-
-
-(* Begin source file src/Kauffman.m*)
-
 BeginPackage["KnotTheory`"]
 Kauffman::usage = "
 Kauffman[K][a, z] computes the Kauffman polynomial of a knot or link K,
@@ -2552,11 +2491,6 @@ Kauffman[pd_PD] := Kauffman[pd] = (
 Kauffman[L_] := Kauffman[PD[L]]
 End[];
 EndPackage[];
-(* End source file src/Kauffman.m*)
-
-
-(* Begin source file src/Kh.m*)
-
 BeginPackage["KnotTheory`"]
 $RecursionLimit = 65536;
 Kh::usage = "Kh[L][q, t] returns the Poincare polynomial of the
@@ -3053,11 +2987,6 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
   ]
 ]
 End[]; EndPackage[]
-(* End source file src/Kh.m*)
-
-
-(* Begin source file src/MorseLink.m*)
-
 BeginPackage["KnotTheory`"];
 MorseLink::usage =
     "MorseLink[K] returns a presentation of the oriented link K, composed, in \
@@ -3254,11 +3183,6 @@ strand list, such that the adjacent edge does not *)
       ];
 End[];
 EndPackage[];
-(* End source file src/MorseLink.m*)
-
-
-(* Begin source file src/DrawMorseLink.m*)
-
 BeginPackage["KnotTheory`"];
  
 DrawMorseLink::usage = 
@@ -3550,11 +3474,6 @@ at the University of Toronto in the summer of 2005."];
       ];
 End[];
 EndPackage[];
-(* End source file src/DrawMorseLink.m*)
-
-
-(* Begin source file src/ML2PD.m*)
-
 BeginPackage["KnotTheory`"]; 
 Begin["`MorseLink2PD`"]; 
 PD[MorseLink[Cup[1,2], Cap[2 , 1] ] ] := PD[Loop[1]]; 
@@ -3592,11 +3511,6 @@ PD[in_MorseLink] := Module[ {pos, arrow, strands = {}, edgecount = 0, n, chains 
 ]; 
 End[]; 
 EndPackage[]; 
-(* End source file src/ML2PD.m*)
-
-
-(* Begin source file src/AlexanderConway.m*)
-
 BeginPackage["KnotTheory`"]
 Alexander::usage = "Alexander[K][t] computes the Alexander polynomial of a knot K as a function of the variable t.  Alexander[K, r][t] computes a basis of the r'th Alexander ideal of K in Z[t].";
 Alexander::about = "The program Alexander[K, r] to compute Alexander ideals was written by Jana Archibald at the University of Toronto in the summer of 2005."
@@ -3784,11 +3698,6 @@ Conway[K_] := Conway[K] = Function @@ {Module[{t},
 KnotDet[K_] := Abs[Alexander[K][-1]]
 End[]
 EndPackage[]
-(* End source file src/AlexanderConway.m*)
-
-
-(* Begin source file src/VogelsAlgorithm.m*)
-
 (* VogelsAlgorithm.m by Dan Carney *)
 BeginPackage["KnotTheory`"];
 BR; Mirror; NumberOfKnots; PD;
@@ -4104,11 +4013,6 @@ Dbg[ Unevaluated[ "Start Edges ", data[ strandInitialEdge, # ] & /@ data[ strand
 End[];
 EndPackage[];
 (* End of VogelsAlgorithm.m *)
-(* End source file src/VogelsAlgorithm.m*)
-
-
-(* Begin source file src/MultivariableAlexander.m*)
-
 BeginPackage["KnotTheory`"];
 MultivariableAlexander::usage = "
 MultivariableAlexander[L][t] returns the multivariable Alexander polynomial
@@ -4273,11 +4177,6 @@ FormColouredBurauMatrix[ data_ ] := Module [
 ];
 End[];
 EndPackage[];
-(* End source file src/MultivariableAlexander.m*)
-
-
-(* Begin source file src/REngine.m*)
-
 BeginPackage["KnotTheory`"]
 REngine::usage = "REngine[K, Rp, Rn, Mcupl, Mcupr, Mcapl Mcapr] returns
 the invariant associated with the given R-matrices (Rp for positive
@@ -4355,11 +4254,6 @@ REngine[ml_MorseLink, rmatrix_, rbar_, mcupl_, mcupr_, mcapl_, mcapr_] :=
 	Return[F[Length[ml]]];
 ]
 End[];EndPackage[];
-(* End source file src/REngine.m*)
-
-
-(* Begin source file src/TestRMatrix.m*)
-
 BeginPackage["KnotTheory`"]
 TestRMatrix::usage = "TestRMatrix[Rp, Rn, McupL, McupR, McapL, McapR]
 checks if the invariant associated with the given R-matrices (Rp for
@@ -4734,11 +4628,6 @@ r2test[8,2] = MorseLink[Cap[2,1], Cup[2,1]];
 	
 	
 End[];EndPackage[];
-(* End source file src/TestRMatrix.m*)
-
-
-(* Begin source file src/CJREngine.m*)
-
 BeginPackage["KnotTheory`"]
 Begin["`CJREngine`"]
 CJ[K_, M_] :=  Module[ {N=M+1,cu, sq, kd, fp, fn, bp, bn, tt, t,ttb,r, rb, mcupl, mcapl, mcupr, mcapr},
@@ -4774,11 +4663,6 @@ Return[Function@@ {Apart[REngine[K, r, rb, mcupl, mcapl, mcupr, mcapr] / REngine
 	
 ]
 End[];EndPackage[];
-(* End source file src/CJREngine.m*)
-
-
-(* Begin source file src/ColouredJones.m*)
-
 BeginPackage["KnotTheory`"]
 ColouredJones::usage = "ColouredJones[K, n][q] returns the coloured
 Jones polynomial of a knot in colour n (i.e., in the (n+1)-dimensional
@@ -4933,11 +4817,6 @@ CJ[b_BR, n_Integer, opts___] := Module[
   ]
 ]
 End[]; EndPackage[];
-(* End source file src/ColouredJones.m*)
-
-
-(* Begin source file src/HFGenus.m*)
-
 (*******************************************************************
 This file was generated automatically by the Mathematica front end.
 It contains Initialization cells from a Notebook file, which
@@ -5394,5 +5273,3 @@ ThreeGenus[K_PD]:=ThreeGenus[K] = Module[
         First[ret] /. {max_Integer, min_Integer} \[RuleDelayed] {min, max}
         ];
 End[]; EndPackage[];
-(* End source file src/HFGenus.m*)
-
