@@ -20,11 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-<<<<<<< .mine
-KnotTheoryVersion[] = {2006, 2, 14, 15, 15, 34.6014528};
-=======
-KnotTheoryVersion[] = {2006, 2, 14, 13, 32, 19.3371792};
->>>>>>> .r71
+KnotTheoryVersion[] = {2006, 2, 14, 16, 1, 54.1782880};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -166,6 +162,13 @@ PD[BR[k_Integer, l_List]] := Module[
     Loop /@ PD @@ Range[len + 1, len + loops]
   ]
 ]
+PDStringSplit[S_String?(StringFreeQ[#,","]&)]:=ToExpression/@Characters[S]
+PDStringSplit[S_String]:=ToExpression/@StringSplit[S,","]
+(* This function translates the HTML string representations of planar diagram
+   notation used in the Knot Atlas back into the internal PD format. *)
+PD[S_String]:=
+  PD@@((X@@PDStringSplit[#]&)/@
+        StringCases[S,"X<sub>"~~x:ShortestMatch[__]~~"</sub>"\[RuleDelayed]x])
 BR[TorusKnot[m_, n_]] /; m > 0 && n > 0 :=
   BR[n, Flatten[Table[Range[n - 1], {m}]]]
 PD[TorusKnot[m_, n_]] /; m > 0 && n > 0 := PD[BR[TorusKnot[m, n]]]
@@ -1869,14 +1872,6 @@ BeginPackage["KnotTheory`Naming`",{"KnotTheory`"}];
 NotHyperbolic;
 WikiForm::usage="ToString[expression_,WikiForm] attempts to format expression in a manner suitable for a MediaWiki wiki. This is a strange kludge of html and pseudo-latex, particularly for long polynomials. It's not perfect, but not a disaster either.";
 Begin["`Private`"]
-GaussCode[S_String]:=GaussCode@@ToExpression["{"<>S<>"}"]
-DTCode[S_String]:=
-  DTCode@@ToExpression["{"<>StringReplace[S," "\[Rule]","]<>"}"]
-PDStringSplit[S_String?(StringFreeQ[#,","]&)]:=ToExpression/@Characters[S]
-PDStringSplit[S_String]:=ToExpression/@StringSplit[S,","]
-PD[S_String]:=
-  PD@@((X@@PDStringSplit[#]&)/@
-        StringCases[S,"X<sub>"~~x:ShortestMatch[__]~~"</sub>"\[RuleDelayed]x])
 WikiForm/:ToString[a_Integer,WikiForm]:=ToString[a]
 WikiForm/:ToString[a_?NumberQ,WikiForm]:=ToString[a]
 WikiForm /: ToString["", WikiForm] :=""
@@ -1984,7 +1979,7 @@ DTCode::usage = "
   code of that knot.
 "
 Begin["`GaussCode`"]
-GaussCode[K_] /; !MatchQ[Head[K], PD|DTCode|List] := GaussCode[PD[K]]
+GaussCode[K_] /; !MatchQ[Head[K], PD|DTCode|List|String] := GaussCode[PD[K]]
 GaussCode[PD[_Loop]] = GaussCode[]
 GaussCode[PD[l___, _Loop, r___]] := Append[
   GaussCode[PD[l,r]],
@@ -2014,6 +2009,8 @@ GaussCode[HoldPattern[DTCode[is___Integer]]] := Module[
   ];
   gc
 ]
+(* This function translates the string representations of Gauss codes used in the Knot Atlas back to KnotTheory's standard representation of a Gauss code. *)
+GaussCode[S_String]:=GaussCode@@ToExpression["{"<>S<>"}"]
 KnotilusURL[HoldPattern[GaussCode[is__Integer]]] := StringJoin[
   "http://srankin.math.uwo.ca/cgi-bin/retrieve.cgi/",
   StringReplace[
@@ -2044,7 +2041,10 @@ DTCode[HoldPattern[GaussCode[is__Integer]]] := Module[
     {odds, evens}
   ]]
 ]
-DTCode[K_] /; Head[K] =!= GaussCode := DTCode[GaussCode[K]]
+DTCode[K_] /; !MatchQ[Head[K], DTCode|GaussCode|String] := DTCode[GaussCode[K]]
+(* This function translates the string representations of DT codes used in the Knot Atlas back to KnotTheory's standard representation of a DT code. *)
+DTCode[S_String]:=
+  DTCode@@ToExpression["{"<>StringReplace[S," "\[Rule]","]<>"}"]
 End[]; EndPackage[]
 (* End source file src/GaussCode.m*)
 
