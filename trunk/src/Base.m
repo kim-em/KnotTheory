@@ -2,9 +2,9 @@ BeginPackage["KnotTheory`"]
 
 Knot::usage = "
   Knot[n, k] denotes the kth knot with n crossings in the Rolfsen table.
-  Knot[11, Alternating, k] denotes the kth alternating 11-crossing knot in
-  the Hoste-Thistlethwaite table. Knot[11, NonAlternating, k] denotes the
-  kth non alternating 11-crossing knot in the Hoste-Thistlethwaite table.
+  Knot[n, Alternating, k] (for n between 11 and 16) denotes the kth alternating n-crossing knot in
+  the Hoste-Thistlethwaite table. Knot[n, NonAlternating, k] denotes the
+  kth non alternating n-crossing knot in the Hoste-Thistlethwaite table.
 "
 
 Link::usage = "
@@ -91,8 +91,8 @@ KnotTheory::loading = "Loading precomputed data in `1`."
 
 (* Lightly documented features: *)
 
-NumberOfKnots::usage = "NumberOfKnots[type] return the number of knots of a
-given type.";
+NumberOfKnots::usage = "NumberOfKnots[n] returns the number of knots with n crossings.
+NumberOfKnots[n, Alternating|NonAlternating] returns the number of knots of the specified type.";
 
 Skeleton; Orient; NumberOfLinks; Alternating; NonAlternating; BR;
 Mirror;
@@ -127,6 +127,15 @@ PD[BR[k_Integer, l_List]] := Module[
     Loop /@ PD @@ Range[len + 1, len + loops]
   ]
 ]
+
+PDStringSplit[S_String?(StringFreeQ[#,","]&)]:=ToExpression/@Characters[S]
+PDStringSplit[S_String]:=ToExpression/@StringSplit[S,","]
+
+(* This function translates the HTML string representations of planar diagram
+   notation used in the Knot Atlas back into the internal PD format. *)
+PD[S_String]:=
+  PD@@((X@@PDStringSplit[#]&)/@
+        StringCases[S,"X<sub>"~~x:ShortestMatch[__]~~"</sub>"\[RuleDelayed]x])
 
 BR[TorusKnot[m_, n_]] /; m > 0 && n > 0 :=
   BR[n, Flatten[Table[Range[n - 1], {m}]]]

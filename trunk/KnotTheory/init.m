@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 2, 13, 17, 41, 45.9149312};
+KnotTheoryVersion[] = {2006, 2, 14, 13, 32, 19.3371792};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -57,9 +57,9 @@ End[]; EndPackage[];
 BeginPackage["KnotTheory`"]
 Knot::usage = "
   Knot[n, k] denotes the kth knot with n crossings in the Rolfsen table.
-  Knot[11, Alternating, k] denotes the kth alternating 11-crossing knot in
-  the Hoste-Thistlethwaite table. Knot[11, NonAlternating, k] denotes the
-  kth non alternating 11-crossing knot in the Hoste-Thistlethwaite table.
+  Knot[n, Alternating, k] (for n between 11 and 16) denotes the kth alternating n-crossing knot in
+  the Hoste-Thistlethwaite table. Knot[n, NonAlternating, k] denotes the
+  kth non alternating n-crossing knot in the Hoste-Thistlethwaite table.
 "
 Link::usage = "
   Link[n, Alternating, k] denotes the kth alternating n-crossing link in
@@ -129,8 +129,8 @@ ConnectedSum::usage = "
 "
 KnotTheory::loading = "Loading precomputed data in `1`."
 (* Lightly documented features: *)
-NumberOfKnots::usage = "NumberOfKnots[type] return the number of knots of a
-given type.";
+NumberOfKnots::usage = "NumberOfKnots[n] returns the number of knots with n crossings.
+NumberOfKnots[n, Alternating|NonAlternating] returns the number of knots of the specified type.";
 Skeleton; Orient; NumberOfLinks; Alternating; NonAlternating; BR;
 Mirror;
 Begin["`Private`"]
@@ -1252,7 +1252,7 @@ AllKnots::usage = "
 "
 AllLinks::usage = "
   AllLinks[] return a list of all links with up to 11 crossings. AllLinks[n_] returns
-  a list of all links with n crossings, up to 13.
+  a list of all links with n crossings, up to 12.
 "
 DTCode;
 Begin["`Private`"]
@@ -1292,6 +1292,8 @@ NumberOfKnots[15, NonAlternating] = 168030
 NumberOfKnots[16, NonAlternating] = 1008906
 NumberOfKnots[n_] :=
   NumberOfKnots[n, Alternating] + NumberOfKnots[n, NonAlternating]
+NumberOfKnots[{n_, m_}]:= Sum[NumberOfKnots[k], {k,n,m}]
+NumberOfKnots[{n_, m_}, t_]:= Sum[NumberOfKnots[k, t], {k,n,m}]
 NumberOfLinks[2] = 1
 NumberOfLinks[3] = 0
 NumberOfLinks[4] = 1
@@ -1326,6 +1328,8 @@ NumberOfLinks[9, NonAlternating] = 28
 NumberOfLinks[10, NonAlternating] = 113
 NumberOfLinks[11, NonAlternating] = 459
 NumberOfLinks[12, NonAlternating] = 2256
+NumberOfLinks[{n_, m_}]:= Sum[NumberOfLinks[k], {k,n,m}]
+NumberOfLinks[{n_, m_}, t_]:= Sum[NumberOfLinks[k, t], {k,n,m}]
 (* These are ordered lists for the purpose of data loading! Do not mess! *)
 AllKnots[] = Flatten[{
   Table[Knot[n,k], {n,0,10}, {k,NumberOfKnots[n]}],
@@ -1342,8 +1346,8 @@ AllKnots[n_,t_]/;11<=n<=16:=Table[Knot[n,t,k],{k,1,NumberOfKnots[n,t]}]
 AllKnots[n_,Alternating]/;n<=10:=Table[Knot[n,k],{k,1,NumberOfKnots[n,Alternating]}]
 AllKnots[n_,NonAlternating]/;n<=10:=Table[Knot[n,NumberOfKnots[n,Alternating]+k],{k,1,NumberOfKnots[n,NonAlternating]}]
 AllKnots[{n_,m_}]:=Join@@Table[AllKnots[i],{i,n,m}]
-AllLinks[n_]/;2<=n<=11:=AllLinks[n,Alternating]~Join~AllLinks[n,NonAlternating]
-AllLinks[n_,t_]/;2<=n<=11:=Table[Link[n,t,k],{k,1,NumberOfLinks[n,t]}]
+AllLinks[n_]/;2<=n<=12:=AllLinks[n,Alternating]~Join~AllLinks[n,NonAlternating]
+AllLinks[n_,t_]/;2<=n<=12:=Table[Link[n,t,k],{k,1,NumberOfLinks[n,t]}]
 AllLinks[{n_,m_}]:=Join@@Table[AllLinks[i],{i,n,m}]
 PD[Knot[n_, k_]] := (
   Needs["KnotTheory`PD4Knots`"];
@@ -1645,9 +1649,32 @@ Mathematica front end.  Any changes you make to this file will be
 overwritten.
 ***********************************************************************)
 BeginPackage["KnotTheory`Naming`",{"KnotTheory`"}];
+TorusKnots::usage="TorusKnots[n_] returns a list of all torus knots with up to n crossings.";
 NameString::usage="NameString[K_] returns the 'standard' string name for the knot K. These names are used throughout the Knot Atlas, and can be reinterpreted simply using the function Knot. Thus NameString[Knot[7,2]] returns \"7_2\", and NameString[Knot[10,NonAlternating,124]] returns \"K10n124\".";
 NextKnot::usage=PreviousKnot::usage="Use NextKnot and PreviousKnot to traverse lists of knots. These functions mostly exist to generate navigation links for the Knot Atlas.";
+AlternatingQ::usage="AlternatingQ[K] tries to decide if the knot K is alternating. This function is extremely incomplete; it only works for named knots from the tables, or torus knots.";\
+KnotNumber::usage="For a knot K from the tables, KnotNumber[K] returns its number in the appropriate sequence. Thus KnotNumber[Knot[8,19]] returns 19, while KnotNumber[Link[10,NonAlternating,5]] returns 5.";
 Begin["`Private`"]
+TorusKnots[Xmax_]:=Module[{res},
+    res=Flatten[
+        Table[Cases[Range[2,Min[Floor[1+Xmax/m],m-1]],
+            n_/;GCD[m,n]\[Equal]1\[RuleDelayed]TorusKnot[m,n]],{m,3,Xmax}]];
+    Last/@Sort[{Crossings[#],#}&/@res]
+    ]
+AlternatingQ[
+      Knot[n_,k_]]/;(0\[LessEqual]n\[LessEqual]10\[And]1\[LessEqual]
+          k\[LessEqual]NumberOfKnots[n]):=(k\[LessEqual]
+      NumberOfKnots[n,Alternating])
+AlternatingQ[Knot[_,Alternating,_]]:=True
+AlternatingQ[Knot[_,NonAlternating,_]]:=False
+AlternatingQ[Link[_,Alternating,_]]:=True
+AlternatingQ[Link[_,NonAlternating,_]]:=False
+AlternatingQ[TorusKnot[2,_]]:=True
+AlternatingQ[TorusKnot[_,2]]:=True
+AlternatingQ[TorusKnot[_,_]]:=False
+KnotNumber[Knot[_,k_]]:=k
+KnotNumber[Knot[_,_,k_]]:=k
+KnotNumber[Link[_,_,k_]]:=k
 NameString[
       Knot[n_Integer?(#\[LessEqual]10&),k_Integer]]/;(k\[LessEqual]
         NumberOfKnots[n]):=ToString[n]<>"_"<>ToString[k]
@@ -1798,8 +1825,17 @@ Mathematica front end.  Any changes you make to this file will be
 overwritten.
 ***********************************************************************)
 BeginPackage["KnotTheory`Naming`",{"KnotTheory`"}];
+NotHyperbolic;
 WikiForm::usage="ToString[expression_,WikiForm] attempts to format expression in a manner suitable for a MediaWiki wiki. This is a strange kludge of html and pseudo-latex, particularly for long polynomials. It's not perfect, but not a disaster either.";
 Begin["`Private`"]
+GaussCode[S_String]:=GaussCode@@ToExpression["{"<>S<>"}"]
+DTCode[S_String]:=
+  DTCode@@ToExpression["{"<>StringReplace[S," "\[Rule]","]<>"}"]
+PDStringSplit[S_String?(StringFreeQ[#,","]&)]:=ToExpression/@Characters[S]
+PDStringSplit[S_String]:=ToExpression/@StringSplit[S,","]
+PD[S_String]:=
+  PD@@((X@@PDStringSplit[#]&)/@
+        StringCases[S,"X<sub>"~~x:ShortestMatch[__]~~"</sub>"\[RuleDelayed]x])
 WikiForm/:ToString[a_Integer,WikiForm]:=ToString[a]
 WikiForm/:ToString[a_?NumberQ,WikiForm]:=ToString[a]
 WikiForm /: ToString["", WikiForm] :=""
@@ -1834,6 +1870,10 @@ WikiForm/:ToString[X[i_,j_,k_,l_],WikiForm]:=
       ToString[StringForm["X<sub>``,``,``,``</sub>",i1,j1,k1,l1]]]]
 WikiForm/:ToString[pd_PD,WikiForm]:=
   StringJoin@@Table[ToString[pd[[i]],WikiForm]<>" ",{i,Length[pd]}]
+SymmetryType["Reversible"]=Reversible;
+SymmetryType["Fully amphicheiral"]=FullyAmphicheiral;
+SymmetryType["Negative amphicheiral"]=NegativeAmphicheiral;
+SymmetryType["Chiral"]=Chiral;
 WikiForm/:ToString[Reversible,WikiForm]="Reversible";
 WikiForm/:ToString[FullyAmphicheiral,WikiForm]="Fully amphicheiral";
 WikiForm/:ToString[NegativeAmphicheiral,WikiForm]="Negative amphicheiral";
