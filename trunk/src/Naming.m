@@ -140,6 +140,8 @@ Knot[S_String?(StringMatchQ[#,
   TorusKnot[#\[LeftDoubleBracket]1\[RightDoubleBracket],#\[LeftDoubleBracket]\
 2\[RightDoubleBracket]]&[(ToExpression/@StringSplit[S,{"T(",",",")"}])]
 
+Link[S_String]:=Knot[S]
+
 
 
 Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
