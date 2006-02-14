@@ -21,9 +21,25 @@ overwritten.
 
 BeginPackage["KnotTheory`Naming`",{"KnotTheory`"}];
 
+NotHyperbolic;
+
 WikiForm::usage="ToString[expression_,WikiForm] attempts to format expression in a manner suitable for a MediaWiki wiki. This is a strange kludge of html and pseudo-latex, particularly for long polynomials. It's not perfect, but not a disaster either.";
 
 Begin["`Private`"]
+
+
+
+GaussCode[S_String]:=GaussCode@@ToExpression["{"<>S<>"}"]
+
+DTCode[S_String]:=
+  DTCode@@ToExpression["{"<>StringReplace[S," "\[Rule]","]<>"}"]
+
+PDStringSplit[S_String?(StringFreeQ[#,","]&)]:=ToExpression/@Characters[S]
+PDStringSplit[S_String]:=ToExpression/@StringSplit[S,","]
+
+PD[S_String]:=
+  PD@@((X@@PDStringSplit[#]&)/@
+        StringCases[S,"X<sub>"~~x:ShortestMatch[__]~~"</sub>"\[RuleDelayed]x])
 
 
 
@@ -82,6 +98,11 @@ WikiForm/:ToString[pd_PD,WikiForm]:=
   StringJoin@@Table[ToString[pd[[i]],WikiForm]<>" ",{i,Length[pd]}]
 
 
+
+SymmetryType["Reversible"]=Reversible;
+SymmetryType["Fully amphicheiral"]=FullyAmphicheiral;
+SymmetryType["Negative amphicheiral"]=NegativeAmphicheiral;
+SymmetryType["Chiral"]=Chiral;
 
 WikiForm/:ToString[Reversible,WikiForm]="Reversible";
 WikiForm/:ToString[FullyAmphicheiral,WikiForm]="Fully amphicheiral";

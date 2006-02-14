@@ -27,6 +27,10 @@ NameString::usage="NameString[K_] returns the 'standard' string name for the kno
 
 NextKnot::usage=PreviousKnot::usage="Use NextKnot and PreviousKnot to traverse lists of knots. These functions mostly exist to generate navigation links for the Knot Atlas.";
 
+AlternatingQ::usage="AlternatingQ[K] tries to decide if the knot K is alternating. This function is extremely incomplete; it only works for named knots from the tables, or torus knots.";\
+
+KnotNumber::usage="For a knot K from the tables, KnotNumber[K] returns its number in the appropriate sequence. Thus KnotNumber[Knot[8,19]] returns 19, while KnotNumber[Link[10,NonAlternating,5]] returns 5.";
+
 Begin["`Private`"]
 
 TorusKnots[Xmax_]:=Module[{res},
@@ -35,6 +39,22 @@ TorusKnots[Xmax_]:=Module[{res},
             n_/;GCD[m,n]\[Equal]1\[RuleDelayed]TorusKnot[m,n]],{m,3,Xmax}]];
     Last/@Sort[{Crossings[#],#}&/@res]
     ]
+
+AlternatingQ[
+      Knot[n_,k_]]/;(0\[LessEqual]n\[LessEqual]10\[And]1\[LessEqual]
+          k\[LessEqual]NumberOfKnots[n]):=(k\[LessEqual]
+      NumberOfKnots[n,Alternating])
+AlternatingQ[Knot[_,Alternating,_]]:=True
+AlternatingQ[Knot[_,NonAlternating,_]]:=False
+AlternatingQ[Link[_,Alternating,_]]:=True
+AlternatingQ[Link[_,NonAlternating,_]]:=False
+AlternatingQ[TorusKnot[2,_]]:=True
+AlternatingQ[TorusKnot[_,2]]:=True
+AlternatingQ[TorusKnot[_,_]]:=False
+
+KnotNumber[Knot[_,k_]]:=k
+KnotNumber[Knot[_,_,k_]]:=k
+KnotNumber[Link[_,_,k_]]:=k
 
 
 
