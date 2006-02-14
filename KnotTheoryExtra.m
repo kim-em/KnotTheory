@@ -19,10 +19,6 @@ overwritten.
 
 BeginPackage["KnotTheory`"];
 
-NotHyperbolic;
-
-AlternatingQ;KnotNumber;
-
 Begin["`Private`"]
 
 
@@ -33,50 +29,9 @@ KnotilusURL[GaussCode[]]="";
 
 
 
-AlternatingQ[
-      Knot[n_,k_]]/;(0\[LessEqual]n\[LessEqual]10\[And]1\[LessEqual]
-          k\[LessEqual]NumberOfKnots[n]):=(k\[LessEqual]
-      NumberOfKnots[n,Alternating])
-AlternatingQ[Knot[_,Alternating,_]]:=True
-AlternatingQ[Knot[_,NonAlternating,_]]:=False
-AlternatingQ[Link[_,Alternating,_]]:=True
-AlternatingQ[Link[_,NonAlternating,_]]:=False
-AlternatingQ[TorusKnot[2,_]]:=True
-AlternatingQ[TorusKnot[_,2]]:=True
-AlternatingQ[TorusKnot[_,_]]:=False
-
-KnotNumber[Knot[_,k_]]:=k
-KnotNumber[Knot[_,_,k_]]:=k
-KnotNumber[Link[_,_,k_]]:=k
 
 
 
-
-
-GaussCode[K_]/;!MatchQ[Head[K],PD|DTCode|List]=.
-
-GaussCode[K_]/;!MatchQ[Head[K],PD|DTCode|List|String]:=GaussCode[PD[K]]
-
-GaussCode[S_String]:=GaussCode@@ToExpression["{"<>S<>"}"]
-
-DTCode[K_]/;Head[K]=!=GaussCode=.
-
-DTCode[K_]/;!MatchQ[Head[K],GaussCode|String]:=DTCode[GaussCode[K]]
-
-DTCode[S_String]:=
-  DTCode@@ToExpression["{"<>StringReplace[S," "\[Rule]","]<>"}"]
-
-PDStringSplit[S_String?(StringFreeQ[#,","]&)]:=ToExpression/@Characters[S]
-PDStringSplit[S_String]:=ToExpression/@StringSplit[S,","]
-
-PD[S_String]:=
-  PD@@((X@@PDStringSplit[#]&)/@
-        StringCases[S,"X<sub>"~~x:ShortestMatch[__]~~"</sub>"\[RuleDelayed]x])
-
-SymmetryType["Reversible"]=Reversible;
-SymmetryType["Fully amphicheiral"]=FullyAmphicheiral;
-SymmetryType["Negative amphicheiral"]=NegativeAmphicheiral;
-SymmetryType["Chiral"]=Chiral;
 
 
 

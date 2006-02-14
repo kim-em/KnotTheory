@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      6321,        199]*)
-(*NotebookOutlinePosition[      7000,        222]*)
-(*  CellTagsIndexPosition[      6956,        218]*)
+(*NotebookOptionsPosition[      3227,        109]*)
+(*NotebookOutlinePosition[      3906,        132]*)
+(*  CellTagsIndexPosition[      3862,        128]*)
 (*WindowFrame->Normal*)
 
 
@@ -56,14 +56,6 @@ Cell["Some definitions which probably should be in KnotTheory`", "Section",
 
 Cell[BoxData[
     \(\(BeginPackage["\<KnotTheory`\>"];\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(NotHyperbolic;\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(AlternatingQ; KnotNumber;\)], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
@@ -88,31 +80,6 @@ symbol \\\"\\!\\(TorusKnot\\)\\\". \
 \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
 \\\", ButtonFrame->None, ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], \
 "Message",
-  InitializationCell->True],
-
-Cell[BoxData[{
-    \(AlternatingQ[
-          Knot[n_, k_]] /; \((0 \[LessEqual] n \[LessEqual] 10 \[And] 
-            1 \[LessEqual] k \[LessEqual] 
-              NumberOfKnots[n])\) := \((k \[LessEqual] 
-          NumberOfKnots[n, Alternating])\)\), "\[IndentingNewLine]", 
-    \(AlternatingQ[Knot[_, Alternating, _]] := 
-      True\), "\[IndentingNewLine]", 
-    \(AlternatingQ[Knot[_, NonAlternating, _]] := 
-      False\), "\[IndentingNewLine]", 
-    \(AlternatingQ[Link[_, Alternating, _]] := 
-      True\), "\[IndentingNewLine]", 
-    \(AlternatingQ[Link[_, NonAlternating, _]] := 
-      False\), "\[IndentingNewLine]", 
-    \(AlternatingQ[TorusKnot[2, _]] := True\), "\[IndentingNewLine]", 
-    \(AlternatingQ[TorusKnot[_, 2]] := True\), "\[IndentingNewLine]", 
-    \(AlternatingQ[TorusKnot[_, _]] := False\)}], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[{
-    \(KnotNumber[Knot[_, k_]] := k\), "\[IndentingNewLine]", 
-    \(KnotNumber[Knot[_, _, k_]] := k\), "\[IndentingNewLine]", 
-    \(KnotNumber[Link[_, _, k_]] := k\)}], "Input",
   InitializationCell->True]
 }, Open  ]],
 
@@ -123,64 +90,7 @@ Cell["String translation functions", "Subsection"],
 Cell["\<\
 Many of the statements here are only required to kill off old definitions in \
 KnotTheory`, for example the first one here.\
-\>", "Text"],
-
-Cell[BoxData[
-    \(GaussCode[
-          K_] /; \(! MatchQ[Head[K], PD | DTCode | List]\) =. \)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(GaussCode[K_] /; \(! MatchQ[Head[K], PD | DTCode | List | String]\) := 
-      GaussCode[PD[K]]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(GaussCode[S_String] := 
-      GaussCode @@ ToExpression["\<{\>" <> S <> "\<}\>"]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(DTCode[K_] /; Head[K] =!= GaussCode =. \)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(DTCode[K_] /; \(! MatchQ[Head[K], GaussCode | String]\) := 
-      DTCode[GaussCode[K]]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(DTCode[S_String] := 
-      DTCode @@ ToExpression["\<{\>" <> 
-            StringReplace[S, "\< \>" \[Rule] "\<,\>"] <> "\<}\>"]\)], "Input",\
-
-  InitializationCell->True],
-
-Cell[BoxData[{
-    \(PDStringSplit[S_String?\((StringFreeQ[#, "\<,\>"] &)\)] := 
-      ToExpression /@ Characters[S]\), "\n", 
-    \(PDStringSplit[S_String] := 
-      ToExpression /@ StringSplit[S, "\<,\>"]\)}], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(PD[S_String] := 
-      PD @@ \((\((X @@ PDStringSplit[#] &)\) /@ 
-            StringCases[
-              S, "\<X<sub>\>" ~~ \(x : 
-                      ShortestMatch[__] ~~ "\<</sub>\>"\) \[RuleDelayed] 
-                x])\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[{
-    \(\(SymmetryType["\<Reversible\>"] = 
-        Reversible;\)\), "\[IndentingNewLine]", 
-    \(\(SymmetryType["\<Fully amphicheiral\>"] = 
-        FullyAmphicheiral;\)\), "\[IndentingNewLine]", 
-    \(\(SymmetryType["\<Negative amphicheiral\>"] = 
-        NegativeAmphicheiral;\)\), "\[IndentingNewLine]", 
-    \(\(SymmetryType["\<Chiral\>"] = Chiral;\)\)}], "Input",
-  InitializationCell->True]
+\>", "Text"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -227,55 +137,29 @@ Cell[1776, 53, 103, 1, 73, "Section",
   InitializationCell->True],
 Cell[1882, 56, 97, 2, 30, "Input",
   InitializationCell->True],
-Cell[1982, 60, 79, 2, 30, "Input",
+Cell[1982, 60, 83, 2, 30, "Input",
   InitializationCell->True],
-Cell[2064, 64, 86, 2, 30, "Input",
-  InitializationCell->True],
-Cell[2153, 68, 83, 2, 30, "Input",
-  InitializationCell->True],
-Cell[2239, 72, 69, 0, 33, "Text"],
-Cell[2311, 74, 99, 2, 30, "Input",
+Cell[2068, 64, 69, 0, 33, "Text"],
+Cell[2140, 66, 99, 2, 30, "Input",
   InitializationCell->True],
 
 Cell[CellGroupData[{
-Cell[2435, 80, 84, 1, 38, "Subsection",
+Cell[2264, 72, 84, 1, 38, "Subsection",
   InitializationCell->True],
-Cell[2522, 83, 397, 7, 22, "Message",
-  InitializationCell->True],
-Cell[2922, 92, 855, 17, 170, "Input",
-  InitializationCell->True],
-Cell[3780, 111, 221, 4, 70, "Input",
+Cell[2351, 75, 397, 7, 22, "Message",
   InitializationCell->True]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[4038, 120, 50, 0, 38, "Subsection"],
-Cell[4091, 122, 147, 3, 33, "Text"],
-Cell[4241, 127, 134, 3, 30, "Input",
-  InitializationCell->True],
-Cell[4378, 132, 155, 3, 30, "Input",
-  InitializationCell->True],
-Cell[4536, 137, 141, 3, 30, "Input",
-  InitializationCell->True],
-Cell[4680, 142, 100, 2, 30, "Input",
-  InitializationCell->True],
-Cell[4783, 146, 147, 3, 30, "Input",
-  InitializationCell->True],
-Cell[4933, 151, 190, 5, 30, "Input",
-  InitializationCell->True],
-Cell[5126, 158, 248, 5, 50, "Input",
-  InitializationCell->True],
-Cell[5377, 165, 287, 7, 30, "Input",
-  InitializationCell->True],
-Cell[5667, 174, 412, 8, 90, "Input",
-  InitializationCell->True]
+Cell[2785, 87, 50, 0, 38, "Subsection"],
+Cell[2838, 89, 147, 3, 33, "Text"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[6116, 187, 32, 0, 38, "Subsection"],
-Cell[6151, 189, 66, 2, 30, "Input",
+Cell[3022, 97, 32, 0, 38, "Subsection"],
+Cell[3057, 99, 66, 2, 30, "Input",
   InitializationCell->True],
-Cell[6220, 193, 73, 2, 30, "Input",
+Cell[3126, 103, 73, 2, 30, "Input",
   InitializationCell->True]
 }, Open  ]]
 }, Open  ]]
