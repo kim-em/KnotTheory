@@ -1,5 +1,5 @@
 (************** Content-type: application/mathematica **************
-                     CreatedBy='Mathematica 5.1'
+                     CreatedBy='Mathematica 5.2'
 
                     Mathematica-Compatible Notebook
 
@@ -42,8 +42,8 @@ Wolfram Research.
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
 (*NotebookOptionsPosition[    710187,      18933]*)
-(*NotebookOutlinePosition[    710838,      18955]*)
-(*  CellTagsIndexPosition[    710794,      18951]*)
+(*NotebookOutlinePosition[    710830,      18955]*)
+(*  CellTagsIndexPosition[    710786,      18951]*)
 (*WindowFrame->Normal*)
 
 
@@ -18931,10 +18931,10 @@ Cell[BoxData[
 }, Open  ]]
 }, Open  ]]
 },
-FrontEndVersion->"5.1 for Microsoft Windows",
-ScreenRectangle->{{0, 1600}, {0, 1155}},
-WindowSize->{748, 1049},
-WindowMargins->{{Automatic, -1299}, {Automatic, -48}}
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 713}},
+WindowSize->{748, 727},
+WindowMargins->{{Automatic, 0}, {Automatic, 0}}
 ]
 
 (*******************************************************************

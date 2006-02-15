@@ -19,7 +19,7 @@ overwritten.
 
 
 
-BeginPackage["KnotTheory`Naming`",{"KnotTheory`"}];
+BeginPackage["KnotTheory`WikiForm`",{"KnotTheory`"}];
 
 NotHyperbolic;
 
