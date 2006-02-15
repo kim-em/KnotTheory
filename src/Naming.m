@@ -19,7 +19,7 @@ overwritten.
 
 
 
-BeginPackage["KnotTheory`Naming`",{"KnotTheory`"}];
+BeginPackage["KnotTheory`"];
 
 TorusKnots::usage="TorusKnots[n_] returns a list of all torus knots with up to n crossings.";
 
@@ -31,7 +31,7 @@ AlternatingQ::usage="AlternatingQ[K] tries to decide if the knot K is alternatin
 
 KnotNumber::usage="For a knot K from the tables, KnotNumber[K] returns its number in the appropriate sequence. Thus KnotNumber[Knot[8,19]] returns 19, while KnotNumber[Link[10,NonAlternating,5]] returns 5.";
 
-Begin["`Private`"]
+Begin["`Naming`"]
 
 TorusKnots[Xmax_]:=Module[{res},
     res=Flatten[

@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 2, 15, 9, 35, 18.0411440};
+KnotTheoryVersion[] = {2006, 2, 15, 10, 0, 47.8509024};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -1687,13 +1687,13 @@ automatically each time the parent Notebook file is saved in the
 Mathematica front end.  Any changes you make to this file will be
 overwritten.
 ***********************************************************************)
-BeginPackage["KnotTheory`Naming`",{"KnotTheory`"}];
+BeginPackage["KnotTheory`"];
 TorusKnots::usage="TorusKnots[n_] returns a list of all torus knots with up to n crossings.";
 NameString::usage="NameString[K_] returns the 'standard' string name for the knot K. These names are used throughout the Knot Atlas, and can be reinterpreted simply using the function Knot. Thus NameString[Knot[7,2]] returns \"7_2\", and NameString[Knot[10,NonAlternating,124]] returns \"K10n124\".";
 NextKnot::usage=PreviousKnot::usage="Use NextKnot and PreviousKnot to traverse lists of knots. These functions mostly exist to generate navigation links for the Knot Atlas.";
 AlternatingQ::usage="AlternatingQ[K] tries to decide if the knot K is alternating. This function is extremely incomplete; it only works for named knots from the tables, or torus knots.";\
 KnotNumber::usage="For a knot K from the tables, KnotNumber[K] returns its number in the appropriate sequence. Thus KnotNumber[Knot[8,19]] returns 19, while KnotNumber[Link[10,NonAlternating,5]] returns 5.";
-Begin["`Private`"]
+Begin["`Naming`"]
 TorusKnots[Xmax_]:=Module[{res},
     res=Flatten[
         Table[Cases[Range[2,Min[Floor[1+Xmax/m],m-1]],
@@ -1869,10 +1869,10 @@ automatically each time the parent Notebook file is saved in the
 Mathematica front end.  Any changes you make to this file will be
 overwritten.
 ***********************************************************************)
-BeginPackage["KnotTheory`WikiForm`",{"KnotTheory`"}];
+BeginPackage["KnotTheory`"];
 NotHyperbolic;
 WikiForm::usage="ToString[expression_,WikiForm] attempts to format expression in a manner suitable for a MediaWiki wiki. This is a strange kludge of html and pseudo-latex, particularly for long polynomials. It's not perfect, but not a disaster either.";
-Begin["`Private`"]
+Begin["`WikiForm`"]
 WikiForm/:ToString[a_Integer,WikiForm]:=ToString[a]
 WikiForm/:ToString[a_?NumberQ,WikiForm]:=ToString[a]
 WikiForm /: ToString["", WikiForm] :=""

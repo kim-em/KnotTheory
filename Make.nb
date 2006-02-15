@@ -100,8 +100,8 @@ PackageSources is identical to the corresponding variable in the makefile\
 Cell[BoxData[
     \(\(PackageSources\  = \ \(\(("\<src/\>" <> #)\) &\)\  /@ \ {\
 \[IndentingNewLine]"\<Base.m\>", \ "\<Braids.m\>", \ "\<TubePlot.m\>", \ \
-"\<DrawPD.m\>", \ "\<Data.m\>", \ "\<BraidData.m\>", "\<Naming.m\>", \
-"\<WikiForm.m\>", \ "\<GaussCode.m\>", \ "\<GC2PD.m\>", \ "\<Indiana.m\>", \ \
+"\<DrawPD.m\>", \ "\<Data.m\>", \ "\<BraidData.m\>", "\<Naming.m\>", \ \
+"\<GaussCode.m\>", \ "\<GC2PD.m\>", \ "\<Indiana.m\>", "\<WikiForm.m\>", \ \
 "\<HOMFLYPT.m\>", \ "\<Kauffman.m\>", \ "\<Kh.m\>", \ "\<MorseLink.m\>", \ \
 "\<DrawMorseLink.m\>", \ "\<ML2PD.m\>", \ "\<AlexanderConway.m\>", \ \
 "\<VogelsAlgorithm.m\>", \ "\<MultivariableAlexander.m\>", \ "\<REngine.m\>", \
