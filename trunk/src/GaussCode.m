@@ -47,6 +47,7 @@ GaussCode[PD[Xs___X]] := (
     GaussCode @@ kc
   ]
 )
+
 GaussCode[HoldPattern[DTCode[is___Integer]]] := Module[
   {dtc={is}, gc, k},
   gc = GaussCode @@ Range[2Length[dtc]];
@@ -56,6 +57,12 @@ GaussCode[HoldPattern[DTCode[is___Integer]]] := Module[
     {k, Length[dtc]}
   ];
   gc
+]
+GaussCode[HoldPattern[DTCode[ls__List]]] := Module[
+  {dtc = {ls}, gc, k},
+  gc = GaussCode[DTCode @@ Flatten[dtc]];
+  k = 0; gc = dtc /. i_Integer :> {gc[[++k]], gc[[++k]]};
+  GaussCode @@ (Flatten /@ gc)
 ]
 
 (* This function translates the string representations of Gauss codes used in the Knot Atlas back to KnotTheory's standard representation of a Gauss code. *)
@@ -91,6 +98,36 @@ DTCode[HoldPattern[GaussCode[is__Integer]]] := Module[
     {#1, s*Sign[gc[[#1]]]*#2} &,
     {odds, evens}
   ]]
+]
+DTCode[HoldPattern[GaussCode[ls__List]]] := Module[
+  {gc = {ls}, agc, c, lens, l, NeededShifts, i, c1, c2, p1, p2, dtc, k},
+  agc = gc /. i_Integer :> Abs[i];
+  c = Length[gc];  lens = (Length /@ gc)/2; l = Plus @@ lens;
+  NeededShifts = Table[
+    Position[agc, i] /.
+      {{c1_, p1_}, {c2_, p2_}} :> {c1, c2, Mod[p1 + p2 + 1, 2]},
+    {i, l}
+  ];
+  shifts = Table[0, {c}];
+  decided = ReplacePart[Table[False, {c}], True, 1];
+  While[
+    (NeededShifts = DeleteCases[
+      NeededShifts, {c1_, c2_, _} /; decided[[c1]] && decided[[c2]]
+    ]) =!= {},
+    {{c1, c2, s}} = Select[
+      NeededShifts,
+      (decided[[#[[1]]]] || decided[[#[[2]]]]) &,
+      1
+    ];
+    If[decided[[c1]],
+      shifts[[c2]] = shifts[[c1]] + s; decided[[c2]] = True,
+      shifts[[c1]] = shifts[[c2]] + s; decided[[c1]] = True
+    ]
+  ];
+  gc = MapThread[RotateLeft, {gc, shifts}];
+  dtc = DTCode[GaussCode @@ Flatten[gc]];
+  k = 0; dtc = Table[dtc[[++k]], {j, c}, {lens[[j]]}];
+  DTCode @@ dtc
 ]
 DTCode[K_] /; !MatchQ[Head[K], DTCode|GaussCode|String] := DTCode[GaussCode[K]]
 

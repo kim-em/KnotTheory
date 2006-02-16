@@ -1,5 +1,5 @@
 (************** Content-type: application/mathematica **************
-                     CreatedBy='Mathematica 5.2'
+                     CreatedBy='Mathematica 5.1'
 
                     Mathematica-Compatible Notebook
 
@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[    710433,      18944]*)
-(*NotebookOutlinePosition[    711076,      18966]*)
-(*  CellTagsIndexPosition[    711032,      18962]*)
+(*NotebookOptionsPosition[    710662,      18955]*)
+(*NotebookOutlinePosition[    711311,      18977]*)
+(*  CellTagsIndexPosition[    711267,      18973]*)
 (*WindowFrame->Normal*)
 
 
@@ -164,8 +164,8 @@ Cell[BoxData[
     \(<< \ KnotTheory`\)], "Input"],
 
 Cell[BoxData[
-    \("Loading KnotTheory` (version of February 14, 2006, \
-15:15:34.6015)..."\)], "Print"]
+    \("Loading KnotTheory` (version of February 16, 2006, \
+16:35:27.8578)..."\)], "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -182,6 +182,17 @@ Cell[BoxData[
     \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
       "\!\(\"The Khovanov homology program JavaKh was written by Jeremy Green \
 in the summer of 2005 at the University of Toronto.\"\)"\)], "Message"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Assert[\(Jones[Link["\<L11n458\>"]]\)[
+          q]\  \[Equal] \ \(Jones[DTCode[Link["\<L11n458\>"]]]\)[
+          q]]\)], "Input"],
 
 Cell[BoxData[
     \(True\)], "Output"]
@@ -18942,10 +18953,10 @@ Cell[BoxData[
 }, Open  ]]
 }, Open  ]]
 },
-FrontEndVersion->"5.2 for Microsoft Windows",
-ScreenRectangle->{{0, 1024}, {0, 685}},
+FrontEndVersion->"5.1 for Microsoft Windows",
+ScreenRectangle->{{0, 1600}, {0, 1155}},
 WindowSize->{748, 651},
-WindowMargins->{{Automatic, 0}, {Automatic, 0}}
+WindowMargins->{{Automatic, -996}, {Automatic, 202}}
 ]
 
 (*******************************************************************
@@ -19018,10 +19029,15 @@ Cell[5975, 185, 38, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[6050, 191, 70, 1, 30, "Input"],
-Cell[6123, 194, 704135, 18740, 296, 634861, 17880, "GraphicsData", \
+Cell[6050, 191, 151, 3, 30, "Input"],
+Cell[6204, 196, 38, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6279, 202, 70, 1, 30, "Input"],
+Cell[6352, 205, 704135, 18740, 296, 634861, 17880, "GraphicsData", \
 "PostScript", "Graphics"],
-Cell[710261, 18936, 132, 3, 29, "Output"]
+Cell[710490, 18947, 132, 3, 29, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
