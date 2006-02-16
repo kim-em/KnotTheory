@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 2, 16, 16, 35, 27.8578000};
+KnotTheoryVersion[] = {2006, 2, 16, 16, 48, 51.1338928};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -5470,10 +5470,27 @@ fContoKTGauss[Ul_String]:=Module[{mm,nn,ss,vv,i},
     GaussCode@@mm
     ]
 PD[cn_ConwayNotation]:=PD[GaussCode[cn]]
-GaussCode[ConwayNotation[ss_String]]:=Module[{},
+InstallLinKnots::failed=
+  "The function \"`1`\" requires the LinKnot package, which is not distributed as part of KnotTheory. I couldn't seem to load it; try downloading it from http://www.mi.sanu.ac.yu/vismath/linknot/, and adding the appropriate directory to the $Path."
+InstallLinKnots[symbol_]:=Module[{oldContextPath=$ContextPath},
+    (*Try to load LinKnots`*)
     Needs["LinKnots`"];
-    (GaussCode[ConwayNotation[ss0_String]]:=fContoKTGauss[ss0]);
-    GaussCode[ConwayNotation[ss]]
+    (*If it failed, 
+      it won't be on the $ContextPath. Try to give a useful error message.*)
+    If[!MemberQ[$ContextPath,"LinKnots`"],
+      Message[InstallLinKnots::failed,symbol];
+      False,
+      (*Now clean up the $ContextPath again, removing as much as possible.*)
+      $ContextPath=oldContextPath;
+      True
+      ]
+    ]
+GaussCode[ConwayNotation[ss_String]]:=Module[{},
+    If[InstallLinKnots[ConwayNotation],
+      (GaussCode[ConwayNotation[ss0_String]]:=fContoKTGauss[ss0]);
+      GaussCode[ConwayNotation[ss]],
+      $Failed
+      ]
     ]
 End[]
 EndPackage[]

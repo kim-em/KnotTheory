@@ -46,7 +46,7 @@ PD[cn_ConwayNotation]:=PD[GaussCode[cn]]
 InstallLinKnots::failed=
   "The function \"`1`\" requires the LinKnot package, which is not distributed as part of KnotTheory. I couldn't seem to load it; try downloading it from http://www.mi.sanu.ac.yu/vismath/linknot/, and adding the appropriate directory to the $Path."
 
-InstallLinKnots[symbol_]:=Module[{},
+InstallLinKnots[symbol_]:=Module[{oldContextPath=$ContextPath},
     (*Try to load LinKnots`*)
     Needs["LinKnots`"];
     (*If it failed, 
@@ -55,7 +55,7 @@ InstallLinKnots[symbol_]:=Module[{},
       Message[InstallLinKnots::failed,symbol];
       False,
       (*Now clean up the $ContextPath again, removing as much as possible.*)
-      $ContextPath=Complement[$ContextPath,{"LinKnots`"}];
+      $ContextPath=oldContextPath;
       True
       ]
     ]

@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      3551,        119]*)
-(*NotebookOutlinePosition[      4195,        141]*)
-(*  CellTagsIndexPosition[      4151,        137]*)
+(*NotebookOptionsPosition[      3041,        107]*)
+(*NotebookOutlinePosition[      3685,        129]*)
+(*  CellTagsIndexPosition[      3641,        125]*)
 (*WindowFrame->Normal*)
 
 
@@ -69,7 +69,7 @@ Cell[BoxData[{
 
 Cell[BoxData[
     \("Loading KnotTheory` (version of February 16, 2006, \
-15:56:31.1288)..."\)], "Print"]
+16:48:51.1339)..."\)], "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -91,12 +91,6 @@ Cell[BoxData[
     \(\(GaussCode[ConwayNotation["\<5 2\>"]]\)[q]\)], "Input"],
 
 Cell[BoxData[
-    \("loading"\)], "Print"],
-
-Cell[BoxData[
-    \("cleaning"\)], "Print"],
-
-Cell[BoxData[
     \(\(GaussCode[{\(-1\), 2, \(-3\), 4, \(-5\), 6, \(-7\), 5, \(-4\), 
           3, \(-2\), 1, \(-6\), 7}]\)[q]\)], "Output"]
 }, Open  ]],
@@ -107,14 +101,8 @@ Cell[BoxData[
     \($ContextPath\)], "Input"],
 
 Cell[BoxData[
-    \({"DiscreteMath`CombinatorialFunctions`", "DiscreteMath`Combinatorica`", 
-      "DiscreteMath`ComputationalGeometry`", "Global`", "Graphics`Arrow`", 
-      "Graphics`Colors`", "KnotLinkBase`", "KnotTheory`", 
-      "LinearAlgebra`MatrixManipulation`", "NalgBase`", "PolyBase`", 
-      "Statistics`Common`DistributionsCommon`", 
-      "Statistics`DataManipulation`", "Statistics`DescriptiveStatistics`", 
-      "Statistics`DiscreteDistributions`", "System`", "TubePlot`", 
-      "Utilities`FilterOptions`"}\)], "Output"]
+    \({"KnotTheory`", "TubePlot`", "Utilities`FilterOptions`", "Global`", 
+      "System`"}\)], "Output"]
 }, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
@@ -159,14 +147,12 @@ Cell[2492, 84, 85, 1, 30, "Input"],
 
 Cell[CellGroupData[{
 Cell[2602, 89, 76, 1, 30, "Input"],
-Cell[2681, 92, 42, 1, 25, "Print"],
-Cell[2726, 95, 43, 1, 25, "Print"],
-Cell[2772, 98, 140, 2, 29, "Output"]
+Cell[2681, 92, 140, 2, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[2949, 105, 45, 1, 30, "Input"],
-Cell[2997, 108, 538, 8, 86, "Output"]
+Cell[2858, 99, 45, 1, 30, "Input"],
+Cell[2906, 102, 119, 2, 29, "Output"]
 }, Open  ]]
 }
 ]
