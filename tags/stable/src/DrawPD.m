@@ -345,8 +345,7 @@ OtherEnd[triangulation_,v_,neighbour_]:=
                 neighbours,#]]&,
             ConnectedNeighbours[triangulation,v]],
           MemberQ[#,
-              neighbour]&][[1]],#\
-!=neighbour&][[1]]
+              neighbour]&][[1]],# !=neighbour&][[1]]
 
 AdjacentComponents[triangulation_,{v_,n_}]:=
   Select[Map[Take[#,2]&,

@@ -1,5 +1,5 @@
 (************** Content-type: application/mathematica **************
-                     CreatedBy='Mathematica 5.2'
+                     CreatedBy='Mathematica 5.1'
 
                     Mathematica-Compatible Notebook
 
@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      5289,        164]*)
-(*NotebookOutlinePosition[      5936,        186]*)
-(*  CellTagsIndexPosition[      5892,        182]*)
+(*NotebookOptionsPosition[      5290,        164]*)
+(*NotebookOutlinePosition[      5939,        186]*)
+(*  CellTagsIndexPosition[      5895,        182]*)
 (*WindowFrame->Normal*)
 
 
@@ -137,8 +137,8 @@ Cell[BoxData[
     \(<< \ KnotTheory`\)], "Input"],
 
 Cell[BoxData[
-    \("Loading KnotTheory` (version of February 5, 2006, \
-22:0:29.5783)..."\)], "Print"]
+    \("Loading KnotTheory` (version of February 9, 2006, \
+16:11:14.7195)..."\)], "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -162,10 +162,10 @@ Cell[BoxData[
 }, Open  ]]
 }, Open  ]]
 },
-FrontEndVersion->"5.2 for Microsoft Windows",
-ScreenRectangle->{{0, 1600}, {0, 1102}},
+FrontEndVersion->"5.1 for Microsoft Windows",
+ScreenRectangle->{{0, 1600}, {0, 1155}},
 WindowSize->{721, 966},
-WindowMargins->{{Automatic, 117}, {Automatic, 18}}
+WindowMargins->{{Automatic, -1200}, {Automatic, 31}}
 ]
 
 (*******************************************************************
@@ -214,14 +214,14 @@ Cell[4019, 122, 482, 9, 210, "Input"],
 
 Cell[CellGroupData[{
 Cell[4526, 135, 49, 1, 30, "Input"],
-Cell[4578, 138, 103, 2, 25, "Print"]
+Cell[4578, 138, 104, 2, 25, "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[4718, 145, 144, 2, 44, "Input"],
-Cell[4865, 149, 130, 2, 22, "Message"],
-Cell[4998, 153, 210, 3, 52, "Message"],
-Cell[5211, 158, 38, 1, 29, "Output"]
+Cell[4719, 145, 144, 2, 44, "Input"],
+Cell[4866, 149, 130, 2, 22, "Message"],
+Cell[4999, 153, 210, 3, 52, "Message"],
+Cell[5212, 158, 38, 1, 29, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
