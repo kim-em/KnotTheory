@@ -43,10 +43,29 @@ fContoKTGauss[Ul_String]:=Module[{mm,nn,ss,vv,i},
 
 PD[cn_ConwayNotation]:=PD[GaussCode[cn]]
 
-GaussCode[ConwayNotation[ss_String]]:=Module[{},
+InstallLinKnots::failed=
+  "The function \"`1`\" requires the LinKnot package, which is not distributed as part of KnotTheory. I couldn't seem to load it; try downloading it from http://www.mi.sanu.ac.yu/vismath/linknot/, and adding the appropriate directory to the $Path."
+
+InstallLinKnots[symbol_]:=Module[{},
+    (*Try to load LinKnots`*)
     Needs["LinKnots`"];
-    (GaussCode[ConwayNotation[ss0_String]]:=fContoKTGauss[ss0]);
-    GaussCode[ConwayNotation[ss]]
+    (*If it failed, 
+      it won't be on the $ContextPath. Try to give a useful error message.*)
+    If[!MemberQ[$ContextPath,"LinKnots`"],
+      Message[InstallLinKnots::failed,symbol];
+      False,
+      (*Now clean up the $ContextPath again, removing as much as possible.*)
+      $ContextPath=Complement[$ContextPath,{"LinKnots`"}];
+      True
+      ]
+    ]
+
+GaussCode[ConwayNotation[ss_String]]:=Module[{},
+    If[InstallLinKnots[ConwayNotation],
+      (GaussCode[ConwayNotation[ss0_String]]:=fContoKTGauss[ss0]);
+      GaussCode[ConwayNotation[ss]],
+      $Failed
+      ]
     ]
 
 
