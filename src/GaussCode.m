@@ -23,10 +23,11 @@ DTCode::usage = "
   so for example, DTCode[K] where K is is a named knot returns the DT
   code of that knot.
 "
+ConwayNotation::usage=""
 
 Begin["`GaussCode`"]
 
-GaussCode[K_] /; !MatchQ[Head[K], PD|DTCode|List|String] := GaussCode[PD[K]]
+GaussCode[K_] /; !MatchQ[Head[K], PD|DTCode|List|String|ConwayNotation] := GaussCode[PD[K]]
 GaussCode[PD[_Loop]] = GaussCode[]
 GaussCode[PD[l___, _Loop, r___]] := Append[
   GaussCode[PD[l,r]],
