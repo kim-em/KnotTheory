@@ -17,12 +17,8 @@ KnotilusURL::usage = "
   http://srankin.math.uwo.ca/cgi-bin/retrieve.cgi/html/start.html.
 "
 
-DTCode::usage = "
-  DTCode[i1, i2, ...] represents a knot via its DT
-  (Dowker-Thistlethwaite) code. DTCode also acts as a \"type caster\",
-  so for example, DTCode[K] where K is is a named knot returns the DT
-  code of that knot.
-"
+DTCode::usage = "DTCode[i1, i2, ...] represents a knot via its DT (Dowker-Thistlethwaite) code, while DTCode[{i11,...}, {i21...}, ...] likewise represents a link. DTCode also acts as a \"type caster\", so for example, DTCode[K] where K is is a named knot or link returns the DT code of K."
+
 ConwayNotation::usage=""
 
 Begin["`GaussCode`"]
