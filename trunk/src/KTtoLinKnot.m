@@ -27,8 +27,10 @@ KnotInput::usage=
 DrawKnot::usage=
   "DrawKnot[K_] draws a knot (or link!) K. This function requires the package LinKnots`, and will only run on Windows machines. Sorry!"
 
-LinKnotDirectory::usage=
-  "LinKnotDirectory[] contains the path to the LinKnot package. It must be set correctly in order for all the (Windows only) MathLink components of LinKnot to be usable. It can be overriden by the user."
+LinKnotDirectory::usage="LinKnotDirectory[] contains the path to the LinKnot package. It must be set correctly in order for all the (Windows only) MathLink components of LinKnot to be usable. It can be overriden by the user."
+
+AllConwayNotations::usage=
+  "AllConwayNotations[n_Integer] gives a complete list of knots and links with n crossings"
 
 Begin["`KTtoLinKnot`"]
 
@@ -82,7 +84,7 @@ fContoKTGauss[Ul_String]:=Module[{mm,nn,ss,vv,i},
       vv=Table[nn[[i]]*(-1)^i,{i,Length[nn]}]*Abs[Flatten[mm]];
       ss=Map[Length,mm];
       mm=If[MemberQ[ss,0],{vv},iteratedTake[vv,ss]];
-      GaussCode@@mm
+      GaussCode@@mm[[1]]
       ]
     ]
 
@@ -105,6 +107,7 @@ InstallLinKnots[symbol_]:=Module[{oldContextPath=$ContextPath},
               FileInformation[ToFileName[#,"LinKnots.m"]]&/@$Path]];
       (*Now clean up the $ContextPath again, removing as much as possible.*)
       $ContextPath=oldContextPath;
+      (InstallLinKnots[s_]:=True);
       True
       ]
     ]
@@ -179,9 +182,17 @@ DrawKnot[k_]:=Module[{pdata},
     SwitchDirectories[
       pdata=DTtoPData[DTCode[k]];
       KnotsByComputer`ShowKnotfromPdata[pdata]
-      ]
-    ]
+      ]]
 
+AllConwayNotations[n:(1|2|3|4|5)]:=AllConwayNotations[n,Alternating]
+AllConwayNotations[n_Integer]/;n\[GreaterEqual]1:=
+  AllConwayNotations[n,Alternating]~Join~AllConwayNotations[n,NonAlternating]
+AllConwayNotations[n_Integer,Alternating]/;
+    n\[GreaterEqual]1:=(InstallLinKnots[AllConwayNotations];
+    ConwayNotation/@ToExpression["KnotLinkBase`a"<>ToString[n]])
+AllConwayNotations[n_Integer,NonAlternating]/;
+    n\[GreaterEqual]1:=(InstallLinKnots[AllConwayNotations];
+    ConwayNotation/@ToExpression["KnotLinkBase`n"<>ToString[n]])
 
 
 
