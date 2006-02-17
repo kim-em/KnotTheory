@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     12336,        318]*)
-(*NotebookOutlinePosition[     13016,        341]*)
-(*  CellTagsIndexPosition[     12972,        337]*)
+(*NotebookOptionsPosition[     12435,        320]*)
+(*NotebookOutlinePosition[     13115,        343]*)
+(*  CellTagsIndexPosition[     13071,        339]*)
 (*WindowFrame->Normal*)
 
 
@@ -126,7 +126,9 @@ Cell[BoxData[
           Map[Length, mm]; \[IndentingNewLine]mm = 
           If[MemberQ[ss, 0], {vv}, 
             iteratedTake[vv, ss]]; \[IndentingNewLine]GaussCode @@ 
-          mm\[IndentingNewLine]]\)], "Input",
+          If[Length[mm] \[Equal] 1, 
+            mm\[LeftDoubleBracket]1\[RightDoubleBracket], 
+            mm]\[IndentingNewLine]]\)], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
@@ -358,32 +360,32 @@ Cell[2989, 88, 748, 14, 190, "Input",
   InitializationCell->True],
 Cell[3740, 104, 421, 8, 50, "Input",
   InitializationCell->True],
-Cell[4164, 114, 744, 15, 190, "Input",
+Cell[4164, 114, 843, 17, 190, "Input",
   InitializationCell->True],
-Cell[4911, 131, 103, 2, 30, "Input",
+Cell[5010, 133, 103, 2, 30, "Input",
   InitializationCell->True],
-Cell[5017, 135, 343, 5, 70, "Input",
+Cell[5116, 137, 343, 5, 70, "Input",
   InitializationCell->True],
-Cell[5363, 142, 1032, 20, 270, "Input",
+Cell[5462, 144, 1032, 20, 270, "Input",
   InitializationCell->True],
-Cell[6398, 164, 625, 13, 170, "Input",
+Cell[6497, 166, 625, 13, 170, "Input",
   InitializationCell->True],
-Cell[7026, 179, 349, 9, 30, "Input"],
-Cell[7378, 190, 1618, 35, 190, "Input",
+Cell[7125, 181, 349, 9, 30, "Input"],
+Cell[7477, 192, 1618, 35, 190, "Input",
   InitializationCell->True],
-Cell[8999, 227, 1462, 33, 170, "Input",
+Cell[9098, 229, 1462, 33, 170, "Input",
   InitializationCell->True],
-Cell[10464, 262, 765, 19, 70, "Input",
+Cell[10563, 264, 765, 19, 70, "Input",
   InitializationCell->True],
-Cell[11232, 283, 846, 18, 130, "Input",
+Cell[11331, 285, 846, 18, 130, "Input",
   InitializationCell->True],
 
 Cell[CellGroupData[{
-Cell[12103, 305, 60, 1, 38, "Subsection",
+Cell[12202, 307, 60, 1, 38, "Subsection",
   InitializationCell->True],
-Cell[12166, 308, 66, 2, 30, "Input",
+Cell[12265, 310, 66, 2, 30, "Input",
   InitializationCell->True],
-Cell[12235, 312, 73, 2, 30, "Input",
+Cell[12334, 314, 73, 2, 30, "Input",
   InitializationCell->True]
 }, Open  ]]
 }, Open  ]]

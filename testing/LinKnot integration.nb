@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      4100,        126]*)
-(*NotebookOutlinePosition[      4745,        148]*)
-(*  CellTagsIndexPosition[      4701,        144]*)
+(*NotebookOptionsPosition[      3465,        108]*)
+(*NotebookOutlinePosition[      4110,        130]*)
+(*  CellTagsIndexPosition[      4066,        126]*)
 (*WindowFrame->Normal*)
 
 
@@ -64,7 +64,8 @@ Cell[BoxData[
 }, Open  ]],
 
 Cell[BoxData[
-    \(\(AppendTo[$Path, "\<C:\\scott\\projects\\K2K\>"];\)\)], "Input"],
+    \(\(AppendTo[$Path, "\<C:\\scott\\projects\\svn-checkouts\\LinKnot\\trunk\
+\>"];\)\)], "Input"],
 
 Cell[CellGroupData[{
 
@@ -87,30 +88,11 @@ Cell[BoxData[
     \(k = \(Kh[KnotInput[]]\)[q, t]\)], "Input"],
 
 Cell[BoxData[
-    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
-      "\!\(\"Graphical knot input was written by Ochiai and Imafuji.\"\)"\)], \
-"Message"],
-
-Cell[BoxData[
-    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
-      "\!\(\"The GaussCode to PD conversion was written by Siddarth Sankaran \
-at the University of Toronto in the summer of 2005.\"\)"\)], "Message"],
-
-Cell[BoxData[
-    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
-      "\!\(\"The Khovanov homology program JavaKh was written by Jeremy Green \
-in the summer of 2005 at the University of Toronto.\"\)"\)], "Message"],
-
-Cell[BoxData[
-    RowBox[{\(General::"stop"\), \(\(:\)\(\ \)\), "\<\"Further output of \
-\\!\\(KnotTheory :: \\\"credits\\\"\\) will be suppressed during this \
-calculation. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
-ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
-ButtonData:>\\\"General::stop\\\"]\\)\"\>"}]], "Message"],
-
-Cell[BoxData[
-    \(q\^3 + q\^5 + q\^7\ t\^2 + q\^11\ t\^3 + q\^11\ t\^4 + 
-      q\^15\ t\^5\)], "Output"]
+    \(1\/q\^3 + 1\/q + 1\/\(q\^21\ t\^9\) + 1\/\(q\^17\ t\^8\) + 
+      3\/\(q\^17\ t\^7\) + 1\/\(q\^15\ t\^6\) + 3\/\(q\^13\ t\^6\) + 
+      2\/\(q\^13\ t\^5\) + 1\/\(q\^11\ t\^5\) + 3\/\(q\^11\ t\^4\) + 
+      2\/\(q\^9\ t\^4\) + 1\/\(q\^9\ t\^3\) + 3\/\(q\^7\ t\^3\) + 
+      2\/\(q\^7\ t\^2\) + 1\/\(q\^5\ t\^2\) + 2\/\(q\^3\ t\)\)], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -125,7 +107,7 @@ Cell[BoxData[
 }, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
-ScreenRectangle->{{0, 1280}, {0, 713}},
+ScreenRectangle->{{0, 1280}, {0, 717}},
 WindowSize->{971, 589},
 WindowMargins->{{Automatic, 78}, {Automatic, 34}}
 ]
@@ -152,26 +134,22 @@ Cell[CellGroupData[{
 Cell[1776, 53, 248, 5, 70, "Input"],
 Cell[2027, 60, 104, 2, 25, "Print"]
 }, Open  ]],
-Cell[2146, 65, 85, 1, 30, "Input"],
+Cell[2146, 65, 113, 2, 30, "Input"],
 
 Cell[CellGroupData[{
-Cell[2256, 70, 69, 1, 30, "Input"],
-Cell[2328, 73, 194, 3, 22, "Message"],
-Cell[2525, 78, 131, 2, 29, "Output"]
+Cell[2284, 71, 69, 1, 30, "Input"],
+Cell[2356, 74, 194, 3, 22, "Message"],
+Cell[2553, 79, 131, 2, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[2693, 85, 62, 1, 30, "Input"],
-Cell[2758, 88, 149, 3, 22, "Message"],
-Cell[2910, 93, 209, 3, 22, "Message"],
-Cell[3122, 98, 210, 3, 22, "Message"],
-Cell[3335, 103, 337, 5, 22, "Message"],
-Cell[3675, 110, 107, 2, 29, "Output"]
+Cell[2721, 86, 62, 1, 30, "Input"],
+Cell[2786, 89, 361, 5, 44, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[3819, 117, 62, 1, 30, "Input"],
-Cell[3884, 120, 200, 3, 29, "Output"]
+Cell[3184, 99, 62, 1, 30, "Input"],
+Cell[3249, 102, 200, 3, 29, "Output"]
 }, Open  ]]
 }
 ]

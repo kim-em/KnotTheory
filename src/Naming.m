@@ -86,12 +86,12 @@ NameString[TorusKnot[m_Integer,n_Integer]]:=
 
 
 Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
-                "_"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
+                "_"|" "~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
 \[RightDoubleBracket]\[LessEqual]10\[And]#\[LeftDoubleBracket]2\
 \[RightDoubleBracket]\[LessEqual]
                 NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket]])&[
-        ToExpression/@StringSplit[S,"_"]]):=
-  Knot@@(ToExpression/@StringSplit[S,"_"])
+        ToExpression/@StringSplit[S,"_"|" "]]):=
+  Knot@@(ToExpression/@StringSplit[S,"_"|" "])
 
 Knot[S_String?(StringMatchQ[#,
               "K"~~(DigitCharacter..)~~
