@@ -41,15 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-<<<<<<< .mine
 (*NotebookOptionsPosition[     15858,        399]*)
 (*NotebookOutlinePosition[     16535,        422]*)
 (*  CellTagsIndexPosition[     16491,        418]*)
-=======
-(*NotebookOptionsPosition[     12435,        320]*)
-(*NotebookOutlinePosition[     13115,        343]*)
-(*  CellTagsIndexPosition[     13071,        339]*)
->>>>>>> .r96
 (*WindowFrame->Normal*)
 
 
@@ -178,7 +172,6 @@ Cell[BoxData[{
 
 Cell[BoxData[
     \(fContoKTGauss[Ul_String] := 
-<<<<<<< .mine
       Module[{mm, nn, ss, vv, 
           i}, \[IndentingNewLine]SwitchDirectories[\[IndentingNewLine]\
 EnsurePolyBaseVisible[\[IndentingNewLine]mm = 
@@ -195,23 +188,6 @@ EnsurePolyBaseVisible[\[IndentingNewLine]mm =
             If[MemberQ[ss, 0], {vv}, 
               iteratedTake[vv, ss]]; \[IndentingNewLine]GaussCode @@ 
             mm\[IndentingNewLine]]\[IndentingNewLine]]\)], "Input",
-=======
-      Module[{mm, nn, ss, vv, i}, \[IndentingNewLine]mm = 
-          LinKnots`fGaussExtSigns[Ul]; \[IndentingNewLine]nn = 
-          LinKnots`fGaussExtSigns[
-            StringReplace[
-              Ul, "\<-\>" \[Rule] "\<\>"]]; \[IndentingNewLine]nn = 
-          Map[Sign, Flatten[mm]]*
-            Map[Sign, Flatten[nn]]; \[IndentingNewLine]vv = 
-          Table[nn[\([i]\)]*\((\(-1\))\)^i, {i, Length[nn]}]*
-            Abs[Flatten[mm]]; \[IndentingNewLine]ss = 
-          Map[Length, mm]; \[IndentingNewLine]mm = 
-          If[MemberQ[ss, 0], {vv}, 
-            iteratedTake[vv, ss]]; \[IndentingNewLine]GaussCode @@ 
-          If[Length[mm] \[Equal] 1, 
-            mm\[LeftDoubleBracket]1\[RightDoubleBracket], 
-            mm]\[IndentingNewLine]]\)], "Input",
->>>>>>> .r96
   InitializationCell->True],
 
 Cell[BoxData[
@@ -463,60 +439,23 @@ Cell[3122, 90, 87, 2, 30, "Input",
   InitializationCell->True],
 Cell[3212, 94, 748, 14, 190, "Input",
   InitializationCell->True],
-<<<<<<< .mine
 Cell[3963, 110, 567, 10, 150, "Input",
-=======
-Cell[4164, 114, 843, 17, 190, "Input",
->>>>>>> .r96
   InitializationCell->True],
-<<<<<<< .mine
 Cell[4533, 122, 601, 11, 150, "Input",
-=======
-Cell[5010, 133, 103, 2, 30, "Input",
->>>>>>> .r96
   InitializationCell->True],
-<<<<<<< .mine
 Cell[5137, 135, 145, 3, 30, "Input",
-=======
-Cell[5116, 137, 343, 5, 70, "Input",
->>>>>>> .r96
   InitializationCell->True],
-<<<<<<< .mine
 Cell[5285, 140, 862, 20, 70, "Input",
-=======
-Cell[5462, 144, 1032, 20, 270, "Input",
->>>>>>> .r96
   InitializationCell->True],
-<<<<<<< .mine
 Cell[6150, 162, 421, 8, 70, "Input",
-=======
-Cell[6497, 166, 625, 13, 170, "Input",
->>>>>>> .r96
   InitializationCell->True],
-<<<<<<< .mine
 Cell[6574, 172, 910, 18, 270, "Input",
-=======
-Cell[7125, 181, 349, 9, 30, "Input"],
-Cell[7477, 192, 1618, 35, 190, "Input",
->>>>>>> .r96
   InitializationCell->True],
-<<<<<<< .mine
 Cell[7487, 192, 103, 2, 30, "Input",
-=======
-Cell[9098, 229, 1462, 33, 170, "Input",
->>>>>>> .r96
   InitializationCell->True],
-<<<<<<< .mine
 Cell[7593, 196, 343, 5, 90, "Input",
-=======
-Cell[10563, 264, 765, 19, 70, "Input",
->>>>>>> .r96
   InitializationCell->True],
-<<<<<<< .mine
 Cell[7939, 203, 1032, 20, 270, "Input",
-=======
-Cell[11331, 285, 846, 18, 130, "Input",
->>>>>>> .r96
   InitializationCell->True],
 Cell[8974, 225, 651, 13, 170, "Input",
   InitializationCell->True],
@@ -533,23 +472,11 @@ Cell[14636, 362, 964, 20, 190, "Input",
   InitializationCell->True],
 
 Cell[CellGroupData[{
-<<<<<<< .mine
 Cell[15625, 386, 60, 1, 38, "Subsection",
-=======
-Cell[12202, 307, 60, 1, 38, "Subsection",
->>>>>>> .r96
   InitializationCell->True],
-<<<<<<< .mine
 Cell[15688, 389, 66, 2, 30, "Input",
-=======
-Cell[12265, 310, 66, 2, 30, "Input",
->>>>>>> .r96
   InitializationCell->True],
-<<<<<<< .mine
 Cell[15757, 393, 73, 2, 30, "Input",
-=======
-Cell[12334, 314, 73, 2, 30, "Input",
->>>>>>> .r96
   InitializationCell->True]
 }, Open  ]]
 }, Open  ]]
