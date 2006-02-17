@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     15858,        399]*)
-(*NotebookOutlinePosition[     16535,        422]*)
-(*  CellTagsIndexPosition[     16491,        418]*)
+(*NotebookOptionsPosition[     16566,        408]*)
+(*NotebookOutlinePosition[     17243,        431]*)
+(*  CellTagsIndexPosition[     17199,        427]*)
 (*WindowFrame->Normal*)
 
 
@@ -133,33 +133,6 @@ Cell[BoxData[{
 \[IndentingNewLine]result\[IndentingNewLine]]\)}], "Input",
   InitializationCell->True],
 
-Cell[BoxData[
-    \( (*\ up\ to\ 10\ crossings\ D . \ 
-          Rolfsen\ from\ Classical\ notation\ *) \)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[{
-    RowBox[{
-      RowBox[{\(ConwayNotation[Knot[n_, k_]] /; \((n \[LessEqual] 10)\)\), ":=",
-         
-        RowBox[{"ConwayNotation", "[", 
-          RowBox[{
-            StyleBox["LinKnots`fClassicToCon",
-              FontColor->RGBColor[1, 0, 0]], "[", \(NameString[Knot[n, k]]\), 
-            "]"}], "]"}]}], 
-      "\[IndentingNewLine]", \( (*\ 
-        up\ to\ 12\ crossings\ form\  ... *) \)}], "\[IndentingNewLine]", 
-    RowBox[{\(ConwayNotation[x : Except[_String]]\), ":=", 
-      RowBox[{"ConwayNotation", "[", 
-        RowBox[{"SwitchDirectories", "[", 
-          RowBox[{
-            StyleBox["LinKnots`fFindCon",
-              FontColor->RGBColor[1, 0, 0]], 
-            StyleBox["[",
-              FontColor->RGBColor[1, 0, 0]], \(DTtoPData[DTCode[x]]\), "]"}], 
-          "]"}], "]"}]}]}], "Input",
-  InitializationCell->True],
-
 Cell[BoxData[{
     \(checkArgs[s_, t_] := 
       ListQ[s] && VectorQ[t, IntegerQ[#] && # \[GreaterEqual] 0 &] && 
@@ -236,6 +209,42 @@ Cell[BoxData[
             ConwayNotation[
               ss]], \[IndentingNewLine]$Failed\[IndentingNewLine]]\
 \[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\(ConwayNotation[x : Except[_String]]\), ":=", 
+      RowBox[{"Module", "[", 
+        RowBox[{\({}\), ",", "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+            
+            RowBox[{\(InstallLinKnots[ConwayNotation]\), ",", 
+              "\[IndentingNewLine]", \( (*\ 
+                up\ to\ 10\ crossings\ D . \ 
+                    Rolfsen\ from\ Classical\ notation\ *) \), 
+              "\[IndentingNewLine]", 
+              RowBox[{
+                
+                RowBox[{\(ConwayNotation[
+                      Knot[n_, k_]] /; \((n \[LessEqual] 10)\)\), ":=", 
+                  RowBox[{"ConwayNotation", "[", 
+                    RowBox[{
+                      StyleBox["LinKnots`fClassicToCon",
+                        FontColor->RGBColor[1, 0, 0]], 
+                      "[", \(NameString[Knot[n, k]]\), "]"}], "]"}]}], 
+                ";", \( (*\ up\ to\ 12\ crossings\ form\  ... *) \), 
+                "\[IndentingNewLine]", 
+                RowBox[{\(ConwayNotation[x0 : Except[_String]]\), ":=", 
+                  RowBox[{"ConwayNotation", "[", 
+                    RowBox[{"SwitchDirectories", "[", 
+                      RowBox[{
+                        StyleBox["LinKnots`fFindCon",
+                          FontColor->RGBColor[1, 0, 0]], 
+                        StyleBox["[",
+                          FontColor->RGBColor[1, 0, 0]], \(DTtoPData[
+                          DTCode[x0]]\), "]"}], "]"}], "]"}]}], ";", 
+                "\[IndentingNewLine]", \(ConwayNotation[x]\)}], ",", 
+              "\[IndentingNewLine]", "$Failed"}], "\[IndentingNewLine]", 
+            "]"}]}], "\[IndentingNewLine]", "]"}]}]], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
@@ -443,40 +452,38 @@ Cell[3963, 110, 567, 10, 150, "Input",
   InitializationCell->True],
 Cell[4533, 122, 601, 11, 150, "Input",
   InitializationCell->True],
-Cell[5137, 135, 145, 3, 30, "Input",
+Cell[5137, 135, 421, 8, 70, "Input",
   InitializationCell->True],
-Cell[5285, 140, 862, 20, 70, "Input",
+Cell[5561, 145, 910, 18, 270, "Input",
   InitializationCell->True],
-Cell[6150, 162, 421, 8, 70, "Input",
+Cell[6474, 165, 103, 2, 30, "Input",
   InitializationCell->True],
-Cell[6574, 172, 910, 18, 270, "Input",
+Cell[6580, 169, 343, 5, 90, "Input",
   InitializationCell->True],
-Cell[7487, 192, 103, 2, 30, "Input",
+Cell[6926, 176, 1032, 20, 270, "Input",
   InitializationCell->True],
-Cell[7593, 196, 343, 5, 90, "Input",
+Cell[7961, 198, 651, 13, 170, "Input",
   InitializationCell->True],
-Cell[7939, 203, 1032, 20, 270, "Input",
+Cell[8615, 213, 1718, 34, 210, "Input",
   InitializationCell->True],
-Cell[8974, 225, 651, 13, 170, "Input",
+Cell[10336, 249, 349, 9, 30, "Input"],
+Cell[10688, 260, 1618, 35, 190, "Input",
   InitializationCell->True],
-Cell[9628, 240, 349, 9, 30, "Input"],
-Cell[9980, 251, 1618, 35, 190, "Input",
+Cell[12309, 297, 1462, 33, 170, "Input",
   InitializationCell->True],
-Cell[11601, 288, 1462, 33, 170, "Input",
+Cell[13774, 332, 791, 19, 70, "Input",
   InitializationCell->True],
-Cell[13066, 323, 791, 19, 70, "Input",
+Cell[14568, 353, 773, 16, 110, "Input",
   InitializationCell->True],
-Cell[13860, 344, 773, 16, 110, "Input",
-  InitializationCell->True],
-Cell[14636, 362, 964, 20, 190, "Input",
+Cell[15344, 371, 964, 20, 190, "Input",
   InitializationCell->True],
 
 Cell[CellGroupData[{
-Cell[15625, 386, 60, 1, 38, "Subsection",
+Cell[16333, 395, 60, 1, 38, "Subsection",
   InitializationCell->True],
-Cell[15688, 389, 66, 2, 30, "Input",
+Cell[16396, 398, 66, 2, 30, "Input",
   InitializationCell->True],
-Cell[15757, 393, 73, 2, 30, "Input",
+Cell[16465, 402, 73, 2, 30, "Input",
   InitializationCell->True]
 }, Open  ]]
 }, Open  ]]
