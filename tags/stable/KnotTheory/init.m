@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 2, 9, 16, 11, 14.7195040};
+KnotTheoryVersion[] = {2006, 2, 16, 16, 48, 51.1338928};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -54,12 +54,14 @@ CreditMessage[cm_String] := Module[
   If[Length[$MessageList] > l, CreditMessage[cm] = Null];
 ]
 End[]; EndPackage[];
+(* Begin source file src/Base.m*)
+
 BeginPackage["KnotTheory`"]
 Knot::usage = "
   Knot[n, k] denotes the kth knot with n crossings in the Rolfsen table.
-  Knot[11, Alternating, k] denotes the kth alternating 11-crossing knot in
-  the Hoste-Thistlethwaite table. Knot[11, NonAlternating, k] denotes the
-  kth non alternating 11-crossing knot in the Hoste-Thistlethwaite table.
+  Knot[n, Alternating, k] (for n between 11 and 16) denotes the kth alternating n-crossing knot in
+  the Hoste-Thistlethwaite table. Knot[n, NonAlternating, k] denotes the
+  kth non alternating n-crossing knot in the Hoste-Thistlethwaite table.
 "
 Link::usage = "
   Link[n, Alternating, k] denotes the kth alternating n-crossing link in
@@ -129,8 +131,8 @@ ConnectedSum::usage = "
 "
 KnotTheory::loading = "Loading precomputed data in `1`."
 (* Lightly documented features: *)
-NumberOfKnots::usage = "NumberOfKnots[type] return the number of knots of a
-given type.";
+NumberOfKnots::usage = "NumberOfKnots[n] returns the number of knots with n crossings.
+NumberOfKnots[n, Alternating|NonAlternating] returns the number of knots of the specified type.";
 Skeleton; Orient; NumberOfLinks; Alternating; NonAlternating; BR;
 Mirror;
 Begin["`Private`"]
@@ -160,6 +162,13 @@ PD[BR[k_Integer, l_List]] := Module[
     Loop /@ PD @@ Range[len + 1, len + loops]
   ]
 ]
+PDStringSplit[S_String?(StringFreeQ[#,","]&)]:=ToExpression/@Characters[S]
+PDStringSplit[S_String]:=ToExpression/@StringSplit[S,","]
+(* This function translates the HTML string representations of planar diagram
+   notation used in the Knot Atlas back into the internal PD format. *)
+PD[S_String]:=
+  PD@@((X@@PDStringSplit[#]&)/@
+        StringCases[S,"X<sub>"~~x:ShortestMatch[__]~~"</sub>"\[RuleDelayed]x])
 BR[TorusKnot[m_, n_]] /; m > 0 && n > 0 :=
   BR[n, Flatten[Table[Range[n - 1], {m}]]]
 PD[TorusKnot[m_, n_]] /; m > 0 && n > 0 := PD[BR[TorusKnot[m, n]]]
@@ -388,6 +397,11 @@ KnotSignature[pd_PD] := KnotSignature[pd] = Module[
 ]
 KnotSignature[K_] := KnotSignature[PD[K]]
 End[]; EndPackage[]
+(* End source file src/Base.m*)
+
+
+(* Begin source file src/Braids.m*)
+
 BeginPackage["KnotTheory`"]		(* Braids *)
 BR::usage = "BR stands for Braid Representative. BR[k,l] represents a
 braid on k strands with crossings l={i1,i2,...}, where a positive index
@@ -528,6 +542,11 @@ BraidPlot[BR[k_Integer, l_List], opts___Rule] := Module[
   ]
 ]
 End[]; EndPackage[]
+(* End source file src/Braids.m*)
+
+
+(* Begin source file src/TubePlot.m*)
+
 BeginPackage["TubePlot`", {"Utilities`FilterOptions`"}]
 TubePlot::usage = "
   TubePlot[gamma, {t, t0, t1}, r, opts] plots the space curve gamma
@@ -592,6 +611,9 @@ TubePlot[gamma_, {t_, t1_, t2_}, r_, opts___Rule] := Module[
   ]}, FilterOptions[Graphics3D, opts]]
 ]
 End[]; EndPackage[]
+BeginPackage["KnotTheory`", {"TubePlot`"}]
+TorusKnot;
+Begin["`Private`"]
 TubePlot[TorusKnot[m_, n_], opts___] := TubePlot[
   {Cos[n t], Sin[n t], 0} + 
     0.5{Cos[m t]Cos[n t], Cos[m t]Sin[n t], -Sin[m t]},
@@ -599,6 +621,12 @@ TubePlot[TorusKnot[m_, n_], opts___] := TubePlot[
   TubeSubdivision -> {40(m + 2n), 12}, TubeFraming -> {0,0,1},
   TubePlotPrelude -> EdgeForm[{}], Boxed -> False, ViewPoint -> {0, 0, 1}
 ];
+End[]; EndPackage[]
+(* End source file src/TubePlot.m*)
+
+
+(* Begin source file src/DrawPD.m*)
+
 BeginPackage["KnotTheory`"]
 PD; X; OuterFace; Gap; Colour; StrandColour
 DrawPD::usage = "
@@ -1239,12 +1267,21 @@ DrawPD[pd_PD,options_]:=(optionsList=Map[Apply[List,#]&,options];
 ]]==StrandColour&][[1,
                       2]]]}]]]]];Draw[t])
 End[]; EndPackage[]
+(* End source file src/DrawPD.m*)
+
+
+(* Begin source file src/Data.m*)
+
 BeginPackage["KnotTheory`"]		(* Data *)
 AllKnots::usage = "
-  AllKnots[] return a list of all the named knots known to KnotTheory.m.
+  AllKnots[] return a list of all knots with up to 11 crossings. AllKnots[n_] returns
+  a list of all knots with n crossings, up to 16. AllKnots[{n_,m_}] returns a list of
+  all knots with between n and m crossings, and AllKnots[n_,Alternating|NonAlternating]
+  returns all knots with n crossings of the specified type.
 "
 AllLinks::usage = "
-  AllLinks[] return a list of all the named links known to KnotTheory.m.
+  AllLinks[] return a list of all links with up to 11 crossings. AllLinks[n_] returns
+  a list of all links with n crossings, up to 12.
 "
 DTCode;
 Begin["`Private`"]
@@ -1284,6 +1321,8 @@ NumberOfKnots[15, NonAlternating] = 168030
 NumberOfKnots[16, NonAlternating] = 1008906
 NumberOfKnots[n_] :=
   NumberOfKnots[n, Alternating] + NumberOfKnots[n, NonAlternating]
+NumberOfKnots[{n_, m_}]:= Sum[NumberOfKnots[k], {k,n,m}]
+NumberOfKnots[{n_, m_}, t_]:= Sum[NumberOfKnots[k, t], {k,n,m}]
 NumberOfLinks[2] = 1
 NumberOfLinks[3] = 0
 NumberOfLinks[4] = 1
@@ -1318,6 +1357,8 @@ NumberOfLinks[9, NonAlternating] = 28
 NumberOfLinks[10, NonAlternating] = 113
 NumberOfLinks[11, NonAlternating] = 459
 NumberOfLinks[12, NonAlternating] = 2256
+NumberOfLinks[{n_, m_}]:= Sum[NumberOfLinks[k], {k,n,m}]
+NumberOfLinks[{n_, m_}, t_]:= Sum[NumberOfLinks[k, t], {k,n,m}]
 (* These are ordered lists for the purpose of data loading! Do not mess! *)
 AllKnots[] = Flatten[{
   Table[Knot[n,k], {n,0,10}, {k,NumberOfKnots[n]}],
@@ -1328,6 +1369,15 @@ AllLinks[] = Flatten[Table[{
   Table[Link[n, Alternating, k], {k,NumberOfLinks[n, Alternating]}],
   Table[Link[n, NonAlternating, k], {k,NumberOfLinks[n, NonAlternating]}]
 }, {n,2,11}]]
+AllKnots[n_]/;n<=10:=Table[Knot[n,k],{k,1,NumberOfKnots[n]}]
+AllKnots[n_]/;11<=n<=16:=AllKnots[n,Alternating]~Join~AllKnots[n,NonAlternating]
+AllKnots[n_,t_]/;11<=n<=16:=Table[Knot[n,t,k],{k,1,NumberOfKnots[n,t]}]
+AllKnots[n_,Alternating]/;n<=10:=Table[Knot[n,k],{k,1,NumberOfKnots[n,Alternating]}]
+AllKnots[n_,NonAlternating]/;n<=10:=Table[Knot[n,NumberOfKnots[n,Alternating]+k],{k,1,NumberOfKnots[n,NonAlternating]}]
+AllKnots[{n_,m_}]:=Join@@Table[AllKnots[i],{i,n,m}]
+AllLinks[n_]/;2<=n<=12:=AllLinks[n,Alternating]~Join~AllLinks[n,NonAlternating]
+AllLinks[n_,t_]/;2<=n<=12:=Table[Link[n,t,k],{k,1,NumberOfLinks[n,t]}]
+AllLinks[{n_,m_}]:=Join@@Table[AllLinks[i],{i,n,m}]
 PD[Knot[n_, k_]] := (
   Needs["KnotTheory`PD4Knots`"];
   Unset[PD[Knot[n1_, k1_]]];
@@ -1355,6 +1405,11 @@ DTCode[Knot[n_, t_, k_]] /; (12<=n<=16) := DTCode @@ (
   If[# >= 97, 2(#-96), -2(#-64)]& /@ ToCharacterCode[DT4Knots[n, t][[k]]] 
 )
 End[]; EndPackage[]
+(* End source file src/Data.m*)
+
+
+(* Begin source file src/BraidData.m*)
+
 BeginPackage["KnotTheory`"]             (* Braid Data *)
 BR;
 Begin["`Private`"]
@@ -1613,6 +1668,193 @@ BR[Knot[10, 163]] := br[4, "aaBAAcbAbbc"]
 BR[Knot[10, 164]] := br[4, "aaBaBBCbAbC"]
 BR[Knot[10, 165]] := br[4, "aabACbAbccb"]
 End[]; EndPackage[]
+(* End source file src/BraidData.m*)
+
+
+(* Begin source file src/Naming.m*)
+
+(*******************************************************************
+This file was generated automatically by the Mathematica front end.
+It contains Initialization cells from a Notebook file, which
+typically will have the same name as this file except ending in
+".nb" instead of ".m".
+This file is intended to be loaded into the Mathematica kernel using
+the package loading commands Get or Needs.  Doing so is equivalent
+to using the Evaluate Initialization Cells menu command in the front
+end.
+DO NOT EDIT THIS FILE.  This entire file is regenerated
+automatically each time the parent Notebook file is saved in the
+Mathematica front end.  Any changes you make to this file will be
+overwritten.
+***********************************************************************)
+BeginPackage["KnotTheory`"];
+TorusKnots::usage="TorusKnots[n_] returns a list of all torus knots with up to n crossings.";
+NameString::usage="NameString[K_] returns the 'standard' string name for the knot K. These names are used throughout the Knot Atlas, and can be reinterpreted simply using the function Knot. Thus NameString[Knot[7,2]] returns \"7_2\", and NameString[Knot[10,NonAlternating,124]] returns \"K10n124\".";
+NextKnot::usage=PreviousKnot::usage="Use NextKnot and PreviousKnot to traverse lists of knots. These functions mostly exist to generate navigation links for the Knot Atlas.";
+AlternatingQ::usage="AlternatingQ[K] tries to decide if the knot K is alternating. This function is extremely incomplete; it only works for named knots from the tables, or torus knots.";\
+KnotNumber::usage="For a knot K from the tables, KnotNumber[K] returns its number in the appropriate sequence. Thus KnotNumber[Knot[8,19]] returns 19, while KnotNumber[Link[10,NonAlternating,5]] returns 5.";
+Begin["`Naming`"]
+TorusKnots[Xmax_]:=Module[{res},
+    res=Flatten[
+        Table[Cases[Range[2,Min[Floor[1+Xmax/m],m-1]],
+            n_/;GCD[m,n]\[Equal]1\[RuleDelayed]TorusKnot[m,n]],{m,3,Xmax}]];
+    Last/@Sort[{Crossings[#],#}&/@res]
+    ]
+AlternatingQ[
+      Knot[n_,k_]]/;(0\[LessEqual]n\[LessEqual]10\[And]1\[LessEqual]
+          k\[LessEqual]NumberOfKnots[n]):=(k\[LessEqual]
+      NumberOfKnots[n,Alternating])
+AlternatingQ[Knot[_,Alternating,_]]:=True
+AlternatingQ[Knot[_,NonAlternating,_]]:=False
+AlternatingQ[Link[_,Alternating,_]]:=True
+AlternatingQ[Link[_,NonAlternating,_]]:=False
+AlternatingQ[TorusKnot[2,_]]:=True
+AlternatingQ[TorusKnot[_,2]]:=True
+AlternatingQ[TorusKnot[_,_]]:=False
+KnotNumber[Knot[_,k_]]:=k
+KnotNumber[Knot[_,_,k_]]:=k
+KnotNumber[Link[_,_,k_]]:=k
+NameString[
+      Knot[n_Integer?(#\[LessEqual]10&),k_Integer]]/;(k\[LessEqual]
+        NumberOfKnots[n]):=ToString[n]<>"_"<>ToString[k]
+NameString[
+      Knot[n_Integer?(#\[GreaterEqual]11&),Alternating,
+        k_Integer]]/;(k\[LessEqual]NumberOfKnots[n,Alternating]):=
+  "K"<>ToString[n]<>"a"<>ToString[k]
+NameString[
+      Knot[n_Integer?(#\[GreaterEqual]11&),NonAlternating,
+        k_Integer]]/;(k\[LessEqual]NumberOfKnots[n,NonAlternating]):=
+  "K"<>ToString[n]<>"n"<>ToString[k]
+NameString[
+      Link[n_Integer,Alternating,k_Integer]]/;(k\[LessEqual]
+        NumberOfLinks[n,Alternating]):="L"<>ToString[n]<>"a"<>ToString[k]
+NameString[
+      Link[n_Integer,NonAlternating,k_Integer]]/;(k\[LessEqual]
+        NumberOfLinks[n,NonAlternating]):="L"<>ToString[n]<>"n"<>ToString[k]
+NameString[TorusKnot[m_Integer,n_Integer]]:=
+  "T("<>ToString[m]<>","<>ToString[n]<>")"
+Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
+                "_"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
+\[RightDoubleBracket]\[LessEqual]10\[And]#\[LeftDoubleBracket]2\
+\[RightDoubleBracket]\[LessEqual]
+                NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket]])&[
+        ToExpression/@StringSplit[S,"_"]]):=
+  Knot@@(ToExpression/@StringSplit[S,"_"])
+Knot[S_String?(StringMatchQ[#,
+              "K"~~(DigitCharacter..)~~
+                  "a"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
+\[RightDoubleBracket]\[GreaterEqual]11\[And]#\[LeftDoubleBracket]2\
+\[RightDoubleBracket]\[LessEqual]
+                NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket],
+                  Alternating])&[ToExpression/@StringSplit[S,{"K","a"}]]):=
+  Knot[#\[LeftDoubleBracket]1\[RightDoubleBracket],
+        Alternating,#\[LeftDoubleBracket]2\[RightDoubleBracket]]&[(\
+ToExpression/@StringSplit[S,{"K","a"}])]
+Knot[S_String?(StringMatchQ[#,
+              "K"~~(DigitCharacter..)~~
+                  "n"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
+\[RightDoubleBracket]\[GreaterEqual]11\[And]#\[LeftDoubleBracket]2\
+\[RightDoubleBracket]\[LessEqual]
+                NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket],
+                  NonAlternating])&[ToExpression/@StringSplit[S,{"K","n"}]]):=
+  Knot[#\[LeftDoubleBracket]1\[RightDoubleBracket],
+        NonAlternating,#\[LeftDoubleBracket]2\[RightDoubleBracket]]&[(\
+ToExpression/@StringSplit[S,{"K","n"}])]
+Knot[S_String?(StringMatchQ[#,
+              "L"~~(DigitCharacter..)~~
+                  "a"~~(DigitCharacter..)]&)]/;((1\[LessEqual]#\
+\[LeftDoubleBracket]2\[RightDoubleBracket]\[LessEqual]
+              NumberOfLinks[#\[LeftDoubleBracket]1\[RightDoubleBracket],
+                Alternating])&[ToExpression/@StringSplit[S,{"L","a"}]]):=
+  Link[#\[LeftDoubleBracket]1\[RightDoubleBracket],
+        Alternating,#\[LeftDoubleBracket]2\[RightDoubleBracket]]&[(\
+ToExpression/@StringSplit[S,{"L","a"}])]
+Knot[S_String?(StringMatchQ[#,
+              "L"~~(DigitCharacter..)~~
+                  "n"~~(DigitCharacter..)]&)]/;((1\[LessEqual]#\
+\[LeftDoubleBracket]2\[RightDoubleBracket]\[LessEqual]
+              NumberOfLinks[#\[LeftDoubleBracket]1\[RightDoubleBracket],
+                NonAlternating])&[ToExpression/@StringSplit[S,{"L","n"}]]):=
+  Link[#\[LeftDoubleBracket]1\[RightDoubleBracket],
+        NonAlternating,#\[LeftDoubleBracket]2\[RightDoubleBracket]]&[(\
+ToExpression/@StringSplit[S,{"L","n"}])]
+Knot[S_String?(StringMatchQ[#,
+            "T("~~(DigitCharacter..)~~","~~(DigitCharacter..)~~")"]&)]:=
+  TorusKnot[#\[LeftDoubleBracket]1\[RightDoubleBracket],#\[LeftDoubleBracket]\
+2\[RightDoubleBracket]]&[(ToExpression/@StringSplit[S,{"T(",",",")"}])]
+Link[S_String]:=Knot[S]
+Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
+                "a_"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
+\[RightDoubleBracket]\[GreaterEqual]11\[And]#\[LeftDoubleBracket]2\
+\[RightDoubleBracket]\[LessEqual]
+                NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket],
+                  Alternating])&[ToExpression/@StringSplit[S,{"a_"}]]):=
+  Knot[#\[LeftDoubleBracket]1\[RightDoubleBracket],
+        Alternating,#\[LeftDoubleBracket]2\[RightDoubleBracket]]&[(\
+ToExpression/@StringSplit[S,{"a_"}])]
+Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
+                "n_"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
+\[RightDoubleBracket]\[GreaterEqual]11\[And]#\[LeftDoubleBracket]2\
+\[RightDoubleBracket]\[LessEqual]
+                NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket],
+                  NonAlternating])&[ToExpression/@StringSplit[S,{"n_"}]]):=
+  Knot[#\[LeftDoubleBracket]1\[RightDoubleBracket],
+        NonAlternating,#\[LeftDoubleBracket]2\[RightDoubleBracket]]&[(\
+ToExpression/@StringSplit[S,{"n_"}])]
+NextKnot[Knot[0,1]]=Knot[3,1];
+NextKnot[Knot[n_Integer?(#\[LessEqual]10&),k_Integer]]/;(k<NumberOfKnots[n]):=
+  Knot[n,k+1]
+NextKnot[Knot[n_Integer?(#\[LessEqual]9&),k_Integer]]/;(k==NumberOfKnots[n]):=
+  Knot[n+1,1]
+NextKnot[Knot[10,k_Integer]]/;(k==NumberOfKnots[10]):=Knot[11,Alternating,1]
+NextKnot[Knot[n_Integer?(#\[GreaterEqual]11&),t_,k_Integer]]/;(k<
+        NumberOfKnots[n,t]):=Knot[n,t,k+1]
+NextKnot[Knot[n_Integer?(#\[GreaterEqual]11&),Alternating,k_Integer]]/;(k==
+        NumberOfKnots[n,Alternating]):=Knot[n,NonAlternating,1]
+NextKnot[Knot[n_Integer?(#\[GreaterEqual]11&),NonAlternating,k_Integer]]/;(k==
+        NumberOfKnots[n,NonAlternating]):=Knot[n+1,Alternating,1]
+PreviousKnot[Knot[0,1]]=Knot[0,1];
+PreviousKnot[Knot[3,1]]=Knot[0,1];
+PreviousKnot[Knot[n_Integer?(#\[LessEqual]10&),1]]:=
+  Knot[n-1,NumberOfKnots[n-1]]
+PreviousKnot[Knot[n_Integer?(#\[LessEqual]10&),k_Integer]]:=Knot[n,k-1]
+PreviousKnot[Knot[11,Alternating,1]]=Knot[10,NumberOfKnots[10]];
+PreviousKnot[Knot[n_Integer?(#\[GreaterEqual]12&),Alternating,1]]:=
+  Knot[n-1,NonAlternating,NumberOfKnots[n-1,NonAlternating]]
+PreviousKnot[Knot[n_Integer?(#\[GreaterEqual]11&),NonAlternating,1]]:=
+  Knot[n,Alternating,NumberOfKnots[n,Alternating]]
+PreviousKnot[Knot[n_Integer?(#\[GreaterEqual]11&),t_,k_Integer]]:=
+  Knot[n,t,k-1]
+NextKnot[Last[AllLinks[]]]=Last[AllLinks[]];
+PreviousKnot[Link[2,Alternating,1]]:=Link[2,Alternating,1];
+NextKnot[L_Link]:=
+  With[{all=AllLinks[]},
+    all\[LeftDoubleBracket]Position[all,L]\[LeftDoubleBracket]1,
+          1\[RightDoubleBracket]+1\[RightDoubleBracket]]
+PreviousKnot[L_Link]:=
+  With[{all=AllLinks[]},
+    all\[LeftDoubleBracket]Position[all,L]\[LeftDoubleBracket]1,
+          1\[RightDoubleBracket]-1\[RightDoubleBracket]]
+PreviousKnot[TorusKnot[3,2]]=TorusKnot[3,2];
+TorusKnotPosition[TorusKnot[m_,n_]]:=Module[{l=36},
+    While[!MemberQ[TorusKnots[l],TorusKnot[m,n]],l+=36];
+    Position[TorusKnots[l],TorusKnot[m,n]]\[LeftDoubleBracket]1,
+      1\[RightDoubleBracket]
+    ]
+PreviousKnot[T_TorusKnot]:=
+  TorusKnots[Crossings[T]]\[LeftDoubleBracket]
+    TorusKnotPosition[T]-1\[RightDoubleBracket]
+NextKnot[T_TorusKnot]:=Module[{p=TorusKnotPosition[T]+1,n=36},
+    While[Length[TorusKnots[n]]<p,n+=36];
+    TorusKnots[n]\[LeftDoubleBracket]p\[RightDoubleBracket]
+    ]
+End[]
+EndPackage[]
+(* End source file src/Naming.m*)
+
+
+(* Begin source file src/GaussCode.m*)
+
 BeginPackage["KnotTheory`"]
 GaussCode::usage = "
   GaussCode[i1, i2, ...] represents a knot via its Gauss
@@ -1635,8 +1877,9 @@ DTCode::usage = "
   so for example, DTCode[K] where K is is a named knot returns the DT
   code of that knot.
 "
+ConwayNotation::usage=""
 Begin["`GaussCode`"]
-GaussCode[K_] /; !MatchQ[Head[K], PD|DTCode|List] := GaussCode[PD[K]]
+GaussCode[K_] /; !MatchQ[Head[K], PD|DTCode|List|String|ConwayNotation] := GaussCode[PD[K]]
 GaussCode[PD[_Loop]] = GaussCode[]
 GaussCode[PD[l___, _Loop, r___]] := Append[
   GaussCode[PD[l,r]],
@@ -1666,6 +1909,14 @@ GaussCode[HoldPattern[DTCode[is___Integer]]] := Module[
   ];
   gc
 ]
+GaussCode[HoldPattern[DTCode[ls__List]]] := Module[
+  {dtc = {ls}, gc, k},
+  gc = GaussCode[DTCode @@ Flatten[dtc]];
+  k = 0; gc = dtc /. i_Integer :> {gc[[++k]], gc[[++k]]};
+  GaussCode @@ (Flatten /@ gc)
+]
+(* This function translates the string representations of Gauss codes used in the Knot Atlas back to KnotTheory's standard representation of a Gauss code. *)
+GaussCode[S_String]:=GaussCode@@ToExpression["{"<>S<>"}"]
 KnotilusURL[HoldPattern[GaussCode[is__Integer]]] := StringJoin[
   "http://srankin.math.uwo.ca/cgi-bin/retrieve.cgi/",
   StringReplace[
@@ -1696,8 +1947,46 @@ DTCode[HoldPattern[GaussCode[is__Integer]]] := Module[
     {odds, evens}
   ]]
 ]
-DTCode[K_] /; Head[K] =!= GaussCode := DTCode[GaussCode[K]]
+DTCode[HoldPattern[GaussCode[ls__List]]] := Module[
+  {gc = {ls}, agc, c, lens, l, NeededShifts, i, c1, c2, p1, p2, dtc, k},
+  agc = gc /. i_Integer :> Abs[i];
+  c = Length[gc];  lens = (Length /@ gc)/2; l = Plus @@ lens;
+  NeededShifts = Table[
+    Position[agc, i] /.
+      {{c1_, p1_}, {c2_, p2_}} :> {c1, c2, Mod[p1 + p2 + 1, 2]},
+    {i, l}
+  ];
+  shifts = Table[0, {c}];
+  decided = ReplacePart[Table[False, {c}], True, 1];
+  While[
+    (NeededShifts = DeleteCases[
+      NeededShifts, {c1_, c2_, _} /; decided[[c1]] && decided[[c2]]
+    ]) =!= {},
+    {{c1, c2, s}} = Select[
+      NeededShifts,
+      (decided[[#[[1]]]] || decided[[#[[2]]]]) &,
+      1
+    ];
+    If[decided[[c1]],
+      shifts[[c2]] = shifts[[c1]] + s; decided[[c2]] = True,
+      shifts[[c1]] = shifts[[c2]] + s; decided[[c1]] = True
+    ]
+  ];
+  gc = MapThread[RotateLeft, {gc, shifts}];
+  dtc = DTCode[GaussCode @@ Flatten[gc]];
+  k = 0; dtc = Table[dtc[[++k]], {j, c}, {lens[[j]]}];
+  DTCode @@ dtc
+]
+DTCode[K_] /; !MatchQ[Head[K], DTCode|GaussCode|String] := DTCode[GaussCode[K]]
+(* This function translates the string representations of DT codes used in the Knot Atlas back to KnotTheory's standard representation of a DT code. *)
+DTCode[S_String]:=
+  DTCode@@ToExpression["{"<>StringReplace[S," "\[Rule]","]<>"}"]
 End[]; EndPackage[]
+(* End source file src/GaussCode.m*)
+
+
+(* Begin source file src/GC2PD.m*)
+
 BeginPackage["KnotTheory`"]
 PD::about = "
   The GaussCode to PD conversion was written by Siddarth Sankaran at
@@ -1825,6 +2114,11 @@ PD[in_GaussCode] :=
  
 PD[dt_DTCode] := PD[GaussCode[dt]]
 End[]; EndPackage[]
+(* End source file src/GC2PD.m*)
+
+
+(* Begin source file src/Indiana.m*)
+
 BeginPackage["KnotTheory`"]
 BraidIndex::usage = "
 BraidIndex[K] returns the braid index of the knot K, if known to
@@ -1948,6 +2242,113 @@ UnknottingNumber[K_]  := (
 )
 End[];
 EndPackage[];
+(* End source file src/Indiana.m*)
+
+
+(* Begin source file src/WikiForm.m*)
+
+(*******************************************************************
+This file was generated automatically by the Mathematica front end.
+It contains Initialization cells from a Notebook file, which
+typically will have the same name as this file except ending in
+".nb" instead of ".m".
+This file is intended to be loaded into the Mathematica kernel using
+the package loading commands Get or Needs.  Doing so is equivalent
+to using the Evaluate Initialization Cells menu command in the front
+end.
+DO NOT EDIT THIS FILE.  This entire file is regenerated
+automatically each time the parent Notebook file is saved in the
+Mathematica front end.  Any changes you make to this file will be
+overwritten.
+***********************************************************************)
+BeginPackage["KnotTheory`"];
+NotHyperbolic;{Reversible,FullyAmphicheiral,NegativeAmphicheiral,Chiral};
+WikiForm::usage="ToString[expression_,WikiForm] attempts to format expression in a manner suitable for a MediaWiki wiki. This is a strange kludge of html and pseudo-latex, particularly for long polynomials. It's not perfect, but not a disaster either.";
+Begin["`WikiForm`"]
+WikiForm/:ToString[a_Integer,WikiForm]:=ToString[a]
+WikiForm/:ToString[a_?NumberQ,WikiForm]:=ToString[a]
+WikiForm /: ToString["", WikiForm] :=""
+WikiForm/:ToString[WikiForm[S_String],WikiForm]:=S
+WikiTextQ[
+    S_String]:=!(StringFreeQ[
+        S,{"<table","<tr","<td","{|","|-","|+","|}","{{"~~__~~"}}","[["~~__~~"]]",
+          "http://"}])
+WikiForm /: ToString[s_String, WikiForm] := If[WikiTextQ[s],s,
+    StringReplace[
+      "<nowiki>"<>s<>"</nowiki>",
+      {"|" \[Rule] "&#124;"}
+      ]
+    ]
+WikiForm/:ToString[K_Knot,WikiForm]:=NameString[K]
+WikiForm/:ToString[L_Link,WikiForm]:=NameString[L]
+WikiForm/:ToStirng[T_TorusKnot,WikiForm]:=NameString[T]
+WikiForm/:ToString[Null,WikiForm]="";
+MathTags[s_String]:="<math>"<>s<>"</math>"
+listToString[{},s_String]:=""
+listToString[x_List,s_String]:=
+  StringJoin[Drop[Flatten[Transpose[{ToString/@x,Table[s,{Length[x]}]}]],-1]]
+WikiForm/:ToString[gc_GaussCode,WikiForm]:=listToString[List@@gc,", "]
+WikiForm/:ToString[dtc_DTCode,WikiForm]:=
+  If[Length[dtc]\[Equal]0,"",listToString[List@@dtc," "]]
+WikiForm/:ToString[NotAvailable,WikiForm]="";
+WikiForm/:ToString[_NotAvailable,WikiForm]="";
+WikiForm/:ToString[X[i_,j_,k_,l_],WikiForm]:=
+  Module[{i1=ToString[i],j1=ToString[j],k1=ToString[k],l1=ToString[l]},
+    If[{1,1,1,1}\[Equal]StringLength/@{i1,j1,k1,l1},
+      ToString[StringForm["X<sub>````````</sub>",i1,j1,k1,l1]],
+      ToString[StringForm["X<sub>``,``,``,``</sub>",i1,j1,k1,l1]]]]
+WikiForm/:ToString[pd_PD,WikiForm]:=
+  StringJoin@@Table[ToString[pd[[i]],WikiForm]<>" ",{i,Length[pd]}]
+SymmetryType["Reversible"]=Reversible;
+SymmetryType["Fully amphicheiral"]=FullyAmphicheiral;
+SymmetryType["Negative amphicheiral"]=NegativeAmphicheiral;
+SymmetryType["Chiral"]=Chiral;
+WikiForm/:ToString[Reversible,WikiForm]="Reversible";
+WikiForm/:ToString[FullyAmphicheiral,WikiForm]="Fully amphicheiral";
+WikiForm/:ToString[NegativeAmphicheiral,WikiForm]="Negative amphicheiral";
+WikiForm/:ToString[Chiral,WikiForm]="Chiral";
+WikiForm/:ToString[_SymmetryType,WikiForm]="";
+WikiForm/:ToString[_UnknottingNumber,WikiForm]="";
+WikiForm/:ToString[_ThreeGenus,WikiForm]="";
+WikiForm/:ToString[_BridgeIndex,WikiForm]="";
+WikiForm/:ToString[_SuperBridgeIndex,WikiForm]="";
+WikiForm/:ToString[_NakanishiIndex,WikiForm]="";
+WikiForm/:ToString[NotHyperbolic,WikiForm]="Not hyperbolic";
+WikiForm/:ToString[poly_?LaurentPolynomialQ,WikiForm]:=
+  MathTags[StringReplace[ToString[poly,TeXForm],
+      LaurentPolynomialTeXReplacementRule]]
+WikiTeXForm/:ToString[a_,WikiTeXForm]:=
+  StringReplace[ToString[a,TeXForm],"\\text{"\[Rule]"\\textrm{"]
+WikiForm/:ToString[a_,WikiForm]:=MathTags[ToString[a,WikiTeXForm]]
+\!\(\(PowerQ[_Integer] := True;\)\[IndentingNewLine]
+  \(PowerQ[_\^_Integer] = True;\)\[IndentingNewLine]
+  \(PowerQ[_Symbol] = True;\)\[IndentingNewLine]
+  \(PowerQ[_] = False;\)\)
+MonomialQ[x_Times]:=And@@(PowerQ/@List@@x)
+MonomialQ[x_]:=PowerQ[x]
+SplitMonomial[x_?MonomialQ]:=If[MatchQ[x,_Times],List@@x,{x}]
+MonomialStringQ[x_String]:=
+  MonomialQ[
+    ToExpression[StringReplace[x,{"{"\[Rule]"(","}"\[Rule]")"}],InputForm]]
+MonomialStringQ[_]:=False
+\!\(PowerToString[x_?PowerQ] := x /. {k_Integer \[RuleDelayed] ToString[k] <> "\< \>", z_\^n_ \[RuleDelayed] ToString[z] <> "\<^{\>" <> ToString[n] <> "\<} \>", z_Symbol \[RuleDelayed] ToString[z]}\)
+\!\(InvertMonomialString[x_?MonomialStringQ] := StringJoin @@ \((PowerToString /@ \(\((#\^\(-1\) &)\) /@ SplitMonomial[ToExpression[StringReplace[x, {"\<{\>" \[Rule] "\<(\>", "\<}\>" \[Rule] "\<)\>"}], InputForm]]\))\)\)
+LaurentPolynomialQ[x_?MonomialQ]:=True
+LaurentPolynomialQ[x_Plus]:=And@@(MonomialQ/@List@@x)
+IfNotOne["1"]="";
+IfNotOne[x_String]:=x
+LaurentPolynomialTeXReplacementRule=
+    "\\frac{"~~numerator:ShortestMatch[__]~~
+          "}{"~~denominator:ShortestMatch[__]~~
+              "}"~~rest:("+"|"-"|EndOfString)\[RuleDelayed]
+      IfNotOne[numerator] ~~" "~~InvertMonomialString[denominator]~~rest;
+End[]
+EndPackage[]
+(* End source file src/WikiForm.m*)
+
+
+(* Begin source file src/HOMFLYPT.m*)
+
 BeginPackage["KnotTheory`"]
 HOMFLYPT::usage = "
 HOMFLYPT[K][a, z] computes the HOMFLY-PT (Hoste, Ocneanu, Millett,
@@ -2029,6 +2430,11 @@ HOMFLYPT[pd_PD] := HOMFLYPT[pd] = (
 )
 HOMFLYPT[L_] := HOMFLYPT[PD[L]]
 End[]; EndPackage[];
+(* End source file src/HOMFLYPT.m*)
+
+
+(* Begin source file src/Kauffman.m*)
+
 BeginPackage["KnotTheory`"]
 Kauffman::usage = "
 Kauffman[K][a, z] computes the Kauffman polynomial of a knot or link K,
@@ -2184,6 +2590,11 @@ Kauffman[pd_PD] := Kauffman[pd] = (
 Kauffman[L_] := Kauffman[PD[L]]
 End[];
 EndPackage[];
+(* End source file src/Kauffman.m*)
+
+
+(* Begin source file src/Kh.m*)
+
 BeginPackage["KnotTheory`"]
 $RecursionLimit = 65536;
 Kh::usage = "Kh[L][q, t] returns the Poincare polynomial of the
@@ -2680,6 +3091,11 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
   ]
 ]
 End[]; EndPackage[]
+(* End source file src/Kh.m*)
+
+
+(* Begin source file src/MorseLink.m*)
+
 BeginPackage["KnotTheory`"];
 MorseLink::usage =
     "MorseLink[K] returns a presentation of the oriented link K, composed, in \
@@ -2876,6 +3292,11 @@ strand list, such that the adjacent edge does not *)
       ];
 End[];
 EndPackage[];
+(* End source file src/MorseLink.m*)
+
+
+(* Begin source file src/DrawMorseLink.m*)
+
 BeginPackage["KnotTheory`"];
  
 DrawMorseLink::usage = 
@@ -3167,6 +3588,11 @@ at the University of Toronto in the summer of 2005."];
       ];
 End[];
 EndPackage[];
+(* End source file src/DrawMorseLink.m*)
+
+
+(* Begin source file src/ML2PD.m*)
+
 BeginPackage["KnotTheory`"]; 
 Begin["`MorseLink2PD`"]; 
 PD[MorseLink[Cup[1,2], Cap[2 , 1] ] ] := PD[Loop[1]]; 
@@ -3204,6 +3630,11 @@ PD[in_MorseLink] := Module[ {pos, arrow, strands = {}, edgecount = 0, n, chains 
 ]; 
 End[]; 
 EndPackage[]; 
+(* End source file src/ML2PD.m*)
+
+
+(* Begin source file src/AlexanderConway.m*)
+
 BeginPackage["KnotTheory`"]
 Alexander::usage = "Alexander[K][t] computes the Alexander polynomial of a knot K as a function of the variable t.  Alexander[K, r][t] computes a basis of the r'th Alexander ideal of K in Z[t].";
 Alexander::about = "The program Alexander[K, r] to compute Alexander ideals was written by Jana Archibald at the University of Toronto in the summer of 2005."
@@ -3391,6 +3822,11 @@ Conway[K_] := Conway[K] = Function @@ {Module[{t},
 KnotDet[K_] := Abs[Alexander[K][-1]]
 End[]
 EndPackage[]
+(* End source file src/AlexanderConway.m*)
+
+
+(* Begin source file src/VogelsAlgorithm.m*)
+
 (* VogelsAlgorithm.m by Dan Carney *)
 BeginPackage["KnotTheory`"];
 BR; Mirror; NumberOfKnots; PD;
@@ -3706,6 +4142,11 @@ Dbg[ Unevaluated[ "Start Edges ", data[ strandInitialEdge, # ] & /@ data[ strand
 End[];
 EndPackage[];
 (* End of VogelsAlgorithm.m *)
+(* End source file src/VogelsAlgorithm.m*)
+
+
+(* Begin source file src/MultivariableAlexander.m*)
+
 BeginPackage["KnotTheory`"];
 MultivariableAlexander::usage = "
 MultivariableAlexander[L][t] returns the multivariable Alexander polynomial
@@ -3870,6 +4311,11 @@ FormColouredBurauMatrix[ data_ ] := Module [
 ];
 End[];
 EndPackage[];
+(* End source file src/MultivariableAlexander.m*)
+
+
+(* Begin source file src/REngine.m*)
+
 BeginPackage["KnotTheory`"]
 REngine::usage = "REngine[K, Rp, Rn, Mcupl, Mcupr, Mcapl Mcapr] returns
 the invariant associated with the given R-matrices (Rp for positive
@@ -3947,6 +4393,11 @@ REngine[ml_MorseLink, rmatrix_, rbar_, mcupl_, mcupr_, mcapl_, mcapr_] :=
 	Return[F[Length[ml]]];
 ]
 End[];EndPackage[];
+(* End source file src/REngine.m*)
+
+
+(* Begin source file src/TestRMatrix.m*)
+
 BeginPackage["KnotTheory`"]
 TestRMatrix::usage = "TestRMatrix[Rp, Rn, McupL, McupR, McapL, McapR]
 checks if the invariant associated with the given R-matrices (Rp for
@@ -4321,6 +4772,11 @@ r2test[8,2] = MorseLink[Cap[2,1], Cup[2,1]];
 	
 	
 End[];EndPackage[];
+(* End source file src/TestRMatrix.m*)
+
+
+(* Begin source file src/CJREngine.m*)
+
 BeginPackage["KnotTheory`"]
 Begin["`CJREngine`"]
 CJ[K_, M_] :=  Module[ {N=M+1,cu, sq, kd, fp, fn, bp, bn, tt, t,ttb,r, rb, mcupl, mcapl, mcupr, mcapr},
@@ -4356,6 +4812,11 @@ Return[Function@@ {Apart[REngine[K, r, rb, mcupl, mcapl, mcupr, mcapr] / REngine
 	
 ]
 End[];EndPackage[];
+(* End source file src/CJREngine.m*)
+
+
+(* Begin source file src/ColouredJones.m*)
+
 BeginPackage["KnotTheory`"]
 ColouredJones::usage = "ColouredJones[K, n][q] returns the coloured
 Jones polynomial of a knot in colour n (i.e., in the (n+1)-dimensional
@@ -4510,6 +4971,11 @@ CJ[b_BR, n_Integer, opts___] := Module[
   ]
 ]
 End[]; EndPackage[];
+(* End source file src/ColouredJones.m*)
+
+
+(* Begin source file src/HFGenus.m*)
+
 (*******************************************************************
 This file was generated automatically by the Mathematica front end.
 It contains Initialization cells from a Notebook file, which
@@ -4966,3 +5432,67 @@ ThreeGenus[K_PD]:=ThreeGenus[K] = Module[
         First[ret] /. {max_Integer, min_Integer} \[RuleDelayed] {min, max}
         ];
 End[]; EndPackage[];
+(* End source file src/HFGenus.m*)
+
+
+(* Begin source file src/KTtoLinKnot.m*)
+
+(*******************************************************************
+This file was generated automatically by the Mathematica front end.
+It contains Initialization cells from a Notebook file, which
+typically will have the same name as this file except ending in
+".nb" instead of ".m".
+This file is intended to be loaded into the Mathematica kernel using
+the package loading commands Get or Needs.  Doing so is equivalent
+to using the Evaluate Initialization Cells menu command in the front
+end.
+DO NOT EDIT THIS FILE.  This entire file is regenerated
+automatically each time the parent Notebook file is saved in the
+Mathematica front end.  Any changes you make to this file will be
+overwritten.
+***********************************************************************)
+BeginPackage["KnotTheory`"];
+Begin["`KTtoLinKnot`"]
+checkArgs[s_,t_]:=
+  ListQ[s]&&VectorQ[t,IntegerQ[#]&&#\[GreaterEqual]0&]&&
+    Tr[t]\[LessEqual]Length[s]
+iteratedTake[s_,t_]/;checkArgs[s,t]:=
+  iteratedTake[s,t]=
+    With[{w=FoldList[Plus,0,t]},
+      Map[Take[s,#]&,Transpose[{Drop[w,-1]+1,Rest[w]}]]]
+fContoKTGauss[Ul_String]:=Module[{mm,nn,ss,vv,i},
+    mm=LinKnots`fGaussExtSigns[Ul];
+    nn=LinKnots`fGaussExtSigns[StringReplace[Ul,"-"\[Rule]""]];
+    nn=Map[Sign,Flatten[mm]]*Map[Sign,Flatten[nn]];
+    vv=Table[nn[[i]]*(-1)^i,{i,Length[nn]}]*Abs[Flatten[mm]];
+    ss=Map[Length,mm];
+    mm=If[MemberQ[ss,0],{vv},iteratedTake[vv,ss]];
+    GaussCode@@mm
+    ]
+PD[cn_ConwayNotation]:=PD[GaussCode[cn]]
+InstallLinKnots::failed=
+  "The function \"`1`\" requires the LinKnot package, which is not distributed as part of KnotTheory. I couldn't seem to load it; try downloading it from http://www.mi.sanu.ac.yu/vismath/linknot/, and adding the appropriate directory to the $Path."
+InstallLinKnots[symbol_]:=Module[{oldContextPath=$ContextPath},
+    (*Try to load LinKnots`*)
+    Needs["LinKnots`"];
+    (*If it failed, 
+      it won't be on the $ContextPath. Try to give a useful error message.*)
+    If[!MemberQ[$ContextPath,"LinKnots`"],
+      Message[InstallLinKnots::failed,symbol];
+      False,
+      (*Now clean up the $ContextPath again, removing as much as possible.*)
+      $ContextPath=oldContextPath;
+      True
+      ]
+    ]
+GaussCode[ConwayNotation[ss_String]]:=Module[{},
+    If[InstallLinKnots[ConwayNotation],
+      (GaussCode[ConwayNotation[ss0_String]]:=fContoKTGauss[ss0]);
+      GaussCode[ConwayNotation[ss]],
+      $Failed
+      ]
+    ]
+End[]
+EndPackage[]
+(* End source file src/KTtoLinKnot.m*)
+

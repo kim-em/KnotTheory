@@ -1,0 +1,223 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      5567,        157]*)
+(*NotebookOutlinePosition[      6249,        180]*)
+(*  CellTagsIndexPosition[      6205,        176]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["KnotTheory`KTtoLinKnot`", "Section",
+  InitializationCell->True],
+
+Cell["\<\
+This file is a subpackage of the KnotTheory` package, whose home is at \
+http://katlas.math.toronto.edu/
+
+This package provides a compatibility layer between KnotTheory` and LinKnot`. \
+You'll need to separately install LinKnot`, available at \
+http://www.mi.sanu.ac.yu/vismath/linknot/.\
+\>", "Text",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(\(BeginPackage["\<KnotTheory`\>"];\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(Begin["\<`KTtoLinKnot`\>"]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(checkArgs[s_, t_] := 
+      ListQ[s] && VectorQ[t, IntegerQ[#] && # \[GreaterEqual] 0 &] && 
+        Tr[t] \[LessEqual] Length[s]\), "\[IndentingNewLine]", 
+    \(iteratedTake[s_, t_] /; checkArgs[s, t] := \(iteratedTake[s, t] = 
+        With[{w = FoldList[Plus, 0, t]}, 
+          Map[Take[s, #] &, 
+            Transpose[{Drop[w, \(-1\)] + 1, Rest[w]}]]]\)\)}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(fContoKTGauss[Ul_String] := 
+      Module[{mm, nn, ss, vv, i}, \[IndentingNewLine]mm = 
+          LinKnots`fGaussExtSigns[Ul]; \[IndentingNewLine]nn = 
+          LinKnots`fGaussExtSigns[
+            StringReplace[
+              Ul, "\<-\>" \[Rule] "\<\>"]]; \[IndentingNewLine]nn = 
+          Map[Sign, Flatten[mm]]*
+            Map[Sign, Flatten[nn]]; \[IndentingNewLine]vv = 
+          Table[nn[\([i]\)]*\((\(-1\))\)^i, {i, Length[nn]}]*
+            Abs[Flatten[mm]]; \[IndentingNewLine]ss = 
+          Map[Length, mm]; \[IndentingNewLine]mm = 
+          If[MemberQ[ss, 0], {vv}, 
+            iteratedTake[vv, ss]]; \[IndentingNewLine]GaussCode @@ 
+          mm\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(PD[cn_ConwayNotation] := PD[GaussCode[cn]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(InstallLinKnots::failed = "\<The function \"`1`\" requires the LinKnot \
+package, which is not distributed as part of KnotTheory. I couldn't seem to \
+load it; try downloading it from http://www.mi.sanu.ac.yu/vismath/linknot/, \
+and adding the appropriate directory to the $Path.\>"\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(InstallLinKnots[symbol_] := 
+      Module[{oldContextPath = $ContextPath}, \[IndentingNewLine] (*Try\ to\ \
+load\ LinKnots`*) \[IndentingNewLine]Needs["\<LinKnots`\>"]; \
+\[IndentingNewLine] (*If\ it\ failed, \ 
+          it\ won' 
+            t\ be\ on\ the\ $ContextPath . \ 
+              Try\ to\ give\ a\ useful\ error\ \(\(message\)\(.\)\)\
+*) \[IndentingNewLine]If[\(! MemberQ[$ContextPath, "\<LinKnots`\>"]\), \
+\[IndentingNewLine]Message[InstallLinKnots::failed, 
+            symbol]; \[IndentingNewLine]False, \[IndentingNewLine] (*Now\ \
+clean\ up\ the\ $ContextPath\ again, \ 
+            removing\ as\ much\ as\ \(\(possible\)\(.\)\)\
+*) \[IndentingNewLine]$ContextPath = 
+            oldContextPath; \[IndentingNewLine]True\[IndentingNewLine]]\
+\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(GaussCode[ConwayNotation[ss_String]] := 
+      Module[{}, \[IndentingNewLine]If[
+          InstallLinKnots[
+            ConwayNotation], \[IndentingNewLine]\((GaussCode[
+                ConwayNotation[ss0_String]] := 
+              fContoKTGauss[ss0])\); \[IndentingNewLine]GaussCode[
+            ConwayNotation[
+              ss]], \[IndentingNewLine]$Failed\[IndentingNewLine]]\
+\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell["EndPackage", "Subsection",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(End[]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(EndPackage[]\)], "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 713}},
+AutoGeneratedPackage->Automatic,
+WindowSize->{1184, 651},
+WindowMargins->{{Automatic, -450}, {Automatic, -16}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 70, 1, 73, "Section",
+  InitializationCell->True],
+Cell[1849, 56, 339, 8, 71, "Text",
+  InitializationCell->True],
+Cell[2191, 66, 97, 2, 30, "Input",
+  InitializationCell->True],
+Cell[2291, 70, 87, 2, 30, "Input",
+  InitializationCell->True],
+Cell[2381, 74, 421, 8, 50, "Input",
+  InitializationCell->True],
+Cell[2805, 84, 744, 15, 190, "Input",
+  InitializationCell->True],
+Cell[3552, 101, 103, 2, 30, "Input",
+  InitializationCell->True],
+Cell[3658, 105, 343, 5, 70, "Input",
+  InitializationCell->True],
+Cell[4004, 112, 840, 16, 250, "Input",
+  InitializationCell->True],
+Cell[4847, 130, 462, 10, 150, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[5334, 144, 60, 1, 38, "Subsection",
+  InitializationCell->True],
+Cell[5397, 147, 66, 2, 30, "Input",
+  InitializationCell->True],
+Cell[5466, 151, 73, 2, 30, "Input",
+  InitializationCell->True]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

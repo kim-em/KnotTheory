@@ -1,10 +1,11 @@
 PackageSources = src/Base.m src/Braids.m src/TubePlot.m \
-	src/DrawPD.m src/Data.m src/BraidData.m src/GaussCode.m \
-	src/GC2PD.m src/Indiana.m src/HOMFLYPT.m \
+	src/DrawPD.m src/Data.m src/BraidData.m src/Naming.m src/GaussCode.m \
+	src/GC2PD.m src/Indiana.m src/HOMFLYPT.m src/WikiForm.m \
 	src/Kauffman.m src/Kh.m src/MorseLink.m src/DrawMorseLink.m \
 	src/ML2PD.m src/AlexanderConway.m src/VogelsAlgorithm.m \
 	src/MultivariableAlexander.m src/REngine.m src/TestRMatrix.m \
-	src/CJREngine.m src/ColouredJones.m src/HFGenus.m
+	src/CJREngine.m src/ColouredJones.m src/HFGenus.m \
+	src/KTtoLinKnot.m
 
 posted_files = KnotTheory.tar.gz KnotTheory.zip DTCodes4Knots12To16.tar.gz \
 	DTCodes4Knots12To16.zip
@@ -13,12 +14,12 @@ post_target = /www/html/KnotTheory/
 
 all: posted KnotTheory/init.m;
 
-posted:	post;
+posted: *;
 	make $(posted_files)
 	/bin/cp -f $(posted_files) web
 	/bin/touch posted
 
-KnotTheory/init.m:	src/System.mm $(PackageSources) KnotTheory/JavaKh/*;
+KnotTheory/init.m:  src/System.mm $(PackageSources) KnotTheory/JavaKh/*;
 	/bin/rm -f KnotTheory/init.m
 	sed -e s=---date---=`date "+{%Y,%m,%d,%H,%M,%S.%N}"`= src/System.mm \
 		> KnotTheory/init.m
@@ -39,4 +40,3 @@ DTCodes4Knots12To16.tar.gz: KnotTheory/*.dts;
 DTCodes4Knots12To16.zip: KnotTheory/*.dts;
 	/bin/rm -f web/DTCodes4Knots12To16.zip
 	zip -r DTCodes4Knots12To16.zip KnotTheory/*.dts
-

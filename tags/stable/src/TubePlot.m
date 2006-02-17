@@ -71,6 +71,12 @@ TubePlot[gamma_, {t_, t1_, t2_}, r_, opts___Rule] := Module[
 
 End[]; EndPackage[]
 
+BeginPackage["KnotTheory`", {"TubePlot`"}]
+
+TorusKnot;
+
+Begin["`Private`"]
+
 TubePlot[TorusKnot[m_, n_], opts___] := TubePlot[
   {Cos[n t], Sin[n t], 0} + 
     0.5{Cos[m t]Cos[n t], Cos[m t]Sin[n t], -Sin[m t]},
@@ -78,3 +84,5 @@ TubePlot[TorusKnot[m_, n_], opts___] := TubePlot[
   TubeSubdivision -> {40(m + 2n), 12}, TubeFraming -> {0,0,1},
   TubePlotPrelude -> EdgeForm[{}], Boxed -> False, ViewPoint -> {0, 0, 1}
 ];
+
+End[]; EndPackage[]

@@ -41,74 +41,74 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      3148,        107]*)
-(*NotebookOutlinePosition[      3794,        129]*)
-(*  CellTagsIndexPosition[      3750,        125]*)
+(*NotebookOptionsPosition[      3041,        107]*)
+(*NotebookOutlinePosition[      3685,        129]*)
+(*  CellTagsIndexPosition[      3641,        125]*)
 (*WindowFrame->Normal*)
 
 
 
 Notebook[{
+
+Cell[CellGroupData[{
 Cell[BoxData[
-    \(\(installPath = \
-"\<C:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk\\\>";\)\)], "Input"],
+    \($ContextPath\)], "Input"],
 
 Cell[BoxData[
-    \(\(SetDirectory[installPath];\)\)], "Input"],
+    \({"Global`", "System`"}\)], "Output"]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell[BoxData[
-    \(<< KnotTheory`\)], "Input"],
+Cell[BoxData[{
+    \(\(KnotTheoryPath\  = \ \
+"\<c:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk\\\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(AppendTo[$Path, \ KnotTheoryPath];\)\), "\[IndentingNewLine]", 
+    \(<< \ KnotTheory`\)}], "Input"],
 
 Cell[BoxData[
-    \("Loading KnotTheory` (version of December 27, 2005, \
-17:50:11.2342)..."\)], "Print"]
+    \("Loading KnotTheory` (version of February 16, 2006, \
+16:48:51.1339)..."\)], "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(GaussCode[Knot[11, NonAlternating, 1]]\)], "Input"],
+    \($ContextPath\)], "Input"],
 
 Cell[BoxData[
-    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
-      "Loading precomputed data in \!\(\"DTCode4KnotsTo11`\"\)."\)], "Message"],
+    \({"KnotTheory`", "TubePlot`", "Utilities`FilterOptions`", "Global`", 
+      "System`"}\)], "Output"]
+}, Open  ]],
 
 Cell[BoxData[
-    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
-      "\!\(\"The GaussCode to PD conversion was wri\"\[Ellipsis]\"rsity of \
-Toronto in the summer of 2005.\"\)"\)], "Message"],
+    \(\(AppendTo[$Path, "\<C:\\scott\\projects\\K2K\>"];\)\)], "Input"],
+
+Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(GaussCode[1, \(-5\), 2, \(-1\), 3, \(-8\), 4, \(-2\), 
-      5, \(-3\), \(-6\), 10, \(-7\), \(-4\), 8, 6, \(-9\), 11, \(-10\), 
-      7, \(-11\), 9]\)], "Output"]
+    \(\(GaussCode[ConwayNotation["\<5 2\>"]]\)[q]\)], "Input"],
+
+Cell[BoxData[
+    \(\(GaussCode[{\(-1\), 2, \(-3\), 4, \(-5\), 6, \(-7\), 5, \(-4\), 
+          3, \(-2\), 1, \(-6\), 7}]\)[q]\)], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(NumberOfKnots[11, NonAlternating]\)], "Input"],
+    \($ContextPath\)], "Input"],
 
 Cell[BoxData[
-    \(185\)], "Output"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
-    \(GaussCode[Knot[11, NonAlternating, 200]]\)], "Input"],
-
-Cell[BoxData[
-    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
-      "Loading precomputed data in \!\(\"DTCode4KnotsTo11`\"\)."\)], "Message"]
+    \({"KnotTheory`", "TubePlot`", "Utilities`FilterOptions`", "Global`", 
+      "System`"}\)], "Output"]
 }, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
 ScreenRectangle->{{0, 1280}, {0, 713}},
-WindowSize->{495, 525},
-WindowMargins->{{Automatic, 289}, {35, Automatic}}
+WindowSize->{971, 589},
+WindowMargins->{{Automatic, 76}, {Automatic, 5}}
 ]
 
 (*******************************************************************
@@ -128,29 +128,31 @@ CellTagsIndex->{}
 
 (*NotebookFileOutline
 Notebook[{
-Cell[1754, 51, 115, 2, 70, "Input"],
-Cell[1872, 55, 63, 1, 30, "Input"],
 
 Cell[CellGroupData[{
-Cell[1960, 60, 47, 1, 30, "Input"],
-Cell[2010, 63, 105, 2, 44, "Print"]
+Cell[1776, 53, 45, 1, 30, "Input"],
+Cell[1824, 56, 56, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[2152, 70, 71, 1, 30, "Input"],
-Cell[2226, 73, 138, 2, 37, "Message"],
-Cell[2367, 77, 186, 3, 37, "Message"],
-Cell[2556, 82, 182, 3, 48, "Output"]
+Cell[1917, 62, 248, 5, 70, "Input"],
+Cell[2168, 69, 105, 2, 25, "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[2775, 90, 66, 1, 30, "Input"],
-Cell[2844, 93, 37, 1, 29, "Output"]
+Cell[2310, 76, 45, 1, 30, "Input"],
+Cell[2358, 79, 119, 2, 29, "Output"]
+}, Open  ]],
+Cell[2492, 84, 85, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[2602, 89, 76, 1, 30, "Input"],
+Cell[2681, 92, 140, 2, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[2918, 99, 73, 1, 30, "Input"],
-Cell[2994, 102, 138, 2, 37, "Message"]
+Cell[2858, 99, 45, 1, 30, "Input"],
+Cell[2906, 102, 119, 2, 29, "Output"]
 }, Open  ]]
 }
 ]
