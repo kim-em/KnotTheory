@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[    710662,      18955]*)
-(*NotebookOutlinePosition[    711305,      18977]*)
-(*  CellTagsIndexPosition[    711261,      18973]*)
+(*NotebookOptionsPosition[    710707,      18958]*)
+(*NotebookOutlinePosition[    711353,      18980]*)
+(*  CellTagsIndexPosition[    711309,      18976]*)
 (*WindowFrame->Normal*)
 
 
@@ -18948,7 +18948,10 @@ o`3ooolQ0?ooo`00\
 Cell[BoxData[
     TagBox[\(\[SkeletonIndicator]  Graphics3D  \[SkeletonIndicator]\),
       False,
-      Editable->False]], "Output"]
+      Editable->False]], "Output"],
+
+Cell[BoxData[
+    \($Aborted\)], "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
@@ -18956,7 +18959,7 @@ Cell[BoxData[
 FrontEndVersion->"5.2 for Microsoft Windows",
 ScreenRectangle->{{0, 1280}, {0, 713}},
 WindowSize->{748, 651},
-WindowMargins->{{Automatic, 0}, {0, Automatic}}
+WindowMargins->{{Automatic, 91}, {Automatic, -22}}
 ]
 
 (*******************************************************************
@@ -19037,7 +19040,8 @@ Cell[CellGroupData[{
 Cell[6279, 202, 70, 1, 30, "Input"],
 Cell[6352, 205, 704135, 18740, 296, 634861, 17880, "GraphicsData", \
 "PostScript", "Graphics"],
-Cell[710490, 18947, 132, 3, 29, "Output"]
+Cell[710490, 18947, 132, 3, 29, "Output"],
+Cell[710625, 18952, 42, 1, 29, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]

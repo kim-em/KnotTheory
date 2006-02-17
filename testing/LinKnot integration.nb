@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      3931,        117]*)
-(*NotebookOutlinePosition[      4576,        139]*)
-(*  CellTagsIndexPosition[      4532,        135]*)
+(*NotebookOptionsPosition[      4100,        126]*)
+(*NotebookOutlinePosition[      4745,        148]*)
+(*  CellTagsIndexPosition[      4701,        144]*)
 (*WindowFrame->Normal*)
 
 
@@ -109,10 +109,19 @@ ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
 ButtonData:>\\\"General::stop\\\"]\\)\"\>"}]], "Message"],
 
 Cell[BoxData[
-    \(1\/q\^9 + 1\/q\^7 + 1\/\(q\^27\ t\^9\) + 1\/\(q\^23\ t\^8\) + 
-      1\/\(q\^23\ t\^7\) + 1\/\(q\^19\ t\^6\) + 1\/\(q\^19\ t\^5\) + 
-      1\/\(q\^15\ t\^4\) + 1\/\(q\^15\ t\^3\) + 
-      1\/\(q\^11\ t\^2\)\)], "Output"]
+    \(q\^3 + q\^5 + q\^7\ t\^2 + q\^11\ t\^3 + q\^11\ t\^4 + 
+      q\^15\ t\^5\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(k = \(Kh[KnotInput[]]\)[q, t]\)], "Input"],
+
+Cell[BoxData[
+    \(q\^9 + q\^11 + q\^13\ t\^2 + q\^17\ t\^3 + q\^15\ t\^4 + q\^17\ t\^4 + 
+      q\^19\ t\^5 + q\^21\ t\^5 + q\^19\ t\^6 + q\^23\ t\^7 + q\^23\ t\^8 + 
+      q\^27\ t\^9\)], "Output"]
 }, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
@@ -157,7 +166,12 @@ Cell[2758, 88, 149, 3, 22, "Message"],
 Cell[2910, 93, 209, 3, 22, "Message"],
 Cell[3122, 98, 210, 3, 22, "Message"],
 Cell[3335, 103, 337, 5, 22, "Message"],
-Cell[3675, 110, 240, 4, 44, "Output"]
+Cell[3675, 110, 107, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3819, 117, 62, 1, 30, "Input"],
+Cell[3884, 120, 200, 3, 29, "Output"]
 }, Open  ]]
 }
 ]
