@@ -53,9 +53,9 @@ KnotTheoryDirectory[] = (
 )
 
 KnotTheoryWelcomeMessage[] = StringJoin[
-  "Loading KnotTheory` (version of ",
+  "Loading KnotTheory` version of ",
   KnotTheoryVersionString[],
-")..."
+  ". Read more at http://katlas.math.toronto.edu/wiki/KnotTheory."
 ]
 
 Print[KnotTheoryWelcomeMessage[]]
