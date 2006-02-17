@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 2, 17, 15, 33, 10.9514912};
+KnotTheoryVersion[] = {2006, 2, 17, 16, 14, 53.8832672};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -39,8 +39,12 @@ KnotTheoryVersionString[] = StringJoin[
   ToString[KnotTheoryVersion[6]]
 ]
 KnotTheoryDirectory[] = (
-  File /. Flatten[FileInformation[ToFileName[#,"KnotTheory"]] & /@ $Path]
+  File /. Flatten[FileInformation[ToFileName[#,"KnotTheory"]] & /@ ($Path /. "." -> Directory[])]
 )
+(* might be dangerous if KnotTheoryDirectory[] is somehow incorrect! *)
+If[!MemberQ[$Path, ParentDirectory[KnotTheoryDirectory[]]],
+	AppendTo[$Path, ParentDirectory[KnotTheoryDirectory[]]]
+]
 KnotTheoryWelcomeMessage[] = StringJoin[
   "Loading KnotTheory` version of ",
   KnotTheoryVersionString[],
@@ -5449,6 +5453,8 @@ overwritten.
 BeginPackage["KnotTheory`"];
 KnotInput::usage=
   "KnotInput[] opens a window in which you can draw a knot or link by hand. Right click and select 'Quit' when you're done. This function requires the package LinKnots`, and will only run on Windows machines. Sorry!"
+DrawKnot::usage=
+  "DrawKnot[K_] draws a knot (or link!) K. This function requires the package LinKnots`, and will only run on Windows machines. Sorry!"
 LinKnotDirectory::usage=
   "LinKnotDirectory[] contains the path to the LinKnot package. It must be set correctly in order for all the (Windows only) MathLink components of LinKnot to be usable. It can be overriden by the user."
 Begin["`KTtoLinKnot`"]
@@ -5464,6 +5470,23 @@ SwitchDirectories[e_]:=
     SetDirectory[currentDir];
     result
     ]
+SetAttributes[EnsurePolyBaseVisible,HoldAll]
+EnsurePolyBaseVisible[e_]:=
+  Module[{pbOnContextPath=MemberQ[$ContextPath,"PolyBase`"],result},
+    If[!pbOnContextPath,AppendTo[$ContextPath,"PolyBase`"]];
+    result=e;
+    If[!pbOnContextPath,$ContextPath=DeleteCases[$ContextPath,"PolyBase`"]];
+    result
+    ]
+SetAttributes[EnsureKnotLinkBaseVisible,HoldAll]
+EnsureKnotLinkBaseVisible[e_]:=
+  Module[{klbOnContextPath=MemberQ[$ContextPath,"KnotLinkBase`"],result},
+    If[!klbOnContextPath,AppendTo[$ContextPath,"KnotLinkBase`"]];
+    result=e;
+    If[!klbOnContextPath,$ContextPath=
+        DeleteCases[$ContextPath,"KnotLinkBase`"]];
+    result
+    ]
 checkArgs[s_,t_]:=
   ListQ[s]&&VectorQ[t,IntegerQ[#]&&#\[GreaterEqual]0&]&&
     Tr[t]\[LessEqual]Length[s]
@@ -5472,14 +5495,17 @@ iteratedTake[s_,t_]/;checkArgs[s,t]:=
     With[{w=FoldList[Plus,0,t]},
       Map[Take[s,#]&,Transpose[{Drop[w,-1]+1,Rest[w]}]]]
 fContoKTGauss[Ul_String]:=Module[{mm,nn,ss,vv,i},
-    mm=LinKnots`fGaussExtSigns[Ul];
-    nn=LinKnots`fGaussExtSigns[StringReplace[Ul,"-"\[Rule]""]];
-    nn=Map[Sign,Flatten[mm]]*Map[Sign,Flatten[nn]];
-    vv=Table[nn[[i]]*(-1)^i,{i,Length[nn]}]*Abs[Flatten[mm]];
-    ss=Map[Length,mm];
-    mm=If[MemberQ[ss,0],{vv},iteratedTake[vv,ss]];
-    GaussCode@@
-      If[Length[mm]\[Equal]1,mm\[LeftDoubleBracket]1\[RightDoubleBracket],mm]
+    SwitchDirectories[
+      EnsurePolyBaseVisible[
+        mm=LinKnots`fGaussExtSigns[Ul];
+        nn=LinKnots`fGaussExtSigns[StringReplace[Ul,"-"\[Rule]""]];
+        ];
+      nn=Map[Sign,Flatten[mm]]*Map[Sign,Flatten[nn]];
+      vv=Table[nn[[i]]*(-1)^i,{i,Length[nn]}]*Abs[Flatten[mm]];
+      ss=Map[Length,mm];
+      mm=If[MemberQ[ss,0],{vv},iteratedTake[vv,ss]];
+      GaussCode@@mm
+      ]
     ]
 PD[cn_ConwayNotation]:=PD[GaussCode[cn]]
 InstallLinKnots::failed=
@@ -5501,13 +5527,27 @@ InstallLinKnots[symbol_]:=Module[{oldContextPath=$ContextPath},
       True
       ]
     ]
-GaussCode[ConwayNotation[ss_String]]:=Module[{},
+GaussCode[HoldPattern[ConwayNotation[ss_String]]]:=Module[{},
     If[InstallLinKnots[ConwayNotation],
-      (GaussCode[ConwayNotation[ss0_String]]:=fContoKTGauss[ss0]);
+      (GaussCode[HoldPattern[ConwayNotation[ss0_String]]]:=
+          fContoKTGauss[ss0]);
       CreditMessage[
         "Conway notation (and pdata) to Gauss code conversion was written by Radmila Sazdanovic in 2003-2006."]\
 ;
       GaussCode[ConwayNotation[ss]],
+      $Failed
+      ]
+    ]
+ConwayNotation[x:Except[_String]]:=Module[{},
+    If[InstallLinKnots[ConwayNotation],
+      (* up to 10 crossings D. Rolfsen from Classical notation *)
+      ConwayNotation[Knot[n_,k_]]/;(n\[LessEqual]10):=
+        ConwayNotation[LinKnots`fClassicToCon[NameString[Knot[n,k]]]];(* 
+        up to 12 crossings form ...*)
+      ConwayNotation[x0:Except[_String]]:=
+        ConwayNotation[
+          SwitchDirectories[LinKnots`fFindCon[DTtoPData[DTCode[x0]]]]];
+      ConwayNotation[x],
       $Failed
       ]
     ]
@@ -5534,12 +5574,22 @@ PdataToKTGauss[Ul_List]:=Module[{},
     DowkerToKTGauss[LinKnots`fDowfromPD[Ul]]
     ]
 (*DT to Pdata via KnotscapeDow=PD*) 
-DTtoPData[DTCode[d__List]]:=LinKnots`fPDataFromDow[{Length/@{d},Join[d]}]
-  DTtoPData[DTCode[n__Integer]]:=LinKnots`fPDataFromDow[{{Length[{n}]},{n}}]
+DTtoPData[HoldPattern[DTCode[d__List]]]:=
+    LinKnots`fPDataFromDow[{Length/@{d},Join[d]}]
+  DTtoPData[HoldPattern[DTCode[n__Integer]]]:=
+    LinKnots`fPDataFromDow[{{Length[{n}]},{n}}]
 KnotInput[]:=Module[{pdata},
     InstallLinKnots[KnotInput];
     CreditMessage["Graphical knot input was written by Ochiai and Imafuji."];
     SwitchDirectories[PdataToKTGauss[KnotsByComputer`GetPdatabyTracking[]]]
+    ]
+DrawKnot[k_]:=Module[{pdata},
+    InstallLinKnots[DrawKnot];
+    CreditMessage["Graphical knot output was written by ???."];
+    SwitchDirectories[
+      pdata=DTtoPData[DTCode[k]];
+      KnotsByComputer`ShowKnotfromPdata[pdata]
+      ]
     ]
 End[]
 EndPackage[]
