@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      3041,        107]*)
-(*NotebookOutlinePosition[      3685,        129]*)
-(*  CellTagsIndexPosition[      3641,        125]*)
+(*NotebookOptionsPosition[      3931,        117]*)
+(*NotebookOutlinePosition[      4576,        139]*)
+(*  CellTagsIndexPosition[      4532,        135]*)
 (*WindowFrame->Normal*)
 
 
@@ -51,15 +51,6 @@ NotebookFileLineBreakTest*)
 Notebook[{
 
 Cell[CellGroupData[{
-Cell[BoxData[
-    \($ContextPath\)], "Input"],
-
-Cell[BoxData[
-    \({"Global`", "System`"}\)], "Output"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
 Cell[BoxData[{
     \(\(KnotTheoryPath\  = \ \
 "\<c:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk\\\>";\)\), "\
@@ -69,17 +60,7 @@ Cell[BoxData[{
 
 Cell[BoxData[
     \("Loading KnotTheory` (version of February 16, 2006, \
-16:48:51.1339)..."\)], "Print"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
-    \($ContextPath\)], "Input"],
-
-Cell[BoxData[
-    \({"KnotTheory`", "TubePlot`", "Utilities`FilterOptions`", "Global`", 
-      "System`"}\)], "Output"]
+21:31:21.482)..."\)], "Print"]
 }, Open  ]],
 
 Cell[BoxData[
@@ -88,27 +69,56 @@ Cell[BoxData[
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(\(GaussCode[ConwayNotation["\<5 2\>"]]\)[q]\)], "Input"],
+    \(GaussCode[ConwayNotation["\<5 2\>"]]\)], "Input"],
 
 Cell[BoxData[
-    \(\(GaussCode[{\(-1\), 2, \(-3\), 4, \(-5\), 6, \(-7\), 5, \(-4\), 
-          3, \(-2\), 1, \(-6\), 7}]\)[q]\)], "Output"]
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"Conway notation (and pdata) to Gauss code conversion was written \
+by Radmila Sazdanovic in 2003-2006.\"\)"\)], "Message"],
+
+Cell[BoxData[
+    \(GaussCode[{\(-1\), 2, \(-3\), 4, \(-5\), 6, \(-7\), 5, \(-4\), 
+        3, \(-2\), 1, \(-6\), 7}]\)], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \($ContextPath\)], "Input"],
+    \(k = \(Kh[KnotInput[]]\)[q, t]\)], "Input"],
 
 Cell[BoxData[
-    \({"KnotTheory`", "TubePlot`", "Utilities`FilterOptions`", "Global`", 
-      "System`"}\)], "Output"]
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"Graphical knot input was written by Ochiai and Imafuji.\"\)"\)], \
+"Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"The GaussCode to PD conversion was written by Siddarth Sankaran \
+at the University of Toronto in the summer of 2005.\"\)"\)], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"The Khovanov homology program JavaKh was written by Jeremy Green \
+in the summer of 2005 at the University of Toronto.\"\)"\)], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(General::"stop"\), \(\(:\)\(\ \)\), "\<\"Further output of \
+\\!\\(KnotTheory :: \\\"credits\\\"\\) will be suppressed during this \
+calculation. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::stop\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \(1\/q\^9 + 1\/q\^7 + 1\/\(q\^27\ t\^9\) + 1\/\(q\^23\ t\^8\) + 
+      1\/\(q\^23\ t\^7\) + 1\/\(q\^19\ t\^6\) + 1\/\(q\^19\ t\^5\) + 
+      1\/\(q\^15\ t\^4\) + 1\/\(q\^15\ t\^3\) + 
+      1\/\(q\^11\ t\^2\)\)], "Output"]
 }, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
 ScreenRectangle->{{0, 1280}, {0, 713}},
 WindowSize->{971, 589},
-WindowMargins->{{Automatic, 76}, {Automatic, 5}}
+WindowMargins->{{Automatic, 78}, {Automatic, 34}}
 ]
 
 (*******************************************************************
@@ -130,29 +140,24 @@ CellTagsIndex->{}
 Notebook[{
 
 Cell[CellGroupData[{
-Cell[1776, 53, 45, 1, 30, "Input"],
-Cell[1824, 56, 56, 1, 29, "Output"]
+Cell[1776, 53, 248, 5, 70, "Input"],
+Cell[2027, 60, 104, 2, 25, "Print"]
+}, Open  ]],
+Cell[2146, 65, 85, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[2256, 70, 69, 1, 30, "Input"],
+Cell[2328, 73, 194, 3, 22, "Message"],
+Cell[2525, 78, 131, 2, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[1917, 62, 248, 5, 70, "Input"],
-Cell[2168, 69, 105, 2, 25, "Print"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-Cell[2310, 76, 45, 1, 30, "Input"],
-Cell[2358, 79, 119, 2, 29, "Output"]
-}, Open  ]],
-Cell[2492, 84, 85, 1, 30, "Input"],
-
-Cell[CellGroupData[{
-Cell[2602, 89, 76, 1, 30, "Input"],
-Cell[2681, 92, 140, 2, 29, "Output"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-Cell[2858, 99, 45, 1, 30, "Input"],
-Cell[2906, 102, 119, 2, 29, "Output"]
+Cell[2693, 85, 62, 1, 30, "Input"],
+Cell[2758, 88, 149, 3, 22, "Message"],
+Cell[2910, 93, 209, 3, 22, "Message"],
+Cell[3122, 98, 210, 3, 22, "Message"],
+Cell[3335, 103, 337, 5, 22, "Message"],
+Cell[3675, 110, 240, 4, 44, "Output"]
 }, Open  ]]
 }
 ]
