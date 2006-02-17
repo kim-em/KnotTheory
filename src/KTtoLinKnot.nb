@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      5567,        157]*)
-(*NotebookOutlinePosition[      6249,        180]*)
-(*  CellTagsIndexPosition[      6205,        176]*)
+(*NotebookOptionsPosition[     12336,        318]*)
+(*NotebookOutlinePosition[     13016,        341]*)
+(*  CellTagsIndexPosition[     12972,        337]*)
 (*WindowFrame->Normal*)
 
 
@@ -69,7 +69,37 @@ Cell[BoxData[
   InitializationCell->True],
 
 Cell[BoxData[
+    \(KnotInput::usage = "\<KnotInput[] opens a window in which you can draw \
+a knot or link by hand. Right click and select 'Quit' when you're done. This \
+function requires the package LinKnots`, and will only run on Windows \
+machines. Sorry!\>"\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(LinKnotDirectory::usage = "\<LinKnotDirectory[] contains the path to \
+the LinKnot package. It must be set correctly in order for all the (Windows \
+only) MathLink components of LinKnot to be usable. It can be overriden by the \
+user.\>"\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
     \(Begin["\<`KTtoLinKnot`\>"]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    \(SetAttributes[SwitchDirectories, HoldAll]\), "\[IndentingNewLine]", 
+    \(SwitchDirectories[e_] := 
+      Module[{currentDir = Directory[], 
+          kbcOnContextPath = MemberQ[$ContextPath, "\<KnotsByComputer`\>"], \ 
+          result}, \[IndentingNewLine]SetDirectory[
+          LinKnotDirectory[]]; \[IndentingNewLine]If[\(! kbcOnContextPath\), 
+          AppendTo[$ContextPath, "\<KnotsByComputer`\>"]]; \
+\[IndentingNewLine]result = 
+          e; \[IndentingNewLine]If[\(! kbcOnContextPath\), $ContextPath = 
+            DeleteCases[$ContextPath, "\<KnotsByComputer`\>"]]; \
+\[IndentingNewLine]SetDirectory[
+          currentDir]; \[IndentingNewLine]result\[IndentingNewLine]]\)}], \
+"Input",
   InitializationCell->True],
 
 Cell[BoxData[{
@@ -120,8 +150,12 @@ load\ LinKnots`*) \[IndentingNewLine]Needs["\<LinKnots`\>"]; \
               Try\ to\ give\ a\ useful\ error\ \(\(message\)\(.\)\)\
 *) \[IndentingNewLine]If[\(! MemberQ[$ContextPath, "\<LinKnots`\>"]\), \
 \[IndentingNewLine]Message[InstallLinKnots::failed, 
-            symbol]; \[IndentingNewLine]False, \[IndentingNewLine] (*Now\ \
-clean\ up\ the\ $ContextPath\ again, \ 
+            symbol]; \[IndentingNewLine]False, \
+\[IndentingNewLine]LinKnotDirectory[] = 
+            DirectoryName[
+              File /. Flatten[\(FileInformation[
+                        ToFileName[#, "\<LinKnots.m\>"]] &\) /@ $Path]]; \
+\[IndentingNewLine] (*Now\ clean\ up\ the\ $ContextPath\ again, \ 
             removing\ as\ much\ as\ \(\(possible\)\(.\)\)\
 *) \[IndentingNewLine]$ContextPath = 
             oldContextPath; \[IndentingNewLine]True\[IndentingNewLine]]\
@@ -134,10 +168,137 @@ Cell[BoxData[
           InstallLinKnots[
             ConwayNotation], \[IndentingNewLine]\((GaussCode[
                 ConwayNotation[ss0_String]] := 
-              fContoKTGauss[ss0])\); \[IndentingNewLine]GaussCode[
+              fContoKTGauss[
+                ss0])\); \[IndentingNewLine]CreditMessage["\<Conway notation \
+(and pdata) to Gauss code conversion was written by Radmila Sazdanovic in \
+2003-2006.\>"]; \[IndentingNewLine]GaussCode[
             ConwayNotation[
               ss]], \[IndentingNewLine]$Failed\[IndentingNewLine]]\
 \[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{"(*", 
+      RowBox[{\(\(**\)\(**\)\), "*", 
+        StyleBox["red",
+          FontColor->RGBColor[1, 0, 0]], 
+        StyleBox[" ",
+          FontColor->RGBColor[1, 0, 0]], 
+        StyleBox["are",
+          FontColor->RGBColor[1, 0, 0]], " ", "functions", " ", "from", " ", 
+        "LinKnot"}], "*********)"}]], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(KnDowToKTGauss[Ul_List]\), ":=", 
+      RowBox[{"Module", "[", 
+        RowBox[{\({ss, gg, sc, i}\), ",", "\[IndentingNewLine]", 
+          RowBox[{
+            RowBox[{"ss", "=", 
+              RowBox[{
+                RowBox[{
+                  StyleBox[
+                    RowBox[{"LinKnots`", 
+                      StyleBox["fSignsKL",
+                        FontColor->RGBColor[1, 0, 0]]}]], "[", \(Abs[Ul]\), 
+                  "]"}], "[", \([2]\), "]"}]}], ";", 
+            "\[IndentingNewLine]", \(gg = 
+              Map[Sort, 
+                Table[{2  i - 1, Abs[Ul[\([2, i]\)]]}, {i, 
+                    Length[Ul[\([2]\)]]}]]\), ";", 
+            "\[IndentingNewLine]", \(sc = 
+              Flatten[Complement[
+                  Table[If[ss[\([i]\)] < 0, gg[\([i]\)], {}], {i, 
+                      Length[ss]}], {{}}]]\), ";", 
+            "\[IndentingNewLine]", \(gg = 
+              Map[Last, 
+                Sort[Flatten[
+                    Table[{{gg[\([i, 1]\)], i}, {gg[\([i, 2]\)], i}}, {i, 
+                        Length[gg]}], 1]]]\), ";", 
+            "\[IndentingNewLine]", \(gg = 
+              Table[gg[\([i]\)]*\((\(-1\))\)^i, {i, Length[gg]}]\), ";", 
+            "\[IndentingNewLine]", \(gg = 
+              Table[If[MemberQ[sc, i], \(-gg[\([i]\)]\), gg[\([i]\)]], {i, 
+                  Length[gg]}]\), ";", 
+            "\[IndentingNewLine]", \(GaussCode @@ 
+              If[Length[Ul[\([1]\)]] \[Equal] 1, gg, 
+                iteratedTake[gg, 2  Ul[\([1]\)]]]\)}]}], 
+        "\[IndentingNewLine]", "]"}]}]], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[{
+    RowBox[{
+      RowBox[{\(DowkerToKTGauss[Ul_List]\), ":=", 
+        RowBox[{"Module", "[", 
+          RowBox[{\({ss, ss1, i}\), ",", 
+            RowBox[{
+              RowBox[{"ss", "=", 
+                RowBox[{
+                  StyleBox[
+                    RowBox[{"LinKnots`", 
+                      StyleBox["fSignsKL",
+                        FontColor->RGBColor[1, 0, 0]]}]], "[", \(Abs[Ul]\), 
+                  "]"}]}], ";", 
+              "\[IndentingNewLine]", \(ss1 = 
+                Map[Sign, Ul[\([2]\)]]*Map[Sign, ss[\([2]\)]]\), ";", 
+              "\[IndentingNewLine]", \(ss = 
+                KnDowToKTGauss[{Ul[\([1]\)], ss1*Ul[\([2]\)]}]\)}]}], "]"}]}],
+       "\n", \( (*Pdata\ to\ Knot\ theory\ GaussCode*) \)}], "\
+\[IndentingNewLine]", 
+    RowBox[{\(PdataToKTGauss[Ul_List]\), ":=", 
+      RowBox[{"Module", "[", 
+        RowBox[{\({}\), ",", "\[IndentingNewLine]", 
+          
+          RowBox[{\(CreditMessage["\<Conway notation (and pdata) to Gauss \
+code conversion was written by Radmila Sazdanovic in 2003-2006.\>"]\), ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{"DowkerToKTGauss", "[", 
+              RowBox[{
+                StyleBox[
+                  RowBox[{"LinKnots`", 
+                    StyleBox["fDowfromPD",
+                      FontColor->RGBColor[1, 0, 0]]}]], "[", "Ul", "]"}], 
+              "]"}]}]}], "\[IndentingNewLine]", "]"}]}]}], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{\( (*DT\ to\ Pdata\ via\ KnotscapeDow = PD*) \), " ", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+        RowBox[{\(DTtoPData[DTCode[d__List]]\), ":=", 
+          RowBox[{
+            StyleBox[
+              RowBox[{"LinKnots`", 
+                StyleBox["fPDataFromDow",
+                  FontColor->RGBColor[1, 0, 0]]}]], 
+            "[", \({Length /@ {d}, Join[d]}\), "]"}]}], "\[IndentingNewLine]",
+         
+        RowBox[{\(DTtoPData[DTCode[n__Integer]]\), ":=", 
+          RowBox[{
+            StyleBox[
+              RowBox[{"LinKnots`", 
+                StyleBox["fPDataFromDow",
+                  FontColor->RGBColor[1, 0, 0]]}]], 
+            "[", \({{Length[{n}]}, {n}}\), "]"}]}]}]}]], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{\(KnotInput[]\), ":=", 
+        RowBox[{"Module", "[", 
+          RowBox[{\({pdata}\), ",", "\[IndentingNewLine]", 
+            
+            RowBox[{\(InstallLinKnots[KnotInput]\), ";", 
+              "\[IndentingNewLine]", \(CreditMessage["\<Graphical knot input \
+was written by Ochiai and Imafuji.\>"]\), ";", "\[IndentingNewLine]", 
+              RowBox[{"SwitchDirectories", "[", 
+                RowBox[{"PdataToKTGauss", "[", 
+                  RowBox[{
+                    StyleBox[
+                      RowBox[{"KnotsByComputer`", 
+                        StyleBox["GetPdatabyTracking",
+                          FontColor->RGBColor[1, 0, 0]]}]], "[", "]"}], "]"}],
+                 "]"}]}]}], "\[IndentingNewLine]", "]"}]}], 
+      "\[IndentingNewLine]"}]], "Input",
   InitializationCell->True],
 
 Cell[CellGroupData[{
@@ -159,7 +320,7 @@ FrontEndVersion->"5.2 for Microsoft Windows",
 ScreenRectangle->{{0, 1280}, {0, 713}},
 AutoGeneratedPackage->Automatic,
 WindowSize->{1184, 651},
-WindowMargins->{{Automatic, -450}, {Automatic, -16}}
+WindowMargins->{{Automatic, 35}, {Automatic, -16}}
 ]
 
 (*******************************************************************
@@ -187,27 +348,42 @@ Cell[1849, 56, 339, 8, 71, "Text",
   InitializationCell->True],
 Cell[2191, 66, 97, 2, 30, "Input",
   InitializationCell->True],
-Cell[2291, 70, 87, 2, 30, "Input",
+Cell[2291, 70, 304, 5, 70, "Input",
   InitializationCell->True],
-Cell[2381, 74, 421, 8, 50, "Input",
+Cell[2598, 77, 298, 5, 70, "Input",
   InitializationCell->True],
-Cell[2805, 84, 744, 15, 190, "Input",
+Cell[2899, 84, 87, 2, 30, "Input",
   InitializationCell->True],
-Cell[3552, 101, 103, 2, 30, "Input",
+Cell[2989, 88, 748, 14, 190, "Input",
   InitializationCell->True],
-Cell[3658, 105, 343, 5, 70, "Input",
+Cell[3740, 104, 421, 8, 50, "Input",
   InitializationCell->True],
-Cell[4004, 112, 840, 16, 250, "Input",
+Cell[4164, 114, 744, 15, 190, "Input",
   InitializationCell->True],
-Cell[4847, 130, 462, 10, 150, "Input",
+Cell[4911, 131, 103, 2, 30, "Input",
+  InitializationCell->True],
+Cell[5017, 135, 343, 5, 70, "Input",
+  InitializationCell->True],
+Cell[5363, 142, 1032, 20, 270, "Input",
+  InitializationCell->True],
+Cell[6398, 164, 625, 13, 170, "Input",
+  InitializationCell->True],
+Cell[7026, 179, 349, 9, 30, "Input"],
+Cell[7378, 190, 1618, 35, 190, "Input",
+  InitializationCell->True],
+Cell[8999, 227, 1462, 33, 170, "Input",
+  InitializationCell->True],
+Cell[10464, 262, 765, 19, 70, "Input",
+  InitializationCell->True],
+Cell[11232, 283, 846, 18, 130, "Input",
   InitializationCell->True],
 
 Cell[CellGroupData[{
-Cell[5334, 144, 60, 1, 38, "Subsection",
+Cell[12103, 305, 60, 1, 38, "Subsection",
   InitializationCell->True],
-Cell[5397, 147, 66, 2, 30, "Input",
+Cell[12166, 308, 66, 2, 30, "Input",
   InitializationCell->True],
-Cell[5466, 151, 73, 2, 30, "Input",
+Cell[12235, 312, 73, 2, 30, "Input",
   InitializationCell->True]
 }, Open  ]]
 }, Open  ]]

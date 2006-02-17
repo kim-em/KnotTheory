@@ -21,7 +21,26 @@ overwritten.
 
 BeginPackage["KnotTheory`"];
 
+KnotInput::usage=
+  "KnotInput[] opens a window in which you can draw a knot or link by hand. Right click and select 'Quit' when you're done. This function requires the package LinKnots`, and will only run on Windows machines. Sorry!"
+
+LinKnotDirectory::usage=
+  "LinKnotDirectory[] contains the path to the LinKnot package. It must be set correctly in order for all the (Windows only) MathLink components of LinKnot to be usable. It can be overriden by the user."
+
 Begin["`KTtoLinKnot`"]
+
+SetAttributes[SwitchDirectories,HoldAll]
+SwitchDirectories[e_]:=
+  Module[{currentDir=Directory[],
+      kbcOnContextPath=MemberQ[$ContextPath,"KnotsByComputer`"], result},
+    SetDirectory[LinKnotDirectory[]];
+    If[!kbcOnContextPath,AppendTo[$ContextPath,"KnotsByComputer`"]];
+    result=e;
+    If[!kbcOnContextPath,$ContextPath=
+        DeleteCases[$ContextPath,"KnotsByComputer`"]];
+    SetDirectory[currentDir];
+    result
+    ]
 
 checkArgs[s_,t_]:=
   ListQ[s]&&VectorQ[t,IntegerQ[#]&&#\[GreaterEqual]0&]&&
@@ -54,6 +73,10 @@ InstallLinKnots[symbol_]:=Module[{oldContextPath=$ContextPath},
     If[!MemberQ[$ContextPath,"LinKnots`"],
       Message[InstallLinKnots::failed,symbol];
       False,
+      LinKnotDirectory[]=
+        DirectoryName[
+          File/.Flatten[
+              FileInformation[ToFileName[#,"LinKnots.m"]]&/@$Path]];
       (*Now clean up the $ContextPath again, removing as much as possible.*)
       $ContextPath=oldContextPath;
       True
@@ -63,10 +86,50 @@ InstallLinKnots[symbol_]:=Module[{oldContextPath=$ContextPath},
 GaussCode[ConwayNotation[ss_String]]:=Module[{},
     If[InstallLinKnots[ConwayNotation],
       (GaussCode[ConwayNotation[ss0_String]]:=fContoKTGauss[ss0]);
+      CreditMessage[
+        "Conway notation (and pdata) to Gauss code conversion was written by Radmila Sazdanovic in 2003-2006."]\
+;
       GaussCode[ConwayNotation[ss]],
       $Failed
       ]
     ]
+
+
+
+KnDowToKTGauss[Ul_List]:=Module[{ss,gg,sc,i},
+    ss=LinKnots`fSignsKL[Abs[Ul]][[2]];
+    gg=Map[Sort,Table[{2i-1,Abs[Ul[[2,i]]]},{i,Length[Ul[[2]]]}]];
+    sc=Flatten[
+        Complement[Table[If[ss[[i]]<0,gg[[i]],{}],{i,Length[ss]}],{{}}]];
+    gg=Map[Last,
+        Sort[Flatten[Table[{{gg[[i,1]],i},{gg[[i,2]],i}},{i,Length[gg]}],
+            1]]];
+    gg=Table[gg[[i]]*(-1)^i,{i,Length[gg]}];
+    gg=Table[If[MemberQ[sc,i],-gg[[i]],gg[[i]]],{i,Length[gg]}];
+    GaussCode@@If[Length[Ul[[1]]]\[Equal]1,gg,iteratedTake[gg,2Ul[[1]]]]
+    ]
+
+DowkerToKTGauss[Ul_List]:=Module[{ss,ss1,i},ss=LinKnots`fSignsKL[Abs[Ul]];
+    ss1=Map[Sign,Ul[[2]]]*Map[Sign,ss[[2]]];
+    ss=KnDowToKTGauss[{Ul[[1]],ss1*Ul[[2]]}]]
+(*Pdata to Knot theory GaussCode*)
+PdataToKTGauss[Ul_List]:=Module[{},
+    CreditMessage[
+      "Conway notation (and pdata) to Gauss code conversion was written by Radmila Sazdanovic in 2003-2006."]\
+;
+    DowkerToKTGauss[LinKnots`fDowfromPD[Ul]]
+    ]
+
+(*DT to Pdata via KnotscapeDow=PD*) 
+DTtoPData[DTCode[d__List]]:=LinKnots`fPDataFromDow[{Length/@{d},Join[d]}]
+DTtoPData[DTCode[n__Integer]]:=LinKnots`fPDataFromDow[{{Length[{n}]},{n}}]
+
+KnotInput[]:=Module[{pdata},
+    InstallLinKnots[KnotInput];
+    CreditMessage["Graphical knot input was written by Ochiai and Imafuji."];
+    SwitchDirectories[PdataToKTGauss[KnotsByComputer`GetPdatabyTracking[]]]
+    ]
+
 
 
 
