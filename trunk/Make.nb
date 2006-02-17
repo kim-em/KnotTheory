@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[    710707,      18958]*)
-(*NotebookOutlinePosition[    711353,      18980]*)
-(*  CellTagsIndexPosition[    711309,      18976]*)
+(*NotebookOptionsPosition[    711419,      18974]*)
+(*NotebookOutlinePosition[    712063,      18996]*)
+(*  CellTagsIndexPosition[    712019,      18992]*)
 (*WindowFrame->Normal*)
 
 
@@ -78,7 +78,15 @@ Cell[BoxData[
     \(SetDirectory["\<C:/drorbn/projects/KnotTheory/svn/trunk\>"]\)], "Input"],
 
 Cell[BoxData[
-    \("C:\\drorbn\\projects\\KnotTheory\\svn\\trunk"\)], "Output"]
+    RowBox[{\(SetDirectory::"cdir"\), \(\(:\)\(\ \)\), "\<\"Cannot set \
+current directory to \
+\\!\\(\\\"C:/drorbn/projects/KnotTheory/svn/trunk\\\"\\). \\!\\(\\*ButtonBox[\
+\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\\\", \
+ButtonFrame->None, ButtonData:>\\\"SetDirectory::cdir\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \("C:\\Program Files\\Wolfram Research\\Mathematica\\5.2"\)], "Output"]
 }, Open  ]],
 
 Cell["Radmila's version", "Text"],
@@ -101,7 +109,15 @@ Cell[BoxData[
 "]\)], "Input"],
 
 Cell[BoxData[
-    \("C:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk"\)], "Output"]
+    RowBox[{\(SetDirectory::"cdir"\), \(\(:\)\(\ \)\), "\<\"Cannot set \
+current directory to \
+\\!\\(\\\"C:\\\\\\\\scott\\\\\\\\projects\\\\\\\\svn-checkouts\\\\\\\\\
+KnotTheory\\\\\\\\trunk\\\"\\). \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"SetDirectory::cdir\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \("c:\\radmila\\KnotTheory\\trunk"\)], "Output"]
 }, Open  ]],
 
 Cell["\<\
@@ -18957,9 +18973,9 @@ Cell[BoxData[
 }, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
-ScreenRectangle->{{0, 1280}, {0, 713}},
+ScreenRectangle->{{0, 1024}, {0, 685}},
 WindowSize->{748, 651},
-WindowMargins->{{Automatic, 91}, {Automatic, -22}}
+WindowMargins->{{Automatic, 91}, {Automatic, 0}}
 ]
 
 (*******************************************************************
@@ -18991,57 +19007,59 @@ Cell[2328, 72, 30, 0, 33, "Text"],
 
 Cell[CellGroupData[{
 Cell[2383, 76, 92, 1, 30, "Input"],
-Cell[2478, 79, 80, 1, 29, "Output"]
+Cell[2478, 79, 338, 6, 22, "Message"],
+Cell[2819, 87, 89, 1, 29, "Output"]
 }, Open  ]],
-Cell[2573, 83, 33, 0, 33, "Text"],
+Cell[2923, 91, 33, 0, 33, "Text"],
 
 Cell[CellGroupData[{
-Cell[2631, 87, 83, 1, 30, "Input"],
-Cell[2717, 90, 66, 1, 29, "Output"]
+Cell[2981, 95, 83, 1, 30, "Input"],
+Cell[3067, 98, 66, 1, 29, "Output"]
 }, Open  ]],
-Cell[2798, 94, 31, 0, 33, "Text"],
+Cell[3148, 102, 31, 0, 33, "Text"],
 
 Cell[CellGroupData[{
-Cell[2854, 98, 108, 2, 30, "Input"],
-Cell[2965, 102, 89, 1, 29, "Output"]
+Cell[3204, 106, 108, 2, 30, "Input"],
+Cell[3315, 110, 382, 6, 37, "Message"],
+Cell[3700, 118, 66, 1, 29, "Output"]
 }, Open  ]],
-Cell[3069, 106, 97, 2, 33, "Text"],
-Cell[3169, 110, 679, 9, 170, "Input"],
-Cell[3851, 121, 79, 1, 30, "Input"],
+Cell[3781, 122, 97, 2, 33, "Text"],
+Cell[3881, 126, 679, 9, 170, "Input"],
+Cell[4563, 137, 79, 1, 30, "Input"],
 
 Cell[CellGroupData[{
-Cell[3955, 126, 685, 12, 250, "Input"],
-Cell[4643, 140, 53, 1, 29, "Output"]
+Cell[4667, 142, 685, 12, 250, "Input"],
+Cell[5355, 156, 53, 1, 29, "Output"]
 }, Open  ]]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[4745, 147, 33, 0, 51, "Subtitle"],
-Cell[4781, 149, 482, 9, 210, "Input"],
+Cell[5457, 163, 33, 0, 51, "Subtitle"],
+Cell[5493, 165, 482, 9, 210, "Input"],
 
 Cell[CellGroupData[{
-Cell[5288, 162, 49, 1, 30, "Input"],
-Cell[5340, 165, 105, 2, 25, "Print"]
+Cell[6000, 178, 49, 1, 30, "Input"],
+Cell[6052, 181, 105, 2, 25, "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[5482, 172, 144, 2, 44, "Input"],
-Cell[5629, 176, 130, 2, 22, "Message"],
-Cell[5762, 180, 210, 3, 37, "Message"],
-Cell[5975, 185, 38, 1, 29, "Output"]
+Cell[6194, 188, 144, 2, 44, "Input"],
+Cell[6341, 192, 130, 2, 22, "Message"],
+Cell[6474, 196, 210, 3, 37, "Message"],
+Cell[6687, 201, 38, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[6050, 191, 151, 3, 30, "Input"],
-Cell[6204, 196, 38, 1, 29, "Output"]
+Cell[6762, 207, 151, 3, 30, "Input"],
+Cell[6916, 212, 38, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[6279, 202, 70, 1, 30, "Input"],
-Cell[6352, 205, 704135, 18740, 296, 634861, 17880, "GraphicsData", \
+Cell[6991, 218, 70, 1, 30, "Input"],
+Cell[7064, 221, 704135, 18740, 296, 634861, 17880, "GraphicsData", \
 "PostScript", "Graphics"],
-Cell[710490, 18947, 132, 3, 29, "Output"],
-Cell[710625, 18952, 42, 1, 29, "Output"]
+Cell[711202, 18963, 132, 3, 29, "Output"],
+Cell[711337, 18968, 42, 1, 29, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
