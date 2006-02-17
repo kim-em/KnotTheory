@@ -52,6 +52,11 @@ KnotTheoryDirectory[] = (
   File /. Flatten[FileInformation[ToFileName[#,"KnotTheory"]] & /@ $Path]
 )
 
+(* might be dangerous if KnotTheoryDirectory[] is somehow incorrect! *)
+If[!MemberQ[$Path, KnotTheoryDirectory[]],
+	AppendTo[$Path, KnotTheoryDirectory[]]
+]
+
 KnotTheoryWelcomeMessage[] = StringJoin[
   "Loading KnotTheory` version of ",
   KnotTheoryVersionString[],
