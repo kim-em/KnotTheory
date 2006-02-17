@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 2, 16, 21, 31, 21.4820272};
+KnotTheoryVersion[] = {2006, 2, 17, 15, 23, 14.8069312};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -1734,12 +1734,12 @@ NameString[
 NameString[TorusKnot[m_Integer,n_Integer]]:=
   "T("<>ToString[m]<>","<>ToString[n]<>")"
 Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
-                "_"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
+                "_"|" "~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
 \[RightDoubleBracket]\[LessEqual]10\[And]#\[LeftDoubleBracket]2\
 \[RightDoubleBracket]\[LessEqual]
                 NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket]])&[
-        ToExpression/@StringSplit[S,"_"]]):=
-  Knot@@(ToExpression/@StringSplit[S,"_"])
+        ToExpression/@StringSplit[S,"_"|" "]]):=
+  Knot@@(ToExpression/@StringSplit[S,"_"|" "])
 Knot[S_String?(StringMatchQ[#,
               "K"~~(DigitCharacter..)~~
                   "a"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
@@ -1871,12 +1871,7 @@ KnotilusURL::usage = "
   website,\n
   http://srankin.math.uwo.ca/cgi-bin/retrieve.cgi/html/start.html.
 "
-DTCode::usage = "
-  DTCode[i1, i2, ...] represents a knot via its DT
-  (Dowker-Thistlethwaite) code. DTCode also acts as a \"type caster\",
-  so for example, DTCode[K] where K is is a named knot returns the DT
-  code of that knot.
-"
+DTCode::usage = "DTCode[i1, i2, ...] represents a knot via its DT (Dowker-Thistlethwaite) code, while DTCode[{i11,...}, {i21...}, ...] likewise represents a link. DTCode also acts as a \"type caster\", so for example, DTCode[K] where K is is a named knot or link returns the DT code of K."
 ConwayNotation::usage=""
 Begin["`GaussCode`"]
 GaussCode[K_] /; !MatchQ[Head[K], PD|DTCode|List|String|ConwayNotation] := GaussCode[PD[K]]
@@ -5483,7 +5478,8 @@ fContoKTGauss[Ul_String]:=Module[{mm,nn,ss,vv,i},
     vv=Table[nn[[i]]*(-1)^i,{i,Length[nn]}]*Abs[Flatten[mm]];
     ss=Map[Length,mm];
     mm=If[MemberQ[ss,0],{vv},iteratedTake[vv,ss]];
-    GaussCode@@mm
+    GaussCode@@
+      If[Length[mm]\[Equal]1,mm\[LeftDoubleBracket]1\[RightDoubleBracket],mm]
     ]
 PD[cn_ConwayNotation]:=PD[GaussCode[cn]]
 InstallLinKnots::failed=
@@ -5539,7 +5535,7 @@ PdataToKTGauss[Ul_List]:=Module[{},
     ]
 (*DT to Pdata via KnotscapeDow=PD*) 
 DTtoPData[DTCode[d__List]]:=LinKnots`fPDataFromDow[{Length/@{d},Join[d]}]
-DTtoPData[DTCode[n__Integer]]:=LinKnots`fPDataFromDow[{{Length[{n}]},{n}}]
+  DTtoPData[DTCode[n__Integer]]:=LinKnots`fPDataFromDow[{{Length[{n}]},{n}}]
 KnotInput[]:=Module[{pdata},
     InstallLinKnots[KnotInput];
     CreditMessage["Graphical knot input was written by Ochiai and Imafuji."];
