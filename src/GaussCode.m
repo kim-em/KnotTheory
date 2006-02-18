@@ -23,7 +23,10 @@ ConwayNotation::usage=""
 
 Begin["`GaussCode`"]
 
-GaussCode[K_] /; !MatchQ[Head[K], PD|DTCode|List|String|ConwayNotation] := GaussCode[PD[K]]
+GaussCode[K_] /; !MatchQ[
+  Head[K], PD|DTCode|List|String|ConwayNotation|GaussCode
+] := GaussCode[PD[K]]
+GaussCode[gc_GaussCode] := gc;
 GaussCode[PD[_Loop]] = GaussCode[]
 GaussCode[PD[l___, _Loop, r___]] := Append[
   GaussCode[PD[l,r]],
@@ -82,6 +85,7 @@ KnotilusURL[HoldPattern[GaussCode[ls__List]]] := StringJoin[
 ]
 KnotilusURL[K_] /; Head[K] =!= GaussCode := KnotilusURL[GaussCode[K]]
 
+DTCode[dtc_DTCode] := dtc;
 DTCode[GaussCode[]] = DTCode[]
 DTCode[HoldPattern[GaussCode[is__Integer]]] := Module[
   {gc={is}, agc, inds, odds, evens, s},
