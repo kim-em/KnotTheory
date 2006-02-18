@@ -40,9 +40,10 @@ WikiForm /: ToString["", WikiForm] :=""
 WikiForm/:ToString[WikiForm[S_String],WikiForm]:=S
 
 WikiTextQ[
-    S_String]:=!(StringFreeQ[
-        S,{"<table","<tr","<td","{|","|-","|+","|}","{{"~~__~~"}}","[["~~__~~"]]",
-          "http://"}])
+    S_String]:=(!(StringFreeQ[
+            S,{"<table","<tr","<td","{|","|-","|+","|}","{{"~~__~~"}}",
+              "[["~~__~~"]]","http://"}]))||
+    StringMatchQ[S,"<nowiki>"~~__~~"</nowiki>"]
 
 WikiForm /: ToString[s_String, WikiForm] := If[WikiTextQ[s],s,
     StringReplace[
