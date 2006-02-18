@@ -17,17 +17,16 @@ KnotilusURL::usage = "
   http://srankin.math.uwo.ca/cgi-bin/retrieve.cgi/html/start.html.
 "
 
-DTCode::usage = "
-  DTCode[i1, i2, ...] represents a knot via its DT
-  (Dowker-Thistlethwaite) code. DTCode also acts as a \"type caster\",
-  so for example, DTCode[K] where K is is a named knot returns the DT
-  code of that knot.
-"
+DTCode::usage = "DTCode[i1, i2, ...] represents a knot via its DT (Dowker-Thistlethwaite) code, while DTCode[{i11,...}, {i21...}, ...] likewise represents a link. DTCode also acts as a \"type caster\", so for example, DTCode[K] where K is is a named knot or link returns the DT code of K."
+
 ConwayNotation::usage=""
 
 Begin["`GaussCode`"]
 
-GaussCode[K_] /; !MatchQ[Head[K], PD|DTCode|List|String|ConwayNotation] := GaussCode[PD[K]]
+GaussCode[K_] /; !MatchQ[
+  Head[K], PD|DTCode|List|String|ConwayNotation|GaussCode
+] := GaussCode[PD[K]]
+GaussCode[gc_GaussCode] := gc;
 GaussCode[PD[_Loop]] = GaussCode[]
 GaussCode[PD[l___, _Loop, r___]] := Append[
   GaussCode[PD[l,r]],
@@ -86,6 +85,7 @@ KnotilusURL[HoldPattern[GaussCode[ls__List]]] := StringJoin[
 ]
 KnotilusURL[K_] /; Head[K] =!= GaussCode := KnotilusURL[GaussCode[K]]
 
+DTCode[dtc_DTCode] := dtc;
 DTCode[GaussCode[]] = DTCode[]
 DTCode[HoldPattern[GaussCode[is__Integer]]] := Module[
   {gc={is}, agc, inds, odds, evens, s},
