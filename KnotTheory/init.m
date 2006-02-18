@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 2, 17, 17, 14, 59.7081888};
+KnotTheoryVersion[] = {2006, 2, 17, 20, 27, 26.0762704};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -5505,7 +5505,7 @@ fContoKTGauss[Ul_String]:=Module[{mm,nn,ss,vv,i},
       vv=Table[nn[[i]]*(-1)^i,{i,Length[nn]}]*Abs[Flatten[mm]];
       ss=Map[Length,mm];
       mm=If[MemberQ[ss,0],{vv},iteratedTake[vv,ss]];
-      GaussCode@@mm[[1]]
+      GaussCode@@If[Length[mm]>1,mm,mm[[1]]]
       ]
     ]
 PD[cn_ConwayNotation]:=PD[GaussCode[cn]]
@@ -5592,7 +5592,7 @@ DrawKnot[k_]:=Module[{pdata},
       pdata=DTtoPData[DTCode[k]];
       KnotsByComputer`ShowKnotfromPdata[pdata]
       ]]
-AllConwayNotations[n:(1|2|3|5)]:=AllConwayNotations[n,Alternating]
+AllConwayNotations[n:(1|2|3|4|5)]:=AllConwayNotations[n,Alternating]
 AllConwayNotations[n_Integer]/;n\[GreaterEqual]1:=
   AllConwayNotations[n,Alternating]~Join~AllConwayNotations[n,NonAlternating]
 AllConwayNotations[n_Integer,Alternating]/;
