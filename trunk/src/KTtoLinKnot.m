@@ -84,7 +84,7 @@ fContoKTGauss[Ul_String]:=Module[{mm,nn,ss,vv,i},
       vv=Table[nn[[i]]*(-1)^i,{i,Length[nn]}]*Abs[Flatten[mm]];
       ss=Map[Length,mm];
       mm=If[MemberQ[ss,0],{vv},iteratedTake[vv,ss]];
-      GaussCode@@mm[[1]]
+      GaussCode@@If[Length[mm]>1,mm,mm[[1]]]
       ]
     ]
 
