@@ -1,0 +1,682 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     13853,        476]*)
+(*NotebookOutlinePosition[     14684,        505]*)
+(*  CellTagsIndexPosition[     14596,        499]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+    \(CEPSum[a, CEP[Chamber[{a}, {b, c}], a^2]]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[
+      Chamber[{b, 
+          c}], \(A\^2\ b\^2 - q\^2\)\/\(\(-A\^2\) + A\^2\ q\^2\)]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(CEPSum[a, CEP[Chamber[{a, b, c}], a\^2]]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[Chamber[{b, c}], b\^2]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(CEPSum[a, CEP[Chamber[{b, c}, \ {a}], a\^2]]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[
+      Chamber[{b, c}], \(A\^2 - b\^2\ q\^2\)\/\(\(-1\) + q\^2\)]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(% + %% + %%%\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[
+      Chamber[{b, 
+          c}], \(A\^4 - q\^2\)\/\(\(-A\^2\) + A\^2\ q\^2\)]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(CEPSum[a, CEP[Chamber[{a}], a^2]]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[Chamber[], \(A\^4 - q\^2\)\/\(\(-A\^2\) + A\^2\ q\^2\)]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Test[
+      Last[CEPSum[a, CEP[Chamber[{a}, {b, c}], a\^2]] + 
+            CEPSum[a, CEP[Chamber[{a, b, c}], a\^2]] + 
+            CEPSum[a, CEP[Chamber[{b, c}, \ {a}], a\^2]]] == 
+        Last[CEPSum[a, CEP[Chamber[{a}], a\^2]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(CombineChambers[Chamber[{a}], Chamber[{b}]]\)], "Input"],
+
+Cell[BoxData[
+    \(Chamber[{a, b}] + Chamber[{a}, {b}] + Chamber[{b}, {a}]\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\(AppendTo[$Path, \
+"\<c:/scott/projects/svn-checkouts/KnotTheory/trunk/\>"];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(<< KnotTheory`\)], "Input"],
+
+Cell[BoxData[
+    \("Loading KnotTheory` version of February 18, 2006, 11:14:9.26563.\nRead \
+more at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(?MorseLink\)\)], "Input"],
+
+Cell[BoxData[
+    \("MorseLink[K] returns a presentation of the oriented link K, composed, \
+in successive order, of the following 'events':     Cup[m,n] is a directed \
+creation, starting at strand position n, towards position m, where m and n \
+differ by 1.     X[n,a = {Over/Under}, b = {Up/Down}, c={Up/Down}] is a \
+crossing with lower-left edge at strand n, a determines whether the strand \
+running bottom-left to top-right is over/under the crossing, b and c give the \
+directions of the bottom-left and bottom-right strands respectively through \
+the crossing.     Cap[m,n] is a directed cap, from strand m to strand n.     \
+"\)], "Print",
+  CellTags->"Info3349855756-7855588"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(MorseLink[Knot[3, 1]]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"PD4Knots`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"MorseLink was added to KnotTheory` by Siddarth Sankaran at the \
+University of Toronto in the summer of 2005.\"\)"\)], "Message"],
+
+Cell[BoxData[
+    \(MorseLink[1\[Cup]2, 4\[Cup]3, X[2, Under, Up, Up], X[2, Under, Up, Up], 
+      X[2, Under, Up, Up], 2\[Cap]1, 1\[Cap]2]\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(bsf1 = \(\(StateSum\)\([\)\({}, {a[1], a[2], a[3], a[4]}\)\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(CEPSum[{a[3], a[4]}, CEP[Chamber[{a[3], a[4]}], a[3]]]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[Chamber[], \(A\^2 - q\)\/\(\(-A\) + A\ q\)]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(bsf1 = 
+      CEP[Chamber[{a[1], a[2]}], 1] 
+        CEP[Chamber[{a[3], a[4]}], a[3]]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[Chamber[{a[1], a[2], a[3], a[4]}], a[3]] + 
+      CEP[Chamber[{a[1], a[2]}, {a[3], a[4]}], a[3]] + 
+      CEP[Chamber[{a[3], a[4]}, {a[1], a[2]}], a[3]]\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\(krof = 
+        CEP[Chamber[{a[1], a[5]}, {a[2], a[6]}], q\^\(\(-1\)/4\)] + 
+          CEP[Chamber[{a[2], a[5]}, {a[1], a[6]}], q\^\(1/4\)];\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(fork = 
+        CEP[Chamber[{a[5], a[3]}, {a[6], a[4]}], q\^\(\(-1\)/4\)] + 
+          CEP[Chamber[{a[5], a[4]}, {a[6], a[3]}], q\^\(1/4\)];\)\)], "Input"],
+
+Cell[BoxData[
+    \(Clear[fork, krof]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Iweb[v1, v2, v3, v4]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[Chamber[{v1[1], v3[1]}, {v2[1], v4[1]}], 1\/\@q] + 
+      CEP[Chamber[{v1[1], v4[1]}, {v2[1], v3[1]}], 1] + 
+      CEP[Chamber[{v2[1], v3[1]}, {v1[1], v4[1]}], 1] + 
+      CEP[Chamber[{v2[1], v4[1]}, {v1[1], v3[1]}], \@q]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Iweb[a[2], a[3], a[5], a[6]]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[Chamber[{\(a[2]\)[1], \(a[5]\)[1]}, {\(a[3]\)[1], \(a[6]\)[1]}], 
+        1\/\@q] + 
+      CEP[Chamber[{\(a[2]\)[1], \(a[6]\)[1]}, {\(a[3]\)[1], \(a[5]\)[1]}], 
+        1] + CEP[
+        Chamber[{\(a[3]\)[1], \(a[5]\)[1]}, {\(a[2]\)[1], \(a[6]\)[1]}], 1] + 
+      CEP[Chamber[{\(a[3]\)[1], \(a[6]\)[1]}, {\(a[2]\)[1], \(a[5]\)[
+              1]}], \@q]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(CEPSum[{a3, a4}, 
+      Expand[Iweb[a1, a2, a3, a4] Iweb[a3, a4, a5, a6]]]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[Chamber[{a1, a5}, {a2, a6}], \(1 + q\)\/q] + 
+      CEP[Chamber[{a1, a6}, {a2, a5}], \(1 + q\)\/\@q] + 
+      CEP[Chamber[{a2, a5}, {a1, a6}], \(1 + q\)\/\@q] + 
+      CEP[Chamber[{a2, a6}, {a1, a5}], 1 + q]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Iweb[a1, a2, a5, a6]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[Chamber[{a1, a5}, {a2, a6}], 1\/\@q] + 
+      CEP[Chamber[{a1, a6}, {a2, a5}], 1] + 
+      CEP[Chamber[{a2, a5}, {a1, a6}], 1] + 
+      CEP[Chamber[{a2, a6}, {a1, a5}], \@q]\)], "Output"],
+
+Cell[BoxData[
+    \(Function[{v1, v2, v3, v4}, 
+      CEP[Chamber[{v1, v2, v3, v4}], q\/A] + 
+        CEP[Chamber[{v1, v3}, {v2, 
+              v4}], \(\(-A\) + q\^\(3/2\)\)\/\(A\ \@q\)] + 
+        CEP[Chamber[{v1, v4}, {v2, v3}], \(-1\)] + 
+        CEP[Chamber[{v2, v3}, {v1, v4}], \(-1\)] + 
+        CEP[Chamber[{v2, v4}, {v1, v3}], \(\(-A\)\ \@q + q\)\/A]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Crossing[Over, Up, Up]\)[v1, v2, v3, c4]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[Chamber[{v1, v2, v3, c4}], q\/A] + 
+      CEP[Chamber[{v1, c4}, {v2, v3}], \(-1\)] + 
+      CEP[Chamber[{v1, v3}, {v2, c4}], \(\(-A\) + q\^\(3/2\)\)\/\(A\ \@q\)] + 
+      CEP[Chamber[{v2, c4}, {v1, v3}], \(\(-A\)\ \@q + q\)\/A] + 
+      CEP[Chamber[{v2, v3}, {v1, c4}], \(-1\)]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(bsf2 = 
+      CEPSum[{a[2], a[3]}, 
+        Expand[bsf1*\ Crossing[a[2], a[3], a[5], a[6]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[Chamber[{a[1], a[4], a[5], a[6]}], \(q\ a[1]\)\/A] + 
+      CEP[Chamber[{a[1], a[5]}, {a[4], 
+            a[6]}], \(\((\(-1\) + q)\)\ a[4]\)\/A] + 
+      CEP[Chamber[{a[1], a[6]}, {a[4], a[5]}], \(-\(\(\@q\ a[4]\)\/A\)\)] + 
+      CEP[Chamber[{a[4], a[5]}, {a[1], 
+            a[6]}], \(-\(\(\@q\ a[4]\)\/A\)\)]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(bsf3 = 
+      CEPSum[{a[5], a[6]}, 
+        Expand[bsf2\ *Crossing[a[5], a[6], a[7], a[8]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[Chamber[{a[1], a[4], a[7], a[8]}], \(q\^2\ a[1]\)\/A\^2] + 
+      CEP[Chamber[{a[1], a[7]}, {a[4], 
+            a[8]}], \(a[4] - q\ a[4] + q\^2\ a[4]\)\/A\^2] + 
+      CEP[Chamber[{a[1], a[8]}, {a[4], 
+            a[7]}], \(-\(\(\((\(-1\) + q)\)\ \@q\ a[4]\)\/A\^2\)\)] + 
+      CEP[Chamber[{a[4], a[7]}, {a[1], 
+            a[8]}], \(-\(\(\((\(-1\) + q)\)\ \@q\ a[4]\)\/A\^2\)\)] + 
+      CEP[Chamber[{a[4], a[8]}, {a[1], a[7]}], \(q\ a[4]\)\/A\^2]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(bsf4 = 
+      CEPSum[{a[7], a[8]}, 
+        Expand[bsf3\ *Crossing[a[7], a[8], a[9], a[10]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[Chamber[{a[1], a[4], a[9], a[10]}], \(q\^3\ a[1]\)\/A\^3] + 
+      CEP[Chamber[{a[1], a[9]}, {a[4], 
+            a[10]}], \(\(-a[4]\) + q\ a[4] - q\^2\ a[4] + q\^3\ a[4]\)\/A\^3] \
++ CEP[Chamber[{a[1], a[10]}, {a[4], 
+            a[9]}], \(-\(\(\@q\ \((a[4] - q\ a[4] + 
+                    q\^2\ a[4])\)\)\/A\^3\)\)] + 
+      CEP[Chamber[{a[4], a[9]}, {a[1], 
+            a[10]}], \(\(-\@q\)\ a[4] + q\^\(3/2\)\ a[4] - q\^\(5/2\)\ a[4]\)\
+\/A\^3] + 
+      CEP[Chamber[{a[4], a[10]}, {a[1], 
+            a[9]}], \(\((\(-1\) + q)\)\ q\ a[4]\)\/A\^3]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Expand[
+      CEP[Chamber[{a[1], a[9]}], a[1]\^\(-1\)]*CEP[Chamber[{a[10], a[4]}], 1]*
+        bsf4]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[Chamber[{a[1], a[4], a[9], a[10]}], q\^3\/A\^3] + 
+      CEP[Chamber[{a[1], a[9]}, {a[4], 
+            a[10]}], \(\(-a[4]\) + q\ a[4] - q\^2\ a[4] + q\^3\ \
+a[4]\)\/\(A\^3\ a[1]\)] + 
+      CEP[Chamber[{a[4], a[10]}, {a[1], 
+            a[9]}], \(\((\(-1\) + q)\)\ q\ a[4]\)\/\(A\^3\ a[1]\)]\)], \
+"Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(bsf5 = 
+      CEPSum[{a[1], a[4], a[9], a[10]}, 
+        Expand[CEP[Chamber[{a[1], a[9]}], a[1]\^\(-1\)]*
+            CEP[Chamber[{a[10], a[4]}], 1]*bsf4]]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[
+      Chamber[], \(A\^4 - A\^2\ q - A\^2\ q\^2 + A\^4\ q\^2 + q\^3 - A\^2\ \
+q\^3\)\/\(\(-A\^5\) + A\^5\ q\)]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Expand[
+        Simplify[\((\(A\^4 - A\^2\ q - A\^2\ q\^2 + A\^4\ q\^2 + q\^3 - A\^2\ \
+q\^3\)\/\(\(-A\^5\) + A\^5\ q\))\)/\((\(A\^2 - q\)\/\(\(-A\) + A\ q\))\)]] /. 
+      A \[Rule] \(A\^\(-1\)\) q\^\(1/2\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(-A\^4\) + A\^2\/q + A\^2\ q\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Expand[\(HOMFLYPT[Knot[3, 1]]\)[A, q - q\^\(-1\)]]\)], "Input"],
+
+Cell[BoxData[
+    \(\(-A\^4\) + A\^2\/q\^2 + A\^2\ q\^2\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Expand[\(A\^3\) \((A\/q\^\(3/2\) - \@q\/A + A\ \@q /. 
+            A \[Rule] A\^\(-1\))\)]\)], "Input"],
+
+Cell[BoxData[
+    \(A\^2\/q\^\(3/2\) + A\^2\ \@q - A\^4\ \@q\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\[IndentingNewLine]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Simplify[\((A\/q\^\(3/2\) - \@q\/A + A\ \@q\  /. \ {A \[Rule] A, \ 
+              q \[Rule] 1/q^2})\)/\((\(-A\^4\) + A\^2\/q\^2 + 
+            A\^2\ q\^2)\)]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(-1\) + A\^2\ \((1 + q\^4)\)\)\/\(A\^3\ \@\(1\/q\^2\)\ \((1 - A\^2\ \
+q\^2 + q\^4)\)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(HOMFLYPT[Knot[0, 1]]\)[A, q]\)], "Input"],
+
+Cell[BoxData[
+    \(1\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(x = 
+      CEP[Chamber[{a[2], a[5]}], q\^\(1/2\)] CEP[Chamber[{a[3], a[6]}], 1] - 
+        Iweb[a[2], a[3], a[5], a[6]]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[Chamber[{a[2], a[3], a[5], a[6]}], \@q] + 
+      CEP[Chamber[{a[2], a[5]}, {a[3], a[6]}], \(\(-1\) + q\)\/\@q] + 
+      CEP[Chamber[{a[2], a[6]}, {a[3], a[5]}], \(-1\)] + 
+      CEP[Chamber[{a[3], a[5]}, {a[2], a[6]}], \(-1\)]\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(bsf2 = CEPSum[{a[2], a[3]}, bsf1\ ]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(CEPSum[{a2, a4}, 
+      Expand[Iweb[a1, a2, a3, a4] CEP[Chamber[{a2, a4}], \ a2]]]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[
+      Chamber[{a1, 
+          a3}], \(A\^2 - q\^2\)\/\(\(-A\)\ \@q + A\ q\^\(3/2\)\)]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(A\^2 - q\^2\)\/\(\(-A\)\ \@q + A\ q\^\(3/2\)\) /. 
+      A \[Rule] q\^\(\((n + 1)\)/2\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(-q\^2\) + q\^\(1 + n\)\)\/\(\(-q\^\(1\/2 + \(1 + n\)\/2\)\) + \
+q\^\(3\/2 + \(1 + n\)\/2\)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Simplify[%]\)], "Input"],
+
+Cell[BoxData[
+    \(\(q\^\(\(-n\)/2\)\ \((\(-q\) + q\^n)\)\)\/\(\(-1\) + q\)\)], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 713}},
+WindowSize->{838, 589},
+WindowMargins->{{168, Automatic}, {Automatic, -14}},
+ShowSelection->True
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{
+  "Info3349855756-7855588"->{
+    Cell[3768, 142, 687, 10, 139, "Print",
+      CellTags->"Info3349855756-7855588"]}
+  }
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{
+  {"Info3349855756-7855588", 14484, 492}
+  }
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 74, 1, 30, "Input"],
+Cell[1853, 56, 123, 3, 47, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2013, 64, 73, 1, 31, "Input"],
+Cell[2089, 67, 60, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2186, 73, 77, 1, 31, "Input"],
+Cell[2266, 76, 103, 2, 47, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2406, 83, 45, 1, 30, "Input"],
+Cell[2454, 86, 117, 3, 47, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2608, 94, 66, 1, 30, "Input"],
+Cell[2677, 97, 93, 1, 47, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2807, 103, 263, 5, 73, "Input"],
+Cell[3073, 110, 38, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3148, 116, 76, 1, 30, "Input"],
+Cell[3227, 119, 89, 1, 29, "Output"]
+}, Open  ]],
+Cell[3331, 123, 112, 2, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[3468, 129, 47, 1, 30, "Input"],
+Cell[3518, 132, 163, 2, 44, "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3718, 139, 47, 1, 30, "Input"],
+Cell[3768, 142, 687, 10, 139, "Print",
+  CellTags->"Info3349855756-7855588"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4492, 157, 54, 1, 30, "Input"],
+Cell[4549, 160, 130, 2, 22, "Message"],
+Cell[4682, 164, 201, 3, 37, "Message"],
+Cell[4886, 169, 153, 2, 29, "Output"]
+}, Open  ]],
+Cell[5054, 174, 93, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[5172, 179, 87, 1, 30, "Input"],
+Cell[5262, 182, 81, 1, 47, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5380, 188, 118, 3, 30, "Input"],
+Cell[5501, 193, 190, 3, 48, "Output"]
+}, Open  ]],
+Cell[5706, 199, 177, 3, 31, "Input"],
+Cell[5886, 204, 177, 3, 31, "Input"],
+Cell[6066, 209, 50, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[6141, 214, 53, 1, 30, "Input"],
+Cell[6197, 217, 259, 4, 71, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6493, 226, 61, 1, 30, "Input"],
+Cell[6557, 229, 390, 7, 109, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6984, 241, 107, 2, 30, "Input"],
+Cell[7094, 245, 245, 4, 87, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7376, 254, 53, 1, 30, "Input"],
+Cell[7432, 257, 211, 4, 71, "Output"],
+Cell[7646, 263, 373, 7, 122, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8056, 275, 75, 1, 30, "Input"],
+Cell[8134, 278, 315, 5, 122, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8486, 288, 125, 3, 30, "Input"],
+Cell[8614, 293, 349, 6, 81, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9000, 304, 125, 3, 30, "Input"],
+Cell[9128, 309, 487, 8, 196, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9652, 322, 126, 3, 30, "Input"],
+Cell[9781, 327, 586, 11, 196, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10404, 343, 133, 3, 31, "Input"],
+Cell[10540, 348, 331, 7, 122, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10908, 360, 188, 4, 52, "Input"],
+Cell[11099, 366, 148, 3, 47, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[11284, 374, 240, 4, 47, "Input"],
+Cell[11527, 380, 63, 1, 47, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[11627, 386, 83, 1, 31, "Input"],
+Cell[11713, 389, 69, 1, 47, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[11819, 395, 123, 2, 53, "Input"],
+Cell[11945, 399, 74, 1, 47, "Output"]
+}, Open  ]],
+Cell[12034, 403, 52, 1, 50, "Input"],
+
+Cell[CellGroupData[{
+Cell[12111, 408, 190, 3, 53, "Input"],
+Cell[12304, 413, 123, 2, 71, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[12464, 420, 63, 1, 30, "Input"],
+Cell[12530, 423, 35, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[12602, 429, 152, 3, 31, "Input"],
+Cell[12757, 434, 264, 4, 68, "Output"]
+}, Open  ]],
+Cell[13036, 441, 68, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[13129, 446, 115, 2, 30, "Input"],
+Cell[13247, 450, 124, 3, 50, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[13408, 458, 122, 2, 51, "Input"],
+Cell[13533, 462, 130, 2, 55, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[13700, 469, 44, 1, 30, "Input"],
+Cell[13747, 472, 90, 1, 47, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

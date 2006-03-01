@@ -1,0 +1,574 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     25775,        494]*)
+(*NotebookOutlinePosition[     26692,        525]*)
+(*  CellTagsIndexPosition[     26604,        519]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell["This crashes Scott's kernel.... :-(", "Text"],
+
+Cell[BoxData[
+    \(\(AppendTo[$Path, \
+"\<c:/scott/projects/svn-checkouts/KnotTheory/trunk/\>"];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(<< KnotTheory`\)], "Input"],
+
+Cell[BoxData[
+    \("Loading KnotTheory` version of February 18, 2006, 11:14:9.26563.\nRead \
+more at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(MorseLink[X[1, Over, Up, Up]]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"MorseLink was added to KnotTheory` by \"\[Ellipsis]\"rsity of \
+Toronto in the summer of 2005.\"\)"\)], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(Part::"partd"\), \(\(:\)\(\ \)\), "\<\"Part specification \
+\\!\\(KnotTheory`MorseLink`dirlist$24 \[LeftDoubleBracket] 2 \
+\[RightDoubleBracket]\\) is longer than depth of object. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::partd\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    RowBox[{\(Part::"partd"\), \(\(:\)\(\ \)\), "\<\"Part specification \
+\\!\\(KnotTheory`MorseLink`dirlist$24 \[LeftDoubleBracket] 2 \
+\[RightDoubleBracket]\\) is longer than depth of object. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::partd\\\"]\\)\"\>"}]], \
+"Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(MorseLink[Knot[3, 1]]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"PD4Knots`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"MorseLink was added to KnotTheory` by \"\[Ellipsis]\"rsity of \
+Toronto in the summer of 2005.\"\)"\)], "Message"],
+
+Cell[BoxData[
+    \(MorseLink[1\[Cup]2, 4\[Cup]3, X[2, Under, Up, Up], X[2, Under, Up, Up], 
+      X[2, Under, Up, Up], 2\[Cap]1, 1\[Cap]2]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Take[%, {2}]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(Part::"partw"\), \(\(:\)\(\ \)\), "\<\"Part \\!\\(3\\) of \
+\\!\\(4 \[Cup] 3\\) does not exist. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::partw\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    RowBox[{\(Part::"partw"\), \(\(:\)\(\ \)\), "\<\"Part \\!\\(4\\) of \
+\\!\\(4 \[Cup] 3\\) does not exist. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::partw\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    RowBox[{\(Part::"partw"\), \(\(:\)\(\ \)\), "\<\"Part \\!\\(4\\) of \
+\\!\\(4 \[Cup] 3\\) does not exist. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::partw\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    RowBox[{\(General::"stop"\), \(\(:\)\(\ \)\), "\<\"Further output of \
+\\!\\(Part :: \\\"partw\\\"\\) will be suppressed during this calculation. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::stop\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \("MorseLink::Error: bad input"\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(?? MorseLink\)], "Input"],
+
+Cell[BoxData[
+    \("MorseLink[K] returns a presentation of the oriented link K, composed, \
+in successive order, of the following 'events':     Cup[m,n] is a directed \
+creation, starting at strand position n, towards position m, where m and n \
+differ by 1.     X[n,a = {Over/Under}, b = {Up/Down}, c={Up/Down}] is a \
+crossing with lower-left edge at strand n, a determines whether the strand \
+running bottom-left to top-right is over/under the crossing, b and c give the \
+directions of the bottom-left and bottom-right strands respectively through \
+the crossing.     Cap[m,n] is a directed cap, from strand m to strand n.     \
+"\)], "Print",
+  CellTags->"Info3350139708-8964165"],
+
+Cell[BoxData[
+    InterpretationBox[GridBox[{
+          {GridBox[{
+                {\(MorseLink[PD[Loop[1]]] := 
+                    MorseLink[1\[Cup]2, 2\[Cap]1]\)},
+                {" "},
+                {\(MorseLink[KnotTheory`MorseLink`crossings_PD] := 
+                    Module[{KnotTheory`MorseLink`strands, 
+                        KnotTheory`MorseLink`output = {}, 
+                        KnotTheory`MorseLink`adjpos, 
+                        KnotTheory`MorseLink`found = 0, 
+                        KnotTheory`MorseLink`in, 
+                        KnotTheory`MorseLink`dirlist, 
+                        KnotTheory`MorseLink`k = 1}, 
+                      CreditMessage[
+                        "MorseLink was added to KnotTheory` by Siddarth \
+Sankaran at the University of Toronto in the summer of 2005."]; 
+                      KnotTheory`MorseLink`in = 
+                        KnotTheory`MorseLink`crossings; 
+                      Module[{KnotTheory`MorseLink`d1, 
+                          KnotTheory`MorseLink`d2}, {KnotTheory`MorseLink`d1, 
+                            KnotTheory`MorseLink`d2} = \
+{KnotTheory`MorseLink`GetDir[
+                              KnotTheory`MorseLink`in\[LeftDoubleBracket]1, 
+                                1\[RightDoubleBracket], 
+                              KnotTheory`MorseLink`in\[LeftDoubleBracket]1, 
+                                3\[RightDoubleBracket]], 
+                            KnotTheory`MorseLink`GetDir[
+                              KnotTheory`MorseLink`in\[LeftDoubleBracket]1, 
+                                2\[RightDoubleBracket], 
+                              KnotTheory`MorseLink`in\[LeftDoubleBracket]1, 
+                                4\[RightDoubleBracket]]}; 
+                        If[TrueQ[KnotTheory`MorseLink`d1 \[Equal] Up], 
+                          KnotTheory`MorseLink`output = {1\[Cup]2}, 
+                          KnotTheory`MorseLink`output = {2\[Cup]1}]; 
+                        If[TrueQ[KnotTheory`MorseLink`d2 \[Equal] Up], 
+                          AppendTo[KnotTheory`MorseLink`output, 4\[Cup]3], 
+                          AppendTo[KnotTheory`MorseLink`output, 3\[Cup]4]]; 
+                        AppendTo[KnotTheory`MorseLink`output, 
+                          X[2, Under, KnotTheory`MorseLink`d1, 
+                            KnotTheory`MorseLink`d2]]; 
+                        KnotTheory`MorseLink`strands = \
+{KnotTheory`MorseLink`in\[LeftDoubleBracket]1, 1\[RightDoubleBracket], 
+                            KnotTheory`MorseLink`in\[LeftDoubleBracket]1, 
+                              4\[RightDoubleBracket], 
+                            KnotTheory`MorseLink`in\[LeftDoubleBracket]1, 
+                              3\[RightDoubleBracket], 
+                            KnotTheory`MorseLink`in\[LeftDoubleBracket]1, 
+                              2\[RightDoubleBracket]}; 
+                        Switch[{KnotTheory`MorseLink`d1, 
+                            KnotTheory`MorseLink`d2}, \n{Up, Up}, 
+                          KnotTheory`MorseLink`dirlist = {Down, Up, Up, 
+                              Down}, \n{Up, Down}, 
+                          KnotTheory`MorseLink`dirlist = {Down, Down, Up, 
+                              Up}, \n{Down, Up}, 
+                          KnotTheory`MorseLink`dirlist = {Up, Up, Down, 
+                              Down}, \n{Down, Down}, 
+                          KnotTheory`MorseLink`dirlist = {Up, Down, Down, 
+                              Up}]; KnotTheory`MorseLink`in = 
+                          Delete[KnotTheory`MorseLink`in, 1]; ]; 
+                      While[Length[KnotTheory`MorseLink`strands] \[NotEqual] 
+                            0 && KnotTheory`MorseLink`k \[LessEqual] 
+                            4\ Length[
+                                KnotTheory`MorseLink`crossings], \
+\(KnotTheory`MorseLink`k++\); 
+                        If[Length[KnotTheory`MorseLink`in] \[NotEqual] 0, 
+                          KnotTheory`MorseLink`found = 0, 
+                          KnotTheory`MorseLink`found = 1]; 
+                        Module[{KnotTheory`MorseLink`adjpos, 
+                            KnotTheory`MorseLink`dir}, 
+                          KnotTheory`MorseLink`adjpos = 
+                            Position[
+                              Partition[KnotTheory`MorseLink`strands, 2, 
+                                1], {KnotTheory`MorseLink`x_, 
+                                KnotTheory`MorseLink`x_}]; 
+                          If[Length[KnotTheory`MorseLink`adjpos] \[NotEqual] 
+                              0, If[TrueQ[
+                                KnotTheory`MorseLink`dirlist\
+\[LeftDoubleBracket]KnotTheory`MorseLink`adjpos\[LeftDoubleBracket]1, 
+                                      1\[RightDoubleBracket]\
+\[RightDoubleBracket] \[Equal] Up], 
+                              KnotTheory`MorseLink`output = 
+                                Append[KnotTheory`MorseLink`output, 
+                                  KnotTheory`MorseLink`adjpos\
+\[LeftDoubleBracket]1, 
+                                      1\[RightDoubleBracket]\[Cap]\((\
+KnotTheory`MorseLink`adjpos\[LeftDoubleBracket]1, 1\[RightDoubleBracket] + 
+                                        1)\)]]; 
+                            If[TrueQ[
+                                KnotTheory`MorseLink`dirlist\
+\[LeftDoubleBracket]KnotTheory`MorseLink`adjpos\[LeftDoubleBracket]1, 
+                                      1\[RightDoubleBracket]\
+\[RightDoubleBracket] \[Equal] Down], 
+                              KnotTheory`MorseLink`output = 
+                                Append[
+                                  KnotTheory`MorseLink`output, \
+\((KnotTheory`MorseLink`adjpos\[LeftDoubleBracket]1, 1\[RightDoubleBracket] + 
+                                        1)\)\[Cap]KnotTheory`MorseLink`adjpos\
+\[LeftDoubleBracket]1, 1\[RightDoubleBracket]]]; 
+                            KnotTheory`MorseLink`strands = 
+                              Delete[
+                                KnotTheory`MorseLink`strands, \
+{{KnotTheory`MorseLink`adjpos\[LeftDoubleBracket]1, 
+                                      1\[RightDoubleBracket]}, \
+{KnotTheory`MorseLink`adjpos\[LeftDoubleBracket]1, 1\[RightDoubleBracket] + 
+                                      1}}]; 
+                            KnotTheory`MorseLink`dirlist = 
+                              Delete[
+                                KnotTheory`MorseLink`dirlist, \
+{{KnotTheory`MorseLink`adjpos\[LeftDoubleBracket]1, 
+                                      1\[RightDoubleBracket]}, \
+{KnotTheory`MorseLink`adjpos\[LeftDoubleBracket]1, 1\[RightDoubleBracket] + 
+                                      1}}]; ]; ]; 
+                        Module[{KnotTheory`MorseLink`m, 
+                            KnotTheory`MorseLink`n, KnotTheory`MorseLink`a, 
+                            KnotTheory`MorseLink`b, KnotTheory`MorseLink`x, 
+                            KnotTheory`MorseLink`y, KnotTheory`MorseLink`pos, 
+                            KnotTheory`MorseLink`overunder, 
+                            KnotTheory`MorseLink`dx, 
+                            KnotTheory`MorseLink`dy}, 
+                          For[KnotTheory`MorseLink`m = 1, 
+                            KnotTheory`MorseLink`m \[LessEqual] 
+                              Length[
+                                KnotTheory`MorseLink`in], \
+\(KnotTheory`MorseLink`m++\), 
+                            For[KnotTheory`MorseLink`n = 1, 
+                              KnotTheory`MorseLink`n \[LessEqual] 
+                                4, \(KnotTheory`MorseLink`n++\), 
+                              If[KnotTheory`MorseLink`found \[Equal] 
+                                  0, {KnotTheory`MorseLink`x, 
+                                    KnotTheory`MorseLink`y} = \
+{KnotTheory`MorseLink`in\[LeftDoubleBracket]KnotTheory`MorseLink`m, 
+                                      KnotTheory`MorseLink`n\
+\[RightDoubleBracket], 
+                                    KnotTheory`MorseLink`in\
+\[LeftDoubleBracket]KnotTheory`MorseLink`m, 
+                                      KnotTheory`MorseLink`s4[
+                                        KnotTheory`MorseLink`n]\
+\[RightDoubleBracket]}; {KnotTheory`MorseLink`a, 
+                                    KnotTheory`MorseLink`b} = \
+{KnotTheory`MorseLink`in\[LeftDoubleBracket]KnotTheory`MorseLink`m, 
+                                      KnotTheory`MorseLink`s4[
+                                        KnotTheory`MorseLink`s4[
+                                        KnotTheory`MorseLink`s4[
+                                        KnotTheory`MorseLink`n]]]\
+\[RightDoubleBracket], 
+                                    KnotTheory`MorseLink`in\
+\[LeftDoubleBracket]KnotTheory`MorseLink`m, 
+                                      KnotTheory`MorseLink`s4[
+                                        KnotTheory`MorseLink`s4[
+                                        KnotTheory`MorseLink`n]]\
+\[RightDoubleBracket]}; If[Position[Partition[KnotTheory`MorseLink`strands, 
+                                        2, 1], {KnotTheory`MorseLink`x, 
+                                        KnotTheory`MorseLink`y}] \[NotEqual] \
+{}, KnotTheory`MorseLink`found = 1; 
+                                  KnotTheory`MorseLink`pos = \(Position[
+                                        Partition[
+                                        KnotTheory`MorseLink`strands, 2, 
+                                        1], {KnotTheory`MorseLink`x, 
+                                        KnotTheory`MorseLink`y}]\)\
+\[LeftDoubleBracket]1, 1\[RightDoubleBracket]; 
+                                  If[Mod[KnotTheory`MorseLink`n, 2] \[Equal] 
+                                      1, KnotTheory`MorseLink`overunder = 
+                                      Under, 
+                                    KnotTheory`MorseLink`overunder = 
+                                      Over]; {KnotTheory`MorseLink`dx, 
+                                      KnotTheory`MorseLink`dy} = \
+{KnotTheory`MorseLink`GetDir[KnotTheory`MorseLink`x, KnotTheory`MorseLink`b], 
+                                      KnotTheory`MorseLink`GetDir[
+                                        KnotTheory`MorseLink`y, 
+                                        KnotTheory`MorseLink`a]}; 
+                                  KnotTheory`MorseLink`output = 
+                                    Append[KnotTheory`MorseLink`output, 
+                                      X[KnotTheory`MorseLink`pos, 
+                                        KnotTheory`MorseLink`overunder, 
+                                        KnotTheory`MorseLink`dx, 
+                                        KnotTheory`MorseLink`dy]]; 
+                                  KnotTheory`MorseLink`strands = 
+                                    ReplacePart[
+                                      ReplacePart[
+                                        KnotTheory`MorseLink`strands, 
+                                        KnotTheory`MorseLink`a, 
+                                        KnotTheory`MorseLink`pos], 
+                                      KnotTheory`MorseLink`b, 
+                                      KnotTheory`MorseLink`pos + 1]; 
+                                  KnotTheory`MorseLink`dirlist = 
+                                    ReplacePart[
+                                      ReplacePart[
+                                        KnotTheory`MorseLink`dirlist, 
+                                        KnotTheory`MorseLink`dy, 
+                                        KnotTheory`MorseLink`pos], 
+                                      KnotTheory`MorseLink`dx, 
+                                      KnotTheory`MorseLink`pos + 1]; 
+                                  KnotTheory`MorseLink`in = 
+                                    Delete[KnotTheory`MorseLink`in, 
+                                      KnotTheory`MorseLink`m]; ]; ]; ]; ]; ]; 
+                        If[KnotTheory`MorseLink`found \[Equal] 0, 
+                          Module[{KnotTheory`MorseLink`cflag = 0, 
+                              KnotTheory`MorseLink`pos, 
+                              KnotTheory`MorseLink`m, KnotTheory`MorseLink`n, 
+                              KnotTheory`MorseLink`a, KnotTheory`MorseLink`b, 
+                              KnotTheory`MorseLink`x, KnotTheory`MorseLink`y, 
+                              KnotTheory`MorseLink`overunder, 
+                              KnotTheory`MorseLink`dx, 
+                              KnotTheory`MorseLink`dy, 
+                              KnotTheory`MorseLink`opdy}, 
+                            For[KnotTheory`MorseLink`m = 1, 
+                              KnotTheory`MorseLink`m \[LessEqual] 
+                                Length[
+                                  KnotTheory`MorseLink`in], \
+\(KnotTheory`MorseLink`m++\), 
+                              For[KnotTheory`MorseLink`n = 1, 
+                                KnotTheory`MorseLink`n \[LessEqual] 
+                                  4, \(KnotTheory`MorseLink`n++\), 
+                                If[KnotTheory`MorseLink`cflag \[Equal] 0, 
+                                  If[Length[
+                                        Position[
+                                        KnotTheory`MorseLink`strands, 
+                                        KnotTheory`MorseLink`in\
+\[LeftDoubleBracket]KnotTheory`MorseLink`m, 
+                                        KnotTheory`MorseLink`n\
+\[RightDoubleBracket]]] \[Equal] 1, 
+                                    If[\(! MemberQ[
+                                        KnotTheory`MorseLink`strands, 
+                                        KnotTheory`MorseLink`in\
+\[LeftDoubleBracket]KnotTheory`MorseLink`m, 
+                                        KnotTheory`MorseLink`s4[
+                                        KnotTheory`MorseLink`n]\
+\[RightDoubleBracket]]\), KnotTheory`MorseLink`cflag = 
+                                        1; {KnotTheory`MorseLink`x, 
+                                        KnotTheory`MorseLink`y} = \
+{KnotTheory`MorseLink`in\[LeftDoubleBracket]KnotTheory`MorseLink`m, 
+                                        KnotTheory`MorseLink`n\
+\[RightDoubleBracket], KnotTheory`MorseLink`in\[LeftDoubleBracket]
+                                        KnotTheory`MorseLink`m, 
+                                        KnotTheory`MorseLink`s4[
+                                        KnotTheory`MorseLink`n]\
+\[RightDoubleBracket]}; {KnotTheory`MorseLink`a, 
+                                        KnotTheory`MorseLink`b} = \
+{KnotTheory`MorseLink`in\[LeftDoubleBracket]KnotTheory`MorseLink`m, 
+                                        KnotTheory`MorseLink`s4[
+                                        KnotTheory`MorseLink`s4[
+                                        KnotTheory`MorseLink`s4[
+                                        KnotTheory`MorseLink`n]]]\
+\[RightDoubleBracket], KnotTheory`MorseLink`in\[LeftDoubleBracket]
+                                        KnotTheory`MorseLink`m, 
+                                        KnotTheory`MorseLink`s4[
+                                        KnotTheory`MorseLink`s4[
+                                        KnotTheory`MorseLink`n]]\
+\[RightDoubleBracket]}; KnotTheory`MorseLink`pos = \(Position[
+                                        KnotTheory`MorseLink`strands, 
+                                        KnotTheory`MorseLink`x]\)\
+\[LeftDoubleBracket]1, 1\[RightDoubleBracket]; 
+                                      If[Mod[KnotTheory`MorseLink`n, 
+                                        2] \[Equal] 1, 
+                                        KnotTheory`MorseLink`overunder = 
+                                        Under, 
+                                        KnotTheory`MorseLink`overunder = 
+                                        Over]; {KnotTheory`MorseLink`dx, 
+                                        KnotTheory`MorseLink`dy} = \
+{KnotTheory`MorseLink`GetDir[KnotTheory`MorseLink`x, KnotTheory`MorseLink`b], 
+                                        KnotTheory`MorseLink`GetDir[
+                                        KnotTheory`MorseLink`y, 
+                                        KnotTheory`MorseLink`a]}; 
+                                      If[TrueQ[
+                                        KnotTheory`MorseLink`dy \[Equal] Up], 
+                                        KnotTheory`MorseLink`output = 
+                                        Append[
+                                        KnotTheory`MorseLink`output, \
+\((KnotTheory`MorseLink`pos + 2)\)\[Cup]\((KnotTheory`MorseLink`pos + 1)\)]; 
+                                        KnotTheory`MorseLink`opdy = Down; , 
+                                        KnotTheory`MorseLink`output = 
+                                        Append[
+                                        KnotTheory`MorseLink`output, \
+\((KnotTheory`MorseLink`pos + 1)\)\[Cup]\((KnotTheory`MorseLink`pos + 2)\)]; 
+                                        KnotTheory`MorseLink`opdy = Up; ]; 
+                                      KnotTheory`MorseLink`output = 
+                                        Append[KnotTheory`MorseLink`output, 
+                                        X[KnotTheory`MorseLink`pos, 
+                                        KnotTheory`MorseLink`overunder, 
+                                        KnotTheory`MorseLink`dx, 
+                                        KnotTheory`MorseLink`dy]]; 
+                                      KnotTheory`MorseLink`strands = 
+                                        ReplacePart[
+                                        Insert[
+                                        Insert[KnotTheory`MorseLink`strands, 
+                                        KnotTheory`MorseLink`b, 
+                                        KnotTheory`MorseLink`pos + 1], 
+                                        KnotTheory`MorseLink`y, 
+                                        KnotTheory`MorseLink`pos + 2], 
+                                        KnotTheory`MorseLink`a, 
+                                        KnotTheory`MorseLink`pos]; 
+                                      KnotTheory`MorseLink`dirlist = 
+                                        ReplacePart[
+                                        Insert[
+                                        Insert[KnotTheory`MorseLink`dirlist, 
+                                        KnotTheory`MorseLink`dx, 
+                                        KnotTheory`MorseLink`pos + 1], 
+                                        KnotTheory`MorseLink`opdy, 
+                                        KnotTheory`MorseLink`pos + 2], 
+                                        KnotTheory`MorseLink`dy, 
+                                        KnotTheory`MorseLink`pos]; 
+                                      KnotTheory`MorseLink`in = 
+                                        Delete[KnotTheory`MorseLink`in, 
+                                        KnotTheory`MorseLink`m]; ]; ]; ]; ]; \
+]; ]; ]; ]; 
+                      KnotTheory`MorseLink`output\[LeftDoubleBracket]0\
+\[RightDoubleBracket] = MorseLink; 
+                      If[KnotTheory`MorseLink`k > 
+                          4\ Length[KnotTheory`MorseLink`crossings], 
+                        Return["MorseLink::Error: bad input"], 
+                        Return[KnotTheory`MorseLink`output]]; ]\)},
+                {" "},
+                {\(MorseLink[KnotTheory`MorseLink`input_] := 
+                    MorseLink[PD[KnotTheory`MorseLink`input]]\)}
+                },
+              GridBaseline->{Baseline, {1, 1}},
+              ColumnWidths->0.999,
+              ColumnAlignments->{Left}]}
+          },
+        GridBaseline->{Baseline, {1, 1}},
+        ColumnAlignments->{Left}],
+      Definition[ "MorseLink"],
+      Editable->False]], "Print",
+  CellTags->"Info3350139708-8964165"]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 747}},
+WindowSize->{683, 555},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+ShowSelection->True
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{
+  "Info3350139708-8964165"->{
+    Cell[5213, 155, 687, 10, 158, "Print",
+      CellTags->"Info3350139708-8964165"],
+    Cell[5903, 167, 19856, 324, 2849, "Print",
+      CellTags->"Info3350139708-8964165"]}
+  }
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{
+  {"Info3350139708-8964165", 26402, 510}
+  }
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 51, 0, 33, "Text"],
+Cell[1808, 53, 112, 2, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[1945, 59, 47, 1, 30, "Input"],
+Cell[1995, 62, 163, 2, 44, "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2195, 69, 62, 1, 30, "Input"],
+Cell[2260, 72, 186, 3, 37, "Message"],
+Cell[2449, 77, 374, 6, 37, "Message"],
+Cell[2826, 85, 374, 6, 37, "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3237, 96, 54, 1, 30, "Input"],
+Cell[3294, 99, 130, 2, 22, "Message"],
+Cell[3427, 103, 186, 3, 37, "Message"],
+Cell[3616, 108, 153, 2, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3806, 115, 45, 1, 30, "Input"],
+Cell[3854, 118, 290, 5, 22, "Message"],
+Cell[4147, 125, 290, 5, 22, "Message"],
+Cell[4440, 132, 290, 5, 22, "Message"],
+Cell[4733, 139, 329, 5, 22, "Message"],
+Cell[5065, 146, 63, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5165, 152, 45, 1, 30, "Input"],
+Cell[5213, 155, 687, 10, 158, "Print",
+  CellTags->"Info3350139708-8964165"],
+Cell[5903, 167, 19856, 324, 2849, "Print",
+  CellTags->"Info3350139708-8964165"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
