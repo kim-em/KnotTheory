@@ -1,0 +1,683 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     16919,        523]*)
+(*NotebookOutlinePosition[     17565,        545]*)
+(*  CellTagsIndexPosition[     17521,        541]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Uniformised localised MOY.", "Title"],
+
+Cell[BoxData[
+    \(\(AppendTo[$Path, \
+"\<c:/scott/projects/svn-checkouts/KnotTheory/trunk/\>"];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(<< KnotTheory`\)], "Input"],
+
+Cell[BoxData[
+    \("Loading KnotTheory` version of March 1, 2006, 3:25:45.3967.\nRead more \
+at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Testing code", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\($TestLog = {};\)\), "\[IndentingNewLine]", 
+    \(\($TestExpressions = {};\)\), "\[IndentingNewLine]", 
+    \(\(SetAttributes[Test, {HoldAll}];\)\), "\[IndentingNewLine]", 
+    \(Test[expr_] := 
+      Module[{}, \[IndentingNewLine]$TestExpressions = 
+          Union[$TestExpressions, {Hold[expr]}]; \[IndentingNewLine]If[
+          TrueQ[Check[expr, False]], 
+          True, \[IndentingNewLine]AppendTo[$TestLog, "\<Failed in \>" <> 
+              ToString[HoldForm[expr]]]; \[IndentingNewLine]Print[
+            Last[$TestLog]]\[IndentingNewLine]]\[IndentingNewLine]]\)}], \
+"Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(Test\\)\\\" is similar to existing symbols \
+\\!\\({Nest, Rest, Text}\\). \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(RunAllTests[] := \(Test[
+            ReleaseHold[#]] &\) /@ $TestExpressions\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["ChamberedExponentialPolynomials", "Subsection"],
+
+Cell[BoxData[
+    \(RationalForm[f_] := 
+      ExpandDenominator[ExpandNumerator[Cancel[Together[f]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[_, 0] := 0\)], "Input"],
+
+Cell[BoxData[
+    \(CEP /: CEP[c_, expoly1_] + CEP[c_, expoly2_] := 
+      CEP[c, RationalForm[expoly1 + expoly2]]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP /: \ \[Alpha]_?NumberQ\ CEP[c_, expoly_] := 
+      CEP[c, \[Alpha]\ expoly]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[0, _] := 0\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[chambers_Plus, expoly_] := \(CEP[#, expoly] &\) /@ 
+        chambers\)], "Input"],
+
+Cell["Testing code", "Subsubsection"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Rules for CEPSum", "Subsection"],
+
+Cell[BoxData[
+    \(Clear[CEPSum]\)], "Input"],
+
+Cell[BoxData[
+    \(CEPSum[v_, s_Plus] := \(CEPSum[v, #] &\) /@ s\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(CEPSum[v_, CEP[c_Chamber, expoly_]] /; \((Head[v] =!= List)\)\),
+       ":=", "\[IndentingNewLine]", 
+      RowBox[{"Module", "[", 
+        RowBox[{\({position, a0, a1}\), ",", "\[IndentingNewLine]", 
+          
+          StyleBox[\( (*\ 
+              Find\ at\ which\ step\ of\ the\ chamber\ index\ i\ appears\ *) \
+\),
+            FontColor->GrayLevel[0.666667]], 
+          StyleBox["\[IndentingNewLine]",
+            FontColor->GrayLevel[0.666667]], 
+          RowBox[{
+            RowBox[{"position", "=", 
+              RowBox[{
+                RowBox[{"Position", "[", 
+                  RowBox[{
+                  "c", ",", "v", ",", "\[IndentingNewLine]", \({2}\), ",", 
+                    " ", 
+                    
+                    StyleBox[\( (*\ 
+                        indices\ appear\ only\ at\ level\ two\ in\ a\ Chamber\
+\ *) \),
+                      FontColor->GrayLevel[0.666667]], "\[IndentingNewLine]", 
+                    "1"}], "  ", 
+                  
+                  StyleBox[\( (*\ "\<v\>"\ can\ only\ appear\ once, \ 
+                      so\ just\ look\ for\ it\ once\ *) \),
+                    FontColor->GrayLevel[0.666667]], "]"}], 
+                "\[LeftDoubleBracket]", \(1, 1\), "\[RightDoubleBracket]"}]}],
+             ";", "\[IndentingNewLine]", \(If[
+              Length[c\[LeftDoubleBracket]position\[RightDoubleBracket]] != 
+                1, \[IndentingNewLine]Return[
+                CEP[\[IndentingNewLine]c /. 
+                    v \[Rule] Sequence[], \[IndentingNewLine]expoly /. 
+                    v \[Rule] 
+                      First[DeleteCases[
+                          c\[LeftDoubleBracket]position\[RightDoubleBracket], 
+                          v]]\[IndentingNewLine]]]\[IndentingNewLine]]\), ";",
+             "\[IndentingNewLine]", 
+            
+            StyleBox[\( (*\ Now\ choose\ upper\ and\ lower\ variables; \ 
+                we\ just\ take\ the\ first\ representative\ of\ the\ each\ of\
+\ the\ bounding\ confinement\ classes, \ 
+                or\ the\ global\ A\ when\ we' 
+                  re\ at\ either\ end\ of\ the\ \(\(chamber\)\(.\)\)\ *) \),
+              FontColor->GrayLevel[0.666667]], 
+            "\[IndentingNewLine]", \(a0 = 
+              If[position \[Equal] 1, A\^\(-1\), 
+                c\[LeftDoubleBracket]position - 1, 1\[RightDoubleBracket]]\), 
+            ";", 
+            "\[IndentingNewLine]", \(a1 = 
+              If[position \[Equal] Length[c], A, 
+                c\[LeftDoubleBracket]position + 1, 1\[RightDoubleBracket]]\), 
+            ";", "\[IndentingNewLine]", 
+            
+            StyleBox[\( (*\ 
+                now\ replace\ each\ of\ the\ variables\ confined\ with\ v\ \
+with\ the\ integral\ between\ the\ upper\ and\ lower\ variables\ *) \),
+              FontColor->GrayLevel[0.666667]], 
+            "\[IndentingNewLine]", \(CEP[\[IndentingNewLine]Delete[c, 
+                position], \[IndentingNewLine]RationalForm[
+                Collect[expoly, 
+                    v] /. {v\^n_.  \[RuleDelayed] \(a1\^n - \((q\ \
+a0)\)\^n\)\/\(q\^n - 1\)}]\[IndentingNewLine]]\)}]}], "\[IndentingNewLine]", 
+        "]"}]}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(CEPSum[{}, cep_CEP] := cep\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(cep\\)\\\" is similar to existing symbol \
+\\\"\\!\\(CEP\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(CEPSum[{v_, rest___}, cep_CEP] := 
+      CEPSum[{rest}, CEPSum[v, cep]]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell["Testing code", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Test[
+      CEPSum[a, CEP[Chamber[{a, b, c}], a\ b\ c]] == 
+        CEP[Chamber[{b, c}], b\^2\ c]]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Test[
+      Last[CEPSum[a, CEP[Chamber[{a}, {b, c}], a\ b\ c]] + 
+            CEPSum[a, CEP[Chamber[{a, b, c}], a\ b\ c]] + 
+            CEPSum[a, CEP[Chamber[{b, c}, \ {a}], a\ b\ c]]] == 
+        Last[CEPSum[a, CEP[Chamber[{a}], a\ b\ c]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(a\ b\ c\)], "Print"],
+
+Cell[BoxData[
+    \(1\)], "Print"],
+
+Cell[BoxData[
+    \(a\ b\ c\)], "Print"],
+
+Cell[BoxData[
+    \(1\)], "Print"],
+
+Cell[BoxData[
+    \(a\ b\ c\)], "Print"],
+
+Cell[BoxData[
+    \(1\)], "Print"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Test[
+      Last[CEPSum[a, CEP[Chamber[{a}, {b, c}], a\^2]] + 
+            CEPSum[a, CEP[Chamber[{a, b, c}], a\^2]] + 
+            CEPSum[a, CEP[Chamber[{b, c}, \ {a}], a\^2]]] == 
+        Last[CEPSum[a, CEP[Chamber[{a}], a\^2]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(a\^2\)], "Print"],
+
+Cell[BoxData[
+    \(2\)], "Print"],
+
+Cell[BoxData[
+    \(a\^2\)], "Print"],
+
+Cell[BoxData[
+    \(2\)], "Print"],
+
+Cell[BoxData[
+    \(a\^2\)], "Print"],
+
+Cell[BoxData[
+    \(2\)], "Print"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Rules for Chamber and CombineChambers", "Subsection"],
+
+Cell[BoxData[
+    \(Clear[CombineChambers]\)], "Input"],
+
+Cell[BoxData[
+    \(SetAttributes[Chamber, {Flat, OneIdentity}]\)], "Input"],
+
+Cell[BoxData[
+    \(Chamber[a___, b_Plus, c___] := \(Chamber[a, #, c] &\) /@ b\)], "Input"],
+
+Cell[BoxData[
+    \(Chamber[___, 0, ___] := 0\)], "Input"],
+
+Cell[BoxData[
+    \(CombineChambers[{}, Chamber[x_, y___], Chamber[z_, w___]] := 
+      Chamber[x, CombineChambers[{}, Chamber[y], Chamber[z, w]]] + 
+        Chamber[z, CombineChambers[{}, Chamber[x, y], Chamber[w]]] + 
+        Chamber[Union[x, z], 
+          CombineChambers[{}, Chamber[y], Chamber[w]]]\)], "Input"],
+
+Cell[BoxData[{
+    \(CombineChambers[{}, c_Chamber, Chamber[]] := 
+      c\), "\[IndentingNewLine]", 
+    \(CombineChambers[{}, Chamber[], c_Chamber] := c\)}], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(CombineChambers[{{label1_, label2_}, otherIdentifications___}, 
+        Chamber[pre1___, c1 : {___, label1_, ___}, post1___], 
+        Chamber[pre2___, c2 : {___, label2_, ___}, post2___]]\), ":=", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Module", "[", 
+        RowBox[{\({preIdentifications, cIdentifications, 
+            postIdentifications}\), ",", "\[IndentingNewLine]", 
+          
+          StyleBox[\( (*\ 
+              Split\ up\ the\ identifications\ into\ 4\ classes; \ 
+              identifications\ between\ the\ pre\ parts, \ 
+              further\ identifications\ between\ c1\ and\ c2, \ 
+              and\ identifications\ between\ the\ post\ parts, \ 
+              and\ finally\ the\ others, \ 
+              the\ "\<evil\>"\ \(\(identifications\)\(.\)\)\ *) \),
+            FontColor->GrayLevel[0.666667]], 
+          StyleBox["\[IndentingNewLine]",
+            FontColor->GrayLevel[0.666667]], 
+          
+          RowBox[{\(preIdentifications = 
+              Select[{otherIdentifications}, \((MemberQ[
+                        Union[pre1], #\[LeftDoubleBracket]1\
+\[RightDoubleBracket]] \[And] 
+                      MemberQ[
+                        Union[pre2], #\[LeftDoubleBracket]2\
+\[RightDoubleBracket]] &)\)]\), ";", 
+            "\[IndentingNewLine]", \(cIdentifications = 
+              Select[{otherIdentifications}, \((MemberQ[
+                        c1, #\[LeftDoubleBracket]1\[RightDoubleBracket]] \
+\[And] MemberQ[c2, #\[LeftDoubleBracket]2\[RightDoubleBracket]] &)\)]\), ";", 
+            "\[IndentingNewLine]", \(postIdentifications = 
+              Select[{otherIdentifications}, \((MemberQ[
+                        Union[post1], #\[LeftDoubleBracket]1\
+\[RightDoubleBracket]] \[And] 
+                      MemberQ[
+                        Union[post2], #\[LeftDoubleBracket]2\
+\[RightDoubleBracket]] &)\)]\), ";", "\[IndentingNewLine]", 
+            
+            StyleBox[\( (*\ 
+                If\ there\ are\ any\ "\<evil\>"\ identifications, \ 
+                there\ are\ no\ valid\ combinations\ *) \),
+              FontColor->GrayLevel[0.666667]], 
+            StyleBox["\[IndentingNewLine]",
+              FontColor->GrayLevel[0.666667]], \(If[
+              Length[Complement[{otherIdentifications}, preIdentifications, 
+                    cIdentifications, postIdentifications]] > 0, Return[0]]\),
+             ";", "\[IndentingNewLine]", 
+            
+            StyleBox[\( (*\ Otherwise, \ glom\ c1\ and\ c2\ together, \ 
+                and\ continuing\ combining\ the\ pre1\ with\ pre2, \ 
+                and\ post1\ with\ post2\ *) \),
+              FontColor->GrayLevel[0.666667]], 
+            StyleBox["\[IndentingNewLine]",
+              FontColor->GrayLevel[
+              0.666667]], \(Chamber[\[IndentingNewLine]CombineChambers[
+                preIdentifications, Chamber[pre1], 
+                Chamber[pre2]], \[IndentingNewLine]Union[c1, 
+                c2], \[IndentingNewLine]CombineChambers[postIdentifications, 
+                Chamber[post1], Chamber[post2]]\[IndentingNewLine]]\)}]}], 
+        "\[IndentingNewLine]", "]"}]}]], "Input"],
+
+Cell[BoxData[
+    \(CombineChambers[{{label1_, label2_}, otherIdentifications___}, 
+          c1_Chamber, c2_Chamber] /; 
+        FreeQ[c1, label1] \[And] FreeQ[c2, label2] := 
+      CombineChambers[{otherIdentifications}, c1, c2]\)], "Input"],
+
+Cell[BoxData[
+    \(CombineChambers[{__List}, _Chamber, _Chamber] := 0\)], "Input"],
+
+Cell[BoxData[
+    \(CombineChambers[c1_Chamber, c2_Chamber] := 
+      CombineChambers[\({#, #} &\) /@ 
+          Intersection[Flatten[List @@ c1], Flatten[List @@ c2]], c1, 
+        c2]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell["Testing CombineChambers", "Subsubsection"],
+
+Cell[BoxData[
+    \(\(Test[
+        CombineChambers[{{2, 4}}, Chamber[{1}, {2, 3}], Chamber[{4, 5}]] == 
+          Chamber[{1}, {2, 3, 4, 5}]];\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(Test[
+        CombineChambers[{{a[2], a[4]}}, Chamber[{a[1]}, {a[2], a[3]}], 
+            Chamber[{a[4], a[5]}]] == 
+          Chamber[{a[1]}, {a[2], a[3], a[4], a[5]}]];\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(Test[
+        CombineChambers[{{3, 3}}, Chamber[{1}, {2}, {3}], Chamber[{3}, {4}]] == 
+          Chamber[{1}, {2}, {3}, {4}]];\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(Test[
+        CombineChambers[Chamber[{1}, {2}, {3}], Chamber[{3}, {4}]] == 
+          Chamber[{1}, {2}, {3}, {4}]];\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(Test[
+        CombineChambers[{}, Chamber[{1, 4}], Chamber[{2, 3}]] == 
+          Chamber[{1, 2, 3, 4}] + Chamber[{1, 4}, {2, 3}] + 
+            Chamber[{2, 3}, {1, 4}]];\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(Test[
+        CombineChambers[{}, Chamber[{1}, {2, 3}], Chamber[{4, 5}]] == 
+          Chamber[{1}, {2, 3, 4, 5}] + Chamber[{1, 4, 5}, {2, 3}] + 
+            Chamber[{1}, {2, 3}, {4, 5}] + Chamber[{1}, {4, 5}, {2, 3}] + 
+            Chamber[{4, 5}, {1}, {2, 3}]];\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(Test[
+        CombineChambers[{{3, 6}}, Chamber[{1}, {2, 3}, {4}], 
+            Chamber[{5}, {6}]] == 
+          Chamber[{1, 5}, {2, 3, 6}, {4}] + 
+            Chamber[{1}, {5}, {2, 3, 6}, {4}] + 
+            Chamber[{5}, {1}, {2, 3, 6}, {4}]];\)\)], "Input"]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Working", "Section"],
+
+Cell[BoxData[
+    \(CEP /: CEP[c1_Chamber, expoly1_]*CEP[c2_Chamber, expoly2_] := 
+      CEP[CombineChambers[c1, c2], expoly1*expoly2]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(CEP[Chamber[{a}], a]\ CEP[Chamber[{b}], b]\)], "Input"],
+
+Cell[BoxData[
+    \(CEP[Chamber[{a, b}], a\ b] + CEP[Chamber[{a}, {b}], a\ b] + 
+      CEP[Chamber[{b}, {a}], a\ b]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(CEPSum[{a, b}, CEP[Chamber[{a}], a]\ CEP[Chamber[{b}], b]]\)], "Input"],
+
+Cell[BoxData[
+    \(b\^2\)], "Print"],
+
+Cell[BoxData[
+    \(2\)], "Print"],
+
+Cell[BoxData[
+    \(a\ b\)], "Print"],
+
+Cell[BoxData[
+    \(1\)], "Print"],
+
+Cell[BoxData[
+    \(\(A\ b\^2\)\/\(\(-A\) + A\ q\) - \(b\ q\)\/\(\(-A\) + A\ q\)\)], "Print"],
+
+Cell[BoxData[
+    \(2\)], "Print"],
+
+Cell[BoxData[
+    \(1\)], "Print"],
+
+Cell[BoxData[
+    \(a\ b\)], "Print"],
+
+Cell[BoxData[
+    \(1\)], "Print"],
+
+Cell[BoxData[
+    \(\(A\ b\)\/\(\(-1\) + q\) - \(b\^2\ q\)\/\(\(-1\) + q\)\)], "Print"],
+
+Cell[BoxData[
+    \(1\)], "Print"],
+
+Cell[BoxData[
+    \(2\)], "Print"],
+
+Cell[BoxData[
+    \(CEP[
+      Chamber[], \(A\^4 - 2\ A\^2\ q + q\^2\)\/\(A\^2 - 2\ A\^2\ q + A\^2\ \
+q\^2\)]\)], "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 713}},
+WindowSize->{1063, 589},
+WindowMargins->{{17, Automatic}, {Automatic, 18}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 43, 0, 95, "Title"],
+Cell[1822, 55, 112, 2, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[1959, 61, 47, 1, 30, "Input"],
+Cell[2009, 64, 158, 2, 44, "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2204, 71, 34, 0, 38, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[2263, 75, 609, 11, 210, "Input"],
+Cell[2875, 88, 361, 5, 70, "Message"]
+}, Open  ]],
+Cell[3251, 96, 109, 2, 30, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[3397, 103, 53, 0, 30, "Subsection"],
+Cell[3453, 105, 115, 2, 30, "Input"],
+Cell[3571, 109, 47, 1, 30, "Input"],
+Cell[3621, 112, 127, 2, 30, "Input"],
+Cell[3751, 116, 112, 2, 30, "Input"],
+Cell[3866, 120, 47, 1, 30, "Input"],
+Cell[3916, 123, 105, 2, 30, "Input"],
+Cell[4024, 127, 37, 0, 29, "Subsubsection"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4098, 132, 38, 0, 38, "Subsection"],
+Cell[4139, 134, 46, 1, 30, "Input"],
+Cell[4188, 137, 78, 1, 30, "Input"],
+Cell[4269, 140, 3196, 65, 472, "Input"],
+
+Cell[CellGroupData[{
+Cell[7490, 209, 59, 1, 30, "Input"],
+Cell[7552, 212, 354, 5, 22, "Message"]
+}, Open  ]],
+Cell[7921, 220, 104, 2, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[8050, 226, 37, 0, 29, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[8112, 230, 131, 3, 31, "Input"],
+Cell[8246, 235, 38, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8321, 241, 275, 5, 70, "Input"],
+Cell[8599, 248, 40, 1, 25, "Print"],
+Cell[8642, 251, 34, 1, 25, "Print"],
+Cell[8679, 254, 40, 1, 25, "Print"],
+Cell[8722, 257, 34, 1, 25, "Print"],
+Cell[8759, 260, 40, 1, 25, "Print"],
+Cell[8802, 263, 34, 1, 25, "Print"],
+Cell[8839, 266, 38, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8914, 272, 263, 5, 52, "Input"],
+Cell[9180, 279, 37, 1, 25, "Print"],
+Cell[9220, 282, 34, 1, 25, "Print"],
+Cell[9257, 285, 37, 1, 25, "Print"],
+Cell[9297, 288, 34, 1, 25, "Print"],
+Cell[9334, 291, 37, 1, 25, "Print"],
+Cell[9374, 294, 34, 1, 25, "Print"],
+Cell[9411, 297, 38, 1, 29, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9510, 305, 59, 0, 38, "Subsection"],
+Cell[9572, 307, 55, 1, 30, "Input"],
+Cell[9630, 310, 76, 1, 30, "Input"],
+Cell[9709, 313, 91, 1, 30, "Input"],
+Cell[9803, 316, 58, 1, 30, "Input"],
+Cell[9864, 319, 317, 5, 70, "Input"],
+Cell[10184, 326, 168, 3, 50, "Input"],
+Cell[10355, 331, 3152, 60, 350, "Input"],
+Cell[13510, 393, 243, 4, 50, "Input"],
+Cell[13756, 399, 83, 1, 30, "Input"],
+Cell[13842, 402, 198, 4, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[14065, 410, 48, 0, 29, "Subsubsection"],
+Cell[14116, 412, 158, 3, 30, "Input"],
+Cell[14277, 417, 207, 4, 30, "Input"],
+Cell[14487, 423, 163, 3, 30, "Input"],
+Cell[14653, 428, 153, 3, 30, "Input"],
+Cell[14809, 433, 207, 4, 30, "Input"],
+Cell[15019, 439, 300, 5, 70, "Input"],
+Cell[15322, 446, 281, 6, 50, "Input"]
+}, Closed]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[15652, 458, 26, 0, 73, "Section"],
+Cell[15681, 460, 147, 2, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[15853, 466, 75, 1, 30, "Input"],
+Cell[15931, 469, 129, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[16097, 476, 91, 1, 30, "Input"],
+Cell[16191, 479, 37, 1, 25, "Print"],
+Cell[16231, 482, 34, 1, 25, "Print"],
+Cell[16268, 485, 37, 1, 25, "Print"],
+Cell[16308, 488, 34, 1, 25, "Print"],
+Cell[16345, 491, 93, 1, 43, "Print"],
+Cell[16441, 494, 34, 1, 25, "Print"],
+Cell[16478, 497, 34, 1, 25, "Print"],
+Cell[16515, 500, 37, 1, 25, "Print"],
+Cell[16555, 503, 34, 1, 25, "Print"],
+Cell[16592, 506, 87, 1, 43, "Print"],
+Cell[16682, 509, 34, 1, 25, "Print"],
+Cell[16719, 512, 34, 1, 25, "Print"],
+Cell[16756, 515, 123, 3, 47, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
