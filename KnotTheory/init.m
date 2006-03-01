@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 2, 18, 11, 14, 9.2656250};
+KnotTheoryVersion[] = {2006, 3, 1, 13, 54, 18.4444740};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -2273,9 +2273,10 @@ WikiForm/:ToString[a_?NumberQ,WikiForm]:=ToString[a]
 WikiForm /: ToString["", WikiForm] :=""
 WikiForm/:ToString[WikiForm[S_String],WikiForm]:=S
 WikiTextQ[
-    S_String]:=!(StringFreeQ[
-        S,{"<table","<tr","<td","{|","|-","|+","|}","{{"~~__~~"}}","[["~~__~~"]]",
-          "http://"}])
+    S_String]:=(!(StringFreeQ[
+            S,{"<table","<tr","<td","{|","|-","|+","|}","{{"~~__~~"}}",
+              "[["~~__~~"]]","http://"}]))||
+    StringMatchQ[S,"<nowiki>"~~__~~"</nowiki>"]
 WikiForm /: ToString[s_String, WikiForm] := If[WikiTextQ[s],s,
     StringReplace[
       "<nowiki>"<>s<>"</nowiki>",
@@ -5462,6 +5463,10 @@ DrawKnot::usage=
 LinKnotDirectory::usage="LinKnotDirectory[] contains the path to the LinKnot package. It must be set correctly in order for all the (Windows only) MathLink components of LinKnot to be usable. It can be overriden by the user."
 AllConwayNotations::usage=
   "AllConwayNotations[n_Integer] gives a complete list of knots and links with n crossings"
+ConwayNotation::usage=
+    "ConwayNotation[s] represents the knot or link whose Conway notation is the string s. ConwayNotation[K], where K is a knot or a link with up to 12 crossings, returns ConwayNotation[s], where s is a string containing the Conway notation of K.";\
+ConwayNotation::about =
+    "The program ConwayNotation relies on code from the LinKnot package by Slavik Jablan and Ramila Sazdanovic.";
 Begin["`KTtoLinKnot`"]
 SetAttributes[SwitchDirectories,HoldAll]
 SwitchDirectories[e_]:=
