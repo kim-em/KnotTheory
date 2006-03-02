@@ -52,4 +52,8 @@ public class ModP extends BaseRing {
     public boolean isZero() {
 	return n == 0;
     }
+
+    public String toString() {
+	return Integer.toString(n);
+    }
 }

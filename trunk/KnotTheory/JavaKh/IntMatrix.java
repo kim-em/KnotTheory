@@ -85,8 +85,8 @@ public class IntMatrix {
 
     public void addRow(int a, int b, BigInteger n) {
 	addRow2(a, b, n);
-	if (next != null)
-	    next.addColumn2(a, b, n);
+	/*if (next != null)  --- not needed for our purposes
+	  next.addColumn2(a, b, n);*/
 	assert target == null || target[a] == target[b];
     }
 
@@ -97,8 +97,8 @@ public class IntMatrix {
 
     public void addColumn(int a, int b, BigInteger n) {
 	addColumn2(a, b, n);
-	if (prev != null)
-	  prev.addRow2(a, b, n);
+	/*if (prev != null) --- same as above
+	  prev.addRow2(a, b, n);*/
 	assert source == null || source[a] == source[b];
     }
 
@@ -109,8 +109,8 @@ public class IntMatrix {
 
     public void multRow(int a, BigInteger n) {
 	multRow2(a, n);
-	if (next != null)
-	    next.multColumn2(a, n);
+	/*if (next != null)
+	  next.multColumn2(a, n);*/
     }
 
     private void multRow2(int a, BigInteger n) { // a *= n
@@ -120,8 +120,8 @@ public class IntMatrix {
 
     public void multColumn(int a, BigInteger n) {
 	multColumn2(a, n);
-	if (prev != null)
-	    prev.multRow2(a, n);
+	/*if (prev != null)
+	  prev.multRow2(a, n);*/
     }
 
     private void multColumn2(int a, BigInteger n) { // a *= n

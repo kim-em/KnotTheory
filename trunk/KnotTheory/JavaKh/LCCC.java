@@ -3,9 +3,7 @@ import java.util.*;
 public class LCCC { // Linear Combination of Canned Cobordisms
     //static int maxsz = 0; // is 10 for T(7.6)
     Cap top, bottom;
-    //Map<CannedCobordism, BaseRing> entries; // maps CannedCobordisms to their coefficients
-    // coefficients are BaseRing (for now, rational)
-    // to reduce half-integers, genus will be converted into dots
+    // coefficients are BaseRing
     int n;
     CannedCobordism cobordisms[];
     BaseRing coefficients[];
@@ -16,14 +14,12 @@ public class LCCC { // Linear Combination of Canned Cobordisms
 	//throw new IllegalArgumentException();
 	top = t;
 	bottom = b;
-	//entries = new TreeMap<CannedCobordism, BaseRing>();
 	n = 0;
 	cobordisms = new CannedCobordism[8];
 	coefficients = new BaseRing[8];
     }
 
     public boolean equals(Object o) {
-	//if (o == null && entries.size() == 0)
 	if (o == null && n == 0)
 	    return true;
 	if (!(o instanceof LCCC))
@@ -41,8 +37,6 @@ public class LCCC { // Linear Combination of Canned Cobordisms
 		   && coefficients[0].equals(other.coefficients[0])))
 	    return false;
 	return true;
-	//return top.equals(other.top) && bottom.equals(other.bottom)
-	//&& entries.equals(other.entries);
     }
 
     public static void main(String args[]) {
@@ -117,18 +111,6 @@ public class LCCC { // Linear Combination of Canned Cobordisms
 	cobordisms[n] = cc;
 	coefficients[n] = num;
 	n++;
-	/*BaseRing o = entries.get(cc);
-	BaseRing old;
-	if (o != null)
-	    old = o;
-	else
-	    old = new BaseRing(0);
-	BaseRing newbr = old.add(n);
-	if (newbr.isZero()) {
-	    if (o != null)
-		entries.remove(cc);
-	} else
-	entries.put(cc, newbr);*/
 	// DEBUG
 	/*if (entries.size() > maxsz)
 	  maxsz = entries.size();*/
@@ -139,13 +121,6 @@ public class LCCC { // Linear Combination of Canned Cobordisms
 	    return;
 	for (int i = 0; i < other.n; i++)
 	    add(other.cobordisms[i], other.coefficients[i]);
-	/*Iterator<Map.Entry<CannedCobordism, BaseRing>> i = other.entries.entrySet().iterator();
-	while (i.hasNext()) {
-	    Map.Entry<CannedCobordism, BaseRing> me = i.next();
-	    CannedCobordism cc =  me.getKey();
-	    BaseRing n = me.getValue();
-	    add(cc, n);
-	    }*/
     }
 
     public void multiply(BaseRing num) {
@@ -154,39 +129,17 @@ public class LCCC { // Linear Combination of Canned Cobordisms
 	else
 	    for (int i = 0; i < n; i++)
 		coefficients[i] = coefficients[i].multiply(num);
-	/*Iterator<Map.Entry<CannedCobordism, BaseRing>> i = entries.entrySet().iterator();
-	while (i.hasNext()) {
-	    Map.Entry<CannedCobordism, BaseRing> me = i.next();
-	    BaseRing val = me.getValue();
-	    me.setValue(val.multiply(n));
-	    }*/
     }
 
     public LCCC compose(LCCC other) { // vertical composition
 	if (other == null || n == 0 || other.n == 0)
 	    return null;
 	assert top.equals(other.bottom);
-	//if (!top.equals(other.bottom))
-	//throw new IllegalArgumentException();
 	LCCC ret = new LCCC(other.top, bottom);
 	for (int i = 0; i < n; i++)
 	    for (int j = 0; j < other.n; j++)
 		ret.add(cobordisms[i].compose(other.cobordisms[j]),
 			coefficients[i].multiply(other.coefficients[j]));
-	/*Iterator<Map.Entry<CannedCobordism, BaseRing>> i = entries.entrySet().iterator();
-	Set<Map.Entry<CannedCobordism, BaseRing>> s = other.entries.entrySet();
-	while (i.hasNext()) {
-	    Map.Entry<CannedCobordism, BaseRing> mei = i.next();
-	    CannedCobordism cci = mei.getKey();
-	    BaseRing ni = mei.getValue();
-	    Iterator<Map.Entry<CannedCobordism, BaseRing>> j = s.iterator();
-	    while (j.hasNext()) {
-		Map.Entry<CannedCobordism, BaseRing> mej = j.next();
-		CannedCobordism ccj = mej.getKey();
-		BaseRing nj = mej.getValue();
-		ret.add(cci.compose(ccj), ni.multiply(nj));
-	    }
-	    }*/
 	return ret;
     }
 
@@ -196,12 +149,6 @@ public class LCCC { // Linear Combination of Canned Cobordisms
 	if (n == 0)
 	    return null;
 	LCCC ret = new LCCC(null, null);
-	/*if (reverse)
-	    ret = new LCCC(cc.top.compose(cstart, top, start, nc),
-			   cc.bottom.compose(cstart, bottom, start, nc));
-	else
-	    ret = new LCCC(top.compose(start, cc.top, cstart, nc),
-	    bottom.compose(start, cc.bottom, cstart, nc));*/
 	if (reverse)
 	    for (int i = 0; i < n; i++)
 		ret.add(cc.compose(cstart, cobordisms[i], start, nc),
@@ -210,16 +157,6 @@ public class LCCC { // Linear Combination of Canned Cobordisms
 	    for (int i = 0; i < n; i++)
 		ret.add(cobordisms[i].compose(start, cc, cstart, nc),
 			coefficients[i]);
-	/*Iterator<Map.Entry<CannedCobordism, BaseRing>> i = entries.entrySet().iterator();
-	while (i.hasNext()) {
-	    Map.Entry<CannedCobordism, BaseRing> me = i.next();
-	    CannedCobordism mecc = me.getKey();
-	    BaseRing br = me.getValue();
-	    if (reverse)
-		ret.add(cc.compose(cstart, mecc, start, nc), br);
-	    else
-		ret.add(mecc.compose(start, cc, cstart, nc), br);
-		}*/
 	if (ret.n == 0)
 	    return null;
 	else {
@@ -234,18 +171,13 @@ public class LCCC { // Linear Combination of Canned Cobordisms
 	    return reduceWithH();
 	if (n == 0)
 	    return null;
-	//Iterator<Map.Entry<CannedCobordism, BaseRing>> iter = entries.entrySet().iterator();
 	LCCC ret = new LCCC(top, bottom);
-	//while (iter.hasNext()) {
 	for (int iter = 0; iter < n; iter++) {
-	    //Map.Entry<CannedCobordism, BaseRing> me = iter.next();
-	    //CannedCobordism cc = me.getKey();
 	    CannedCobordism cc = cobordisms[iter];
 	    cc.reverseMaps();
-	    //BaseRing n = me.getValue();
 	    BaseRing num = coefficients[iter];
 	    int dots[] = new int[cc.nbc];
-	    int genus[] = CannedCobordism.zeros[cc.nbc];//new int[cc.nbc];
+	    int genus[] = CannedCobordism.zeros[cc.nbc];
 	    int moreWork[] = new int[cc.ncc];
 	    int nmoreWork = 0;
 	    boolean kill = false;
@@ -258,10 +190,7 @@ public class LCCC { // Linear Combination of Canned Cobordisms
 		    else if (cc.dots[i] == 0)
 			kill = true;
 		} else if (cc.boundaryComponents[i].length == 1) {
-		    //dots[cc.boundaryComponents[i][0]] = cc.dots[i];
-		    //genus[cc.boundaryComponents[i][0]] = cc.genus[i];
 		    dots[cc.boundaryComponents[i][0]] = cc.dots[i]+cc.genus[i];
-		    //genus[cc.boundaryComponents[i][0]] = 0;
 		    if (cc.genus[i] == 1)
 			num = num.multiply(2);
 		} else {
@@ -303,9 +232,7 @@ public class LCCC { // Linear Combination of Canned Cobordisms
 		}
 		neckCutting = newarr;
 	    }
-	    int connectedComponent[] = CannedCobordism.counting[cc.nbc]; //new int[cc.nbc];
-	    /*for (int i = 0; i < cc.nbc; i++)
-	      connectedComponent[i] = i;*/
+	    int connectedComponent[] = CannedCobordism.counting[cc.nbc];
 	    for (int i = 0; i < neckCutting.length; i++) {
 		CannedCobordism newcc = new CannedCobordism(top, bottom);
 		// IMPORTANT!!! in order for them to safely share arrays

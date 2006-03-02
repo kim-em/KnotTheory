@@ -12,7 +12,7 @@ public class JavaKh {
 		BaseRing.setRing("Rational");
 	    else if (args[0].equals("-Z"))
 		BaseRing.setRing("Int");
-	    else if (args[0].equals("-H")) {
+	    else if (args[0].equals("-U")) {
 		using_h = true;
 		BaseRing.setRing("Int");
 	    } else
@@ -49,11 +49,12 @@ public class JavaKh {
 
     public static void printHelp() {
 	System.out.println("Usage: java JavaKh [OPTION]\n"
-			   + "Options specify the base ring class:\n"
-			   + "  -Q        Rationals (default)\n"
-			   + "  -Z        Integers\n"
-			   + "  -mod p    Modulus p\n"
-			   + "Any other option gives this message");
+			   +"Options specify the base ring class:\n"
+			   +"  -Q        Rationals (default)\n"
+			   +"  -Z        Integers\n"
+			   +"  -mod p    Modulus p\n"
+			   +"  -U        Universal homology (over Z)\n"
+			   +"Any other option gives this message");
 	System.exit(0);
     }
 }
