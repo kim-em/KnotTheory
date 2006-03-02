@@ -507,8 +507,8 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     WriteString[f, ToString[L1]];
     Close[f];
     cl = StringJoin[
-      "!java -classpath ", ToFileName[KnotTheoryDirectory[], "JavaKh"],
-      " ", javaoptions, " JavaKh ",
+      "!java -classpath \"", ToFileName[KnotTheoryDirectory[], "JavaKh"],
+      "\" ", javaoptions, " JavaKh ",
       If[modulus === Null, "-Z", "-mod "<>ToString[modulus]],
       " < pd"
     ];
