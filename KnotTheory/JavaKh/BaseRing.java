@@ -1,10 +1,11 @@
 public abstract class BaseRing {
-    private static java.lang.reflect.Constructor<?> constructor;
+    private static java.lang.reflect.Constructor constructor;
     public static String ring;
     public static void setRing(String cls) {
 	ring = cls;
 	try {
-	    constructor = Class.forName(cls).getConstructor(Integer.TYPE);
+	    Class params[] = {Integer.TYPE};
+	    constructor = Class.forName(cls).getConstructor(params);
 	} catch (Exception e) {
 	    System.err.println("Error setting BaseRing");
 	    System.exit(1);
@@ -13,7 +14,8 @@ public abstract class BaseRing {
 
     public static BaseRing fromInt(int n) {
 	try {
-	    return (BaseRing) constructor.newInstance(n);
+	    Object params[] = {new Integer(n)};
+	    return (BaseRing) constructor.newInstance(params);
 	} catch (Exception e) {
 	    System.err.println("Error instantiating BaseRing");
 	    System.exit(1);

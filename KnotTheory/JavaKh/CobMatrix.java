@@ -1,4 +1,4 @@
-// attempt at a sparse matrix
+// sparse matrix
 // based on http://www.ii.uib.no/~geirg/jaggedarrays.html
 public class CobMatrix {
     SmoothingColumn source, target;
@@ -9,7 +9,6 @@ public class CobMatrix {
     public CobMatrix(SmoothingColumn s, SmoothingColumn t) {
 	source = s;
 	target = t;
-	//matrix = new LCCC[t.n][s.n];
 	values = new LCCC[t.n][];
 	indices = new int[t.n][];
 	rowsizes = new int[t.n];
@@ -131,27 +130,10 @@ public class CobMatrix {
 		    k++;
 		}
 	}
-	/*for (int i = 0; i < target.n; i++)
-	    for (int j = 0; j < cm.source.n; j++) {
-		LCCC lc = null;
-		for (int k = 0; k < source.n; k++)
-		    if (matrix[i][k] != null) {
-			LCCC lc2 = matrix[i][k].compose(cm.matrix[k][j]);
-			if (lc == null)
-			    lc = lc2;
-			else
-			    lc.add(lc2);
-		    }
-		ret.matrix[i][j] = lc;
-		}*/
 	return ret;
     }
 
     public void multiply(BaseRing n) { // modifies in place
-	/*for (int i = 0; i < matrix.length; i++)
-	  for (int j = 0; j < matrix[i].length; j++)
-		if (matrix[i][j] != null)
-		matrix[i][j].multiply(n);*/
 	for (int i = 0; i < target.n; i++)
 	    for(int j = 0; j < rowsizes[i]; j++)
 		if (values[i][j] != null)
@@ -160,14 +142,6 @@ public class CobMatrix {
 
     public void add(CobMatrix cm) { // edits in place
 	assert source.equals(cm.source) && target.equals(cm.target);
-	/*if (!source.equals(cm.source) || !target.equals(cm.target))
-	  throw new IllegalArgumentException();*/
-	/*for (int i = 0; i < matrix.length; i++)
-	    for (int j = 0; j < matrix[i].length; j++)
-		if (matrix[i][j] == null)
-		    matrix[i][j] = cm.matrix[i][j];
-		else
-		matrix[i][j].add(cm.matrix[i][j]);*/
 	for (int i = 0; i < target.n; i++) {
 	    LCCC rowi[] = new LCCC[source.n];
 	    for (int j = 0; j < rowsizes[i]; j++)
@@ -200,10 +174,6 @@ public class CobMatrix {
 	    for (int j = 0; j < rowsizes[i]; j++)
 		if (values[i][j] != null)
 		    values[i][j] = values[i][j].reduce();
-	/*for (int i = 0; i < matrix.length; i++)
-	    for (int j = 0; j < matrix[i].length; j++)
-		if (matrix[i][j] != null)
-		matrix[i][j] = matrix[i][j].reduce();*/
     }
 
     public boolean isZero() {
@@ -211,11 +181,6 @@ public class CobMatrix {
 	    for (int j = 0; j < rowsizes[i]; j++)
 		if (values[i][j] != null && values[i][j].n != 0)
 		    return false;
-	/*for (int i = 0; i < target.n; i++)
-	    for (int j = 0; j < source.n; j++)
-		//if (matrix[i][j] != null && matrix[i][j].entries.size() != 0)
-		if (matrix[i][j] != null && matrix[i][j].n != 0)
-		return false;*/
 	return true;
     }
 
@@ -226,12 +191,6 @@ public class CobMatrix {
 		    if (!values[i][j].top.equals(source.smoothings[j])
 			|| !values[i][j].bottom.equals(target.smoothings[i]))
 			return false;
-	/*for (int i = 0; i < target.n; i++)
-	    for (int j = 0; j < source.n; j++)
-		if (matrix[i][j] != null)
-		    if (!matrix[i][j].top.equals(source.smoothings[j])
-			|| !matrix[i][j].bottom.equals(target.smoothings[i]))
-			return false;*/
 	return true;
     }
 
@@ -264,10 +223,8 @@ public class CobMatrix {
 		if (rowi[j] == null)
 		    System.out.print("0");
 		else {
-		    //int n = matrix[i][j].entries.size();
 		    int n = rowi[j].n;
 		    if (n == 1) {
-			//CannedCobordism cc = (CannedCobordism) matrix[i][j].entries.keySet().iterator().next();
 			CannedCobordism cc = rowi[j].cobordisms[0];
 			if (cc.isIsomorphism())
 			    System.out.print("i");

@@ -208,7 +208,7 @@ public class Komplex {
     }
 
     public String KhWithH() {
-	String ret = "";
+	StringBuffer ret = new StringBuffer();
 	for (int i = 0; i < ncolumns; i++) {
 	    int last = 0x80000000;
 	    while (true) {
@@ -224,10 +224,10 @@ public class Komplex {
 		    break;
 		last = min;
 		if (i == ncolumns - 1) {
-		    if (!ret.equals(""))
-			ret += " + ";
-		    ret += "q^" + min + "*t^" + (i + startnum)
-			+ "*h^0*M[" + 0 + ", " + count + "]";
+		    if (ret.length() != 0)
+			ret.append(" + ");
+		    ret.append("q^" + min + "*t^" + (i + startnum)
+			       + "*h^0*M[" + 0 + ", " + count + "]");
 		    continue;
 		}
 		int last2 = min - 1;
@@ -250,11 +250,11 @@ public class Komplex {
 			break;
 		    last2 = min2;
 		    assert (min2 - min) % 2 == 0;
-		    if (!ret.equals(""))
-			ret += " + ";
-		    ret += "q^" + min + "*t^" + (i + startnum)
-			+ "*h^" + (min2 - min) / 2 + "*M["
-			+ count2 + ", " + count;
+		    if (ret.length() != 0)
+			ret.append(" + ");
+		    ret.append("q^" + min + "*t^" + (i + startnum)
+			       + "*h^" + (min2 - min) / 2 + "*M["
+			       + count2 + ", " + count);
 		    //boolean first = true;
 		    for (int j = 0; j < columns[i + 1].n; j++)
 			if (columns[i + 1].numbers[j] == min2) {
@@ -270,21 +270,21 @@ public class Komplex {
 				    /*if (first2)
 					first2 = false;
 					else*/
-				    ret += ", ";
+				    ret.append(", ");
 				    if (row[k] == null || row[k].n == 0)
-					ret += "0";
+					ret.append("0");
 				    else {
 					assert row[k].n == 1;
-					ret += row[k].coefficients[0];
+					ret.append(row[k].coefficients[0]);
 				    }
 				}
 			    //ret += "}";
 			}
-		    ret += "]";
+		    ret.append("]");
 		}
 	    }
 	}
-	return ret;
+	return ret.toString();
     }
 
     public String KhForZ() {
@@ -355,7 +355,7 @@ public class Komplex {
 			for (int j = 0; j < nnum; j++) {
 			    BigInteger divmod[] = nums[j].divideAndRemainder(BigInteger.valueOf(pk));
 			    if (divmod[1].equals(BigInteger.ZERO) && !nums[j].mod(BigInteger.valueOf(pk * p)).equals(BigInteger.ZERO)) {
-				retvals[ndeg].add(pk);
+				retvals[ndeg].add(new Integer(pk));
 				nums[j] = divmod[0];
 			    }
 			}
@@ -372,6 +372,7 @@ public class Komplex {
 	    }
 	    if (i != ncolumns - 1) {
 		mats[i].toSmithForm();
+		//mats[i].print();
 		if (!mats[i].isDiagonal())
 		    throw new AssertionError("Matrix is not diagonal");
 	    }
@@ -426,9 +427,6 @@ public class Komplex {
 			matrices[i].values[j][k] = lc.finalizeH();
 			assert matrices[i].values[j][k] == null
 			    || matrices[i].values[j][k].n < 2;
-			/*if (matrices[i].values[j][k] != null) {
-			    System.out.println("s:"+columns[i].numbers[matrices[i].indices[j][k]] + " t:" + columns[i+1].numbers[j] + " h:" + matrices[i].values[j][k].cobordisms[0].hpower);
-			    }*/
 		    }
 		}
     }
@@ -478,17 +476,11 @@ public class Komplex {
 	    CannedCobordism prevcc = new CannedCobordism(oldsm, newsm);
 	    prevcc.ncc = prevcc.nbc;
 	    prevcc.connectedComponent = CannedCobordism.counting[prevcc.nbc];
-	    /*for (int j = 0; j < prevcc.nbc; j++)
-	      prevcc.connectedComponent[j] = j;
-	    prevcc.genus = new int[prevcc.ncc];*/
 	    prevcc.dots = new int[prevcc.ncc];
 	    prevcc.genus = CannedCobordism.zeros[prevcc.ncc];
 	    CannedCobordism nextcc = new CannedCobordism(newsm, oldsm);
 	    nextcc.ncc = nextcc.nbc;
 	    nextcc.connectedComponent = CannedCobordism.counting[nextcc.nbc];
-	    /*for (int j = 0; j < nextcc.nbc; j++)
-		nextcc.connectedComponent[j] = j;
-		nextcc.genus = new int[nextcc.ncc];*/
 	    nextcc.dots = new int[nextcc.ncc];
 	    nextcc.genus = CannedCobordism.zeros[nextcc.ncc];
 	    // the dots array for prevcc and nextcc is reused here
@@ -521,13 +513,6 @@ public class Komplex {
 			    prev.values[newn][k] = lc.compose(matrices[colnum - 1].values[i][k]);
 		    } else
 			prev.values[newn] = matrices[colnum - 1].values[i];
-		    /*if (oldsm.ncycles != 0) {
-			LCCC lc = new LCCC(oldsm, newsm);
-			lc.add(prevcc, 1);
-			for (int k = 0; k < prev.matrix[0].length; k++)
-			    prev.matrix[newn][k] = lc.compose(matrices[colnum - 1].matrix[i][k]);
-		    } else
-		    prev.matrix[newn] = matrices[colnum - 1].matrix[i];*/
 		}
 		if (next != null) {
 		    if (oldsm.ncycles != 0) {
@@ -537,12 +522,7 @@ public class Komplex {
 			    for (int l = 0; l < matrices[colnum].rowsizes[k]; l++)
 				if (matrices[colnum].indices[k][l] == i)
 				    next.append(k, newn, matrices[colnum].values[k][l].compose(lc));
-			/*for (int k = 0; k < next.matrix.length; k++)
-			    if (matrices[colnum].matrix[k][i] != null)
-			    next.matrix[k][newn] = matrices[colnum].matrix[k][i].compose(lc);*/
 		    } else
-			/*for (int k = 0; k < next.matrix.length; k++)
-			  next.matrix[k][newn] = matrices[colnum].matrix[k][i];*/
 			for (int k = 0; k<matrices[colnum].values.length; k++)
 			    for (int l = 0; l < matrices[colnum].rowsizes[k]; l++)
 				if (matrices[colnum].indices[k][l] == i)
@@ -638,20 +618,11 @@ public class Komplex {
 		    prev.rowsizes[newn] = matrices[colnum - 1].rowsizes[i];
 		    prev.indices[newn] = matrices[colnum - 1].indices[i];
 		    if (oldsm.ncycles != 0) {
-			/*LCCC lc = new LCCC(oldsm, newsm);
-			  lc.add(prevcc, 1);*/
 			prev.values[newn] = new LCCC[prev.rowsizes[newn]];
 			for (int k = 0; k < prev.rowsizes[newn]; k++)
 			    prev.values[newn][k] = prevlc.compose(matrices[colnum - 1].values[i][k]);
 		    } else
 			prev.values[newn] = matrices[colnum - 1].values[i];
-		    /*if (oldsm.ncycles != 0) {
-			LCCC lc = new LCCC(oldsm, newsm);
-			lc.add(prevcc, 1);
-			for (int k = 0; k < prev.matrix[0].length; k++)
-			    prev.matrix[newn][k] = lc.compose(matrices[colnum - 1].matrix[i][k]);
-		    } else
-		    prev.matrix[newn] = matrices[colnum - 1].matrix[i];*/
 		}
 		if (next != null) {
 		    if (oldsm.ncycles != 0) {
@@ -661,12 +632,7 @@ public class Komplex {
 			    for (int l = 0; l < matrices[colnum].rowsizes[k]; l++)
 				if (matrices[colnum].indices[k][l] == i)
 				    next.append(k, newn, matrices[colnum].values[k][l].compose(lc));
-			/*for (int k = 0; k < next.matrix.length; k++)
-			    if (matrices[colnum].matrix[k][i] != null)
-			    next.matrix[k][newn] = matrices[colnum].matrix[k][i].compose(lc);*/
 		    } else
-			/*for (int k = 0; k < next.matrix.length; k++)
-			  next.matrix[k][newn] = matrices[colnum].matrix[k][i];*/
 			for (int k = 0; k<matrices[colnum].values.length; k++)
 			    for (int l = 0; l < matrices[colnum].rowsizes[k]; l++)
 				if (matrices[colnum].indices[k][l] == i)
@@ -696,24 +662,16 @@ public class Komplex {
 	do {
 	    found = false;
 	    rlfor:
-	    //for (int j = 0; j < matrices[i].matrix.length; j++)
 	    for (int j = 0; j < matrices[i].values.length; j++)
-	    //for (int k = 0; k < matrices[i].matrix[j].length; k++) {
 	        for (int l = 0; l < matrices[i].rowsizes[j]; l++) {
 		    LCCC lc = matrices[i].values[j][l];
-		    //if (lc != null && lc.entries.size() == 1) {
 		    if (lc != null && lc.n == 1) {
-			//if (columns[i].numbers[k] != columns[i + 1].numbers[j])
-			//continue;
 			int k = matrices[i].indices[j][l];
 			if (!columns[i].smoothings[k].equals(columns[i + 1].smoothings[j]))
 			    continue;
-			//Map.Entry me = (Map.Entry) lc.entries.entrySet().iterator().next();
-			//BaseRing n = (BaseRing) me.getValue();
 			BaseRing n = lc.coefficients[0];
 			if (!n.isInvertible())
 			    continue;
-			//CannedCobordism cc = (CannedCobordism) me.getKey();
 			CannedCobordism cc = lc.cobordisms[0];
 			if (!cc.isIsomorphism())
 			    continue;
@@ -744,12 +702,6 @@ public class Komplex {
 	scb1.smoothings[0] = columns[i].smoothings[k];
 	scb1.numbers[0] = columns[i].numbers[k];
 	SmoothingColumn scD = new SmoothingColumn(columns[i].n - 1);
-	/*for (int a = 0, b = 0; a < columns[i].n; a++)
-	    if (a != k) {
-		scD.smoothings[b] = columns[i].smoothings[a];
-		scD.numbers[b] = columns[i].numbers[a];
-		b++;
-		}*/
 	System.arraycopy(columns[i].smoothings, 0, scD.smoothings, 0, k);
 	System.arraycopy(columns[i].smoothings, k + 1,
 			 scD.smoothings, k, scD.n - k);
@@ -759,12 +711,6 @@ public class Komplex {
 	scb2.smoothings[0] = columns[i + 1].smoothings[j];
 	scb2.numbers[0] = columns[i + 1].numbers[j];
 	SmoothingColumn scE = new SmoothingColumn(columns[i + 1].n - 1);
-	/*for (int a = 0, b = 0; a < columns[i + 1].n; a++)
-	    if (a != j) {
-		scE.smoothings[b] = columns[i + 1].smoothings[a];
-		scE.numbers[b] = columns[i + 1].numbers[a];
-		b++;
-		}*/
 	System.arraycopy(columns[i + 1].smoothings, 0, scE.smoothings, 0, j);
 	System.arraycopy(columns[i + 1].smoothings, j + 1,
 			 scE.smoothings, j, scE.n - j);
@@ -774,12 +720,6 @@ public class Komplex {
 	CobMatrix delta = null, gamma = null;
 	if (!zeros) {
 	    delta = new CobMatrix(scD, scb2);
-	/*for (int a = 0, b = 0; a < matrices[i].matrix[j].length; a++)
-	    if (a != k)
-	    delta.matrix[0][b++] = matrices[i].matrix[j][a];*/
-	/*System.arraycopy(matrices[i].matrix[j], 0, delta.matrix[0], 0, k);
-	System.arraycopy(matrices[i].matrix[j], k + 1,
-	delta.matrix[0], k, delta.matrix[0].length - k);*/
 	    delta.values[0] = new LCCC[matrices[i].rowsizes[j]];
 	    delta.indices[0] = new int[matrices[i].rowsizes[j]];
 	    for (int a = 0; a < matrices[i].rowsizes[j]; a++) {
@@ -792,28 +732,12 @@ public class Komplex {
 		    delta.indices[0][delta.rowsizes[0]++] = idx - 1;
 		}
 	    }
+	    // fill this at the same time as epsilon
 	    gamma = new CobMatrix(scb1, scE);
 	}
-	// fill this at the same time as epsilon
-	/*for (int a = 0, b = 0; a < matrices[i].values.length; a++)
-	    if (a != j) {
-		//gamma.matrix[b++][0] = matrices[i].matrix[a][k];
-		for (int l = 0; l < matrices[i].rowsizes[a]; l++)
-		    if (matrices[i].indices[a][l] == k)
-			gamma.append(b, 0, matrices[i].values[a][l]);
-		b++;
-		}*/
 	CobMatrix epsilon = new CobMatrix(scD, scE);
 	for (int a = 0, b = 0; a < matrices[i].values.length; a++)
 	    if (a != j) {
-		/*for (int c = 0, d = 0; c < matrices[i].matrix[a].length; c++)
-		    if (c != k)
-		    epsilon.matrix[b][d++] = matrices[i].matrix[a][c];*/
-		/*System.arraycopy(matrices[i].matrix[a], 0,
-				 epsilon.matrix[b], 0, k);
-		System.arraycopy(matrices[i].matrix[a], k + 1,
-				 epsilon.matrix[b], k,
-				 epsilon.matrix[b].length - k);*/
 		epsilon.values[b] = new LCCC[matrices[i].rowsizes[a]];
 		epsilon.indices[b] = new int[matrices[i].rowsizes[a]];
 		for (int c = 0; c < matrices[i].rowsizes[a]; c++) {
@@ -833,12 +757,9 @@ public class Komplex {
 	    matrices[i] = epsilon;
 	else {
 	    CobMatrix phiinv = new CobMatrix(scb2, scb1);
-	/*phiinv.append(0, 0, new LCCC(columns[i + 1].smoothings[j],
-	  columns[i].smoothings[k]));*/
-	    CannedCobordism phicc = new CannedCobordism(columns[i+1].smoothings[j],
-						    columns[i].smoothings[k]);
-	// assume delooping has been done
-	// make phicc an isomorphism
+	    CannedCobordism phicc = new CannedCobordism(columns[i+1].smoothings[j], columns[i].smoothings[k]);
+	    // assume delooping has been done
+	    // make phicc an isomorphism
 	    for (int a = 0; a < phicc.nbc; a++)
 		phicc.connectedComponent[a] = a;
 	    phicc.ncc = phicc.nbc;
@@ -848,9 +769,7 @@ public class Komplex {
 				  columns[i].smoothings[k]);
 	    philc.add(phicc, n.inverse().multiply(-1));
 	    phiinv.append(0, 0, philc);
-	//phiinv.values[0][0].add(phicc, n.inverse().multiply(-1));
 	    CobMatrix gpd = gamma.multiply(phiinv).multiply(delta);
-	//gpd.divide(-n);
 	    gpd.add(epsilon);
 	    matrices[i] = gpd;
 	}
@@ -858,15 +777,6 @@ public class Komplex {
 	columns[i + 1] = scE;
 	if (i != 0) {
 	    CobMatrix beta = new CobMatrix(columns[i - 1], columns[i]);
-	    /*for (int a = 0, b = 0; a < matrices[i - 1].matrix.length; a++)
-		if (a != k) {
-		    for (int c = 0; c < matrices[i - 1].matrix[a].length; c++)
-			beta.matrix[b][c] = matrices[i - 1].matrix[a][c];
-		    b++;
-		    }*/
-	    /*System.arraycopy(matrices[i - 1].matrix, 0, beta.matrix, 0, k);
-	    System.arraycopy(matrices[i - 1].matrix, k + 1,
-	    beta.matrix, k, beta.matrix.length - k);*/
 	    System.arraycopy(matrices[i - 1].values, 0, beta.values, 0, k);
 	    System.arraycopy(matrices[i - 1].indices, 0, beta.indices, 0, k);
 	    System.arraycopy(matrices[i - 1].rowsizes, 0, beta.rowsizes, 0, k);
@@ -881,13 +791,6 @@ public class Komplex {
 	if (i != ncolumns - 2) {
 	    CobMatrix nu = new CobMatrix(columns[i + 1], columns[i + 2]);
 	    for (int a = 0; a < matrices[i + 1].values.length; a++) {
-		/*for (int c = 0, d = 0; c < matrices[i+1].matrix[a].length; c++)
-		    if (c != j)
-		    nu.matrix[a][d++] = matrices[i + 1].matrix[a][c];*/
-		/*System.arraycopy(matrices[i + 1].matrix[a], 0,
-				 nu.matrix[a], 0, j);
-		System.arraycopy(matrices[i + 1].matrix[a], j + 1,
-		nu.matrix[a], j, nu.matrix[a].length - j);*/
 		int size = matrices[i + 1].rowsizes[a];
 		nu.values[a] = new LCCC[size];
 		nu.indices[a] = new int[size];
@@ -1277,17 +1180,6 @@ public class Komplex {
 					}
 				    }
 				}
-			    /*for (int l = 0; l < columns[j].n; l++)
-				for (int n = 0; n < columns[j + 1].n; n++) {
-				    LCCC lc;
-				    if (matrices[j].matrix[n][l] != null)
-					lc = matrices[j].matrix[n][l].compose(start, komcc, kstart, nc, false);
-				    else
-					lc = null;
-				    if (lc != null && k % 2 == 0)
-					lc.multiply(new BaseRing(-1));
-				    ret.matrices[i].matrix[startnum[j+1][k] + n*kom.columns[k].n + m][startnum[j][k] + l*kom.columns[k].n + m] = lc;
-				    }*/
 			}
 			if (first && ((j == 0 && k == kom.ncolumns - 1)
 				      || j != 0) && ncolumns > 2)
@@ -1309,15 +1201,6 @@ public class Komplex {
 					    ret.matrices[i].append(startnum[j][k+1] + l*kom.columns[k+1].n + n, startnum[j][k] + l*kom.columns[k].n + m, lc);
 				    }
 				}
-			    /*for (int m = 0; m < kom.columns[k].n; m++)
-				for (int n = 0; n < kom.columns[k + 1].n; n++){
-				    LCCC lc;
-				    if (kom.matrices[k].matrix[n][m] != null)
-					lc = kom.matrices[k].matrix[n][m].compose(kstart, thiscc, start, nc, true);
-				    else
-					lc = null;
-				    ret.matrices[i].matrix[startnum[j][k+1] + l*kom.columns[k+1].n + n][startnum[j][k] + l*kom.columns[k].n + m] = lc;
-				    }*/
 			}
 		}
 	    ret.matrices[i].trim();
@@ -1337,28 +1220,6 @@ public class Komplex {
 		xsigns[i] = -1;
 	    else
 		throw new AssertionError("Error finding crossing signs");
-	    /*int j = pd[i][2], a = i;
-	    while (j != pd[i][1] && j != pd[i][3]) {
-		int n = -1, m = -1;
-		for (int k = 0; k < pd.length; k++) {
-		    if (k != a)
-			for (int l = 0; l < 4; l++)
-			    if (pd[k][l] == j) {
-				m = l;
-				break;
-			    }
-		    if (m != -1) {
-			n = k;
-			break;
-		    }
-		}
-		j = pd[n][(m + 2) % 4];
-		a = n;
-	    }
-	    if (j == pd[i][1])
-		xsigns[i] = -1;
-	    else
-	    xsigns[i] = 1;*/
 	}
 	return xsigns;
     }
@@ -1434,27 +1295,7 @@ public class Komplex {
 		int dst = j;
 		do {
 		    // IF THINGS ARE BROKEN, HERE IS A LIKELY CULPRIT
-		    /*if (crossing2cycles[i][rsmoothing[dst] / 2][0] == -1)
-			crossing2cycles[i][rsmoothing[j] / 2][0] = j;
-		    else
-		    crossing2cycles[i][rsmoothing[j] / 2][1] = j;*/
 		    int a;
-		    /*if (rsmoothing[dst][0] != -2) // pick which way to go
-			if (rsmoothing[dst][1] == -2)
-			    a = 0;
-			else {
-			    int b;
-			    if (smoothing[rsmoothing[dst][0]][0] == dst)
-				b = 1;
-			    else
-				b = 0;
-			    if (rsmoothing[smoothing[rsmoothing[dst][0]][b]][0] != -2 && rsmoothing[smoothing[rsmoothing[dst][0]][b]][1] != -2)
-				a = 0;
-			    else
-				a = 1;
-			}
-		    else
-		    a = 1;*/
 		    if (dst < nfixed)
 			a = 0;
 		    else {
@@ -1483,37 +1324,19 @@ public class Komplex {
 			crossing2cycles[i][rsmoothing[dst][1]/2][rsmoothing[dst][1]%2] = j;
 		    }
 		    crossing2cycles[i][rsmoothing[dst][0]/2][rsmoothing[dst][0]%2] = j;
-		    //int olddst = dst;
 		    done[dst] = true;
 		    if (smoothing[rsmoothing[dst][a]][0] == dst)
 			dst = smoothing[rsmoothing[dst][a]][1];
 		    else
 			dst = smoothing[rsmoothing[dst][a]][0];
-		    //rsmoothing[olddst][a] = -2;
-		    //done[oldddst] = true;
 		} while (dst >= nfixed && dst != j);
-		//rsmoothing[dst] = -2;
 		if (dst == j) {
-		    /*if (crossing2cycles[num1][numsmoothings[num1]][rsmoothing[j] / 2][0] == -1)
-			crossing2cycles[num1][numsmoothings[num1]][rsmoothing[j] / 2][0] = ncycles;
-		    else if (crossing2cycles[num1][numsmoothings[num1]][rsmoothing[j] / 2][0] != ncycles)
-		    crossing2cycles[num1][numsmoothings[num1]][rsmoothing[j] / 2][1] = ncycles;*/
 		    ncycles++;
 		} else {
 		    pairings[j] = dst;
 		    pairings[dst] = j;
 		}
-		//rsmoothing[dst][0] = rsmoothing[dst][1] = -2;
 		done[dst] = true;
-		/*    while (pairings[j] > nfixed && pairings[j] != j) {
-			int tmp = pairings[j];
-			pairings[j] = pairings[tmp];
-			pairings[tmp] = -2;
-		    }
-		if (pairings[j] == j)
-		    ncycles++;
-		else
-		pairings[pairings[j]] = j;*/
 	    }
 
 	    int remap[] = new int[rsmoothing.length];
@@ -1634,8 +1457,6 @@ public class Komplex {
 				cc.ncc++;
 			    } else if (cc.connectedComponent[l] == cc.ncc)
 				cc.ncc++;
-			/*cc.dots = new int[cc.ncc];
-			  cc.genus = new int[cc.ncc];*/
 			cc.dots = cc.genus = CannedCobordism.zeros[cc.ncc];
 			LCCC lc = new LCCC(cc.top, cc.bottom);
 			int num = 1;
@@ -1643,7 +1464,6 @@ public class Komplex {
 			    if ((i & (1 << l)) != 0)
 				num = -num;
 			lc.add(cc, num);
-			//matrices[num1 - 1].matrix[whichRow[i]][whichRow[k]]=lc;
 			matrices[num1-1].append(whichRow[i], whichRow[k], lc);
 		    }
 	    }
