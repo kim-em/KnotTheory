@@ -1,16 +1,11 @@
 BeginPackage["KnotTheory`"];
 
 MorseLink::usage =
-    "MorseLink[K] returns a presentation of the oriented link K, composed, in \
-successive order, of the following 'events':
-    Cup[m,n] is a directed creation, starting at strand position n, towards \
-position m, where m and n differ by 1.
-    X[n,a = {Over/Under}, b = {Up/Down}, c={Up/Down}] is a crossing with \
-lower-left edge at strand n, a determines whether the strand running \
-bottom-left to top-right is over/under the crossing, b and c give the \
-directions of the bottom-left and bottom-right strands respectively through \
-the crossing.
-    Cap[m,n] is a directed cap, from strand m to strand n.
+    "MorseLink[K] returns a presentation of the oriented link K, composed, in successive order, of the following 'events':
+    Cup[m,n] is a directed creation, starting at strand position m, towards position n, where m and n differ by 1.
+    X[n,a = {Over/Under}, b = {Up/Down}, c={Up/Down}] is a crossing with lower-left edge at strand n, a determines 
+    whether the strand running bottom-left to top-right is over/under the crossing, b and c give the directions of 
+    the bottom-left and bottom-right strands respectively through the crossing. Cap[m,n] is a directed cap, from strand m to strand n.
     ";
 
 MorseLink::about = "MorseLink was added to KnotTheory` by Siddarth Sankaran
@@ -28,7 +23,20 @@ GetDir[a_,b_] :=
 
 s4[1]=2;s4[2]=3;s4[3]=4;s4[4]=1;  (*since a[[0]] is NOT the first element*)
 MorseLink[PD[Loop[1]]] := MorseLink[Cup[1,2], Cap[2,1]];
-MorseLink[input_] := MorseLink[PD[input]];
+(* Nasty hack; I don't understand how exactly MorseLink was working previously, when the definition was
+		MorseLink[input_]:=MorseLink[PD[input]]
+   it seems this should have resulted in it just converting back and forth...
+   Anyway -- I needed to make this change so I could write functions to manipulate MorseLink presentations.
+   This hack requires an extra line to be added every time a new presentation becomes available in KnotTheory`.
+   It's lame. Fix it if you know how!		Scott, March 1, 2006 *)
+(* maybe the right solution is to write a function PDableQ !? *)
+MorseLink[input_Knot] := MorseLink[PD[input]];
+MorseLink[input_Link] := MorseLink[PD[input]];
+MorseLink[input_GaussCode] := MorseLink[PD[input]];
+MorseLink[input_DTCode] := MorseLink[PD[input]];
+MorseLink[input_ConwayNotation] := MorseLink[PD[input]];
+MorseLink[input_BR] := MorseLink[PD[input]];
+(* end nasty hack! *)
 MorseLink[crossings_PD] := 
     Module[ {strands,  output={}, adjpos, found=0, in, dirlist,k=1} , 
     CreditMessage["MorseLink was added to KnotTheory` by Siddarth Sankaran

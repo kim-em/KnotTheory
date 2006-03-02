@@ -1,7 +1,7 @@
-public class Cap implements Comparable<Cap> {
+public class Cap implements Comparable {
     public int n, ncycles;
     public int pairings[];
-    private static java.util.Map<ComposeInput,ComposeOutput> cache = new java.util.TreeMap<ComposeInput,ComposeOutput>();
+    private static java.util.Map cache = new java.util.TreeMap();
 
     public Cap(int n, int cycles) {
 	this.n = n;
@@ -23,7 +23,8 @@ public class Cap implements Comparable<Cap> {
 	return true;
     }
 
-    public int compareTo(Cap c) {
+    public int compareTo(Object o) {
+	Cap c = (Cap) o;
 	if (n != c.n)
 	    return n - c.n;
 	if (ncycles != c.ncycles)
@@ -36,7 +37,7 @@ public class Cap implements Comparable<Cap> {
 
     public Cap compose(int start, Cap c, int cstart, int nc) {
 	ComposeInput ci = new ComposeInput(this, start, c, cstart, nc);
-	ComposeOutput co = cache.get(ci);
+	ComposeOutput co = (ComposeOutput) cache.get(ci);
 	if (co == null) {
 	    co = new ComposeOutput(ci);
 	    cache.put(ci, co);
@@ -47,7 +48,7 @@ public class Cap implements Comparable<Cap> {
     public Cap compose(int start, Cap c, int cstart, int nc,
 		       int joins[]) {
 	ComposeInput ci = new ComposeInput(this, start, c, cstart, nc);
-	ComposeOutput co = cache.get(ci);
+	ComposeOutput co = (ComposeOutput) cache.get(ci);
 	if (co == null) {
 	    co = new ComposeOutput(ci);
 	    cache.put(ci, co);
@@ -203,7 +204,7 @@ public class Cap implements Comparable<Cap> {
 	System.out.println("Associativity checks OK");
     }
 
-    private class ComposeInput implements Comparable<ComposeInput> {
+    private class ComposeInput implements Comparable {
 	Cap a, b;
 	int astart, bstart, nc;
 	public ComposeInput(Cap a, int astart, Cap b, int bstart, int nc) {
@@ -213,7 +214,8 @@ public class Cap implements Comparable<Cap> {
 	    this.bstart = bstart;
 	    this.nc = nc;
 	}
-	public int compareTo(ComposeInput ci) {
+	public int compareTo(Object o) {
+	    ComposeInput ci = (ComposeInput) o;
 	    if (astart != ci.astart)
 		return astart - ci.astart;
 	    if (bstart != ci.bstart)
