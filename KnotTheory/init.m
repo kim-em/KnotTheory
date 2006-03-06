@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 3, 2, 15, 32, 19.9938256};
+KnotTheoryVersion[] = {2006, 3, 5, 19, 24, 29.2656250};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -172,7 +172,9 @@ PDStringSplit[S_String]:=ToExpression/@StringSplit[S,","]
    notation used in the Knot Atlas back into the internal PD format. *)
 PD[S_String]:=
   PD@@((X@@PDStringSplit[#]&)/@
-        StringCases[S,"X<sub>"~~x:ShortestMatch[__]~~"</sub>"\[RuleDelayed]x])
+        StringCases[S, StringExpression[
+	  "X<sub>", x:ShortestMatch[__], "</sub>"
+	] :> x])
 BR[TorusKnot[m_, n_]] /; m > 0 && n > 0 :=
   BR[n, Flatten[Table[Range[n - 1], {m}]]]
 PD[TorusKnot[m_, n_]] /; m > 0 && n > 0 := PD[BR[TorusKnot[m, n]]]

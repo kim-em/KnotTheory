@@ -135,7 +135,9 @@ PDStringSplit[S_String]:=ToExpression/@StringSplit[S,","]
    notation used in the Knot Atlas back into the internal PD format. *)
 PD[S_String]:=
   PD@@((X@@PDStringSplit[#]&)/@
-        StringCases[S,"X<sub>"~~x:ShortestMatch[__]~~"</sub>"\[RuleDelayed]x])
+        StringCases[S, StringExpression[
+	  "X<sub>", x:ShortestMatch[__], "</sub>"
+	] :> x])
 
 BR[TorusKnot[m_, n_]] /; m > 0 && n > 0 :=
   BR[n, Flatten[Table[Range[n - 1], {m}]]]
