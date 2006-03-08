@@ -36,7 +36,7 @@ ConwayNotation::usage=
     "ConwayNotation[s] represents the knot or link whose Conway notation is the string s. ConwayNotation[K], where K is a knot or a link with up to 12 crossings, returns ConwayNotation[s], where s is a string containing the Conway notation of K.";\
 
 ConwayNotation::about =
-    "The program ConwayNotation relies on code from the LinKnot package by Slavik Jablan and Ramila Sazdanovic.";
+    "The program ConwayNotation relies on code from the LinKnot package by Slavik Jablan and Radmila Sazdanovic.";
 
 Begin["`KTtoLinKnot`"]
 
