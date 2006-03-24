@@ -41,9 +41,10 @@ WikiForm/:ToString[WikiForm[S_String],WikiForm]:=S
 
 WikiTextQ[
     S_String]:=(!(StringFreeQ[
-            S,{"<table","<tr","<td","{|","|-","|+","|}","{{"~~__~~"}}",
-              "[["~~__~~"]]","http://"}]))||
-    StringMatchQ[S,"<nowiki>"~~__~~"</nowiki>"]
+            S,{"<table","<tr","<td","{|","|-","|+","|}",
+              "{{"~StringExpression~__~StringExpression~"}}",
+              "[["~StringExpression~__~StringExpression~"]]","http://"}]))||
+    StringMatchQ[S,"<nowiki>"~StringExpression~__~StringExpression~"</nowiki>"]
 
 WikiForm /: ToString[s_String, WikiForm] := If[WikiTextQ[s],s,
     StringReplace[
@@ -150,10 +151,14 @@ IfNotOne["1"]="";
 IfNotOne[x_String]:=x
 
 LaurentPolynomialTeXReplacementRule=
-    "\\frac{"~~numerator:ShortestMatch[__]~~
-          "}{"~~denominator:ShortestMatch[__]~~
-              "}"~~rest:("+"|"-"|EndOfString)\[RuleDelayed]
-      IfNotOne[numerator] ~~" "~~InvertMonomialString[denominator]~~rest;
+    "\\frac{"~StringExpression~
+        numerator:
+          ShortestMatch[__]~StringExpression~"}{"~StringExpression~
+            denominator:
+              ShortestMatch[__]~StringExpression~"}"~StringExpression~
+                rest:("+"|"-"|EndOfString)\[RuleDelayed]
+      IfNotOne[numerator] ~StringExpression~" "~StringExpression~
+        InvertMonomialString[denominator]~StringExpression~rest;
 
 
 

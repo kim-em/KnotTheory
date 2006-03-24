@@ -19,6 +19,10 @@ overwritten.
 
 
 
+
+
+
+
 BeginPackage["KnotTheory`"];
 
 TorusKnots::usage="TorusKnots[n_] returns a list of all torus knots with up to n crossings.";
@@ -32,6 +36,8 @@ AlternatingQ::usage="AlternatingQ[K] tries to decide if the knot K is alternatin
 KnotNumber::usage="For a knot K from the tables, KnotNumber[K] returns its number in the appropriate sequence. Thus KnotNumber[Knot[8,19]] returns 19, while KnotNumber[Link[10,NonAlternating,5]] returns 5.";
 
 Begin["`Naming`"]
+
+
 
 TorusKnots[Xmax_]:=Module[{res},
     res=Flatten[
@@ -85,8 +91,9 @@ NameString[TorusKnot[m_Integer,n_Integer]]:=
 
 
 
-Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
-                "_"|" "~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
+Knot[S_String?(StringMatchQ[#,
+              StringExpression[DigitCharacter.., "_"|" ", 
+                DigitCharacter..]]&)]/;((#\[LeftDoubleBracket]1\
 \[RightDoubleBracket]\[LessEqual]10\[And]#\[LeftDoubleBracket]2\
 \[RightDoubleBracket]\[LessEqual]
                 NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket]])&[
@@ -94,8 +101,8 @@ Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
   Knot@@(ToExpression/@StringSplit[S,"_"|" "])
 
 Knot[S_String?(StringMatchQ[#,
-              "K"~~(DigitCharacter..)~~
-                  "a"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
+              StringExpression["K", DigitCharacter.., "a", 
+                DigitCharacter..]]&)]/;((#\[LeftDoubleBracket]1\
 \[RightDoubleBracket]\[GreaterEqual]11\[And]#\[LeftDoubleBracket]2\
 \[RightDoubleBracket]\[LessEqual]
                 NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket],
@@ -105,8 +112,8 @@ Knot[S_String?(StringMatchQ[#,
 ToExpression/@StringSplit[S,{"K","a"}])]
 
 Knot[S_String?(StringMatchQ[#,
-              "K"~~(DigitCharacter..)~~
-                  "n"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
+              StringExpression["K", DigitCharacter.., "n", 
+                DigitCharacter..]]&)]/;((#\[LeftDoubleBracket]1\
 \[RightDoubleBracket]\[GreaterEqual]11\[And]#\[LeftDoubleBracket]2\
 \[RightDoubleBracket]\[LessEqual]
                 NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket],
@@ -116,9 +123,9 @@ Knot[S_String?(StringMatchQ[#,
 ToExpression/@StringSplit[S,{"K","n"}])]
 
 Knot[S_String?(StringMatchQ[#,
-              "L"~~(DigitCharacter..)~~
-                  "a"~~(DigitCharacter..)]&)]/;((1\[LessEqual]#\
-\[LeftDoubleBracket]2\[RightDoubleBracket]\[LessEqual]
+              StringExpression["L", DigitCharacter.., "a", 
+                DigitCharacter..]]&)]/;((1\[LessEqual]#\[LeftDoubleBracket]2\
+\[RightDoubleBracket]\[LessEqual]
               NumberOfLinks[#\[LeftDoubleBracket]1\[RightDoubleBracket],
                 Alternating])&[ToExpression/@StringSplit[S,{"L","a"}]]):=
   Link[#\[LeftDoubleBracket]1\[RightDoubleBracket],
@@ -126,9 +133,9 @@ Knot[S_String?(StringMatchQ[#,
 ToExpression/@StringSplit[S,{"L","a"}])]
 
 Knot[S_String?(StringMatchQ[#,
-              "L"~~(DigitCharacter..)~~
-                  "n"~~(DigitCharacter..)]&)]/;((1\[LessEqual]#\
-\[LeftDoubleBracket]2\[RightDoubleBracket]\[LessEqual]
+              StringExpression["L", DigitCharacter.., "n", 
+                DigitCharacter..]]&)]/;((1\[LessEqual]#\[LeftDoubleBracket]2\
+\[RightDoubleBracket]\[LessEqual]
               NumberOfLinks[#\[LeftDoubleBracket]1\[RightDoubleBracket],
                 NonAlternating])&[ToExpression/@StringSplit[S,{"L","n"}]]):=
   Link[#\[LeftDoubleBracket]1\[RightDoubleBracket],
@@ -136,7 +143,8 @@ Knot[S_String?(StringMatchQ[#,
 ToExpression/@StringSplit[S,{"L","n"}])]
 
 Knot[S_String?(StringMatchQ[#,
-            "T("~~(DigitCharacter..)~~","~~(DigitCharacter..)~~")"]&)]:=
+            StringExpression["T(", DigitCharacter.., ",", DigitCharacter.., 
+              ")"]]&)]:=
   TorusKnot[#\[LeftDoubleBracket]1\[RightDoubleBracket],#\[LeftDoubleBracket]\
 2\[RightDoubleBracket]]&[(ToExpression/@StringSplit[S,{"T(",",",")"}])]
 
@@ -144,8 +152,9 @@ Link[S_String]:=Knot[S]
 
 
 
-Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
-                "a_"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
+Knot[S_String?(StringMatchQ[#,
+              StringExpression[DigitCharacter.., "a_", 
+                DigitCharacter..]]&)]/;((#\[LeftDoubleBracket]1\
 \[RightDoubleBracket]\[GreaterEqual]11\[And]#\[LeftDoubleBracket]2\
 \[RightDoubleBracket]\[LessEqual]
                 NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket],
@@ -154,8 +163,9 @@ Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
         Alternating,#\[LeftDoubleBracket]2\[RightDoubleBracket]]&[(\
 ToExpression/@StringSplit[S,{"a_"}])]
 
-Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
-                "n_"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
+Knot[S_String?(StringMatchQ[#,
+              StringExpression[DigitCharacter.., "n_", 
+                DigitCharacter..]]&)]/;((#\[LeftDoubleBracket]1\
 \[RightDoubleBracket]\[GreaterEqual]11\[And]#\[LeftDoubleBracket]2\
 \[RightDoubleBracket]\[LessEqual]
                 NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket],
@@ -205,8 +215,6 @@ PreviousKnot[L_Link]:=
     all\[LeftDoubleBracket]Position[all,L]\[LeftDoubleBracket]1,
           1\[RightDoubleBracket]-1\[RightDoubleBracket]]
 
-
-
 PreviousKnot[TorusKnot[3,2]]=TorusKnot[3,2];
 
 TorusKnotPosition[TorusKnot[m_,n_]]:=Module[{l=36},
@@ -228,4 +236,9 @@ NextKnot[T_TorusKnot]:=Module[{p=TorusKnotPosition[T]+1,n=36},
 
 End[]
 
+
+
 EndPackage[]
+
+
+
