@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     17595,        451]*)
-(*NotebookOutlinePosition[     18272,        474]*)
-(*  CellTagsIndexPosition[     18228,        470]*)
+(*NotebookOptionsPosition[     18621,        491]*)
+(*NotebookOutlinePosition[     19299,        514]*)
+(*  CellTagsIndexPosition[     19255,        510]*)
 (*WindowFrame->Normal*)
 
 
@@ -67,6 +67,18 @@ package, so some code that ought to live here is buried elsewhere in the \
 package.\
 \>", "Text",
   InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(AppendTo[$Path, \ \
+"\<C:/drorbn/projects/KnotTheory/svn/trunk\>"];\)\), "\[IndentingNewLine]", 
+    \(<< \ KnotTheory`\)}], "Input"],
+
+Cell[BoxData[
+    \("Loading KnotTheory` version of March 5, 2006, 19:24:29.2656.\nRead \
+more at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
+}, Open  ]],
 
 Cell[BoxData[
     \(\(BeginPackage["\<KnotTheory`\>"];\)\)], "Input",
@@ -101,9 +113,15 @@ returns 19, while KnotNumber[Link[10,NonAlternating,5]] returns 5.\>";\)\)}], \
 "Input",
   InitializationCell->True],
 
+Cell[CellGroupData[{
+
 Cell[BoxData[
     \(Begin["\<`Naming`\>"]\)], "Input",
   InitializationCell->True],
+
+Cell[BoxData[
+    \("KnotTheory`Naming`"\)], "Output"]
+}, Open  ]],
 
 Cell[BoxData[
     \(TorusKnots[Xmax_] := 
@@ -196,9 +214,10 @@ Cell["Recognise knot string names", "Subsection",
 
 Cell[BoxData[
     \(Knot[
-          S_String?\((StringMatchQ[#, \((DigitCharacter .. )\) ~~ \("\<_\>" | \
-"\< \>" ~~ \((DigitCharacter .. )\)\)] &)\)] /; \
-\((\(\((#\[LeftDoubleBracket]1\[RightDoubleBracket] \[LessEqual] 
+          S_String?\((StringMatchQ[#, 
+                  StringExpression[DigitCharacter .. , \ "\<_\>" | "\< \>", \ 
+                    DigitCharacter .. ]] &)\)] /; \((\(\((#\
+\[LeftDoubleBracket]1\[RightDoubleBracket] \[LessEqual] 
                     10 \[And] #\[LeftDoubleBracket]2\[RightDoubleBracket] \
 \[LessEqual] 
                     NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket]]\
@@ -209,8 +228,10 @@ Cell[BoxData[
 
 Cell[BoxData[
     \(Knot[
-          S_String?\((StringMatchQ[#, "\<K\>" ~~ \(\((DigitCharacter .. )\) ~~ \
-\("\<a\>" ~~ \((DigitCharacter .. )\)\)\)] &)\)] /; \((\(\((#\
+          S_String?\((StringMatchQ[#, 
+                  StringExpression["\<K\>", \ 
+                    DigitCharacter .. , \ "\<a\>", \ 
+                    DigitCharacter .. ]] &)\)] /; \((\(\((#\
 \[LeftDoubleBracket]1\[RightDoubleBracket] \[GreaterEqual] 
                     11 \[And] #\[LeftDoubleBracket]2\[RightDoubleBracket] \
 \[LessEqual] NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket], 
@@ -225,8 +246,10 @@ Cell[BoxData[
 
 Cell[BoxData[
     \(Knot[
-          S_String?\((StringMatchQ[#, "\<K\>" ~~ \(\((DigitCharacter .. )\) ~~ \
-\("\<n\>" ~~ \((DigitCharacter .. )\)\)\)] &)\)] /; \((\(\((#\
+          S_String?\((StringMatchQ[#, 
+                  StringExpression["\<K\>", \ 
+                    DigitCharacter .. , \ "\<n\>", \ 
+                    DigitCharacter .. ]] &)\)] /; \((\(\((#\
 \[LeftDoubleBracket]1\[RightDoubleBracket] \[GreaterEqual] 
                     11 \[And] #\[LeftDoubleBracket]2\[RightDoubleBracket] \
 \[LessEqual] NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket], 
@@ -241,8 +264,10 @@ Cell[BoxData[
 
 Cell[BoxData[
     \(Knot[
-          S_String?\((StringMatchQ[#, "\<L\>" ~~ \(\((DigitCharacter .. )\) ~~ \
-\("\<a\>" ~~ \((DigitCharacter .. )\)\)\)] &)\)] /; \((\(\((1 \[LessEqual] #\
+          S_String?\((StringMatchQ[#, 
+                  StringExpression["\<L\>", \ 
+                    DigitCharacter .. , \ "\<a\>", \ 
+                    DigitCharacter .. ]] &)\)] /; \((\(\((1 \[LessEqual] #\
 \[LeftDoubleBracket]2\[RightDoubleBracket] \[LessEqual] 
                   NumberOfLinks[#\[LeftDoubleBracket]1\[RightDoubleBracket], 
                     Alternating])\) &\)[
@@ -256,8 +281,10 @@ Cell[BoxData[
 
 Cell[BoxData[
     \(Knot[
-          S_String?\((StringMatchQ[#, "\<L\>" ~~ \(\((DigitCharacter .. )\) ~~ \
-\("\<n\>" ~~ \((DigitCharacter .. )\)\)\)] &)\)] /; \((\(\((1 \[LessEqual] #\
+          S_String?\((StringMatchQ[#, 
+                  StringExpression["\<L\>", \ 
+                    DigitCharacter .. , \ "\<n\>", \ 
+                    DigitCharacter .. ]] &)\)] /; \((\(\((1 \[LessEqual] #\
 \[LeftDoubleBracket]2\[RightDoubleBracket] \[LessEqual] 
                   NumberOfLinks[#\[LeftDoubleBracket]1\[RightDoubleBracket], 
                     NonAlternating])\) &\)[
@@ -271,10 +298,11 @@ Cell[BoxData[
 
 Cell[BoxData[
     \(Knot[
-        S_String?\((StringMatchQ[#, "\<T(\>" ~~ \(\((DigitCharacter .. )\) ~~ \
-\("\<,\>" ~~ \(\((DigitCharacter .. )\) ~~ "\<)\>"\)\)\)] &)\)] := \
-\(TorusKnot[#\[LeftDoubleBracket]1\[RightDoubleBracket], \
-#\[LeftDoubleBracket]2\[RightDoubleBracket]] &\)[\((ToExpression /@ 
+        S_String?\((StringMatchQ[#, 
+                StringExpression["\<T(\>", \ DigitCharacter .. , \ "\<,\>", \ 
+                  DigitCharacter .. , \ "\<)\>"]] &)\)] := \(TorusKnot[#\
+\[LeftDoubleBracket]1\[RightDoubleBracket], #\[LeftDoubleBracket]2\
+\[RightDoubleBracket]] &\)[\((ToExpression /@ 
             StringSplit[S, {"\<T(\>", "\<,\>", "\<)\>"}])\)]\)], "Input",
   InitializationCell->True],
 
@@ -289,9 +317,10 @@ Cell["Recognise Livingston's naming system.", "Subsubsection",
 
 Cell[BoxData[
     \(Knot[
-          S_String?\((StringMatchQ[#, \((DigitCharacter .. )\) ~~ \("\<a_\>" ~~ \
-\((DigitCharacter .. )\)\)] &)\)] /; \((\(\((#\[LeftDoubleBracket]1\
-\[RightDoubleBracket] \[GreaterEqual] 
+          S_String?\((StringMatchQ[#, 
+                  StringExpression[DigitCharacter .. , \ "\<a_\>", \ 
+                    DigitCharacter .. ]] &)\)] /; \((\(\((#\
+\[LeftDoubleBracket]1\[RightDoubleBracket] \[GreaterEqual] 
                     11 \[And] #\[LeftDoubleBracket]2\[RightDoubleBracket] \
 \[LessEqual] NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket], 
                       Alternating])\) &\)[
@@ -305,9 +334,10 @@ Cell[BoxData[
 
 Cell[BoxData[
     \(Knot[
-          S_String?\((StringMatchQ[#, \((DigitCharacter .. )\) ~~ \("\<n_\>" ~~ \
-\((DigitCharacter .. )\)\)] &)\)] /; \((\(\((#\[LeftDoubleBracket]1\
-\[RightDoubleBracket] \[GreaterEqual] 
+          S_String?\((StringMatchQ[#, 
+                  StringExpression[DigitCharacter .. , \ "\<n_\>", \ 
+                    DigitCharacter .. ]] &)\)] /; \((\(\((#\
+\[LeftDoubleBracket]1\[RightDoubleBracket] \[GreaterEqual] 
                     11 \[And] #\[LeftDoubleBracket]2\[RightDoubleBracket] \
 \[LessEqual] NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket], 
                       NonAlternating])\) &\)[
@@ -378,8 +408,6 @@ Cell[BoxData[{
       Knot[n, t, k - 1]\)}], "Input",
   InitializationCell->True],
 
-Cell[CellGroupData[{
-
 Cell[BoxData[{
     \(\(NextKnot[Last[AllLinks[]]] = 
         Last[AllLinks[]];\)\), "\[IndentingNewLine]", 
@@ -395,15 +423,6 @@ Cell[BoxData[{
         all\[LeftDoubleBracket]\(Position[all, L]\)\[LeftDoubleBracket]1, 
               1\[RightDoubleBracket] - 1\[RightDoubleBracket]]\)}], "Input",
   InitializationCell->True],
-
-Cell[BoxData[
-    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
-error: new symbol name \\\"\\!\\(all\\)\\\" is similar to existing symbol \
-\\\"\\!\\(All\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
-ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
-ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message",
-  InitializationCell->True]
-}, Open  ]],
 
 Cell[BoxData[
     \(\(PreviousKnot[TorusKnot[3, 2]] = TorusKnot[3, 2];\)\)], "Input",
@@ -439,20 +458,41 @@ Cell[CellGroupData[{
 Cell["EndPackage", "Subsection",
   InitializationCell->True],
 
+Cell[CellGroupData[{
+
 Cell[BoxData[
     \(End[]\)], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
+    \("KnotTheory`Naming`"\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
     \(EndPackage[]\)], "Input",
-  InitializationCell->True]
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Equal[\[IndentingNewLine]Knot\  /@ \ {"\<3 1\>", \ "\<3_1\>", \ \
+"\<K11a1\>", \ "\<K11n1\>", \ "\<L11a1\>", \ "\<L11n1\>", \ "\<11a_1\>", \ \
+"\<11n_1\>"}, \[IndentingNewLine]{Knot[3, 1], Knot[3, 1], 
+        Knot[11, Alternating, 1], Knot[11, NonAlternating, 1], 
+        Link[11, Alternating, 1], Link[11, NonAlternating, 1], 
+        Knot[11, Alternating, 1], 
+        Knot[11, NonAlternating, 1]}\[IndentingNewLine]]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]]
 }, Open  ]]
 }, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
-ScreenRectangle->{{0, 1280}, {0, 717}},
+ScreenRectangle->{{0, 1600}, {0, 1102}},
 AutoGeneratedPackage->Automatic,
-WindowSize->{869, 555},
+WindowSize->{908, 937},
 WindowMargins->{{Automatic, 11}, {Automatic, 6}}
 ]
 
@@ -479,105 +519,118 @@ Cell[1776, 53, 65, 1, 73, "Section",
   InitializationCell->True],
 Cell[1844, 56, 528, 12, 128, "Text",
   InitializationCell->True],
-Cell[2375, 70, 97, 2, 30, "Input",
+
+Cell[CellGroupData[{
+Cell[2397, 72, 156, 3, 50, "Input"],
+Cell[2556, 77, 159, 2, 44, "Print"]
+}, Open  ]],
+Cell[2730, 82, 97, 2, 30, "Input",
   InitializationCell->True],
-Cell[2475, 74, 166, 3, 30, "Input",
+Cell[2830, 86, 166, 3, 30, "Input",
   InitializationCell->True],
-Cell[2644, 79, 379, 6, 110, "Input",
+Cell[2999, 91, 379, 6, 90, "Input",
   InitializationCell->True],
-Cell[3026, 87, 255, 4, 90, "Input",
+Cell[3381, 99, 255, 4, 90, "Input",
   InitializationCell->True],
-Cell[3284, 93, 520, 8, 130, "Input",
-  InitializationCell->True],
-Cell[3807, 103, 82, 2, 30, "Input",
-  InitializationCell->True],
-Cell[3892, 107, 423, 9, 110, "Input",
-  InitializationCell->True],
-Cell[4318, 118, 855, 17, 170, "Input",
-  InitializationCell->True],
-Cell[5176, 137, 221, 4, 70, "Input",
+Cell[3639, 105, 520, 8, 130, "Input",
   InitializationCell->True],
 
 Cell[CellGroupData[{
-Cell[5422, 145, 60, 1, 38, "Subsection",
+Cell[4184, 117, 82, 2, 30, "Input",
   InitializationCell->True],
-Cell[5485, 148, 238, 5, 30, "Input",
+Cell[4269, 121, 54, 1, 29, "Output"]
+}, Open  ]],
+Cell[4338, 125, 423, 9, 110, "Input",
   InitializationCell->True],
-Cell[5726, 155, 293, 6, 50, "Input",
+Cell[4764, 136, 855, 17, 170, "Input",
   InitializationCell->True],
-Cell[6022, 163, 299, 6, 50, "Input",
+Cell[5622, 155, 221, 4, 70, "Input",
   InitializationCell->True],
-Cell[6324, 171, 251, 5, 50, "Input",
+
+Cell[CellGroupData[{
+Cell[5868, 163, 60, 1, 38, "Subsection",
   InitializationCell->True],
-Cell[6578, 178, 257, 5, 50, "Input",
+Cell[5931, 166, 238, 5, 30, "Input",
   InitializationCell->True],
-Cell[6838, 185, 177, 3, 30, "Input",
+Cell[6172, 173, 293, 6, 50, "Input",
+  InitializationCell->True],
+Cell[6468, 181, 299, 6, 50, "Input",
+  InitializationCell->True],
+Cell[6770, 189, 251, 5, 50, "Input",
+  InitializationCell->True],
+Cell[7024, 196, 257, 5, 50, "Input",
+  InitializationCell->True],
+Cell[7284, 203, 177, 3, 30, "Input",
   InitializationCell->True]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[7052, 193, 77, 1, 38, "Subsection",
+Cell[7498, 211, 77, 1, 38, "Subsection",
   InitializationCell->True],
-Cell[7132, 196, 581, 11, 70, "Input",
+Cell[7578, 214, 621, 12, 70, "Input",
   InitializationCell->True],
-Cell[7716, 209, 753, 14, 70, "Input",
+Cell[8202, 228, 810, 16, 70, "Input",
   InitializationCell->True],
-Cell[8472, 225, 759, 14, 70, "Input",
+Cell[9015, 246, 816, 16, 70, "Input",
   InitializationCell->True],
-Cell[9234, 241, 692, 13, 70, "Input",
+Cell[9834, 264, 749, 15, 70, "Input",
   InitializationCell->True],
-Cell[9929, 256, 698, 13, 70, "Input",
+Cell[10586, 281, 755, 15, 70, "Input",
   InitializationCell->True],
-Cell[10630, 271, 404, 7, 50, "Input",
+Cell[11344, 298, 432, 8, 50, "Input",
   InitializationCell->True],
-Cell[11037, 280, 86, 2, 30, "Input",
+Cell[11779, 308, 86, 2, 30, "Input",
   InitializationCell->True],
 
 Cell[CellGroupData[{
-Cell[11148, 286, 90, 1, 29, "Subsubsection",
+Cell[11890, 314, 90, 1, 29, "Subsubsection",
   InitializationCell->True],
-Cell[11241, 289, 723, 14, 70, "Input",
+Cell[11983, 317, 763, 15, 70, "Input",
   InitializationCell->True],
-Cell[11967, 305, 729, 14, 70, "Input",
+Cell[12749, 334, 769, 15, 70, "Input",
   InitializationCell->True]
 }, Open  ]]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[12745, 325, 75, 1, 38, "Subsection",
+Cell[13567, 355, 75, 1, 38, "Subsection",
   InitializationCell->True],
-Cell[12823, 328, 533, 10, 90, "Input",
+Cell[13645, 358, 533, 10, 90, "Input",
   InitializationCell->True],
-Cell[13359, 340, 658, 13, 110, "Input",
+Cell[14181, 370, 658, 13, 110, "Input",
   InitializationCell->True],
-Cell[14020, 355, 442, 7, 90, "Input",
+Cell[14842, 385, 442, 7, 90, "Input",
   InitializationCell->True],
-Cell[14465, 364, 682, 14, 130, "Input",
+Cell[15287, 394, 682, 14, 110, "Input",
   InitializationCell->True],
-
-Cell[CellGroupData[{
-Cell[15172, 382, 699, 14, 90, "Input",
+Cell[15972, 410, 699, 14, 90, "Input",
   InitializationCell->True],
-Cell[15874, 398, 382, 6, 22, "Message",
-  InitializationCell->True]
-}, Open  ]],
-Cell[16271, 407, 113, 2, 30, "Input",
+Cell[16674, 426, 113, 2, 30, "Input",
   InitializationCell->True],
-Cell[16387, 411, 398, 8, 90, "Input",
+Cell[16790, 430, 398, 8, 90, "Input",
   InitializationCell->True],
-Cell[16788, 421, 201, 4, 30, "Input",
+Cell[17191, 440, 201, 4, 30, "Input",
   InitializationCell->True],
-Cell[16992, 427, 333, 6, 90, "Input",
+Cell[17395, 446, 333, 6, 90, "Input",
   InitializationCell->True]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[17362, 438, 60, 1, 38, "Subsection",
+Cell[17765, 457, 60, 1, 38, "Subsection",
   InitializationCell->True],
-Cell[17425, 441, 66, 2, 30, "Input",
+
+Cell[CellGroupData[{
+Cell[17850, 462, 66, 2, 30, "Input",
   InitializationCell->True],
-Cell[17494, 445, 73, 2, 30, "Input",
-  InitializationCell->True]
+Cell[17919, 466, 54, 1, 29, "Output"]
+}, Open  ]],
+Cell[17988, 470, 73, 2, 30, "Input",
+  InitializationCell->True],
+
+Cell[CellGroupData[{
+Cell[18086, 476, 454, 7, 110, "Input"],
+Cell[18543, 485, 38, 1, 29, "Output"]
+}, Open  ]]
 }, Open  ]]
 }, Open  ]]
 }
