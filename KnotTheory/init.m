@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 3, 5, 19, 24, 29.2656250};
+KnotTheoryVersion[] = {2006, 3, 23, 20, 39, 32.2638750};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -1739,16 +1739,17 @@ NameString[
         NumberOfLinks[n,NonAlternating]):="L"<>ToString[n]<>"n"<>ToString[k]
 NameString[TorusKnot[m_Integer,n_Integer]]:=
   "T("<>ToString[m]<>","<>ToString[n]<>")"
-Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
-                "_"|" "~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
+Knot[S_String?(StringMatchQ[#,
+              StringExpression[DigitCharacter.., "_"|" ", 
+                DigitCharacter..]]&)]/;((#\[LeftDoubleBracket]1\
 \[RightDoubleBracket]\[LessEqual]10\[And]#\[LeftDoubleBracket]2\
 \[RightDoubleBracket]\[LessEqual]
                 NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket]])&[
         ToExpression/@StringSplit[S,"_"|" "]]):=
   Knot@@(ToExpression/@StringSplit[S,"_"|" "])
 Knot[S_String?(StringMatchQ[#,
-              "K"~~(DigitCharacter..)~~
-                  "a"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
+              StringExpression["K", DigitCharacter.., "a", 
+                DigitCharacter..]]&)]/;((#\[LeftDoubleBracket]1\
 \[RightDoubleBracket]\[GreaterEqual]11\[And]#\[LeftDoubleBracket]2\
 \[RightDoubleBracket]\[LessEqual]
                 NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket],
@@ -1757,8 +1758,8 @@ Knot[S_String?(StringMatchQ[#,
         Alternating,#\[LeftDoubleBracket]2\[RightDoubleBracket]]&[(\
 ToExpression/@StringSplit[S,{"K","a"}])]
 Knot[S_String?(StringMatchQ[#,
-              "K"~~(DigitCharacter..)~~
-                  "n"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
+              StringExpression["K", DigitCharacter.., "n", 
+                DigitCharacter..]]&)]/;((#\[LeftDoubleBracket]1\
 \[RightDoubleBracket]\[GreaterEqual]11\[And]#\[LeftDoubleBracket]2\
 \[RightDoubleBracket]\[LessEqual]
                 NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket],
@@ -1767,30 +1768,32 @@ Knot[S_String?(StringMatchQ[#,
         NonAlternating,#\[LeftDoubleBracket]2\[RightDoubleBracket]]&[(\
 ToExpression/@StringSplit[S,{"K","n"}])]
 Knot[S_String?(StringMatchQ[#,
-              "L"~~(DigitCharacter..)~~
-                  "a"~~(DigitCharacter..)]&)]/;((1\[LessEqual]#\
-\[LeftDoubleBracket]2\[RightDoubleBracket]\[LessEqual]
+              StringExpression["L", DigitCharacter.., "a", 
+                DigitCharacter..]]&)]/;((1\[LessEqual]#\[LeftDoubleBracket]2\
+\[RightDoubleBracket]\[LessEqual]
               NumberOfLinks[#\[LeftDoubleBracket]1\[RightDoubleBracket],
                 Alternating])&[ToExpression/@StringSplit[S,{"L","a"}]]):=
   Link[#\[LeftDoubleBracket]1\[RightDoubleBracket],
         Alternating,#\[LeftDoubleBracket]2\[RightDoubleBracket]]&[(\
 ToExpression/@StringSplit[S,{"L","a"}])]
 Knot[S_String?(StringMatchQ[#,
-              "L"~~(DigitCharacter..)~~
-                  "n"~~(DigitCharacter..)]&)]/;((1\[LessEqual]#\
-\[LeftDoubleBracket]2\[RightDoubleBracket]\[LessEqual]
+              StringExpression["L", DigitCharacter.., "n", 
+                DigitCharacter..]]&)]/;((1\[LessEqual]#\[LeftDoubleBracket]2\
+\[RightDoubleBracket]\[LessEqual]
               NumberOfLinks[#\[LeftDoubleBracket]1\[RightDoubleBracket],
                 NonAlternating])&[ToExpression/@StringSplit[S,{"L","n"}]]):=
   Link[#\[LeftDoubleBracket]1\[RightDoubleBracket],
         NonAlternating,#\[LeftDoubleBracket]2\[RightDoubleBracket]]&[(\
 ToExpression/@StringSplit[S,{"L","n"}])]
 Knot[S_String?(StringMatchQ[#,
-            "T("~~(DigitCharacter..)~~","~~(DigitCharacter..)~~")"]&)]:=
+            StringExpression["T(", DigitCharacter.., ",", DigitCharacter.., 
+              ")"]]&)]:=
   TorusKnot[#\[LeftDoubleBracket]1\[RightDoubleBracket],#\[LeftDoubleBracket]\
 2\[RightDoubleBracket]]&[(ToExpression/@StringSplit[S,{"T(",",",")"}])]
 Link[S_String]:=Knot[S]
-Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
-                "a_"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
+Knot[S_String?(StringMatchQ[#,
+              StringExpression[DigitCharacter.., "a_", 
+                DigitCharacter..]]&)]/;((#\[LeftDoubleBracket]1\
 \[RightDoubleBracket]\[GreaterEqual]11\[And]#\[LeftDoubleBracket]2\
 \[RightDoubleBracket]\[LessEqual]
                 NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket],
@@ -1798,8 +1801,9 @@ Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
   Knot[#\[LeftDoubleBracket]1\[RightDoubleBracket],
         Alternating,#\[LeftDoubleBracket]2\[RightDoubleBracket]]&[(\
 ToExpression/@StringSplit[S,{"a_"}])]
-Knot[S_String?(StringMatchQ[#,(DigitCharacter..)~~
-                "n_"~~(DigitCharacter..)]&)]/;((#\[LeftDoubleBracket]1\
+Knot[S_String?(StringMatchQ[#,
+              StringExpression[DigitCharacter.., "n_", 
+                DigitCharacter..]]&)]/;((#\[LeftDoubleBracket]1\
 \[RightDoubleBracket]\[GreaterEqual]11\[And]#\[LeftDoubleBracket]2\
 \[RightDoubleBracket]\[LessEqual]
                 NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket],
@@ -2276,9 +2280,10 @@ WikiForm /: ToString["", WikiForm] :=""
 WikiForm/:ToString[WikiForm[S_String],WikiForm]:=S
 WikiTextQ[
     S_String]:=(!(StringFreeQ[
-            S,{"<table","<tr","<td","{|","|-","|+","|}","{{"~~__~~"}}",
-              "[["~~__~~"]]","http://"}]))||
-    StringMatchQ[S,"<nowiki>"~~__~~"</nowiki>"]
+            S,{"<table","<tr","<td","{|","|-","|+","|}",
+              "{{"~StringExpression~__~StringExpression~"}}",
+              "[["~StringExpression~__~StringExpression~"]]","http://"}]))||
+    StringMatchQ[S,"<nowiki>"~StringExpression~__~StringExpression~"</nowiki>"]
 WikiForm /: ToString[s_String, WikiForm] := If[WikiTextQ[s],s,
     StringReplace[
       "<nowiki>"<>s<>"</nowiki>",
@@ -2344,10 +2349,14 @@ LaurentPolynomialQ[x_Plus]:=And@@(MonomialQ/@List@@x)
 IfNotOne["1"]="";
 IfNotOne[x_String]:=x
 LaurentPolynomialTeXReplacementRule=
-    "\\frac{"~~numerator:ShortestMatch[__]~~
-          "}{"~~denominator:ShortestMatch[__]~~
-              "}"~~rest:("+"|"-"|EndOfString)\[RuleDelayed]
-      IfNotOne[numerator] ~~" "~~InvertMonomialString[denominator]~~rest;
+    "\\frac{"~StringExpression~
+        numerator:
+          ShortestMatch[__]~StringExpression~"}{"~StringExpression~
+            denominator:
+              ShortestMatch[__]~StringExpression~"}"~StringExpression~
+                rest:("+"|"-"|EndOfString)\[RuleDelayed]
+      IfNotOne[numerator] ~StringExpression~" "~StringExpression~
+        InvertMonomialString[denominator]~StringExpression~rest;
 End[]
 EndPackage[]
 (* End source file src/WikiForm.m*)
@@ -5476,7 +5485,7 @@ AllConwayNotations::usage=
 ConwayNotation::usage=
     "ConwayNotation[s] represents the knot or link whose Conway notation is the string s. ConwayNotation[K], where K is a knot or a link with up to 12 crossings, returns ConwayNotation[s], where s is a string containing the Conway notation of K.";\
 ConwayNotation::about =
-    "The program ConwayNotation relies on code from the LinKnot package by Slavik Jablan and Ramila Sazdanovic.";
+    "The program ConwayNotation relies on code from the LinKnot package by Slavik Jablan and Radmila Sazdanovic.";
 Begin["`KTtoLinKnot`"]
 SetAttributes[SwitchDirectories,HoldAll]
 SwitchDirectories[e_]:=
