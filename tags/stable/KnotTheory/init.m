@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 3, 23, 20, 39, 32.2638750};
+KnotTheoryVersion[] = {2006, 3, 31, 19, 28, 53.6735000};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -5475,8 +5475,9 @@ Mathematica front end.  Any changes you make to this file will be
 overwritten.
 ***********************************************************************)
 BeginPackage["KnotTheory`"];
-KnotInput::usage=
-  "KnotInput[] opens a window in which you can draw a knot or link by hand. Right click and select 'Quit' when you're done. This function requires the package LinKnots`, and will only run on Windows machines. Sorry!"
+KnotInput::usage="KnotInput[] opens a window in which you can draw a knot or link by hand. Right click and select 'Quit' when you're done. This function requires the package LinKnots`, and will only run on Windows machines. Sorry!";\
+KnotInput::about=
+  "The KnotInput program was written by M. Ochiai, C. Nakai, Y. Matsuyama and N. Imafuji and is imported to KnotTheory` via the package LinKnot by S. Jablan and R. Sazdanovic"
 DrawKnot::usage=
   "DrawKnot[K_] draws a knot (or link!) K. This function requires the package LinKnots`, and will only run on Windows machines. Sorry!"
 LinKnotDirectory::usage="LinKnotDirectory[] contains the path to the LinKnot package. It must be set correctly in order for all the (Windows only) MathLink components of LinKnot to be usable. It can be overriden by the user."
@@ -5610,7 +5611,9 @@ DTtoPData[HoldPattern[DTCode[d__List]]]:=
     LinKnots`fPDataFromDow[{{Length[{n}]},{n}}]
 KnotInput[]:=Module[{pdata},
     InstallLinKnots[KnotInput];
-    CreditMessage["Graphical knot input was written by Ochiai and Imafuji."];
+    CreditMessage[
+      "Graphical knot input was written by M. Ochiai, C. Nakai, Y. Matsuyama and N. Imafuji."]\
+;
     SwitchDirectories[PdataToKTGauss[KnotsByComputer`GetPdatabyTracking[]]]
     ]
 DrawKnot[k_]:=Module[{pdata},
