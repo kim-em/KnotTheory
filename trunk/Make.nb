@@ -180,7 +180,7 @@ Cell[BoxData[
     \(<< \ KnotTheory`\)], "Input"],
 
 Cell[BoxData[
-    \("Loading KnotTheory` version of March 23, 2006, 20:39:32.2639.\nRead \
+    \("Loading KnotTheory` version of March 31, 2006, 19:28:53.6735.\nRead \
 more at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
 }, Open  ]],
 
