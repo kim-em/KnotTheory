@@ -21,8 +21,10 @@ overwritten.
 
 BeginPackage["KnotTheory`"];
 
-KnotInput::usage=
-  "KnotInput[] opens a window in which you can draw a knot or link by hand. Right click and select 'Quit' when you're done. This function requires the package LinKnots`, and will only run on Windows machines. Sorry!"
+KnotInput::usage="KnotInput[] opens a window in which you can draw a knot or link by hand. Right click and select 'Quit' when you're done. This function requires the package LinKnots`, and will only run on Windows machines. Sorry!";\
+
+KnotInput::about=
+  "The KnotInput program was written by M. Ochiai, C. Nakai, Y. Matsuyama and N. Imafuji and is imported to KnotTheory` via the package LinKnot by S. Jablan and R. Sazdanovic"
 
 DrawKnot::usage=
   "DrawKnot[K_] draws a knot (or link!) K. This function requires the package LinKnots`, and will only run on Windows machines. Sorry!"
@@ -178,7 +180,9 @@ DTtoPData[HoldPattern[DTCode[d__List]]]:=
 
 KnotInput[]:=Module[{pdata},
     InstallLinKnots[KnotInput];
-    CreditMessage["Graphical knot input was written by Ochiai and Imafuji."];
+    CreditMessage[
+      "Graphical knot input was written by M. Ochiai, C. Nakai, Y. Matsuyama and N. Imafuji."]\
+;
     SwitchDirectories[PdataToKTGauss[KnotsByComputer`GetPdatabyTracking[]]]
     ]
 
