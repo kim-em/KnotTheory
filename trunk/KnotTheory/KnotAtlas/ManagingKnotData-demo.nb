@@ -1,0 +1,1376 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     32263,       1011]*)
+(*NotebookOutlinePosition[     32928,       1034]*)
+(*  CellTagsIndexPosition[     32884,       1030]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Scott's Data Management Robot", "Title"],
+
+Cell[TextData[{
+  StyleBox["This notebook contains, \"Scott's Robot\", described in \
+http://katlas.math.toronto.edu/wiki/Modifying_Knot_Pages...\n\nAfter \
+downloading it, KnotTheory` and WikiLink.m, it takes five steps to run \
+Scott's Robot:\n1. Set the KnotTheory` directory and load KnotTheory`.\n2. \
+Set the WikiLink directory and load WikiLink.m.\n3. Create the WikiLink \
+connection to the Knot Atlas wiki server.\n4. Load ManagingKnotData.m and \
+retrieve the ",
+    FontSize->16],
+  "\"Invariant Definition Table\"",
+  StyleBox["\n5. Upload some data!",
+    FontSize->16]
+}], "Text"],
+
+Cell[CellGroupData[{
+
+Cell["1. Set the KnotTheory` directory and load KnotTheory`.", "Subsubtitle",
+  FontColor->RGBColor[1, 0, 0]],
+
+Cell["\<\
+Change \"KnotAtlasPath\" as appropriate for your system (e.g., it should be \
+the directory above \"KnotTheory/\") and execute the following cell:\
+\>", "Text",
+  FontSize->14],
+
+Cell[CellGroupData[{
+
+Cell["Dror's version", "Subsubsection"],
+
+Cell[BoxData[{
+    \(\(KnotAtlasPath\  = \ "\<C:/drorbn/KAtlas/\>";\)\), \
+"\[IndentingNewLine]", 
+    \(\(AppendTo[$Path, \ KnotAtlasPath];\)\), "\[IndentingNewLine]", 
+    \(<< \ KnotTheory`\)}], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Scott's version", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(KnotTheoryPath\  = \ \
+"\<c:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk\\\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(AppendTo[$Path, \ KnotTheoryPath];\)\), "\[IndentingNewLine]", 
+    \(<< \ KnotTheory`\)}], "Input"],
+
+Cell[BoxData[
+    \("Loading KnotTheory` version of March 31, 2006, 19:28:53.6735.\nRead \
+more at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["2. Set the WikiLink directory and load WikiLink.m.",
+  FontSize->16]], "Subsubtitle",
+  FontColor->RGBColor[1, 0, 0]],
+
+Cell["\<\
+If you don't have WikiLink, you can download it from 
+http://katlas.math.toronto.edu/svn/WikiLink/tags/stable/WikiLink.zip
+
+There is documentation for WikiLink at 
+http://katlas.math.toronto.edu/wiki/WikiLink_-_The_Mediawiki_Interface\
+\>", "Text",
+  FontSize->14],
+
+Cell["\<\
+Change \"WikiLinkPath\" as appropriate for your system (i.e., it should be \
+the \"mathematica\" subdirectory where WikiLink.m resides) and execute the \
+following cell:\
+\>", "Text",
+  FontSize->14],
+
+Cell[BoxData[{
+    \(\(WikiLinkPath\  = \ \ \
+"\<c:\\scott\\projects\\svn-checkouts\\WikiLink\\trunk\\mathematica\>";\)\), \
+"\n", 
+    \(\(AppendTo[$Path, WikiLinkPath];\)\), "\n", 
+    \(<< WikiLink`\)}], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["3. Create the WikiLink connection to the Knot Atlas \
+wiki server.",
+  FontSize->16]], "Subsubtitle",
+  FontColor->RGBColor[1, 0, 0]],
+
+Cell["\<\
+Execute the cell below. You will be prompted for your username and password \
+on the Knot Atlas wiki.\
+\>", "Text",
+  FontSize->14],
+
+Cell[BoxData[
+    \( (*CreateWikiConnection[\[IndentingNewLine]"\<http://katlas.math.\
+toronto.edu/w/index.php\>", \[IndentingNewLine]InputString["\<Enter Your \
+Username:\>"], \[IndentingNewLine]InputString["\<Enter Your Password\>"]\n]*) \
+\)], "Input"],
+
+Cell[BoxData[
+    \(CreateWikiConnection[\[IndentingNewLine]"\<http://katlas.math.toronto.\
+edu/w/index.php\>", \[IndentingNewLine]"\<ScottDataRobot\>", \
+\[IndentingNewLine]InputString["\<Enter Your Password\>"]\n]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(WikiUserName[]\)], "Input"],
+
+Cell[BoxData[
+    \("ScottDataRobot"\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["4. Load ManagingKnotData.m and retrieve the \
+\"Invariant Definition Table\"",
+  FontColor->RGBColor[1, 0, 0]]], "Subsubtitle"],
+
+Cell[BoxData[{
+    \(\(KnotAtlasPath = \ \
+"\<c:\\scott\\projects\\svn-checkouts\\KnotAtlas\\\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(AppendTo[$Path, KnotAtlasPath];\)\)}], "Input"],
+
+Cell[BoxData[
+    \(<< ManagingKnotData`\)], "Input"],
+
+Cell[BoxData[
+    \(\(LoadInvariantRules["\<Invariant_Definition_Table\>"];\)\)], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["5. Upload some data!",
+  FontColor->RGBColor[1, 0, 0]]], "Subsubtitle"],
+
+Cell["This asks the KnotTheory` package for some data.", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(data1 = 
+      RetrieveInvariants[Invariants["\<KnotTheory` Knot Invariants\>"], 
+        AllKnots[{0, 5}], "\<KnotTheory\>"]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"PD4Knots`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"The symmetry type data known to KnotTheory` is taken from \
+Charles Livingston's http://www.indiana.edu/~knotinfo/.\"\)"\)], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"IndianaData`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"Jones4Knots`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(General::"stop"\), \(\(:\)\(\ \)\), "\<\"Further output of \
+\\!\\(KnotTheory :: \\\"loading\\\"\\) will be suppressed during this \
+calculation. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::stop\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"The HOMFLYPT program was written by Scott Morrison.\"\)"\)], \
+"Message"],
+
+Cell[BoxData[
+    \("Sorry, I don't know how to calculate the invariant Khovanov-Rozansky \
+Polynomial using KnotTheory`."\)], "Print"],
+
+Cell[BoxData[
+    \("Sorry, I don't know how to calculate the invariant Khovanov-Rozansky \
+Polynomial using KnotTheory`."\)], "Print"],
+
+Cell[BoxData[
+    \("Sorry, I don't know how to calculate the invariant Khovanov-Rozansky \
+Polynomial using KnotTheory`."\)], "Print"],
+
+Cell[BoxData[
+    \("Sorry, I don't know how to calculate the invariant Khovanov-Rozansky \
+Polynomial using KnotTheory`."\)], "Print"],
+
+Cell[BoxData[
+    \("Sorry, I don't know how to calculate the invariant Khovanov-Rozansky \
+Polynomial using KnotTheory`."\)], "Print"],
+
+Cell[BoxData[
+    \("Sorry, I don't know how to calculate the invariant Thurston-Bennequin \
+Number using KnotTheory`."\)], "Print"],
+
+Cell[BoxData[
+    \("Sorry, I don't know how to calculate the invariant Thurston-Bennequin \
+Number using KnotTheory`."\)], "Print"],
+
+Cell[BoxData[
+    \("Sorry, I don't know how to calculate the invariant Thurston-Bennequin \
+Number using KnotTheory`."\)], "Print"],
+
+Cell[BoxData[
+    \("Sorry, I don't know how to calculate the invariant Thurston-Bennequin \
+Number using KnotTheory`."\)], "Print"],
+
+Cell[BoxData[
+    \("Sorry, I don't know how to calculate the invariant Thurston-Bennequin \
+Number using KnotTheory`."\)], "Print"],
+
+Cell[BoxData[
+    \({{"Knotilus URL", Knot[0, 1], 
+        KnotilusURL[GaussCode[]]}, {"Knotilus URL", Knot[3, 1], 
+        "http://srankin.math.uwo.ca/cgi-bin/retrieve.cgi/-1,3,-2,1,-3,2/goTop.\
+html"}, {"Knotilus URL", Knot[4, 1], 
+        "http://srankin.math.uwo.ca/cgi-bin/retrieve.cgi/1,-4,3,-1,2,-3,4,-2/\
+goTop.html"}, {"Knotilus URL", Knot[5, 1], 
+        "http://srankin.math.uwo.ca/cgi-bin/retrieve.cgi/-1,4,-2,5,-3,1,-4,2,-\
+5,3/goTop.html"}, {"Knotilus URL", Knot[5, 2], 
+        "http://srankin.math.uwo.ca/cgi-bin/retrieve.cgi/-1,5,-2,1,-3,4,-5,2,-\
+4,3/goTop.html"}, {"Next Knot", Knot[0, 1], Knot[3, 1]}, {"Next Knot", 
+        Knot[3, 1], Knot[4, 1]}, {"Next Knot", Knot[4, 1], 
+        Knot[5, 1]}, {"Next Knot", Knot[5, 1], Knot[5, 2]}, {"Next Knot", 
+        Knot[5, 2], Knot[6, 1]}, {"Previous Knot", Knot[0, 1], 
+        Knot[0, 1]}, {"Previous Knot", Knot[3, 1], 
+        Knot[0, 1]}, {"Previous Knot", Knot[4, 1], 
+        Knot[3, 1]}, {"Previous Knot", Knot[5, 1], 
+        Knot[4, 1]}, {"Previous Knot", Knot[5, 2], 
+        Knot[5, 1]}, {"SymmetryType", 
+        Knot[0, 1], \*"\<\"\"\>"}, {"SymmetryType", Knot[3, 1], 
+        Reversible}, {"SymmetryType", Knot[4, 1], 
+        FullyAmphicheiral}, {"SymmetryType", Knot[5, 1], 
+        Reversible}, {"SymmetryType", Knot[5, 2], 
+        Reversible}, {"UnknottingNumber", Knot[0, 1], 
+        0}, {"UnknottingNumber", Knot[3, 1], 1}, {"UnknottingNumber", 
+        Knot[4, 1], 1}, {"UnknottingNumber", Knot[5, 1], 
+        2}, {"UnknottingNumber", Knot[5, 2], 1}, {"ThreeGenus", Knot[0, 1], 
+        0}, {"ThreeGenus", Knot[3, 1], 1}, {"ThreeGenus", Knot[4, 1], 
+        1}, {"ThreeGenus", Knot[5, 1], 2}, {"ThreeGenus", Knot[5, 2], 
+        1}, {"BridgeIndex", Knot[0, 1], 1}, {"BridgeIndex", Knot[3, 1], 
+        2}, {"BridgeIndex", Knot[4, 1], 2}, {"BridgeIndex", Knot[5, 1], 
+        2}, {"BridgeIndex", Knot[5, 2], 2}, {"SuperBridgeIndex", Knot[0, 1], 
+        NotAvailable}, {"SuperBridgeIndex", Knot[3, 1], 
+        3}, {"SuperBridgeIndex", Knot[4, 1], 3}, {"SuperBridgeIndex", 
+        Knot[5, 1], 3}, {"SuperBridgeIndex", 
+        Knot[5, 2], {3, 4}}, {"NakanishiIndex", Knot[0, 1], 
+        NotAvailable}, {"NakanishiIndex", Knot[3, 1], 1}, {"NakanishiIndex", 
+        Knot[4, 1], 1}, {"NakanishiIndex", Knot[5, 1], 1}, {"NakanishiIndex", 
+        Knot[5, 2], 1}, {"Jones", Knot[0, 1], 1}, {"Jones", 
+        Knot[3, 1], \(-\(1\/q\^4\)\) + 1\/q\^3 + 1\/q}, {"Jones", Knot[4, 1], 
+        1 + 1\/q\^2 - 1\/q - q + q\^2}, {"Jones", 
+        Knot[5, 1], \(-\(1\/q\^7\)\) + 1\/q\^6 - 1\/q\^5 + 1\/q\^4 + 
+          1\/q\^2}, {"Jones", 
+        Knot[5, 2], \(-\(1\/q\^6\)\) + 1\/q\^5 - 1\/q\^4 + 2\/q\^3 - 
+          1\/q\^2 + 1\/q}, {"Alexander", Knot[0, 1], 1}, {"Alexander", 
+        Knot[3, 1], \(-1\) + 1\/t + t}, {"Alexander", Knot[4, 1], 
+        3 - 1\/t - t}, {"Alexander", Knot[5, 1], 
+        1 + 1\/t\^2 - 1\/t - t + t\^2}, {"Alexander", 
+        Knot[5, 2], \(-3\) + 2\/t + 2\ t}, {"Determinant", Knot[0, 1], 
+        1}, {"Determinant", Knot[3, 1], 3}, {"Determinant", Knot[4, 1], 
+        5}, {"Determinant", Knot[5, 1], 5}, {"Determinant", Knot[5, 2], 
+        7}, {"Signature", Knot[0, 1], 0}, {"Signature", 
+        Knot[3, 1], \(-2\)}, {"Signature", Knot[4, 1], 0}, {"Signature", 
+        Knot[5, 1], \(-4\)}, {"Signature", Knot[5, 2], \(-2\)}, {"Conway", 
+        Knot[0, 1], 1}, {"Conway", Knot[3, 1], 1 + z\^2}, {"Conway", 
+        Knot[4, 1], 1 - z\^2}, {"Conway", Knot[5, 1], 
+        1 + 3\ z\^2 + z\^4}, {"Conway", Knot[5, 2], 
+        1 + 2\ z\^2}, {"HOMFLYPT", Knot[0, 1], 1}, {"HOMFLYPT", Knot[3, 1], 
+        2\ a\^2 - a\^4 + a\^2\ z\^2}, {"HOMFLYPT", 
+        Knot[4, 1], \(-1\) + 1\/a\^2 + a\^2 - z\^2}, {"HOMFLYPT", Knot[5, 1], 
+        3\ a\^4 - 2\ a\^6 + 4\ a\^4\ z\^2 - a\^6\ z\^2 + 
+          a\^4\ z\^4}, {"HOMFLYPT", Knot[5, 2], 
+        a\^2 + a\^4 - a\^6 + a\^2\ z\^2 + a\^4\ z\^2}, {"Kauffman", 
+        Knot[0, 1], 1}, {"Kauffman", 
+        Knot[3, 1], \(-2\)\ a\^2 - a\^4 + a\^3\ z + a\^5\ z + a\^2\ z\^2 + 
+          a\^4\ z\^2}, {"Kauffman", 
+        Knot[4, 1], \(-1\) - 1\/a\^2 - a\^2 - z\/a - a\ z + 2\ z\^2 + 
+          z\^2\/a\^2 + a\^2\ z\^2 + z\^3\/a + a\ z\^3}, {"Kauffman", 
+        Knot[5, 1], 
+        3\ a\^4 + 2\ a\^6 - 2\ a\^5\ z - a\^7\ z + a\^9\ z - 4\ a\^4\ z\^2 - 
+          3\ a\^6\ z\^2 + a\^8\ z\^2 + a\^5\ z\^3 + a\^7\ z\^3 + a\^4\ z\^4 + 
+          a\^6\ z\^4}, {"Kauffman", 
+        Knot[5, 2], \(-a\^2\) + a\^4 + a\^6 - 2\ a\^5\ z - 2\ a\^7\ z + 
+          a\^2\ z\^2 - a\^4\ z\^2 - 2\ a\^6\ z\^2 + a\^3\ z\^3 + 
+          2\ a\^5\ z\^3 + a\^7\ z\^3 + a\^4\ z\^4 + 
+          a\^6\ z\^4}, {"Khovanov-Rozansky Polynomial", 
+        Knot[0, 1], $Failed}, {"Khovanov-Rozansky Polynomial", 
+        Knot[3, 1], $Failed}, {"Khovanov-Rozansky Polynomial", 
+        Knot[4, 1], $Failed}, {"Khovanov-Rozansky Polynomial", 
+        Knot[5, 1], $Failed}, {"Khovanov-Rozansky Polynomial", 
+        Knot[5, 2], $Failed}, {"Vassiliev2", Knot[0, 1], 0}, {"Vassiliev2", 
+        Knot[3, 1], 1}, {"Vassiliev2", Knot[4, 1], \(-1\)}, {"Vassiliev2", 
+        Knot[5, 1], 3}, {"Vassiliev2", Knot[5, 2], 2}, {"Vassiliev3", 
+        Knot[0, 1], 0}, {"Vassiliev3", Knot[3, 1], \(-1\)}, {"Vassiliev3", 
+        Knot[4, 1], 0}, {"Vassiliev3", Knot[5, 1], \(-5\)}, {"Vassiliev3", 
+        Knot[5, 2], \(-3\)}, {"Thurston-Bennequin Number", 
+        Knot[0, 1], $Failed}, {"Thurston-Bennequin Number", 
+        Knot[3, 1], $Failed}, {"Thurston-Bennequin Number", 
+        Knot[4, 1], $Failed}, {"Thurston-Bennequin Number", 
+        Knot[5, 1], $Failed}, {"Thurston-Bennequin Number", 
+        Knot[5, 2], $Failed}}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+This writes it into the Knot Atlas! StoreInvariants returns a list of \
+failures, so if this returns an empty list, all is going well!\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[data1, "\<KnotAtlas\>"]\)], "Input"],
+
+Cell[BoxData[
+    \({}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(RetrieveInvariants[{"\<Next Knot\>"}, 
+      AllKnots[6], "\<KnotAtlas\>"]\)], "Input"],
+
+Cell[BoxData[
+    \({{"Next Knot", Knot[6, 1], Knot[6, 2]}, {"Next Knot", Knot[6, 2], 
+        Knot[6, 3]}, {"Next Knot", Knot[6, 3], Knot[7, 1]}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(FindDataDiscrepancies[Invariants["\<KnotTheory` Knot Invariants\>"], 
+      AllKnots[3], "\<KnotTheory\>", "\<KnotAtlas\>"]\)], "Input"],
+
+Cell[BoxData[
+    \("Sorry, I don't know how to calculate the invariant Thurston-Bennequin \
+Number using KnotTheory`."\)], "Print"],
+
+Cell[BoxData[
+    \({}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+We can also retrieve data from Charles Livingston's KnotInfo server, \
+automatically.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(RetrieveInvariants[{"\<Khovanov s-Invariant\>"}, 
+      AllKnots[{3, 6}], "\<KnotInfo\>"]\)], "Input"],
+
+Cell[BoxData[
+    \({{"Khovanov s-Invariant", Knot[3, 1], \(-2\)}, {"Khovanov s-Invariant", 
+        Knot[4, 1], 0}, {"Khovanov s-Invariant", 
+        Knot[5, 1], \(-4\)}, {"Khovanov s-Invariant", 
+        Knot[5, 2], \(-2\)}, {"Khovanov s-Invariant", Knot[6, 1], 
+        0}, {"Khovanov s-Invariant", 
+        Knot[6, 2], \(-2\)}, {"Khovanov s-Invariant", Knot[6, 3], 
+        0}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+      RetrieveInvariants[{"\<Khovanov s-Invariant\>"}, 
+        AllKnots[11], "\<KnotInfo\>"], "\<KnotAtlas\>"]\)], "Input"],
+
+Cell[BoxData[
+    \({}\)], "Output"]
+}, Open  ]],
+
+Cell["And, of course, then write this into the KnotAtlas.", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[{"\<Conway Notation\>"}, 
+          AllKnots[4], "\<KnotInfo\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({11.9071216`8.527351782323883\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(RetrieveInvariants[{"\<Concordance Order\>"}, 
+      AllKnots[6], "\<KnotInfo\>"]\)], "Input"],
+
+Cell[BoxData[
+    \({{"Concordance Order", Knot[3, 1], \[Infinity]}, {"Concordance Order", 
+        Knot[4, 1], 2}, {"Concordance Order", 
+        Knot[5, 1], \[Infinity]}, {"Concordance Order", 
+        Knot[5, 2], \[Infinity]}, {"Concordance Order", Knot[6, 1], 
+        1}, {"Concordance Order", 
+        Knot[6, 2], \[Infinity]}, {"Concordance Order", Knot[6, 3], 
+        2}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(RetrieveInvariants[{"\<Ozsvath-Szabo Tau Invariant\>"}, 
+      AllKnots[{3, 6}], "\<KnotAtlas\>"]\)], "Input"],
+
+Cell[BoxData[
+    \({{"Ozsvath-Szabo Tau Invariant", Knot[3, 1], 
+        1}, {"Ozsvath-Szabo Tau Invariant", Knot[4, 1], 
+        0}, {"Ozsvath-Szabo Tau Invariant", Knot[5, 1], 
+        2}, {"Ozsvath-Szabo Tau Invariant", Knot[5, 2], 
+        1}, {"Ozsvath-Szabo Tau Invariant", Knot[6, 1], 
+        0}, {"Ozsvath-Szabo Tau Invariant", Knot[6, 2], 
+        1}, {"Ozsvath-Szabo Tau Invariant", Knot[6, 3], 0}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+      RetrieveInvariants[{"\<Conway Notation\>"}, 
+        AllKnots[{3, 6}], "\<KnotInfo\>"], "\<KnotAtlas\>"]\)], "Input"],
+
+Cell[BoxData[
+    \({}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(RetrieveInvariants[{"\<Conway Notation\>"}, 
+      AllKnots[{3, 6}], "\<KnotAtlas\>"]\)], "Input"],
+
+Cell[BoxData[
+    \({{"Conway Notation", Knot[3, 1], "[3]"}, {"Conway Notation", 
+        Knot[4, 1], "[22]"}, {"Conway Notation", Knot[5, 1], 
+        "[5]"}, {"Conway Notation", Knot[5, 2], "[32]"}, {"Conway Notation", 
+        Knot[6, 1], "[42]"}, {"Conway Notation", Knot[6, 2], 
+        "[312]"}, {"Conway Notation", Knot[6, 3], "[2112]"}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[{"\<Conway Notation\>"}, 
+          AllKnots[7], "\<KnotInfo\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({9.3033776`8.420185641698836\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[{"\<Conway Notation\>", "\<Ozsvath-Szabo Tau \
+Invariant\>"}, AllKnots[{3, 7}], "\<KnotInfo\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({4.4363792`8.098573653928263\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[{"\<Thurston-Bennequin Number\>"}, 
+          AllKnots[9], "\<KnotInfo\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({74.457064`9.323450900563168\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[{"\<Thurston-Bennequin Number\>"}, 
+          AllKnots[10], "\<KnotInfo\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({248.6174944`9.847076678759219\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[{"\<Thurston-Bennequin Number\>"}, 
+          AllKnots[{3, 6}], "\<KnotInfo\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({5.658136`8.204218375524633\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[{"\<Conway Notation\>", "\<Ozsvath-Szabo Tau \
+Invariant\>"}, AllKnots[8], "\<KnotInfo\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({4.2861632`8.083613696718366\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[{"\<Conway Notation\>", "\<Ozsvath-Szabo Tau \
+Invariant\>"}, AllKnots[9], "\<KnotInfo\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({56.7916624`9.205829574991194\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[{"\<Conway Notation\>", "\<Ozsvath-Szabo Tau \
+Invariant\>"}, AllKnots[10], "\<KnotInfo\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({194.2593312`9.739926882700393\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[{"\<Conway Notation\>", "\<Ozsvath-Szabo Tau \
+Invariant\>"}, AllKnots[11, Alternating], "\<KnotInfo\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({11.6868048`8.519240783750563\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[{"\<Conway Notation\>"}, 
+          AllKnots[11], "\<KnotInfo\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({231.883432`9.816814713035107\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[{"\<Hyperbolic Volume\>"}, 
+          AllKnots[8], "\<KnotInfo\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({25.4065328`8.856490394926924\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[{"\<Hyperbolic Volume\>"}, 
+          AllKnots[9], "\<KnotInfo\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({59.886112`9.228871111693605\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[{"\<Hyperbolic Volume\>"}, 
+          AllKnots[10], "\<KnotInfo\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({57.0520368`9.207816147161875\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[{"\<Hyperbolic Volume\>"}, 
+          AllKnots[11, Alternating], "\<KnotInfo\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({295.0342384000000000001`9.921417411797384\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[{"\<Hyperbolic Volume\>"}, 
+          AllKnots[11, NonAlternating], "\<KnotInfo\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({14.5809664`8.615331302682213\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(WikiGetPageText["\<Data:5_1/HyperbolicVolume\>"]\)], "Input"],
+
+Cell[BoxData[
+    \("Not hyperbolic"\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[Invariants["\<KnotTheory` Knot Invariants\>"], 
+          AllKnots[{0, 6}], "\<KnotTheory\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({1.7124624`7.685166038097347\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[Invariants["\<KnotTheory` Knot Invariants\>"], 
+          AllKnots[7], "\<KnotTheory\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({1.2918576`7.562759638004443\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[Invariants["\<KnotTheory` Knot Invariants\>"], 
+          AllKnots[8], "\<KnotTheory\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({17.2447968`8.68820307482283\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[Invariants["\<KnotTheory` Knot Invariants\>"], 
+          AllKnots[9], "\<KnotTheory\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \({46.1363408`9.115588139957874\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[Invariants["\<KnotTheory` Knot Invariants\>"], 
+          AllKnots[10], "\<KnotTheory\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[Invariants["\<KnotTheory` Knot Invariants\>"], 
+          AllKnots[11], "\<KnotTheory\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[Invariants["\<KnotTheory` Link Invariants\>"], 
+          AllLinks[{1, 5}], "\<KnotTheory\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"Jones4Links`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"PD4Links`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(Power::"infy"\), \(\(:\)\(\ \)\), "\<\"Infinite expression \
+\\!\\(1\\/0\\) encountered. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"Power::infy\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(Power::"infy"\), \(\(:\)\(\ \)\), "\<\"Infinite expression \
+\\!\\(1\\/0\\) encountered. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"Power::infy\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(Power::"infy"\), \(\(:\)\(\ \)\), "\<\"Infinite expression \
+\\!\\(1\\/0\\) encountered. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"Power::infy\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(General::"stop"\), \(\(:\)\(\ \)\), "\<\"Further output of \
+\\!\\(Power :: \\\"infy\\\"\\) will be suppressed during this calculation. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::stop\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"Kauffman4Links`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(General::"stop"\), \(\(:\)\(\ \)\), "\<\"Further output of \
+\\!\\(KnotTheory :: \\\"loading\\\"\\) will be suppressed during this \
+calculation. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::stop\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \({3.0744208`7.93930830318238\ Second, {}}\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(StoreInvariants[
+        RetrieveInvariants[Invariants["\<KnotTheory` Link Invariants\>"], 
+          AllLinks[], "\<KnotTheory\>"], "\<KnotAtlas\>"] // 
+      AbsoluteTiming\)], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Further examples", "Subsubtitle",
+  FontColor->RGBColor[1, 0, 0]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(RetrieveInvariant["\<Next Knot\>", 
+      Knot[10, 20], "\<KnotTheory\>"]\)], "Input"],
+
+Cell[BoxData[
+    \(Knot[10, 21]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(RetrieveInvariants[{"\<Next Knot\>", "\<Previous Knot\>"}, {Knot[10, 
+          20], Knot[10, 21]}, "\<KnotTheory\>"]\)], "Input"],
+
+Cell[BoxData[
+    \({{"Next Knot", Knot[10, 20], Knot[10, 21]}, {"Next Knot", Knot[10, 21], 
+        Knot[10, 22]}, {"Previous Knot", Knot[10, 20], 
+        Knot[10, 19]}, {"Previous Knot", Knot[10, 21], 
+        Knot[10, 20]}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(RetrieveInvariant["\<Next Knot\>", 
+      Knot[10, 20], "\<KnotAtlas\>"]\)], "Input"],
+
+Cell[BoxData[
+    \(Knot[10, 22]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(RetrieveInvariant["\<Next Knott\>", 
+      Knot[10, 20], "\<KnotAtlas\>"]\)], "Input"],
+
+Cell[BoxData[
+    \("I don't recognise the invariant Next Knott."\)], "Print"],
+
+Cell[BoxData[
+    \($Failed\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(RetrieveInvariants[{"\<Next Knot\>", "\<Previous Knot\>"}, {Knot[10, 
+          20], Knot[10, 21]}, "\<KnotAtlas\>"]\)], "Input"],
+
+Cell[BoxData[
+    \({{"Next Knot", Knot[10, 20], Knot[10, 22]}, {"Next Knot", Knot[10, 21], 
+        Knot[10, 22]}, {"Previous Knot", Knot[10, 20], 
+        Knot[10, 19]}, {"Previous Knot", Knot[10, 21], 
+        Knot[10, 20]}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(data = 
+      RetrieveInvariants[Invariants["\<Navigation\>"], 
+        AllKnots[{0, 4}], "\<KnotTheory\>"]\)], "Input"],
+
+Cell[BoxData[
+    \({{"Next Knot", Knot[0, 1], Knot[3, 1]}, {"Next Knot", Knot[3, 1], 
+        Knot[4, 1]}, {"Next Knot", Knot[4, 1], Knot[5, 1]}, {"Previous Knot", 
+        Knot[0, 1], Knot[0, 1]}, {"Previous Knot", Knot[3, 1], 
+        Knot[0, 1]}, {"Previous Knot", Knot[4, 1], Knot[3, 1]}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[data, "\<KnotAtlas\>", Write \[Rule] False]\)], "Input"],
+
+Cell[BoxData[
+    \({{"Data:0_1/Next_Knot", "3_1"}, {"Data:3_1/Next_Knot", 
+        "4_1"}, {"Data:4_1/Next_Knot", "5_1"}, {"Data:0_1/Previous_Knot", 
+        "0_1"}, {"Data:3_1/Previous_Knot", "0_1"}, {"Data:4_1/Previous_Knot", 
+        "3_1"}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[data, "\<KnotAtlas\>"]\)], "Input"],
+
+Cell[BoxData[
+    \({}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Now we'll simulate a vandal, and use FindDataDiscrepancies to reveal the \
+problem.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(realData = 
+      RetrieveInvariants[{"\<Next Knot\>"}, {Knot[10, 
+            20]}, "\<KnotTheory\>"]\)], "Input"],
+
+Cell[BoxData[
+    \({{"Next Knot", Knot[10, 20], Knot[10, 21]}}\)], "Output"]
+}, Open  ]],
+
+Cell["Make some fake data instead", "Text"],
+
+Cell[BoxData[
+    \(\(fakeData = {{"\<Next Knot\>", Knot[10, 20], 
+            Knot[10, 22]}};\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[fakeData, "\<KnotAtlas\>"]\)], "Input"],
+
+Cell[BoxData[
+    \({}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(RetrieveInvariants[{"\<Next Knot\>"}, {Knot[10, 
+          20]}, "\<KnotAtlas\>"]\)], "Input"],
+
+Cell[BoxData[
+    \({{"Next Knot", Knot[10, 20], Knot[10, 22]}}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Mwhahaha! Our virtual vandal has succeeded to putting erroneous data in the \
+Knot Atlas. However, now it's easy to catch!\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(FindDataDiscrepancies[{"\<Next Knot\>"}, {Knot[10, 
+          20]}, "\<KnotTheory\>", "\<KnotAtlas\>"]\)], "Input"],
+
+Cell[BoxData[
+    \({}\)], "Output"]
+}, Open  ]],
+
+Cell["Now clean up our mess!", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StoreInvariants[realData, "\<KnotAtlas\>"]\)], "Input"],
+
+Cell[BoxData[
+    \({}\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Reformatting the Invariant Definition Table on the wiki.", "Subsubtitle",
+  FontColor->RGBColor[1, 0, 0]],
+
+Cell[BoxData[
+    \(\(LoadInvariantRules["\<Invariant_Definition_Table\>"];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(WikiSetPageText["\<Invariant Definition Table\>", 
+      InvariantDefinitionTable[Invariants[]]]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 713}},
+WindowSize->{1272, 679},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+ShowSelection->True
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 46, 0, 95, "Title"],
+Cell[1825, 55, 594, 12, 198, "Text"],
+
+Cell[CellGroupData[{
+Cell[2444, 71, 109, 1, 30, "Subsubtitle"],
+Cell[2556, 74, 186, 4, 34, "Text"],
+
+Cell[CellGroupData[{
+Cell[2767, 82, 39, 0, 29, "Subsubsection"],
+Cell[2809, 84, 206, 4, 70, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3052, 93, 40, 0, 29, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[3117, 97, 248, 5, 70, "Input"],
+Cell[3368, 104, 160, 2, 44, "Print"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3589, 113, 141, 2, 30, "Subsubtitle"],
+Cell[3733, 117, 274, 7, 114, "Text"],
+Cell[4010, 126, 209, 5, 34, "Text"],
+Cell[4222, 133, 215, 5, 70, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4474, 143, 157, 3, 30, "Subsubtitle"],
+Cell[4634, 148, 141, 4, 34, "Text"],
+Cell[4778, 154, 255, 4, 110, "Input"],
+Cell[5036, 160, 228, 3, 110, "Input"],
+
+Cell[CellGroupData[{
+Cell[5289, 167, 47, 1, 30, "Input"],
+Cell[5339, 170, 50, 1, 29, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5438, 177, 151, 2, 30, "Subsubtitle"],
+Cell[5592, 181, 184, 4, 50, "Input"],
+Cell[5779, 187, 53, 1, 30, "Input"],
+Cell[5835, 190, 90, 1, 30, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5962, 196, 95, 1, 30, "Subsubtitle"],
+Cell[6060, 199, 64, 0, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[6149, 203, 158, 3, 30, "Input"],
+Cell[6310, 208, 130, 2, 22, "Message"],
+Cell[6443, 212, 207, 3, 22, "Message"],
+Cell[6653, 217, 133, 2, 22, "Message"],
+Cell[6789, 221, 133, 2, 22, "Message"],
+Cell[6925, 225, 337, 5, 22, "Message"],
+Cell[7265, 232, 145, 3, 22, "Message"],
+Cell[7413, 237, 135, 2, 25, "Print"],
+Cell[7551, 241, 135, 2, 25, "Print"],
+Cell[7689, 245, 135, 2, 25, "Print"],
+Cell[7827, 249, 135, 2, 25, "Print"],
+Cell[7965, 253, 135, 2, 25, "Print"],
+Cell[8103, 257, 132, 2, 25, "Print"],
+Cell[8238, 261, 132, 2, 25, "Print"],
+Cell[8373, 265, 132, 2, 25, "Print"],
+Cell[8508, 269, 132, 2, 25, "Print"],
+Cell[8643, 273, 132, 2, 25, "Print"],
+Cell[8778, 277, 5655, 90, 634, "Output"]
+}, Open  ]],
+Cell[14448, 370, 158, 3, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[14631, 377, 72, 1, 30, "Input"],
+Cell[14706, 380, 36, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[14779, 386, 107, 2, 30, "Input"],
+Cell[14889, 390, 160, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[15086, 397, 156, 2, 30, "Input"],
+Cell[15245, 401, 132, 2, 25, "Print"],
+Cell[15380, 405, 36, 1, 29, "Output"]
+}, Open  ]],
+Cell[15431, 409, 109, 3, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[15565, 416, 122, 2, 30, "Input"],
+Cell[15690, 420, 395, 7, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[16122, 432, 161, 3, 30, "Input"],
+Cell[16286, 437, 36, 1, 29, "Output"]
+}, Open  ]],
+Cell[16337, 441, 67, 0, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[16429, 445, 184, 4, 30, "Input"],
+Cell[16616, 451, 76, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[16729, 457, 114, 2, 30, "Input"],
+Cell[16846, 461, 394, 7, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[17277, 473, 130, 2, 30, "Input"],
+Cell[17410, 477, 424, 7, 67, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[17871, 489, 160, 3, 30, "Input"],
+Cell[18034, 494, 36, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[18107, 500, 118, 2, 30, "Input"],
+Cell[18228, 504, 358, 5, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[18623, 514, 184, 4, 30, "Input"],
+Cell[18810, 520, 75, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[18922, 526, 215, 4, 30, "Input"],
+Cell[19140, 532, 75, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[19252, 538, 194, 4, 30, "Input"],
+Cell[19449, 544, 75, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[19561, 550, 195, 4, 30, "Input"],
+Cell[19759, 556, 77, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[19873, 562, 199, 4, 30, "Input"],
+Cell[20075, 568, 74, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[20186, 574, 210, 4, 30, "Input"],
+Cell[20399, 580, 75, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[20511, 586, 210, 4, 30, "Input"],
+Cell[20724, 592, 76, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[20837, 598, 211, 4, 30, "Input"],
+Cell[21051, 604, 77, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[21165, 610, 224, 4, 50, "Input"],
+Cell[21392, 616, 76, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[21505, 622, 185, 4, 30, "Input"],
+Cell[21693, 628, 76, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[21806, 634, 186, 4, 30, "Input"],
+Cell[21995, 640, 76, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[22108, 646, 186, 4, 30, "Input"],
+Cell[22297, 652, 75, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[22409, 658, 187, 4, 30, "Input"],
+Cell[22599, 664, 76, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[22712, 670, 200, 4, 30, "Input"],
+Cell[22915, 676, 89, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[23041, 682, 203, 4, 30, "Input"],
+Cell[23247, 688, 76, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[23360, 694, 81, 1, 30, "Input"],
+Cell[23444, 697, 50, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[23531, 703, 213, 4, 30, "Input"],
+Cell[23747, 709, 75, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[23859, 715, 208, 4, 30, "Input"],
+Cell[24070, 721, 75, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[24182, 727, 208, 4, 30, "Input"],
+Cell[24393, 733, 75, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[24505, 739, 208, 4, 30, "Input"],
+Cell[24716, 745, 76, 1, 29, "Output"]
+}, Open  ]],
+Cell[24807, 749, 209, 4, 30, "Input"],
+Cell[25019, 755, 209, 4, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[25253, 763, 213, 4, 30, "Input"],
+Cell[25469, 769, 133, 2, 22, "Message"],
+Cell[25605, 773, 130, 2, 22, "Message"],
+Cell[25738, 777, 278, 4, 35, "Message"],
+Cell[26019, 783, 278, 4, 35, "Message"],
+Cell[26300, 789, 278, 4, 35, "Message"],
+Cell[26581, 795, 329, 5, 22, "Message"],
+Cell[26913, 802, 136, 2, 22, "Message"],
+Cell[27052, 806, 337, 5, 22, "Message"],
+Cell[27392, 813, 74, 1, 29, "Output"]
+}, Open  ]],
+Cell[27481, 817, 207, 4, 30, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[27725, 826, 71, 1, 30, "Subsubtitle"],
+
+Cell[CellGroupData[{
+Cell[27821, 831, 106, 2, 30, "Input"],
+Cell[27930, 835, 46, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[28013, 841, 150, 2, 30, "Input"],
+Cell[28166, 845, 241, 4, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[28444, 854, 105, 2, 30, "Input"],
+Cell[28552, 858, 46, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[28635, 864, 106, 2, 30, "Input"],
+Cell[28744, 868, 78, 1, 25, "Print"],
+Cell[28825, 871, 41, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[28903, 877, 149, 2, 30, "Input"],
+Cell[29055, 881, 241, 4, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[29333, 890, 140, 3, 30, "Input"],
+Cell[29476, 895, 307, 4, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[29820, 904, 92, 1, 30, "Input"],
+Cell[29915, 907, 259, 4, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[30211, 916, 71, 1, 30, "Input"],
+Cell[30285, 919, 36, 1, 29, "Output"]
+}, Open  ]],
+Cell[30336, 923, 107, 3, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[30468, 930, 135, 3, 30, "Input"],
+Cell[30606, 935, 77, 1, 29, "Output"]
+}, Open  ]],
+Cell[30698, 939, 43, 0, 33, "Text"],
+Cell[30744, 941, 109, 2, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[30878, 947, 75, 1, 30, "Input"],
+Cell[30956, 950, 36, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[31029, 956, 114, 2, 30, "Input"],
+Cell[31146, 960, 77, 1, 29, "Output"]
+}, Open  ]],
+Cell[31238, 964, 146, 3, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[31409, 971, 135, 2, 30, "Input"],
+Cell[31547, 975, 36, 1, 29, "Output"]
+}, Open  ]],
+Cell[31598, 979, 38, 0, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[31661, 983, 75, 1, 30, "Input"],
+Cell[31739, 986, 36, 1, 29, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[31824, 993, 111, 1, 30, "Subsubtitle"],
+Cell[31938, 996, 90, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[32053, 1001, 129, 2, 30, "Input"],
+Cell[32185, 1005, 38, 1, 29, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
