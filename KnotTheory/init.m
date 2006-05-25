@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 3, 31, 19, 28, 53.6735000};
+KnotTheoryVersion[] = {2006, 5, 25, 14, 39, 5.7881056};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -43,8 +43,10 @@ KnotTheoryDirectory[] = (
 )
 (* might be dangerous if KnotTheoryDirectory[] is somehow incorrect! *)
 If[!MemberQ[$Path, ParentDirectory[KnotTheoryDirectory[]]],
-	AppendTo[$Path, ParentDirectory[KnotTheoryDirectory[]]]
+    AppendTo[$Path, ParentDirectory[KnotTheoryDirectory[]]]
 ]
+(* try to ensure WikiLink is available; add the internal copy to the $Path *)
+AppendTo[$Path, ToFileName[{ParentDirectory[KnotTheoryDirectory[]], "WikiLink", "mathematica"}]]
 KnotTheoryWelcomeMessage[] = StringJoin[
   "Loading KnotTheory` version of ",
   KnotTheoryVersionString[],
@@ -58,6 +60,16 @@ CreditMessage[cm_String] := Module[
   If[Length[$MessageList] > l, CreditMessage[cm] = Null];
 ]
 End[]; EndPackage[];
+(* declare the public interfaces of the WikiLink package (we've attempted to add it to the path above) *)
+DeclarePackage["WikiLink`", {"CreateWikiConnection","WikiGetPageText",
+    "WikiGetPageTexts","WikiSetPageText","WikiSetPageTexts","WikiUploadFile",
+    "WikiUserName","WikiPageMatchQ","WikiPageFreeQ","WikiStringReplace",
+    "WikiStringCases"}]
+(* declare the public interfaces of the ManagingKnotData subpackage *)
+DeclarePackage["KnotTheory`KnotAtlas`ManagingKnotData`",
+    {"LoadInvariantRules", "InvariantDefinitionTable", "Invariants", "InvariantNames", 
+    "RetrieveInvariant", "RetrieveInvariants", "StoreInvariants", "TransferUnknownInvariants",
+    "FindDataDiscrepancies", "FindMissingData"}]
 (* Begin source file src/Base.m*)
 
 BeginPackage["KnotTheory`"]

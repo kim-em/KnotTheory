@@ -54,8 +54,11 @@ KnotTheoryDirectory[] = (
 
 (* might be dangerous if KnotTheoryDirectory[] is somehow incorrect! *)
 If[!MemberQ[$Path, ParentDirectory[KnotTheoryDirectory[]]],
-	AppendTo[$Path, ParentDirectory[KnotTheoryDirectory[]]]
+    AppendTo[$Path, ParentDirectory[KnotTheoryDirectory[]]]
 ]
+
+(* try to ensure WikiLink is available; add the internal copy to the $Path *)
+AppendTo[$Path, ToFileName[{ParentDirectory[KnotTheoryDirectory[]], "WikiLink", "mathematica"}]]
 
 KnotTheoryWelcomeMessage[] = StringJoin[
   "Loading KnotTheory` version of ",
@@ -73,3 +76,15 @@ CreditMessage[cm_String] := Module[
 ]
 
 End[]; EndPackage[];
+
+(* declare the public interfaces of the WikiLink package (we've attempted to add it to the path above) *)
+DeclarePackage["WikiLink`", {"CreateWikiConnection","WikiGetPageText",
+    "WikiGetPageTexts","WikiSetPageText","WikiSetPageTexts","WikiUploadFile",
+    "WikiUserName","WikiPageMatchQ","WikiPageFreeQ","WikiStringReplace",
+    "WikiStringCases"}]
+
+(* declare the public interfaces of the ManagingKnotData subpackage *)
+DeclarePackage["KnotTheory`KnotAtlas`ManagingKnotData`",
+    {"LoadInvariantRules", "InvariantDefinitionTable", "Invariants", "InvariantNames", 
+    "RetrieveInvariant", "RetrieveInvariants", "StoreInvariants", "TransferUnknownInvariants",
+    "FindDataDiscrepancies", "FindMissingData"}]
