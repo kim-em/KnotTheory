@@ -86,5 +86,6 @@ DeclarePackage["WikiLink`", {"CreateWikiConnection","WikiGetPageText",
 (* declare the public interfaces of the ManagingKnotData subpackage *)
 DeclarePackage["KnotTheory`KnotAtlas`ManagingKnotData`",
     {"LoadInvariantRules", "InvariantDefinitionTable", "Invariants", "InvariantNames", 
-    "RetrieveInvariant", "RetrieveInvariants", "StoreInvariants", "TransferUnknownInvariants",
+    "RetrieveInvariant", "RetrieveInvariants", "StoreInvariants", "KnotInvariantURL",
+    "ParseKnotInvariantFromURL", "TransferUnknownInvariants",
     "FindDataDiscrepancies", "FindMissingData"}]

@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     27234,        692]*)
-(*NotebookOutlinePosition[     27932,        716]*)
-(*  CellTagsIndexPosition[     27888,        712]*)
+(*NotebookOptionsPosition[     27362,        694]*)
+(*NotebookOutlinePosition[     28060,        718]*)
+(*  CellTagsIndexPosition[     28016,        714]*)
 (*WindowFrame->Normal*)
 
 
@@ -607,8 +607,10 @@ Cell[BoxData[
           Print["\<Sorry, I don't know where to find the value of the \
 invariant \>" <> \ 
               I <> "\< online. Trying defining more values for \
-KnotInvariantURL.\>"]; Return[$Failed]]; \[IndentingNewLine]data = 
-          Import[url, "\<Text\>"]; \[IndentingNewLine]Return[
+KnotInvariantURL.\>"]; Return[$Failed]]; \[IndentingNewLine]Off[
+          FetchURL::conopen]; \[IndentingNewLine]data = 
+          Import[url, "\<Text\>"]; \[IndentingNewLine]If[
+          data \[Equal] $Failed, Return[$Failed]]; \[IndentingNewLine]Return[
           ParseKnotInvariantFromURL[I, K, 
             data]];\[IndentingNewLine]]\)], "Input",
   InitializationCell->True],
@@ -876,23 +878,23 @@ Cell[22965, 588, 486, 8, 50, "Input",
   InitializationCell->True],
 Cell[23454, 598, 109, 2, 30, "Input",
   InitializationCell->True],
-Cell[23566, 602, 577, 11, 130, "Input",
+Cell[23566, 602, 705, 13, 170, "Input",
   InitializationCell->True],
-Cell[24146, 615, 571, 10, 110, "Input",
+Cell[24274, 617, 571, 10, 110, "Input",
   InitializationCell->True],
-Cell[24720, 627, 230, 5, 30, "Input",
+Cell[24848, 629, 230, 5, 30, "Input",
   InitializationCell->True],
-Cell[24953, 634, 264, 5, 50, "Input",
+Cell[25081, 636, 264, 5, 50, "Input",
   InitializationCell->True],
-Cell[25220, 641, 1437, 26, 190, "Input",
+Cell[25348, 643, 1437, 26, 190, "Input",
   InitializationCell->True],
-Cell[26660, 669, 233, 5, 30, "Input",
+Cell[26788, 671, 233, 5, 30, "Input",
   InitializationCell->True],
-Cell[26896, 676, 71, 2, 30, "Input",
+Cell[27024, 678, 71, 2, 30, "Input",
   InitializationCell->True],
-Cell[26970, 680, 78, 2, 30, "Input",
+Cell[27098, 682, 78, 2, 30, "Input",
   InitializationCell->True],
-Cell[27051, 684, 143, 3, 30, "Input",
+Cell[27179, 686, 143, 3, 30, "Input",
   InitializationCell->True]
 }, Open  ]]
 }, Open  ]]
