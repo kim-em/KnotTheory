@@ -319,7 +319,9 @@ RetrieveInvariant[I_String,K_,"url"]:=
       Print["Sorry, I don't know where to find the value of the invariant "<> 
           I<>" online. Trying defining more values for KnotInvariantURL."];
       Return[$Failed]];
+    Off[FetchURL::conopen];
     data=Import[url,"Text"];
+    If[data\[Equal]$Failed,Return[$Failed]];
     Return[ParseKnotInvariantFromURL[I,K,data]];
     ]
 
