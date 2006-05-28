@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 5, 25, 14, 39, 5.7881056};
+KnotTheoryVersion[] = {2006, 5, 27, 14, 56, 2.0378144};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -68,7 +68,8 @@ DeclarePackage["WikiLink`", {"CreateWikiConnection","WikiGetPageText",
 (* declare the public interfaces of the ManagingKnotData subpackage *)
 DeclarePackage["KnotTheory`KnotAtlas`ManagingKnotData`",
     {"LoadInvariantRules", "InvariantDefinitionTable", "Invariants", "InvariantNames", 
-    "RetrieveInvariant", "RetrieveInvariants", "StoreInvariants", "TransferUnknownInvariants",
+    "RetrieveInvariant", "RetrieveInvariants", "StoreInvariants", "KnotInvariantURL",
+    "ParseKnotInvariantFromURL", "TransferUnknownInvariants",
     "FindDataDiscrepancies", "FindMissingData"}]
 (* Begin source file src/Base.m*)
 
@@ -2361,12 +2362,10 @@ LaurentPolynomialQ[x_Plus]:=And@@(MonomialQ/@List@@x)
 IfNotOne["1"]="";
 IfNotOne[x_String]:=x
 LaurentPolynomialTeXReplacementRule=
-    "\\frac{"~StringExpression~
-        numerator:
-          ShortestMatch[__]~StringExpression~"}{"~StringExpression~
-            denominator:
-              ShortestMatch[__]~StringExpression~"}"~StringExpression~
-                rest:("+"|"-"|EndOfString)\[RuleDelayed]
+    "\\frac{"~StringExpression~(numerator:ShortestMatch[__])~StringExpression~
+        "}{"~StringExpression~(denominator:ShortestMatch[__])~
+        StringExpression~"}"~
+        StringExpression~(rest:("+"|"-"|EndOfString))\[RuleDelayed]
       IfNotOne[numerator] ~StringExpression~" "~StringExpression~
         InvertMonomialString[denominator]~StringExpression~rest;
 End[]
