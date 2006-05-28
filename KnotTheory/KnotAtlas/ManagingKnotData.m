@@ -79,18 +79,25 @@ linePattern=
 expressionTags={"ReadWiki","ReadLivingston","KnotTheory"};
 
 ConstructInvariantRule[S_String]:=
-  Module[{names=StringCases[S,namePattern]},
+  Module[{names=StringCases[S,namePattern],saveContext,rule},
     If[Length[names]\[NotEqual]1,Return[$Failed]];
-    names\[LeftDoubleBracket]1\[RightDoubleBracket]\[Rule]
-        DeleteCases[
-          StringCases[S,linePattern],_\[Rule]
-            ""]/.(t_String?(MemberQ[expressionTags,#]&)\[Rule]
-            s_String)\[RuleDelayed](t\[Rule]ToExpression[s])]
+    saveContext=$Context;
+    $Context="Global`";
+    rule=(names\[LeftDoubleBracket]1\[RightDoubleBracket]\[Rule]
+            DeleteCases[
+              StringCases[S,linePattern],_\[Rule]
+                ""]/.(t_String?(MemberQ[expressionTags,#]&)\[Rule]
+                s_String)\[RuleDelayed](t\[Rule]ToExpression[s]));
+    $Context=saveContext;
+    rule
+    ]
 
 LoadInvariantRules[pagename_String]:=
-  AllInvariants=
-    ConstructInvariantRule/@
-      Drop[StringSplit[WikiGetPageText[pagename],"<tr>"],2]
+  AllInvariants=(ConstructInvariantRule/@
+          Drop[StringSplit[WikiGetPageText[pagename],"<tr>"],2])~
+      Join~{(S_String/;
+              StringMatchQ[S,
+                "QuantumInvariant"~~__])\[RuleDelayed]{"WikiPage"\[Rule]S}}
 
 LoadInvariantRules["Invariant_Definition_Table"];
 
@@ -269,8 +276,8 @@ RetrieveInvariants[Is:{__String},Ks_List,"KnotInfo"]/;Length[Is]>1:=
 RetrieveInvariants[Is:{__Rule},Ks_List,source_String]:=
   RetrieveInvariants[InvariantNames[Is],Ks,source]
 
-RetrieveInvariants[Is:{__String},Ks_List,source_String]:=
-  Flatten[Outer[{#1,#2,RetrieveInvariant[#1,#2,source]}&,Is,Ks],1]
+RetrieveInvariants[Is:{__String},Ks_List,source_]:=
+  RetrieveInvariants[Flatten[Outer[List,Is,Ks],1],source]
 
 RetrieveInvariants[pairs:{{_String,_}...},
     source_String]:={#\[LeftDoubleBracket]1\[RightDoubleBracket],#\

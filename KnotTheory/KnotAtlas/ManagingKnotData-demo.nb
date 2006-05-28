@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     32263,       1011]*)
-(*NotebookOutlinePosition[     32928,       1034]*)
-(*  CellTagsIndexPosition[     32884,       1030]*)
+(*NotebookOptionsPosition[     32348,       1011]*)
+(*NotebookOutlinePosition[     33013,       1034]*)
+(*  CellTagsIndexPosition[     32969,       1030]*)
 (*WindowFrame->Normal*)
 
 
@@ -994,18 +994,18 @@ Cell[CellGroupData[{
 Cell["Reformatting the Invariant Definition Table on the wiki.", "Subsubtitle",
   FontColor->RGBColor[1, 0, 0]],
 
+Cell["\<\
+Warning! This is broken; some context issue. Only run this if you're planning \
+on fixing it. :-)\
+\>", "Text"],
+
 Cell[BoxData[
     \(\(LoadInvariantRules["\<Invariant_Definition_Table\>"];\)\)], "Input"],
 
-Cell[CellGroupData[{
-
 Cell[BoxData[
     \(WikiSetPageText["\<Invariant Definition Table\>", 
-      InvariantDefinitionTable[Invariants[]]]\)], "Input"],
-
-Cell[BoxData[
-    \(True\)], "Output"]
-}, Open  ]]
+      InvariantDefinitionTable[
+        DeleteCases[Invariants[], _RuleDelayed]]]\)], "Input"]
 }, Open  ]]
 }, Open  ]]
 },
@@ -1356,12 +1356,9 @@ Cell[31739, 986, 36, 1, 29, "Output"]
 
 Cell[CellGroupData[{
 Cell[31824, 993, 111, 1, 30, "Subsubtitle"],
-Cell[31938, 996, 90, 1, 30, "Input"],
-
-Cell[CellGroupData[{
-Cell[32053, 1001, 129, 2, 30, "Input"],
-Cell[32185, 1005, 38, 1, 29, "Output"]
-}, Open  ]]
+Cell[31938, 996, 121, 3, 33, "Text"],
+Cell[32062, 1001, 90, 1, 30, "Input"],
+Cell[32155, 1004, 165, 3, 30, "Input"]
 }, Open  ]]
 }, Open  ]]
 }
