@@ -332,14 +332,43 @@ RetrieveInvariant[I_String,K_,"url"]:=
     Return[ParseKnotInvariantFromURL[I,K,data]];
     ]
 
-TransferUnknownInvariants[invariants:{___String},knots_List,source_String,
-    target_String]:=Module[{dataToUpload},
-    dataToUpload=
-      RetrieveInvariants[
+(*TransferUnknownInvariants[invariants:{___String},knots_List,source_String,
+      target_String]:=Module[{dataToUpload,needed},
+      needed=
         Cases[RetrieveInvariants[invariants,knots,
-            target],{i_,k_,Null}\[RuleDelayed]{i,k}],source];
-    If[Length[dataToUpload]\[Equal]0,Return[{}]];
-    StoreInvariants[dataToUpload,target]
+            target],{i_,k_,Null}\[RuleDelayed]{i,k}];
+      dataToUpload=RetrieveInvariants[needed,source];
+      If[Length[dataToUpload]\[Equal]0,Return[{}]];
+      StoreInvariants[dataToUpload,target]
+      ]*)
+take[l_,n_]:=If[Length[l]>n,Take[l,n],l]
+TransferUnknownInvariants[invariants:{___String},knots_List,source:"KnotTheory",
+    target_String]:=
+  Module[{needed,workingset,chunksize=1,counter=0,timer=0. Second,
+      interval=300.Second,failures={}},
+    Print["Checking to see what ",target," already contains..."];
+    needed=
+      Cases[RetrieveInvariants[invariants,knots,
+          target],{i_,k_,Null}\[RuleDelayed]{i,k}];
+    Print["Starting to calculate ",Length[needed]," invariants..."];
+    While[Length[needed]>0,
+      While[timer<interval/.Second\[Rule]1,
+        workingset=take[needed,chunksize];
+        counter+=Length[workingset];
+        timer+=
+          AbsoluteTiming[
+              failures=
+                  failures~Join~
+                    StoreInvariants[RetrieveInvariants[workingset,source],
+                      target];]\[LeftDoubleBracket]1\[RightDoubleBracket];
+        needed=Complement[needed,workingset];
+        ];
+      Print["Uploaded ",counter," invariants in ", timer];
+      If[chunksize<counter,++chunksize];
+      counter=0;
+      timer=0 Second;
+      ];
+    failures
     ]
 
 FindDataDiscrepancies[Is:{__Rule},Ks_List,source1_String,source2_String]:=
