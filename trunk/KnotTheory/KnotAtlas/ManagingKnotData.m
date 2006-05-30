@@ -63,6 +63,9 @@ FindMissingData::usage=
     "FindMissingData[data1, data2] returns a sublist of data1 consisting of items for which there is no corresponding value in data2. See also FindDataDiscrepancies.\n"<>
       "FindMissingData[invariantList, knotList, source1, source2] first makes two calls to RetrieveInvariants to generate data1 and data2.";
 
+ProcessKnotAtlasUploadQueue::usage=
+    "ProcessKnotAtlasUploadQueue[pagename] starts processing the queue at pagename on the KnotAtlas. See the Knot Atlas page \"Upload Queues\" for further information. Options Repeat->numberOfRepeats and Timeout->numberOfSeconds can be used to control how many items will be processed, and the maximum amount of time spent on each.";
+
 Begin["`Private`"];
 
 
@@ -416,6 +419,80 @@ invariant and knot.*)D=
 
 FindMissingData[D1:{{_String,_,_}...},D2:{{_String,_,_}...}]:=
   Complement[D1,D2,SameTest\[Rule]SameQ[Take[#1,2],Take[#2,2]]&]
+
+Options[ProcessKnotAtlasUploadQueue]={Timeout\[Rule]42300,
+      Repeats\[Rule]\[Infinity]};
+
+ProcessKnotAtlasUploadQueue[pagename_String,opts___Rule]:=
+  Module[{n=0,repeats=Repeats/.{opts}/.Options[ProcessKnotAtlasUploadQueue],
+      timeout=Timeout/.{opts}/.Options[ProcessKnotAtlasUploadQueue]},
+    While[(++n<
+            repeats)\[And](TimeConstrained[
+              ProcessKnotAtlasUploadQueue[pagename,WikiGetPageText[pagename]],
+              timeout]=!=Null)]
+    ]
+
+randomEntry[list_]:=
+  list\[LeftDoubleBracket]Random[
+      Integer,{1,Length[list]}]\[RightDoubleBracket]
+
+randomEntry[list_/;Length[list]\[Equal]0]:=Null
+
+ProcessKnotAtlasUploadQueue[pagename_String,contents_String]:=
+  ProcessKnotAtlasUploadQueueEntry[pagename,
+    randomEntry[StringSplit[contents,StringExpression[EndOfLine]]]]
+
+ProcessKnotAtlasUploadQueueEntry[_,Null]:=Null
+
+globalToExpression[S_String]:=Module[{saveContext,result},
+    saveContext=$Context;
+    $Context="Global`";
+    result=ToExpression[S];
+    $Context=saveContext;
+    result
+    ]
+
+ProcessKnotAtlasUploadQueueEntry[pagename_String,item_String]:=
+  StringCases[item,
+    "*\""~~invariant:ShortestMatch[__]~~
+          "\", \""~~knotset:ShortestMatch[__]~~"\""\[RuleDelayed]
+      ProcessKnotAtlasUploadQueueEntry[pagename,item,invariant,knotset]]
+
+validKnotSetStringPatterns={
+      "All"~~("Knots"|"Links")~~"["~~DigitCharacter..~~"]",
+      "All"~~("Knots"|"Links")~~
+          "["~~DigitCharacter..~~", "~~"Alternating"|"NonAlternating"~~"]",
+      "All"~~("Knots"|"Links")~~
+          "[{"~~DigitCharacter..~~", "~~DigitCharacter..~~"}]",
+      "All"~~("Knots"|"Links")~~
+          "[{"~~DigitCharacter..~~
+              ", "~~DigitCharacter..~~
+                  "}, "~~"Alternating"|"NonAlternating"~~"]",
+      "Take["~~__?(StringMatchQ[#,validKnotSetStringPatterns]&)~~
+          ", "~~DigitCharacter..~~"]",
+      "Take["~~__?(StringMatchQ[#,validKnotSetStringPatterns]&)~~
+          ", "~~"{"~~("-"|"")~~
+                DigitCharacter..~~", "~~("-"|"")~~DigitCharacter..~~"}"~~"]"
+      };
+
+knotsetStringSanityCheck[knotset_String]:=
+  StringMatchQ[knotset,validKnotSetStringPatterns]
+
+ProcessKnotAtlasUploadQueueEntry[pagename_String,item_String,invariant_String,
+    knotset_String]:=Module[{result},
+    If[!knotsetStringSanityCheck[knotset],
+      Print["The knot set string ",knotset,
+        " doesn't pass the sanity test, so I won't try to interpret it."];
+      Return[$Failed]];
+    Print["Calculating ",invariant," for everything in ",knotset];
+    result=
+      TransferUnknownInvariants[{invariant},globalToExpression[knotset],"KnotTheory",
+        "KnotAtlas"];
+    If[result\[Equal]{},WikiStringReplace[pagename,item~~EndOfLine\[Rule]""];
+      WikiSetPageText["Upload Queues Completed Work",
+        WikiGetPageText["Upload Queues Completed Work"]<>"\n"<>item]];
+    item
+    ]
 
 End[];
 

@@ -88,4 +88,4 @@ DeclarePackage["KnotTheory`KnotAtlas`ManagingKnotData`",
     {"LoadInvariantRules", "InvariantDefinitionTable", "Invariants", "InvariantNames", 
     "RetrieveInvariant", "RetrieveInvariants", "StoreInvariants", "KnotInvariantURL",
     "ParseKnotInvariantFromURL", "TransferUnknownInvariants",
-    "FindDataDiscrepancies", "FindMissingData"}]
+    "FindDataDiscrepancies", "FindMissingData", "ProcessKnotAtlasUploadQueue"}]
