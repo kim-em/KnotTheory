@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 5, 27, 14, 56, 2.0378144};
+KnotTheoryVersion[] = {2006, 5, 30, 16, 34, 37.4895232};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -70,7 +70,7 @@ DeclarePackage["KnotTheory`KnotAtlas`ManagingKnotData`",
     {"LoadInvariantRules", "InvariantDefinitionTable", "Invariants", "InvariantNames", 
     "RetrieveInvariant", "RetrieveInvariants", "StoreInvariants", "KnotInvariantURL",
     "ParseKnotInvariantFromURL", "TransferUnknownInvariants",
-    "FindDataDiscrepancies", "FindMissingData"}]
+    "FindDataDiscrepancies", "FindMissingData", "ProcessKnotAtlasUploadQueue"}]
 (* Begin source file src/Base.m*)
 
 BeginPackage["KnotTheory`"]
