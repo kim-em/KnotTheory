@@ -194,7 +194,7 @@ RetrieveInvariants[Is:{__Rule},Ks_List,"KnotAtlas"]:=
   RetrieveInvariants[InvariantNames[Is],Ks,"KnotAtlas"]
 
 RetrieveInvariants[Is:{__String},Ks_List,"KnotAtlas"]:=
-  Module[{wikipages,pagenames,wikiResult},
+  Module[{wikipages,pagenames,wikiResult,delegateReadWikiFunction},
     wikiPages=WikiPageForInvariant/@Is;
     If[MemberQ[wikiPages,$Failed],Return[$Failed]];
     pagenames=
@@ -206,11 +206,14 @@ RetrieveInvariants[Is:{__String},Ks_List,"KnotAtlas"]:=
                   WikiPageForInvariant[I],r_}\[RuleDelayed]r];
         If[Length[c]\[Equal]1,c\[LeftDoubleBracket]1\[RightDoubleBracket],""]
         ];
-    Flatten[Outer[{#1,#2,ReadWikiFunction[#1][getResult[#1,#2]]}&,Is,Ks],1]
+    delegateReadWikiFunction[I_,K_]:=With[{result=getResult[I,K]},
+        If[result=="",Null,ReadWikiFunction[I][result]]
+        ];
+    Flatten[Outer[{#1,#2,delegateReadWikiFunction[#1,#2]}&,Is,Ks],1]
     ]
 
 RetrieveInvariants[pairs_List,"KnotAtlas"]:=
-  Module[{wikipages,pagenames,wikiResult},
+  Module[{wikipages,pagenames,wikiResult,delegateReadWikiFunction},
     pagenames=
       "Data:"<>NameString[#\[LeftDoubleBracket]2\[RightDoubleBracket]]<>"/"<>
             WikiPageForInvariant[#\[LeftDoubleBracket]1\[RightDoubleBracket]]&\
@@ -222,11 +225,13 @@ RetrieveInvariants[pairs_List,"KnotAtlas"]:=
                   WikiPageForInvariant[I],r_}\[RuleDelayed]r];
         If[Length[c]\[Equal]1,c\[LeftDoubleBracket]1\[RightDoubleBracket],""]
         ];
+    delegateReadWikiFunction[I_,K_]:=With[{result=getResult[I,K]},
+        If[result=="",Null,ReadWikiFunction[I][result]]
+        ];
     {#\[LeftDoubleBracket]1\[RightDoubleBracket],#\[LeftDoubleBracket]2\
 \[RightDoubleBracket],
-          ReadWikiFunction[#\[LeftDoubleBracket]1\[RightDoubleBracket]][
-            getResult[#\[LeftDoubleBracket]1\[RightDoubleBracket],#\
-\[LeftDoubleBracket]2\[RightDoubleBracket]]]}&/@pairs
+          delegateReadWikiFunction[#\[LeftDoubleBracket]1\[RightDoubleBracket]\
+,#\[LeftDoubleBracket]2\[RightDoubleBracket]]}&/@pairs
     ]
 
 KnotInfoGroup[Knot[n_Integer,_Integer]]/;(3\[LessEqual]n\[LessEqual]6):="knots=3-6&"
@@ -342,17 +347,30 @@ RetrieveInvariant[I_String,K_,"url"]:=
       StoreInvariants[dataToUpload,target]
       ]*)
 take[l_,n_]:=If[Length[l]>n,Take[l,n],l]
+shuffle[l_]:=
+  l\[LeftDoubleBracket]Ordering[
+      Table[Random[],{Length[l]}]]\[RightDoubleBracket]
+randomisedpartition[l_,n_]:=shuffle[Partition[l,n,n,{1,1},{}]]
 TransferUnknownInvariants[invariants:{___String},knots_List,source:"KnotTheory",
     target_String]:=
   Module[{needed,workingset,chunksize=1,counter=0,timer=0. Second,
       interval=300.Second,failures={}},
+    If[Length[knots]>5000,
+      Print["Large knot set, dividing into ",Ceiling[Length[knots]/5000],
+        " groups"];
+      Return[Union[
+          TransferUnknownInvariants[invariants,#,source,target]&/@
+            randomisedpartition[knots,5000]]]];
     Print["Checking to see what ",target," already contains..."];
-    needed=
-      Cases[RetrieveInvariants[invariants,knots,
-          target],{i_,k_,Null}\[RuleDelayed]{i,k}];
+    Print["(took ",
+      AbsoluteTiming[
+          needed=Cases[
+              RetrieveInvariants[invariants,knots,
+                target],{i_,k_,Null}\[RuleDelayed]{i,
+                  k}]]\[LeftDoubleBracket]1\[RightDoubleBracket],")"];
     Print["Starting to calculate ",Length[needed]," invariants..."];
     While[Length[needed]>0,
-      While[timer<interval/.Second\[Rule]1,
+      While[Length[needed]>0\[And](timer<interval/.Second\[Rule]1),
         workingset=take[needed,chunksize];
         counter+=Length[workingset];
         timer+=
@@ -364,7 +382,7 @@ TransferUnknownInvariants[invariants:{___String},knots_List,source:"KnotTheory",
         needed=Complement[needed,workingset];
         ];
       Print["Uploaded ",counter," invariants in ", timer];
-      If[chunksize<counter,++chunksize];
+      If[2chunksize\[LessEqual]counter,++chunksize];
       counter=0;
       timer=0 Second;
       ];
