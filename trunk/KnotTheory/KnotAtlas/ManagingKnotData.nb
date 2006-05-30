@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     29608,        732]*)
-(*NotebookOutlinePosition[     30310,        756]*)
-(*  CellTagsIndexPosition[     30266,        752]*)
+(*NotebookOptionsPosition[     30896,        758]*)
+(*NotebookOutlinePosition[     31597,        782]*)
+(*  CellTagsIndexPosition[     31553,        778]*)
 (*WindowFrame->Normal*)
 
 
@@ -414,8 +414,8 @@ Cell[BoxData[
 
 Cell[BoxData[
     \(RetrieveInvariants[Is : {__String}, Ks_List, "\<KnotAtlas\>"] := 
-      Module[{wikipages, pagenames, 
-          wikiResult}, \[IndentingNewLine]wikiPages = 
+      Module[{wikipages, pagenames, wikiResult, 
+          delegateReadWikiFunction}, \[IndentingNewLine]wikiPages = 
           WikiPageForInvariant /@ Is; \[IndentingNewLine]If[
           MemberQ[wikiPages, $Failed], 
           Return[$Failed]]; \[IndentingNewLine]pagenames = 
@@ -427,15 +427,20 @@ Cell[BoxData[
                       WikiPageForInvariant[I], r_} \[RuleDelayed] 
                   r]; \[IndentingNewLine]If[Length[c] \[Equal] 1, 
               c\[LeftDoubleBracket]1\[RightDoubleBracket], "\<\>"]\
-\[IndentingNewLine]]; \[IndentingNewLine]Flatten[
-          Outer[{#1, #2, \(ReadWikiFunction[#1]\)[getResult[#1, #2]]} &, Is, 
-            Ks], 1]\[IndentingNewLine]]\)], "Input",
+\[IndentingNewLine]]; \[IndentingNewLine]delegateReadWikiFunction[I_, K_] := 
+          With[{result = getResult[I, K]}, \[IndentingNewLine]If[
+              result == "\<\>", 
+              Null, \(ReadWikiFunction[I]\)[
+                result]]\[IndentingNewLine]]; \[IndentingNewLine]Flatten[
+          Outer[{#1, #2, delegateReadWikiFunction[#1, #2]} &, Is, Ks], 
+          1]\[IndentingNewLine]]\)], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
     \(RetrieveInvariants[pairs_List, "\<KnotAtlas\>"] := 
-      Module[{wikipages, pagenames, 
-          wikiResult}, \[IndentingNewLine]pagenames = \("\<Data:\>" <> 
+      Module[{wikipages, pagenames, wikiResult, 
+          delegateReadWikiFunction}, \[IndentingNewLine]pagenames = \
+\("\<Data:\>" <> 
                 NameString[#\[LeftDoubleBracket]2\[RightDoubleBracket]] <> \
 "\</\>" <> 
                 WikiPageForInvariant[#\[LeftDoubleBracket]1\
@@ -446,11 +451,15 @@ Cell[BoxData[
                       WikiPageForInvariant[I], r_} \[RuleDelayed] 
                   r]; \[IndentingNewLine]If[Length[c] \[Equal] 1, 
               c\[LeftDoubleBracket]1\[RightDoubleBracket], "\<\>"]\
-\[IndentingNewLine]]; \[IndentingNewLine]\({#\[LeftDoubleBracket]1\
-\[RightDoubleBracket], #\[LeftDoubleBracket]2\[RightDoubleBracket], \
-\(ReadWikiFunction[#\[LeftDoubleBracket]1\[RightDoubleBracket]]\)[
-                getResult[#\[LeftDoubleBracket]1\[RightDoubleBracket], #\
-\[LeftDoubleBracket]2\[RightDoubleBracket]]]} &\) /@ 
+\[IndentingNewLine]]; \[IndentingNewLine]delegateReadWikiFunction[I_, K_] := 
+          With[{result = getResult[I, K]}, \[IndentingNewLine]If[
+              result == "\<\>", 
+              Null, \(ReadWikiFunction[I]\)[
+                result]]\[IndentingNewLine]]; \[IndentingNewLine]\({#\
+\[LeftDoubleBracket]1\[RightDoubleBracket], #\[LeftDoubleBracket]2\
+\[RightDoubleBracket], 
+              delegateReadWikiFunction[#\[LeftDoubleBracket]1\
+\[RightDoubleBracket], #\[LeftDoubleBracket]2\[RightDoubleBracket]]} &\) /@ 
           pairs\[IndentingNewLine]]\)], "Input",
   InitializationCell->True],
 
@@ -633,21 +642,38 @@ Cell[BoxData[
             Return[{}]]; \[IndentingNewLine]StoreInvariants[dataToUpload, 
             target]\[IndentingNewLine]]*) \)\(\[IndentingNewLine]\)\(take[l_, 
         n_] := If[Length[l] > n, Take[l, n], l]\[IndentingNewLine]
+    shuffle[l_] := 
+      l\[LeftDoubleBracket]Ordering[
+          Table[Random[], {Length[
+                l]}]]\[RightDoubleBracket]\[IndentingNewLine]
+    randomisedpartition[l_, n_] := 
+      shuffle[Partition[l, n, n, {1, 1}, {}]]\[IndentingNewLine]
     TransferUnknownInvariants[invariants : {___String}, knots_List, 
         source : "\<KnotTheory\>", target_String] := 
       Module[{needed, workingset, chunksize = 1, counter = 0, 
           timer = 0. \ Second, interval = 300.  Second, 
-          failures = {}}, \[IndentingNewLine]Print["\<Checking to see what \
-\>", target, "\< already contains...\>"]; \[IndentingNewLine]needed = 
-          Cases[RetrieveInvariants[invariants, knots, 
-              target], {i_, k_, Null} \[RuleDelayed] {i, 
-                k}]; \[IndentingNewLine]Print["\<Starting to calculate \>", 
+          failures = {}}, \[IndentingNewLine]If[Length[knots] > 5000, 
+          Print["\<Large knot set, dividing into \>", 
+            Ceiling[Length[knots]/5000], "\< groups\>"]; 
+          Return[Union[\(TransferUnknownInvariants[invariants, #, source, 
+                    target] &\) /@ 
+                randomisedpartition[knots, 
+                  5000]]]]; \[IndentingNewLine]Print["\<Checking to see what \
+\>", target, "\< already contains...\>"]; \[IndentingNewLine]Print["\<(took \
+\>", \(AbsoluteTiming[
+              needed = 
+                Cases[RetrieveInvariants[invariants, knots, 
+                    target], {i_, k_, Null} \[RuleDelayed] {i, 
+                      k}]]\)\[LeftDoubleBracket]1\[RightDoubleBracket], \
+"\<)\>"]; \[IndentingNewLine]Print["\<Starting to calculate \>", 
           Length[needed], "\< invariants...\>"]; \[IndentingNewLine]While[
           Length[needed] > 0, \[IndentingNewLine]While[
-            timer < interval /. 
-              Second \[Rule] 1, \[IndentingNewLine]workingset = 
+            Length[needed] > 
+                0 \[And] \((timer < interval /. 
+                  Second \[Rule] 1)\), \[IndentingNewLine]workingset = 
               take[needed, chunksize]; \[IndentingNewLine]counter += 
-              Length[workingset]; \[IndentingNewLine]timer += \
+              Length[
+                workingset]; \[IndentingNewLine]timer += \
 \(AbsoluteTiming[\(failures = 
                       failures~Join~
                         StoreInvariants[
@@ -658,7 +684,7 @@ Cell[BoxData[
                 workingset];\[IndentingNewLine]]; \
 \[IndentingNewLine]Print["\<Uploaded \>", counter, "\< invariants in \>", \ 
             timer]; \[IndentingNewLine]If[
-            chunksize < 
+            2  chunksize \[LessEqual] 
               counter, \(++chunksize\)]; \[IndentingNewLine]counter = 
             0; \[IndentingNewLine]timer = 
             0\ Second;\[IndentingNewLine]]; \[IndentingNewLine]failures\
@@ -734,7 +760,7 @@ FrontEndVersion->"5.2 for Microsoft Windows",
 ScreenRectangle->{{0, 1280}, {0, 713}},
 AutoGeneratedPackage->Automatic,
 WindowSize->{1119, 679},
-WindowMargins->{{Automatic, -195}, {Automatic, 56}},
+WindowMargins->{{Automatic, -26}, {Automatic, 29}},
 ShowSelection->True
 ]
 
@@ -884,55 +910,55 @@ Cell[14280, 397, 500, 9, 110, "Input",
   InitializationCell->True],
 Cell[14783, 408, 192, 4, 30, "Input",
   InitializationCell->True],
-Cell[14978, 414, 1097, 18, 230, "Input",
+Cell[14978, 414, 1356, 22, 310, "Input",
   InitializationCell->True],
-Cell[16078, 434, 1218, 20, 190, "Input",
+Cell[16337, 438, 1438, 25, 250, "Input",
   InitializationCell->True],
-Cell[17299, 456, 1086, 24, 190, "Input",
+Cell[17778, 465, 1086, 24, 190, "Input",
   InitializationCell->True],
-Cell[18388, 482, 234, 5, 30, "Input",
+Cell[18867, 491, 234, 5, 30, "Input",
   InitializationCell->True],
-Cell[18625, 489, 1551, 29, 250, "Input",
+Cell[19104, 498, 1551, 29, 250, "Input",
   InitializationCell->True],
-Cell[20179, 520, 274, 6, 50, "Input",
+Cell[20658, 529, 274, 6, 50, "Input",
   InitializationCell->True],
-Cell[20456, 528, 179, 3, 30, "Input",
+Cell[20935, 537, 179, 3, 30, "Input",
   InitializationCell->True],
-Cell[20638, 533, 186, 4, 30, "Input",
+Cell[21117, 542, 186, 4, 30, "Input",
   InitializationCell->True],
-Cell[20827, 539, 377, 7, 30, "Input",
+Cell[21306, 548, 377, 7, 30, "Input",
   InitializationCell->True],
 
 Cell[CellGroupData[{
-Cell[21229, 550, 617, 11, 130, "Input",
+Cell[21708, 559, 617, 11, 130, "Input",
   InitializationCell->True],
-Cell[21849, 563, 356, 5, 22, "Message"]
+Cell[22328, 572, 356, 5, 22, "Message"]
 }, Open  ]],
-Cell[22220, 571, 113, 2, 30, "Input",
+Cell[22699, 580, 113, 2, 30, "Input",
   InitializationCell->True],
-Cell[22336, 575, 1009, 17, 170, "Input",
+Cell[22815, 584, 1009, 17, 170, "Input",
   InitializationCell->True],
-Cell[23348, 594, 486, 8, 50, "Input",
+Cell[23827, 603, 486, 8, 50, "Input",
   InitializationCell->True],
-Cell[23837, 604, 109, 2, 30, "Input",
+Cell[24316, 613, 109, 2, 30, "Input",
   InitializationCell->True],
-Cell[23949, 608, 705, 13, 170, "Input",
+Cell[24428, 617, 705, 13, 170, "Input",
   InitializationCell->True],
-Cell[24657, 623, 2434, 42, 550, "Input",
+Cell[25136, 632, 3243, 59, 630, "Input",
   InitializationCell->True],
-Cell[27094, 667, 230, 5, 30, "Input",
+Cell[28382, 693, 230, 5, 30, "Input",
   InitializationCell->True],
-Cell[27327, 674, 264, 5, 50, "Input",
+Cell[28615, 700, 264, 5, 50, "Input",
   InitializationCell->True],
-Cell[27594, 681, 1437, 26, 190, "Input",
+Cell[28882, 707, 1437, 26, 190, "Input",
   InitializationCell->True],
-Cell[29034, 709, 233, 5, 30, "Input",
+Cell[30322, 735, 233, 5, 30, "Input",
   InitializationCell->True],
-Cell[29270, 716, 71, 2, 30, "Input",
+Cell[30558, 742, 71, 2, 30, "Input",
   InitializationCell->True],
-Cell[29344, 720, 78, 2, 30, "Input",
+Cell[30632, 746, 78, 2, 30, "Input",
   InitializationCell->True],
-Cell[29425, 724, 143, 3, 30, "Input",
+Cell[30713, 750, 143, 3, 30, "Input",
   InitializationCell->True]
 }, Open  ]]
 }, Open  ]]
