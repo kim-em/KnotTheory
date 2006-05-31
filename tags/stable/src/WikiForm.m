@@ -151,12 +151,10 @@ IfNotOne["1"]="";
 IfNotOne[x_String]:=x
 
 LaurentPolynomialTeXReplacementRule=
-    "\\frac{"~StringExpression~
-        numerator:
-          ShortestMatch[__]~StringExpression~"}{"~StringExpression~
-            denominator:
-              ShortestMatch[__]~StringExpression~"}"~StringExpression~
-                rest:("+"|"-"|EndOfString)\[RuleDelayed]
+    "\\frac{"~StringExpression~(numerator:ShortestMatch[__])~StringExpression~
+        "}{"~StringExpression~(denominator:ShortestMatch[__])~
+        StringExpression~"}"~
+        StringExpression~(rest:("+"|"-"|EndOfString))\[RuleDelayed]
       IfNotOne[numerator] ~StringExpression~" "~StringExpression~
         InvertMonomialString[denominator]~StringExpression~rest;
 
