@@ -7,7 +7,7 @@ PackageSources = src/Base.m src/Braids.m src/TubePlot.m \
 	src/CJREngine.m src/ColouredJones.m src/HFGenus.m \
 	src/KTtoLinKnot.m
 
-main_distribution = KnotTheory/*.m KnotTheory/JavaKh/* WikiLink/* \
+main_distribution = KnotTheory/*.m KnotTheory/JavaKh/* KnotTheory/WikiLink/* \
 		    KnotTheory/KnotAtlas/*
 
 posted_files = KnotTheory.tar.gz KnotTheory.zip DTCodes4Knots12To16.tar.gz \
@@ -29,12 +29,12 @@ KnotTheory/init.m:  src/System.mm $(PackageSources) KnotTheory/JavaKh/*;
 	cat $(PackageSources) >> KnotTheory/init.m
 
 KnotTheory.tar.gz: KnotTheory/init.m $(main_distribution);
-	tar cvf KnotTheory.tar KnotTheory/*.m KnotTheory/JavaKh/*
+	tar cvf KnotTheory.tar $(main_distribution)
 	gzip -9 -f KnotTheory.tar
 
 KnotTheory.zip: KnotTheory/init.m $(main_distribution);
 	/bin/rm -f KnotTheory.zip
-	zip -r KnotTheory.zip KnotTheory/*.m KnotTheory/JavaKh/*
+	zip -r KnotTheory.zip $(main_distribution)
 
 DTCodes4Knots12To16.tar.gz: KnotTheory/*.dts;
 	tar cvf DTCodes4Knots12To16.tar KnotTheory/*.dts
