@@ -1,0 +1,210 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      5914,        151]*)
+(*NotebookOutlinePosition[      6581,        174]*)
+(*  CellTagsIndexPosition[      6537,        170]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+    \(\(KnotTheoryPath\  = \ \
+"\<c:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk\\\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(AppendTo[$Path, \ KnotTheoryPath];\)\), "\[IndentingNewLine]", 
+    \(<< \ KnotTheory`\)}], "Input"],
+
+Cell[BoxData[
+    \("Loading KnotTheory` version of June 23, 2006, 13:7:39.8399.\nRead more \
+at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(CreateDataPackage["\<QuantumInvariants4Knots\>", \
+{"\<QuantumInvariant/A1/1\>", "\<QuantumInvariant/A1/2\>", \
+"\<QuantumInvariant/A1/3\>", "\<QuantumInvariant/A1/4\>", \
+"\<QuantumInvariant/A1/5\>", "\<QuantumInvariant/A1/6\>", \
+"\<QuantumInvariant/A1/7\>", \
+\[IndentingNewLine]"\<QuantumInvariant/D4/1,0,0,0\>", \
+\[IndentingNewLine]"\<QuantumInvariant/D4/0,1,0,0\>", \
+\[IndentingNewLine]"\<QuantumInvariant/G2/1,0\>", \
+\[IndentingNewLine]"\<QuantumInvariant/G2/0,1\>"}, 
+      AllKnots[{3, 10}]]\)], "Input"],
+
+Cell[BoxData[
+    \("c:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk\\KnotTheory/\
+QuantumInvariants4Knots.m"\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Needs["\<KnotTheory`QuantumInvariants4Knots`\>"]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"QuantumInvariants4Knots`\"\)."\)], \
+"Message"],
+
+Cell[BoxData[
+    RowBox[{\(QuantumKnotInvariant::"shdw"\), \(\(:\)\(\ \)\), "\<\"Symbol \
+\\!\\(\\\"QuantumKnotInvariant\\\"\\) appears in multiple contexts \
+\\!\\({\\\"KnotTheory`QuantumInvariants4Knots`\\\", \\\"Global`\\\"}\\); \
+definitions in context \\!\\(\\\"KnotTheory`QuantumInvariants4Knots`\\\"\\) \
+may shadow or be shadowed by other definitions. \\!\\(\\*ButtonBox[\\\"More\
+\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::shdw\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(A::"shdw"\), \(\(:\)\(\ \)\), "\<\"Symbol \\!\\(\\\"A\\\"\\) \
+appears in multiple contexts \\!\\({\\\"KnotTheory`QuantumInvariants4Knots`\\\
+\", \\\"Global`\\\"}\\); definitions in context \
+\\!\\(\\\"KnotTheory`QuantumInvariants4Knots`\\\"\\) may shadow or be \
+shadowed by other definitions. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::shdw\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(Irrep::"shdw"\), \(\(:\)\(\ \)\), "\<\"Symbol \\!\\(\\\"Irrep\\\
+\"\\) appears in multiple contexts \
+\\!\\({\\\"KnotTheory`QuantumInvariants4Knots`\\\", \\\"Global`\\\"}\\); \
+definitions in context \\!\\(\\\"KnotTheory`QuantumInvariants4Knots`\\\"\\) \
+may shadow or be shadowed by other definitions. \\!\\(\\*ButtonBox[\\\"More\
+\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::shdw\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(q::"shdw"\), \(\(:\)\(\ \)\), "\<\"Symbol \\!\\(\\\"q\\\"\\) \
+appears in multiple contexts \\!\\({\\\"KnotTheory`QuantumInvariants4Knots`\\\
+\", \\\"Global`\\\"}\\); definitions in context \
+\\!\\(\\\"KnotTheory`QuantumInvariants4Knots`\\\"\\) may shadow or be \
+shadowed by other definitions. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::shdw\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(G::"shdw"\), \(\(:\)\(\ \)\), "\<\"Symbol \\!\\(\\\"G\\\"\\) \
+appears in multiple contexts \\!\\({\\\"KnotTheory`QuantumInvariants4Knots`\\\
+\", \\\"Global`\\\"}\\); definitions in context \
+\\!\\(\\\"KnotTheory`QuantumInvariants4Knots`\\\"\\) may shadow or be \
+shadowed by other definitions. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::shdw\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(QuantumKnotInvariant[A\_1, \(Irrep[A\_1]\)[{4}]]\)[
+      Knot[4, 1]]\)], "Input"],
+
+Cell[BoxData[
+    \(\(QuantumKnotInvariant[A\_1, \(Irrep[A\_1]\)[{4}]]\)[
+      Knot[4, 1]]\)], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 713}},
+WindowSize->{674, 589},
+WindowMargins->{{Automatic, 111}, {Automatic, 32}},
+ShowSelection->True
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 248, 5, 70, "Input"],
+Cell[2027, 60, 158, 2, 44, "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2222, 67, 536, 10, 170, "Input"],
+Cell[2761, 79, 129, 2, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2927, 86, 81, 1, 30, "Input"],
+Cell[3011, 89, 147, 3, 22, "Message"],
+Cell[3161, 94, 524, 7, 52, "Message"],
+Cell[3688, 103, 486, 7, 67, "Message"],
+Cell[4177, 112, 494, 7, 67, "Message"],
+Cell[4674, 121, 486, 7, 67, "Message"],
+Cell[5163, 130, 486, 7, 67, "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5686, 142, 104, 2, 30, "Input"],
+Cell[5793, 146, 105, 2, 29, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
