@@ -79,7 +79,7 @@ linePattern=
           " ="~~ShortestMatch[__]~~
               "<td>"~~v:ShortestMatch[___]~~"</td>"\[RuleDelayed](t\[Rule]v);
 
-expressionTags={"ReadWiki","ReadLivingston","KnotTheory"};
+expressionTags={"ReadWiki","ReadLivingston","KnotTheory","KnotTheorySetter"};
 
 ConstructInvariantRule[S_String]:=
   Module[{names=StringCases[S,namePattern],saveContext,rule},
@@ -172,7 +172,7 @@ FromKnotInfoString["infty"]=\[Infinity];
 InvariantNames[L_List]:=Cases[L,(S_String\[Rule]_List)\[RuleDelayed]S]
 
 InvariantRule[I_String]:=Module[{rule},rule=I/.AllInvariants;
-    If[rule\[Equal]I,Print["I don't recognise the invariant "<>I<>"."];
+    If[rule===I,Print["I don't recognise the invariant "<>I<>"."];
       Return[$Failed],rule]]
 
 RetrieveInvariant[I_String,K_,"KnotTheory"]:=
@@ -295,13 +295,14 @@ RetrieveInvariants[pairs:{{_String,_}...},
 
 Clear[WikiPageForInvariant];
 WikiPageForInvariant[I_String]:=
-  WikiPageForInvariant[I]=
-    Module[{rule=InvariantRule[I],wikiPage},
+  WikiPageForInvariant[I]=Module[{rule=InvariantRule[I],wikiPage},
       If[rule\[Equal]$Failed,Return[$Failed]];
       wikiPage="WikiPage"/.(I/.AllInvariants);
-      If[wikiPage\[Equal]"WikiPage",
+      If[wikiPage==="WikiPage",
         Print["Sorry, I don't know how to store the invariant "<>I<>
-            " in the Knot Atlas."];Return[$Failed],Return[wikiPage]];]
+            " in the Knot Atlas."];Return[$Failed]];
+      wikiPage
+      ]
 
 
 
@@ -326,6 +327,39 @@ StoreInvariants[Dall:{{_String,_,_}...},"CSVString"]:=
             ",\t\""<>ToString[#\[LeftDoubleBracket]3\[RightDoubleBracket],
               InputForm]<>"\"\n"&/@Dall)
 
+KnotTheorySetterForInvariant[I_String]:=
+  KnotTheorySetterForInvariant[I]=Module[{rule=InvariantRule[I],setter},
+      If[rule\[Equal]$Failed,Return[$Failed]];
+      setter="KnotTheorySetter"/.rule;
+      If[setter==="KnotTheorySetter",
+        Print["Sorry, I don't know how to store the invariant "<>I<>
+            " in the current KnotTheory`."];Return[$Failed]];
+      setter
+      ]
+
+StoreInvariants[Dall:{{_String,_,_}...},"KnotTheory"]:=
+  Module[{D},
+    D=DeleteCases[Dall,{_,_,$Failed|Null}];
+    invariants=Union[Part[D,All,1]];
+    setterFunctions=KnotTheorySetterForInvariant/@invariants;
+    If[MemberQ[setterFunctions,$Failed],Return[$Failed]];
+    KnotTheorySetterForInvariant[#\[LeftDoubleBracket]1\[RightDoubleBracket]][\
+#\[LeftDoubleBracket]2\[RightDoubleBracket],#\[LeftDoubleBracket]3\
+\[RightDoubleBracket]]&/@D;
+    ]
+
+StoreInvariants[Dall:{{_String,_,_}...},"KnotTheoryInputString"]:=
+  Module[{D},
+    D=DeleteCases[Dall,{_,_,$Failed|Null}];
+    invariants=Union[Part[D,All,1]];
+    setterFunctions=KnotTheorySetterForInvariant/@invariants;
+    If[MemberQ[setterFunctions,$Failed],Return[$Failed]];
+    "#\[LeftDoubleBracket]1\[RightDoubleBracket][#\[LeftDoubleBracket]2\[RightDoubleBracket],#\[LeftDoubleBracket]3\[RightDoubleBracket]]&/@"<>
+      ToString[{KnotTheorySetterForInvariant[#\[LeftDoubleBracket]1\
+\[RightDoubleBracket]],#\[LeftDoubleBracket]2\[RightDoubleBracket],#\
+\[LeftDoubleBracket]3\[RightDoubleBracket]}&/@D,InputForm]
+    ]
+
 ParseKnotInvariantFromURL[I_,K_,data_]:=data
 
 RetrieveInvariant[I_String,K_,"url"]:=
@@ -340,15 +374,6 @@ RetrieveInvariant[I_String,K_,"url"]:=
     Return[ParseKnotInvariantFromURL[I,K,data]];
     ]
 
-(*TransferUnknownInvariants[invariants:{___String},knots_List,source_String,
-      target_String]:=Module[{dataToUpload,needed},
-      needed=
-        Cases[RetrieveInvariants[invariants,knots,
-            target],{i_,k_,Null}\[RuleDelayed]{i,k}];
-      dataToUpload=RetrieveInvariants[needed,source];
-      If[Length[dataToUpload]\[Equal]0,Return[{}]];
-      StoreInvariants[dataToUpload,target]
-      ]*)
 take[l_,n_]:=If[Length[l]>n,Take[l,n],l]
 shuffle[l_]:=
   l\[LeftDoubleBracket]Ordering[

@@ -179,20 +179,22 @@ DTtoPData[HoldPattern[DTCode[d__List]]]:=
     LinKnots`fPDataFromDow[{{Length[{n}]},{n}}]
 
 KnotInput[]:=Module[{pdata},
-    InstallLinKnots[KnotInput];
-    CreditMessage[
-      "Graphical knot input was written by M. Ochiai, C. Nakai, Y. Matsuyama and N. Imafuji."]\
+    If[InstallLinKnots[KnotInput],
+      CreditMessage[
+        "Graphical knot input was written by M. Ochiai, C. Nakai, Y. Matsuyama and N. Imafuji."]\
 ;
-    SwitchDirectories[PdataToKTGauss[KnotsByComputer`GetPdatabyTracking[]]]
+      SwitchDirectories[
+        PdataToKTGauss[KnotsByComputer`GetPdatabyTracking[]]],
+      $Failed]
     ]
 
 DrawKnot[k_]:=Module[{pdata},
-    InstallLinKnots[DrawKnot];
-    CreditMessage["Graphical knot output was written by ???."];
-    SwitchDirectories[
-      pdata=DTtoPData[DTCode[k]];
-      KnotsByComputer`ShowKnotfromPdata[pdata]
-      ]]
+    If[InstallLinKnots[DrawKnot],
+      CreditMessage["Graphical knot output was written by ???."];
+      SwitchDirectories[
+        pdata=DTtoPData[DTCode[k]];
+        KnotsByComputer`ShowKnotfromPdata[pdata]
+        ],$Failed]]
 
 AllConwayNotations[n:(1|2|3|4|5)]:=AllConwayNotations[n,Alternating]
 AllConwayNotations[n_Integer]/;n\[GreaterEqual]1:=

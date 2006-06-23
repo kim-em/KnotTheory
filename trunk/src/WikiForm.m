@@ -21,7 +21,7 @@ overwritten.
 
 BeginPackage["KnotTheory`"];
 
-NotHyperbolic;{Reversible,FullyAmphicheiral,NegativeAmphicheiral,Chiral};
+{Reversible,FullyAmphicheiral,NegativeAmphicheiral,Chiral};
 
 WikiForm::usage="ToString[expression_,WikiForm] attempts to format expression in a manner suitable for a MediaWiki wiki. This is a strange kludge of html and pseudo-latex, particularly for long polynomials. It's not perfect, but not a disaster either.";
 
