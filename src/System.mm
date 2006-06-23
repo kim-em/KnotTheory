@@ -89,3 +89,7 @@ DeclarePackage["KnotTheory`KnotAtlas`ManagingKnotData`",
     "RetrieveInvariant", "RetrieveInvariants", "StoreInvariants", "KnotInvariantURL",
     "ParseKnotInvariantFromURL", "TransferUnknownInvariants",
     "FindDataDiscrepancies", "FindMissingData", "ProcessKnotAtlasUploadQueue", "CreateDataPackage"}]
+
+(* declare the public interfaces of the QuantumKnotInvariants subpackage *)
+DeclarePackage["KnotTheory`QuantumKnotInvariants`",
+    {"QuantumKnotInvariant"}]
