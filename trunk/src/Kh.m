@@ -27,6 +27,10 @@ ZMod[m2], ... .";
 
 ExpansionOrder; Program;
 
+TabularKh::usage = "TabularKh[polynomial, {diagonals}] generates an html table displaying the coefficients
+of the polynomial, with diagonals highlighted. The tables appearing in the Knot Atlas are generated using
+TabularKh[Kh[K][q,t], KnotSignature[K]+{1,-1}]";
+
 Begin["`FastKh`"]
 
 bdot[_]^_ ^=0; tdot[_]^_ ^=0;
@@ -522,5 +526,38 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
   )
   ]
 ]
+
+TabularKh[kh_]:=TabularKh[kh,{}]
+TabularKh[khG_,highlight_List]:=
+  Module[{kh, out,width,minr,maxr,minj,maxj,j,r,c,critical,chi},
+    kh = khG /. {Global`t -> t, Global`q -> q};
+    minr=Exponent[kh,t,Min];
+    maxr=Exponent[kh,t,Max];
+    minj=Exponent[kh,q,Min];
+    maxj=Exponent[kh,q,Max];
+    width=N[100/(maxr-minr+5)];
+    out=StringJoin["<table border=1>\n","<tr align=center>\n",
+        "<td width="<>ToString[2width]<>
+          "%><table cellpadding=0 cellspacing=0>\n",
+        "  <tr><td>\\</td><td>&nbsp;</td><td>r</td></tr>\n",
+        "<tr><td>&nbsp;</td><td>&nbsp;\\&nbsp;</td><td>&nbsp;</td></tr>\n",
+        "<tr><td>j</td><td>&nbsp;</td><td>\\</td></tr>\n","</table></td>\n"];
+    Do[out=out<>"<td width="<>ToString[width]<>"%>"<>ToString[r]<>"</td>",{r,minr,maxr}];
+    out=out<>"<td width="<>ToString[2width]<>"%>&chi;</td></tr>\n";
+    Do[out=out<>"<tr align=center><td>"<>ToString[j]<>"</td>";
+      chi=0;
+      Do[
+        c=Coefficient[Expand[kh*t^(1-minr)*q^(1-minj)],t^(r+1-minr)*q^(j+1-minj)];
+        chi+=(-1)^r*c;
+        critical=MemberQ[highlight,j-2r];
+        out=
+          out<>Which[critical&&c\[NotEqual]0,
+              "<td bgcolor=yellow>"<>ToString[c]<>"</td>",
+              critical&&c\[Equal]0,
+              "<td bgcolor=yellow>&nbsp;</td>",!critical&&c\[NotEqual]0,
+              "<td bgcolor=red>"<>ToString[c]<>"</td>",!critical&&c\[Equal]0,
+              "<td>&nbsp;</td>"],{r,minr,maxr}];
+      out=out<>"<td>"<>ToString[chi]<>"</td></tr>\n",{j,maxj,minj,-2}];
+    out=out<>"</table>"]
 
 End[]; EndPackage[]
