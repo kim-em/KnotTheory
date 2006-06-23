@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[    711800,      18986]*)
-(*NotebookOutlinePosition[    712448,      19008]*)
-(*  CellTagsIndexPosition[    712404,      19004]*)
+(*NotebookOptionsPosition[    712178,      18995]*)
+(*NotebookOutlinePosition[    712823,      19017]*)
+(*  CellTagsIndexPosition[    712779,      19013]*)
 (*WindowFrame->Normal*)
 
 
@@ -78,7 +78,15 @@ Cell[BoxData[
     \(SetDirectory["\<C:/drorbn/projects/KnotTheory/svn/trunk\>"]\)], "Input"],
 
 Cell[BoxData[
-    \("C:\\drorbn\\projects\\KnotTheory\\svn\\trunk"\)], "Output"]
+    RowBox[{\(SetDirectory::"cdir"\), \(\(:\)\(\ \)\), "\<\"Cannot set \
+current directory to \
+\\!\\(\\\"C:/drorbn/projects/KnotTheory/svn/trunk\\\"\\). \\!\\(\\*ButtonBox[\
+\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\\\", \
+ButtonFrame->None, ButtonData:>\\\"SetDirectory::cdir\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    \("C:\\Program Files\\Wolfram Research\\Mathematica\\5.2"\)], "Output"]
 }, Open  ]],
 
 Cell["Radmila's version", "Text"],
@@ -120,12 +128,13 @@ Cell[BoxData[
     \(\(PackageSources\  = \ \(\(("\<src/\>" <> #)\) &\)\  /@ \ {\
 \[IndentingNewLine]"\<Base.m\>", \ "\<Braids.m\>", \ "\<TubePlot.m\>", \ \
 "\<DrawPD.m\>", \ "\<Data.m\>", \ "\<BraidData.m\>", "\<Naming.m\>", \ \
-"\<GaussCode.m\>", \ "\<GC2PD.m\>", \ "\<Indiana.m\>", "\<WikiForm.m\>", \ \
-"\<HOMFLYPT.m\>", \ "\<Kauffman.m\>", \ "\<Kh.m\>", \ "\<MorseLink.m\>", \ \
-"\<DrawMorseLink.m\>", \ "\<ML2PD.m\>", \ "\<AlexanderConway.m\>", \ \
-"\<VogelsAlgorithm.m\>", \ "\<MultivariableAlexander.m\>", \ "\<REngine.m\>", \
-\ "\<TestRMatrix.m\>", \ "\<CJREngine.m\>", \ "\<ColouredJones.m\>", \ \
-"\<HFGenus.m\>", "\<KTtoLinKnot.m\>"\[IndentingNewLine]};\)\)], "Input"],
+"\<GaussCode.m\>", \ "\<GC2PD.m\>", \ "\<Indiana.m\>", \
+"\<HyperbolicVolume.m\>", "\<WikiForm.m\>", \ "\<HOMFLYPT.m\>", \ \
+"\<Kauffman.m\>", \ "\<Kh.m\>", \ "\<MorseLink.m\>", \ "\<DrawMorseLink.m\>", \
+\ "\<ML2PD.m\>", \ "\<AlexanderConway.m\>", \ "\<VogelsAlgorithm.m\>", \ \
+"\<MultivariableAlexander.m\>", \ "\<REngine.m\>", \ "\<TestRMatrix.m\>", \ "\
+\<CJREngine.m\>", \ "\<ColouredJones.m\>", \ "\<HFGenus.m\>", \
+"\<KTtoLinKnot.m\>"\[IndentingNewLine]};\)\)], "Input"],
 
 Cell[BoxData[
     \(\(UnifiedFile\  = \ "\<KnotTheory/init.m\>";\)\)], "Input"],
@@ -18985,9 +18994,9 @@ Cell[BoxData[
 }, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
-ScreenRectangle->{{0, 1600}, {0, 1102}},
+ScreenRectangle->{{0, 1280}, {0, 713}},
 WindowSize->{748, 651},
-WindowMargins->{{Automatic, 392}, {Automatic, 123}}
+WindowMargins->{{132, Automatic}, {0, Automatic}}
 ]
 
 (*******************************************************************
@@ -19019,65 +19028,66 @@ Cell[2328, 72, 30, 0, 33, "Text"],
 
 Cell[CellGroupData[{
 Cell[2383, 76, 92, 1, 30, "Input"],
-Cell[2478, 79, 80, 1, 29, "Output"]
+Cell[2478, 79, 338, 6, 22, "Message"],
+Cell[2819, 87, 89, 1, 29, "Output"]
 }, Open  ]],
-Cell[2573, 83, 33, 0, 33, "Text"],
+Cell[2923, 91, 33, 0, 33, "Text"],
 
 Cell[CellGroupData[{
-Cell[2631, 87, 83, 1, 30, "Input"],
-Cell[2717, 90, 347, 6, 22, "Message"],
-Cell[3067, 98, 89, 1, 29, "Output"]
+Cell[2981, 95, 83, 1, 30, "Input"],
+Cell[3067, 98, 347, 6, 22, "Message"],
+Cell[3417, 106, 89, 1, 29, "Output"]
 }, Open  ]],
-Cell[3171, 102, 31, 0, 33, "Text"],
+Cell[3521, 110, 31, 0, 33, "Text"],
 
 Cell[CellGroupData[{
-Cell[3227, 106, 108, 2, 30, "Input"],
-Cell[3338, 110, 89, 1, 29, "Output"]
+Cell[3577, 114, 108, 2, 30, "Input"],
+Cell[3688, 118, 89, 1, 29, "Output"]
 }, Open  ]],
-Cell[3442, 114, 97, 2, 33, "Text"],
-Cell[3542, 118, 679, 9, 170, "Input"],
-Cell[4224, 129, 79, 1, 30, "Input"],
+Cell[3792, 122, 97, 2, 33, "Text"],
+Cell[3892, 126, 707, 10, 170, "Input"],
+Cell[4602, 138, 79, 1, 30, "Input"],
 
 Cell[CellGroupData[{
-Cell[4328, 134, 685, 12, 250, "Input"],
-Cell[5016, 148, 53, 1, 29, "Output"]
+Cell[4706, 143, 685, 12, 250, "Input"],
+Cell[5394, 157, 53, 1, 29, "Output"]
 }, Open  ]]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[5118, 155, 33, 0, 51, "Subtitle"],
-Cell[5154, 157, 482, 9, 210, "Input"],
+Cell[5496, 164, 33, 0, 51, "Subtitle"],
+Cell[5532, 166, 482, 9, 210, "Input"],
 
 Cell[CellGroupData[{
-Cell[5661, 170, 49, 1, 30, "Input"],
-Cell[5713, 173, 157, 2, 44, "Print"]
+Cell[6039, 179, 49, 1, 30, "Input"],
+Cell[6091, 182, 157, 2, 44, "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[5907, 180, 151, 3, 30, "Input"],
-Cell[6061, 185, 133, 2, 22, "Message"],
-Cell[6197, 189, 130, 2, 22, "Message"],
-Cell[6330, 193, 209, 3, 52, "Message"],
-Cell[6542, 198, 38, 1, 29, "Output"]
+Cell[6285, 189, 151, 3, 30, "Input"],
+Cell[6439, 194, 133, 2, 22, "Message"],
+Cell[6575, 198, 130, 2, 22, "Message"],
+Cell[6708, 202, 209, 3, 52, "Message"],
+Cell[6920, 207, 38, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[6617, 204, 144, 2, 44, "Input"],
-Cell[6764, 208, 130, 2, 22, "Message"],
-Cell[6897, 212, 210, 3, 37, "Message"],
-Cell[7110, 217, 38, 1, 29, "Output"]
+Cell[6995, 213, 144, 2, 44, "Input"],
+Cell[7142, 217, 130, 2, 22, "Message"],
+Cell[7275, 221, 210, 3, 37, "Message"],
+Cell[7488, 226, 38, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[7185, 223, 162, 3, 31, "Input"],
-Cell[7350, 228, 38, 1, 29, "Output"]
+Cell[7563, 232, 162, 3, 31, "Input"],
+Cell[7728, 237, 38, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[7425, 234, 70, 1, 30, "Input"],
-Cell[7498, 237, 704127, 18739, 296, 634853, 17879, "GraphicsData", \
+Cell[7803, 243, 70, 1, 30, "Input"],
+Cell[7876, 246, 704127, 18739, 296, 634853, 17879, "GraphicsData", \
 "PostScript", "Graphics"],
-Cell[711628, 18978, 132, 3, 29, "Output"]
+Cell[712006, 18987, 132, 3, 29, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
