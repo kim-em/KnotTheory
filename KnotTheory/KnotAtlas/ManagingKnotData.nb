@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     37958,        913]*)
-(*NotebookOutlinePosition[     38657,        937]*)
-(*  CellTagsIndexPosition[     38613,        933]*)
+(*NotebookOptionsPosition[     40633,        966]*)
+(*NotebookOutlinePosition[     41335,        990]*)
+(*  CellTagsIndexPosition[     41291,        986]*)
 (*WindowFrame->Normal*)
 
 
@@ -184,6 +184,10 @@ processed, and the maximum amount of time spent on each.\>";\)\)], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
+    \(\(CreateDataPackage;\)\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
     \(\(Begin["\<`Private`\>"];\)\)], "Input",
   InitializationCell->True]
 }, Open  ]],
@@ -230,13 +234,30 @@ Cell[BoxData[
   InitializationCell->True],
 
 Cell[BoxData[
+    \(QuantumInvariantRules = {\((S_String /; 
+              StringMatchQ[
+                S, "\<QuantumInvariant\>" ~~ __])\) \[RuleDelayed] \
+\[IndentingNewLine]Module[{\[CapitalGamma], \[Lambda]}, \[IndentingNewLine]{\
+\[CapitalGamma], \[Lambda]} = \(StringCases[
+                  S, "\<QuantumInvariant/\>" ~~ \(G : \(("\<A\>" | "\<B\>" | \
+"\<C\>" | "\<D\>" | "\<E\>" | "\<F\>" | "\<G\>")\) ~~ \(n : \
+\((DigitCharacter)\) ~~ \("\</\>" ~~ \[Lambda]__\)\)\) \[RuleDelayed] \
+{\(globalToExpression[G]\)\_\(ToExpression[n]\), 
+                      ToExpression["\<{\>" <> \[Lambda] <> "\<}\>"]}, 
+                  1]\)\[LeftDoubleBracket]1\[RightDoubleBracket]; \
+\[IndentingNewLine]With[{\[CapitalGamma]0 = \[CapitalGamma], \[Lambda]0 = \
+\[Lambda]}, \[IndentingNewLine]{"\<WikiPage\>" \[Rule] 
+                  S, "\<KnotTheorySetter\>" \[Rule] \
+\((\(\(Global`QuantumKnotInvariant[\[CapitalGamma]0, \(Global`Irrep[\
+\[CapitalGamma]0]\)[\[Lambda]0]]\)[#1] = #2;\) &)\)}\[IndentingNewLine]]\
+\[IndentingNewLine]]}\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
     \(LoadInvariantRules[
         pagename_String] := \(AllInvariants = \((ConstructInvariantRule /@ 
               Drop[StringSplit[WikiGetPageText[pagename], "\<<tr>\>"], 2])\)~
-          Join~{\((S_String /; 
-                  StringMatchQ[
-                    S, "\<QuantumInvariant\>" ~~ __])\) \[RuleDelayed] \
-{"\<WikiPage\>" \[Rule] S}}\)\)], "Input",
+          Join~QuantumInvariantRules\)\)], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
@@ -378,11 +399,11 @@ Cell[BoxData[
   InitializationCell->True],
 
 Cell[BoxData[
-    \(InvariantRule[I_String] := 
-      Module[{rule}, 
-        rule = I /. AllInvariants; \[IndentingNewLine]If[rule === I, 
-          Print["\<I don't recognise the invariant \>" <> I <> "\<.\>"]; 
-          Return[$Failed], rule]]\)], "Input",
+    \(InvariantRule[I_String] := \(InvariantRule[I] = 
+        Module[{rule}, 
+          rule = I /. AllInvariants; \[IndentingNewLine]If[rule === I, 
+            Print["\<I don't recognise the invariant \>" <> I <> "\<.\>"]; 
+            Return[$Failed], rule]]\)\)], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
@@ -571,8 +592,8 @@ Cell[BoxData[{
     \(WikiPageForInvariant[I_String] := \(WikiPageForInvariant[I] = 
         Module[{rule = InvariantRule[I], wikiPage}, \[IndentingNewLine]If[
             rule \[Equal] $Failed, 
-            Return[$Failed]]; \[IndentingNewLine]wikiPage = "\<WikiPage\>" /. \
-\((I /. AllInvariants)\); \[IndentingNewLine]If[wikiPage === "\<WikiPage\>", 
+            Return[$Failed]]; \[IndentingNewLine]wikiPage = "\<WikiPage\>" /. 
+              rule; \[IndentingNewLine]If[wikiPage === "\<WikiPage\>", 
             Print["\<Sorry, I don't know how to store the invariant \>" <> 
                 I <> "\< in the Knot Atlas.\>"]; 
             Return[$Failed]]; \[IndentingNewLine]wikiPage\[IndentingNewLine]]\
@@ -660,11 +681,13 @@ Cell[BoxData[
           MemberQ[setterFunctions, $Failed], 
           Return[$Failed]]; \[IndentingNewLine]"\<#\[LeftDoubleBracket]1\
 \[RightDoubleBracket][#\[LeftDoubleBracket]2\[RightDoubleBracket],#\
-\[LeftDoubleBracket]3\[RightDoubleBracket]]&/@\>" <> 
-          ToString[\({KnotTheorySetterForInvariant[#\[LeftDoubleBracket]1\
-\[RightDoubleBracket]], #\[LeftDoubleBracket]2\[RightDoubleBracket], #\
-\[LeftDoubleBracket]3\[RightDoubleBracket]} &\) /@ D, 
-            InputForm]\[IndentingNewLine]]\)], "Input",
+\[LeftDoubleBracket]3\[RightDoubleBracket]]&/@ {\n\>" <> 
+          StringJoin @@ \((\(\((ToString[#, 
+                        InputForm] <> "\<\n\>")\) &\) /@ \
+\((\({KnotTheorySetterForInvariant[#\[LeftDoubleBracket]1\[RightDoubleBracket]\
+], #\[LeftDoubleBracket]2\[RightDoubleBracket], #\[LeftDoubleBracket]3\
+\[RightDoubleBracket]} &\) /@ 
+                    D)\))\) <> "\<}\>"\[IndentingNewLine]]\)], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
@@ -837,13 +860,14 @@ Cell[BoxData[
   InitializationCell->True],
 
 Cell[BoxData[
-    \(ProcessKnotAtlasUploadQueueEntry[pagename_String, item_String] := 
-      StringCases[
-        item, "\<*\"\>" ~~ \(invariant : 
-                ShortestMatch[__] ~~ \("\<\", \"\>" ~~ \(knotset : 
-                    ShortestMatch[__] ~~ "\<\"\>"\)\)\) \[RuleDelayed] 
-          ProcessKnotAtlasUploadQueueEntry[pagename, item, invariant, 
-            knotset]]\)], "Input",
+    \(ProcessKnotAtlasUploadQueueEntry[pagename_String, 
+        item_String] := \[IndentingNewLine]\((Print[item]; 
+        StringCases[
+          item, "\<*\"\>" ~~ \(invariant : 
+                  ShortestMatch[__] ~~ \("\<\", \"\>" ~~ \(knotset : 
+                      ShortestMatch[__] ~~ "\<\"\>"\)\)\) \[RuleDelayed] 
+            ProcessKnotAtlasUploadQueueEntry[pagename, item, invariant, 
+              knotset]])\)\)], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
@@ -857,8 +881,9 @@ Cell[BoxData[
 \<}]\>"\)\)\)\)\), \[IndentingNewLine]"\<All\>" ~~ \(\(("\<Knots\>" | \
 "\<Links\>")\) ~~ \("\<[{\>" ~~ \(DigitCharacter ..  ~~ \("\<, \>" ~~ \
 \(DigitCharacter ..  ~~ \("\<}, \>" ~~ \("\<Alternating\>" | \
-"\<NonAlternating\>" ~~ "\<]\>"\)\)\)\)\)\)\), \[IndentingNewLine]"\<Take[\>" \
-~~ \(__?\((StringMatchQ[#, 
+"\<NonAlternating\>" ~~ "\<]\>"\)\)\)\)\)\)\), \
+\[IndentingNewLine]"\<TorusKnots[\>" ~~ \(DigitCharacter ..  ~~ "\<]\>"\), \
+\[IndentingNewLine]"\<Take[\>" ~~ \(__?\((StringMatchQ[#, 
                       validKnotSetStringPatterns] &)\) ~~ \("\<, \>" ~~ \
 \(DigitCharacter ..  ~~ "\<]\>"\)\)\), \[IndentingNewLine]"\<Take[\>" ~~ \
 \(__?\((StringMatchQ[#, 
@@ -896,6 +921,34 @@ interpret it.\>"];
   InitializationCell->True],
 
 Cell[BoxData[
+    \(CreateDataPackage[datasetname_String, invariant_String, knotset_List] := 
+      CreateDataPackage[datasetname, {invariant}, knotset]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
+    \(CreateDataPackage[datasetname_String, invariants : {__String}, 
+        knotset_List] := 
+      Module[{filename}, \[IndentingNewLine]filename = 
+          KnotTheoryDirectory[] <> "\</\>" <> 
+            datasetname <> "\<.m\>"; \[IndentingNewLine]If[
+          FileNames[
+              datasetname <> "\<.m\>", {KnotTheoryDirectory[]}] =!= {}, \
+\[IndentingNewLine]Print["\<Warning! There's already a file called \>" <> 
+              filename <> "\<\nPlease double check the name, and delete the \
+pre-existing file if appropriate.\>"]; 
+          Return[$Failed]]; \[IndentingNewLine]WriteString[
+          filename, \[IndentingNewLine]"\<BeginPackage[\"KnotTheory`\>" <> 
+            datasetname <> "\<`\",{\"KnotTheory`\"}]\n\>" \
+<> \[IndentingNewLine]"\<Message[KnotTheory::loading, \"\>" <> 
+            datasetname <> "\<`\"]\n\>" <> 
+            StoreInvariants[
+              RetrieveInvariants[invariants, 
+                knotset, "\<KnotAtlas\>"], "\<KnotTheoryInputString\>"] \
+<> \[IndentingNewLine]"\<\nEndPackage[]\>"\[IndentingNewLine]]; \
+\[IndentingNewLine]Close[filename]\[IndentingNewLine]]\)], "Input",
+  InitializationCell->True],
+
+Cell[BoxData[
     \(\(End[];\)\)], "Input",
   InitializationCell->True],
 
@@ -914,8 +967,8 @@ Cell[BoxData[
 FrontEndVersion->"5.2 for Microsoft Windows",
 ScreenRectangle->{{0, 1280}, {0, 713}},
 AutoGeneratedPackage->Automatic,
-WindowSize->{1119, 679},
-WindowMargins->{{49, Automatic}, {Automatic, 0}},
+WindowSize->{1135, 579},
+WindowMargins->{{Automatic, -191}, {Automatic, -4}},
 ShowSelection->True
 ]
 
@@ -963,7 +1016,7 @@ Cell[2702, 92, 230, 4, 50, "Input",
   InitializationCell->True],
 Cell[2935, 98, 228, 4, 50, "Input",
   InitializationCell->True],
-Cell[3166, 104, 265, 4, 70, "Input",
+Cell[3166, 104, 265, 4, 50, "Input",
   InitializationCell->True],
 Cell[3434, 110, 185, 3, 30, "Input",
   InitializationCell->True],
@@ -971,7 +1024,7 @@ Cell[3622, 115, 348, 5, 70, "Input",
   InitializationCell->True],
 Cell[3973, 122, 374, 6, 90, "Input",
   InitializationCell->True],
-Cell[4350, 130, 361, 6, 90, "Input",
+Cell[4350, 130, 361, 6, 70, "Input",
   InitializationCell->True],
 Cell[4714, 138, 372, 6, 90, "Input",
   InitializationCell->True],
@@ -979,171 +1032,179 @@ Cell[5089, 146, 388, 6, 90, "Input",
   InitializationCell->True],
 Cell[5480, 154, 107, 2, 30, "Input",
   InitializationCell->True],
-Cell[5590, 158, 542, 8, 130, "Input",
+Cell[5590, 158, 542, 8, 110, "Input",
   InitializationCell->True],
 Cell[6135, 168, 408, 6, 90, "Input",
   InitializationCell->True],
 Cell[6546, 176, 464, 7, 90, "Input",
   InitializationCell->True],
-Cell[7013, 185, 88, 2, 30, "Input",
+Cell[7013, 185, 83, 2, 30, "Input",
+  InitializationCell->True],
+Cell[7099, 189, 88, 2, 30, "Input",
   InitializationCell->True]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[7138, 192, 92, 1, 38, "Subsection",
+Cell[7224, 196, 92, 1, 38, "Subsection",
   InitializationCell->True],
-Cell[7233, 195, 254, 5, 30, "Input",
+Cell[7319, 199, 254, 5, 30, "Input",
   InitializationCell->True],
-Cell[7490, 202, 292, 5, 30, "Input",
+Cell[7576, 206, 292, 5, 30, "Input",
   InitializationCell->True],
-Cell[7785, 209, 165, 3, 30, "Input",
+Cell[7871, 213, 165, 3, 30, "Input",
   InitializationCell->True],
-Cell[7953, 214, 823, 15, 170, "Input",
+Cell[8039, 218, 823, 15, 170, "Input",
   InitializationCell->True],
-Cell[8779, 231, 401, 8, 70, "Input",
+Cell[8865, 235, 1075, 18, 171, "Input",
   InitializationCell->True],
-Cell[9183, 241, 118, 2, 30, "Input",
+Cell[9943, 255, 273, 5, 50, "Input",
+  InitializationCell->True],
+Cell[10219, 262, 118, 2, 30, "Input",
   InitializationCell->True]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[9338, 248, 89, 1, 38, "Subsection",
+Cell[10374, 269, 89, 1, 38, "Subsection",
   InitializationCell->True],
-Cell[9430, 251, 180, 4, 30, "Input",
+Cell[10466, 272, 180, 4, 30, "Input",
   InitializationCell->True],
-Cell[9613, 257, 251, 4, 30, "Input",
+Cell[10649, 278, 251, 4, 30, "Input",
   InitializationCell->True],
-Cell[9867, 263, 113, 2, 30, "Input",
+Cell[10903, 284, 113, 2, 30, "Input",
   InitializationCell->True],
-Cell[9983, 267, 572, 9, 70, "Input",
+Cell[11019, 288, 572, 9, 70, "Input",
   InitializationCell->True],
-Cell[10558, 278, 329, 7, 50, "Input",
+Cell[11594, 299, 329, 7, 50, "Input",
   InitializationCell->True]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[10924, 290, 78, 1, 38, "Subsection",
+Cell[11960, 311, 78, 1, 38, "Subsection",
   InitializationCell->True],
-Cell[11005, 293, 202, 5, 30, "Input",
+Cell[12041, 314, 202, 5, 30, "Input",
   InitializationCell->True],
-Cell[11210, 300, 91, 2, 30, "Input",
+Cell[12246, 321, 91, 2, 30, "Input",
   InitializationCell->True],
-Cell[11304, 304, 281, 5, 50, "Input",
+Cell[12340, 325, 281, 5, 50, "Input",
   InitializationCell->True],
-Cell[11588, 311, 203, 4, 30, "Input",
+Cell[12624, 332, 203, 4, 30, "Input",
   InitializationCell->True]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[11828, 320, 101, 1, 38, "Subsection",
+Cell[12864, 341, 101, 1, 38, "Subsection",
   InitializationCell->True],
-Cell[11932, 323, 329, 8, 50, "Input",
+Cell[12968, 344, 329, 8, 50, "Input",
   InitializationCell->True],
-Cell[12264, 333, 257, 5, 70, "Input",
+Cell[13300, 354, 257, 5, 70, "Input",
   InitializationCell->True],
-Cell[12524, 340, 268, 6, 30, "Input",
+Cell[13560, 361, 268, 6, 30, "Input",
   InitializationCell->True],
-Cell[12795, 348, 137, 3, 30, "Input",
+Cell[13831, 369, 137, 3, 30, "Input",
   InitializationCell->True],
-Cell[12935, 353, 104, 2, 30, "Input",
+Cell[13971, 374, 104, 2, 30, "Input",
   InitializationCell->True],
-Cell[13042, 357, 118, 2, 30, "Input",
+Cell[14078, 378, 118, 2, 30, "Input",
   InitializationCell->True],
-Cell[13163, 361, 153, 3, 30, "Input",
+Cell[14199, 382, 153, 3, 30, "Input",
   InitializationCell->True],
-Cell[13319, 366, 94, 2, 30, "Input",
+Cell[14355, 387, 94, 2, 30, "Input",
   InitializationCell->True],
-Cell[13416, 370, 111, 2, 30, "Input",
+Cell[14452, 391, 111, 2, 30, "Input",
   InitializationCell->True],
-Cell[13530, 374, 149, 3, 30, "Input",
+Cell[14566, 395, 149, 3, 30, "Input",
   InitializationCell->True],
-Cell[13682, 379, 288, 6, 50, "Input",
+Cell[14718, 400, 319, 6, 50, "Input",
   InitializationCell->True],
-Cell[13973, 387, 570, 10, 110, "Input",
+Cell[15040, 408, 570, 10, 110, "Input",
   InitializationCell->True],
-Cell[14546, 399, 217, 5, 30, "Input",
+Cell[15613, 420, 217, 5, 30, "Input",
   InitializationCell->True],
-Cell[14766, 406, 500, 9, 110, "Input",
+Cell[15833, 427, 500, 9, 110, "Input",
   InitializationCell->True],
-Cell[15269, 417, 192, 4, 30, "Input",
+Cell[16336, 438, 192, 4, 30, "Input",
   InitializationCell->True],
-Cell[15464, 423, 1356, 22, 310, "Input",
+Cell[16531, 444, 1356, 22, 310, "Input",
   InitializationCell->True],
-Cell[16823, 447, 1438, 25, 250, "Input",
+Cell[17890, 468, 1438, 25, 250, "Input",
   InitializationCell->True],
-Cell[18264, 474, 1086, 24, 190, "Input",
+Cell[19331, 495, 1086, 24, 190, "Input",
   InitializationCell->True],
-Cell[19353, 500, 234, 5, 30, "Input",
+Cell[20420, 521, 234, 5, 30, "Input",
   InitializationCell->True],
-Cell[19590, 507, 1551, 29, 250, "Input",
+Cell[20657, 528, 1551, 29, 250, "Input",
   InitializationCell->True],
-Cell[21144, 538, 274, 6, 50, "Input",
+Cell[22211, 559, 274, 6, 50, "Input",
   InitializationCell->True],
-Cell[21421, 546, 179, 3, 30, "Input",
+Cell[22488, 567, 179, 3, 30, "Input",
   InitializationCell->True],
-Cell[21603, 551, 186, 4, 30, "Input",
+Cell[22670, 572, 186, 4, 30, "Input",
   InitializationCell->True],
-Cell[21792, 557, 377, 7, 30, "Input",
+Cell[22859, 578, 377, 7, 30, "Input",
   InitializationCell->True],
 
 Cell[CellGroupData[{
-Cell[22194, 568, 651, 11, 150, "Input",
+Cell[23261, 589, 644, 11, 150, "Input",
   InitializationCell->True],
-Cell[22848, 581, 356, 5, 22, "Message"]
+Cell[23908, 602, 356, 5, 22, "Message"]
 }, Open  ]],
-Cell[23219, 589, 113, 2, 30, "Input",
+Cell[24279, 610, 113, 2, 30, "Input",
   InitializationCell->True],
-Cell[23335, 593, 1009, 17, 170, "Input",
+Cell[24395, 614, 1009, 17, 170, "Input",
   InitializationCell->True],
-Cell[24347, 612, 486, 8, 50, "Input",
+Cell[25407, 633, 486, 8, 50, "Input",
   InitializationCell->True],
-Cell[24836, 622, 641, 11, 170, "Input",
+Cell[25896, 643, 641, 11, 170, "Input",
   InitializationCell->True],
-Cell[25480, 635, 752, 14, 170, "Input",
+Cell[26540, 656, 752, 14, 170, "Input",
   InitializationCell->True],
-Cell[26235, 651, 941, 16, 170, "Input",
+Cell[27295, 672, 1046, 18, 170, "Input",
   InitializationCell->True],
-Cell[27179, 669, 109, 2, 30, "Input",
+Cell[28344, 692, 109, 2, 30, "Input",
   InitializationCell->True],
-Cell[27291, 673, 705, 13, 170, "Input",
+Cell[28456, 696, 705, 13, 170, "Input",
   InitializationCell->True],
-Cell[27999, 688, 2632, 49, 490, "Input",
+Cell[29164, 711, 2632, 49, 490, "Input",
   InitializationCell->True],
-Cell[30634, 739, 230, 5, 30, "Input",
+Cell[31799, 762, 230, 5, 30, "Input",
   InitializationCell->True],
-Cell[30867, 746, 264, 5, 50, "Input",
+Cell[32032, 769, 264, 5, 50, "Input",
   InitializationCell->True],
-Cell[31134, 753, 1437, 26, 190, "Input",
+Cell[32299, 776, 1437, 26, 190, "Input",
   InitializationCell->True],
-Cell[32574, 781, 233, 5, 30, "Input",
+Cell[33739, 804, 233, 5, 30, "Input",
   InitializationCell->True],
-Cell[32810, 788, 168, 3, 30, "Input",
+Cell[33975, 811, 168, 3, 30, "Input",
   InitializationCell->True],
-Cell[32981, 793, 601, 12, 110, "Input",
+Cell[34146, 816, 601, 12, 110, "Input",
   InitializationCell->True],
-Cell[33585, 807, 180, 4, 30, "Input",
+Cell[34750, 830, 180, 4, 30, "Input",
   InitializationCell->True],
-Cell[33768, 813, 114, 2, 30, "Input",
+Cell[34933, 836, 114, 2, 30, "Input",
   InitializationCell->True],
-Cell[33885, 817, 260, 5, 50, "Input",
+Cell[35050, 840, 260, 5, 50, "Input",
   InitializationCell->True],
-Cell[34148, 824, 110, 2, 30, "Input",
+Cell[35313, 847, 110, 2, 30, "Input",
   InitializationCell->True],
-Cell[34261, 828, 388, 8, 150, "Input",
+Cell[35426, 851, 388, 8, 150, "Input",
   InitializationCell->True],
-Cell[34652, 838, 421, 8, 70, "Input",
+Cell[35817, 861, 480, 9, 70, "Input",
   InitializationCell->True],
-Cell[35076, 848, 1318, 20, 190, "Input",
+Cell[36300, 872, 1395, 21, 210, "Input",
   InitializationCell->True],
-Cell[36397, 870, 161, 3, 30, "Input",
+Cell[37698, 895, 161, 3, 30, "Input",
   InitializationCell->True],
-Cell[36561, 875, 1056, 20, 190, "Input",
+Cell[37862, 900, 1056, 20, 190, "Input",
   InitializationCell->True],
-Cell[37620, 897, 71, 2, 30, "Input",
+Cell[38921, 922, 193, 3, 30, "Input",
   InitializationCell->True],
-Cell[37694, 901, 78, 2, 30, "Input",
+Cell[39117, 927, 1175, 21, 270, "Input",
   InitializationCell->True],
-Cell[37775, 905, 143, 3, 30, "Input",
+Cell[40295, 950, 71, 2, 30, "Input",
+  InitializationCell->True],
+Cell[40369, 954, 78, 2, 30, "Input",
+  InitializationCell->True],
+Cell[40450, 958, 143, 3, 30, "Input",
   InitializationCell->True]
 }, Open  ]]
 }, Open  ]]

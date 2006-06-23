@@ -66,6 +66,8 @@ FindMissingData::usage=
 ProcessKnotAtlasUploadQueue::usage=
     "ProcessKnotAtlasUploadQueue[pagename] starts processing the queue at pagename on the KnotAtlas. See the Knot Atlas page \"Upload Queues\" for further information. Options Repeat->numberOfRepeats and Timeout->numberOfSeconds can be used to control how many items will be processed, and the maximum amount of time spent on each.";
 
+CreateDataPackage;
+
 Begin["`Private`"];
 
 
@@ -95,12 +97,12 @@ ConstructInvariantRule[S_String]:=
     rule
     ]
 
+\!\(QuantumInvariantRules = {\((S_String /; StringMatchQ[S, "\<QuantumInvariant\>" ~~ __])\) \[RuleDelayed] \[IndentingNewLine]Module[{\[CapitalGamma], \[Lambda]}, \[IndentingNewLine]{\[CapitalGamma], \[Lambda]} = \(StringCases[S, "\<QuantumInvariant/\>" ~~ \(G : \(("\<A\>" | "\<B\>" | "\<C\>" | "\<D\>" | "\<E\>" | "\<F\>" | "\<G\>")\) ~~ \(n : \((DigitCharacter)\) ~~ \("\</\>" ~~ \[Lambda]__\)\)\) \[RuleDelayed] {\(globalToExpression[G]\)\_\(ToExpression[n]\), ToExpression["\<{\>" <> \[Lambda] <> "\<}\>"]}, 1]\)\[LeftDoubleBracket]1\[RightDoubleBracket]; \[IndentingNewLine]With[{\[CapitalGamma]0 = \[CapitalGamma], \[Lambda]0 = \[Lambda]}, \[IndentingNewLine]{"\<WikiPage\>" \[Rule] S, "\<KnotTheorySetter\>" \[Rule] \((\(\(Global`QuantumKnotInvariant[\[CapitalGamma]0, \(Global`Irrep[\[CapitalGamma]0]\)[\[Lambda]0]]\)[#1] = #2;\) &)\)}\[IndentingNewLine]]\[IndentingNewLine]]}\)
+
 LoadInvariantRules[pagename_String]:=
   AllInvariants=(ConstructInvariantRule/@
-          Drop[StringSplit[WikiGetPageText[pagename],"<tr>"],2])~
-      Join~{(S_String/;
-              StringMatchQ[S,
-                "QuantumInvariant"~~__])\[RuleDelayed]{"WikiPage"\[Rule]S}}
+          Drop[StringSplit[WikiGetPageText[pagename],"<tr>"],2])~Join~
+      QuantumInvariantRules
 
 LoadInvariantRules["Invariant_Definition_Table"];
 
@@ -171,9 +173,10 @@ FromKnotInfoString["infty"]=\[Infinity];
 
 InvariantNames[L_List]:=Cases[L,(S_String\[Rule]_List)\[RuleDelayed]S]
 
-InvariantRule[I_String]:=Module[{rule},rule=I/.AllInvariants;
-    If[rule===I,Print["I don't recognise the invariant "<>I<>"."];
-      Return[$Failed],rule]]
+InvariantRule[I_String]:=
+  InvariantRule[I]=Module[{rule},rule=I/.AllInvariants;
+      If[rule===I,Print["I don't recognise the invariant "<>I<>"."];
+        Return[$Failed],rule]]
 
 RetrieveInvariant[I_String,K_,"KnotTheory"]:=
   Module[{rule=InvariantRule[I],KnotTheory},
@@ -297,7 +300,7 @@ Clear[WikiPageForInvariant];
 WikiPageForInvariant[I_String]:=
   WikiPageForInvariant[I]=Module[{rule=InvariantRule[I],wikiPage},
       If[rule\[Equal]$Failed,Return[$Failed]];
-      wikiPage="WikiPage"/.(I/.AllInvariants);
+      wikiPage="WikiPage"/.rule;
       If[wikiPage==="WikiPage",
         Print["Sorry, I don't know how to store the invariant "<>I<>
             " in the Knot Atlas."];Return[$Failed]];
@@ -354,10 +357,11 @@ StoreInvariants[Dall:{{_String,_,_}...},"KnotTheoryInputString"]:=
     invariants=Union[Part[D,All,1]];
     setterFunctions=KnotTheorySetterForInvariant/@invariants;
     If[MemberQ[setterFunctions,$Failed],Return[$Failed]];
-    "#\[LeftDoubleBracket]1\[RightDoubleBracket][#\[LeftDoubleBracket]2\[RightDoubleBracket],#\[LeftDoubleBracket]3\[RightDoubleBracket]]&/@"<>
-      ToString[{KnotTheorySetterForInvariant[#\[LeftDoubleBracket]1\
-\[RightDoubleBracket]],#\[LeftDoubleBracket]2\[RightDoubleBracket],#\
-\[LeftDoubleBracket]3\[RightDoubleBracket]}&/@D,InputForm]
+    "#\[LeftDoubleBracket]1\[RightDoubleBracket][#\[LeftDoubleBracket]2\[RightDoubleBracket],#\[LeftDoubleBracket]3\[RightDoubleBracket]]&/@ {\n"<>
+      StringJoin@@((ToString[#,InputForm]<>
+                  "\n")&/@({KnotTheorySetterForInvariant[#\[LeftDoubleBracket]\
+1\[RightDoubleBracket]],#\[LeftDoubleBracket]2\[RightDoubleBracket],#\
+\[LeftDoubleBracket]3\[RightDoubleBracket]}&/@D))<>"}"
     ]
 
 ParseKnotInvariantFromURL[I_,K_,data_]:=data
@@ -478,10 +482,11 @@ globalToExpression[S_String]:=Module[{saveContext,result},
     ]
 
 ProcessKnotAtlasUploadQueueEntry[pagename_String,item_String]:=
-  StringCases[item,
-    "*\""~~invariant:ShortestMatch[__]~~
-          "\", \""~~knotset:ShortestMatch[__]~~"\""\[RuleDelayed]
-      ProcessKnotAtlasUploadQueueEntry[pagename,item,invariant,knotset]]
+  (Print[item];
+    StringCases[item,
+      "*\""~~invariant:ShortestMatch[__]~~
+            "\", \""~~knotset:ShortestMatch[__]~~"\""\[RuleDelayed]
+        ProcessKnotAtlasUploadQueueEntry[pagename,item,invariant,knotset]])
 
 validKnotSetStringPatterns={
       "All"~~("Knots"|"Links")~~"["~~DigitCharacter..~~"]",
@@ -493,6 +498,7 @@ validKnotSetStringPatterns={
           "[{"~~DigitCharacter..~~
               ", "~~DigitCharacter..~~
                   "}, "~~"Alternating"|"NonAlternating"~~"]",
+      "TorusKnots["~~DigitCharacter..~~"]",
       "Take["~~__?(StringMatchQ[#,validKnotSetStringPatterns]&)~~
           ", "~~DigitCharacter..~~"]",
       "Take["~~__?(StringMatchQ[#,validKnotSetStringPatterns]&)~~
@@ -517,6 +523,28 @@ ProcessKnotAtlasUploadQueueEntry[pagename_String,item_String,invariant_String,
       WikiSetPageText["Upload Queues Completed Work",
         WikiGetPageText["Upload Queues Completed Work"]<>"\n"<>item]];
     item
+    ]
+
+CreateDataPackage[datasetname_String,invariant_String,knotset_List]:=
+  CreateDataPackage[datasetname,{invariant},knotset]
+
+CreateDataPackage[datasetname_String,invariants:{__String},knotset_List]:=
+  Module[{filename},
+    filename=KnotTheoryDirectory[]<>"/"<>datasetname<>".m";
+    If[FileNames[datasetname<>".m",{KnotTheoryDirectory[]}]=!={},
+      Print[
+        "Warning! There's already a file called "<>filename<>
+          "\nPlease double check the name, and delete the pre-existing file if appropriate."]\
+;Return[$Failed]];
+    WriteString[filename,
+      "BeginPackage[\"KnotTheory`"<>datasetname<>"`\",{\"KnotTheory`\"}]\n"<>
+        
+        "Message[KnotTheory::loading, \""<>datasetname<>"`\"]\n"<>
+        StoreInvariants[RetrieveInvariants[invariants,knotset,"KnotAtlas"],
+          "KnotTheoryInputString"]<>
+        "\nEndPackage[]"
+      ];
+    Close[filename]
     ]
 
 End[];
