@@ -42,6 +42,8 @@ and Axel Riese's\n
 www.risc.uni-linz.ac.at/research/combinat/risc/software/qMultiSum/
 "
 
+qBinomial = QuantumGroups`qBinomial;
+
 qBinomial::usage = "
 qBinomial[n, k, q] represents the q-binomial coefficient of n and k in base
 q. For k<0 it is 0; otherwise it is\n
