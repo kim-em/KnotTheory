@@ -20,25 +20,31 @@ overwritten.
 
 
 BeginPackage[
-    "KnotTheory`QuantumKnotInvariants`",{"KnotTheory`","QuantumGroups`"}];
+    "KnotTheory`QuantumKnotInvariants`",{"KnotTheory`","QuantumGroups`",
+      "QuantumGroups`Braiding`"}];
+
+QuantumKnotInvariant::about="Quantum knot invariants are calculated using the mathematica package QuantumGroups`, written by Scott Morrison 2003-2006.";
 
 \!\(QuantumKnotInvariant::usage = \*"\"\<QuantumKnotInvariant[\[CapitalGamma], V][K][q] calculates the quantum knot invariant of the knot K in the representation V of the quantum group \[CapitalGamma]. This relies on the QuantumGroups` package, and you should look there for details of how \[CapitalGamma] and V may be specified.\n\nExamples:\n   QuantumKnotInvariant[\!\(A\_2\), Irrep[\!\(A\_2\)][{1, 0}]][Knot[5, 2]][q]\n   QuantumKnotInvariant[\!\(G\_2\), Irrep[\!\(G\_2\)][{1, 0}]\[CirclePlus]Irrep[\!\(G\_2\)][{0, 1}]][Knot[5, 2]][q]\>\""\)
 
 Begin["`Private`"]
+
+q=Global`q;
 
 ExtractMatrices[indices:{__Integer},matrices_]:=
   Extract[matrices,
     indices/.{n_/;n<0\[RuleDelayed]{2,-n},n_/;n>0\[RuleDelayed]{1,n}}]
 
 QuantumKnotInvariant[\[CapitalGamma]_,V_][K_]:=Module[{br=BR[K],n,data},
+    CreditMessage[QuantumKnotInvariant::about];
     n=br\[LeftDoubleBracket]1\[RightDoubleBracket];
     data=BraidingData[\[CapitalGamma]][V,n];
-    Function[{q},
+    Function[{q0},
       Evaluate[Expand[
-          Plus@@(#\[LeftDoubleBracket]1\[RightDoubleBracket]Tr[
-                      Dot@@ExtractMatrices[
-                          br\[LeftDoubleBracket]2\[RightDoubleBracket],#\
-\[LeftDoubleBracket]2\[RightDoubleBracket]]]&)/@data]]]
+            Plus@@(#\[LeftDoubleBracket]1\[RightDoubleBracket]Tr[
+                        Dot@@ExtractMatrices[
+                            br\[LeftDoubleBracket]2\[RightDoubleBracket],#\
+\[LeftDoubleBracket]2\[RightDoubleBracket]]]&)/@data]/.q\[Rule]q0]]
     ]
 
 End[]
