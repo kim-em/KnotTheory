@@ -95,8 +95,6 @@ ConstructInvariantRule[S_String]:=
     rule
     ]
 
-
-
 QuantumInvariantRules={
     (S_String/;StringMatchQ[S,"QuantumInvariant"~~__])\[RuleDelayed]
       Module[{\[CapitalGamma]0,\[Lambda]0,cases},
