@@ -57,8 +57,11 @@ If[!MemberQ[$Path, ParentDirectory[KnotTheoryDirectory[]]],
     AppendTo[$Path, ParentDirectory[KnotTheoryDirectory[]]]
 ]
 
-(* try to ensure WikiLink is available; add the internal copy to the $Path *)
+(* try to ensure WikiLink` is available; add the internal copy to the $Path *)
 AppendTo[$Path, ToFileName[{KnotTheoryDirectory[], "WikiLink", "mathematica"}]]
+
+(* try to ensure QuantumGroups` is available; add the internal copy to the $Path *)
+AppendTo[$Path, ToFileName[{KnotTheoryDirectory[], "QuantumGroups"}]]
 
 KnotTheoryWelcomeMessage[] = StringJoin[
   "Loading KnotTheory` version of ",
