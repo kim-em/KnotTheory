@@ -97,7 +97,33 @@ ConstructInvariantRule[S_String]:=
     rule
     ]
 
-\!\(QuantumInvariantRules = {\((S_String /; StringMatchQ[S, "\<QuantumInvariant\>" ~~ __])\) \[RuleDelayed] \[IndentingNewLine]Module[{\[CapitalGamma]0, \[Lambda]0}, \[IndentingNewLine]{\[CapitalGamma]0, \[Lambda]0} = \(StringCases[S, "\<QuantumInvariant/\>" ~~ \(G : \(("\<A\>" | "\<B\>" | "\<C\>" | "\<D\>" | "\<E\>" | "\<F\>" | "\<G\>")\) ~~ \(n : \((DigitCharacter)\) ~~ \("\</\>" ~~ \[Mu]__\)\)\) \[RuleDelayed] {\(globalToExpression["\<QuantumGroups`\>" <> G]\)\_\(ToExpression[n]\), ToExpression["\<{\>" <> \[Mu] <> "\<}\>"]}, 1]\)\[LeftDoubleBracket]1\[RightDoubleBracket]; \[IndentingNewLine]With[{\[CapitalGamma] = \[CapitalGamma]0, \[Lambda] = \[Lambda]0}, \[IndentingNewLine]{"\<WikiPage\>" \[Rule] S, \[IndentingNewLine]"\<KnotTheorySetter\>" \[Rule] \((\(\(KnotTheory`QuantumKnotInvariants`QuantumKnotInvariant[\[CapitalGamma], \(QuantumGroups`Irrep[\[CapitalGamma]]\)[\[Lambda]]]\)[#1] = Function[{q}, #2];\) &)\), \[IndentingNewLine]"\<KnotTheory\>" \[Rule] \((\(\(KnotTheory`QuantumKnotInvariants`QuantumKnotInvariant[\[CapitalGamma], \(QuantumGroups`Irrep[\[CapitalGamma]]\)[\[Lambda]]]\)[#]\)[Global`q] &)\)\[IndentingNewLine]}\[IndentingNewLine]]\[IndentingNewLine]]}\)
+QuantumInvariantRules={(S_String/;
+          StringMatchQ[S,"QuantumInvariant"~~__])\[RuleDelayed]
+      Module[{\[CapitalGamma]0,\[Lambda]0},
+        {\[CapitalGamma]0,\[Lambda]0}=
+          StringCases[
+              S,("QuantumInvariant/"~~G:("A"|"B"|"C"|"D"|"E"|"F"|"G")~~
+                      n:(DigitCharacter)~~
+                        "/"~~\[Mu]__)\[RuleDelayed]{Subscript[
+                    globalToExpression["QuantumGroups`"<>G],ToExpression[n]],
+                  ToExpression["{"<>\[Mu]<>"}"]},
+              1]\[LeftDoubleBracket]1\[RightDoubleBracket];
+        With[{\[CapitalGamma]=\[CapitalGamma]0,\[Lambda]=\[Lambda]0},
+          {"WikiPage"\[Rule]S,
+            
+            "KnotTheorySetter"\[Rule](KnotTheory`QuantumKnotInvariants`\
+QuantumKnotInvariant[\[CapitalGamma],
+                          QuantumGroups`Irrep[\[CapitalGamma]][\[Lambda]]][#1]\
+=Function[{q},#2];&),
+            
+            "KnotTheory"\[Rule](KnotTheory`QuantumKnotInvariants`\
+QuantumKnotInvariant[\[CapitalGamma],
+                        QuantumGroups`Irrep[\[CapitalGamma]][\[Lambda]]][#][
+                    Global`q]&)
+            }
+          ]
+        ]
+    }
 
 LoadInvariantRules[pagename_String]:=
   AllInvariants=(ConstructInvariantRule/@
