@@ -122,7 +122,6 @@ QuantumInvariantRules={
 QuantumKnotInvariant[\[CapitalGamma],
                             QuantumGroups`Irrep[\[CapitalGamma]][\[Lambda]]][#\
 1]=Function[{q},#2];&),
-              
               "KnotTheory"\[Rule](KnotTheory`QuantumKnotInvariants`\
 QuantumKnotInvariant[\[CapitalGamma],
                           QuantumGroups`Irrep[\[CapitalGamma]][\[Lambda]]][#][
