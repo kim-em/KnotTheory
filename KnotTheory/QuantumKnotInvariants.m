@@ -25,7 +25,11 @@ BeginPackage[
 
 QuantumKnotInvariant::about="Quantum knot invariants are calculated using the mathematica package QuantumGroups`, written by Scott Morrison 2003-2006.";
 
-\!\(QuantumKnotInvariant::usage = \*"\"\<QuantumKnotInvariant[\[CapitalGamma], V][K][q] calculates the quantum knot invariant of the knot K in the representation V of the quantum group \[CapitalGamma]. This relies on the QuantumGroups` package, and you should look there for details of how \[CapitalGamma] and V may be specified.\n\nExamples:\n   QuantumKnotInvariant[\!\(A\_2\), Irrep[\!\(A\_2\)][{1, 0}]][Knot[5, 2]][q]\n   QuantumKnotInvariant[\!\(G\_2\), Irrep[\!\(G\_2\)][{1, 0}]\[CirclePlus]Irrep[\!\(G\_2\)][{0, 1}]][Knot[5, 2]][q]\>\""\)
+QuantumKnotInvariant::usage="QuantumKnotInvariant[\[CapitalGamma], V][K][q] calculates the quantum knot invariant of the knot K in the representation V of the quantum group \[CapitalGamma]. This relies on the QuantumGroups` package, and you should look there for details of how \[CapitalGamma] and V may be specified.
+
+Examples:
+   QuantumKnotInvariant[Subscript[A,2], Irrep[Subscript[A,2]][{1, 0}]][Knot[5, 2]][q]
+   QuantumKnotInvariant[Subscript[G,2], Irrep[Subscript[G,2]][{1, 0}]\[CirclePlus]Irrep[Subscript[G,2]][{0, 1}]][Knot[5, 2]][q]"
 
 Begin["`Private`"]
 
