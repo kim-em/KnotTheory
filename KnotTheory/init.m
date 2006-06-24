@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 6, 23, 20, 3, 33.5348480};
+KnotTheoryVersion[] = {2006, 6, 24, 17, 55, 18.4679360};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -66,7 +66,7 @@ End[]; EndPackage[];
 DeclarePackage["WikiLink`", {"CreateWikiConnection","WikiGetPageText",
     "WikiGetPageTexts","WikiSetPageText","WikiSetPageTexts","WikiUploadFile",
     "WikiUserName","WikiPageMatchQ","WikiPageFreeQ","WikiStringReplace",
-    "WikiStringCases"}]
+    "WikiStringCases","WikiAllPages"}]
 (* declare the public interfaces of the ManagingKnotData subpackage *)
 DeclarePackage["KnotTheory`KnotAtlas`ManagingKnotData`",
     {"LoadInvariantRules", "InvariantDefinitionTable", "Invariants", "InvariantNames", 
