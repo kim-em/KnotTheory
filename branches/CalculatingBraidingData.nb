@@ -1,0 +1,844 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     25722,        718]*)
+(*NotebookOutlinePosition[     26368,        740]*)
+(*  CellTagsIndexPosition[     26324,        736]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+    \(\(KnotTheoryPath\  = \ \
+"\<c:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk\\\>";\)\), "\n", 
+    \(\(AppendTo[$Path, \ KnotTheoryPath];\)\), "\n", 
+    \(<< \ KnotTheory`\)}], "Input"],
+
+Cell[BoxData[
+    \("Loading KnotTheory` version of June 24, 2006, 17:55:18.4679.\nRead \
+more at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(QuantumGroupsPath\  = \ \
+"\<c:\\scott\\projects\\svn-checkouts\\QuantumGroups\\trunk\\package\\\>";\)\)\
+, "\n", 
+    \(\(AppendTo[$Path, \ QuantumGroupsPath];\)\), "\[IndentingNewLine]", 
+    \(<< QuantumGroups`\)}], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading QuantumGroups` version 2.0\n"\
+\[InvisibleSpace]"Read more at \
+http://katlas.math.toronto.edu/wiki/QuantumGroups"\),
+      SequenceForm[ 
+      "Loading QuantumGroups` version 2.0\n", 
+        "Read more at http://katlas.math.toronto.edu/wiki/QuantumGroups"],
+      Editable->False]], "Print"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(CreateWikiConnection["\<http://katlas.math.toronto.edu/w/index.php\>", \
+"\<ScottDataRobot\>", "\<foobar\>"]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(WikiUserName[]\)], "Input"],
+
+Cell[BoxData[
+    \("ScottDataRobot"\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(workItems = 
+      Sort[StringCases[WikiGetPageText["\<BraidingData_Queue\>"], 
+          line : \(("\<*Irrep[\>" ~~ \(\[CapitalGamma] : 
+                      LetterCharacter ~~ \(n : \((DigitCharacter .. )\) ~~ \
+\("\<][\>" ~~ \(\[Lambda] : \(("\<{\>" ~~ \(\((DigitCharacter ..  ~~ "\<,\>")\
+\) ...  ~~ \(DigitCharacter ..  ~~ "\<}\>"\)\))\) ~~ \("\<], \>" ~~ \(k : \
+\((DigitCharacter .. )\) ~~ \("\<, \>" ~~ 
+                                m : \((DigitCharacter .. )\)\)\)\)\)\)\)\))\) \
+\[RuleDelayed] {ToExpression[m], 
+              line, \(ToExpression[\[CapitalGamma]]\)\_\(ToExpression[n]\), 
+              ToExpression[\[Lambda]], ToExpression[k]}]]\)], "Input"],
+
+Cell[BoxData[
+    \({{20, "*Irrep[A1][{2}], 7, 20", A\_1, {2}, 7}, {20, 
+        "*Irrep[A1][{3}], 6, 20", A\_1, {3}, 6}, {20, 
+        "*Irrep[A1][{4}], 5, 20", A\_1, {4}, 5}, {20, 
+        "*Irrep[A1][{4}], 5, 20", A\_1, {4}, 5}, {20, 
+        "*Irrep[A1][{4}], 5, 20", A\_1, {4}, 5}, {20, 
+        "*Irrep[A1][{7}], 3, 20", A\_1, {7}, 3}, {20, 
+        "*Irrep[A1][{8}], 2, 20", A\_1, {8}, 2}}\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(processItem[{m_, line_, \[CapitalGamma]_, \[Lambda]_, 
+          k_}] := \[IndentingNewLine]\((Print["\<Processing \>", 
+          line]; \[IndentingNewLine]Switch[
+          WriteBraidingDataToWiki[\(Irrep[\[CapitalGamma]]\)[\[Lambda]], k, 
+            m*10\^6], \[IndentingNewLine]$Aborted, 
+          WikiStringReplace["\<BraidingData_Queue\>", 
+            line \[RuleDelayed] 
+              StringReplace[line, 
+                ToString[m] \[RuleDelayed] 
+                  ToString[m + 100]]], \[IndentingNewLine]True, 
+          WikiStringReplace["\<BraidingData_Queue\>", 
+            line \[RuleDelayed] "\<\>"]; 
+          WikiSetPageText["\<BraidingData_Completed\>", 
+            WikiGetPageText["\<BraidingData_Completed\>"] <> 
+              line], \[IndentingNewLine]_, 
+          WikiStringReplace["\<BraidingData_Queue\>", 
+            line \[RuleDelayed] 
+              StringReplace[
+                line, "\<*\>" \[RuleDelayed] "\<** broken:\>"]]])\)\)], \
+"Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(LoadAllBraidingDataFromWiki[]\)], "Input"],
+
+Cell[BoxData[
+    \("Looking at: \
+http://katlas.math.toronto.edu/w/index.php?title=Special%3AAllpages&from=\
+Braiding&namespace=100"\)], "Print"],
+
+Cell[BoxData[
+    \("Found 53 more pages."\)], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{1}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {1}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{1}]\^"\[CircleTimes]3"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {1}], "\[CircleTimes]3"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{1}]\^"\[CircleTimes]4"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {1}], "\[CircleTimes]4"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{1}]\^"\[CircleTimes]5"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {1}], "\[CircleTimes]5"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{1}]\^"\[CircleTimes]6"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {1}], "\[CircleTimes]6"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{1}]\^"\[CircleTimes]7"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {1}], "\[CircleTimes]7"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{2}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {2}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{2}]\^"\[CircleTimes]3"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {2}], "\[CircleTimes]3"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{2}]\^"\[CircleTimes]4"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {2}], "\[CircleTimes]4"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{2}]\^"\[CircleTimes]5"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {2}], "\[CircleTimes]5"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{2}]\^"\[CircleTimes]6"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {2}], "\[CircleTimes]6"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{3}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {3}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{3}]\^"\[CircleTimes]3"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {3}], "\[CircleTimes]3"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{3}]\^"\[CircleTimes]4"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {3}], "\[CircleTimes]4"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{4}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {4}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{4}]\^"\[CircleTimes]3"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {4}], "\[CircleTimes]3"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{4}]\^"\[CircleTimes]4"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {4}], "\[CircleTimes]4"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{5}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {5}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{5}]\^"\[CircleTimes]3"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {5}], "\[CircleTimes]3"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{6}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {6}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{6}]\^"\[CircleTimes]3"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {6}], "\[CircleTimes]3"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{7}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {7}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_1]\)[{8}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 1]][ {8}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_2]\)[{1, 0}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 2]][ {1, 0}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_2]\)[{1, 0}]\^"\[CircleTimes]3"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 2]][ {1, 0}], "\[CircleTimes]3"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_2]\)[{1, 0}]\^"\[CircleTimes]4"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 2]][ {1, 0}], "\[CircleTimes]4"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_2]\)[{1, 0}]\^"\[CircleTimes]5"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 2]][ {1, 0}], "\[CircleTimes]5"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_2]\)[{1, 1}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 2]][ {1, 1}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_2]\)[{1, 1}]\^"\[CircleTimes]3"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 2]][ {1, 1}], "\[CircleTimes]3"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_2]\)[{2, 0}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 2]][ {2, 0}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_2]\)[{2, 0}]\^"\[CircleTimes]3"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 2]][ {2, 0}], "\[CircleTimes]3"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_3]\)[{0, 1, 0}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 3]][ {0, 1, 0}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_3]\)[{0, 1, 0}]\^"\[CircleTimes]3"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 3]][ {0, 1, 0}], "\[CircleTimes]3"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_3]\)[{1, 0, 0}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 3]][ {1, 0, 0}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_3]\)[{1, 0, 0}]\^"\[CircleTimes]3"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 3]][ {1, 0, 0}], "\[CircleTimes]3"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_3]\)[{1, 0, 0}]\^"\[CircleTimes]4"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 3]][ {1, 0, 0}], "\[CircleTimes]4"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_3]\)[{1, 0, 0}]\^"\[CircleTimes]5"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 3]][ {1, 0, 0}], "\[CircleTimes]5"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_3]\)[{1, 0, 1}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 3]][ {1, 0, 1}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_3]\)[{1, 0, 1}]\^"\[CircleTimes]3"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 3]][ {1, 0, 1}], "\[CircleTimes]3"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_4]\)[{0, 1, 0, 0}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 4]][ {0, 1, 0, 0}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_4]\)[{0, 1, 0, 0}]\^"\[CircleTimes]3"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 4]][ {0, 1, 0, 0}], "\[CircleTimes]3"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[A\_4]\)[{1, 0, 0, 0}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ A, 4]][ {1, 0, 0, 0}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[B\_2]\)[{0, 1}]\^"\[CircleTimes]3"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ B, 2]][ {0, 1}], "\[CircleTimes]3"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[B\_2]\)[{1, 0}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ B, 2]][ {1, 0}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[B\_2]\)[{1, 0}]\^"\[CircleTimes]3"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ B, 2]][ {1, 0}], "\[CircleTimes]3"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[B\_2]\)[{1, 0}]\^"\[CircleTimes]4"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ B, 2]][ {1, 0}], "\[CircleTimes]4"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[D\_4]\)[{0, 1, 0, 0}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ D, 4]][ {0, 1, 0, 0}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[D\_4]\)[{1, 0, 0, 0}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ D, 4]][ {1, 0, 0, 0}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[D\_4]\)[{1, 0, 0, 0}]\^"\[CircleTimes]3"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ D, 4]][ {1, 0, 0, 0}], "\[CircleTimes]3"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[G\_2]\)[{0, 1}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ G, 2]][ {0, 1}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[G\_2]\)[{1, 0}]\^"\[CircleTimes]2"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ G, 2]][ {1, 0}], "\[CircleTimes]2"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[G\_2]\)[{1, 0}]\^"\[CircleTimes]3"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ G, 2]][ {1, 0}], "\[CircleTimes]3"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading braiding data for \
+"\[InvisibleSpace]\(Irrep[G\_2]\)[{1, 0}]\^"\[CircleTimes]4"\),
+      SequenceForm[ "Loading braiding data for ", 
+        Power[ 
+          Irrep[ 
+            Subscript[ G, 2]][ {1, 0}], "\[CircleTimes]4"]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    \({{\(Irrep[A\_1]\)[{1}], 2}, {\(Irrep[A\_1]\)[{1}], 
+        3}, {\(Irrep[A\_1]\)[{1}], 4}, {\(Irrep[A\_1]\)[{1}], 
+        5}, {\(Irrep[A\_1]\)[{1}], 6}, {\(Irrep[A\_1]\)[{1}], 
+        7}, {\(Irrep[A\_1]\)[{2}], 2}, {\(Irrep[A\_1]\)[{2}], 
+        3}, {\(Irrep[A\_1]\)[{2}], 4}, {\(Irrep[A\_1]\)[{2}], 
+        5}, {\(Irrep[A\_1]\)[{2}], 6}, {\(Irrep[A\_1]\)[{3}], 
+        2}, {\(Irrep[A\_1]\)[{3}], 3}, {\(Irrep[A\_1]\)[{3}], 
+        4}, {\(Irrep[A\_1]\)[{4}], 2}, {\(Irrep[A\_1]\)[{4}], 
+        3}, {\(Irrep[A\_1]\)[{4}], 4}, {\(Irrep[A\_1]\)[{5}], 
+        2}, {\(Irrep[A\_1]\)[{5}], 3}, {\(Irrep[A\_1]\)[{6}], 
+        2}, {\(Irrep[A\_1]\)[{6}], 3}, {\(Irrep[A\_1]\)[{7}], 
+        2}, {\(Irrep[A\_1]\)[{8}], 2}, {\(Irrep[A\_2]\)[{1, 0}], 
+        2}, {\(Irrep[A\_2]\)[{1, 0}], 3}, {\(Irrep[A\_2]\)[{1, 0}], 
+        4}, {\(Irrep[A\_2]\)[{1, 0}], 5}, {\(Irrep[A\_2]\)[{1, 1}], 
+        2}, {\(Irrep[A\_2]\)[{1, 1}], 3}, {\(Irrep[A\_2]\)[{2, 0}], 
+        2}, {\(Irrep[A\_2]\)[{2, 0}], 3}, {\(Irrep[A\_3]\)[{0, 1, 0}], 
+        2}, {\(Irrep[A\_3]\)[{0, 1, 0}], 3}, {\(Irrep[A\_3]\)[{1, 0, 0}], 
+        2}, {\(Irrep[A\_3]\)[{1, 0, 0}], 3}, {\(Irrep[A\_3]\)[{1, 0, 0}], 
+        4}, {\(Irrep[A\_3]\)[{1, 0, 0}], 5}, {\(Irrep[A\_3]\)[{1, 0, 1}], 
+        2}, {\(Irrep[A\_3]\)[{1, 0, 1}], 3}, {\(Irrep[A\_4]\)[{0, 1, 0, 0}], 
+        2}, {\(Irrep[A\_4]\)[{0, 1, 0, 0}], 
+        3}, {\(Irrep[A\_4]\)[{1, 0, 0, 0}], 2}, {\(Irrep[B\_2]\)[{0, 1}], 
+        3}, {\(Irrep[B\_2]\)[{1, 0}], 2}, {\(Irrep[B\_2]\)[{1, 0}], 
+        3}, {\(Irrep[B\_2]\)[{1, 0}], 4}, {\(Irrep[D\_4]\)[{0, 1, 0, 0}], 
+        2}, {\(Irrep[D\_4]\)[{1, 0, 0, 0}], 
+        2}, {\(Irrep[D\_4]\)[{1, 0, 0, 0}], 3}, {\(Irrep[G\_2]\)[{0, 1}], 
+        2}, {\(Irrep[G\_2]\)[{1, 0}], 2}, {\(Irrep[G\_2]\)[{1, 0}], 
+        3}, {\(Irrep[G\_2]\)[{1, 0}], 4}}\)], "Output"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(processItem /@ workItems\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{2}], 7, \
+20"\),
+      SequenceForm[ "Processing ", "*Irrep[A1][{2}], 7, 20"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Aborted because the calculation exceeded the current \
+memory limit: "\[InvisibleSpace]20000000\),
+      SequenceForm[ 
+      "Aborted because the calculation exceeded the current memory limit: ", 
+        20000000],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{3}], 6, \
+20"\),
+      SequenceForm[ "Processing ", "*Irrep[A1][{3}], 6, 20"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Aborted because the calculation exceeded the current \
+memory limit: "\[InvisibleSpace]20000000\),
+      SequenceForm[ 
+      "Aborted because the calculation exceeded the current memory limit: ", 
+        20000000],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{4}], 5, \
+20"\),
+      SequenceForm[ "Processing ", "*Irrep[A1][{4}], 5, 20"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Aborted because the calculation exceeded the current \
+memory limit: "\[InvisibleSpace]20000000\),
+      SequenceForm[ 
+      "Aborted because the calculation exceeded the current memory limit: ", 
+        20000000],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{4}], 5, \
+20"\),
+      SequenceForm[ "Processing ", "*Irrep[A1][{4}], 5, 20"],
+      Editable->False]], "Print"]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 713}},
+WindowSize->{1170, 589},
+WindowMargins->{{24, Automatic}, {Automatic, 30}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 212, 4, 70, "Input"],
+Cell[1991, 59, 159, 2, 44, "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2187, 66, 250, 5, 70, "Input"],
+Cell[2440, 73, 341, 7, 44, "Print"]
+}, Open  ]],
+Cell[2796, 83, 141, 2, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[2962, 89, 47, 1, 30, "Input"],
+Cell[3012, 92, 50, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3099, 98, 694, 11, 131, "Input"],
+Cell[3796, 111, 410, 7, 67, "Output"]
+}, Open  ]],
+Cell[4221, 121, 1005, 20, 153, "Input"],
+
+Cell[CellGroupData[{
+Cell[5251, 145, 62, 1, 30, "Input"],
+Cell[5316, 148, 146, 3, 25, "Print"],
+Cell[5465, 153, 55, 1, 25, "Print"],
+Cell[5523, 156, 304, 7, 25, "Print"],
+Cell[5830, 165, 304, 7, 25, "Print"],
+Cell[6137, 174, 304, 7, 25, "Print"],
+Cell[6444, 183, 304, 7, 25, "Print"],
+Cell[6751, 192, 304, 7, 25, "Print"],
+Cell[7058, 201, 304, 7, 25, "Print"],
+Cell[7365, 210, 304, 7, 25, "Print"],
+Cell[7672, 219, 304, 7, 25, "Print"],
+Cell[7979, 228, 304, 7, 25, "Print"],
+Cell[8286, 237, 304, 7, 25, "Print"],
+Cell[8593, 246, 304, 7, 25, "Print"],
+Cell[8900, 255, 304, 7, 25, "Print"],
+Cell[9207, 264, 304, 7, 25, "Print"],
+Cell[9514, 273, 304, 7, 25, "Print"],
+Cell[9821, 282, 304, 7, 25, "Print"],
+Cell[10128, 291, 304, 7, 25, "Print"],
+Cell[10435, 300, 304, 7, 25, "Print"],
+Cell[10742, 309, 304, 7, 25, "Print"],
+Cell[11049, 318, 304, 7, 25, "Print"],
+Cell[11356, 327, 304, 7, 25, "Print"],
+Cell[11663, 336, 304, 7, 25, "Print"],
+Cell[11970, 345, 304, 7, 25, "Print"],
+Cell[12277, 354, 304, 7, 25, "Print"],
+Cell[12584, 363, 310, 7, 25, "Print"],
+Cell[12897, 372, 310, 7, 25, "Print"],
+Cell[13210, 381, 310, 7, 25, "Print"],
+Cell[13523, 390, 310, 7, 25, "Print"],
+Cell[13836, 399, 310, 7, 25, "Print"],
+Cell[14149, 408, 310, 7, 25, "Print"],
+Cell[14462, 417, 310, 7, 25, "Print"],
+Cell[14775, 426, 310, 7, 25, "Print"],
+Cell[15088, 435, 316, 7, 25, "Print"],
+Cell[15407, 444, 316, 7, 25, "Print"],
+Cell[15726, 453, 316, 7, 25, "Print"],
+Cell[16045, 462, 316, 7, 25, "Print"],
+Cell[16364, 471, 316, 7, 25, "Print"],
+Cell[16683, 480, 316, 7, 25, "Print"],
+Cell[17002, 489, 316, 7, 25, "Print"],
+Cell[17321, 498, 316, 7, 25, "Print"],
+Cell[17640, 507, 322, 7, 25, "Print"],
+Cell[17965, 516, 322, 7, 25, "Print"],
+Cell[18290, 525, 322, 7, 25, "Print"],
+Cell[18615, 534, 310, 7, 25, "Print"],
+Cell[18928, 543, 310, 7, 25, "Print"],
+Cell[19241, 552, 310, 7, 25, "Print"],
+Cell[19554, 561, 310, 7, 25, "Print"],
+Cell[19867, 570, 322, 7, 25, "Print"],
+Cell[20192, 579, 322, 7, 25, "Print"],
+Cell[20517, 588, 322, 7, 25, "Print"],
+Cell[20842, 597, 310, 7, 25, "Print"],
+Cell[21155, 606, 310, 7, 25, "Print"],
+Cell[21468, 615, 310, 7, 25, "Print"],
+Cell[21781, 624, 310, 7, 25, "Print"],
+Cell[22094, 633, 1858, 28, 181, "Output"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[23989, 666, 57, 1, 27, "Input"],
+Cell[24049, 669, 193, 4, 25, "Print"],
+Cell[24245, 675, 289, 6, 25, "Print"],
+Cell[24537, 683, 193, 4, 25, "Print"],
+Cell[24733, 689, 289, 6, 25, "Print"],
+Cell[25025, 697, 193, 4, 25, "Print"],
+Cell[25221, 703, 289, 6, 25, "Print"],
+Cell[25513, 711, 193, 4, 25, "Print"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
