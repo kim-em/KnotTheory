@@ -336,6 +336,9 @@ StoreInvariants[Dall:{{_String,_,_}...},"KnotAtlas",opts___]:=
               NameString[#\[LeftDoubleBracket]2\[RightDoubleBracket]]<>"/"<>
               WikiPageForInvariant[#\[LeftDoubleBracket]1\[RightDoubleBracket]\
 ],ToString[#\[LeftDoubleBracket]3\[RightDoubleBracket],WikiForm]}&/@D;
+    If[!FreeQ[uploadPairs,$Failed],
+      Print["Warning: tried to upload bad data -- "];Print[uploadPairs];
+      Return[$Failed]];
     If[Write/.{opts}/.Options[StoreInvariants],WikiSetPageTexts[uploadPairs],
       uploadPairs]]
 
