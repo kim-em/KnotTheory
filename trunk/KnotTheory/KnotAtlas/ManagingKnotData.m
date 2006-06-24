@@ -118,14 +118,14 @@ QuantumInvariantRules={
                   "{"<>cases\[LeftDoubleBracket]1,3\[RightDoubleBracket]<>
                     "}"]},
             {"WikiPage"\[Rule]S,
-              "KnotTheorySetter"\[Rule](KnotTheory`QuantumKnotInvariants`\
-QuantumKnotInvariant[\[CapitalGamma],
-                            QuantumGroups`Irrep[\[CapitalGamma]][\[Lambda]]][#\
-1]=Function[{q},#2];&),
-              "KnotTheory"\[Rule](KnotTheory`QuantumKnotInvariants`\
-QuantumKnotInvariant[\[CapitalGamma],
-                          QuantumGroups`Irrep[\[CapitalGamma]][\[Lambda]]][#][
-                      Global`q]&)
+              "KnotTheorySetter"\[Rule]Function[{K,p},
+                  KnotTheory`QuantumKnotInvariants`QuantumKnotInvariant[\
+\[CapitalGamma],QuantumGroups`Irrep[\[CapitalGamma]][\[Lambda]]][K]=
+                        Function[{q},p];&],
+              "KnotTheory"\[Rule]Function[{K},
+                  KnotTheory`QuantumKnotInvariants`QuantumKnotInvariant[\
+\[CapitalGamma],QuantumGroups`Irrep[\[CapitalGamma]][\[Lambda]]][K][
+                    Global`q]]
               }
             ]
           ]
