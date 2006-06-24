@@ -110,12 +110,10 @@ QuantumInvariantRules={(S_String/;
               1]\[LeftDoubleBracket]1\[RightDoubleBracket];
         With[{\[CapitalGamma]=\[CapitalGamma]0,\[Lambda]=\[Lambda]0},
           {"WikiPage"\[Rule]S,
-            
             "KnotTheorySetter"\[Rule](KnotTheory`QuantumKnotInvariants`\
 QuantumKnotInvariant[\[CapitalGamma],
                           QuantumGroups`Irrep[\[CapitalGamma]][\[Lambda]]][#1]\
 =Function[{q},#2];&),
-            
             "KnotTheory"\[Rule](KnotTheory`QuantumKnotInvariants`\
 QuantumKnotInvariant[\[CapitalGamma],
                         QuantumGroups`Irrep[\[CapitalGamma]][\[Lambda]]][#][
