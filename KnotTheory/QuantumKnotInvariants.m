@@ -41,10 +41,11 @@ QuantumKnotInvariant[\[CapitalGamma]_,V_][K_]:=Module[{br=BR[K],n,data},
     data=BraidingData[\[CapitalGamma]][V,n];
     Function[{q0},
       Evaluate[Expand[
-            Plus@@(#\[LeftDoubleBracket]1\[RightDoubleBracket]Tr[
-                        Dot@@ExtractMatrices[
-                            br\[LeftDoubleBracket]2\[RightDoubleBracket],#\
-\[LeftDoubleBracket]2\[RightDoubleBracket]]]&)/@data]/.q\[Rule]q0]]
+          Together[
+              Plus@@(#\[LeftDoubleBracket]1\[RightDoubleBracket]Tr[
+                          Dot@@ExtractMatrices[
+                              br\[LeftDoubleBracket]2\[RightDoubleBracket],#\
+\[LeftDoubleBracket]2\[RightDoubleBracket]]]&)/@data]/.q\[Rule]q0]]]
     ]
 
 End[]

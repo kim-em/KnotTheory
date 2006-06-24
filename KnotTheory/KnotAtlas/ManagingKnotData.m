@@ -97,7 +97,7 @@ ConstructInvariantRule[S_String]:=
     rule
     ]
 
-\!\(QuantumInvariantRules = {\((S_String /; StringMatchQ[S, "\<QuantumInvariant\>" ~~ __])\) \[RuleDelayed] \[IndentingNewLine]Module[{\[CapitalGamma], \[Lambda]}, \[IndentingNewLine]{\[CapitalGamma], \[Lambda]} = \(StringCases[S, "\<QuantumInvariant/\>" ~~ \(G : \(("\<A\>" | "\<B\>" | "\<C\>" | "\<D\>" | "\<E\>" | "\<F\>" | "\<G\>")\) ~~ \(n : \((DigitCharacter)\) ~~ \("\</\>" ~~ \[Lambda]__\)\)\) \[RuleDelayed] {\(globalToExpression[G]\)\_\(ToExpression[n]\), ToExpression["\<{\>" <> \[Lambda] <> "\<}\>"]}, 1]\)\[LeftDoubleBracket]1\[RightDoubleBracket]; \[IndentingNewLine]With[{\[CapitalGamma]0 = \[CapitalGamma], \[Lambda]0 = \[Lambda]}, \[IndentingNewLine]{"\<WikiPage\>" \[Rule] S, "\<KnotTheorySetter\>" \[Rule] \((\(\(Global`QuantumKnotInvariant[\[CapitalGamma]0, \(Global`Irrep[\[CapitalGamma]0]\)[\[Lambda]0]]\)[#1] = #2;\) &)\)}\[IndentingNewLine]]\[IndentingNewLine]]}\)
+\!\(QuantumInvariantRules = {\((S_String /; StringMatchQ[S, "\<QuantumInvariant\>" ~~ __])\) \[RuleDelayed] \[IndentingNewLine]Module[{\[CapitalGamma]0, \[Lambda]0}, \[IndentingNewLine]{\[CapitalGamma]0, \[Lambda]0} = \(StringCases[S, "\<QuantumInvariant/\>" ~~ \(G : \(("\<A\>" | "\<B\>" | "\<C\>" | "\<D\>" | "\<E\>" | "\<F\>" | "\<G\>")\) ~~ \(n : \((DigitCharacter)\) ~~ \("\</\>" ~~ \[Mu]__\)\)\) \[RuleDelayed] {\(globalToExpression["\<QuantumGroups`\>" <> G]\)\_\(ToExpression[n]\), ToExpression["\<{\>" <> \[Mu] <> "\<}\>"]}, 1]\)\[LeftDoubleBracket]1\[RightDoubleBracket]; \[IndentingNewLine]With[{\[CapitalGamma] = \[CapitalGamma]0, \[Lambda] = \[Lambda]0}, \[IndentingNewLine]{"\<WikiPage\>" \[Rule] S, \[IndentingNewLine]"\<KnotTheorySetter\>" \[Rule] \((\(\(KnotTheory`QuantumKnotInvariants`QuantumKnotInvariant[\[CapitalGamma], \(QuantumGroups`Irrep[\[CapitalGamma]]\)[\[Lambda]]]\)[#1] = Function[{q}, #2];\) &)\), \[IndentingNewLine]"\<KnotTheory\>" \[Rule] \((\(\(KnotTheory`QuantumKnotInvariants`QuantumKnotInvariant[\[CapitalGamma], \(QuantumGroups`Irrep[\[CapitalGamma]]\)[\[Lambda]]]\)[#]\)[Global`q] &)\)\[IndentingNewLine]}\[IndentingNewLine]]\[IndentingNewLine]]}\)
 
 LoadInvariantRules[pagename_String]:=
   AllInvariants=(ConstructInvariantRule/@
@@ -468,8 +468,17 @@ randomEntry[list_]:=
 randomEntry[list_/;Length[list]\[Equal]0]:=Null
 
 ProcessKnotAtlasUploadQueue[pagename_String,contents_String]:=
-  ProcessKnotAtlasUploadQueueEntry[pagename,
-    randomEntry[StringSplit[contents,StringExpression[EndOfLine]]]]
+  Module[{item,result},
+    result=
+      ProcessKnotAtlasUploadQueueEntry[pagename,
+        item=randomEntry[StringSplit[contents,StringExpression[EndOfLine]]]];
+    If[result\[Equal]$Failed,
+      WikiStringReplace[pagename,item~~EndOfLine\[Rule]""];
+      WikiSetPageText["Upload Queues Rejected Items",
+        WikiGetPageText["Upload Queues Rejected Items"]<>"\n"<>item]
+      ];
+    result
+    ]
 
 ProcessKnotAtlasUploadQueueEntry[_,Null]:=Null
 
@@ -482,29 +491,44 @@ globalToExpression[S_String]:=Module[{saveContext,result},
     ]
 
 ProcessKnotAtlasUploadQueueEntry[pagename_String,item_String]:=
-  (Print[item];
-    StringCases[item,
-      "*\""~~invariant:ShortestMatch[__]~~
-            "\", \""~~knotset:ShortestMatch[__]~~"\""\[RuleDelayed]
-        ProcessKnotAtlasUploadQueueEntry[pagename,item,invariant,knotset]])
+  Module[{cases},
+    cases=
+      StringCases[item,
+        "*\""~~invariant:ShortestMatch[__]~~
+              "\", \""~~knotset:ShortestMatch[__]~~
+                  "\""\[RuleDelayed]{invariant,knotset}];
+    If[Length[cases]\[Equal]0,Return[$Failed]];
+    ProcessKnotAtlasUploadQueueEntry[pagename,
+          item,#\[LeftDoubleBracket]1\[RightDoubleBracket],#\
+\[LeftDoubleBracket]2\[RightDoubleBracket]]&/@cases
+    ]
 
-validKnotSetStringPatterns={
-      "All"~~("Knots"|"Links")~~"["~~DigitCharacter..~~"]",
-      "All"~~("Knots"|"Links")~~
-          "["~~DigitCharacter..~~", "~~"Alternating"|"NonAlternating"~~"]",
-      "All"~~("Knots"|"Links")~~
-          "[{"~~DigitCharacter..~~", "~~DigitCharacter..~~"}]",
-      "All"~~("Knots"|"Links")~~
-          "[{"~~DigitCharacter..~~
-              ", "~~DigitCharacter..~~
-                  "}, "~~"Alternating"|"NonAlternating"~~"]",
-      "TorusKnots["~~DigitCharacter..~~"]",
-      "Take["~~__?(StringMatchQ[#,validKnotSetStringPatterns]&)~~
-          ", "~~DigitCharacter..~~"]",
-      "Take["~~__?(StringMatchQ[#,validKnotSetStringPatterns]&)~~
-          ", "~~"{"~~("-"|"")~~
-                DigitCharacter..~~", "~~("-"|"")~~DigitCharacter..~~"}"~~"]"
-      };
+commaSpaces=","~~" "...;
+
+validKnotSetStringPatterns=Alternatives@@{
+        "All"~~("Knots"|"Links")~~"["~~DigitCharacter..~~"]",
+        "All"~~("Knots"|"Links")~~
+            "["~~DigitCharacter..~~
+                commaSpaces~~"Alternating"|"NonAlternating"~~"]",
+        "All"~~("Knots"|"Links")~~
+            "[{"~~DigitCharacter..~~commaSpaces~~DigitCharacter..~~"}]",
+        "All"~~("Knots"|"Links")~~
+            "[{"~~DigitCharacter..~~
+                commaSpaces~~
+                  DigitCharacter..~~
+                    "}"~~commaSpaces~~"Alternating"|"NonAlternating"~~"]",
+        "TorusKnots["~~DigitCharacter..~~"]",
+        "Select["~~(s1__/;knotsetStringSanityCheck[s1])~~
+            commaSpaces~~
+              "First[BR[#]]"~~("<"|"=")~~"="~~DigitCharacter..~~"&]",
+        "Take["~~(s2__/;knotsetStringSanityCheck[s2])~~
+            commaSpaces~~DigitCharacter..~~"]",
+        "Take["~~(s3__/;knotsetStringSanityCheck[s3])~~
+            commaSpaces~~
+              "{"~~("-"|"")~~
+                  DigitCharacter..~~
+                    commaSpaces~~("-"|"")~~DigitCharacter..~~"}"~~"]"
+        };
 
 knotsetStringSanityCheck[knotset_String]:=
   StringMatchQ[knotset,validKnotSetStringPatterns]
@@ -552,3 +576,4 @@ End[];
 EndPackage[];
 
 (*</pre>[[Category:Source Code]]*)
+
