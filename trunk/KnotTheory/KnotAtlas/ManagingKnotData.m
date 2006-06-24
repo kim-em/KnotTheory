@@ -117,7 +117,16 @@ QuantumInvariantRules={
                 ToExpression[
                   "{"<>cases\[LeftDoubleBracket]1,3\[RightDoubleBracket]<>
                     "}"]},
-            {"WikiPage"\[Rule]S
+            {"WikiPage"\[Rule]S,
+              "KnotTheorySetter"\[Rule](KnotTheory`QuantumKnotInvariants`\
+QuantumKnotInvariant[\[CapitalGamma],
+                            QuantumGroups`Irrep[\[CapitalGamma]][\[Lambda]]][#\
+1]=Function[{q},#2];&),
+              
+              "KnotTheory"\[Rule](KnotTheory`QuantumKnotInvariants`\
+QuantumKnotInvariant[\[CapitalGamma],
+                          QuantumGroups`Irrep[\[CapitalGamma]][\[Lambda]]][#][
+                      Global`q]&)
               }
             ]
           ]
