@@ -84,7 +84,7 @@ End[]; EndPackage[];
 DeclarePackage["WikiLink`", {"CreateWikiConnection","WikiGetPageText",
     "WikiGetPageTexts","WikiSetPageText","WikiSetPageTexts","WikiUploadFile",
     "WikiUserName","WikiPageMatchQ","WikiPageFreeQ","WikiStringReplace",
-    "WikiStringCases"}]
+    "WikiStringCases","WikiAllPages"}]
 
 (* declare the public interfaces of the ManagingKnotData subpackage *)
 DeclarePackage["KnotTheory`KnotAtlas`ManagingKnotData`",
