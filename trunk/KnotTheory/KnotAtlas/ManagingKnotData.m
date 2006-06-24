@@ -99,8 +99,7 @@ ConstructInvariantRule[S_String]:=
 
 QuantumInvariantRules={(S_String/;
           StringMatchQ[S,"QuantumInvariant"~~__])\[RuleDelayed]
-      Module[{\[CapitalGamma]0,\[Lambda]0},
-        {\[CapitalGamma]0,\[Lambda]0}=
+      Module[{\[CapitalGamma]0,\[Lambda]0},{\[CapitalGamma]0,\[Lambda]0}=
           StringCases[
               S,("QuantumInvariant/"~~G:("A"|"B"|"C"|"D"|"E"|"F"|"G")~~
                       n:(DigitCharacter)~~
@@ -108,8 +107,8 @@ QuantumInvariantRules={(S_String/;
                     globalToExpression["QuantumGroups`"<>G],ToExpression[n]],
                   ToExpression["{"<>\[Mu]<>"}"]},
               1]\[LeftDoubleBracket]1\[RightDoubleBracket];
-        With[{\[CapitalGamma]=\[CapitalGamma]0,\[Lambda]=\[Lambda]0},
-          {"WikiPage"\[Rule]S,
+        With[{\[CapitalGamma]=\[CapitalGamma]0,\[Lambda]=\[Lambda]0},{\
+"WikiPage"\[Rule]S,
             "KnotTheorySetter"\[Rule](KnotTheory`QuantumKnotInvariants`\
 QuantumKnotInvariant[\[CapitalGamma],
                           QuantumGroups`Irrep[\[CapitalGamma]][\[Lambda]]][#1]\
@@ -117,11 +116,7 @@ QuantumKnotInvariant[\[CapitalGamma],
             "KnotTheory"\[Rule](KnotTheory`QuantumKnotInvariants`\
 QuantumKnotInvariant[\[CapitalGamma],
                         QuantumGroups`Irrep[\[CapitalGamma]][\[Lambda]]][#][
-                    Global`q]&)
-            }
-          ]
-        ]
-    }
+                    Global`q]&)}]]}
 
 LoadInvariantRules[pagename_String]:=
   AllInvariants=(ConstructInvariantRule/@
