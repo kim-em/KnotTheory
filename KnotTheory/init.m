@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 6, 23, 18, 36, 33.2050784};
+KnotTheoryVersion[] = {2006, 6, 23, 20, 3, 33.5348480};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -45,8 +45,10 @@ KnotTheoryDirectory[] = (
 If[!MemberQ[$Path, ParentDirectory[KnotTheoryDirectory[]]],
     AppendTo[$Path, ParentDirectory[KnotTheoryDirectory[]]]
 ]
-(* try to ensure WikiLink is available; add the internal copy to the $Path *)
+(* try to ensure WikiLink` is available; add the internal copy to the $Path *)
 AppendTo[$Path, ToFileName[{KnotTheoryDirectory[], "WikiLink", "mathematica"}]]
+(* try to ensure QuantumGroups` is available; add the internal copy to the $Path *)
+AppendTo[$Path, ToFileName[{KnotTheoryDirectory[], "QuantumGroups"}]]
 KnotTheoryWelcomeMessage[] = StringJoin[
   "Loading KnotTheory` version of ",
   KnotTheoryVersionString[],
