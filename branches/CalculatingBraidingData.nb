@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     25722,        718]*)
-(*NotebookOutlinePosition[     26368,        740]*)
-(*  CellTagsIndexPosition[     26324,        736]*)
+(*NotebookOptionsPosition[     27436,        768]*)
+(*NotebookOutlinePosition[     28082,        790]*)
+(*  CellTagsIndexPosition[     28038,        786]*)
 (*WindowFrame->Normal*)
 
 
@@ -121,8 +121,8 @@ Cell[BoxData[
 
 Cell[BoxData[
     \(processItem[{m_, line_, \[CapitalGamma]_, \[Lambda]_, 
-          k_}] := \[IndentingNewLine]\((Print["\<Processing \>", 
-          line]; \[IndentingNewLine]Switch[
+          k_}] := \[IndentingNewLine]\((Print["\<Processing \>", line]; 
+        Share[]; \[IndentingNewLine]Switch[
           WriteBraidingDataToWiki[\(Irrep[\[CapitalGamma]]\)[\[Lambda]], k, 
             m*10\^6], \[IndentingNewLine]$Aborted, 
           WikiStringReplace["\<BraidingData_Queue\>", 
@@ -713,7 +713,57 @@ Cell[BoxData[
     InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{4}], 5, \
 20"\),
       SequenceForm[ "Processing ", "*Irrep[A1][{4}], 5, 20"],
-      Editable->False]], "Print"]
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Aborted because the calculation exceeded the current \
+memory limit: "\[InvisibleSpace]20000000\),
+      SequenceForm[ 
+      "Aborted because the calculation exceeded the current memory limit: ", 
+        20000000],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{4}], 5, \
+20"\),
+      SequenceForm[ "Processing ", "*Irrep[A1][{4}], 5, 20"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Aborted because the calculation exceeded the current \
+memory limit: "\[InvisibleSpace]20000000\),
+      SequenceForm[ 
+      "Aborted because the calculation exceeded the current memory limit: ", 
+        20000000],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{7}], 3, \
+20"\),
+      SequenceForm[ "Processing ", "*Irrep[A1][{7}], 3, 20"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Aborted because the calculation exceeded the current \
+memory limit: "\[InvisibleSpace]20000000\),
+      SequenceForm[ 
+      "Aborted because the calculation exceeded the current memory limit: ", 
+        20000000],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{8}], 2, \
+20"\),
+      SequenceForm[ "Processing ", "*Irrep[A1][{8}], 2, 20"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    \(QuantumGroups::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \
+\!\(\"QuantumGroups`Data`A1`BraidingData`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \({True, True, True, True, True, True, True}\)], "Output"]
 }, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
@@ -760,77 +810,85 @@ Cell[CellGroupData[{
 Cell[3099, 98, 694, 11, 131, "Input"],
 Cell[3796, 111, 410, 7, 67, "Output"]
 }, Open  ]],
-Cell[4221, 121, 1005, 20, 153, "Input"],
+Cell[4221, 121, 1012, 20, 153, "Input"],
 
 Cell[CellGroupData[{
-Cell[5251, 145, 62, 1, 30, "Input"],
-Cell[5316, 148, 146, 3, 25, "Print"],
-Cell[5465, 153, 55, 1, 25, "Print"],
-Cell[5523, 156, 304, 7, 25, "Print"],
-Cell[5830, 165, 304, 7, 25, "Print"],
-Cell[6137, 174, 304, 7, 25, "Print"],
-Cell[6444, 183, 304, 7, 25, "Print"],
-Cell[6751, 192, 304, 7, 25, "Print"],
-Cell[7058, 201, 304, 7, 25, "Print"],
-Cell[7365, 210, 304, 7, 25, "Print"],
-Cell[7672, 219, 304, 7, 25, "Print"],
-Cell[7979, 228, 304, 7, 25, "Print"],
-Cell[8286, 237, 304, 7, 25, "Print"],
-Cell[8593, 246, 304, 7, 25, "Print"],
-Cell[8900, 255, 304, 7, 25, "Print"],
-Cell[9207, 264, 304, 7, 25, "Print"],
-Cell[9514, 273, 304, 7, 25, "Print"],
-Cell[9821, 282, 304, 7, 25, "Print"],
-Cell[10128, 291, 304, 7, 25, "Print"],
-Cell[10435, 300, 304, 7, 25, "Print"],
-Cell[10742, 309, 304, 7, 25, "Print"],
-Cell[11049, 318, 304, 7, 25, "Print"],
-Cell[11356, 327, 304, 7, 25, "Print"],
-Cell[11663, 336, 304, 7, 25, "Print"],
-Cell[11970, 345, 304, 7, 25, "Print"],
-Cell[12277, 354, 304, 7, 25, "Print"],
-Cell[12584, 363, 310, 7, 25, "Print"],
-Cell[12897, 372, 310, 7, 25, "Print"],
-Cell[13210, 381, 310, 7, 25, "Print"],
-Cell[13523, 390, 310, 7, 25, "Print"],
-Cell[13836, 399, 310, 7, 25, "Print"],
-Cell[14149, 408, 310, 7, 25, "Print"],
-Cell[14462, 417, 310, 7, 25, "Print"],
-Cell[14775, 426, 310, 7, 25, "Print"],
-Cell[15088, 435, 316, 7, 25, "Print"],
-Cell[15407, 444, 316, 7, 25, "Print"],
-Cell[15726, 453, 316, 7, 25, "Print"],
-Cell[16045, 462, 316, 7, 25, "Print"],
-Cell[16364, 471, 316, 7, 25, "Print"],
-Cell[16683, 480, 316, 7, 25, "Print"],
-Cell[17002, 489, 316, 7, 25, "Print"],
-Cell[17321, 498, 316, 7, 25, "Print"],
-Cell[17640, 507, 322, 7, 25, "Print"],
-Cell[17965, 516, 322, 7, 25, "Print"],
-Cell[18290, 525, 322, 7, 25, "Print"],
-Cell[18615, 534, 310, 7, 25, "Print"],
-Cell[18928, 543, 310, 7, 25, "Print"],
-Cell[19241, 552, 310, 7, 25, "Print"],
-Cell[19554, 561, 310, 7, 25, "Print"],
-Cell[19867, 570, 322, 7, 25, "Print"],
-Cell[20192, 579, 322, 7, 25, "Print"],
-Cell[20517, 588, 322, 7, 25, "Print"],
-Cell[20842, 597, 310, 7, 25, "Print"],
-Cell[21155, 606, 310, 7, 25, "Print"],
-Cell[21468, 615, 310, 7, 25, "Print"],
-Cell[21781, 624, 310, 7, 25, "Print"],
-Cell[22094, 633, 1858, 28, 181, "Output"]
+Cell[5258, 145, 62, 1, 30, "Input"],
+Cell[5323, 148, 146, 3, 25, "Print"],
+Cell[5472, 153, 55, 1, 25, "Print"],
+Cell[5530, 156, 304, 7, 25, "Print"],
+Cell[5837, 165, 304, 7, 25, "Print"],
+Cell[6144, 174, 304, 7, 25, "Print"],
+Cell[6451, 183, 304, 7, 25, "Print"],
+Cell[6758, 192, 304, 7, 25, "Print"],
+Cell[7065, 201, 304, 7, 25, "Print"],
+Cell[7372, 210, 304, 7, 25, "Print"],
+Cell[7679, 219, 304, 7, 25, "Print"],
+Cell[7986, 228, 304, 7, 25, "Print"],
+Cell[8293, 237, 304, 7, 25, "Print"],
+Cell[8600, 246, 304, 7, 25, "Print"],
+Cell[8907, 255, 304, 7, 25, "Print"],
+Cell[9214, 264, 304, 7, 25, "Print"],
+Cell[9521, 273, 304, 7, 25, "Print"],
+Cell[9828, 282, 304, 7, 25, "Print"],
+Cell[10135, 291, 304, 7, 25, "Print"],
+Cell[10442, 300, 304, 7, 25, "Print"],
+Cell[10749, 309, 304, 7, 25, "Print"],
+Cell[11056, 318, 304, 7, 25, "Print"],
+Cell[11363, 327, 304, 7, 25, "Print"],
+Cell[11670, 336, 304, 7, 25, "Print"],
+Cell[11977, 345, 304, 7, 25, "Print"],
+Cell[12284, 354, 304, 7, 25, "Print"],
+Cell[12591, 363, 310, 7, 25, "Print"],
+Cell[12904, 372, 310, 7, 25, "Print"],
+Cell[13217, 381, 310, 7, 25, "Print"],
+Cell[13530, 390, 310, 7, 25, "Print"],
+Cell[13843, 399, 310, 7, 25, "Print"],
+Cell[14156, 408, 310, 7, 25, "Print"],
+Cell[14469, 417, 310, 7, 25, "Print"],
+Cell[14782, 426, 310, 7, 25, "Print"],
+Cell[15095, 435, 316, 7, 25, "Print"],
+Cell[15414, 444, 316, 7, 25, "Print"],
+Cell[15733, 453, 316, 7, 25, "Print"],
+Cell[16052, 462, 316, 7, 25, "Print"],
+Cell[16371, 471, 316, 7, 25, "Print"],
+Cell[16690, 480, 316, 7, 25, "Print"],
+Cell[17009, 489, 316, 7, 25, "Print"],
+Cell[17328, 498, 316, 7, 25, "Print"],
+Cell[17647, 507, 322, 7, 25, "Print"],
+Cell[17972, 516, 322, 7, 25, "Print"],
+Cell[18297, 525, 322, 7, 25, "Print"],
+Cell[18622, 534, 310, 7, 25, "Print"],
+Cell[18935, 543, 310, 7, 25, "Print"],
+Cell[19248, 552, 310, 7, 25, "Print"],
+Cell[19561, 561, 310, 7, 25, "Print"],
+Cell[19874, 570, 322, 7, 25, "Print"],
+Cell[20199, 579, 322, 7, 25, "Print"],
+Cell[20524, 588, 322, 7, 25, "Print"],
+Cell[20849, 597, 310, 7, 25, "Print"],
+Cell[21162, 606, 310, 7, 25, "Print"],
+Cell[21475, 615, 310, 7, 25, "Print"],
+Cell[21788, 624, 310, 7, 25, "Print"],
+Cell[22101, 633, 1858, 28, 181, "Output"]
 }, Closed]],
 
 Cell[CellGroupData[{
-Cell[23989, 666, 57, 1, 27, "Input"],
-Cell[24049, 669, 193, 4, 25, "Print"],
-Cell[24245, 675, 289, 6, 25, "Print"],
-Cell[24537, 683, 193, 4, 25, "Print"],
-Cell[24733, 689, 289, 6, 25, "Print"],
-Cell[25025, 697, 193, 4, 25, "Print"],
-Cell[25221, 703, 289, 6, 25, "Print"],
-Cell[25513, 711, 193, 4, 25, "Print"]
+Cell[23996, 666, 57, 1, 27, "Input"],
+Cell[24056, 669, 193, 4, 25, "Print"],
+Cell[24252, 675, 289, 6, 25, "Print"],
+Cell[24544, 683, 193, 4, 25, "Print"],
+Cell[24740, 689, 289, 6, 25, "Print"],
+Cell[25032, 697, 193, 4, 25, "Print"],
+Cell[25228, 703, 289, 6, 25, "Print"],
+Cell[25520, 711, 193, 4, 25, "Print"],
+Cell[25716, 717, 289, 6, 25, "Print"],
+Cell[26008, 725, 193, 4, 25, "Print"],
+Cell[26204, 731, 289, 6, 25, "Print"],
+Cell[26496, 739, 193, 4, 25, "Print"],
+Cell[26692, 745, 289, 6, 25, "Print"],
+Cell[26984, 753, 193, 4, 25, "Print"],
+Cell[27180, 759, 161, 3, 22, "Message"],
+Cell[27344, 764, 76, 1, 29, "Output"]
 }, Open  ]]
 }
 ]
