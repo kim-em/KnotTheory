@@ -38,8 +38,6 @@ LoadInvariantRules::usage="LoadInvariantRules[pagename] loads definitions for in
 
 InvariantDefinitionTable::usage="InvariantDefinitionTable[rules] generates an html table representing rules, suitable for input via LoadInvariantRules.";
 
-Invariants::usage="Invariants[] returns a list of all invariant definitions currently known. Invariants[string_pattern] returns all invariant definitions with type matching string_pattern.";
-
 InvariantNames::usage="InvariantNames[rules] returns a list of the names of the invariants described by rules.";
 
 RetrieveInvariant::usage="RetrieveInvariant[invariant, knot, source] returns the value of the named invariant for the given knot, from the specified source. At present, the only sources understood are \"KnotAtlas\", \"KnotTheory`\" and \"KnotInfo\". More may come soon!";
@@ -97,26 +95,34 @@ ConstructInvariantRule[S_String]:=
     rule
     ]
 
-QuantumInvariantRules={(S_String/;
-          StringMatchQ[S,"QuantumInvariant"~~__])\[RuleDelayed]
-      Module[{\[CapitalGamma]0,\[Lambda]0},{\[CapitalGamma]0,\[Lambda]0}=
+
+
+QuantumInvariantRules={
+    (S_String/;StringMatchQ[S,"QuantumInvariant"~~__])\[RuleDelayed]
+      Module[{\[CapitalGamma]0,\[Lambda]0,cases},
+        cases=
           StringCases[
-              S,("QuantumInvariant/"~~G:("A"|"B"|"C"|"D"|"E"|"F"|"G")~~
-                      n:(DigitCharacter)~~
-                        "/"~~\[Mu]__)\[RuleDelayed]{Subscript[
-                    globalToExpression["QuantumGroups`"<>G],ToExpression[n]],
-                  ToExpression["{"<>\[Mu]<>"}"]},
-              1]\[LeftDoubleBracket]1\[RightDoubleBracket];
-        With[{\[CapitalGamma]=\[CapitalGamma]0,\[Lambda]=\[Lambda]0},{\
-"WikiPage"\[Rule]S,
-            "KnotTheorySetter"\[Rule](KnotTheory`QuantumKnotInvariants`\
-QuantumKnotInvariant[\[CapitalGamma],
-                          QuantumGroups`Irrep[\[CapitalGamma]][\[Lambda]]][#1]\
-=Function[{q},#2];&),
-            "KnotTheory"\[Rule](KnotTheory`QuantumKnotInvariants`\
-QuantumKnotInvariant[\[CapitalGamma],
-                        QuantumGroups`Irrep[\[CapitalGamma]][\[Lambda]]][#][
-                    Global`q]&)}]]}
+            S,("QuantumInvariant/"~~\[CapitalGamma]:(LetterCharacter)~~
+                    n:(DigitCharacter..)~~
+                      "/"~~\[Mu]__)\[RuleDelayed]{\[CapitalGamma],n,\[Mu]}];
+        If[Length[cases]\[Equal]0,{},
+          With[{\[CapitalGamma]=
+                Subscript[
+                  globalToExpression[
+                    "QuantumGroups`"<>cases\[LeftDoubleBracket]1,
+                        1\[RightDoubleBracket]],
+                  ToExpression[
+                    cases\[LeftDoubleBracket]1,
+                      2\[RightDoubleBracket]]],\[Lambda]=
+                ToExpression[
+                  "{"<>cases\[LeftDoubleBracket]1,3\[RightDoubleBracket]<>
+                    "}"]},
+            {"WikiPage"\[Rule]S
+              }
+            ]
+          ]
+        ]
+    }
 
 LoadInvariantRules[pagename_String]:=
   AllInvariants=(ConstructInvariantRule/@
@@ -147,22 +153,6 @@ InvariantDefinitionTable[rules_]:=
   "{{Invariant Definition Table Warning}}\n"<>"<table width=\"100%\">\n"<>
     TableHeader[rules]<>
     StringJoin@@Table[TableRow[rules,i],{i,1,Length[rules]}]<>"</table>"
-
-
-
-Invariants[S_]:=
-  Select[AllInvariants,
-    StringMatchQ[("Type"/.#\[LeftDoubleBracket]2\[RightDoubleBracket]),S]&]
-
-Invariants[]:=Invariants[__]
-
-Invariants["KnotTheory` Knot Invariants"]:=
-  Invariants[
-    "Navigation"|"Knot Presentations"|"Link Presentations"|"3D Invariant"|"Polynomial Invariant"|
-      "Vassiliev Invariant"]
-
-Invariants["KnotTheory` Link Invariants"]:=
-  Invariants["Navigation"|"Link Presentations"|"Polynomial Invariant"]
 
 
 
