@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     24957,        694]*)
-(*NotebookOutlinePosition[     25661,        718]*)
-(*  CellTagsIndexPosition[     25617,        714]*)
+(*NotebookOptionsPosition[     24947,        694]*)
+(*NotebookOutlinePosition[     25651,        718]*)
+(*  CellTagsIndexPosition[     25607,        714]*)
 (*WindowFrame->Normal*)
 
 
@@ -100,7 +100,7 @@ Cell[BoxData[
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(workItems = 
+    \(workItems := 
       Sort[StringCases[WikiGetPageText["\<BraidingData_Queue\>"], 
           line : \(("\<*Irrep[\>" ~~ \(\[CapitalGamma] : 
                       LetterCharacter ~~ \(n : \((DigitCharacter .. )\) ~~ \
@@ -118,16 +118,17 @@ Cell[BoxData[
 error: new symbol name \\\"\\!\\(line\\)\\\" is similar to existing symbol \\\
 \"\\!\\(Line\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
 ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
-ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"],
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]],
 
 Cell[BoxData[
-    \({{200, "*Irrep[A1][{2}], 7, 200", A\_1, {2}, 7}, {200, 
-        "*Irrep[A1][{3}], 6, 200", A\_1, {3}, 6}, {300, 
-        "*Irrep[A1][{4}], 5, 300", A\_1, {4}, 5}, {300, 
-        "*Irrep[A1][{4}], 5, 300", A\_1, {4}, 5}, {300, 
-        "*Irrep[A1][{4}], 5, 300", A\_1, {4}, 5}, {300, 
-        "*Irrep[A1][{7}], 3, 300", A\_1, {7}, 3}}\)], "Output"]
-}, Open  ]],
+    \(workItem := 
+      Module[{w = workItems, i}, \[IndentingNewLine]If[Length[w] \[Equal] 0, 
+          Print["\<Couldn't find anything to do!\>"]; 
+          Break[]]; \[IndentingNewLine]i = 
+          Random[Integer, {1, 
+              Length[w]}]; \[IndentingNewLine]w\[LeftDoubleBracket]
+          i\[RightDoubleBracket]\[IndentingNewLine]]\)], "Input"],
 
 Cell[BoxData[
     \(processItem[{m_, line_, \[CapitalGamma]_, \[Lambda]_, 
@@ -677,8 +678,7 @@ Cell[BoxData[
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(processItem /@ workItems\)], "Input",
-  InitializationCell->True],
+    \(While[True, processItem[workItem]]\)], "Input"],
 
 Cell[BoxData[
     InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{2}], 7, \
@@ -739,80 +739,79 @@ Cell[3110, 95, 50, 1, 43, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[3197, 101, 722, 12, 145, "Input",
+Cell[3197, 101, 723, 12, 131, "Input",
   InitializationCell->True],
-Cell[3922, 115, 356, 5, 22, "Message"],
-Cell[4281, 122, 367, 6, 62, "Output"]
+Cell[3923, 115, 356, 5, 22, "Message"]
 }, Open  ]],
-Cell[4663, 131, 1040, 21, 147, "Input",
+Cell[4294, 123, 374, 7, 110, "Input"],
+Cell[4671, 132, 1040, 21, 147, "Input",
   InitializationCell->True],
 
 Cell[CellGroupData[{
-Cell[5728, 156, 90, 2, 44, "Input",
+Cell[5736, 157, 90, 2, 44, "Input",
   InitializationCell->True],
-Cell[5821, 160, 146, 3, 25, "Print"],
-Cell[5970, 165, 55, 1, 25, "Print"],
-Cell[6028, 168, 304, 7, 25, "Print"],
-Cell[6335, 177, 304, 7, 25, "Print"],
-Cell[6642, 186, 304, 7, 25, "Print"],
-Cell[6949, 195, 304, 7, 25, "Print"],
-Cell[7256, 204, 304, 7, 25, "Print"],
-Cell[7563, 213, 304, 7, 25, "Print"],
-Cell[7870, 222, 304, 7, 25, "Print"],
-Cell[8177, 231, 304, 7, 25, "Print"],
-Cell[8484, 240, 304, 7, 25, "Print"],
-Cell[8791, 249, 304, 7, 25, "Print"],
-Cell[9098, 258, 304, 7, 25, "Print"],
-Cell[9405, 267, 304, 7, 25, "Print"],
-Cell[9712, 276, 304, 7, 25, "Print"],
-Cell[10019, 285, 304, 7, 25, "Print"],
-Cell[10326, 294, 304, 7, 25, "Print"],
-Cell[10633, 303, 304, 7, 25, "Print"],
-Cell[10940, 312, 304, 7, 25, "Print"],
-Cell[11247, 321, 304, 7, 25, "Print"],
-Cell[11554, 330, 304, 7, 25, "Print"],
-Cell[11861, 339, 304, 7, 25, "Print"],
-Cell[12168, 348, 304, 7, 25, "Print"],
-Cell[12475, 357, 304, 7, 25, "Print"],
-Cell[12782, 366, 304, 7, 25, "Print"],
-Cell[13089, 375, 310, 7, 25, "Print"],
-Cell[13402, 384, 310, 7, 25, "Print"],
-Cell[13715, 393, 310, 7, 25, "Print"],
-Cell[14028, 402, 310, 7, 25, "Print"],
-Cell[14341, 411, 310, 7, 25, "Print"],
-Cell[14654, 420, 310, 7, 25, "Print"],
-Cell[14967, 429, 310, 7, 25, "Print"],
-Cell[15280, 438, 310, 7, 25, "Print"],
-Cell[15593, 447, 316, 7, 25, "Print"],
-Cell[15912, 456, 316, 7, 25, "Print"],
-Cell[16231, 465, 316, 7, 25, "Print"],
-Cell[16550, 474, 316, 7, 25, "Print"],
-Cell[16869, 483, 316, 7, 25, "Print"],
-Cell[17188, 492, 316, 7, 25, "Print"],
-Cell[17507, 501, 316, 7, 25, "Print"],
-Cell[17826, 510, 316, 7, 25, "Print"],
-Cell[18145, 519, 322, 7, 25, "Print"],
-Cell[18470, 528, 322, 7, 25, "Print"],
-Cell[18795, 537, 322, 7, 25, "Print"],
-Cell[19120, 546, 310, 7, 25, "Print"],
-Cell[19433, 555, 310, 7, 25, "Print"],
-Cell[19746, 564, 310, 7, 25, "Print"],
-Cell[20059, 573, 310, 7, 25, "Print"],
-Cell[20372, 582, 322, 7, 25, "Print"],
-Cell[20697, 591, 322, 7, 25, "Print"],
-Cell[21022, 600, 322, 7, 25, "Print"],
-Cell[21347, 609, 310, 7, 25, "Print"],
-Cell[21660, 618, 310, 7, 25, "Print"],
-Cell[21973, 627, 310, 7, 25, "Print"],
-Cell[22286, 636, 310, 7, 25, "Print"],
-Cell[22599, 645, 1858, 28, 195, "Output"]
+Cell[5829, 161, 146, 3, 25, "Print"],
+Cell[5978, 166, 55, 1, 25, "Print"],
+Cell[6036, 169, 304, 7, 25, "Print"],
+Cell[6343, 178, 304, 7, 25, "Print"],
+Cell[6650, 187, 304, 7, 25, "Print"],
+Cell[6957, 196, 304, 7, 25, "Print"],
+Cell[7264, 205, 304, 7, 25, "Print"],
+Cell[7571, 214, 304, 7, 25, "Print"],
+Cell[7878, 223, 304, 7, 25, "Print"],
+Cell[8185, 232, 304, 7, 25, "Print"],
+Cell[8492, 241, 304, 7, 25, "Print"],
+Cell[8799, 250, 304, 7, 25, "Print"],
+Cell[9106, 259, 304, 7, 25, "Print"],
+Cell[9413, 268, 304, 7, 25, "Print"],
+Cell[9720, 277, 304, 7, 25, "Print"],
+Cell[10027, 286, 304, 7, 25, "Print"],
+Cell[10334, 295, 304, 7, 25, "Print"],
+Cell[10641, 304, 304, 7, 25, "Print"],
+Cell[10948, 313, 304, 7, 25, "Print"],
+Cell[11255, 322, 304, 7, 25, "Print"],
+Cell[11562, 331, 304, 7, 25, "Print"],
+Cell[11869, 340, 304, 7, 25, "Print"],
+Cell[12176, 349, 304, 7, 25, "Print"],
+Cell[12483, 358, 304, 7, 25, "Print"],
+Cell[12790, 367, 304, 7, 25, "Print"],
+Cell[13097, 376, 310, 7, 25, "Print"],
+Cell[13410, 385, 310, 7, 25, "Print"],
+Cell[13723, 394, 310, 7, 25, "Print"],
+Cell[14036, 403, 310, 7, 25, "Print"],
+Cell[14349, 412, 310, 7, 25, "Print"],
+Cell[14662, 421, 310, 7, 25, "Print"],
+Cell[14975, 430, 310, 7, 25, "Print"],
+Cell[15288, 439, 310, 7, 25, "Print"],
+Cell[15601, 448, 316, 7, 25, "Print"],
+Cell[15920, 457, 316, 7, 25, "Print"],
+Cell[16239, 466, 316, 7, 25, "Print"],
+Cell[16558, 475, 316, 7, 25, "Print"],
+Cell[16877, 484, 316, 7, 25, "Print"],
+Cell[17196, 493, 316, 7, 25, "Print"],
+Cell[17515, 502, 316, 7, 25, "Print"],
+Cell[17834, 511, 316, 7, 25, "Print"],
+Cell[18153, 520, 322, 7, 25, "Print"],
+Cell[18478, 529, 322, 7, 25, "Print"],
+Cell[18803, 538, 322, 7, 25, "Print"],
+Cell[19128, 547, 310, 7, 25, "Print"],
+Cell[19441, 556, 310, 7, 25, "Print"],
+Cell[19754, 565, 310, 7, 25, "Print"],
+Cell[20067, 574, 310, 7, 25, "Print"],
+Cell[20380, 583, 322, 7, 25, "Print"],
+Cell[20705, 592, 322, 7, 25, "Print"],
+Cell[21030, 601, 322, 7, 25, "Print"],
+Cell[21355, 610, 310, 7, 25, "Print"],
+Cell[21668, 619, 310, 7, 25, "Print"],
+Cell[21981, 628, 310, 7, 25, "Print"],
+Cell[22294, 637, 310, 7, 25, "Print"],
+Cell[22607, 646, 1858, 28, 195, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[24494, 678, 85, 2, 44, "Input",
-  InitializationCell->True],
-Cell[24582, 682, 195, 4, 25, "Print"],
-Cell[24780, 688, 161, 3, 22, "Message"]
+Cell[24502, 679, 67, 1, 30, "Input"],
+Cell[24572, 682, 195, 4, 25, "Print"],
+Cell[24770, 688, 161, 3, 22, "Message"]
 }, Open  ]]
 }
 ]

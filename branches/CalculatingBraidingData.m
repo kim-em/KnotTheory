@@ -34,7 +34,7 @@ WikiUserName[]
 
 
 
-\!\(workItems = Sort[StringCases[WikiGetPageText["\<BraidingData_Queue\>"], line : \(("\<*Irrep[\>" ~~ \(\[CapitalGamma] : LetterCharacter ~~ \(n : \((DigitCharacter .. )\) ~~ \("\<][\>" ~~ \(\[Lambda] : \(("\<{\>" ~~ \(\((DigitCharacter ..  ~~ "\<,\>")\) ...  ~~ \(DigitCharacter ..  ~~ "\<}\>"\)\))\) ~~ \("\<], \>" ~~ \(k : \((DigitCharacter .. )\) ~~ \("\<, \>" ~~ m : \((DigitCharacter .. )\)\)\)\)\)\)\)\))\) \[RuleDelayed] {ToExpression[m], line, \(ToExpression[\[CapitalGamma]]\)\_\(ToExpression[n]\), ToExpression[\[Lambda]], ToExpression[k]}]]\)
+\!\(workItems := Sort[StringCases[WikiGetPageText["\<BraidingData_Queue\>"], line : \(("\<*Irrep[\>" ~~ \(\[CapitalGamma] : LetterCharacter ~~ \(n : \((DigitCharacter .. )\) ~~ \("\<][\>" ~~ \(\[Lambda] : \(("\<{\>" ~~ \(\((DigitCharacter ..  ~~ "\<,\>")\) ...  ~~ \(DigitCharacter ..  ~~ "\<}\>"\)\))\) ~~ \("\<], \>" ~~ \(k : \((DigitCharacter .. )\) ~~ \("\<, \>" ~~ m : \((DigitCharacter .. )\)\)\)\)\)\)\)\))\) \[RuleDelayed] {ToExpression[m], line, \(ToExpression[\[CapitalGamma]]\)\_\(ToExpression[n]\), ToExpression[\[Lambda]], ToExpression[k]}]]\)
 
 
 
@@ -156,7 +156,7 @@ LoadAllBraidingDataFromWiki[]
 
 
 
-processItem/@workItems
+
 
 
 
