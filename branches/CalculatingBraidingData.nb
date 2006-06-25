@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     27436,        768]*)
-(*NotebookOutlinePosition[     28082,        790]*)
-(*  CellTagsIndexPosition[     28038,        786]*)
+(*NotebookOptionsPosition[     24957,        694]*)
+(*NotebookOutlinePosition[     25661,        718]*)
+(*  CellTagsIndexPosition[     25617,        714]*)
 (*WindowFrame->Normal*)
 
 
@@ -54,8 +54,12 @@ Cell[CellGroupData[{
 Cell[BoxData[{
     \(\(KnotTheoryPath\  = \ \
 "\<c:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk\\\>";\)\), "\n", 
-    \(\(AppendTo[$Path, \ KnotTheoryPath];\)\), "\n", 
-    \(<< \ KnotTheory`\)}], "Input"],
+    \(\(AppendTo[$Path, \ KnotTheoryPath];\)\), "\[IndentingNewLine]", 
+    \(\(KnotTheoryPath\  = \ \
+"\<c:\\drorbn\\projects\\KnotTheory\\svn\\trunk\\\>";\)\), "\n", 
+    \(\(AppendTo[$Path, \ KnotTheoryPath];\)\), "\[IndentingNewLine]", 
+    \(<< \ KnotTheory`\)}], "Input",
+  InitializationCell->True],
 
 Cell[BoxData[
     \("Loading KnotTheory` version of June 24, 2006, 17:55:18.4679.\nRead \
@@ -64,12 +68,9 @@ more at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
 
 Cell[CellGroupData[{
 
-Cell[BoxData[{
-    \(\(QuantumGroupsPath\  = \ \
-"\<c:\\scott\\projects\\svn-checkouts\\QuantumGroups\\trunk\\package\\\>";\)\)\
-, "\n", 
-    \(\(AppendTo[$Path, \ QuantumGroupsPath];\)\), "\[IndentingNewLine]", 
-    \(<< QuantumGroups`\)}], "Input"],
+Cell[BoxData[
+    \(<< QuantumGroups`\)], "Input",
+  InitializationCell->True],
 
 Cell[BoxData[
     InterpretationBox[\("Loading QuantumGroups` version 2.0\n"\
@@ -83,12 +84,14 @@ http://katlas.math.toronto.edu/wiki/QuantumGroups"\),
 
 Cell[BoxData[
     \(CreateWikiConnection["\<http://katlas.math.toronto.edu/w/index.php\>", \
-"\<ScottDataRobot\>", "\<foobar\>"]\)], "Input"],
+"\<ScottDataRobot\>", "\<foobar\>"]\)], "Input",
+  InitializationCell->True],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(WikiUserName[]\)], "Input"],
+    \(WikiUserName[]\)], "Input",
+  InitializationCell->True],
 
 Cell[BoxData[
     \("ScottDataRobot"\)], "Output"]
@@ -107,16 +110,23 @@ Cell[BoxData[
                                 m : \((DigitCharacter .. )\)\)\)\)\)\)\)\))\) \
 \[RuleDelayed] {ToExpression[m], 
               line, \(ToExpression[\[CapitalGamma]]\)\_\(ToExpression[n]\), 
-              ToExpression[\[Lambda]], ToExpression[k]}]]\)], "Input"],
+              ToExpression[\[Lambda]], ToExpression[k]}]]\)], "Input",
+  InitializationCell->True],
 
 Cell[BoxData[
-    \({{20, "*Irrep[A1][{2}], 7, 20", A\_1, {2}, 7}, {20, 
-        "*Irrep[A1][{3}], 6, 20", A\_1, {3}, 6}, {20, 
-        "*Irrep[A1][{4}], 5, 20", A\_1, {4}, 5}, {20, 
-        "*Irrep[A1][{4}], 5, 20", A\_1, {4}, 5}, {20, 
-        "*Irrep[A1][{4}], 5, 20", A\_1, {4}, 5}, {20, 
-        "*Irrep[A1][{7}], 3, 20", A\_1, {7}, 3}, {20, 
-        "*Irrep[A1][{8}], 2, 20", A\_1, {8}, 2}}\)], "Output"]
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(line\\)\\\" is similar to existing symbol \\\
+\"\\!\\(Line\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \({{200, "*Irrep[A1][{2}], 7, 200", A\_1, {2}, 7}, {200, 
+        "*Irrep[A1][{3}], 6, 200", A\_1, {3}, 6}, {300, 
+        "*Irrep[A1][{4}], 5, 300", A\_1, {4}, 5}, {300, 
+        "*Irrep[A1][{4}], 5, 300", A\_1, {4}, 5}, {300, 
+        "*Irrep[A1][{4}], 5, 300", A\_1, {4}, 5}, {300, 
+        "*Irrep[A1][{7}], 3, 300", A\_1, {7}, 3}}\)], "Output"]
 }, Open  ]],
 
 Cell[BoxData[
@@ -139,12 +149,14 @@ Cell[BoxData[
             line \[RuleDelayed] 
               StringReplace[
                 line, "\<*\>" \[RuleDelayed] "\<** broken:\>"]]])\)\)], \
-"Input"],
+"Input",
+  InitializationCell->True],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(LoadAllBraidingDataFromWiki[]\)], "Input"],
+    \(LoadAllBraidingDataFromWiki[]\)], "Input",
+  InitializationCell->True],
 
 Cell[BoxData[
     \("Looking at: \
@@ -660,114 +672,30 @@ Cell[BoxData[
         2}, {\(Irrep[D\_4]\)[{1, 0, 0, 0}], 3}, {\(Irrep[G\_2]\)[{0, 1}], 
         2}, {\(Irrep[G\_2]\)[{1, 0}], 2}, {\(Irrep[G\_2]\)[{1, 0}], 
         3}, {\(Irrep[G\_2]\)[{1, 0}], 4}}\)], "Output"]
-}, Closed]],
+}, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(processItem /@ workItems\)], "Input"],
+    \(processItem /@ workItems\)], "Input",
+  InitializationCell->True],
 
 Cell[BoxData[
     InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{2}], 7, \
-20"\),
-      SequenceForm[ "Processing ", "*Irrep[A1][{2}], 7, 20"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Aborted because the calculation exceeded the current \
-memory limit: "\[InvisibleSpace]20000000\),
-      SequenceForm[ 
-      "Aborted because the calculation exceeded the current memory limit: ", 
-        20000000],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{3}], 6, \
-20"\),
-      SequenceForm[ "Processing ", "*Irrep[A1][{3}], 6, 20"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Aborted because the calculation exceeded the current \
-memory limit: "\[InvisibleSpace]20000000\),
-      SequenceForm[ 
-      "Aborted because the calculation exceeded the current memory limit: ", 
-        20000000],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{4}], 5, \
-20"\),
-      SequenceForm[ "Processing ", "*Irrep[A1][{4}], 5, 20"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Aborted because the calculation exceeded the current \
-memory limit: "\[InvisibleSpace]20000000\),
-      SequenceForm[ 
-      "Aborted because the calculation exceeded the current memory limit: ", 
-        20000000],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{4}], 5, \
-20"\),
-      SequenceForm[ "Processing ", "*Irrep[A1][{4}], 5, 20"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Aborted because the calculation exceeded the current \
-memory limit: "\[InvisibleSpace]20000000\),
-      SequenceForm[ 
-      "Aborted because the calculation exceeded the current memory limit: ", 
-        20000000],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{4}], 5, \
-20"\),
-      SequenceForm[ "Processing ", "*Irrep[A1][{4}], 5, 20"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Aborted because the calculation exceeded the current \
-memory limit: "\[InvisibleSpace]20000000\),
-      SequenceForm[ 
-      "Aborted because the calculation exceeded the current memory limit: ", 
-        20000000],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{7}], 3, \
-20"\),
-      SequenceForm[ "Processing ", "*Irrep[A1][{7}], 3, 20"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Aborted because the calculation exceeded the current \
-memory limit: "\[InvisibleSpace]20000000\),
-      SequenceForm[ 
-      "Aborted because the calculation exceeded the current memory limit: ", 
-        20000000],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{8}], 2, \
-20"\),
-      SequenceForm[ "Processing ", "*Irrep[A1][{8}], 2, 20"],
+200"\),
+      SequenceForm[ "Processing ", "*Irrep[A1][{2}], 7, 200"],
       Editable->False]], "Print"],
 
 Cell[BoxData[
     \(QuantumGroups::"loading" \(\(:\)\(\ \)\) 
       "Loading precomputed data in \
-\!\(\"QuantumGroups`Data`A1`BraidingData`\"\)."\)], "Message"],
-
-Cell[BoxData[
-    \({True, True, True, True, True, True, True}\)], "Output"]
+\!\(\"QuantumGroups`Data`A1`BraidingData`\"\)."\)], "Message"]
 }, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
-ScreenRectangle->{{0, 1280}, {0, 713}},
+ScreenRectangle->{{0, 1600}, {0, 1102}},
+AutoGeneratedPackage->Automatic,
+Evaluator->"Alternate",
 WindowSize->{1170, 589},
 WindowMargins->{{24, Automatic}, {Automatic, 30}}
 ]
@@ -791,104 +719,100 @@ CellTagsIndex->{}
 Notebook[{
 
 Cell[CellGroupData[{
-Cell[1776, 53, 212, 4, 70, "Input"],
-Cell[1991, 59, 159, 2, 44, "Print"]
+Cell[1776, 53, 426, 8, 124, "Input",
+  InitializationCell->True],
+Cell[2205, 63, 159, 2, 44, "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[2187, 66, 250, 5, 70, "Input"],
-Cell[2440, 73, 341, 7, 44, "Print"]
+Cell[2401, 70, 78, 2, 44, "Input",
+  InitializationCell->True],
+Cell[2482, 74, 341, 7, 44, "Print"]
 }, Open  ]],
-Cell[2796, 83, 141, 2, 30, "Input"],
+Cell[2838, 84, 169, 3, 44, "Input",
+  InitializationCell->True],
 
 Cell[CellGroupData[{
-Cell[2962, 89, 47, 1, 30, "Input"],
-Cell[3012, 92, 50, 1, 29, "Output"]
+Cell[3032, 91, 75, 2, 44, "Input",
+  InitializationCell->True],
+Cell[3110, 95, 50, 1, 43, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[3099, 98, 694, 11, 131, "Input"],
-Cell[3796, 111, 410, 7, 67, "Output"]
+Cell[3197, 101, 722, 12, 145, "Input",
+  InitializationCell->True],
+Cell[3922, 115, 356, 5, 22, "Message"],
+Cell[4281, 122, 367, 6, 62, "Output"]
 }, Open  ]],
-Cell[4221, 121, 1012, 20, 153, "Input"],
+Cell[4663, 131, 1040, 21, 147, "Input",
+  InitializationCell->True],
 
 Cell[CellGroupData[{
-Cell[5258, 145, 62, 1, 30, "Input"],
-Cell[5323, 148, 146, 3, 25, "Print"],
-Cell[5472, 153, 55, 1, 25, "Print"],
-Cell[5530, 156, 304, 7, 25, "Print"],
-Cell[5837, 165, 304, 7, 25, "Print"],
-Cell[6144, 174, 304, 7, 25, "Print"],
-Cell[6451, 183, 304, 7, 25, "Print"],
-Cell[6758, 192, 304, 7, 25, "Print"],
-Cell[7065, 201, 304, 7, 25, "Print"],
-Cell[7372, 210, 304, 7, 25, "Print"],
-Cell[7679, 219, 304, 7, 25, "Print"],
-Cell[7986, 228, 304, 7, 25, "Print"],
-Cell[8293, 237, 304, 7, 25, "Print"],
-Cell[8600, 246, 304, 7, 25, "Print"],
-Cell[8907, 255, 304, 7, 25, "Print"],
-Cell[9214, 264, 304, 7, 25, "Print"],
-Cell[9521, 273, 304, 7, 25, "Print"],
-Cell[9828, 282, 304, 7, 25, "Print"],
-Cell[10135, 291, 304, 7, 25, "Print"],
-Cell[10442, 300, 304, 7, 25, "Print"],
-Cell[10749, 309, 304, 7, 25, "Print"],
-Cell[11056, 318, 304, 7, 25, "Print"],
-Cell[11363, 327, 304, 7, 25, "Print"],
-Cell[11670, 336, 304, 7, 25, "Print"],
-Cell[11977, 345, 304, 7, 25, "Print"],
-Cell[12284, 354, 304, 7, 25, "Print"],
-Cell[12591, 363, 310, 7, 25, "Print"],
-Cell[12904, 372, 310, 7, 25, "Print"],
-Cell[13217, 381, 310, 7, 25, "Print"],
-Cell[13530, 390, 310, 7, 25, "Print"],
-Cell[13843, 399, 310, 7, 25, "Print"],
-Cell[14156, 408, 310, 7, 25, "Print"],
-Cell[14469, 417, 310, 7, 25, "Print"],
-Cell[14782, 426, 310, 7, 25, "Print"],
-Cell[15095, 435, 316, 7, 25, "Print"],
-Cell[15414, 444, 316, 7, 25, "Print"],
-Cell[15733, 453, 316, 7, 25, "Print"],
-Cell[16052, 462, 316, 7, 25, "Print"],
-Cell[16371, 471, 316, 7, 25, "Print"],
-Cell[16690, 480, 316, 7, 25, "Print"],
-Cell[17009, 489, 316, 7, 25, "Print"],
-Cell[17328, 498, 316, 7, 25, "Print"],
-Cell[17647, 507, 322, 7, 25, "Print"],
-Cell[17972, 516, 322, 7, 25, "Print"],
-Cell[18297, 525, 322, 7, 25, "Print"],
-Cell[18622, 534, 310, 7, 25, "Print"],
-Cell[18935, 543, 310, 7, 25, "Print"],
-Cell[19248, 552, 310, 7, 25, "Print"],
-Cell[19561, 561, 310, 7, 25, "Print"],
-Cell[19874, 570, 322, 7, 25, "Print"],
-Cell[20199, 579, 322, 7, 25, "Print"],
-Cell[20524, 588, 322, 7, 25, "Print"],
-Cell[20849, 597, 310, 7, 25, "Print"],
-Cell[21162, 606, 310, 7, 25, "Print"],
-Cell[21475, 615, 310, 7, 25, "Print"],
-Cell[21788, 624, 310, 7, 25, "Print"],
-Cell[22101, 633, 1858, 28, 181, "Output"]
-}, Closed]],
+Cell[5728, 156, 90, 2, 44, "Input",
+  InitializationCell->True],
+Cell[5821, 160, 146, 3, 25, "Print"],
+Cell[5970, 165, 55, 1, 25, "Print"],
+Cell[6028, 168, 304, 7, 25, "Print"],
+Cell[6335, 177, 304, 7, 25, "Print"],
+Cell[6642, 186, 304, 7, 25, "Print"],
+Cell[6949, 195, 304, 7, 25, "Print"],
+Cell[7256, 204, 304, 7, 25, "Print"],
+Cell[7563, 213, 304, 7, 25, "Print"],
+Cell[7870, 222, 304, 7, 25, "Print"],
+Cell[8177, 231, 304, 7, 25, "Print"],
+Cell[8484, 240, 304, 7, 25, "Print"],
+Cell[8791, 249, 304, 7, 25, "Print"],
+Cell[9098, 258, 304, 7, 25, "Print"],
+Cell[9405, 267, 304, 7, 25, "Print"],
+Cell[9712, 276, 304, 7, 25, "Print"],
+Cell[10019, 285, 304, 7, 25, "Print"],
+Cell[10326, 294, 304, 7, 25, "Print"],
+Cell[10633, 303, 304, 7, 25, "Print"],
+Cell[10940, 312, 304, 7, 25, "Print"],
+Cell[11247, 321, 304, 7, 25, "Print"],
+Cell[11554, 330, 304, 7, 25, "Print"],
+Cell[11861, 339, 304, 7, 25, "Print"],
+Cell[12168, 348, 304, 7, 25, "Print"],
+Cell[12475, 357, 304, 7, 25, "Print"],
+Cell[12782, 366, 304, 7, 25, "Print"],
+Cell[13089, 375, 310, 7, 25, "Print"],
+Cell[13402, 384, 310, 7, 25, "Print"],
+Cell[13715, 393, 310, 7, 25, "Print"],
+Cell[14028, 402, 310, 7, 25, "Print"],
+Cell[14341, 411, 310, 7, 25, "Print"],
+Cell[14654, 420, 310, 7, 25, "Print"],
+Cell[14967, 429, 310, 7, 25, "Print"],
+Cell[15280, 438, 310, 7, 25, "Print"],
+Cell[15593, 447, 316, 7, 25, "Print"],
+Cell[15912, 456, 316, 7, 25, "Print"],
+Cell[16231, 465, 316, 7, 25, "Print"],
+Cell[16550, 474, 316, 7, 25, "Print"],
+Cell[16869, 483, 316, 7, 25, "Print"],
+Cell[17188, 492, 316, 7, 25, "Print"],
+Cell[17507, 501, 316, 7, 25, "Print"],
+Cell[17826, 510, 316, 7, 25, "Print"],
+Cell[18145, 519, 322, 7, 25, "Print"],
+Cell[18470, 528, 322, 7, 25, "Print"],
+Cell[18795, 537, 322, 7, 25, "Print"],
+Cell[19120, 546, 310, 7, 25, "Print"],
+Cell[19433, 555, 310, 7, 25, "Print"],
+Cell[19746, 564, 310, 7, 25, "Print"],
+Cell[20059, 573, 310, 7, 25, "Print"],
+Cell[20372, 582, 322, 7, 25, "Print"],
+Cell[20697, 591, 322, 7, 25, "Print"],
+Cell[21022, 600, 322, 7, 25, "Print"],
+Cell[21347, 609, 310, 7, 25, "Print"],
+Cell[21660, 618, 310, 7, 25, "Print"],
+Cell[21973, 627, 310, 7, 25, "Print"],
+Cell[22286, 636, 310, 7, 25, "Print"],
+Cell[22599, 645, 1858, 28, 195, "Output"]
+}, Open  ]],
 
 Cell[CellGroupData[{
-Cell[23996, 666, 57, 1, 27, "Input"],
-Cell[24056, 669, 193, 4, 25, "Print"],
-Cell[24252, 675, 289, 6, 25, "Print"],
-Cell[24544, 683, 193, 4, 25, "Print"],
-Cell[24740, 689, 289, 6, 25, "Print"],
-Cell[25032, 697, 193, 4, 25, "Print"],
-Cell[25228, 703, 289, 6, 25, "Print"],
-Cell[25520, 711, 193, 4, 25, "Print"],
-Cell[25716, 717, 289, 6, 25, "Print"],
-Cell[26008, 725, 193, 4, 25, "Print"],
-Cell[26204, 731, 289, 6, 25, "Print"],
-Cell[26496, 739, 193, 4, 25, "Print"],
-Cell[26692, 745, 289, 6, 25, "Print"],
-Cell[26984, 753, 193, 4, 25, "Print"],
-Cell[27180, 759, 161, 3, 22, "Message"],
-Cell[27344, 764, 76, 1, 29, "Output"]
+Cell[24494, 678, 85, 2, 44, "Input",
+  InitializationCell->True],
+Cell[24582, 682, 195, 4, 25, "Print"],
+Cell[24780, 688, 161, 3, 22, "Message"]
 }, Open  ]]
 }
 ]
