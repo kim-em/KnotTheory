@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     24947,        694]*)
-(*NotebookOutlinePosition[     25651,        718]*)
-(*  CellTagsIndexPosition[     25607,        714]*)
+(*NotebookOptionsPosition[     32539,        865]*)
+(*NotebookOutlinePosition[     33243,        889]*)
+(*  CellTagsIndexPosition[     33199,        885]*)
 (*WindowFrame->Normal*)
 
 
@@ -58,8 +58,7 @@ Cell[BoxData[{
     \(\(KnotTheoryPath\  = \ \
 "\<c:\\drorbn\\projects\\KnotTheory\\svn\\trunk\\\>";\)\), "\n", 
     \(\(AppendTo[$Path, \ KnotTheoryPath];\)\), "\[IndentingNewLine]", 
-    \(<< \ KnotTheory`\)}], "Input",
-  InitializationCell->True],
+    \(<< \ KnotTheory`\)}], "Input"],
 
 Cell[BoxData[
     \("Loading KnotTheory` version of June 24, 2006, 17:55:18.4679.\nRead \
@@ -69,8 +68,7 @@ more at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(<< QuantumGroups`\)], "Input",
-  InitializationCell->True],
+    \(<< QuantumGroups`\)], "Input"],
 
 Cell[BoxData[
     InterpretationBox[\("Loading QuantumGroups` version 2.0\n"\
@@ -84,14 +82,12 @@ http://katlas.math.toronto.edu/wiki/QuantumGroups"\),
 
 Cell[BoxData[
     \(CreateWikiConnection["\<http://katlas.math.toronto.edu/w/index.php\>", \
-"\<ScottDataRobot\>", "\<foobar\>"]\)], "Input",
-  InitializationCell->True],
+"\<ScottDataRobot\>", "\<foobar\>"]\)], "Input"],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(WikiUserName[]\)], "Input",
-  InitializationCell->True],
+    \(WikiUserName[]\)], "Input"],
 
 Cell[BoxData[
     \("ScottDataRobot"\)], "Output"]
@@ -110,8 +106,7 @@ Cell[BoxData[
                                 m : \((DigitCharacter .. )\)\)\)\)\)\)\)\))\) \
 \[RuleDelayed] {ToExpression[m], 
               line, \(ToExpression[\[CapitalGamma]]\)\_\(ToExpression[n]\), 
-              ToExpression[\[Lambda]], ToExpression[k]}]]\)], "Input",
-  InitializationCell->True],
+              ToExpression[\[Lambda]], ToExpression[k]}]]\)], "Input"],
 
 Cell[BoxData[
     RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
@@ -120,6 +115,8 @@ error: new symbol name \\\"\\!\\(line\\)\\\" is similar to existing symbol \\\
 ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
 ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
 }, Open  ]],
+
+Cell[CellGroupData[{
 
 Cell[BoxData[
     \(workItem := 
@@ -131,11 +128,20 @@ Cell[BoxData[
           i\[RightDoubleBracket]\[IndentingNewLine]]\)], "Input"],
 
 Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(workItem\\)\\\" is similar to existing \
+symbol \\\"\\!\\(workItems\\)\\\". \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], \
+"Message"]
+}, Open  ]],
+
+Cell[BoxData[
     \(processItem[{m_, line_, \[CapitalGamma]_, \[Lambda]_, 
           k_}] := \[IndentingNewLine]\((Print["\<Processing \>", line]; 
         Share[]; \[IndentingNewLine]Switch[
-          WriteBraidingDataToWiki[\(Irrep[\[CapitalGamma]]\)[\[Lambda]], k, 
-            m*10\^6], \[IndentingNewLine]$Aborted, 
+          WriteBraidingDataToWiki[\(Irrep[\[CapitalGamma]]\)[\[Lambda]], 
+            k, \[Infinity]], \[IndentingNewLine]$Aborted, 
           WikiStringReplace["\<BraidingData_Queue\>", 
             line \[RuleDelayed] 
               StringReplace[line, 
@@ -150,14 +156,12 @@ Cell[BoxData[
             line \[RuleDelayed] 
               StringReplace[
                 line, "\<*\>" \[RuleDelayed] "\<** broken:\>"]]])\)\)], \
-"Input",
-  InitializationCell->True],
+"Input"],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(LoadAllBraidingDataFromWiki[]\)], "Input",
-  InitializationCell->True],
+    \(LoadAllBraidingDataFromWiki[]\)], "Input"],
 
 Cell[BoxData[
     \("Looking at: \
@@ -681,15 +685,182 @@ Cell[BoxData[
     \(While[True, processItem[workItem]]\)], "Input"],
 
 Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{2}], 7, \
-200"\),
-      SequenceForm[ "Processing ", "*Irrep[A1][{2}], 7, 200"],
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{3}], 6, \
+300"\),
+      SequenceForm[ "Processing ", "*Irrep[A1][{3}], 6, 300"],
       Editable->False]], "Print"],
 
 Cell[BoxData[
-    \(QuantumGroups::"loading" \(\(:\)\(\ \)\) 
-      "Loading precomputed data in \
-\!\(\"QuantumGroups`Data`A1`BraidingData`\"\)."\)], "Message"]
+    RowBox[{\(MemoryConstrained::"intpm"\), \(\(:\)\(\ \)\), "\<\"Positive \
+machine-size integer expected at position \\!\\(2\\) in \
+\\!\\(MemoryConstrained[\\(\\(\\(\\(Module[\\(\\(\\(\\({}\\)\\), \
+\\(\\(\\(\\(If[\\(\\(\\(\\(\\(\\(\\(\\(CheckBraidingData[A\\_1]\\)\\)[\\(\\(\\\
+(\\(\\(\\(Irrep[\[Null]\\_\\(\[LeftSkeleton] 2 \[RightSkeleton]\\)]\\)\\)[\\(\
+\\({\\(\[LeftSkeleton] 1 \[RightSkeleton]\\)}\\)\\)]\\)\\), 6\\)\\)]\\)\\) \
+=!= True\\)\\), \\(\\(\\(\\(Print[\\(\\(\\\"The braiding data for \\\", \
+\\(\\(\\(Irrep[\\(\\(\[LeftSkeleton] 1 \[RightSkeleton]\\)\\)]\\)\\)[\\(\\(\
+\[LeftSkeleton] 1 \[RightSkeleton]\\)\\)]\\)\\^\\(StringJoin[\\(\\(\
+\[LeftSkeleton] 2 \[RightSkeleton]\\)\\)]\\), \\\" is \
+invalid!\\\"\\)\\)]\\)\\) ; \\(\\(Return[$Failed]\\)\\)\\)\\)\\)\\)]\\)\\) ; \
+\\(\\(\\(\\(\[LeftSkeleton] 19 \[RightSkeleton]\\)\\)[A\\_1]\\)\\) ; \
+\\(\\(WikiSetPageText[\\(\\(\\(\\(\[LeftSkeleton] 1 \[RightSkeleton]\\)\\), \
+\\(\\(\[LeftSkeleton] 1 \
+\[RightSkeleton]\\)\\)\\)\\)]\\)\\)\\)\\)\\)\\)]\\)\\), \
+\[Infinity]\\)\\)]\\). \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::intpm\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(MemoryConstrained::"intpm"\), \(\(:\)\(\ \)\), "\<\"Positive \
+machine-size integer expected at position \\!\\(2\\) in \
+\\!\\(MemoryConstrained[\\(\\(\\(\\(Module[\\(\\(\\(\\({}\\)\\), \
+\\(\\(\\(\\(If[\\(\\(\\(\\(\\(\\(\\(\\(CheckBraidingData[A\\_1]\\)\\)[\\(\\(\\\
+(\\(\\(\\(Irrep[\[Null]\\_\\(\[LeftSkeleton] 2 \[RightSkeleton]\\)]\\)\\)[\\(\
+\\({\\(\[LeftSkeleton] 1 \[RightSkeleton]\\)}\\)\\)]\\)\\), 6\\)\\)]\\)\\) \
+=!= True\\)\\), \\(\\(\\(\\(Print[\\(\\(\\\"The braiding data for \\\", \
+\\(\\(\\(Irrep[\\(\\(\[LeftSkeleton] 1 \[RightSkeleton]\\)\\)]\\)\\)[\\(\\(\
+\[LeftSkeleton] 1 \[RightSkeleton]\\)\\)]\\)\\^\\(StringJoin[\\(\\(\
+\[LeftSkeleton] 2 \[RightSkeleton]\\)\\)]\\), \\\" is \
+invalid!\\\"\\)\\)]\\)\\) ; \\(\\(Return[$Failed]\\)\\)\\)\\)\\)\\)]\\)\\) ; \
+\\(\\(\\(\\(\[LeftSkeleton] 19 \[RightSkeleton]\\)\\)[A\\_1]\\)\\) ; \
+\\(\\(WikiSetPageText[\\(\\(\\(\\(\[LeftSkeleton] 1 \[RightSkeleton]\\)\\), \
+\\(\\(\[LeftSkeleton] 1 \
+\[RightSkeleton]\\)\\)\\)\\)]\\)\\)\\)\\)\\)\\)]\\)\\), \
+\[Infinity]\\)\\)]\\). \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::intpm\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[G2][{1,0}], 4, \
+500"\),
+      SequenceForm[ "Processing ", "*Irrep[G2][{1,0}], 4, 500"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    RowBox[{\(MemoryConstrained::"intpm"\), \(\(:\)\(\ \)\), "\<\"Positive \
+machine-size integer expected at position \\!\\(2\\) in \
+\\!\\(MemoryConstrained[\\(\\(\\(\\(Module[\\(\\(\\(\\({}\\)\\), \
+\\(\\(\\(\\(If[\\(\\(\\(\\(\\(\\(\\(\\(CheckBraidingData[G\\_2]\\)\\)[\\(\\(\\\
+(\\(\\(\\(Irrep[\[Null]\\_\\(\[LeftSkeleton] 2 \[RightSkeleton]\\)]\\)\\)[\\(\
+\\({\\(\[LeftSkeleton] 2 \[RightSkeleton]\\)}\\)\\)]\\)\\), 4\\)\\)]\\)\\) \
+=!= True\\)\\), \\(\\(\\(\\(Print[\\(\\(\\\"The braiding data for \\\", \
+\\(\\(\\(Irrep[\\(\\(\[LeftSkeleton] 1 \[RightSkeleton]\\)\\)]\\)\\)[\\(\\(\
+\[LeftSkeleton] 1 \[RightSkeleton]\\)\\)]\\)\\^\\(StringJoin[\\(\\(\
+\[LeftSkeleton] 2 \[RightSkeleton]\\)\\)]\\), \\\" is \
+invalid!\\\"\\)\\)]\\)\\) ; \\(\\(Return[$Failed]\\)\\)\\)\\)\\)\\)]\\)\\) ; \
+\\(\\(\\(\\(\[LeftSkeleton] 19 \[RightSkeleton]\\)\\)[G\\_2]\\)\\) ; \
+\\(\\(WikiSetPageText[\\(\\(\\(\\(\[LeftSkeleton] 1 \[RightSkeleton]\\)\\), \
+\\(\\(\[LeftSkeleton] 1 \
+\[RightSkeleton]\\)\\)\\)\\)]\\)\\)\\)\\)\\)\\)]\\)\\), \
+\[Infinity]\\)\\)]\\). \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::intpm\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(General::"stop"\), \(\(:\)\(\ \)\), "\<\"Further output of \
+\\!\\(MemoryConstrained :: \\\"intpm\\\"\\) will be suppressed during this \
+calculation. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::stop\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[B2][{1,0}], 4, \
+500"\),
+      SequenceForm[ "Processing ", "*Irrep[B2][{1,0}], 4, 500"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{8}], 2, \
+300"\),
+      SequenceForm[ "Processing ", "*Irrep[A1][{8}], 2, 300"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[B2][{0,1}], 3, \
+400"\),
+      SequenceForm[ "Processing ", "*Irrep[B2][{0,1}], 3, 400"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{4}], 5, \
+300"\),
+      SequenceForm[ "Processing ", "*Irrep[A1][{4}], 5, 300"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[B2][{0,1}], 4, \
+400"\),
+      SequenceForm[ "Processing ", "*Irrep[B2][{0,1}], 4, 400"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[D4][{0,1,0,0}], \
+3, 500"\),
+      SequenceForm[ "Processing ", "*Irrep[D4][{0,1,0,0}], 3, 500"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[B2][{0,1}], 5, \
+400"\),
+      SequenceForm[ "Processing ", "*Irrep[B2][{0,1}], 5, 400"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{7}], 3, \
+300"\),
+      SequenceForm[ "Processing ", "*Irrep[A1][{7}], 3, 300"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[B2][{1,0}], 3, \
+500"\),
+      SequenceForm[ "Processing ", "*Irrep[B2][{1,0}], 3, 500"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[G2][{1,0}], 3, \
+500"\),
+      SequenceForm[ "Processing ", "*Irrep[G2][{1,0}], 3, 500"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[B2][{0,1}], 2, \
+400"\),
+      SequenceForm[ "Processing ", "*Irrep[B2][{0,1}], 2, 400"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[D4][{1,0,0,0}], \
+4, 500"\),
+      SequenceForm[ "Processing ", "*Irrep[D4][{1,0,0,0}], 4, 500"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{2}], 7, \
+300"\),
+      SequenceForm[ "Processing ", "*Irrep[A1][{2}], 7, 300"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[B2][{1,0}], 5, \
+500"\),
+      SequenceForm[ "Processing ", "*Irrep[B2][{1,0}], 5, 500"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[D4][{1,0,0,0}], \
+5, 600"\),
+      SequenceForm[ "Processing ", "*Irrep[D4][{1,0,0,0}], 5, 600"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[G2][{1,0}], 5, \
+500"\),
+      SequenceForm[ "Processing ", "*Irrep[G2][{1,0}], 5, 500"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    \("Couldn't find anything to do!"\)], "Print"]
 }, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
@@ -719,99 +890,117 @@ CellTagsIndex->{}
 Notebook[{
 
 Cell[CellGroupData[{
-Cell[1776, 53, 426, 8, 124, "Input",
-  InitializationCell->True],
-Cell[2205, 63, 159, 2, 44, "Print"]
+Cell[1776, 53, 398, 7, 124, "Input"],
+Cell[2177, 62, 159, 2, 44, "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[2401, 70, 78, 2, 44, "Input",
-  InitializationCell->True],
-Cell[2482, 74, 341, 7, 44, "Print"]
+Cell[2373, 69, 50, 1, 44, "Input"],
+Cell[2426, 72, 341, 7, 44, "Print"]
 }, Open  ]],
-Cell[2838, 84, 169, 3, 44, "Input",
-  InitializationCell->True],
+Cell[2782, 82, 141, 2, 44, "Input"],
 
 Cell[CellGroupData[{
-Cell[3032, 91, 75, 2, 44, "Input",
-  InitializationCell->True],
-Cell[3110, 95, 50, 1, 43, "Output"]
+Cell[2948, 88, 47, 1, 44, "Input"],
+Cell[2998, 91, 50, 1, 43, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[3197, 101, 723, 12, 131, "Input",
-  InitializationCell->True],
-Cell[3923, 115, 356, 5, 22, "Message"]
-}, Open  ]],
-Cell[4294, 123, 374, 7, 110, "Input"],
-Cell[4671, 132, 1040, 21, 147, "Input",
-  InitializationCell->True],
-
-Cell[CellGroupData[{
-Cell[5736, 157, 90, 2, 44, "Input",
-  InitializationCell->True],
-Cell[5829, 161, 146, 3, 25, "Print"],
-Cell[5978, 166, 55, 1, 25, "Print"],
-Cell[6036, 169, 304, 7, 25, "Print"],
-Cell[6343, 178, 304, 7, 25, "Print"],
-Cell[6650, 187, 304, 7, 25, "Print"],
-Cell[6957, 196, 304, 7, 25, "Print"],
-Cell[7264, 205, 304, 7, 25, "Print"],
-Cell[7571, 214, 304, 7, 25, "Print"],
-Cell[7878, 223, 304, 7, 25, "Print"],
-Cell[8185, 232, 304, 7, 25, "Print"],
-Cell[8492, 241, 304, 7, 25, "Print"],
-Cell[8799, 250, 304, 7, 25, "Print"],
-Cell[9106, 259, 304, 7, 25, "Print"],
-Cell[9413, 268, 304, 7, 25, "Print"],
-Cell[9720, 277, 304, 7, 25, "Print"],
-Cell[10027, 286, 304, 7, 25, "Print"],
-Cell[10334, 295, 304, 7, 25, "Print"],
-Cell[10641, 304, 304, 7, 25, "Print"],
-Cell[10948, 313, 304, 7, 25, "Print"],
-Cell[11255, 322, 304, 7, 25, "Print"],
-Cell[11562, 331, 304, 7, 25, "Print"],
-Cell[11869, 340, 304, 7, 25, "Print"],
-Cell[12176, 349, 304, 7, 25, "Print"],
-Cell[12483, 358, 304, 7, 25, "Print"],
-Cell[12790, 367, 304, 7, 25, "Print"],
-Cell[13097, 376, 310, 7, 25, "Print"],
-Cell[13410, 385, 310, 7, 25, "Print"],
-Cell[13723, 394, 310, 7, 25, "Print"],
-Cell[14036, 403, 310, 7, 25, "Print"],
-Cell[14349, 412, 310, 7, 25, "Print"],
-Cell[14662, 421, 310, 7, 25, "Print"],
-Cell[14975, 430, 310, 7, 25, "Print"],
-Cell[15288, 439, 310, 7, 25, "Print"],
-Cell[15601, 448, 316, 7, 25, "Print"],
-Cell[15920, 457, 316, 7, 25, "Print"],
-Cell[16239, 466, 316, 7, 25, "Print"],
-Cell[16558, 475, 316, 7, 25, "Print"],
-Cell[16877, 484, 316, 7, 25, "Print"],
-Cell[17196, 493, 316, 7, 25, "Print"],
-Cell[17515, 502, 316, 7, 25, "Print"],
-Cell[17834, 511, 316, 7, 25, "Print"],
-Cell[18153, 520, 322, 7, 25, "Print"],
-Cell[18478, 529, 322, 7, 25, "Print"],
-Cell[18803, 538, 322, 7, 25, "Print"],
-Cell[19128, 547, 310, 7, 25, "Print"],
-Cell[19441, 556, 310, 7, 25, "Print"],
-Cell[19754, 565, 310, 7, 25, "Print"],
-Cell[20067, 574, 310, 7, 25, "Print"],
-Cell[20380, 583, 322, 7, 25, "Print"],
-Cell[20705, 592, 322, 7, 25, "Print"],
-Cell[21030, 601, 322, 7, 25, "Print"],
-Cell[21355, 610, 310, 7, 25, "Print"],
-Cell[21668, 619, 310, 7, 25, "Print"],
-Cell[21981, 628, 310, 7, 25, "Print"],
-Cell[22294, 637, 310, 7, 25, "Print"],
-Cell[22607, 646, 1858, 28, 195, "Output"]
+Cell[3085, 97, 695, 11, 145, "Input"],
+Cell[3783, 110, 356, 5, 22, "Message"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[24502, 679, 67, 1, 30, "Input"],
-Cell[24572, 682, 195, 4, 25, "Print"],
-Cell[24770, 688, 161, 3, 22, "Message"]
+Cell[4176, 120, 374, 7, 124, "Input"],
+Cell[4553, 129, 367, 6, 22, "Message"]
+}, Open  ]],
+Cell[4935, 138, 1016, 20, 144, "Input"],
+
+Cell[CellGroupData[{
+Cell[5976, 162, 62, 1, 44, "Input"],
+Cell[6041, 165, 146, 3, 25, "Print"],
+Cell[6190, 170, 55, 1, 25, "Print"],
+Cell[6248, 173, 304, 7, 25, "Print"],
+Cell[6555, 182, 304, 7, 25, "Print"],
+Cell[6862, 191, 304, 7, 25, "Print"],
+Cell[7169, 200, 304, 7, 25, "Print"],
+Cell[7476, 209, 304, 7, 25, "Print"],
+Cell[7783, 218, 304, 7, 25, "Print"],
+Cell[8090, 227, 304, 7, 25, "Print"],
+Cell[8397, 236, 304, 7, 25, "Print"],
+Cell[8704, 245, 304, 7, 25, "Print"],
+Cell[9011, 254, 304, 7, 25, "Print"],
+Cell[9318, 263, 304, 7, 25, "Print"],
+Cell[9625, 272, 304, 7, 25, "Print"],
+Cell[9932, 281, 304, 7, 25, "Print"],
+Cell[10239, 290, 304, 7, 25, "Print"],
+Cell[10546, 299, 304, 7, 25, "Print"],
+Cell[10853, 308, 304, 7, 25, "Print"],
+Cell[11160, 317, 304, 7, 25, "Print"],
+Cell[11467, 326, 304, 7, 25, "Print"],
+Cell[11774, 335, 304, 7, 25, "Print"],
+Cell[12081, 344, 304, 7, 25, "Print"],
+Cell[12388, 353, 304, 7, 25, "Print"],
+Cell[12695, 362, 304, 7, 25, "Print"],
+Cell[13002, 371, 304, 7, 25, "Print"],
+Cell[13309, 380, 310, 7, 25, "Print"],
+Cell[13622, 389, 310, 7, 25, "Print"],
+Cell[13935, 398, 310, 7, 25, "Print"],
+Cell[14248, 407, 310, 7, 25, "Print"],
+Cell[14561, 416, 310, 7, 25, "Print"],
+Cell[14874, 425, 310, 7, 25, "Print"],
+Cell[15187, 434, 310, 7, 25, "Print"],
+Cell[15500, 443, 310, 7, 25, "Print"],
+Cell[15813, 452, 316, 7, 25, "Print"],
+Cell[16132, 461, 316, 7, 25, "Print"],
+Cell[16451, 470, 316, 7, 25, "Print"],
+Cell[16770, 479, 316, 7, 25, "Print"],
+Cell[17089, 488, 316, 7, 25, "Print"],
+Cell[17408, 497, 316, 7, 25, "Print"],
+Cell[17727, 506, 316, 7, 25, "Print"],
+Cell[18046, 515, 316, 7, 25, "Print"],
+Cell[18365, 524, 322, 7, 25, "Print"],
+Cell[18690, 533, 322, 7, 25, "Print"],
+Cell[19015, 542, 322, 7, 25, "Print"],
+Cell[19340, 551, 310, 7, 25, "Print"],
+Cell[19653, 560, 310, 7, 25, "Print"],
+Cell[19966, 569, 310, 7, 25, "Print"],
+Cell[20279, 578, 310, 7, 25, "Print"],
+Cell[20592, 587, 322, 7, 25, "Print"],
+Cell[20917, 596, 322, 7, 25, "Print"],
+Cell[21242, 605, 322, 7, 25, "Print"],
+Cell[21567, 614, 310, 7, 25, "Print"],
+Cell[21880, 623, 310, 7, 25, "Print"],
+Cell[22193, 632, 310, 7, 25, "Print"],
+Cell[22506, 641, 310, 7, 25, "Print"],
+Cell[22819, 650, 1858, 28, 195, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[24714, 683, 67, 1, 44, "Input"],
+Cell[24784, 686, 195, 4, 25, "Print"],
+Cell[24982, 692, 1227, 18, 55, "Message"],
+Cell[26212, 712, 1227, 18, 55, "Message"],
+Cell[27442, 732, 199, 4, 25, "Print"],
+Cell[27644, 738, 1227, 18, 55, "Message"],
+Cell[28874, 758, 342, 5, 22, "Message"],
+Cell[29219, 765, 199, 4, 25, "Print"],
+Cell[29421, 771, 195, 4, 25, "Print"],
+Cell[29619, 777, 199, 4, 25, "Print"],
+Cell[29821, 783, 195, 4, 25, "Print"],
+Cell[30019, 789, 199, 4, 25, "Print"],
+Cell[30221, 795, 207, 4, 25, "Print"],
+Cell[30431, 801, 199, 4, 25, "Print"],
+Cell[30633, 807, 195, 4, 25, "Print"],
+Cell[30831, 813, 199, 4, 25, "Print"],
+Cell[31033, 819, 199, 4, 25, "Print"],
+Cell[31235, 825, 199, 4, 25, "Print"],
+Cell[31437, 831, 207, 4, 25, "Print"],
+Cell[31647, 837, 195, 4, 25, "Print"],
+Cell[31845, 843, 199, 4, 25, "Print"],
+Cell[32047, 849, 207, 4, 25, "Print"],
+Cell[32257, 855, 199, 4, 25, "Print"],
+Cell[32459, 861, 64, 1, 25, "Print"]
 }, Open  ]]
 }
 ]
