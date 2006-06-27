@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     32540,        865]*)
-(*NotebookOutlinePosition[     33243,        889]*)
-(*  CellTagsIndexPosition[     33199,        885]*)
+(*NotebookOptionsPosition[     25160,        698]*)
+(*NotebookOutlinePosition[     25839,        721]*)
+(*  CellTagsIndexPosition[     25795,        717]*)
 (*WindowFrame->Normal*)
 
 
@@ -685,188 +685,20 @@ Cell[BoxData[
     \(While[True, processItem[workItem]]\)], "Input"],
 
 Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{3}], 6, \
-300"\),
-      SequenceForm[ "Processing ", "*Irrep[A1][{3}], 6, 300"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    RowBox[{\(MemoryConstrained::"intpm"\), \(\(:\)\(\ \)\), "\<\"Positive \
-machine-size integer expected at position \\!\\(2\\) in \
-\\!\\(MemoryConstrained[\\(\\(\\(\\(Module[\\(\\(\\(\\({}\\)\\), \
-\\(\\(\\(\\(If[\\(\\(\\(\\(\\(\\(\\(\\(CheckBraidingData[A\\_1]\\)\\)[\\(\\(\\\
-(\\(\\(\\(Irrep[\[Null]\\_\\(\[LeftSkeleton] 2 \[RightSkeleton]\\)]\\)\\)[\\(\
-\\({\\(\[LeftSkeleton] 1 \[RightSkeleton]\\)}\\)\\)]\\)\\), 6\\)\\)]\\)\\) \
-=!= True\\)\\), \\(\\(\\(\\(Print[\\(\\(\\\"The braiding data for \\\", \
-\\(\\(\\(Irrep[\\(\\(\[LeftSkeleton] 1 \[RightSkeleton]\\)\\)]\\)\\)[\\(\\(\
-\[LeftSkeleton] 1 \[RightSkeleton]\\)\\)]\\)\\^\\(StringJoin[\\(\\(\
-\[LeftSkeleton] 2 \[RightSkeleton]\\)\\)]\\), \\\" is \
-invalid!\\\"\\)\\)]\\)\\) ; \\(\\(Return[$Failed]\\)\\)\\)\\)\\)\\)]\\)\\) ; \
-\\(\\(\\(\\(\[LeftSkeleton] 19 \[RightSkeleton]\\)\\)[A\\_1]\\)\\) ; \
-\\(\\(WikiSetPageText[\\(\\(\\(\\(\[LeftSkeleton] 1 \[RightSkeleton]\\)\\), \
-\\(\\(\[LeftSkeleton] 1 \
-\[RightSkeleton]\\)\\)\\)\\)]\\)\\)\\)\\)\\)\\)]\\)\\), \
-\[Infinity]\\)\\)]\\). \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
-ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
-ButtonData:>\\\"General::intpm\\\"]\\)\"\>"}]], "Message"],
-
-Cell[BoxData[
-    RowBox[{\(MemoryConstrained::"intpm"\), \(\(:\)\(\ \)\), "\<\"Positive \
-machine-size integer expected at position \\!\\(2\\) in \
-\\!\\(MemoryConstrained[\\(\\(\\(\\(Module[\\(\\(\\(\\({}\\)\\), \
-\\(\\(\\(\\(If[\\(\\(\\(\\(\\(\\(\\(\\(CheckBraidingData[A\\_1]\\)\\)[\\(\\(\\\
-(\\(\\(\\(Irrep[\[Null]\\_\\(\[LeftSkeleton] 2 \[RightSkeleton]\\)]\\)\\)[\\(\
-\\({\\(\[LeftSkeleton] 1 \[RightSkeleton]\\)}\\)\\)]\\)\\), 6\\)\\)]\\)\\) \
-=!= True\\)\\), \\(\\(\\(\\(Print[\\(\\(\\\"The braiding data for \\\", \
-\\(\\(\\(Irrep[\\(\\(\[LeftSkeleton] 1 \[RightSkeleton]\\)\\)]\\)\\)[\\(\\(\
-\[LeftSkeleton] 1 \[RightSkeleton]\\)\\)]\\)\\^\\(StringJoin[\\(\\(\
-\[LeftSkeleton] 2 \[RightSkeleton]\\)\\)]\\), \\\" is \
-invalid!\\\"\\)\\)]\\)\\) ; \\(\\(Return[$Failed]\\)\\)\\)\\)\\)\\)]\\)\\) ; \
-\\(\\(\\(\\(\[LeftSkeleton] 19 \[RightSkeleton]\\)\\)[A\\_1]\\)\\) ; \
-\\(\\(WikiSetPageText[\\(\\(\\(\\(\[LeftSkeleton] 1 \[RightSkeleton]\\)\\), \
-\\(\\(\[LeftSkeleton] 1 \
-\[RightSkeleton]\\)\\)\\)\\)]\\)\\)\\)\\)\\)\\)]\\)\\), \
-\[Infinity]\\)\\)]\\). \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
-ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
-ButtonData:>\\\"General::intpm\\\"]\\)\"\>"}]], "Message"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[G2][{1,0}], 4, \
-500"\),
-      SequenceForm[ "Processing ", "*Irrep[G2][{1,0}], 4, 500"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    RowBox[{\(MemoryConstrained::"intpm"\), \(\(:\)\(\ \)\), "\<\"Positive \
-machine-size integer expected at position \\!\\(2\\) in \
-\\!\\(MemoryConstrained[\\(\\(\\(\\(Module[\\(\\(\\(\\({}\\)\\), \
-\\(\\(\\(\\(If[\\(\\(\\(\\(\\(\\(\\(\\(CheckBraidingData[G\\_2]\\)\\)[\\(\\(\\\
-(\\(\\(\\(Irrep[\[Null]\\_\\(\[LeftSkeleton] 2 \[RightSkeleton]\\)]\\)\\)[\\(\
-\\({\\(\[LeftSkeleton] 2 \[RightSkeleton]\\)}\\)\\)]\\)\\), 4\\)\\)]\\)\\) \
-=!= True\\)\\), \\(\\(\\(\\(Print[\\(\\(\\\"The braiding data for \\\", \
-\\(\\(\\(Irrep[\\(\\(\[LeftSkeleton] 1 \[RightSkeleton]\\)\\)]\\)\\)[\\(\\(\
-\[LeftSkeleton] 1 \[RightSkeleton]\\)\\)]\\)\\^\\(StringJoin[\\(\\(\
-\[LeftSkeleton] 2 \[RightSkeleton]\\)\\)]\\), \\\" is \
-invalid!\\\"\\)\\)]\\)\\) ; \\(\\(Return[$Failed]\\)\\)\\)\\)\\)\\)]\\)\\) ; \
-\\(\\(\\(\\(\[LeftSkeleton] 19 \[RightSkeleton]\\)\\)[G\\_2]\\)\\) ; \
-\\(\\(WikiSetPageText[\\(\\(\\(\\(\[LeftSkeleton] 1 \[RightSkeleton]\\)\\), \
-\\(\\(\[LeftSkeleton] 1 \
-\[RightSkeleton]\\)\\)\\)\\)]\\)\\)\\)\\)\\)\\)]\\)\\), \
-\[Infinity]\\)\\)]\\). \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
-ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
-ButtonData:>\\\"General::intpm\\\"]\\)\"\>"}]], "Message"],
-
-Cell[BoxData[
-    RowBox[{\(General::"stop"\), \(\(:\)\(\ \)\), "\<\"Further output of \
-\\!\\(MemoryConstrained :: \\\"intpm\\\"\\) will be suppressed during this \
-calculation. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
-ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
-ButtonData:>\\\"General::stop\\\"]\\)\"\>"}]], "Message"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[B2][{1,0}], 4, \
-500"\),
-      SequenceForm[ "Processing ", "*Irrep[B2][{1,0}], 4, 500"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{8}], 2, \
-300"\),
-      SequenceForm[ "Processing ", "*Irrep[A1][{8}], 2, 300"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[B2][{0,1}], 3, \
-400"\),
-      SequenceForm[ "Processing ", "*Irrep[B2][{0,1}], 3, 400"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
     InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{4}], 5, \
 300"\),
       SequenceForm[ "Processing ", "*Irrep[A1][{4}], 5, 300"],
       Editable->False]], "Print"],
 
 Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[B2][{0,1}], 4, \
-400"\),
-      SequenceForm[ "Processing ", "*Irrep[B2][{0,1}], 4, 400"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[D4][{0,1,0,0}], \
-3, 500"\),
-      SequenceForm[ "Processing ", "*Irrep[D4][{0,1,0,0}], 3, 500"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[B2][{0,1}], 5, \
-400"\),
-      SequenceForm[ "Processing ", "*Irrep[B2][{0,1}], 5, 400"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{7}], 3, \
-300"\),
-      SequenceForm[ "Processing ", "*Irrep[A1][{7}], 3, 300"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[B2][{1,0}], 3, \
-500"\),
-      SequenceForm[ "Processing ", "*Irrep[B2][{1,0}], 3, 500"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[G2][{1,0}], 3, \
-500"\),
-      SequenceForm[ "Processing ", "*Irrep[G2][{1,0}], 3, 500"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[B2][{0,1}], 2, \
-400"\),
-      SequenceForm[ "Processing ", "*Irrep[B2][{0,1}], 2, 400"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[D4][{1,0,0,0}], \
-4, 500"\),
-      SequenceForm[ "Processing ", "*Irrep[D4][{1,0,0,0}], 4, 500"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[A1][{2}], 7, \
-300"\),
-      SequenceForm[ "Processing ", "*Irrep[A1][{2}], 7, 300"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[B2][{1,0}], 5, \
-500"\),
-      SequenceForm[ "Processing ", "*Irrep[B2][{1,0}], 5, 500"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[D4][{1,0,0,0}], \
-5, 600"\),
-      SequenceForm[ "Processing ", "*Irrep[D4][{1,0,0,0}], 5, 600"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    InterpretationBox[\("Processing "\[InvisibleSpace]"*Irrep[G2][{1,0}], 5, \
-500"\),
-      SequenceForm[ "Processing ", "*Irrep[G2][{1,0}], 5, 500"],
-      Editable->False]], "Print"],
-
-Cell[BoxData[
-    \("Couldn't find anything to do!"\)], "Print"]
+    \(QuantumGroups::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \
+\!\(\"QuantumGroups`Data`A1`BraidingData`\"\)."\)], "Message"]
 }, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
 ScreenRectangle->{{0, 1280}, {0, 713}},
 AutoGeneratedPackage->Automatic,
-Evaluator->"Alternate",
 WindowSize->{1170, 589},
 WindowMargins->{{24, Automatic}, {Automatic, 30}}
 ]
@@ -973,34 +805,13 @@ Cell[21568, 614, 310, 7, 25, "Print"],
 Cell[21881, 623, 310, 7, 25, "Print"],
 Cell[22194, 632, 310, 7, 25, "Print"],
 Cell[22507, 641, 310, 7, 25, "Print"],
-Cell[22820, 650, 1858, 28, 195, "Output"]
+Cell[22820, 650, 1858, 28, 181, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[24715, 683, 67, 1, 44, "Input"],
+Cell[24715, 683, 67, 1, 30, "Input"],
 Cell[24785, 686, 195, 4, 25, "Print"],
-Cell[24983, 692, 1227, 18, 55, "Message"],
-Cell[26213, 712, 1227, 18, 55, "Message"],
-Cell[27443, 732, 199, 4, 25, "Print"],
-Cell[27645, 738, 1227, 18, 55, "Message"],
-Cell[28875, 758, 342, 5, 22, "Message"],
-Cell[29220, 765, 199, 4, 25, "Print"],
-Cell[29422, 771, 195, 4, 25, "Print"],
-Cell[29620, 777, 199, 4, 25, "Print"],
-Cell[29822, 783, 195, 4, 25, "Print"],
-Cell[30020, 789, 199, 4, 25, "Print"],
-Cell[30222, 795, 207, 4, 25, "Print"],
-Cell[30432, 801, 199, 4, 25, "Print"],
-Cell[30634, 807, 195, 4, 25, "Print"],
-Cell[30832, 813, 199, 4, 25, "Print"],
-Cell[31034, 819, 199, 4, 25, "Print"],
-Cell[31236, 825, 199, 4, 25, "Print"],
-Cell[31438, 831, 207, 4, 25, "Print"],
-Cell[31648, 837, 195, 4, 25, "Print"],
-Cell[31846, 843, 199, 4, 25, "Print"],
-Cell[32048, 849, 207, 4, 25, "Print"],
-Cell[32258, 855, 199, 4, 25, "Print"],
-Cell[32460, 861, 64, 1, 25, "Print"]
+Cell[24983, 692, 161, 3, 22, "Message"]
 }, Open  ]]
 }
 ]
