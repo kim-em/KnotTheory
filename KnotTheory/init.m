@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 6, 24, 17, 55, 18.4679360};
+KnotTheoryVersion[] = {2006, 7, 24, 12, 3, 35.2343750};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -3912,6 +3912,7 @@ Block[{t}, Label[start]; A = B;
     B = ReplacePart[B, Expand[B[[i]]/t^(Exponent[B[[i]], t, Min])], i]];
   B = Union[B];
   If[B != A, Goto[start]]];
+  B = Expand[#/Sign[Coefficient[#, t, 0]]]& /@ B;
   Evaluate[B /. t->#]&
 ))
 Conway[K_] := Conway[K] = Function @@ {Module[{t},
