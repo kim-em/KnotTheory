@@ -184,6 +184,7 @@ Block[{t}, Label[start]; A = B;
     B = ReplacePart[B, Expand[B[[i]]/t^(Exponent[B[[i]], t, Min])], i]];
   B = Union[B];
   If[B != A, Goto[start]]];
+  B = Expand[#/Sign[Coefficient[#, t, 0]]]& /@ B;
   Evaluate[B /. t->#]&
 ))
 
