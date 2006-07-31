@@ -22,21 +22,31 @@ GetDir[a_,b_] :=
 
 
 s4[1]=2;s4[2]=3;s4[3]=4;s4[4]=1;  (*since a[[0]] is NOT the first element*)
+
 MorseLink[PD[Loop[1]]] := MorseLink[Cup[1,2], Cap[2,1]];
-(* Nasty hack; I don't understand how exactly MorseLink was working previously, when the definition was
-		MorseLink[input_]:=MorseLink[PD[input]]
-   it seems this should have resulted in it just converting back and forth...
-   Anyway -- I needed to make this change so I could write functions to manipulate MorseLink presentations.
-   This hack requires an extra line to be added every time a new presentation becomes available in KnotTheory`.
-   It's lame. Fix it if you know how!		Scott, March 1, 2006 *)
-(* maybe the right solution is to write a function PDableQ !? *)
-MorseLink[input_Knot] := MorseLink[PD[input]];
-MorseLink[input_Link] := MorseLink[PD[input]];
-MorseLink[input_GaussCode] := MorseLink[PD[input]];
-MorseLink[input_DTCode] := MorseLink[PD[input]];
-MorseLink[input_ConwayNotation] := MorseLink[PD[input]];
-MorseLink[input_BR] := MorseLink[PD[input]];
-(* end nasty hack! *)
+
+(* Nasty hack; I don't understand how exactly MorseLink was working
+   previously, when the definition was
+      MorseLink[input_]:=MorseLink[PD[input]]
+   it seems this should have resulted in it just converting back and
+   forth...  Anyway -- I needed to make this change so I could write
+   functions to manipulate MorseLink presentations. This hack requires
+   an extra line to be added every time a new presentation becomes
+   available in KnotTheory`. It's lame. Fix it if you know how!
+     Scott, March 1, 2006
+   maybe the right solution is to write a function PDableQ !? 
+
+   MorseLink[input_Knot] := MorseLink[PD[input]];
+   MorseLink[input_Link] := MorseLink[PD[input]];
+   MorseLink[input_GaussCode] := MorseLink[PD[input]];
+   MorseLink[input_DTCode] := MorseLink[PD[input]];
+   MorseLink[input_ConwayNotation] := MorseLink[PD[input]];
+   MorseLink[input_BR] := MorseLink[PD[input]];
+   end nasty hack!
+*)
+
+MorseLink[input_] /; (Head[input] =!= PD) := MorseLink[PD[input]]
+
 MorseLink[crossings_PD] := 
     Module[ {strands,  output={}, adjpos, found=0, in, dirlist,k=1} , 
     CreditMessage["MorseLink was added to KnotTheory` by Siddarth Sankaran
