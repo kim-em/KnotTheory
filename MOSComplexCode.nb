@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     14451,        280]*)
-(*NotebookOutlinePosition[     15136,        304]*)
-(*  CellTagsIndexPosition[     15092,        300]*)
+(*NotebookOptionsPosition[     15572,        306]*)
+(*NotebookOutlinePosition[     16257,        330]*)
+(*  CellTagsIndexPosition[     16213,        326]*)
 (*WindowFrame->Normal*)
 
 
@@ -228,10 +228,12 @@ ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
 ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
 }, Open  ]],
 
+Cell[CellGroupData[{
+
 Cell[BoxData[{
     \(\(Clear[pgd, \ n, \ MM, \ a, \ AlexanderDegreeShift, \ 
         AlexanderDegree, \ x0, \ MaslovDegree];\)\), "\[IndentingNewLine]", 
-    \(\(pgd\  = \ PlanarGridDiagram[Knot[3, 1]];\)\), "\[IndentingNewLine]", 
+    \(\(pgd\  = \ PlanarGridDiagram[Knot[7, 7]];\)\), "\[IndentingNewLine]", 
     \(\(n = 
         Length[MM\  = \ MinesweeperMatrix[pgd]];\)\), "\[IndentingNewLine]", 
     \(\(a[p1_, \ 
@@ -260,23 +262,47 @@ Cell[BoxData[{
           0\  \[Rule] \ n;\)\), "\[IndentingNewLine]", 
     \(\(MaslovDegree[x0]\  = \ 1 - n;\)\), "\[IndentingNewLine]", 
     \(\(WW[{{i1_, \ i2_}, \ {j1_, \ 
-              j2_}}]\  := \ \(WW[{{i1, i2}, \ {j1, 
-                j2}}]\  = \ \[IndentingNewLine]\(MaslovDegree[
-              x_State]\  := \ \(MaslovDegree[x]\ \  = \ 
-              Module[\[IndentingNewLine]{i1, \ i2, \ j1, \ j2, \ y, \ r, \ 
-                  s}, \[IndentingNewLine]i1\  = \ 1; \ 
-                While[x[\([i1]\)]\  \[Equal] \ 
-                    x0[\([i1]\)], \ \(++i1\)]; \[IndentingNewLine]j1\  = \ 
-                  x[\([i1]\)]; \ 
-                j2\  = \ x0[\([i1]\)]; \[IndentingNewLine]{{i2}}\  = \ 
-                  Position[x, \ 
-                    j2]; \[IndentingNewLine]r\  = \ {Sort[{i1, i2}], \ 
-                    Sort[{j1, j2}]}; \[IndentingNewLine]s\  = \ 
-                  Sign[i2 - i1]*Sign[j2 - j1]; \[IndentingNewLine]y = x; \ 
-                y[\([i1]\)] = j2; \ 
-                y[\([i2]\)] = j1; \[IndentingNewLine]MaslovDegree[y]\  + \ 
-                  s \((PP[x, \ r]\  + \ PP[y, \ r]\  - \ 
-                        2  WW[r])\)\[IndentingNewLine]]\)\)\);\)\)}], "Input"]
+              j2_}}]\  := \ \(WW[{{i1, i2}, \ {j1, j2}}]\  = \ 
+          Length[Select[\[IndentingNewLine]First\  /@ \ \((List\  @@ \ 
+                      pgd)\)[\([Range[i1 + 1, \ 
+                      i2]]\)], \[IndentingNewLine]\((j1 < # \[LessEqual] 
+                    j2)\) &\[IndentingNewLine]]]\);\)\), \
+"\[IndentingNewLine]", 
+    \(\(PP[s_State, \ {{i1_, \ i2_}, \ {j1_, \ j2_}}]\  := \ 
+        Module[\[IndentingNewLine]{k, 
+            l}, \[IndentingNewLine]Sum[\[IndentingNewLine]l = 
+              s[\([k]\)]; \[IndentingNewLine]If[i1 < k < i2, \ 1, \ 1/2]*
+              Which[\[IndentingNewLine]j1 < l < j2, \ 
+                1, \[IndentingNewLine]j1 \[Equal] l\  || \ j2 \[Equal] l, \ 
+                1/2, \[IndentingNewLine]True, \ 
+                0\[IndentingNewLine]], \[IndentingNewLine]{k, i1, 
+              i2}\[IndentingNewLine]]\[IndentingNewLine]];\)\), "\
+\[IndentingNewLine]", 
+    \(\(MaslovDegree[x_State]\  := \ \(MaslovDegree[x]\ \  = \ 
+          Module[\[IndentingNewLine]{i1, \ i2, \ j1, \ j2, \ y, \ r, \ 
+              s}, \[IndentingNewLine]i1\  = \ 1; \ 
+            While[x[\([i1]\)]\  \[Equal] \ 
+                x0[\([i1]\)], \ \(++i1\)]; \[IndentingNewLine]j1\  = \ 
+              x[\([i1]\)]; \ 
+            j2\  = \ x0[\([i1]\)]; \[IndentingNewLine]{{i2}}\  = \ 
+              Position[x, \ 
+                j2]; \[IndentingNewLine]r\  = \ {Sort[{i1, i2}], \ 
+                Sort[{j1, j2}]}; \[IndentingNewLine]s\  = \ 
+              Sign[i2 - i1]*Sign[j2 - j1]; \[IndentingNewLine]y = x; \ 
+            y[\([i1]\)] = j2; \ 
+            y[\([i2]\)] = j1; \[IndentingNewLine]MaslovDegree[y]\  + \ 
+              s \((PP[x, \ r]\  + \ PP[y, \ r]\  - \ 
+                    2  WW[r])\)\[IndentingNewLine]]\);\)\)}], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"PD4Knots`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"MorseLink was added to KnotTheory` by Siddarth Sankaran at the \
+University of Toronto in the summer of 2005.\"\)"\)], "Message"]
+}, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
 ScreenRectangle->{{0, 1600}, {0, 1102}},
@@ -309,7 +335,12 @@ Cell[1776, 53, 9210, 159, 2490, "Input"],
 Cell[10989, 214, 371, 6, 37, "Message"],
 Cell[11363, 222, 354, 5, 22, "Message"]
 }, Open  ]],
-Cell[11732, 230, 2715, 48, 530, "Input"]
+
+Cell[CellGroupData[{
+Cell[11754, 232, 3465, 62, 830, "Input"],
+Cell[15222, 296, 130, 2, 22, "Message"],
+Cell[15355, 300, 201, 3, 37, "Message"]
+}, Open  ]]
 }
 ]
 *)
