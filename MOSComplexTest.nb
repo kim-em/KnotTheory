@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     84633,       1944]*)
-(*NotebookOutlinePosition[     86196,       1991]*)
-(*  CellTagsIndexPosition[     85935,       1981]*)
+(*NotebookOptionsPosition[     84642,       1944]*)
+(*NotebookOutlinePosition[     86205,       1991]*)
+(*  CellTagsIndexPosition[     85944,       1981]*)
 (*WindowFrame->Normal*)
 
 
@@ -1927,10 +1927,10 @@ t\^6)\)\)\/\(m\^6\ t\^3\ \((\(-1\) + m\ t)\)\^6\)\)], "Output"]
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(\(13!\)\)], "Input"],
+    \(\(13!\)\ /\ 2^12\)], "Input"],
 
 Cell[BoxData[
-    \(6227020800\)], "Output"]
+    \(6081075\/4\)], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -1980,11 +1980,11 @@ CellTagsIndex->{
 
 (*CellTagsIndex
 CellTagsIndex->{
-  {"Info3363345842-8372562", 85266, 1960},
-  {"Info3363420824-5115054", 85471, 1965},
-  {"Info3363421844-9025715", 85589, 1968},
-  {"Info3363422109-7242685", 85706, 1971},
-  {"Info3363434182-8930660", 85823, 1974}
+  {"Info3363345842-8372562", 85275, 1960},
+  {"Info3363420824-5115054", 85480, 1965},
+  {"Info3363421844-9025715", 85598, 1968},
+  {"Info3363422109-7242685", 85715, 1971},
+  {"Info3363434182-8930660", 85832, 1974}
   }
 *)
 
@@ -2215,13 +2215,13 @@ Cell[84196, 1921, 152, 2, 47, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[84385, 1928, 40, 1, 30, "Input"],
-Cell[84428, 1931, 44, 1, 29, "Output"]
+Cell[84385, 1928, 49, 1, 30, "Input"],
+Cell[84437, 1931, 44, 1, 42, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[84509, 1937, 70, 1, 30, "Input"],
-Cell[84582, 1940, 35, 1, 29, "Output"]
+Cell[84518, 1937, 70, 1, 30, "Input"],
+Cell[84591, 1940, 35, 1, 29, "Output"]
 }, Open  ]]
 }
 ]
