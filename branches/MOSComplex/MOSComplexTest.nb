@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     46957,       1151]*)
-(*NotebookOutlinePosition[     47877,       1182]*)
-(*  CellTagsIndexPosition[     47788,       1176]*)
+(*NotebookOptionsPosition[     55467,       1346]*)
+(*NotebookOutlinePosition[     56870,       1389]*)
+(*  CellTagsIndexPosition[     56652,       1380]*)
 (*WindowFrame->Normal*)
 
 
@@ -858,7 +858,7 @@ Cell[BoxData[
 
 Cell[BoxData[
     \(\(\(Show[Draw[PlanarGridDiagram[#]]] &\)\  /@ \ 
-        AllKnots[{0, 10}];\)\)], "Input"],
+        AllKnots[{0, 8}];\)\)], "Input"],
 
 Cell[CellGroupData[{
 
@@ -1129,30 +1129,225 @@ Cell[BoxData[
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(Total[\[IndentingNewLine]\(\((\((\(-1\))\)^MaslovDegree[State\  @@ \ #]*
-              t^AlexanderDegree[State\  @@ \ #])\) &\)\  /@ \ 
-        Permutations[Range[n]]\[IndentingNewLine]]\)], "Input"],
+    \(Timing[\[IndentingNewLine]Expand[
+        Factor[Total[\[IndentingNewLine]\(\((\((\(-1\))\)^
+                        MaslovDegree[State\  @@ \ #]*
+                      t^AlexanderDegree[State\  @@ \ #])\) &\)\  /@ \ 
+                Permutations[Range[n]]\[IndentingNewLine]]\ /\ \ \((1 - 
+                  1/t)\)^\((n - 1)\)]]\[IndentingNewLine]]\)], "Input"],
 
 Cell[BoxData[
-    \(77 + 1\/t\^10 - 13\/t\^9 + 77\/t\^8 - 273\/t\^7 + 643\/t\^6 - 
-      1058\/t\^5 + 1246\/t\^4 - 1058\/t\^3 + 643\/t\^2 - 273\/t - 13\ t + 
-      t\^2\)], "Output"]
+    \({13.922000000000011`\ Second, 
+      9 + 1\/t\^2 - 5\/t - 5\ t + t\^2}\)], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(Factor[%]\)], "Input"],
+    \(\(?Sum\)\)], "Input"],
 
 Cell[BoxData[
-    \(\(\((\(-1\) + t)\)\^8\ \((1 - 5\ t + 9\ t\^2 - 5\ t\^3 + \
-t\^4)\)\)\/t\^10\)], "Output"]
+    RowBox[{"\<\"Sum[f, {i, imax}] evaluates the sum of the expressions f as \
+evaluated for each i from 1 to imax. Sum[f, {i, imin, imax}] starts with i = \
+imin. Sum[f, {i, imin, imax, di}] uses steps di. Sum[f, {i, imin, imax}, {j, \
+jmin, jmax}, ... ] evaluates a sum over multiple indices.\"\>", " ", 
+      ButtonBox[
+        StyleBox["More\[Ellipsis]",
+          "SR"],
+        ButtonData:>"Sum",
+        Active->True,
+        ButtonStyle->"RefGuideLink"]}]], "Print",
+  CellTags->"Info3363420824-5115054"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(?Equal\)\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{"\<\"lhs == rhs returns True if lhs and rhs are identical.\"\>", 
+      " ", 
+      ButtonBox[
+        StyleBox["More\[Ellipsis]",
+          "SR"],
+        ButtonData:>"Equal",
+        Active->True,
+        ButtonStyle->"RefGuideLink"]}]], "Print",
+  CellTags->"Info3363421844-9025715"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Signature[{1, 2, 2}]\)], "Input"],
+
+Cell[BoxData[
+    \(0\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(?For\)\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{"\<\"For[start, test, incr, body] executes start, then repeatedly \
+evaluates body and incr until test fails to give True.\"\>", " ", 
+      ButtonBox[
+        StyleBox["More\[Ellipsis]",
+          "SR"],
+        ButtonData:>"For",
+        Active->True,
+        ButtonStyle->"RefGuideLink"]}]], "Print",
+  CellTags->"Info3363422109-7242685"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(FullForm[%]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      StyleBox[\(List[Null]\),
+        ShowSpecialCharacters->False,
+        ShowStringCharacters->True,
+        NumberMarks->True],
+      FullForm]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Boundary[AllStates]\)], "Input"],
+
+Cell[BoxData[
+    \({State[1, 2, 3, 5, 4] + State[1, 2, 4, 3, 5] + State[1, 3, 2, 4, 5] + 
+        State[2, 1, 3, 4, 5] - State[5, 2, 3, 4, 1], 
+      State[1, 3, 2, 5, 4] + State[2, 1, 3, 5, 4], 
+      State[2, 1, 4, 3, 5] - State[5, 2, 4, 3, 1], State[2, 1, 4, 5, 3], 
+      State[2, 1, 5, 3, 4], State[2, 1, 5, 4, 3], 
+      State[1, 3, 2, 5, 4] - State[5, 3, 2, 4, 1], 
+      0, \(-State[5, 3, 4, 2, 1]\), 0, State[1, 3, 2, 5, 4], 
+      0, \(-State[5, 4, 2, 3, 1]\), \(-State[1, 3, 2, 5, 4]\), \(-State[5, 4, 
+          3, 2, 1]\), 
+      0, \(-State[1, 3, 5, 2, 4]\) + State[1, 4, 2, 5, 3] + 
+        State[1, 4, 5, 3, 2] + State[1, 5, 4, 2, 3], State[1, 5, 4, 3, 2], 0, 
+      0, 0, State[1, 5, 4, 3, 2], State[1, 5, 4, 3, 2], 0, 
+      State[2, 1, 3, 5, 4] + State[2, 1, 4, 3, 5], 0, 0, 0, 0, 0, 
+      State[2, 3, 1, 5, 4], 0, 0, 0, State[2, 3, 1, 5, 4], 0, 
+      State[2, 1, 4, 3, 5], State[2, 1, 4, 5, 3] - State[2, 3, 1, 5, 4], 0, 
+      0, \(-State[2, 3, 5, 1, 4]\) + State[2, 4, 1, 5, 3] + 
+        State[2, 4, 5, 3, 1] + State[2, 5, 4, 1, 3], State[2, 5, 4, 3, 1], 
+      State[2, 1, 5, 3, 4], State[2, 1, 5, 4, 3], State[2, 1, 3, 5, 4], 
+      State[2, 5, 4, 3, 1], State[2, 1, 4, 5, 3] + State[2, 5, 4, 3, 1], 0, 
+      State[3, 1, 2, 5, 4], 
+      0, \(-State[2, 1, 4, 3, 5]\), \(-State[2, 1, 4, 5, 
+          3]\), \(-State[2, 1, 5, 3, 4]\) + 
+        State[3, 1, 2, 5, 4], \(-State[2, 1, 5, 4, 3]\), 
+      State[3, 2, 1, 5, 4], 0, 0, 0, State[3, 2, 1, 5, 4], 
+      0, \(-State[2, 4, 1, 3, 5]\) + State[3, 1, 4, 2, 5] + 
+        State[3, 4, 2, 1, 5] + 
+        State[4, 3, 1, 2, 5], \(-State[2, 4, 1, 5, 3]\) + 
+        State[3, 1, 4, 5, 2] + State[3, 4, 2, 5, 1] + State[4, 3, 1, 5, 2], 
+      State[4, 3, 2, 1, 5], 
+      State[4, 3, 2, 5, 1], \(-State[2, 4, 5, 1, 3]\) + 
+        State[3, 4, 1, 5, 2] + State[3, 4, 5, 2, 1] + State[3, 5, 4, 1, 2] + 
+        State[4, 3, 5, 1, 2], \(-State[2, 4, 5, 3, 1]\) + 
+        State[3, 4, 2, 5, 1] + State[3, 5, 4, 2, 1] + 
+        State[4, 3, 5, 2, 1], \(-State[2, 5, 1, 3, 4]\) + 
+        State[3, 1, 5, 2, 4] + State[3, 5, 2, 1, 4] + 
+        State[5, 3, 1, 2, 4], \(-State[2, 5, 1, 4, 3]\) + 
+        State[3, 1, 5, 4, 2] + State[3, 5, 2, 4, 1] + State[5, 3, 1, 4, 2], 
+      State[3, 1, 2, 5, 4] + State[5, 3, 2, 1, 4], 
+      State[5, 3, 2, 4, 1], \(-State[2, 5, 4, 1, 3]\) + 
+        State[3, 1, 4, 5, 2] + State[3, 5, 4, 2, 1] + 
+        State[5, 3, 4, 1, 2], \(-State[2, 5, 4, 3, 1]\) + 
+        State[5, 3, 4, 2, 1], 0, \(-State[3, 1, 2, 5, 4]\), 
+      0, \(-State[2, 1, 3, 5, 4]\), \(-State[3, 1, 5, 2, 4]\) + 
+        State[4, 1, 2, 5, 3] + State[4, 1, 5, 3, 2] + 
+        State[5, 1, 4, 2, 3], \(-State[2, 1, 5, 3, 4]\) + 
+        State[5, 1, 4, 3, 2], 0, \(-State[3, 2, 1, 5, 4]\), 
+      State[4, 3, 2, 1, 5], 
+      State[4, 3, 2, 5, 1], \(-State[3, 2, 5, 1, 4]\) + 
+        State[4, 2, 1, 5, 3] + State[4, 2, 5, 3, 1] + State[5, 2, 4, 1, 3], 
+      State[5, 2, 4, 3, 1], 
+      State[4, 3, 2, 1, 5], \(-State[2, 3, 1, 5, 4]\) + State[4, 3, 2, 5, 1], 
+      0, 0, \(-State[2, 3, 5, 1, 4]\) + State[4, 3, 1, 5, 2] + 
+        State[4, 3, 5, 2, 1] + State[5, 3, 4, 1, 2], 
+      State[4, 3, 2, 5, 1] + 
+        State[5, 3, 4, 2, 1], \(-State[3, 5, 1, 2, 4]\) + 
+        State[4, 1, 5, 2, 3] + State[4, 5, 1, 3, 2] + State[4, 5, 2, 1, 3] + 
+        State[5, 4, 1, 2, 3], \(-State[2, 5, 1, 3, 4]\) + 
+        State[4, 1, 5, 3, 2] + State[4, 5, 2, 3, 1] + 
+        State[5, 4, 1, 3, 2], \(-State[3, 5, 2, 1, 4]\) + 
+        State[4, 1, 2, 5, 3] + State[4, 5, 2, 3, 1] + State[5, 4, 2, 1, 3], 
+      State[5, 4, 2, 3, 1], \(-State[2, 5, 3, 1, 4]\) + 
+        State[4, 1, 3, 5, 2] + State[4, 5, 3, 2, 1] + State[5, 4, 3, 1, 2], 
+      State[5, 4, 3, 2, 1], 0, 0, 0, State[5, 1, 4, 3, 2], 
+      State[5, 1, 4, 3, 2], 0, 0, 0, State[5, 3, 2, 1, 4], 
+      State[5, 2, 4, 3, 1] + State[5, 3, 2, 4, 1], State[5, 2, 4, 3, 1], 0, 
+      State[5, 3, 2, 1, 4], State[5, 3, 2, 4, 1], 0, 0, State[5, 3, 4, 2, 1], 
+      0, State[5, 1, 4, 2, 3] - State[5, 3, 1, 2, 4] + State[5, 4, 1, 3, 2] + 
+        State[5, 4, 2, 1, 3], 
+      State[5, 1, 4, 3, 2] + 
+        State[5, 4, 2, 3, 1], \(-State[5, 3, 2, 1, 4]\) + 
+        State[5, 4, 2, 3, 1], 0, State[5, 4, 3, 2, 1], 0}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Boundary[Boundary[AllStates]]\)], "Input"],
+
+Cell[BoxData[
+    \({2\ State[1, 3, 2, 5, 4] + 2\ State[2, 1, 3, 5, 4] + 
+        2\ State[2, 1, 4, 3, 5] + 2\ State[5, 2, 4, 3, 1] + 
+        2\ State[5, 3, 2, 4, 1], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+      2\ State[1, 3, 2, 5, 4] + 2\ State[1, 5, 4, 3, 2], 0, 0, 0, 0, 0, 0, 0, 
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+      2\ State[2, 1, 4, 5, 3] + 2\ State[2, 3, 1, 5, 4] + 
+        2\ State[2, 5, 4, 3, 1], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+      0, 0, 0, 0, 2\ State[2, 1, 4, 3, 5] + 2\ State[4, 3, 2, 1, 5], 
+      2\ State[2, 1, 4, 5, 3] + 2\ State[2, 3, 1, 5, 4] + 
+        2\ State[4, 3, 2, 5, 1], 0, 0, 
+      2\ State[2, 3, 5, 1, 4] + 2\ State[2, 4, 1, 5, 3] + 
+        2\ State[2, 4, 5, 3, 1] + 2\ State[2, 5, 4, 1, 3] + 
+        2\ State[3, 1, 4, 5, 2] + 2\ State[3, 4, 2, 5, 1] + 
+        2\ State[3, 5, 4, 2, 1] + 2\ State[4, 3, 1, 5, 2] + 
+        2\ State[4, 3, 5, 2, 1] + 2\ State[5, 3, 4, 1, 2], 
+      2\ State[2, 5, 4, 3, 1] + 2\ State[4, 3, 2, 5, 1] + 
+        2\ State[5, 3, 4, 2, 1], 
+      2\ State[2, 1, 5, 3, 4] + 2\ State[3, 1, 2, 5, 4] + 
+        2\ State[5, 3, 2, 1, 4], 
+      2\ State[2, 1, 5, 4, 3] + 2\ State[5, 3, 2, 4, 1], 0, 0, 
+      2\ State[2, 1, 4, 5, 3] + 2\ State[2, 5, 4, 3, 1] + 
+        2\ State[5, 3, 4, 2, 1], 0, 0, 0, 0, 0, 
+      2\ State[2, 1, 5, 3, 4] + 2\ State[3, 1, 2, 5, 4] + 
+        2\ State[5, 1, 4, 3, 2], 0, 0, 0, 0, 0, 
+      2\ State[3, 2, 1, 5, 4] + 2\ State[5, 2, 4, 3, 1], 0, 0, 0, 0, 0, 
+      2\ State[2, 3, 1, 5, 4] + 2\ State[4, 3, 2, 5, 1] + 
+        2\ State[5, 3, 4, 2, 1], 0, 
+      2\ State[2, 5, 1, 3, 4] + 2\ State[3, 1, 5, 2, 4] + 
+        2\ State[3, 5, 2, 1, 4] + 2\ State[4, 1, 2, 5, 3] + 
+        2\ State[4, 1, 5, 3, 2] + 2\ State[4, 5, 2, 3, 1] + 
+        2\ State[5, 1, 4, 2, 3] + 2\ State[5, 3, 1, 2, 4] + 
+        2\ State[5, 4, 1, 3, 2] + 2\ State[5, 4, 2, 1, 3], 
+      2\ State[2, 1, 5, 3, 4] + 2\ State[5, 1, 4, 3, 2] + 
+        2\ State[5, 4, 2, 3, 1], 
+      2\ State[3, 1, 2, 5, 4] + 2\ State[5, 3, 2, 1, 4] + 
+        2\ State[5, 4, 2, 3, 1], 0, 
+      2\ State[2, 1, 3, 5, 4] + 2\ State[5, 4, 3, 2, 1], 0, 0, 0, 0, 0, 0, 0, 
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+      2\ State[5, 1, 4, 3, 2] + 2\ State[5, 3, 2, 1, 4] + 
+        2\ State[5, 4, 2, 3, 1], 0, 0, 0, 0, 0}\)], "Output"]
 }, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
-ScreenRectangle->{{0, 1600}, {0, 1102}},
-WindowSize->{747, 1046},
-WindowMargins->{{Automatic, 10}, {Automatic, 12}},
+ScreenRectangle->{{0, 1280}, {0, 1155}},
+WindowSize->{758, 988},
+WindowMargins->{{Automatic, -1593}, {Automatic, -1}},
 ShowSelection->True
 ]
 
@@ -1166,16 +1361,28 @@ you save this file from within Mathematica.
 (*CellTagsOutline
 CellTagsIndex->{
   "Info3363345842-8372562"->{
-    Cell[43510, 1059, 74, 1, 25, "Print",
+    Cell[43509, 1059, 74, 1, 25, "Print",
       CellTags->"Info3363345842-8372562"],
-    Cell[43587, 1062, 1388, 28, 118, "Print",
-      CellTags->"Info3363345842-8372562"]}
+    Cell[43586, 1062, 1388, 28, 118, "Print",
+      CellTags->"Info3363345842-8372562"]},
+  "Info3363420824-5115054"->{
+    Cell[46915, 1148, 527, 11, 82, "Print",
+      CellTags->"Info3363420824-5115054"]},
+  "Info3363421844-9025715"->{
+    Cell[47525, 1167, 312, 9, 25, "Print",
+      CellTags->"Info3363421844-9025715"]},
+  "Info3363422109-7242685"->{
+    Cell[48046, 1193, 367, 9, 44, "Print",
+      CellTags->"Info3363422109-7242685"]}
   }
 *)
 
 (*CellTagsIndex
 CellTagsIndex->{
-  {"Info3363345842-8372562", 47588, 1167}
+  {"Info3363345842-8372562", 56100, 1362},
+  {"Info3363420824-5115054", 56305, 1367},
+  {"Info3363421844-9025715", 56423, 1370},
+  {"Info3363422109-7242685", 56540, 1373}
   }
 *)
 
@@ -1207,106 +1414,139 @@ Cell[13351, 308, 24263, 542, 161, 3598, 282, "GraphicsData", "PostScript", \
 "Graphics"],
 Cell[37617, 852, 135, 3, 29, "Output"]
 }, Open  ]],
-Cell[37767, 858, 110, 2, 30, "Input"],
+Cell[37767, 858, 109, 2, 30, "Input"],
 
 Cell[CellGroupData[{
-Cell[37902, 864, 862, 16, 230, "Input"],
-Cell[38767, 882, 62, 1, 29, "Output"]
+Cell[37901, 864, 862, 16, 230, "Input"],
+Cell[38766, 882, 62, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[38866, 888, 127, 2, 30, "Input"],
-Cell[38996, 892, 495, 13, 115, "Output"]
+Cell[38865, 888, 127, 2, 30, "Input"],
+Cell[38995, 892, 495, 13, 115, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[39528, 910, 121, 2, 30, "Input"],
-Cell[39652, 914, 655, 14, 159, "Output"]
+Cell[39527, 910, 121, 2, 30, "Input"],
+Cell[39651, 914, 655, 14, 159, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[40344, 933, 42, 1, 30, "Input"],
-Cell[40389, 936, 107, 2, 42, "Output"]
+Cell[40343, 933, 42, 1, 30, "Input"],
+Cell[40388, 936, 107, 2, 42, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[40533, 943, 42, 1, 30, "Input"],
-Cell[40578, 946, 112, 2, 45, "Output"]
+Cell[40532, 943, 42, 1, 30, "Input"],
+Cell[40577, 946, 112, 2, 45, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[40727, 953, 54, 1, 30, "Input"],
-Cell[40784, 956, 68, 1, 45, "Output"]
+Cell[40726, 953, 54, 1, 30, "Input"],
+Cell[40783, 956, 68, 1, 45, "Output"]
 }, Open  ]],
-Cell[40867, 960, 158, 3, 50, "Input"],
+Cell[40866, 960, 158, 3, 50, "Input"],
 
 Cell[CellGroupData[{
-Cell[41050, 967, 107, 2, 30, "Input"],
-Cell[41160, 971, 118, 2, 42, "Output"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-Cell[41315, 978, 72, 1, 30, "Input"],
-Cell[41390, 981, 91, 1, 29, "Output"]
+Cell[41049, 967, 107, 2, 30, "Input"],
+Cell[41159, 971, 118, 2, 42, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[41518, 987, 64, 1, 30, "Input"],
-Cell[41585, 990, 158, 2, 29, "Output"]
+Cell[41314, 978, 72, 1, 30, "Input"],
+Cell[41389, 981, 91, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[41780, 997, 40, 1, 30, "Input"],
-Cell[41823, 1000, 35, 1, 29, "Output"]
+Cell[41517, 987, 64, 1, 30, "Input"],
+Cell[41584, 990, 158, 2, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[41895, 1006, 53, 1, 30, "Input"],
-Cell[41951, 1009, 40, 1, 29, "Output"]
+Cell[41779, 997, 40, 1, 30, "Input"],
+Cell[41822, 1000, 35, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[42028, 1015, 107, 2, 30, "Input"],
-Cell[42138, 1019, 1005, 14, 105, "Output"]
+Cell[41894, 1006, 53, 1, 30, "Input"],
+Cell[41950, 1009, 40, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[43180, 1038, 63, 1, 30, "Input"],
-Cell[43246, 1041, 45, 1, 29, "Output"]
+Cell[42027, 1015, 107, 2, 30, "Input"],
+Cell[42137, 1019, 1005, 14, 105, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[43328, 1047, 35, 1, 30, "Input"],
-Cell[43366, 1050, 54, 1, 29, "Output"]
+Cell[43179, 1038, 63, 1, 30, "Input"],
+Cell[43245, 1041, 45, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[43457, 1056, 50, 1, 30, "Input"],
-Cell[43510, 1059, 74, 1, 25, "Print",
+Cell[43327, 1047, 35, 1, 30, "Input"],
+Cell[43365, 1050, 54, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[43456, 1056, 50, 1, 30, "Input"],
+Cell[43509, 1059, 74, 1, 25, "Print",
   CellTags->"Info3363345842-8372562"],
-Cell[43587, 1062, 1388, 28, 118, "Print",
+Cell[43586, 1062, 1388, 28, 118, "Print",
   CellTags->"Info3363345842-8372562"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[45012, 1095, 67, 1, 30, "Input"],
-Cell[45082, 1098, 49, 1, 25, "Print"],
-Cell[45134, 1101, 170, 3, 48, "Output"]
+Cell[45011, 1095, 67, 1, 30, "Input"],
+Cell[45081, 1098, 49, 1, 25, "Print"],
+Cell[45133, 1101, 170, 3, 48, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[45341, 1109, 104, 2, 30, "Input"],
-Cell[45448, 1113, 861, 12, 105, "Output"]
+Cell[45340, 1109, 104, 2, 30, "Input"],
+Cell[45447, 1113, 861, 12, 105, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[46346, 1130, 219, 3, 70, "Input"],
-Cell[46568, 1135, 182, 3, 42, "Output"]
+Cell[46345, 1130, 382, 6, 110, "Input"],
+Cell[46730, 1138, 104, 2, 42, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[46787, 1143, 42, 1, 30, "Input"],
-Cell[46832, 1146, 109, 2, 45, "Output"]
+Cell[46871, 1145, 41, 1, 30, "Input"],
+Cell[46915, 1148, 527, 11, 82, "Print",
+  CellTags->"Info3363420824-5115054"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[47479, 1164, 43, 1, 30, "Input"],
+Cell[47525, 1167, 312, 9, 25, "Print",
+  CellTags->"Info3363421844-9025715"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[47874, 1181, 53, 1, 30, "Input"],
+Cell[47930, 1184, 35, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[48002, 1190, 41, 1, 30, "Input"],
+Cell[48046, 1193, 367, 9, 44, "Print",
+  CellTags->"Info3363422109-7242685"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[48450, 1207, 44, 1, 30, "Input"],
+Cell[48497, 1210, 186, 6, 43, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[48720, 1221, 52, 1, 30, "Input"],
+Cell[48775, 1224, 4249, 71, 789, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[53061, 1300, 62, 1, 30, "Input"],
+Cell[53126, 1303, 2325, 40, 447, "Output"]
 }, Open  ]]
 }
 ]

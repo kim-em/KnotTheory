@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     15572,        306]*)
-(*NotebookOutlinePosition[     16257,        330]*)
-(*  CellTagsIndexPosition[     16213,        326]*)
+(*NotebookOptionsPosition[     17140,        330]*)
+(*NotebookOutlinePosition[     17829,        354]*)
+(*  CellTagsIndexPosition[     17785,        350]*)
 (*WindowFrame->Normal*)
 
 
@@ -228,12 +228,12 @@ ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
 ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
 }, Open  ]],
 
-Cell[CellGroupData[{
-
 Cell[BoxData[{
-    \(\(Clear[pgd, \ n, \ MM, \ a, \ AlexanderDegreeShift, \ 
-        AlexanderDegree, \ x0, \ MaslovDegree];\)\), "\[IndentingNewLine]", 
-    \(\(pgd\  = \ PlanarGridDiagram[Knot[7, 7]];\)\), "\[IndentingNewLine]", 
+    \(\(Clear[\[IndentingNewLine]pgd, \ n, \ MM, \ a, \ 
+        AlexanderDegreeShift, \ AlexanderDegree, \ x0, \ MaslovDegree, \ 
+        Boundary, \ 
+        AllStates\[IndentingNewLine]];\)\), "\[IndentingNewLine]", 
+    \(\(pgd\  = \ PlanarGridDiagram[Knot[3, 1]];\)\), "\[IndentingNewLine]", 
     \(\(n = 
         Length[MM\  = \ MinesweeperMatrix[pgd]];\)\), "\[IndentingNewLine]", 
     \(\(a[p1_, \ 
@@ -292,22 +292,46 @@ Cell[BoxData[{
             y[\([i1]\)] = j2; \ 
             y[\([i2]\)] = j1; \[IndentingNewLine]MaslovDegree[y]\  + \ 
               s \((PP[x, \ r]\  + \ PP[y, \ r]\  - \ 
-                    2  WW[r])\)\[IndentingNewLine]]\);\)\)}], "Input"],
-
-Cell[BoxData[
-    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
-      "Loading precomputed data in \!\(\"PD4Knots`\"\)."\)], "Message"],
-
-Cell[BoxData[
-    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
-      "\!\(\"MorseLink was added to KnotTheory` by Siddarth Sankaran at the \
-University of Toronto in the summer of 2005.\"\)"\)], "Message"]
-}, Open  ]]
+                    2  WW[r])\)\[IndentingNewLine]]\);\)\), "\
+\[IndentingNewLine]", 
+    \(\(Boundary[x_State]\  := \ \(Boundary[x]\  = \ 
+          Module[\[IndentingNewLine]{i1, i2, \ j1, \ j2, \ i, \ cyci, \ 
+              cycj}, \[IndentingNewLine]Sum[\[IndentingNewLine]j1\  = \ 
+                x[\([i1]\)]; \ 
+              j2\  = \ x[\([i2]\)]; \[IndentingNewLine]y = x; \ 
+              y[\([i1]\)] = j2; \ 
+              y[\([i2]\)] = 
+                j1; \[IndentingNewLine]Sum[\[IndentingNewLine]i = 
+                  1; \[IndentingNewLine]While[\[IndentingNewLine]1 \
+\[LessEqual] i \[LessEqual] 
+                    n, \[IndentingNewLine]cyci\  = \ \((\((s \[Equal] 
+                            Signature[{i1, \ #, \ 
+                                i2}])\) &)\); \[IndentingNewLine]cycj\  = \ \
+\((\((s \[Equal] Signature[{j1, \ #, \ 
+                                j2}])\) &)\); \[IndentingNewLine]If[\
+\[IndentingNewLine]Or[\[IndentingNewLine]cyci[i]\  && \ 
+                        cycj[x[\([i]\)]], \[IndentingNewLine]cyci[
+                          i - 1/2]\ \  && \ \((cycj[
+                              pgd[\([i, 1]\)] - 1/2]\  || \ 
+                            cycj[pgd[\([i, 2]\)] - 
+                                1/2])\)\[IndentingNewLine]], \
+\[IndentingNewLine]i = 
+                      0, \ \(++i\)\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]If[i > n, \ y, \ 0], \[IndentingNewLine]{s, \ \(-1\), \ 
+                  1, \ 2}\[IndentingNewLine]], \[IndentingNewLine]{i1, \ 1, \ 
+                n - 1}, \[IndentingNewLine]{i2, \ i1 + 1, \ 
+                n}\[IndentingNewLine]]\[IndentingNewLine]]\);\)\), "\
+\[IndentingNewLine]", 
+    \(\(Boundary[expr_]\  := \ 
+        expr\  /. \ x_State\  \[RuleDelayed] \ 
+            Boundary[x];\)\), "\[IndentingNewLine]", 
+    \(\(AllStates\  = \ \(\((State\  @@ \ #)\) &\)\  /@ \ 
+          Permutations[Range[n]];\)\)}], "Input"]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
-ScreenRectangle->{{0, 1600}, {0, 1102}},
-WindowSize->{801, 1039},
-WindowMargins->{{3, Automatic}, {Automatic, 11}},
+ScreenRectangle->{{0, 1280}, {0, 1155}},
+WindowSize->{801, 1012},
+WindowMargins->{{Automatic, -825}, {137, Automatic}},
 ShowSelection->True,
 Magnification->1
 ]
@@ -335,12 +359,7 @@ Cell[1776, 53, 9210, 159, 2490, "Input"],
 Cell[10989, 214, 371, 6, 37, "Message"],
 Cell[11363, 222, 354, 5, 22, "Message"]
 }, Open  ]],
-
-Cell[CellGroupData[{
-Cell[11754, 232, 3465, 62, 830, "Input"],
-Cell[15222, 296, 130, 2, 22, "Message"],
-Cell[15355, 300, 201, 3, 37, "Message"]
-}, Open  ]]
+Cell[11732, 230, 5404, 98, 1450, "Input"]
 }
 ]
 *)
