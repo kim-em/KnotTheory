@@ -41,16 +41,22 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     17140,        330]*)
-(*NotebookOutlinePosition[     17829,        354]*)
-(*  CellTagsIndexPosition[     17785,        350]*)
+(*NotebookOptionsPosition[     19343,        375]*)
+(*NotebookOutlinePosition[     20032,        399]*)
+(*  CellTagsIndexPosition[     19988,        395]*)
 (*WindowFrame->Normal*)
 
 
 
 Notebook[{
+Cell[BoxData[{
+    \(\(TrunkPath\  = \ "\<C:/drorbn/projects/KnotTheory/svn/trunk\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(AppendTo[$Path, \ TrunkPath];\)\), "\[IndentingNewLine]", 
+    \(<< \ KnotTheory`\)}], "Input"],
 
 Cell[CellGroupData[{
+
 Cell[BoxData[{
     \(\(InterlacedQ[{a_, b_}, \ {c_, 
             d_}]\  := \ \((Signature[{a, b}] Signature[{c, d}] 
@@ -229,11 +235,12 @@ ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
 }, Open  ]],
 
 Cell[BoxData[{
-    \(\(Clear[\[IndentingNewLine]pgd, \ n, \ MM, \ a, \ 
+    \(\(Clear[\[IndentingNewLine]pgd, \ n, \ MM, \ a, \ PP, \ WW, \ 
         AlexanderDegreeShift, \ AlexanderDegree, \ x0, \ MaslovDegree, \ 
-        Boundary, \ 
-        AllStates\[IndentingNewLine]];\)\), "\[IndentingNewLine]", 
-    \(\(pgd\  = \ PlanarGridDiagram[Knot[3, 1]];\)\), "\[IndentingNewLine]", 
+        Boundary, \ AllStates, \ BoundaryMatrix, \ Rank, \ Betti, \ 
+        MOSHomology\[IndentingNewLine]];\)\), "\[IndentingNewLine]", 
+    \(\(pgd\  = \ 
+        PlanarGridDiagram[TorusKnot[4, 3]];\)\), "\[IndentingNewLine]", 
     \(\(n = 
         Length[MM\  = \ MinesweeperMatrix[pgd]];\)\), "\[IndentingNewLine]", 
     \(\(a[p1_, \ 
@@ -325,8 +332,46 @@ Cell[BoxData[{
     \(\(Boundary[expr_]\  := \ 
         expr\  /. \ x_State\  \[RuleDelayed] \ 
             Boundary[x];\)\), "\[IndentingNewLine]", 
-    \(\(AllStates\  = \ \(\((State\  @@ \ #)\) &\)\  /@ \ 
-          Permutations[Range[n]];\)\)}], "Input"]
+    \(\(AllStates[]\  = \ \(\((State\  @@ \ #)\) &\)\  /@ \ 
+          Permutations[Range[n]];\)\), "\[IndentingNewLine]", 
+    \(\(AllStates[m_, \ a_]\  := \ 
+        Select[AllStates[], \ \((MaslovDegree[#] \[Equal] m\  && \ 
+                AlexanderDegree[#] \[Equal] 
+                  a)\) &];\)\), "\[IndentingNewLine]", 
+    \(\(BoundaryMatrix[m_, \ a_]\  := \ 
+        Outer[\[IndentingNewLine]\((\(Boundary[#2]\  /. \ #1\  \[Rule] \ 
+                    1\)\  /. \ _State\  \[Rule] \ 
+                  0)\) &, \[IndentingNewLine]AllStates[m - 1, \ a], \ 
+          AllStates[m, \ a]\[IndentingNewLine]];\)\), "\[IndentingNewLine]", 
+    \(\(Rank[m_, \ a_] := \ \(Rank[m, a]\  = \ 
+          If[\[IndentingNewLine]\ 
+            AllStates[m, \ a] === {}\  || \ 
+              AllStates[m - 1, \ 
+                  a] === {}\ , \[IndentingNewLine]0, \
+\[IndentingNewLine]MatrixRank[BoundaryMatrix[m, \ a], \ 
+              Modulus\  \[Rule] \ 
+                2]\[IndentingNewLine]]\);\)\), "\[IndentingNewLine]", 
+    \(\(Betti[m_, \ a_]\  := \ 
+        Length[AllStates[m, a]] - Rank[m, a] - 
+          Rank[m + 1, \ a];\)\), "\[IndentingNewLine]", 
+    \(\(MOSHomology[]\  := \ 
+        Outer[\[IndentingNewLine]Betti, \[IndentingNewLine]Union[
+            MaslovDegree\  /@ \ AllStates[]], \[IndentingNewLine]Union[
+            AlexanderDegree\  /@ \ 
+              AllStates[]]\[IndentingNewLine]];\)\), "\[IndentingNewLine]", 
+    \(\(MOSPoincare[]\  := \ 
+        Expand[Factor[\[IndentingNewLine]Total[
+                Flatten[
+                  Outer[\[IndentingNewLine]\((m^#1\ t^#2\ Betti[#1, \ #2])\) \
+&, \[IndentingNewLine]Union[
+                      MaslovDegree\  /@ \ 
+                        AllStates[]], \[IndentingNewLine]Union[
+                      AlexanderDegree\  /@ \ 
+                        AllStates[]]\[IndentingNewLine]]]]\ /\ \((1 + 
+                    1/\((t\ m)\))\)^\((n - 
+                    1)\)\[IndentingNewLine]]];\)\)}], "Input"],
+
+Cell[BoxData[""], "Input"]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
 ScreenRectangle->{{0, 1280}, {0, 1155}},
@@ -353,13 +398,15 @@ CellTagsIndex->{}
 
 (*NotebookFileOutline
 Notebook[{
+Cell[1754, 51, 220, 4, 70, "Input"],
 
 Cell[CellGroupData[{
-Cell[1776, 53, 9210, 159, 2490, "Input"],
-Cell[10989, 214, 371, 6, 37, "Message"],
-Cell[11363, 222, 354, 5, 22, "Message"]
+Cell[1999, 59, 9210, 159, 2490, "Input"],
+Cell[11212, 220, 371, 6, 37, "Message"],
+Cell[11586, 228, 354, 5, 22, "Message"]
 }, Open  ]],
-Cell[11732, 230, 5404, 98, 1450, "Input"]
+Cell[11955, 236, 7355, 135, 1910, "Input"],
+Cell[19313, 373, 26, 0, 30, "Input"]
 }
 ]
 *)
