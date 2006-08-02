@@ -41,21 +41,26 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     19343,        375]*)
-(*NotebookOutlinePosition[     20032,        399]*)
-(*  CellTagsIndexPosition[     19988,        395]*)
+(*NotebookOptionsPosition[     19235,        371]*)
+(*NotebookOutlinePosition[     19920,        395]*)
+(*  CellTagsIndexPosition[     19876,        391]*)
 (*WindowFrame->Normal*)
 
 
 
 Notebook[{
+
+Cell[CellGroupData[{
 Cell[BoxData[{
     \(\(TrunkPath\  = \ "\<C:/drorbn/projects/KnotTheory/svn/trunk\>";\)\), "\
 \[IndentingNewLine]", 
     \(\(AppendTo[$Path, \ TrunkPath];\)\), "\[IndentingNewLine]", 
     \(<< \ KnotTheory`\)}], "Input"],
 
-Cell[CellGroupData[{
+Cell[BoxData[
+    \("Loading KnotTheory` version of July 31, 2006, 9:34:35.6875.\nRead more \
+at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
+}, Open  ]],
 
 Cell[BoxData[{
     \(\(InterlacedQ[{a_, b_}, \ {c_, 
@@ -158,12 +163,16 @@ Cell[BoxData[{
                       Length[UnneededVerts]]]]; \
 \[IndentingNewLine]PlanarGridDiagram\  @@ \ 
             out\[IndentingNewLine]];\)\), "\[IndentingNewLine]", 
-    \(\(\(PlanarGridDiagram[K_]\  := \ 
-        PlanarGridDiagram[MorseLink[K]];\)\(\[IndentingNewLine]\)
-    \)\), "\[IndentingNewLine]", 
-    \(\(\(Draw[pgd_PlanarGridDiagram]\ \  := \ 
-      Module[\[IndentingNewLine]{l, p1, p2, k, \ 
-          V}, \[IndentingNewLine]l\  = \ 
+    \(\(PlanarGridDiagram[K_]\  := \ 
+        PlanarGridDiagram[
+          MorseLink[K]];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(Options[
+          Draw]\  = \ {OverlayMatrix\  \[Rule] \ 
+            Null};\)\), "\[IndentingNewLine]", 
+    \(Draw[pgd_PlanarGridDiagram, \ opts___Rule]\ \  := \ 
+      Module[\[IndentingNewLine]{\[IndentingNewLine]l, p1, p2, k, \ 
+          V, \[IndentingNewLine]om\  = \ \(OverlayMatrix\  /. \ {opts}\)\  \
+/. \ Options[Draw]\[IndentingNewLine]}, \[IndentingNewLine]l\  = \ 
           Length[pgd]; \[IndentingNewLine]Graphics[
           Flatten[{\[IndentingNewLine]{Thickness[\(1/10\)/
                     Length[pgd]]}, \[IndentingNewLine]Table[\
@@ -187,9 +196,12 @@ Cell[BoxData[{
                   Position[Last\  /@ \ pgd, \ 
                     k]; \[IndentingNewLine]Line[{{k, \ p1}, \ {k, \ 
                       p2}}], \[IndentingNewLine]{k, \ 
-                  l}\[IndentingNewLine]]\[IndentingNewLine]}]]\
-\[IndentingNewLine]]\)\(\[IndentingNewLine]\)
-    \)\), "\[IndentingNewLine]", 
+                  l}\[IndentingNewLine]], \[IndentingNewLine]If[
+                om === Null, \ {}, \[IndentingNewLine]MapIndexed[\
+\[IndentingNewLine]Text[#1, \ 0.5 + #2] &, \[IndentingNewLine]Transpose[
+                    om], \ {2}\[IndentingNewLine]]\[IndentingNewLine]]\
+\[IndentingNewLine]}]]\[IndentingNewLine]]\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
     \(\(MinesweeperMatrix[pgd_PlanarGridDiagram]\  := \ 
         Module[\[IndentingNewLine]{l, \ CurrentRow, \ c1, c2, k, 
             s}, \[IndentingNewLine]l = 
@@ -197,7 +209,6 @@ Cell[BoxData[{
             Table[0, \ {l}]; \[IndentingNewLine]Table[\[IndentingNewLine]{c1, \
 \ c2}\  = \ Sort[pgd[\([k]\)]]; \[IndentingNewLine]s = 
               Sign[{\(-1\), 1} . 
-                  
                   pgd[\([k]\)]]; \
 \[IndentingNewLine]Do[\[IndentingNewLine]CurrentRow[\([c]\)] += 
                 s, \[IndentingNewLine]{c, \ c1, \ 
@@ -205,9 +216,10 @@ Cell[BoxData[{
 \[IndentingNewLine]{k, 
               l}\[IndentingNewLine]]\[IndentingNewLine]];\)\), "\
 \[IndentingNewLine]", 
-    \(\(\(MinesweeperMatrix[K_]\  := \ 
-        MinesweeperMatrix[PlanarGridDiagram[K]];\)\(\[IndentingNewLine]\)
-    \)\), "\[IndentingNewLine]", 
+    \(\(MinesweeperMatrix[K_]\  := \ 
+        MinesweeperMatrix[
+          PlanarGridDiagram[
+            K]];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
     \(NeuwirthMatrix[pgd_PlanarGridDiagram]\  := \ 
       Module[\[IndentingNewLine]{l, \ mm, t}, \[IndentingNewLine]l = 
           Length[pgd]; \[IndentingNewLine]Function\  @@ \ \
@@ -217,22 +229,6 @@ Cell[BoxData[{
                 1]\  /. \ 
               t\  \[Rule] \ #\[IndentingNewLine]}\[IndentingNewLine]]\)}], \
 "Input"],
-
-Cell[BoxData[
-    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
-error: new symbol name \\\"\\!\\(InterlacedQ\\)\\\" is similar to existing \
-symbol \\\"\\!\\(Interlaced\\)\\\". \
-\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
-\\\", ButtonFrame->None, ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], \
-"Message"],
-
-Cell[BoxData[
-    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
-error: new symbol name \\\"\\!\\(out\\)\\\" is similar to existing symbol \
-\\\"\\!\\(Out\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
-ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
-ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
-}, Open  ]],
 
 Cell[BoxData[{
     \(\(Clear[\[IndentingNewLine]pgd, \ n, \ MM, \ a, \ PP, \ WW, \ 
@@ -374,9 +370,9 @@ Cell[BoxData[{
 Cell[BoxData[""], "Input"]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
-ScreenRectangle->{{0, 1280}, {0, 1155}},
+ScreenRectangle->{{0, 1600}, {0, 1102}},
 WindowSize->{801, 1012},
-WindowMargins->{{Automatic, -825}, {137, Automatic}},
+WindowMargins->{{22, Automatic}, {Automatic, 7}},
 ShowSelection->True,
 Magnification->1
 ]
@@ -398,15 +394,14 @@ CellTagsIndex->{}
 
 (*NotebookFileOutline
 Notebook[{
-Cell[1754, 51, 220, 4, 70, "Input"],
 
 Cell[CellGroupData[{
-Cell[1999, 59, 9210, 159, 2490, "Input"],
-Cell[11212, 220, 371, 6, 37, "Message"],
-Cell[11586, 228, 354, 5, 22, "Message"]
+Cell[1776, 53, 220, 4, 70, "Input"],
+Cell[1999, 59, 158, 2, 44, "Print"]
 }, Open  ]],
-Cell[11955, 236, 7355, 135, 1910, "Input"],
-Cell[19313, 373, 26, 0, 30, "Input"]
+Cell[2172, 64, 9672, 166, 2690, "Input"],
+Cell[11847, 232, 7355, 135, 1910, "Input"],
+Cell[19205, 369, 26, 0, 30, "Input"]
 }
 ]
 *)
