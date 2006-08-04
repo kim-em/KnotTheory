@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     19235,        371]*)
-(*NotebookOutlinePosition[     19920,        395]*)
-(*  CellTagsIndexPosition[     19876,        391]*)
+(*NotebookOptionsPosition[     20730,        403]*)
+(*NotebookOutlinePosition[     21419,        427]*)
+(*  CellTagsIndexPosition[     21375,        423]*)
 (*WindowFrame->Normal*)
 
 
@@ -67,10 +67,17 @@ Cell[BoxData[{
             d_}]\  := \ \((Signature[{a, b}] Signature[{c, d}] 
               Signature[{a, b, c, 
                   d}] === \(-1\))\);\)\), "\[IndentingNewLine]", 
-    \(\(PlanarGridDiagram[ml_MorseLink]\  := \ 
-        Module[\[IndentingNewLine]{ActiveVerts, \ VertOrdering, \ vc, out, m, 
-            n, k, p, b, c, br, bl, r, \ l, \ UnneededVerts, \ 
-            PGD}, \[IndentingNewLine]ActiveVerts = {}; \ VertOrdering = {}; \ 
+    \(\(Options[
+          PlanarGridDiagram]\  = \ {Reduce\  \[Rule] \ 
+            Infinity};\)\), "\[IndentingNewLine]", 
+    \(\(PlanarGridDiagram[ml_MorseLink, \ opts___Rule]\  := \ 
+        Module[\[IndentingNewLine]{\[IndentingNewLine]ActiveVerts, \ 
+            VertOrdering, \ vc, out, m, n, k, p, b, c, br, bl, r, \ l, \ 
+            UnneededVerts, \ PGD, \ redsdone, \ 
+            oldreds, \ \[IndentingNewLine]red\  = \ \(Reduce\  /. \ {opts}\)\ \
+ /. \ Options[
+                  PlanarGridDiagram]\[IndentingNewLine]}, \
+\[IndentingNewLine]ActiveVerts = {}; \ VertOrdering = {}; \ 
           vc = 0; \[IndentingNewLine]out\  = \ \(\((List\  @@ \ 
                     ml)\)\  /. \ {\[IndentingNewLine]Cup[m_, 
                       n_]\  \[RuleDelayed] \ \((\[IndentingNewLine]k\  = \ 
@@ -103,7 +110,8 @@ Cell[BoxData[{
                           p + 1]; \[IndentingNewLine]If[
                         b === Up, \ {bl, \ vc}, \ {vc, 
                           bl}]\[IndentingNewLine])\), \[IndentingNewLine]X[
-                      n_, \ Over, \ b_, \ 
+                    
+                    n_, \ Over, \ b_, \ 
                       c_]\  \[RuleDelayed] \ \ \((\[IndentingNewLine]br = 
                         ActiveVerts[\([n + 
                               1]\)]; \[IndentingNewLine]ActiveVerts\  = \ 
@@ -125,47 +133,55 @@ Cell[BoxData[{
 \[IndentingNewLine])\)\[IndentingNewLine]}\)\  /. \ 
               Thread[Rule[VertOrdering, \ 
                   Range[Length[
-                      VertOrdering]]]]; \[IndentingNewLine]UnneededVerts = \
-{}; \[IndentingNewLine]out\  = \ \((PGD\  @@ \ 
-                  out)\)\  //. \ {\[IndentingNewLine]PGD[
-                      l___, \ {a_, \ b_}, \ m___, \ {b_, c_}, \ 
-                      r___]\  /; \ \((a \[NotEqual] 
-                          c\  && \ \(! \((Or\  @@ \ \((\(InterlacedQ[{a, 
+                      VertOrdering]]]]; \[IndentingNewLine]redsdone = 0; \ 
+          oldreds = \(-1\); \ 
+          UnneededVerts = {}; \[IndentingNewLine]While[
+            redsdone\  < \ red\  && \ 
+              redsdone\  > \ oldreds, \[IndentingNewLine]oldreds = 
+              redsdone; \[IndentingNewLine]out\  = \ \((PGD\  @@ \ 
+                    out)\)\  /. \ {\[IndentingNewLine]PGD[
+                        l___, \ {a_, \ b_}, \ m___, \ {b_, c_}, \ 
+                        r___]\  /; \ \((a \[NotEqual] 
+                            c\  && \ \(! \((Or\  @@ \ \((\(InterlacedQ[{a, 
                                         b}, \ #] &\)\  /@ \ {m})\))\)\))\)\  \
-\[RuleDelayed] \ \((\[IndentingNewLine]AppendTo[UnneededVerts, \ 
-                      b]; \[IndentingNewLine]PGD[l, \ m, \ {a, c}, \ 
-                      r]\[IndentingNewLine])\), \[IndentingNewLine]PGD[
-                      l___, \ {b_, \ a_}, \ m___, \ {c_, b_}, \ 
-                      r___]\  /; \ \((a \[NotEqual] 
-                          c\  && \ \(! \((Or\  @@ \ \((\(InterlacedQ[{a, 
+\[RuleDelayed] \ \((\[IndentingNewLine]\(++redsdone\); \ 
+                      AppendTo[UnneededVerts, \ b]; \[IndentingNewLine]PGD[
+                        l, \ m, \ {a, c}, \ 
+                        r]\[IndentingNewLine])\), \[IndentingNewLine]PGD[
+                        l___, \ {b_, \ a_}, \ m___, \ {c_, b_}, \ 
+                        r___]\  /; \ \((a \[NotEqual] 
+                            c\  && \ \(! \((Or\  @@ \ \((\(InterlacedQ[{a, 
                                         b}, \ #] &\)\  /@ \ {m})\))\)\))\)\  \
-\[RuleDelayed] \ \((\[IndentingNewLine]AppendTo[UnneededVerts, \ 
-                      b]; \[IndentingNewLine]PGD[l, \ m, \ {c, \ a}, \ 
-                      r]\[IndentingNewLine])\), \[IndentingNewLine]PGD[
-                      l___, \ {b_, \ c_}, \ m___, \ {a_, b_}, \ 
-                      r___]\  /; \ \((a \[NotEqual] 
-                          c\  && \ \(! \((Or\  @@ \ \((\(InterlacedQ[{a, 
+\[RuleDelayed] \ \((\[IndentingNewLine]\(++redsdone\); \ 
+                      AppendTo[UnneededVerts, \ b]; \[IndentingNewLine]PGD[
+                        l, \ m, \ {c, \ a}, \ 
+                        r]\[IndentingNewLine])\), \[IndentingNewLine]PGD[
+                        l___, \ {b_, \ c_}, \ m___, \ {a_, b_}, \ 
+                        r___]\  /; \ \((a \[NotEqual] 
+                            c\  && \ \(! \((Or\  @@ \ \((\(InterlacedQ[{a, 
                                         b}, \ #] &\)\  /@ \ {m})\))\)\))\)\  \
-\[RuleDelayed] \ \((\[IndentingNewLine]AppendTo[UnneededVerts, \ 
-                      b]; \[IndentingNewLine]PGD[l, \ \ {a, c}, \ m, \ 
-                      r]\[IndentingNewLine])\), \[IndentingNewLine]PGD[
-                      l___, \ {c_, \ b_}, \ m___, \ {b_, a_}, \ 
-                      r___]\  /; \ \((a \[NotEqual] 
-                          c\  && \ \(! \((Or\  @@ \ \((\(InterlacedQ[{a, 
+\[RuleDelayed] \ \((\[IndentingNewLine]\(++redsdone\); \ 
+                      AppendTo[UnneededVerts, \ b]; \[IndentingNewLine]PGD[
+                        l, \ \ {a, c}, \ m, \ 
+                        r]\[IndentingNewLine])\), \[IndentingNewLine]PGD[
+                        l___, \ {c_, \ b_}, \ m___, \ {b_, a_}, \ 
+                        r___]\  /; \ \((a \[NotEqual] 
+                            c\  && \ \(! \((Or\  @@ \ \((\(InterlacedQ[{a, 
                                         b}, \ #] &\)\  /@ \ {m})\))\)\))\)\  \
-\[RuleDelayed] \ \((\[IndentingNewLine]AppendTo[UnneededVerts, \ 
-                      b]; \[IndentingNewLine]PGD[l, \ \ {c, \ a}, \ m, \ 
-                      r]\[IndentingNewLine])\)\[IndentingNewLine]}; \
-\[IndentingNewLine]out\  = \ 
+\[RuleDelayed] \ \((\[IndentingNewLine]\(++redsdone\); \ 
+                      AppendTo[UnneededVerts, \ b]; \[IndentingNewLine]PGD[
+                        l, \ \ {c, \ a}, \ m, \ 
+                        r]\[IndentingNewLine])\)\[IndentingNewLine]}\
+\[IndentingNewLine]]; \[IndentingNewLine]out\  = \ 
             out\  /. \ Thread[
                 Rule[Delete[Range[vc], \ List\  /@ \ UnneededVerts], \ 
                   Range[vc - 
                       Length[UnneededVerts]]]]; \
 \[IndentingNewLine]PlanarGridDiagram\  @@ \ 
             out\[IndentingNewLine]];\)\), "\[IndentingNewLine]", 
-    \(\(PlanarGridDiagram[K_]\  := \ 
-        PlanarGridDiagram[
-          MorseLink[K]];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(PlanarGridDiagram[K_, \ opts___Rule]\  := \ 
+        PlanarGridDiagram[MorseLink[K], \ 
+          opts];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
     \(\(Options[
           Draw]\  = \ {OverlayMatrix\  \[Rule] \ 
             Null};\)\), "\[IndentingNewLine]", 
@@ -230,13 +246,14 @@ Cell[BoxData[{
               t\  \[Rule] \ #\[IndentingNewLine]}\[IndentingNewLine]]\)}], \
 "Input"],
 
+Cell[CellGroupData[{
+
 Cell[BoxData[{
     \(\(Clear[\[IndentingNewLine]pgd, \ n, \ MM, \ a, \ PP, \ WW, \ 
         AlexanderDegreeShift, \ AlexanderDegree, \ x0, \ MaslovDegree, \ 
         Boundary, \ AllStates, \ BoundaryMatrix, \ Rank, \ Betti, \ 
         MOSHomology\[IndentingNewLine]];\)\), "\[IndentingNewLine]", 
-    \(\(pgd\  = \ 
-        PlanarGridDiagram[TorusKnot[4, 3]];\)\), "\[IndentingNewLine]", 
+    \(\(pgd\  = \ PlanarGridDiagram[Knot[3, 1]];\)\), "\[IndentingNewLine]", 
     \(\(n = 
         Length[MM\  = \ MinesweeperMatrix[pgd]];\)\), "\[IndentingNewLine]", 
     \(\(a[p1_, \ 
@@ -367,12 +384,27 @@ Cell[BoxData[{
                     1/\((t\ m)\))\)^\((n - 
                     1)\)\[IndentingNewLine]]];\)\)}], "Input"],
 
-Cell[BoxData[""], "Input"]
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"PD4Knots`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"MorseLink was added to KnotTheory` by Siddarth Sankaran at the \
+University of Toronto in the summer of 2005.\"\)"\)], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(cycj\\)\\\" is similar to existing symbol \\\
+\"\\!\\(cyci\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
-ScreenRectangle->{{0, 1600}, {0, 1102}},
-WindowSize->{801, 1012},
-WindowMargins->{{22, Automatic}, {Automatic, 7}},
+ScreenRectangle->{{0, 1280}, {0, 755}},
+WindowSize->{801, 728},
+WindowMargins->{{Automatic, -1376}, {Automatic, -369}},
 ShowSelection->True,
 Magnification->1
 ]
@@ -399,9 +431,14 @@ Cell[CellGroupData[{
 Cell[1776, 53, 220, 4, 70, "Input"],
 Cell[1999, 59, 158, 2, 44, "Print"]
 }, Open  ]],
-Cell[2172, 64, 9672, 166, 2690, "Input"],
-Cell[11847, 232, 7355, 135, 1910, "Input"],
-Cell[19205, 369, 26, 0, 30, "Input"]
+Cell[2172, 64, 10480, 182, 2850, "Input"],
+
+Cell[CellGroupData[{
+Cell[12677, 250, 7341, 134, 1910, "Input"],
+Cell[20021, 386, 130, 2, 22, "Message"],
+Cell[20154, 390, 201, 3, 37, "Message"],
+Cell[20358, 395, 356, 5, 22, "Message"]
+}, Open  ]]
 }
 ]
 *)
