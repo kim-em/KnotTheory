@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     22244,        439]*)
-(*NotebookOutlinePosition[     22929,        463]*)
-(*  CellTagsIndexPosition[     22885,        459]*)
+(*NotebookOptionsPosition[     22179,        439]*)
+(*NotebookOutlinePosition[     22864,        463]*)
+(*  CellTagsIndexPosition[     22820,        459]*)
 (*WindowFrame->Normal*)
 
 
@@ -82,15 +82,15 @@ Cell[BoxData[{
                   0\[IndentingNewLine]]\[IndentingNewLine]]\[IndentingNewLine]\
 ];\)\), "\[IndentingNewLine]", 
     \(\(Options[
-          PlanarGridDiagram]\  = \ {Reduce\  \[Rule] \ 
+          ArcPresentation]\  = \ {Reduce\  \[Rule] \ 
             Infinity};\)\), "\[IndentingNewLine]", 
-    \(\(PlanarGridDiagram[ml_MorseLink, \ opts___Rule]\  := \ 
+    \(\(ArcPresentation[ml_MorseLink, \ opts___Rule]\  := \ 
         Module[\[IndentingNewLine]{\[IndentingNewLine]ActiveVerts, \ 
             VertOrdering, \ vc, out, m, n, k, p, b, c, br, bl, r, \ l, \ 
-            UnneededVerts, \ PGD, \ redsdone, \ 
+            UnneededVerts, \ AP, \ redsdone, \ 
             oldreds, \ \[IndentingNewLine]red\  = \ \(Reduce\  /. \ {opts}\)\ \
  /. \ Options[
-                  PlanarGridDiagram]\[IndentingNewLine]}, \
+                  ArcPresentation]\[IndentingNewLine]}, \
 \[IndentingNewLine]ActiveVerts = {}; \ VertOrdering = {}; \ 
           vc = 0; \[IndentingNewLine]out\  = \ \(\((List\  @@ \ 
                     ml)\)\  /. \ {\[IndentingNewLine]Cup[m_, 
@@ -151,38 +151,38 @@ Cell[BoxData[{
           UnneededVerts = {}; \[IndentingNewLine]While[
             redsdone\  < \ red\  && \ 
               redsdone\  > \ oldreds, \[IndentingNewLine]oldreds = 
-              redsdone; \[IndentingNewLine]out\  = \ \((PGD\  @@ \ 
-                    out)\)\  /. \ {\[IndentingNewLine]PGD[
+              redsdone; \[IndentingNewLine]out\  = \ \((AP\  @@ \ 
+                    out)\)\  /. \ {\[IndentingNewLine]AP[
                         l___, \ {a_, \ b_}, \ m___, \ {b_, c_}, \ 
                         r___]\  /; \ \((a \[NotEqual] c\  && \ 
                           Slidable[a, 
                             b, {m}])\)\  \[RuleDelayed] \ \((\
 \[IndentingNewLine]\(++redsdone\); \ 
-                      AppendTo[UnneededVerts, \ b]; \[IndentingNewLine]PGD[
+                      AppendTo[UnneededVerts, \ b]; \[IndentingNewLine]AP[
                         l, \ m, \ {a, c}, \ 
-                        r]\[IndentingNewLine])\), \[IndentingNewLine]PGD[
+                        r]\[IndentingNewLine])\), \[IndentingNewLine]AP[
                         l___, \ {b_, \ a_}, \ m___, \ {c_, b_}, \ 
                         r___]\  /; \ \((a \[NotEqual] c\  && \ 
                           Slidable[a, 
                             b, {m}])\)\  \[RuleDelayed] \ \((\
 \[IndentingNewLine]\(++redsdone\); \ 
-                      AppendTo[UnneededVerts, \ b]; \[IndentingNewLine]PGD[
+                      AppendTo[UnneededVerts, \ b]; \[IndentingNewLine]AP[
                         l, \ m, \ {c, \ a}, \ 
-                        r]\[IndentingNewLine])\), \[IndentingNewLine]PGD[
+                        r]\[IndentingNewLine])\), \[IndentingNewLine]AP[
                         l___, \ {b_, \ c_}, \ m___, \ {a_, b_}, \ 
                         r___]\  /; \ \((a \[NotEqual] c\  && \ 
                           Slidable[a, 
                             b, {m}])\)\  \[RuleDelayed] \ \((\
 \[IndentingNewLine]\(++redsdone\); \ 
-                      AppendTo[UnneededVerts, \ b]; \[IndentingNewLine]PGD[
+                      AppendTo[UnneededVerts, \ b]; \[IndentingNewLine]AP[
                         l, \ \ {a, c}, \ m, \ 
-                        r]\[IndentingNewLine])\), \[IndentingNewLine]PGD[
+                        r]\[IndentingNewLine])\), \[IndentingNewLine]AP[
                         l___, \ {c_, \ b_}, \ m___, \ {b_, a_}, \ 
                         r___]\  /; \ \((a \[NotEqual] c\  && \ 
                           Slidable[a, 
                             b, {m}])\)\  \[RuleDelayed] \ \((\
 \[IndentingNewLine]\(++redsdone\); \ 
-                      AppendTo[UnneededVerts, \ b]; \[IndentingNewLine]PGD[
+                      AppendTo[UnneededVerts, \ b]; \[IndentingNewLine]AP[
                         l, \ \ {c, \ a}, \ m, \ 
                         r]\[IndentingNewLine])\)\[IndentingNewLine]}\
 \[IndentingNewLine]]; \[IndentingNewLine]out\  = \ 
@@ -190,39 +190,39 @@ Cell[BoxData[{
                 Rule[Delete[Range[vc], \ List\  /@ \ UnneededVerts], \ 
                   Range[vc - 
                       Length[UnneededVerts]]]]; \
-\[IndentingNewLine]PlanarGridDiagram\  @@ \ 
+\[IndentingNewLine]ArcPresentation\  @@ \ 
             out\[IndentingNewLine]];\)\), "\[IndentingNewLine]", 
-    \(\(PlanarGridDiagram[K_, \ opts___Rule]\  := \ 
-        PlanarGridDiagram[MorseLink[K], \ 
+    \(\(ArcPresentation[K_, \ opts___Rule]\  := \ 
+        ArcPresentation[MorseLink[K], \ 
           opts];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
     \(\(Options[
           Draw]\  = \ {OverlayMatrix\  \[Rule] \ 
             Null};\)\), "\[IndentingNewLine]", 
-    \(Draw[pgd_PlanarGridDiagram, \ opts___Rule]\ \  := \ 
+    \(Draw[ap_ArcPresentation, \ opts___Rule]\ \  := \ 
       Module[\[IndentingNewLine]{\[IndentingNewLine]l, p1, p2, k, \ 
           V, \[IndentingNewLine]om\  = \ \(OverlayMatrix\  /. \ {opts}\)\  \
 /. \ Options[Draw]\[IndentingNewLine]}, \[IndentingNewLine]l\  = \ 
-          Length[pgd]; \[IndentingNewLine]Graphics[
+          Length[ap]; \[IndentingNewLine]Graphics[
           Flatten[{\[IndentingNewLine]{Thickness[\(1/10\)/
-                    Length[pgd]]}, \[IndentingNewLine]Table[\
-\[IndentingNewLine]Line[{{pgd[\([k, \ 1]\)], \ k}, \ {pgd[\([k, 2]\)], \ 
-                      k}}], \[IndentingNewLine]{k, 
+                    Length[ap]]}, \
+\[IndentingNewLine]Table[\[IndentingNewLine]Line[{{ap[\([k, \ 1]\)], \ 
+                      k}, \ {ap[\([k, 2]\)], \ k}}], \[IndentingNewLine]{k, 
                   l}\[IndentingNewLine]], \[IndentingNewLine]{Thickness[
-                  0.45/Length[pgd]], \ 
+                  0.45/Length[ap]], \ 
                 GrayLevel[
                   1]}, \[IndentingNewLine]Table[\[IndentingNewLine]{{p1}}\  = \
-\ Position[First\  /@ \ pgd, \ k]; \[IndentingNewLine]{{p2}}\  = \ 
-                  Position[Last\  /@ \ pgd, \ k]; \[IndentingNewLine]{p1, \ 
+\ Position[First\  /@ \ ap, \ k]; \[IndentingNewLine]{{p2}}\  = \ 
+                  Position[Last\  /@ \ ap, \ k]; \[IndentingNewLine]{p1, \ 
                     p2}\  = \ 
                   Sort[{p1, p2}]; \[IndentingNewLine]Line[{{k, \ 
                       p1 + 0.5}, \ {k, \ 
                       p2 - 0.5}}], \[IndentingNewLine]{k, \ 
                   l}\[IndentingNewLine]], \[IndentingNewLine]{Thickness[\(1/
-                      10\)/Length[pgd]], \ 
+                      10\)/Length[ap]], \ 
                 GrayLevel[
                   0]}, \[IndentingNewLine]Table[\[IndentingNewLine]{{p1}}\  = \
-\ Position[First\  /@ \ pgd, \ k]; \[IndentingNewLine]{{p2}}\  = \ 
-                  Position[Last\  /@ \ pgd, \ 
+\ Position[First\  /@ \ ap, \ k]; \[IndentingNewLine]{{p2}}\  = \ 
+                  Position[Last\  /@ \ ap, \ 
                     k]; \[IndentingNewLine]Line[{{k, \ p1}, \ {k, \ 
                       p2}}], \[IndentingNewLine]{k, \ 
                   l}\[IndentingNewLine]], \[IndentingNewLine]If[
@@ -231,14 +231,14 @@ Cell[BoxData[{
                     om], \ {2}\[IndentingNewLine]]\[IndentingNewLine]]\
 \[IndentingNewLine]}]]\[IndentingNewLine]]\[IndentingNewLine]\), "\
 \[IndentingNewLine]", 
-    \(\(MinesweeperMatrix[pgd_PlanarGridDiagram]\  := \ 
+    \(\(MinesweeperMatrix[ap_ArcPresentation]\  := \ 
         Module[\[IndentingNewLine]{l, \ CurrentRow, \ c1, c2, k, 
             s}, \[IndentingNewLine]l = 
-            Length[pgd]; \[IndentingNewLine]CurrentRow\  = \ 
+            Length[ap]; \[IndentingNewLine]CurrentRow\  = \ 
             Table[0, \ {l}]; \[IndentingNewLine]Table[\[IndentingNewLine]{c1, \
-\ c2}\  = \ Sort[pgd[\([k]\)]]; \[IndentingNewLine]s = 
+\ c2}\  = \ Sort[ap[\([k]\)]]; \[IndentingNewLine]s = 
               Sign[{\(-1\), 1} . 
-                  pgd[\([k]\)]]; \
+                  ap[\([k]\)]]; \
 \[IndentingNewLine]Do[\[IndentingNewLine]CurrentRow[\([c]\)] += 
                 s, \[IndentingNewLine]{c, \ c1, \ 
                 c2 - 1}\[IndentingNewLine]]; \[IndentingNewLine]CurrentRow, \
@@ -247,13 +247,13 @@ Cell[BoxData[{
 \[IndentingNewLine]", 
     \(\(MinesweeperMatrix[K_]\  := \ 
         MinesweeperMatrix[
-          PlanarGridDiagram[
+          ArcPresentation[
             K]];\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
-    \(NeuwirthMatrix[pgd_PlanarGridDiagram]\  := \ 
+    \(NeuwirthMatrix[ap_ArcPresentation]\  := \ 
       Module[\[IndentingNewLine]{l, \ mm, t}, \[IndentingNewLine]l = 
-          Length[pgd]; \[IndentingNewLine]Function\  @@ \ \
+          Length[ap]; \[IndentingNewLine]Function\  @@ \ \
 {\[IndentingNewLine]mm = 
-              t^MinesweeperMatrix[pgd]; \[IndentingNewLine]ReplacePart[
+              t^MinesweeperMatrix[ap]; \[IndentingNewLine]ReplacePart[
                 Factor[\((mm - RotateLeft[mm])\)/\((t - 1)\)], \ First[mm], \ 
                 1]\  /. \ 
               t\  \[Rule] \ #\[IndentingNewLine]}\[IndentingNewLine]]\)}], \
@@ -285,27 +285,27 @@ ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
 Cell[CellGroupData[{
 
 Cell[BoxData[{
-    \(\(Clear[\[IndentingNewLine]pgd, \ n, \ MM, \ a, \ PP, \ WW, \ 
+    \(\(Clear[\[IndentingNewLine]ap, \ n, \ MM, \ a, \ PP, \ WW, \ 
         AlexanderDegreeShift, \ AlexanderDegree, \ x0, \ MaslovDegree, \ 
         Boundary, \ AllStates, \ BoundaryMatrix, \ Rank, \ Betti, \ 
         MOSHomology\[IndentingNewLine]];\)\), "\[IndentingNewLine]", 
-    \(\(pgd\  = \ PlanarGridDiagram[Knot[3, 1]];\)\), "\[IndentingNewLine]", 
+    \(\(ap\  = \ ArcPresentation[Knot[3, 1]];\)\), "\[IndentingNewLine]", 
     \(\(n = 
-        Length[MM\  = \ MinesweeperMatrix[pgd]];\)\), "\[IndentingNewLine]", 
+        Length[MM\  = \ MinesweeperMatrix[ap]];\)\), "\[IndentingNewLine]", 
     \(\(a[p1_, \ 
           p2_]\  := \ \(a[p1, \ 
             p2]\  = \ \(-MM[\([p1\  /. \ 0\  \[Rule] \ n, \ 
                 p2\  /. \ 0\  \[Rule] \ 
                     n]\)]\)\);\)\), "\[IndentingNewLine]", 
     \(\(AlexanderDegreeShift\  = \ \((1 - n)\)/2\  - \ 
-          1/8*Sum[\[IndentingNewLine]a[k, \ pgd[\([k, \ 1]\)]]\  + \ 
-                a[k, \ pgd[\([k, \ 1]\)] - 1]\  + \ 
-                a[k - 1, \ pgd[\([k, \ 1]\)]]\  + \ 
-                a[k - 1, \ pgd[\([k, \ 1]\)] - 1]\[IndentingNewLine] + \ 
-                a[k, \ pgd[\([k, \ 2]\)]]\  + \ 
-                a[k, \ pgd[\([k, \ 2]\)] - 1]\  + \ 
-                a[k - 1, \ pgd[\([k, \ 2]\)]]\  + \ 
-                a[k - 1, \ pgd[\([k, \ 2]\)] - 1], \[IndentingNewLine]{k, 
+          1/8*Sum[\[IndentingNewLine]a[k, \ ap[\([k, \ 1]\)]]\  + \ 
+                a[k, \ ap[\([k, \ 1]\)] - 1]\  + \ 
+                a[k - 1, \ ap[\([k, \ 1]\)]]\  + \ 
+                a[k - 1, \ ap[\([k, \ 1]\)] - 1]\[IndentingNewLine] + \ 
+                a[k, \ ap[\([k, \ 2]\)]]\  + \ 
+                a[k, \ ap[\([k, \ 2]\)] - 1]\  + \ 
+                a[k - 1, \ ap[\([k, \ 2]\)]]\  + \ 
+                a[k - 1, \ ap[\([k, \ 2]\)] - 1], \[IndentingNewLine]{k, 
                 n}\[IndentingNewLine]];\)\), "\[IndentingNewLine]", 
     \(\(AlexanderDegree[x_State]\  := \ \(AlexanderDegree[x]\  = \ 
           AlexanderDegreeShift\  + \ 
@@ -314,13 +314,13 @@ Cell[BoxData[{
                 n}\[IndentingNewLine]]\);\)\), "\[IndentingNewLine]", 
     \(\(x0 = 
         State\  @@ \ 
-            RotateLeft[\(-1\) + First\  /@ \ \(List\  @@ \ pgd\)]\  /. \ 
+            RotateLeft[\(-1\) + First\  /@ \ \(List\  @@ \ ap\)]\  /. \ 
           0\  \[Rule] \ n;\)\), "\[IndentingNewLine]", 
     \(\(MaslovDegree[x0]\  = \ 1 - n;\)\), "\[IndentingNewLine]", 
     \(\(WW[{{i1_, \ i2_}, \ {j1_, \ 
               j2_}}]\  := \ \(WW[{{i1, i2}, \ {j1, j2}}]\  = \ 
           Length[Select[\[IndentingNewLine]First\  /@ \ \((List\  @@ \ 
-                      pgd)\)[\([Range[i1 + 1, \ 
+                      ap)\)[\([Range[i1 + 1, \ 
                       i2]]\)], \[IndentingNewLine]\((j1 < # \[LessEqual] 
                     j2)\) &\[IndentingNewLine]]]\);\)\), \
 "\[IndentingNewLine]", 
@@ -368,8 +368,8 @@ Cell[BoxData[{
 \[IndentingNewLine]Or[\[IndentingNewLine]cyci[i]\  && \ 
                         cycj[x[\([i]\)]], \[IndentingNewLine]cyci[
                           i - 1/2]\ \  && \ \((cycj[
-                              pgd[\([i, 1]\)] - 1/2]\  || \ 
-                            cycj[pgd[\([i, 2]\)] - 
+                              ap[\([i, 1]\)] - 1/2]\  || \ 
+                            cycj[ap[\([i, 2]\)] - 
                                 1/2])\)\[IndentingNewLine]], \
 \[IndentingNewLine]i = 
                       0, \ \(++i\)\[IndentingNewLine]]\[IndentingNewLine]]; \
@@ -438,7 +438,7 @@ ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
 }, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
-ScreenRectangle->{{0, 1280}, {0, 706}},
+ScreenRectangle->{{0, 1280}, {0, 702}},
 WindowSize->{632, 675},
 WindowMargins->{{103, Automatic}, {Automatic, -2}},
 ShowSelection->True,
@@ -469,17 +469,17 @@ Cell[1999, 59, 158, 2, 44, "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[2194, 66, 10872, 193, 3130, "Input"],
-Cell[13069, 261, 371, 6, 37, "Message"],
-Cell[13443, 269, 354, 5, 37, "Message"],
-Cell[13800, 276, 354, 5, 37, "Message"]
+Cell[2194, 66, 10824, 193, 3110, "Input"],
+Cell[13021, 261, 371, 6, 37, "Message"],
+Cell[13395, 269, 354, 5, 37, "Message"],
+Cell[13752, 276, 354, 5, 37, "Message"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[14191, 286, 7341, 134, 2130, "Input"],
-Cell[21535, 422, 130, 2, 22, "Message"],
-Cell[21668, 426, 201, 3, 52, "Message"],
-Cell[21872, 431, 356, 5, 37, "Message"]
+Cell[14143, 286, 7324, 134, 2130, "Input"],
+Cell[21470, 422, 130, 2, 22, "Message"],
+Cell[21603, 426, 201, 3, 52, "Message"],
+Cell[21807, 431, 356, 5, 37, "Message"]
 }, Open  ]]
 }
 ]

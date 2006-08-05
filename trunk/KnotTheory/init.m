@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 7, 31, 9, 34, 35.6875000};
+KnotTheoryVersion[] = {2006, 8, 5, 16, 31, 24.0312500};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -186,13 +186,18 @@ PD[BR[k_Integer, l_List]] := Module[
 ]
 PDStringSplit[S_String?(StringFreeQ[#,","]&)]:=ToExpression/@Characters[S]
 PDStringSplit[S_String]:=ToExpression/@StringSplit[S,","]
-(* This function translates the HTML string representations of planar diagram
-   notation used in the Knot Atlas back into the internal PD format. *)
-PD[S_String]:=
+(*
+   The following function translates the HTML string representations of
+   planar diagram notation used in the Knot Atlas back into the internal
+   PD format. If there are no X's in the string, it is instead fed into
+   Knot on the assumption that it is a knot name.
+*)
+PD[S_String]:= If[StringFreeQ[S, "X"], PD[Knot[S]],
   PD@@((X@@PDStringSplit[#]&)/@
         StringCases[S, StringExpression[
 	  "X<sub>", x:ShortestMatch[__], "</sub>"
 	] :> x])
+]
 BR[TorusKnot[m_, n_]] /; m > 0 && n > 0 :=
   BR[n, Flatten[Table[Range[n - 1], {m}]]]
 PD[TorusKnot[m_, n_]] /; m > 0 && n > 0 := PD[BR[TorusKnot[m, n]]]
