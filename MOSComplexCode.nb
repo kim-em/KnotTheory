@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     20730,        403]*)
-(*NotebookOutlinePosition[     21419,        427]*)
-(*  CellTagsIndexPosition[     21375,        423]*)
+(*NotebookOptionsPosition[     22244,        439]*)
+(*NotebookOutlinePosition[     22929,        463]*)
+(*  CellTagsIndexPosition[     22885,        459]*)
 (*WindowFrame->Normal*)
 
 
@@ -62,11 +62,25 @@ Cell[BoxData[
 at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
 }, Open  ]],
 
+Cell[CellGroupData[{
+
 Cell[BoxData[{
     \(\(InterlacedQ[{a_, b_}, \ {c_, 
             d_}]\  := \ \((Signature[{a, b}] Signature[{c, d}] 
               Signature[{a, b, c, 
                   d}] === \(-1\))\);\)\), "\[IndentingNewLine]", 
+    \(\(Slidable[a_, b_, m_List]\  := \ 
+        Module[\[IndentingNewLine]{h}, \[IndentingNewLine]Or[\
+\[IndentingNewLine]\(! \((Or\  @@ \ \((\(InterlacedQ[{a, b}, \ #] &\)\  /@ \ 
+                      m)\))\)\), \[IndentingNewLine]SameQ[
+              0, \[IndentingNewLine]Total[
+                  h\  /@ \ Select[\[IndentingNewLine]Sort[
+                        Flatten[
+                          m]], \[IndentingNewLine]\((Min[a, b] < # < 
+                            Max[a, b])\) &\[IndentingNewLine]]]\  /. \ 
+                2  h[_]\  \[Rule] \ 
+                  0\[IndentingNewLine]]\[IndentingNewLine]]\[IndentingNewLine]\
+];\)\), "\[IndentingNewLine]", 
     \(\(Options[
           PlanarGridDiagram]\  = \ {Reduce\  \[Rule] \ 
             Infinity};\)\), "\[IndentingNewLine]", 
@@ -110,8 +124,7 @@ Cell[BoxData[{
                           p + 1]; \[IndentingNewLine]If[
                         b === Up, \ {bl, \ vc}, \ {vc, 
                           bl}]\[IndentingNewLine])\), \[IndentingNewLine]X[
-                    
-                    n_, \ Over, \ b_, \ 
+                      n_, \ Over, \ b_, \ 
                       c_]\  \[RuleDelayed] \ \ \((\[IndentingNewLine]br = 
                         ActiveVerts[\([n + 
                               1]\)]; \[IndentingNewLine]ActiveVerts\  = \ 
@@ -141,34 +154,34 @@ Cell[BoxData[{
               redsdone; \[IndentingNewLine]out\  = \ \((PGD\  @@ \ 
                     out)\)\  /. \ {\[IndentingNewLine]PGD[
                         l___, \ {a_, \ b_}, \ m___, \ {b_, c_}, \ 
-                        r___]\  /; \ \((a \[NotEqual] 
-                            c\  && \ \(! \((Or\  @@ \ \((\(InterlacedQ[{a, 
-                                        b}, \ #] &\)\  /@ \ {m})\))\)\))\)\  \
-\[RuleDelayed] \ \((\[IndentingNewLine]\(++redsdone\); \ 
+                        r___]\  /; \ \((a \[NotEqual] c\  && \ 
+                          Slidable[a, 
+                            b, {m}])\)\  \[RuleDelayed] \ \((\
+\[IndentingNewLine]\(++redsdone\); \ 
                       AppendTo[UnneededVerts, \ b]; \[IndentingNewLine]PGD[
                         l, \ m, \ {a, c}, \ 
                         r]\[IndentingNewLine])\), \[IndentingNewLine]PGD[
                         l___, \ {b_, \ a_}, \ m___, \ {c_, b_}, \ 
-                        r___]\  /; \ \((a \[NotEqual] 
-                            c\  && \ \(! \((Or\  @@ \ \((\(InterlacedQ[{a, 
-                                        b}, \ #] &\)\  /@ \ {m})\))\)\))\)\  \
-\[RuleDelayed] \ \((\[IndentingNewLine]\(++redsdone\); \ 
+                        r___]\  /; \ \((a \[NotEqual] c\  && \ 
+                          Slidable[a, 
+                            b, {m}])\)\  \[RuleDelayed] \ \((\
+\[IndentingNewLine]\(++redsdone\); \ 
                       AppendTo[UnneededVerts, \ b]; \[IndentingNewLine]PGD[
                         l, \ m, \ {c, \ a}, \ 
                         r]\[IndentingNewLine])\), \[IndentingNewLine]PGD[
                         l___, \ {b_, \ c_}, \ m___, \ {a_, b_}, \ 
-                        r___]\  /; \ \((a \[NotEqual] 
-                            c\  && \ \(! \((Or\  @@ \ \((\(InterlacedQ[{a, 
-                                        b}, \ #] &\)\  /@ \ {m})\))\)\))\)\  \
-\[RuleDelayed] \ \((\[IndentingNewLine]\(++redsdone\); \ 
+                        r___]\  /; \ \((a \[NotEqual] c\  && \ 
+                          Slidable[a, 
+                            b, {m}])\)\  \[RuleDelayed] \ \((\
+\[IndentingNewLine]\(++redsdone\); \ 
                       AppendTo[UnneededVerts, \ b]; \[IndentingNewLine]PGD[
                         l, \ \ {a, c}, \ m, \ 
                         r]\[IndentingNewLine])\), \[IndentingNewLine]PGD[
                         l___, \ {c_, \ b_}, \ m___, \ {b_, a_}, \ 
-                        r___]\  /; \ \((a \[NotEqual] 
-                            c\  && \ \(! \((Or\  @@ \ \((\(InterlacedQ[{a, 
-                                        b}, \ #] &\)\  /@ \ {m})\))\)\))\)\  \
-\[RuleDelayed] \ \((\[IndentingNewLine]\(++redsdone\); \ 
+                        r___]\  /; \ \((a \[NotEqual] c\  && \ 
+                          Slidable[a, 
+                            b, {m}])\)\  \[RuleDelayed] \ \((\
+\[IndentingNewLine]\(++redsdone\); \ 
                       AppendTo[UnneededVerts, \ b]; \[IndentingNewLine]PGD[
                         l, \ \ {c, \ a}, \ m, \ 
                         r]\[IndentingNewLine])\)\[IndentingNewLine]}\
@@ -245,6 +258,29 @@ Cell[BoxData[{
                 1]\  /. \ 
               t\  \[Rule] \ #\[IndentingNewLine]}\[IndentingNewLine]]\)}], \
 "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(InterlacedQ\\)\\\" is similar to existing \
+symbol \\\"\\!\\(Interlaced\\)\\\". \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], \
+"Message"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(out\\)\\\" is similar to existing symbol \
+\\\"\\!\\(Out\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(red\\)\\\" is similar to existing symbol \
+\\\"\\!\\(Red\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -402,9 +438,9 @@ ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
 }, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
-ScreenRectangle->{{0, 1280}, {0, 755}},
-WindowSize->{801, 728},
-WindowMargins->{{Automatic, -1376}, {Automatic, -369}},
+ScreenRectangle->{{0, 1280}, {0, 706}},
+WindowSize->{632, 675},
+WindowMargins->{{103, Automatic}, {Automatic, -2}},
 ShowSelection->True,
 Magnification->1
 ]
@@ -431,13 +467,19 @@ Cell[CellGroupData[{
 Cell[1776, 53, 220, 4, 70, "Input"],
 Cell[1999, 59, 158, 2, 44, "Print"]
 }, Open  ]],
-Cell[2172, 64, 10480, 182, 2850, "Input"],
 
 Cell[CellGroupData[{
-Cell[12677, 250, 7341, 134, 1910, "Input"],
-Cell[20021, 386, 130, 2, 22, "Message"],
-Cell[20154, 390, 201, 3, 37, "Message"],
-Cell[20358, 395, 356, 5, 22, "Message"]
+Cell[2194, 66, 10872, 193, 3130, "Input"],
+Cell[13069, 261, 371, 6, 37, "Message"],
+Cell[13443, 269, 354, 5, 37, "Message"],
+Cell[13800, 276, 354, 5, 37, "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[14191, 286, 7341, 134, 2130, "Input"],
+Cell[21535, 422, 130, 2, 22, "Message"],
+Cell[21668, 426, 201, 3, 52, "Message"],
+Cell[21872, 431, 356, 5, 37, "Message"]
 }, Open  ]]
 }
 ]
