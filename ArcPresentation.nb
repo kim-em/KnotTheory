@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     45044,        942]*)
-(*NotebookOutlinePosition[     45728,        966]*)
-(*  CellTagsIndexPosition[     45684,        962]*)
+(*NotebookOptionsPosition[     45333,        947]*)
+(*NotebookOutlinePosition[     46017,        971]*)
+(*  CellTagsIndexPosition[     45973,        967]*)
 (*WindowFrame->Normal*)
 
 
@@ -934,11 +934,16 @@ Cell[BoxData[
 
 Cell[BoxData[
     \(MorseLink[ap_ArcPresentation]\  := \ 
-      Module[\[IndentingNewLine]{ml, \ strands, \ 
-          k}, \[IndentingNewLine]ml = {}; \[IndentingNewLine]strands = {}; \
-\[IndentingNewLine]Do[\[IndentingNewLine]STOP, \[IndentingNewLine]{k, 
+      Module[\[IndentingNewLine]{ml, \ strands, \ dirs, \ k, \ 
+          cur}, \[IndentingNewLine]ml = {}; \[IndentingNewLine]strands\  = \ \
+\(dirs\  = \ {}\); \[IndentingNewLine]Do[\[IndentingNewLine]Switch[
+            Length[Intersection[strands, \ 
+                cur = ap[\([k]\)]]], \[IndentingNewLine]0, \ \
+\[IndentingNewLine]1, \[IndentingNewLine]2, \[IndentingNewLine]], \
+\[IndentingNewLine]{k, 
             Length[ap]}\[IndentingNewLine]]; \[IndentingNewLine]MorseLink\  \
-@@ \ ml\[IndentingNewLine]]\)], "Input"]
+@@ \ \((ml\  /. \ {True\  \[Rule] \ Up, \ 
+                False\  \[Rule] \ Down})\)\[IndentingNewLine]]\)], "Input"]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
 ScreenRectangle->{{0, 1280}, {0, 702}},
@@ -988,7 +993,7 @@ Cell[28477, 595, 16040, 331, 186, 1840, 151, "GraphicsData", "PostScript", \
 "Graphics"],
 Cell[44520, 928, 130, 3, 29, "Output"]
 }, Open  ]],
-Cell[44665, 934, 375, 6, 210, "Input"]
+Cell[44665, 934, 664, 11, 290, "Input"]
 }
 ]
 *)
