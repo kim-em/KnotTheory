@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     45333,        947]*)
-(*NotebookOutlinePosition[     46017,        971]*)
-(*  CellTagsIndexPosition[     45973,        967]*)
+(*NotebookOptionsPosition[     46113,        965]*)
+(*NotebookOutlinePosition[     46961,        995]*)
+(*  CellTagsIndexPosition[     46873,        989]*)
 (*WindowFrame->Normal*)
 
 
@@ -932,6 +932,24 @@ Cell[BoxData[
       Editable->False]], "Output"]
 }, Open  ]],
 
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(?MorseLink\)\)], "Input"],
+
+Cell[BoxData[
+    \("MorseLink[K] returns a presentation of the oriented link K, composed, \
+in successive order, of the following 'events':     Cup[m,n] is a directed \
+creation, starting at strand position m, towards position n, where m and n \
+differ by 1.     X[n,a = {Over/Under}, b = {Up/Down}, c={Up/Down}] is a \
+crossing with lower-left edge at strand n, a determines      whether the \
+strand running bottom-left to top-right is over/under the crossing, b and c \
+give the directions of      the bottom-left and bottom-right strands \
+respectively through the crossing. Cap[m,n] is a directed cap, from strand m \
+to strand n.     "\)], "Print",
+  CellTags->"Info3363972172-7203079"]
+}, Open  ]],
+
 Cell[BoxData[
     \(MorseLink[ap_ArcPresentation]\  := \ 
       Module[\[IndentingNewLine]{ml, \ strands, \ dirs, \ k, \ 
@@ -961,11 +979,17 @@ you save this file from within Mathematica.
 *******************************************************************)
 
 (*CellTagsOutline
-CellTagsIndex->{}
+CellTagsIndex->{
+  "Info3363972172-7203079"->{
+    Cell[44737, 939, 693, 10, 177, "Print",
+      CellTags->"Info3363972172-7203079"]}
+  }
 *)
 
 (*CellTagsIndex
-CellTagsIndex->{}
+CellTagsIndex->{
+  {"Info3363972172-7203079", 46760, 982}
+  }
 *)
 
 (*NotebookFileOutline
@@ -993,7 +1017,13 @@ Cell[28477, 595, 16040, 331, 186, 1840, 151, "GraphicsData", "PostScript", \
 "Graphics"],
 Cell[44520, 928, 130, 3, 29, "Output"]
 }, Open  ]],
-Cell[44665, 934, 664, 11, 290, "Input"]
+
+Cell[CellGroupData[{
+Cell[44687, 936, 47, 1, 30, "Input"],
+Cell[44737, 939, 693, 10, 177, "Print",
+  CellTags->"Info3363972172-7203079"]
+}, Open  ]],
+Cell[45445, 952, 664, 11, 290, "Input"]
 }
 ]
 *)
