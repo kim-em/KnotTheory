@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     46113,        965]*)
-(*NotebookOutlinePosition[     46961,        995]*)
-(*  CellTagsIndexPosition[     46873,        989]*)
+(*NotebookOptionsPosition[     46921,        985]*)
+(*NotebookOutlinePosition[     47775,       1015]*)
+(*  CellTagsIndexPosition[     47686,       1009]*)
 (*WindowFrame->Normal*)
 
 
@@ -250,6 +250,20 @@ Cell[CellGroupData[{
 
 Cell[BoxData[
     \(Draw[ArcPresentation["\<K11n11\>"]]\  // \ Show\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"DTCode4KnotsTo11`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"The GaussCode to PD conversion was written by Siddarth Sankaran \
+at the University of Toronto in the summer of 2005.\"\)"\)], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"MorseLink was added to KnotTheory` by Siddarth Sankaran at the \
+University of Toronto in the summer of 2005.\"\)"\)], "Message"],
 
 Cell[GraphicsData["PostScript", "\<\
 %!
@@ -952,9 +966,15 @@ to strand n.     "\)], "Print",
 
 Cell[BoxData[
     \(MorseLink[ap_ArcPresentation]\  := \ 
-      Module[\[IndentingNewLine]{ml, \ strands, \ dirs, \ k, \ 
-          cur}, \[IndentingNewLine]ml = {}; \[IndentingNewLine]strands\  = \ \
-\(dirs\  = \ {}\); \[IndentingNewLine]Do[\[IndentingNewLine]Switch[
+      Module[\[IndentingNewLine]{\[IndentingNewLine]ml = {}, \  (*\ 
+            holds\ the\ MorseLink\ under\ construction\ \
+*) \[IndentingNewLine]strands = {}, \  (*\ 
+            the\ ArcPresentation\ numbering\ of\ the\ active\ strands\ \
+*) \[IndentingNewLine]dirs\  = \ {}, \  (*\ 
+            the\ orientations\ of\ the\ active\ strands\ \
+*) \[IndentingNewLine]k, \ 
+          cur\[IndentingNewLine]}, \
+\[IndentingNewLine]Do[\[IndentingNewLine]Switch[
             Length[Intersection[strands, \ 
                 cur = ap[\([k]\)]]], \[IndentingNewLine]0, \ \
 \[IndentingNewLine]1, \[IndentingNewLine]2, \[IndentingNewLine]], \
@@ -964,9 +984,9 @@ Cell[BoxData[
                 False\  \[Rule] \ Down})\)\[IndentingNewLine]]\)], "Input"]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
-ScreenRectangle->{{0, 1280}, {0, 702}},
-WindowSize->{678, 675},
-WindowMargins->{{103, Automatic}, {Automatic, 0}},
+ScreenRectangle->{{0, 1280}, {0, 1155}},
+WindowSize->{795, 1030},
+WindowMargins->{{Automatic, -1106}, {Automatic, 11}},
 ShowSelection->True,
 Magnification->1
 ]
@@ -981,14 +1001,14 @@ you save this file from within Mathematica.
 (*CellTagsOutline
 CellTagsIndex->{
   "Info3363972172-7203079"->{
-    Cell[44737, 939, 693, 10, 177, "Print",
+    Cell[45294, 953, 693, 10, 139, "Print",
       CellTags->"Info3363972172-7203079"]}
   }
 *)
 
 (*CellTagsIndex
 CellTagsIndex->{
-  {"Info3363972172-7203079", 46760, 982}
+  {"Info3363972172-7203079", 47573, 1002}
   }
 *)
 
@@ -996,34 +1016,37 @@ CellTagsIndex->{
 Notebook[{
 
 Cell[CellGroupData[{
-Cell[1776, 53, 9500, 166, 2570, "Input"],
+Cell[1776, 53, 9500, 166, 2510, "Input"],
 Cell[11279, 221, 160, 2, 44, "Print"],
 Cell[11442, 225, 371, 6, 37, "Message"],
-Cell[11816, 233, 354, 5, 37, "Message"],
-Cell[12173, 240, 354, 5, 37, "Message"]
+Cell[11816, 233, 354, 5, 22, "Message"],
+Cell[12173, 240, 354, 5, 22, "Message"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 Cell[12564, 250, 80, 1, 30, "Input"],
-Cell[12647, 253, 15287, 322, 186, 1840, 151, "GraphicsData", "PostScript", \
+Cell[12647, 253, 138, 2, 22, "Message"],
+Cell[12788, 257, 209, 3, 37, "Message"],
+Cell[13000, 262, 201, 3, 37, "Message"],
+Cell[13204, 267, 15287, 322, 186, 1840, 151, "GraphicsData", "PostScript", \
 "Graphics"],
-Cell[27937, 577, 130, 3, 29, "Output"]
+Cell[28494, 591, 130, 3, 29, "Output"]
 }, Open  ]],
-Cell[28082, 583, 261, 4, 70, "Input"],
+Cell[28639, 597, 261, 4, 70, "Input"],
 
 Cell[CellGroupData[{
-Cell[28368, 591, 106, 2, 30, "Input"],
-Cell[28477, 595, 16040, 331, 186, 1840, 151, "GraphicsData", "PostScript", \
+Cell[28925, 605, 106, 2, 30, "Input"],
+Cell[29034, 609, 16040, 331, 186, 1840, 151, "GraphicsData", "PostScript", \
 "Graphics"],
-Cell[44520, 928, 130, 3, 29, "Output"]
+Cell[45077, 942, 130, 3, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[44687, 936, 47, 1, 30, "Input"],
-Cell[44737, 939, 693, 10, 177, "Print",
+Cell[45244, 950, 47, 1, 30, "Input"],
+Cell[45294, 953, 693, 10, 139, "Print",
   CellTags->"Info3363972172-7203079"]
 }, Open  ]],
-Cell[45445, 952, 664, 11, 290, "Input"]
+Cell[46002, 966, 915, 17, 350, "Input"]
 }
 ]
 *)
