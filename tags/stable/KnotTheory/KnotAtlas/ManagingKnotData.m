@@ -38,8 +38,6 @@ LoadInvariantRules::usage="LoadInvariantRules[pagename] loads definitions for in
 
 InvariantDefinitionTable::usage="InvariantDefinitionTable[rules] generates an html table representing rules, suitable for input via LoadInvariantRules.";
 
-Invariants::usage="Invariants[] returns a list of all invariant definitions currently known. Invariants[string_pattern] returns all invariant definitions with type matching string_pattern.";
-
 InvariantNames::usage="InvariantNames[rules] returns a list of the names of the invariants described by rules.";
 
 RetrieveInvariant::usage="RetrieveInvariant[invariant, knot, source] returns the value of the named invariant for the given knot, from the specified source. At present, the only sources understood are \"KnotAtlas\", \"KnotTheory`\" and \"KnotInfo\". More may come soon!";
@@ -66,6 +64,8 @@ FindMissingData::usage=
 ProcessKnotAtlasUploadQueue::usage=
     "ProcessKnotAtlasUploadQueue[pagename] starts processing the queue at pagename on the KnotAtlas. See the Knot Atlas page \"Upload Queues\" for further information. Options Repeat->numberOfRepeats and Timeout->numberOfSeconds can be used to control how many items will be processed, and the maximum amount of time spent on each.";
 
+CreateDataPackage;
+
 Begin["`Private`"];
 
 
@@ -79,7 +79,7 @@ linePattern=
           " ="~~ShortestMatch[__]~~
               "<td>"~~v:ShortestMatch[___]~~"</td>"\[RuleDelayed](t\[Rule]v);
 
-expressionTags={"ReadWiki","ReadLivingston","KnotTheory"};
+expressionTags={"ReadWiki","ReadLivingston","KnotTheory","KnotTheorySetter"};
 
 ConstructInvariantRule[S_String]:=
   Module[{names=StringCases[S,namePattern],saveContext,rule},
@@ -95,12 +95,45 @@ ConstructInvariantRule[S_String]:=
     rule
     ]
 
+QuantumInvariantRules={
+    (S_String/;StringMatchQ[S,"QuantumInvariant"~~__])\[RuleDelayed]
+      Module[{\[CapitalGamma]0,\[Lambda]0,cases},
+        cases=
+          StringCases[
+            S,("QuantumInvariant/"~~\[CapitalGamma]:(LetterCharacter)~~
+                    n:(DigitCharacter..)~~
+                      "/"~~\[Mu]__)\[RuleDelayed]{\[CapitalGamma],n,\[Mu]}];
+        If[Length[cases]\[Equal]0,{},
+          With[{\[CapitalGamma]=
+                Subscript[
+                  globalToExpression[
+                    "QuantumGroups`"<>cases\[LeftDoubleBracket]1,
+                        1\[RightDoubleBracket]],
+                  ToExpression[
+                    cases\[LeftDoubleBracket]1,
+                      2\[RightDoubleBracket]]],\[Lambda]=
+                ToExpression[
+                  "{"<>cases\[LeftDoubleBracket]1,3\[RightDoubleBracket]<>
+                    "}"]},
+            {"WikiPage"\[Rule]S,
+              "KnotTheorySetter"\[Rule]Function[{K,p},
+                  KnotTheory`QuantumKnotInvariants`QuantumKnotInvariant[\
+\[CapitalGamma],QuantumGroups`Irrep[\[CapitalGamma]][\[Lambda]]][K]=
+                        Function[{q},p];&],
+              "KnotTheory"\[Rule]Function[{K},
+                  KnotTheory`QuantumKnotInvariants`QuantumKnotInvariant[\
+\[CapitalGamma],QuantumGroups`Irrep[\[CapitalGamma]][\[Lambda]]][K][
+                    Global`q]]
+              }
+            ]
+          ]
+        ]
+    }
+
 LoadInvariantRules[pagename_String]:=
   AllInvariants=(ConstructInvariantRule/@
-          Drop[StringSplit[WikiGetPageText[pagename],"<tr>"],2])~
-      Join~{(S_String/;
-              StringMatchQ[S,
-                "QuantumInvariant"~~__])\[RuleDelayed]{"WikiPage"\[Rule]S}}
+          Drop[StringSplit[WikiGetPageText[pagename],"<tr>"],2])~Join~
+      QuantumInvariantRules
 
 LoadInvariantRules["Invariant_Definition_Table"];
 
@@ -126,22 +159,6 @@ InvariantDefinitionTable[rules_]:=
   "{{Invariant Definition Table Warning}}\n"<>"<table width=\"100%\">\n"<>
     TableHeader[rules]<>
     StringJoin@@Table[TableRow[rules,i],{i,1,Length[rules]}]<>"</table>"
-
-
-
-Invariants[S_]:=
-  Select[AllInvariants,
-    StringMatchQ[("Type"/.#\[LeftDoubleBracket]2\[RightDoubleBracket]),S]&]
-
-Invariants[]:=Invariants[__]
-
-Invariants["KnotTheory` Knot Invariants"]:=
-  Invariants[
-    "Navigation"|"Knot Presentations"|"Link Presentations"|"3D Invariant"|"Polynomial Invariant"|
-      "Vassiliev Invariant"]
-
-Invariants["KnotTheory` Link Invariants"]:=
-  Invariants["Navigation"|"Link Presentations"|"Polynomial Invariant"]
 
 
 
@@ -171,9 +188,10 @@ FromKnotInfoString["infty"]=\[Infinity];
 
 InvariantNames[L_List]:=Cases[L,(S_String\[Rule]_List)\[RuleDelayed]S]
 
-InvariantRule[I_String]:=Module[{rule},rule=I/.AllInvariants;
-    If[rule\[Equal]I,Print["I don't recognise the invariant "<>I<>"."];
-      Return[$Failed],rule]]
+InvariantRule[I_String]:=
+  InvariantRule[I]=Module[{rule},rule=I/.AllInvariants;
+      If[rule===I,Print["I don't recognise the invariant "<>I<>"."];
+        Return[$Failed],rule]]
 
 RetrieveInvariant[I_String,K_,"KnotTheory"]:=
   Module[{rule=InvariantRule[I],KnotTheory},
@@ -295,13 +313,14 @@ RetrieveInvariants[pairs:{{_String,_}...},
 
 Clear[WikiPageForInvariant];
 WikiPageForInvariant[I_String]:=
-  WikiPageForInvariant[I]=
-    Module[{rule=InvariantRule[I],wikiPage},
+  WikiPageForInvariant[I]=Module[{rule=InvariantRule[I],wikiPage},
       If[rule\[Equal]$Failed,Return[$Failed]];
-      wikiPage="WikiPage"/.(I/.AllInvariants);
-      If[wikiPage\[Equal]"WikiPage",
+      wikiPage="WikiPage"/.rule;
+      If[wikiPage==="WikiPage",
         Print["Sorry, I don't know how to store the invariant "<>I<>
-            " in the Knot Atlas."];Return[$Failed],Return[wikiPage]];]
+            " in the Knot Atlas."];Return[$Failed]];
+      wikiPage
+      ]
 
 
 
@@ -317,6 +336,9 @@ StoreInvariants[Dall:{{_String,_,_}...},"KnotAtlas",opts___]:=
               NameString[#\[LeftDoubleBracket]2\[RightDoubleBracket]]<>"/"<>
               WikiPageForInvariant[#\[LeftDoubleBracket]1\[RightDoubleBracket]\
 ],ToString[#\[LeftDoubleBracket]3\[RightDoubleBracket],WikiForm]}&/@D;
+    If[!FreeQ[uploadPairs,$Failed],
+      Print["Warning: tried to upload bad data -- "];Print[uploadPairs];
+      Return[$Failed]];
     If[Write/.{opts}/.Options[StoreInvariants],WikiSetPageTexts[uploadPairs],
       uploadPairs]]
 
@@ -325,6 +347,40 @@ StoreInvariants[Dall:{{_String,_,_}...},"CSVString"]:=
             "\""<>NameString[#\[LeftDoubleBracket]2\[RightDoubleBracket]]<>"\""<>
             ",\t\""<>ToString[#\[LeftDoubleBracket]3\[RightDoubleBracket],
               InputForm]<>"\"\n"&/@Dall)
+
+KnotTheorySetterForInvariant[I_String]:=
+  KnotTheorySetterForInvariant[I]=Module[{rule=InvariantRule[I],setter},
+      If[rule\[Equal]$Failed,Return[$Failed]];
+      setter="KnotTheorySetter"/.rule;
+      If[setter==="KnotTheorySetter",
+        Print["Sorry, I don't know how to store the invariant "<>I<>
+            " in the current KnotTheory`."];Return[$Failed]];
+      setter
+      ]
+
+StoreInvariants[Dall:{{_String,_,_}...},"KnotTheory"]:=
+  Module[{D},
+    D=DeleteCases[Dall,{_,_,$Failed|Null}];
+    invariants=Union[Part[D,All,1]];
+    setterFunctions=KnotTheorySetterForInvariant/@invariants;
+    If[MemberQ[setterFunctions,$Failed],Return[$Failed]];
+    KnotTheorySetterForInvariant[#\[LeftDoubleBracket]1\[RightDoubleBracket]][\
+#\[LeftDoubleBracket]2\[RightDoubleBracket],#\[LeftDoubleBracket]3\
+\[RightDoubleBracket]]&/@D;
+    ]
+
+StoreInvariants[Dall:{{_String,_,_}...},"KnotTheoryInputString"]:=
+  Module[{D},
+    D=DeleteCases[Dall,{_,_,$Failed|Null}];
+    invariants=Union[Part[D,All,1]];
+    setterFunctions=KnotTheorySetterForInvariant/@invariants;
+    If[MemberQ[setterFunctions,$Failed],Return[$Failed]];
+    "#\[LeftDoubleBracket]1\[RightDoubleBracket][#\[LeftDoubleBracket]2\[RightDoubleBracket],#\[LeftDoubleBracket]3\[RightDoubleBracket]]&/@ {\n"<>
+      StringJoin@@((ToString[#,InputForm]<>
+                  "\n")&/@({KnotTheorySetterForInvariant[#\[LeftDoubleBracket]\
+1\[RightDoubleBracket]],#\[LeftDoubleBracket]2\[RightDoubleBracket],#\
+\[LeftDoubleBracket]3\[RightDoubleBracket]}&/@D))<>"}"
+    ]
 
 ParseKnotInvariantFromURL[I_,K_,data_]:=data
 
@@ -340,15 +396,6 @@ RetrieveInvariant[I_String,K_,"url"]:=
     Return[ParseKnotInvariantFromURL[I,K,data]];
     ]
 
-(*TransferUnknownInvariants[invariants:{___String},knots_List,source_String,
-      target_String]:=Module[{dataToUpload,needed},
-      needed=
-        Cases[RetrieveInvariants[invariants,knots,
-            target],{i_,k_,Null}\[RuleDelayed]{i,k}];
-      dataToUpload=RetrieveInvariants[needed,source];
-      If[Length[dataToUpload]\[Equal]0,Return[{}]];
-      StoreInvariants[dataToUpload,target]
-      ]*)
 take[l_,n_]:=If[Length[l]>n,Take[l,n],l]
 shuffle[l_]:=
   l\[LeftDoubleBracket]Ordering[
@@ -439,8 +486,17 @@ randomEntry[list_]:=
 randomEntry[list_/;Length[list]\[Equal]0]:=Null
 
 ProcessKnotAtlasUploadQueue[pagename_String,contents_String]:=
-  ProcessKnotAtlasUploadQueueEntry[pagename,
-    randomEntry[StringSplit[contents,StringExpression[EndOfLine]]]]
+  Module[{item,result},
+    result=
+      ProcessKnotAtlasUploadQueueEntry[pagename,
+        item=randomEntry[StringSplit[contents,StringExpression[EndOfLine]]]];
+    If[result\[Equal]$Failed,
+      WikiStringReplace[pagename,item~~EndOfLine\[Rule]""];
+      WikiSetPageText["Upload Queues Rejected Items",
+        WikiGetPageText["Upload Queues Rejected Items"]<>"\n"<>item]
+      ];
+    result
+    ]
 
 ProcessKnotAtlasUploadQueueEntry[_,Null]:=Null
 
@@ -453,27 +509,44 @@ globalToExpression[S_String]:=Module[{saveContext,result},
     ]
 
 ProcessKnotAtlasUploadQueueEntry[pagename_String,item_String]:=
-  StringCases[item,
-    "*\""~~invariant:ShortestMatch[__]~~
-          "\", \""~~knotset:ShortestMatch[__]~~"\""\[RuleDelayed]
-      ProcessKnotAtlasUploadQueueEntry[pagename,item,invariant,knotset]]
+  Module[{cases},
+    cases=
+      StringCases[item,
+        "*\""~~invariant:ShortestMatch[__]~~
+              "\", \""~~knotset:ShortestMatch[__]~~
+                  "\""\[RuleDelayed]{invariant,knotset}];
+    If[Length[cases]\[Equal]0,Return[$Failed]];
+    ProcessKnotAtlasUploadQueueEntry[pagename,
+          item,#\[LeftDoubleBracket]1\[RightDoubleBracket],#\
+\[LeftDoubleBracket]2\[RightDoubleBracket]]&/@cases
+    ]
 
-validKnotSetStringPatterns={
-      "All"~~("Knots"|"Links")~~"["~~DigitCharacter..~~"]",
-      "All"~~("Knots"|"Links")~~
-          "["~~DigitCharacter..~~", "~~"Alternating"|"NonAlternating"~~"]",
-      "All"~~("Knots"|"Links")~~
-          "[{"~~DigitCharacter..~~", "~~DigitCharacter..~~"}]",
-      "All"~~("Knots"|"Links")~~
-          "[{"~~DigitCharacter..~~
-              ", "~~DigitCharacter..~~
-                  "}, "~~"Alternating"|"NonAlternating"~~"]",
-      "Take["~~__?(StringMatchQ[#,validKnotSetStringPatterns]&)~~
-          ", "~~DigitCharacter..~~"]",
-      "Take["~~__?(StringMatchQ[#,validKnotSetStringPatterns]&)~~
-          ", "~~"{"~~("-"|"")~~
-                DigitCharacter..~~", "~~("-"|"")~~DigitCharacter..~~"}"~~"]"
-      };
+commaSpaces=","~~" "...;
+
+validKnotSetStringPatterns=Alternatives@@{
+        "All"~~("Knots"|"Links")~~"["~~DigitCharacter..~~"]",
+        "All"~~("Knots"|"Links")~~
+            "["~~DigitCharacter..~~
+                commaSpaces~~"Alternating"|"NonAlternating"~~"]",
+        "All"~~("Knots"|"Links")~~
+            "[{"~~DigitCharacter..~~commaSpaces~~DigitCharacter..~~"}]",
+        "All"~~("Knots"|"Links")~~
+            "[{"~~DigitCharacter..~~
+                commaSpaces~~
+                  DigitCharacter..~~
+                    "}"~~commaSpaces~~"Alternating"|"NonAlternating"~~"]",
+        "TorusKnots["~~DigitCharacter..~~"]",
+        "Select["~~(s1__/;knotsetStringSanityCheck[s1])~~
+            commaSpaces~~
+              "First[BR[#]]"~~("<"|"=")~~"="~~DigitCharacter..~~"&]",
+        "Take["~~(s2__/;knotsetStringSanityCheck[s2])~~
+            commaSpaces~~DigitCharacter..~~"]",
+        "Take["~~(s3__/;knotsetStringSanityCheck[s3])~~
+            commaSpaces~~
+              "{"~~("-"|"")~~
+                  DigitCharacter..~~
+                    commaSpaces~~("-"|"")~~DigitCharacter..~~"}"~~"]"
+        };
 
 knotsetStringSanityCheck[knotset_String]:=
   StringMatchQ[knotset,validKnotSetStringPatterns]
@@ -494,8 +567,31 @@ ProcessKnotAtlasUploadQueueEntry[pagename_String,item_String,invariant_String,
     item
     ]
 
+CreateDataPackage[datasetname_String,invariant_String,knotset_List]:=
+  CreateDataPackage[datasetname,{invariant},knotset]
+
+CreateDataPackage[datasetname_String,invariants:{__String},knotset_List]:=
+  Module[{filename},
+    filename=KnotTheoryDirectory[]<>"/"<>datasetname<>".m";
+    If[FileNames[datasetname<>".m",{KnotTheoryDirectory[]}]=!={},
+      Print[
+        "Warning! There's already a file called "<>filename<>
+          "\nPlease double check the name, and delete the pre-existing file if appropriate."]\
+;Return[$Failed]];
+    WriteString[filename,
+      "BeginPackage[\"KnotTheory`"<>datasetname<>"`\",{\"KnotTheory`\"}]\n"<>
+        
+        "Message[KnotTheory::loading, \""<>datasetname<>"`\"]\n"<>
+        StoreInvariants[RetrieveInvariants[invariants,knotset,"KnotAtlas"],
+          "KnotTheoryInputString"]<>
+        "\nEndPackage[]"
+      ];
+    Close[filename]
+    ]
+
 End[];
 
 EndPackage[];
 
 (*</pre>[[Category:Source Code]]*)
+

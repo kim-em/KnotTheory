@@ -57,8 +57,11 @@ If[!MemberQ[$Path, ParentDirectory[KnotTheoryDirectory[]]],
     AppendTo[$Path, ParentDirectory[KnotTheoryDirectory[]]]
 ]
 
-(* try to ensure WikiLink is available; add the internal copy to the $Path *)
+(* try to ensure WikiLink` is available; add the internal copy to the $Path *)
 AppendTo[$Path, ToFileName[{KnotTheoryDirectory[], "WikiLink", "mathematica"}]]
+
+(* try to ensure QuantumGroups` is available; add the internal copy to the $Path *)
+AppendTo[$Path, ToFileName[{KnotTheoryDirectory[], "QuantumGroups"}]]
 
 KnotTheoryWelcomeMessage[] = StringJoin[
   "Loading KnotTheory` version of ",
@@ -81,11 +84,15 @@ End[]; EndPackage[];
 DeclarePackage["WikiLink`", {"CreateWikiConnection","WikiGetPageText",
     "WikiGetPageTexts","WikiSetPageText","WikiSetPageTexts","WikiUploadFile",
     "WikiUserName","WikiPageMatchQ","WikiPageFreeQ","WikiStringReplace",
-    "WikiStringCases"}]
+    "WikiStringCases","WikiAllPages"}]
 
 (* declare the public interfaces of the ManagingKnotData subpackage *)
 DeclarePackage["KnotTheory`KnotAtlas`ManagingKnotData`",
     {"LoadInvariantRules", "InvariantDefinitionTable", "Invariants", "InvariantNames", 
     "RetrieveInvariant", "RetrieveInvariants", "StoreInvariants", "KnotInvariantURL",
     "ParseKnotInvariantFromURL", "TransferUnknownInvariants",
-    "FindDataDiscrepancies", "FindMissingData", "ProcessKnotAtlasUploadQueue"}]
+    "FindDataDiscrepancies", "FindMissingData", "ProcessKnotAtlasUploadQueue", "CreateDataPackage"}]
+
+(* declare the public interfaces of the QuantumKnotInvariants subpackage *)
+DeclarePackage["KnotTheory`QuantumKnotInvariants`",
+    {"QuantumKnotInvariant"}]

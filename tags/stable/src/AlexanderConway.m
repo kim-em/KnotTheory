@@ -95,8 +95,7 @@ Block[{t}, Label[start]; A = B;
           
           
           If[Abs[LCM[
-                    Part[CoefficientList[B[[i]], t], 
-                      Exponent[B[[i]], t, Max] + 1], 
+                    Last[CoefficientList[B[[i]], t]], 
                     Part[CoefficientList[B[[j]], t], 
                       Exponent[B[[j]], t, Max] + 1]]/(Part[
                       CoefficientList[B[[j]], t], 
@@ -182,8 +181,9 @@ Block[{t}, Label[start]; A = B;
   B = DeleteCases[B, 0];
   For[i = 1, i <= Length[B], i++, 
     B = ReplacePart[B, Expand[B[[i]]/t^(Exponent[B[[i]], t, Min])], i]];
+  B = Expand[#/Sign[Coefficient[#, t, 0]]]& /@ B;
   B = Union[B];
-  If[B != A, Goto[start]]];
+  If[B =!= A, Goto[start]]];
   Evaluate[B /. t->#]&
 ))
 

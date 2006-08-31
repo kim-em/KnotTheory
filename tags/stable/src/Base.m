@@ -131,13 +131,19 @@ PD[BR[k_Integer, l_List]] := Module[
 PDStringSplit[S_String?(StringFreeQ[#,","]&)]:=ToExpression/@Characters[S]
 PDStringSplit[S_String]:=ToExpression/@StringSplit[S,","]
 
-(* This function translates the HTML string representations of planar diagram
-   notation used in the Knot Atlas back into the internal PD format. *)
-PD[S_String]:=
+(*
+   The following function translates the HTML string representations of
+   planar diagram notation used in the Knot Atlas back into the internal
+   PD format. If there are no X's in the string, it is instead fed into
+   Knot on the assumption that it is a knot name.
+*)
+
+PD[S_String]:= If[StringFreeQ[S, "X"], PD[Knot[S]],
   PD@@((X@@PDStringSplit[#]&)/@
         StringCases[S, StringExpression[
 	  "X<sub>", x:ShortestMatch[__], "</sub>"
 	] :> x])
+]
 
 BR[TorusKnot[m_, n_]] /; m > 0 && n > 0 :=
   BR[n, Flatten[Table[Range[n - 1], {m}]]]

@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     41665,        976]*)
-(*NotebookOutlinePosition[    125267,       3807]*)
-(*  CellTagsIndexPosition[    125223,       3803]*)
+(*NotebookOptionsPosition[      4511,        129]*)
+(*NotebookOutlinePosition[     88093,       2959]*)
+(*  CellTagsIndexPosition[     88049,       2955]*)
 (*WindowFrame->Normal*)
 
 
@@ -51,936 +51,88 @@ NotebookFileLineBreakTest*)
 Notebook[{
 
 Cell[CellGroupData[{
-Cell["ManagingKnotData`", "Title",
-  InitializationCell->True],
-
-Cell["Introduction", "Subtitle",
+Cell["KnotTheory`QuantumKnotInvariants` package", "Subtitle",
   InitializationCell->True],
 
 Cell["\<\
-This package provides a uniform interface to the Knot Atlas, Livingston's \
-KnotInfo,  and the package KnotTheory`. In the future, it may encompass other \
-sources as well.\
+A subpackage for KnotTheory`, providing a simple interface to the \
+QuantumGroups` package.
+June 23, 2006, Scott Morrison\
 \>", "Text",
   InitializationCell->True],
 
-Cell[CellGroupData[{
-
-Cell["Implementation", "Section",
+Cell[BoxData[
+    \(\(BeginPackage["\<KnotTheory`QuantumKnotInvariants`\>", {"\<KnotTheory`\
+\>", "\<QuantumGroups`\>", "\<QuantumGroups`Braiding`\>"}];\)\)], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
-    \( (*\(<\)\(pre\)\(>\)*) \)], "Input",
+    \(\(QuantumKnotInvariant::about = "\<Quantum knot invariants are \
+calculated using the mathematica package QuantumGroups`, written by Scott \
+Morrison 2003-2006.\>";\)\)], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
-    \(\(BeginPackage["\<KnotTheory`KnotAtlas`ManagingKnotData`\>", \
-{"\<KnotTheory`\>", "\<WikiLink`\>"}];\)\)], "Input",
+    \(QuantumKnotInvariant::usage = "\<QuantumKnotInvariant[\[CapitalGamma], \
+V][K][q] calculates the quantum knot invariant of the knot K in the \
+representation V of the quantum group \[CapitalGamma]. This relies on the \
+QuantumGroups` package, and you should look there for details of how \
+\[CapitalGamma] and V may be specified.
+
+Examples:
+   QuantumKnotInvariant[Subscript[A,2], Irrep[Subscript[A,2]][{1, \
+0}]][Knot[5, 2]][q]
+   QuantumKnotInvariant[Subscript[G,2], Irrep[Subscript[G,2]][{1, 0}]\
+\[CirclePlus]Irrep[Subscript[G,2]][{0, 1}]][Knot[5, 2]][q]\>"\)], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
-    \(\(FromWikiString;\)\)], "Input",
+    \(Begin["\<`Private`\>"]\)], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
-    \(\(FromKnotInfoString;\)\)], "Input",
-  InitializationCell->True],
-
-Cell[CellGroupData[{
-
-Cell["Usage messages", "Subsection"],
-
-Cell[BoxData[
-    \(\(LoadInvariantRules::usage = "\<LoadInvariantRules[pagename] loads \
-definitions for invariants from the page pagename (using the current \
-WikiLink` connection).\>";\)\)], "Input",
+    \(\(q = Global`q;\)\)], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
-    \(\(InvariantDefinitionTable::usage = "\<InvariantDefinitionTable[rules] \
-generates an html table representing rules, suitable for input via \
-LoadInvariantRules.\>";\)\)], "Input",
+    \(ExtractMatrices[indices : {__Integer}, matrices_] := 
+      Extract[matrices, 
+        indices /. {n_ /; n < 0 \[RuleDelayed] {2, \(-n\)}, 
+            n_ /; n > 0 \[RuleDelayed] {1, n}}]\)], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
-    \(\(InvariantNames::usage = "\<InvariantNames[rules] returns a list of \
-the names of the invariants described by rules.\>";\)\)], "Input",
+    \(\(QuantumKnotInvariant[\[CapitalGamma]_, V_]\)[K_] := 
+      Module[{br = BR[K], n, data}, \[IndentingNewLine]CreditMessage[
+          QuantumKnotInvariant::about]; \[IndentingNewLine]n = 
+          br\[LeftDoubleBracket]1\[RightDoubleBracket]; \
+\[IndentingNewLine]data = \(BraidingData[\[CapitalGamma]]\)[V, 
+            n]; \[IndentingNewLine]Function[{q0}, 
+          Evaluate[
+            Expand[Together[
+                  Plus @@ \(\((#\[LeftDoubleBracket]1\[RightDoubleBracket] 
+                            Tr[Dot @@ 
+                                ExtractMatrices[
+                                  br\[LeftDoubleBracket]2\[RightDoubleBracket]\
+, #\[LeftDoubleBracket]2\[RightDoubleBracket]]] &)\) /@ data\)] /. 
+                q \[Rule] q0]]]\[IndentingNewLine]]\)], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
-    \(\(RetrieveInvariant::usage = "\<RetrieveInvariant[invariant, knot, \
-source] returns the value of the named invariant for the given knot, from the \
-specified source. At present, the only sources understood are \"KnotAtlas\", \
-\"KnotTheory`\" and \"KnotInfo\". More may come soon!\>";\)\)], "Input",
+    \(End[]\)], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
-    \(\(RetrieveInvariants::usage = "\<RetrieveInvariants[invariantList, \
-knotList, source] returns a list of triples, each of the form \
-{\"InvariantName\", K, value}, from the specified source. At present, the \
-only sources understood are \"KnotAtlas\", \"KnotTheory`\" and \"KnotInfo\". \
-More may come soon!\>";\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(StoreInvariants::usage = "\<StoreInvariants[data, target] stores the \
-data, given in the form produced by RetrieveInvariants, in the specified \
-target. At present, the only target understood is \"KnotAtlas\". Perhaps soon \
-they'll be a way to specify a Mathematica .m file as the target.\>";\)\)], \
-"Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(KnotInvariantURL::usage = "\<The function must be overriden in order \
-to use the generic \"url\" source. Given two arguments, the name of the \
-invariant and a knot, it should return the URL at which the invariant can be \
-found. (Post-processing may be done by overriding ParseKnotInvariantFromURL.)\
-\>";\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(ParseKnotInvariantFromURL::usage = "\<This function may be overriden \
-when using the generic \"url\" source. Given three arguments, the name of the \
-invariant, a knot, and the text of the page returned from the URL specificied \
-by KnotInvariantURL, this function should return the invariant as a \
-Mathematica expression.\>"\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(TransferUnknownInvariants::usage = "\<\>";\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(FindDataDiscrepancies::usage = "\<FindDataDiscrepancies[data1, data2] \
-returns a list of conflicts between the two lists of data. The conflicts are \
-given in the form {\"InvariantName\", K, value1, value2}, where value1 is the \
-value given in data1, and value2 is the value given in data2. See also \
-FindMissingData.\n\>" <> "\<FindDataDiscrepancies[invariantList, knotList, \
-source1, source2] first makes two calls to RetrieveInvariants to generate \
-data1 and data2.\>";\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(FindMissingData::usage = "\<FindMissingData[data1, data2] returns a \
-sublist of data1 consisting of items for which there is no corresponding \
-value in data2. See also FindDataDiscrepancies.\n\>" <> \
-"\<FindMissingData[invariantList, knotList, source1, source2] first makes two \
-calls to RetrieveInvariants to generate data1 and data2.\>";\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(ProcessKnotAtlasUploadQueue::usage = \
-\[IndentingNewLine]"\<ProcessKnotAtlasUploadQueue[pagename] starts processing \
-the queue at pagename on the KnotAtlas. See the Knot Atlas page \"Upload \
-Queues\" for further information. Options Repeat->numberOfRepeats and \
-Timeout->numberOfSeconds can be used to control how many items will be \
-processed, and the maximum amount of time spent on each.\>";\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(CreateDataPackage;\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(Begin["\<`Private`\>"];\)\)], "Input",
+    \(EndPackage[]\)], "Input",
   InitializationCell->True]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell["Reading invariant definitions from a table", "Subsection",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(namePattern = "\<<!-- Invariant name -->\>" ~~ \(WhitespaceCharacter ...  \
-~~ \("\<<td>\>" ~~ \(n : 
-                    ShortestMatch[__] ~~ "\<</td>\>"\)\)\) \[RuleDelayed] 
-          n;\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(linePattern = "\<<!-- \>" ~~ \(t : \((WordCharacter .. )\) ~~ \("\< =\
-\>" ~~ \(ShortestMatch[__] ~~ \("\<<td>\>" ~~ \(v : 
-                        ShortestMatch[___] ~~ "\<</td>\>"\)\)\)\)\) \
-\[RuleDelayed] \((t \[Rule] v)\);\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(expressionTags = {"\<ReadWiki\>", "\<ReadLivingston\>", "\<KnotTheory\
-\>", "\<KnotTheorySetter\>"};\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(ConstructInvariantRule[S_String] := 
-      Module[{names = StringCases[S, namePattern], saveContext, rule}, 
-        If[Length[names] \[NotEqual] 1, 
-          Return[$Failed]]; \[IndentingNewLine]saveContext = $Context; \
-\[IndentingNewLine]$Context = "\<Global`\>"; \[IndentingNewLine]rule = \
-\((names\[LeftDoubleBracket]1\[RightDoubleBracket] \[Rule] 
-                DeleteCases[
-                  StringCases[S, 
-                    linePattern], _ \[Rule] "\<\>"] /. \((t_String?\((MemberQ[
-                            expressionTags, #] &)\) \[Rule] 
-                    s_String)\) \[RuleDelayed] \((t \[Rule] 
-                    ToExpression[s])\))\); \[IndentingNewLine]$Context = 
-          saveContext; \[IndentingNewLine]rule\[IndentingNewLine]]\)], "Input",\
-
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(QuantumInvariantRules = {\[IndentingNewLine]\((S_String /; 
-              StringMatchQ[S, "\<QuantumInvariant\>" ~~ __])\) \[RuleDelayed] 
-          Module[{\[CapitalGamma]0, \[Lambda]0, 
-              cases}, \[IndentingNewLine]cases = 
-              StringCases[
-                S, \(("\<QuantumInvariant/\>" ~~ \(\[CapitalGamma] : \
-\((LetterCharacter)\) ~~ \(n : \((DigitCharacter .. )\) ~~ \("\</\>" ~~ \
-\[Mu]__\)\)\))\) \[RuleDelayed] {\[CapitalGamma], 
-                    n, \[Mu]}]; \[IndentingNewLine]If[
-              Length[cases] \[Equal] 0, {}, 
-              With[{\[CapitalGamma] = 
-                    Subscript[
-                      globalToExpression["\<QuantumGroups`\>" <> 
-                          cases\[LeftDoubleBracket]1, 
-                            1\[RightDoubleBracket]], 
-                      ToExpression[
-                        cases\[LeftDoubleBracket]1, 
-                          2\[RightDoubleBracket]]], \[Lambda] = 
-                    ToExpression["\<{\>" <> 
-                        cases\[LeftDoubleBracket]1, 
-                          3\[RightDoubleBracket] <> "\<}\>"]}, \
-\[IndentingNewLine]{"\<WikiPage\>" \[Rule] S, "\<KnotTheorySetter\>" \[Rule] 
-                    Function[{K, 
-                        p}, \(\(KnotTheory`QuantumKnotInvariants`\
-QuantumKnotInvariant[\[CapitalGamma], \
-\(QuantumGroups`Irrep[\[CapitalGamma]]\)[\[Lambda]]]\)[K] = 
-                            Function[{q}, p];\) &], "\<KnotTheory\>" \[Rule] 
-                    Function[{K}, \
-\(\(KnotTheory`QuantumKnotInvariants`QuantumKnotInvariant[\[CapitalGamma], \
-\(QuantumGroups`Irrep[\[CapitalGamma]]\)[\[Lambda]]]\)[K]\)[
-                        Global`q]]\[IndentingNewLine]}\[IndentingNewLine]]\
-\[IndentingNewLine]]\[IndentingNewLine]]\[IndentingNewLine]}\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(LoadInvariantRules[
-        pagename_String] := \(AllInvariants = \((ConstructInvariantRule /@ 
-              Drop[StringSplit[WikiGetPageText[pagename], "\<<tr>\>"], 2])\)~
-          Join~QuantumInvariantRules\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(LoadInvariantRules["\<Invariant_Definition_Table\>"];\)\)], "Input",
-  InitializationCell->True]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell["Saving invariant definitions to a table", "Subsection",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(InvariantTags[rules_] := 
-      Union @@ \((rules /. \((_ \[Rule] L_List)\) \[RuleDelayed] 
-              First /@ L)\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(TableHeader[rules_] := "\<<tr>\n<th>Invariant name</th>\n\>" <> 
-        StringJoin @@ \((\("\<   <th>\>" <> # <> "\<</th>\n\>" &\) /@ 
-              InvariantTags[rules])\) <> "\<</tr>\n\>"\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(whitespaces[n_] := StringJoin @@ Table["\< \>", {n}]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(TableRow[rules_, i_] := "\<<tr>\n<!-- Invariant name --> <td>\>" <> 
-        rules\[LeftDoubleBracket]i, 1\[RightDoubleBracket] <> "\<</td>\n\>" <> 
-        StringJoin @@ \((\("\<<!-- \>" <> # <> "\< =\>" <> 
-                  whitespaces[20 - StringLength[#]] <> "\<--> <td>\>" <> 
-                  ToString[\(# /. 
-                        rules\[LeftDoubleBracket]i, 
-                          2\[RightDoubleBracket]\) /. {# \[Rule] "\<\>"}] <> \
-"\<</td>\n\>" &\) /@ InvariantTags[rules])\) <> "\<</tr>\n\>"\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(InvariantDefinitionTable[
-        rules_] := "\<{{Invariant Definition Table Warning}}\n\>" <> \
-"\<<table width=\"100%\">\n\>" <> TableHeader[rules] <> 
-        StringJoin @@ 
-          Table[TableRow[rules, i], {i, 1, 
-              Length[rules]}] <> "\<</table>\>"\)], "Input",
-  InitializationCell->True]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell["Code for uploading, downloading, and comparing data", "Subsection",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(FromWikiString[S_String] /; 
-        StringMatchQ[S, "\<<math>\>" ~~ \(__ ~~ "\<</math>\>"\)] := 
-      FixTeXFormExpression[
-        ToExpression[
-          StringReplace[
-            S, "\<<math>\>" ~~ \(X__ ~~ "\<</math>\>"\) \[RuleDelayed] X], 
-          TeXForm]]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[{
-    \(Clear[FixTeXFormExpression]\), "\[IndentingNewLine]", 
-    \(FixTeXFormExpression[\(Times[a_, b__]\)[c__]] := 
-      Times[a, b, c]\), "\[IndentingNewLine]", 
-    \(FixTeXFormExpression[x_] := x\)}], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(FromWikiString[S_String] /; 
-        StringMatchQ[S, "\<<nowiki>\>" ~~ \(__ ~~ "\<</nowiki>\>"\)] := 
-      StringReplace[
-        S, "\<<nowiki>\>" ~~ \(X__ ~~ "\<</nowiki>\>"\) \[RuleDelayed] 
-          X]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(FromWikiString[S_String] /; StringMatchQ[S, "\<http://\>" ~~ __] := 
-      S\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(FromWikiString[S_String] := ToExpression[S]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(FromKnotInfoString["\<Not Hyperbolic\>"] := NotHyperbolic\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(FromKnotInfoString[S_String?\((StringMatchQ[#, NumberString] &)\)] := 
-      ToExpression[S]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(FromKnotInfoString[S_String] := S\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(FromKnotInfoString["\<infty\>"] = \[Infinity];\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(InvariantNames[L_List] := 
-      Cases[L, \((S_String \[Rule] _List)\) \[RuleDelayed] S]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(InvariantRule[I_String] := \(InvariantRule[I] = 
-        Module[{rule}, 
-          rule = I /. AllInvariants; \[IndentingNewLine]If[rule === I, 
-            Print["\<I don't recognise the invariant \>" <> I <> "\<.\>"]; 
-            Return[$Failed], rule]]\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(RetrieveInvariant[I_String, K_, "\<KnotTheory\>"] := 
-      Module[{rule = InvariantRule[I], KnotTheory}, 
-        If[rule \[Equal] $Failed, 
-          Return[$Failed]]; \[IndentingNewLine]KnotTheory = "\<KnotTheory\>" /. \
-\((I /. AllInvariants)\); \[IndentingNewLine]If[
-          KnotTheory \[Equal] "\<KnotTheory\>", 
-          Print["\<Sorry, I don't know how to calculate the invariant \>" <> 
-              I <> "\< using KnotTheory`.\>"]; 
-          Return[$Failed]]; \[IndentingNewLine]KnotTheory[K]]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(ReadWikiFunction[
-        I_String] := \(("\<ReadWiki\>" /. \((I /. 
-                AllInvariants)\))\) /. "\<ReadWiki\>" \[Rule] 
-          FromWikiString\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(RetrieveInvariant[I_String, K_, "\<KnotAtlas\>"] := 
-      Module[{WikiPage, WikiResult}, \[IndentingNewLine]WikiPage = 
-          WikiPageForInvariant[I]; \[IndentingNewLine]If[
-          WikiPage \[Equal] $Failed, 
-          Return[$Failed]]; \[IndentingNewLine]WikiResult = 
-          WikiGetPageText["\<Data:\>" <> NameString[K] <> "\</\>" <> 
-              WikiPage]; \[IndentingNewLine]\(ReadWikiFunction[I]\)[
-          WikiResult]]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(RetrieveInvariants[Is : {__Rule}, Ks_List, "\<KnotAtlas\>"] := 
-      RetrieveInvariants[InvariantNames[Is], Ks, "\<KnotAtlas\>"]\)], "Input",\
-
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(RetrieveInvariants[Is : {__String}, Ks_List, "\<KnotAtlas\>"] := 
-      Module[{wikipages, pagenames, wikiResult, 
-          delegateReadWikiFunction}, \[IndentingNewLine]wikiPages = 
-          WikiPageForInvariant /@ Is; \[IndentingNewLine]If[
-          MemberQ[wikiPages, $Failed], 
-          Return[$Failed]]; \[IndentingNewLine]pagenames = 
-          Flatten[Outer["\<Data:\>" <> NameString[#2] <> "\</\>" <> #1 &, 
-              wikiPages, Ks], 1]; \[IndentingNewLine]wikiResult = 
-          WikiGetPageTexts[pagenames]; \[IndentingNewLine]getResult[I_, K_] := 
-          Module[{c, r}, \[IndentingNewLine]c = 
-              Cases[wikiResult, {"\<Data:\>" <> NameString[K] <> "\</\>" <> 
-                      WikiPageForInvariant[I], r_} \[RuleDelayed] 
-                  r]; \[IndentingNewLine]If[Length[c] \[Equal] 1, 
-              c\[LeftDoubleBracket]1\[RightDoubleBracket], "\<\>"]\
-\[IndentingNewLine]]; \[IndentingNewLine]delegateReadWikiFunction[I_, K_] := 
-          With[{result = getResult[I, K]}, \[IndentingNewLine]If[
-              result == "\<\>", 
-              Null, \(ReadWikiFunction[I]\)[
-                result]]\[IndentingNewLine]]; \[IndentingNewLine]Flatten[
-          Outer[{#1, #2, delegateReadWikiFunction[#1, #2]} &, Is, Ks], 
-          1]\[IndentingNewLine]]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(RetrieveInvariants[pairs_List, "\<KnotAtlas\>"] := 
-      Module[{wikipages, pagenames, wikiResult, 
-          delegateReadWikiFunction}, \[IndentingNewLine]pagenames = \
-\("\<Data:\>" <> 
-                NameString[#\[LeftDoubleBracket]2\[RightDoubleBracket]] <> \
-"\</\>" <> 
-                WikiPageForInvariant[#\[LeftDoubleBracket]1\
-\[RightDoubleBracket]] &\) /@ pairs; \[IndentingNewLine]wikiResult = 
-          WikiGetPageTexts[pagenames]; \[IndentingNewLine]getResult[I_, K_] := 
-          Module[{c, r}, \[IndentingNewLine]c = 
-              Cases[wikiResult, {"\<Data:\>" <> NameString[K] <> "\</\>" <> 
-                      WikiPageForInvariant[I], r_} \[RuleDelayed] 
-                  r]; \[IndentingNewLine]If[Length[c] \[Equal] 1, 
-              c\[LeftDoubleBracket]1\[RightDoubleBracket], "\<\>"]\
-\[IndentingNewLine]]; \[IndentingNewLine]delegateReadWikiFunction[I_, K_] := 
-          With[{result = getResult[I, K]}, \[IndentingNewLine]If[
-              result == "\<\>", 
-              Null, \(ReadWikiFunction[I]\)[
-                result]]\[IndentingNewLine]]; \[IndentingNewLine]\({#\
-\[LeftDoubleBracket]1\[RightDoubleBracket], #\[LeftDoubleBracket]2\
-\[RightDoubleBracket], 
-              delegateReadWikiFunction[#\[LeftDoubleBracket]1\
-\[RightDoubleBracket], #\[LeftDoubleBracket]2\[RightDoubleBracket]]} &\) /@ 
-          pairs\[IndentingNewLine]]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[{
-    \(KnotInfoGroup[
-          Knot[n_Integer, _Integer]] /; \((3 \[LessEqual] n \[LessEqual] 
-            6)\) := "\<knots=3-6&\>"\), "\[IndentingNewLine]", 
-    \(KnotInfoGroup[
-        Knot[7, _Integer]] := "\<knots=7&\>"\), "\[IndentingNewLine]", 
-    \(KnotInfoGroup[
-        Knot[8, _Integer]] := "\<knots=8&\>"\), "\[IndentingNewLine]", 
-    \(KnotInfoGroup[
-        Knot[9, _Integer]] := "\<knots=9&\>"\), "\[IndentingNewLine]", 
-    \(KnotInfoGroup[
-        Knot[10, _Integer]] := "\<knots=10&\>"\), "\[IndentingNewLine]", 
-    \(KnotInfoGroup[
-        Knot[11, 
-          Alternating, _Integer]] := "\<knots=11a&\>"\), \
-"\[IndentingNewLine]", 
-    \(KnotInfoGroup[
-        Knot[11, 
-          NonAlternating, _Integer]] := "\<knots=11n&\>"\), "\
-\[IndentingNewLine]", 
-    \(KnotInfoGroup[Knot[12, Alternating, k_Integer]] := "\<knots=12a\>" <> 
-        ToString[Ceiling[k/200]]\), "\[IndentingNewLine]", 
-    \(KnotInfoGroup[Knot[12, NonAlternating, k_Integer]] := "\<knots=12n\>" <> 
-        ToString[Ceiling[k/200]]\)}], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(TrimWhitespace[S_String] := 
-      StringReplace[
-        S, {StartOfString ~~ Whitespace \[RuleDelayed] "\<\>", 
-          Whitespace ~~ EndOfString \[RuleDelayed] "\<\>"}]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(RetrieveInvariants[{I_String}, Ks_List, "\<KnotInfo\>"] := 
-      Module[{groupstring, knotinfopage, knotinfotag, 
-          datatable}, \[IndentingNewLine]groupstring = 
-          StringJoin[
-            Union[KnotInfoGroup /@ 
-                Ks]]; \[IndentingNewLine]knotinfotag = "\<KnotInfoTag\>" /. \
-\((I /. AllInvariants)\); \[IndentingNewLine]If[
-          knotinfotage == "\<KnotInfoTag\>", 
-          Print["\<Sorry, I don't know how to retrieve the invariant \>" <> 
-              I <> "\< from KnotInfo.\>"]; 
-          Return[$Failed]]; \[IndentingNewLine]knotinfopage = 
-          Import["\<http://www.indiana.edu/~knotinfo/results.cgi?\>" <> 
-              groupstring <> "\<name=1&\>" <> 
-              knotinfotag <> "\<=1&option=ptxt\>", "\<Text\>"]; \
-\[IndentingNewLine]datatable = \(StringCases[
-              knotinfopage, "\<<table\>" ~~ \(Except["\<>\>"] ..  ~~ \
-\("\<>\>" ~~ \(Whitespace ~~ \("\<Name,\>" ~~ \(ShortestMatch[__] ~~ \
-\("\<<br>\>" ~~ \(dt : 
-                                  ShortestMatch[__] ~~ \
-"\<</table\>"\)\)\)\)\)\)\) \[RuleDelayed] 
-                dt]\)\[LeftDoubleBracket]1\[RightDoubleBracket]; \
-\[IndentingNewLine]StringCases[
-          datatable, \ "\<& \>" ~~ \(knotname : 
-                  ShortestMatch[__] ~~ \("\< & \>" ~~ \(value : 
-                      ShortestMatch[__] ~~ "\<<br>\>"\)\)\) \[RuleDelayed] \
-{I, Knot[knotname], 
-              FromKnotInfoString[
-                TrimWhitespace[value]]}]\[IndentingNewLine]]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(RetrieveInvariants[Is : {__String}, Ks_List, "\<KnotInfo\>"] /; 
-        Length[Is] > 1 := 
-      DeleteCases[
-        Join @@ \((\(RetrieveInvariants[{#}, Ks, "\<KnotInfo\>"] &\) /@ 
-              Is)\), $Failed]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(RetrieveInvariants[Is : {__Rule}, Ks_List, source_String] := 
-      RetrieveInvariants[InvariantNames[Is], Ks, source]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(RetrieveInvariants[Is : {__String}, Ks_List, source_] := 
-      RetrieveInvariants[Flatten[Outer[List, Is, Ks], 1], source]\)], "Input",\
-
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(RetrieveInvariants[pairs : {{_String, _} ... }, 
-        source_String] := \({#\[LeftDoubleBracket]1\[RightDoubleBracket], #\
-\[LeftDoubleBracket]2\[RightDoubleBracket], 
-            RetrieveInvariant[#\[LeftDoubleBracket]1\[RightDoubleBracket], #\
-\[LeftDoubleBracket]2\[RightDoubleBracket], source]} &\) /@ pairs\)], "Input",\
-
-  InitializationCell->True],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[{
-    \(\(Clear[WikiPageForInvariant];\)\), "\n", 
-    \(WikiPageForInvariant[I_String] := \(WikiPageForInvariant[I] = 
-        Module[{rule = InvariantRule[I], wikiPage}, \[IndentingNewLine]If[
-            rule \[Equal] $Failed, 
-            Return[$Failed]]; \[IndentingNewLine]wikiPage = "\<WikiPage\>" /. 
-              rule; \[IndentingNewLine]If[wikiPage === "\<WikiPage\>", 
-            Print["\<Sorry, I don't know how to store the invariant \>" <> 
-                I <> "\< in the Knot Atlas.\>"]; 
-            Return[$Failed]]; \[IndentingNewLine]wikiPage\[IndentingNewLine]]\
-\)\)}], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
-error: new symbol name \\\"\\!\\(rule\\)\\\" is similar to existing symbol \\\
-\"\\!\\(Rule\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
-ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
-ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
-}, Open  ]],
-
-Cell[BoxData[
-    \(\(Options[StoreInvariants] = {Write \[Rule] True};\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(StoreInvariants[Dall : {{_String, _, _} ... }, "\<KnotAtlas\>", 
-        opts___] := 
-      Module[{D, invariants, unknownInvariants, wikiPages, 
-          uploadPairs}, \[IndentingNewLine]D = 
-          DeleteCases[Dall, {_, _, $Failed}]; \[IndentingNewLine]invariants = 
-          Union[Part[D, All, 1]]; \[IndentingNewLine]wikiPages = 
-          WikiPageForInvariant /@ invariants; \[IndentingNewLine]If[
-          MemberQ[wikiPages, $Failed], 
-          Return[$Failed]]; \[IndentingNewLine]uploadPairs = \({"\<Data:\>" <> 
-                  NameString[#\[LeftDoubleBracket]2\[RightDoubleBracket]] <> \
-"\</\>" <> WikiPageForInvariant[#\[LeftDoubleBracket]1\[RightDoubleBracket]], 
-                ToString[#\[LeftDoubleBracket]3\[RightDoubleBracket], 
-                  WikiForm]} &\) /@ 
-            D; \[IndentingNewLine]If[\(! FreeQ[uploadPairs, $Failed]\), 
-          Print["\<Warning: tried to upload bad data -- \>"]; 
-          Print[uploadPairs]; 
-          Return[$Failed]]; \[IndentingNewLine]If[\(Write /. {opts}\) /. 
-            Options[StoreInvariants], WikiSetPageTexts[uploadPairs], 
-          uploadPairs]]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(StoreInvariants[Dall : {{_String, _, _} ... }, "\<CSVString\>"] := 
-      StringJoin @@ \((\("\<\"\>" <> #\[LeftDoubleBracket]1\
-\[RightDoubleBracket] <> "\<\"\>" <> "\<,\t\>" <> "\<\"\>" <> 
-                NameString[#\[LeftDoubleBracket]2\[RightDoubleBracket]] <> \
-"\<\"\>" <> "\<,\t\"\>" <> 
-                ToString[#\[LeftDoubleBracket]3\[RightDoubleBracket], 
-                  InputForm] <> "\<\"\n\>" &\) /@ Dall)\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(KnotTheorySetterForInvariant[
-        I_String] := \[IndentingNewLine]\(KnotTheorySetterForInvariant[I] = 
-        Module[{rule = InvariantRule[I], setter}, \[IndentingNewLine]If[
-            rule \[Equal] $Failed, 
-            Return[$Failed]]; \[IndentingNewLine]setter = "\<KnotTheorySetter\
-\>" /. rule; \[IndentingNewLine]If[setter === "\<KnotTheorySetter\>", 
-            Print["\<Sorry, I don't know how to store the invariant \>" <> 
-                I <> "\< in the current KnotTheory`.\>"]; 
-            Return[$Failed]]; \[IndentingNewLine]setter\[IndentingNewLine]]\)\
-\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(StoreInvariants[
-        Dall : {{_String, _, _} ... }, "\<KnotTheory\>"] \
-:= \[IndentingNewLine]Module[{D}, \[IndentingNewLine]D = 
-          DeleteCases[
-            Dall, {_, _, $Failed | Null}]; \[IndentingNewLine]invariants = 
-          Union[Part[D, All, 1]]; \[IndentingNewLine]setterFunctions = 
-          KnotTheorySetterForInvariant /@ invariants; \[IndentingNewLine]If[
-          MemberQ[setterFunctions, $Failed], 
-          Return[$Failed]]; \
-\[IndentingNewLine]\(\(KnotTheorySetterForInvariant[#\[LeftDoubleBracket]1\
-\[RightDoubleBracket]]\)[#\[LeftDoubleBracket]2\[RightDoubleBracket], #\
-\[LeftDoubleBracket]3\[RightDoubleBracket]] &\) /@ 
-          D;\[IndentingNewLine]]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(StoreInvariants[
-        Dall : {{_String, _, _} ... }, "\<KnotTheoryInputString\>"] \
-:= \[IndentingNewLine]Module[{D}, \[IndentingNewLine]D = 
-          DeleteCases[
-            Dall, {_, _, $Failed | Null}]; \[IndentingNewLine]invariants = 
-          Union[Part[D, All, 1]]; \[IndentingNewLine]setterFunctions = 
-          KnotTheorySetterForInvariant /@ invariants; \[IndentingNewLine]If[
-          MemberQ[setterFunctions, $Failed], 
-          Return[$Failed]]; \[IndentingNewLine]"\<#\[LeftDoubleBracket]1\
-\[RightDoubleBracket][#\[LeftDoubleBracket]2\[RightDoubleBracket],#\
-\[LeftDoubleBracket]3\[RightDoubleBracket]]&/@ {\n\>" <> 
-          StringJoin @@ \((\(\((ToString[#, 
-                        InputForm] <> "\<\n\>")\) &\) /@ \
-\((\({KnotTheorySetterForInvariant[#\[LeftDoubleBracket]1\[RightDoubleBracket]\
-], #\[LeftDoubleBracket]2\[RightDoubleBracket], #\[LeftDoubleBracket]3\
-\[RightDoubleBracket]} &\) /@ 
-                    D)\))\) <> "\<}\>"\[IndentingNewLine]]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(ParseKnotInvariantFromURL[I_, K_, data_] := data\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(RetrieveInvariant[I_String, K_, "\<url\>"] := 
-      Module[{url = KnotInvariantURL[I, K], data}, \[IndentingNewLine]If[
-          url == "\<\>", 
-          Print["\<Sorry, I don't know where to find the value of the \
-invariant \>" <> \ 
-              I <> "\< online. Trying defining more values for \
-KnotInvariantURL.\>"]; Return[$Failed]]; \[IndentingNewLine]Off[
-          FetchURL::conopen]; \[IndentingNewLine]data = 
-          Import[url, "\<Text\>"]; \[IndentingNewLine]If[
-          data \[Equal] $Failed, Return[$Failed]]; \[IndentingNewLine]Return[
-          ParseKnotInvariantFromURL[I, K, 
-            data]];\[IndentingNewLine]]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[{
-    \(take[l_, n_] := 
-      If[Length[l] > n, Take[l, n], l]\), "\[IndentingNewLine]", 
-    \(shuffle[l_] := 
-      l\[LeftDoubleBracket]Ordering[
-          Table[Random[], {Length[
-                l]}]]\[RightDoubleBracket]\), "\[IndentingNewLine]", 
-    \(randomisedpartition[l_, n_] := 
-      shuffle[Partition[l, n, n, {1, 1}, {}]]\), "\[IndentingNewLine]", 
-    \(TransferUnknownInvariants[invariants : {___String}, knots_List, 
-        source : "\<KnotTheory\>", target_String] := 
-      Module[{needed, workingset, chunksize = 1, counter = 0, 
-          timer = 0. \ Second, interval = 300.  Second, 
-          failures = {}}, \[IndentingNewLine]If[Length[knots] > 5000, 
-          Print["\<Large knot set, dividing into \>", 
-            Ceiling[Length[knots]/5000], "\< groups\>"]; 
-          Return[Union[\(TransferUnknownInvariants[invariants, #, source, 
-                    target] &\) /@ 
-                randomisedpartition[knots, 
-                  5000]]]]; \[IndentingNewLine]Print["\<Checking to see what \
-\>", target, "\< already contains...\>"]; \[IndentingNewLine]Print["\<(took \
-\>", \(AbsoluteTiming[
-              needed = 
-                Cases[RetrieveInvariants[invariants, knots, 
-                    target], {i_, k_, Null} \[RuleDelayed] {i, 
-                      k}]]\)\[LeftDoubleBracket]1\[RightDoubleBracket], \
-"\<)\>"]; \[IndentingNewLine]Print["\<Starting to calculate \>", 
-          Length[needed], "\< invariants...\>"]; \[IndentingNewLine]While[
-          Length[needed] > 0, \[IndentingNewLine]While[
-            Length[needed] > 
-                0 \[And] \((timer < interval /. 
-                  Second \[Rule] 1)\), \[IndentingNewLine]workingset = 
-              take[needed, chunksize]; \[IndentingNewLine]counter += 
-              Length[workingset]; \[IndentingNewLine]timer += \
-\(AbsoluteTiming[\(failures = 
-                      failures~Join~
-                        StoreInvariants[
-                          RetrieveInvariants[workingset, source], 
-                          target];\)]\)\[LeftDoubleBracket]1\
-\[RightDoubleBracket]; \[IndentingNewLine]needed = 
-              Complement[needed, 
-                workingset];\[IndentingNewLine]]; \
-\[IndentingNewLine]Print["\<Uploaded \>", counter, "\< invariants in \>", \ 
-            timer]; \[IndentingNewLine]If[
-            2  chunksize \[LessEqual] 
-              counter, \(++chunksize\)]; \[IndentingNewLine]counter = 
-            0; \[IndentingNewLine]timer = 
-            0\ Second;\[IndentingNewLine]]; \[IndentingNewLine]failures\
-\[IndentingNewLine]]\)}], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(FindDataDiscrepancies[Is : {__Rule}, Ks_List, source1_String, 
-        source2_String] := 
-      FindDataDiscrepancies[InvariantNames[Is], Ks, source1, 
-        source2]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(FindDataDiscrepancies[Is : {__String}, Ks_List, source1_String, 
-        source2_String] := 
-      FindDataDiscrepancies[RetrieveInvariants[Is, Ks, source1], 
-        RetrieveInvariants[Is, Ks, source2]]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(FindDataDiscrepancies[D1 : {{_String, _, _} ... }, 
-        D2 : {{_String, _, _} ... }] := 
-      Module[{D1t, D2t, D, P, C}, \[IndentingNewLine] (*Mark\ the\ data, 
-          according\ to\ where\ it\ came\ \(\(from\)\(.\)\)\
-*) \[IndentingNewLine]D1t = \({#\[LeftDoubleBracket]1\[RightDoubleBracket], #\
-\[LeftDoubleBracket]2\[RightDoubleBracket], 
-                1, #\[LeftDoubleBracket]3\[RightDoubleBracket]} &\) /@ 
-            D1; \[IndentingNewLine]D2t = \({#\[LeftDoubleBracket]1\
-\[RightDoubleBracket], #\[LeftDoubleBracket]2\[RightDoubleBracket], 
-                2, #\[LeftDoubleBracket]3\[RightDoubleBracket]} &\) /@ 
-            D2; \[IndentingNewLine] (*Combine\ the\ data, 
-          and\ split\ it\ into\ doublets\ \((or\ singlets)\)\ corresponding\ \
-to\ the\ same\ invariant\ and\ \(\(knot\)\(.\)\)*) D = 
-          Split[Sort[D1t~Join~D2t], 
-            SameQ[Take[#1, 2], 
-                Take[#2, 
-                  2]] &]; \[IndentingNewLine] (*Take\ only\ the\ \
-\(\(pairs\)\(.\)\)*) P = 
-          Select[D, 
-            Length[#] \[Equal] 
-                2 &]; \[IndentingNewLine] (*Combine\ the\ pairs*) C = 
-          P /. {{I_, K_, 1, V1_}, {I_, K_, 2, V2_}} \[RuleDelayed] {I, K, V1, 
-                V2}; \[IndentingNewLine]Select[
-          C, #\[LeftDoubleBracket]3\[RightDoubleBracket] =!= #\
-\[LeftDoubleBracket]4\[RightDoubleBracket] &]]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(FindMissingData[D1 : {{_String, _, _} ... }, 
-        D2 : {{_String, _, _} ... }] := 
-      Complement[D1, D2, 
-        SameTest \[Rule] SameQ[Take[#1, 2], Take[#2, 2]] &]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(Options[ProcessKnotAtlasUploadQueue] = {Timeout \[Rule] 42300, 
-          Repeats \[Rule] \[Infinity]};\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(ProcessKnotAtlasUploadQueue[pagename_String, opts___Rule] := 
-      Module[{n = 0, 
-          repeats = \(Repeats /. {opts}\) /. 
-              Options[ProcessKnotAtlasUploadQueue], 
-          timeout = \(Timeout /. {opts}\) /. 
-              Options[ProcessKnotAtlasUploadQueue]}, \
-\[IndentingNewLine]While[\((\(++n\) < 
-                repeats)\) \[And] \((TimeConstrained[
-                  ProcessKnotAtlasUploadQueue[pagename, 
-                    WikiGetPageText[pagename]], timeout] =!= 
-                Null)\)]\[IndentingNewLine]]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(randomEntry[list_] := 
-      list\[LeftDoubleBracket]Random[
-          Integer, {1, Length[list]}]\[RightDoubleBracket]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(randomEntry[list_ /; Length[list] \[Equal] 0] := Null\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(ProcessKnotAtlasUploadQueue[pagename_String, contents_String] := 
-      Module[{item, result}, \[IndentingNewLine]result = 
-          ProcessKnotAtlasUploadQueueEntry[pagename, 
-            item = randomEntry[
-                StringSplit[contents, 
-                  StringExpression[EndOfLine]]]]; \[IndentingNewLine]If[
-          result \[Equal] $Failed, \[IndentingNewLine]WikiStringReplace[
-            pagename, item ~~ EndOfLine \[Rule] "\<\>"]; 
-          WikiSetPageText["\<Upload Queues Rejected Items\>", 
-            WikiGetPageText["\<Upload Queues Rejected Items\>"] <> "\<\n\>" <> 
-              item]\[IndentingNewLine]]; \[IndentingNewLine]result\
-\[IndentingNewLine]]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(ProcessKnotAtlasUploadQueueEntry[_, Null] := Null\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(globalToExpression[S_String] := 
-      Module[{saveContext, 
-          result}, \[IndentingNewLine]saveContext = $Context; \
-\[IndentingNewLine]$Context = "\<Global`\>"; \[IndentingNewLine]result = 
-          ToExpression[S]; \[IndentingNewLine]$Context = 
-          saveContext; \[IndentingNewLine]result\[IndentingNewLine]]\)], \
-"Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(ProcessKnotAtlasUploadQueueEntry[pagename_String, 
-        item_String] := \[IndentingNewLine]Module[{cases}, \
-\[IndentingNewLine]cases = 
-          StringCases[
-            item, "\<*\"\>" ~~ \(invariant : 
-                    ShortestMatch[__] ~~ \("\<\", \"\>" ~~ \(knotset : 
-                        ShortestMatch[__] ~~ "\<\"\>"\)\)\) \[RuleDelayed] \
-{invariant, knotset}]; \[IndentingNewLine]If[Length[cases] \[Equal] 0, 
-          Return[$Failed]]; \
-\[IndentingNewLine]\(ProcessKnotAtlasUploadQueueEntry[pagename, 
-              item, #\[LeftDoubleBracket]1\[RightDoubleBracket], #\
-\[LeftDoubleBracket]2\[RightDoubleBracket]] &\) /@ 
-          cases\[IndentingNewLine]]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(commaSpaces = "\<,\>" ~~ "\< \>" ... ;\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(validKnotSetStringPatterns = 
-        Alternatives @@ {\[IndentingNewLine]"\<All\>" ~~ \(\(("\<Knots\>" | "\
-\<Links\>")\) ~~ \("\<[\>" ~~ \(DigitCharacter ..  ~~ "\<]\>"\)\)\), \
-\[IndentingNewLine]"\<All\>" ~~ \(\(("\<Knots\>" | "\<Links\>")\) ~~ \
-\("\<[\>" ~~ \(DigitCharacter ..  ~~ \(commaSpaces ~~ \("\<Alternating\>" | "\
-\<NonAlternating\>" ~~ "\<]\>"\)\)\)\)\), \[IndentingNewLine]"\<All\>" ~~ \
-\(\(("\<Knots\>" | "\<Links\>")\) ~~ \("\<[{\>" ~~ \(DigitCharacter ..  ~~ \
-\(commaSpaces ~~ \(DigitCharacter ..  ~~ "\<}]\>"\)\)\)\)\), \
-\[IndentingNewLine]"\<All\>" ~~ \(\(("\<Knots\>" | "\<Links\>")\) ~~ \
-\("\<[{\>" ~~ \(DigitCharacter ..  ~~ \(commaSpaces ~~ \(DigitCharacter ..  ~~ \
-\("\<}\>" ~~ \(commaSpaces ~~ \("\<Alternating\>" | "\<NonAlternating\>" ~~ "\
-\<]\>"\)\)\)\)\)\)\)\), \[IndentingNewLine]"\<TorusKnots[\>" ~~ \
-\(DigitCharacter ..  ~~ "\<]\>"\), \[IndentingNewLine]"\<Select[\>" ~~ \
-\(\((s1__ /; knotsetStringSanityCheck[
-                      s1])\) ~~ \(commaSpaces ~~ \("\<First[BR[#]]\>" ~~ \
-\(\(("\<<\>" | "\<=\>")\) ~~ \("\<=\>" ~~ \(DigitCharacter ..  ~~ \
-"\<&]\>"\)\)\)\)\)\), \[IndentingNewLine]"\<Take[\>" ~~ \(\((s2__ /; 
-                    knotsetStringSanityCheck[
-                      s2])\) ~~ \(commaSpaces ~~ \(DigitCharacter ..  ~~ "\<]\
-\>"\)\)\), \[IndentingNewLine]"\<Take[\>" ~~ \(\((s3__ /; 
-                    knotsetStringSanityCheck[
-                      s3])\) ~~ \(commaSpaces ~~ \("\<{\>" ~~ \(\(("\<-\>" | \
-"\<\>")\) ~~ \(DigitCharacter ..  ~~ \(commaSpaces ~~ \(\(("\<-\>" | \
-"\<\>")\) ~~ \(DigitCharacter ..  ~~ \("\<}\>" ~~ "\<]\>"\)\)\)\)\)\)\)\)\)\
-\[IndentingNewLine]};\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(knotsetStringSanityCheck[knotset_String] := 
-      StringMatchQ[knotset, validKnotSetStringPatterns]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(ProcessKnotAtlasUploadQueueEntry[pagename_String, item_String, 
-        invariant_String, knotset_String] := 
-      Module[{result}, \[IndentingNewLine]If[\(! knotsetStringSanityCheck[
-              knotset]\), 
-          Print["\<The knot set string \>", 
-            knotset, "\< doesn't pass the sanity test, so I won't try to \
-interpret it.\>"]; 
-          Return[$Failed]]; \[IndentingNewLine]Print["\<Calculating \>", 
-          invariant, "\< for everything in \>", 
-          knotset]; \[IndentingNewLine]result = 
-          TransferUnknownInvariants[{invariant}, 
-            globalToExpression[
-              knotset], "\<KnotTheory\>", "\<KnotAtlas\>"]; \
-\[IndentingNewLine]If[result \[Equal] {}, 
-          WikiStringReplace[pagename, item ~~ EndOfLine \[Rule] "\<\>"]; 
-          WikiSetPageText["\<Upload Queues Completed Work\>", 
-            WikiGetPageText["\<Upload Queues Completed Work\>"] <> "\<\n\>" <> 
-              item]]; \[IndentingNewLine]item\[IndentingNewLine]]\)], "Input",\
-
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(CreateDataPackage[datasetname_String, invariant_String, knotset_List] := 
-      CreateDataPackage[datasetname, {invariant}, knotset]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(CreateDataPackage[datasetname_String, invariants : {__String}, 
-        knotset_List] := 
-      Module[{filename}, \[IndentingNewLine]filename = 
-          KnotTheoryDirectory[] <> "\</\>" <> 
-            datasetname <> "\<.m\>"; \[IndentingNewLine]If[
-          FileNames[
-              datasetname <> "\<.m\>", {KnotTheoryDirectory[]}] =!= {}, \
-\[IndentingNewLine]Print["\<Warning! There's already a file called \>" <> 
-              filename <> "\<\nPlease double check the name, and delete the \
-pre-existing file if appropriate.\>"]; 
-          Return[$Failed]]; \[IndentingNewLine]WriteString[
-          filename, \[IndentingNewLine]"\<BeginPackage[\"KnotTheory`\>" <> 
-            datasetname <> "\<`\",{\"KnotTheory`\"}]\n\>" \
-<> \[IndentingNewLine]"\<Message[KnotTheory::loading, \"\>" <> 
-            datasetname <> "\<`\"]\n\>" <> 
-            StoreInvariants[
-              RetrieveInvariants[invariants, 
-                knotset, "\<KnotAtlas\>"], "\<KnotTheoryInputString\>"] \
-<> \[IndentingNewLine]"\<\nEndPackage[]\>"\[IndentingNewLine]]; \
-\[IndentingNewLine]Close[filename]\[IndentingNewLine]]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(End[];\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(EndPackage[];\)\)], "Input",
-  InitializationCell->True],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
-    \( (*\(<\)\(\(/\)\(pre\)\)\(>\)\([\([Category : 
-              Source\ Code]\)]\)*) \)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \($Aborted\)], "Output"]
-}, Open  ]]
-}, Open  ]]
-}, Open  ]]
 }, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
 ScreenRectangle->{{0, 1280}, {0, 713}},
 AutoGeneratedPackage->Automatic,
-WindowSize->{1187, 579},
-WindowMargins->{{Automatic, -3}, {Automatic, 2}},
+WindowSize->{761, 589},
+WindowMargins->{{148, Automatic}, {Automatic, 32}},
 Visible->True,
-ShowSelection->True,
 InputAliases->{"intt"->RowBox[ {"\[Integral]", 
         RowBox[ {"\[SelectionPlaceholder]", 
           RowBox[ {"\[DifferentialD]", "\[Placeholder]"}]}]}], 
@@ -3808,214 +2960,28 @@ CellTagsIndex->{}
 Notebook[{
 
 Cell[CellGroupData[{
-Cell[1776, 53, 62, 1, 95, "Title",
+Cell[1776, 53, 89, 1, 51, "Subtitle",
   InitializationCell->True],
-Cell[1841, 56, 60, 1, 51, "Subtitle",
+Cell[1868, 56, 173, 5, 52, "Text",
   InitializationCell->True],
-Cell[1904, 59, 224, 5, 33, "Text",
+Cell[2044, 63, 195, 3, 50, "Input",
   InitializationCell->True],
-
-Cell[CellGroupData[{
-Cell[2153, 68, 61, 1, 73, "Section",
+Cell[2242, 68, 227, 4, 70, "Input",
   InitializationCell->True],
-Cell[2217, 71, 84, 2, 30, "Input",
+Cell[2472, 74, 622, 12, 210, "Input",
   InitializationCell->True],
-Cell[2304, 75, 164, 3, 30, "Input",
+Cell[3097, 88, 83, 2, 30, "Input",
   InitializationCell->True],
-Cell[2471, 80, 80, 2, 30, "Input",
+Cell[3183, 92, 78, 2, 30, "Input",
   InitializationCell->True],
-Cell[2554, 84, 84, 2, 30, "Input",
+Cell[3264, 96, 248, 5, 50, "Input",
   InitializationCell->True],
-
-Cell[CellGroupData[{
-Cell[2663, 90, 36, 0, 38, "Subsection"],
-Cell[2702, 92, 230, 4, 50, "Input",
+Cell[3515, 103, 835, 15, 170, "Input",
   InitializationCell->True],
-Cell[2935, 98, 228, 4, 50, "Input",
+Cell[4353, 120, 66, 2, 30, "Input",
   InitializationCell->True],
-Cell[3166, 104, 185, 3, 30, "Input",
-  InitializationCell->True],
-Cell[3354, 109, 348, 5, 70, "Input",
-  InitializationCell->True],
-Cell[3705, 116, 374, 6, 70, "Input",
-  InitializationCell->True],
-Cell[4082, 124, 361, 6, 70, "Input",
-  InitializationCell->True],
-Cell[4446, 132, 372, 6, 70, "Input",
-  InitializationCell->True],
-Cell[4821, 140, 388, 6, 90, "Input",
-  InitializationCell->True],
-Cell[5212, 148, 107, 2, 30, "Input",
-  InitializationCell->True],
-Cell[5322, 152, 542, 8, 110, "Input",
-  InitializationCell->True],
-Cell[5867, 162, 408, 6, 90, "Input",
-  InitializationCell->True],
-Cell[6278, 170, 464, 7, 90, "Input",
-  InitializationCell->True],
-Cell[6745, 179, 83, 2, 30, "Input",
-  InitializationCell->True],
-Cell[6831, 183, 88, 2, 30, "Input",
+Cell[4422, 124, 73, 2, 30, "Input",
   InitializationCell->True]
-}, Open  ]],
-
-Cell[CellGroupData[{
-Cell[6956, 190, 92, 1, 38, "Subsection",
-  InitializationCell->True],
-Cell[7051, 193, 254, 5, 30, "Input",
-  InitializationCell->True],
-Cell[7308, 200, 292, 5, 30, "Input",
-  InitializationCell->True],
-Cell[7603, 207, 165, 3, 30, "Input",
-  InitializationCell->True],
-Cell[7771, 212, 823, 15, 150, "Input",
-  InitializationCell->True],
-Cell[8597, 229, 1852, 33, 270, "Input",
-  InitializationCell->True],
-Cell[10452, 264, 273, 5, 50, "Input",
-  InitializationCell->True],
-Cell[10728, 271, 118, 2, 30, "Input",
-  InitializationCell->True]
-}, Open  ]],
-
-Cell[CellGroupData[{
-Cell[10883, 278, 89, 1, 38, "Subsection",
-  InitializationCell->True],
-Cell[10975, 281, 180, 4, 30, "Input",
-  InitializationCell->True],
-Cell[11158, 287, 251, 4, 30, "Input",
-  InitializationCell->True],
-Cell[11412, 293, 113, 2, 30, "Input",
-  InitializationCell->True],
-Cell[11528, 297, 572, 9, 70, "Input",
-  InitializationCell->True],
-Cell[12103, 308, 329, 7, 50, "Input",
-  InitializationCell->True]
-}, Open  ]],
-
-Cell[CellGroupData[{
-Cell[12469, 320, 101, 1, 38, "Subsection",
-  InitializationCell->True],
-Cell[12573, 323, 329, 8, 50, "Input",
-  InitializationCell->True],
-Cell[12905, 333, 257, 5, 70, "Input",
-  InitializationCell->True],
-Cell[13165, 340, 268, 6, 30, "Input",
-  InitializationCell->True],
-Cell[13436, 348, 137, 3, 30, "Input",
-  InitializationCell->True],
-Cell[13576, 353, 104, 2, 30, "Input",
-  InitializationCell->True],
-Cell[13683, 357, 118, 2, 30, "Input",
-  InitializationCell->True],
-Cell[13804, 361, 153, 3, 30, "Input",
-  InitializationCell->True],
-Cell[13960, 366, 94, 2, 30, "Input",
-  InitializationCell->True],
-Cell[14057, 370, 111, 2, 30, "Input",
-  InitializationCell->True],
-Cell[14171, 374, 149, 3, 30, "Input",
-  InitializationCell->True],
-Cell[14323, 379, 319, 6, 50, "Input",
-  InitializationCell->True],
-Cell[14645, 387, 570, 10, 110, "Input",
-  InitializationCell->True],
-Cell[15218, 399, 217, 5, 30, "Input",
-  InitializationCell->True],
-Cell[15438, 406, 500, 9, 110, "Input",
-  InitializationCell->True],
-Cell[15941, 417, 192, 4, 30, "Input",
-  InitializationCell->True],
-Cell[16136, 423, 1356, 22, 290, "Input",
-  InitializationCell->True],
-Cell[17495, 447, 1438, 25, 250, "Input",
-  InitializationCell->True],
-Cell[18936, 474, 1086, 24, 190, "Input",
-  InitializationCell->True],
-Cell[20025, 500, 234, 5, 30, "Input",
-  InitializationCell->True],
-Cell[20262, 507, 1551, 29, 230, "Input",
-  InitializationCell->True],
-Cell[21816, 538, 274, 6, 30, "Input",
-  InitializationCell->True],
-Cell[22093, 546, 179, 3, 30, "Input",
-  InitializationCell->True],
-Cell[22275, 551, 186, 4, 30, "Input",
-  InitializationCell->True],
-Cell[22464, 557, 377, 7, 30, "Input",
-  InitializationCell->True],
-
-Cell[CellGroupData[{
-Cell[22866, 568, 644, 11, 150, "Input",
-  InitializationCell->True],
-Cell[23513, 581, 356, 5, 22, "Message"]
-}, Open  ]],
-Cell[23884, 589, 113, 2, 30, "Input",
-  InitializationCell->True],
-Cell[24000, 593, 1189, 20, 190, "Input",
-  InitializationCell->True],
-Cell[25192, 615, 486, 8, 50, "Input",
-  InitializationCell->True],
-Cell[25681, 625, 641, 11, 150, "Input",
-  InitializationCell->True],
-Cell[26325, 638, 752, 14, 170, "Input",
-  InitializationCell->True],
-Cell[27080, 654, 1046, 18, 170, "Input",
-  InitializationCell->True],
-Cell[28129, 674, 109, 2, 30, "Input",
-  InitializationCell->True],
-Cell[28241, 678, 705, 13, 170, "Input",
-  InitializationCell->True],
-Cell[28949, 693, 2632, 49, 490, "Input",
-  InitializationCell->True],
-Cell[31584, 744, 230, 5, 30, "Input",
-  InitializationCell->True],
-Cell[31817, 751, 264, 5, 50, "Input",
-  InitializationCell->True],
-Cell[32084, 758, 1437, 26, 190, "Input",
-  InitializationCell->True],
-Cell[33524, 786, 233, 5, 30, "Input",
-  InitializationCell->True],
-Cell[33760, 793, 168, 3, 30, "Input",
-  InitializationCell->True],
-Cell[33931, 798, 601, 12, 90, "Input",
-  InitializationCell->True],
-Cell[34535, 812, 180, 4, 30, "Input",
-  InitializationCell->True],
-Cell[34718, 818, 114, 2, 30, "Input",
-  InitializationCell->True],
-Cell[34835, 822, 745, 13, 170, "Input",
-  InitializationCell->True],
-Cell[35583, 837, 110, 2, 30, "Input",
-  InitializationCell->True],
-Cell[35696, 841, 388, 8, 150, "Input",
-  InitializationCell->True],
-Cell[36087, 851, 741, 14, 130, "Input",
-  InitializationCell->True],
-Cell[36831, 867, 103, 2, 30, "Input",
-  InitializationCell->True],
-Cell[36937, 871, 1711, 26, 250, "Input",
-  InitializationCell->True],
-Cell[38651, 899, 161, 3, 30, "Input",
-  InitializationCell->True],
-Cell[38815, 904, 1056, 20, 190, "Input",
-  InitializationCell->True],
-Cell[39874, 926, 193, 3, 30, "Input",
-  InitializationCell->True],
-Cell[40070, 931, 1175, 21, 270, "Input",
-  InitializationCell->True],
-Cell[41248, 954, 71, 2, 30, "Input",
-  InitializationCell->True],
-Cell[41322, 958, 78, 2, 30, "Input",
-  InitializationCell->True],
-
-Cell[CellGroupData[{
-Cell[41425, 964, 143, 3, 30, "Input",
-  InitializationCell->True],
-Cell[41571, 969, 42, 1, 29, "Output"]
-}, Open  ]]
-}, Open  ]]
-}, Open  ]]
 }, Open  ]]
 }
 ]
