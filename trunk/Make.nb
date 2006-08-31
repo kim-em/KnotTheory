@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[    712669,      19010]*)
-(*NotebookOutlinePosition[    713314,      19032]*)
-(*  CellTagsIndexPosition[    713270,      19028]*)
+(*NotebookOptionsPosition[    712784,      19018]*)
+(*NotebookOutlinePosition[    713434,      19040]*)
+(*  CellTagsIndexPosition[    713390,      19036]*)
 (*WindowFrame->Normal*)
 
 
@@ -181,7 +181,7 @@ Cell[BoxData[
     \(<< \ KnotTheory`\)], "Input"],
 
 Cell[BoxData[
-    \("Loading KnotTheory` version of August 5, 2006, 16:31:24.0313.\nRead \
+    \("Loading KnotTheory` version of August 31, 2006, 11:25:27.5625.\nRead \
 more at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
 }, Open  ]],
 
@@ -18994,24 +18994,32 @@ Cell[BoxData[
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(PD["\<K11n11\>"]\)], "Input"],
+    \(Assert[\(Alexander["\<K11a44\>", 2]\)[
+          t]\  === \ {1 - t + t\^2}]\)], "Input"],
 
 Cell[BoxData[
-    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
-      "Loading precomputed data in \!\(\"DTCode4KnotsTo11`\"\)."\)], "Message"],
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(PD[X[4, 2, 5, 1], X[8, 3, 9, 4], X[10, 6, 11, 5], X[7, 14, 8, 15], 
-      X[2, 9, 3, 10], X[11, 19, 12, 18], X[13, 6, 14, 7], X[15, 21, 16, 20], 
-      X[17, 1, 18, 22], X[19, 13, 20, 12], X[21, 17, 22, 16]]\)], "Output"]
+    \(Assert[\[IndentingNewLine]\(\(Alexander["\<10_99\>", #]\)[
+              t] &\)\  /@ \ {1, 
+            2}\  === \ {{1 - 4\ t + 10\ t\^2 - 16\ t\^3 + 19\ t\^4 - 
+              16\ t\^5 + 10\ t\^6 - 4\ t\^7 + t\^8}, {1 - 2\ t + 3\ t\^2 - 
+              2\ t\^3 + t\^4}}\[IndentingNewLine]]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
-ScreenRectangle->{{0, 1280}, {0, 702}},
+ScreenRectangle->{{0, 1280}, {0, 755}},
 WindowSize->{748, 651},
-WindowMargins->{{132, Automatic}, {0, Automatic}}
+WindowMargins->{{Automatic, -1269}, {Automatic, -283}}
 ]
 
 (*******************************************************************
@@ -19075,40 +19083,44 @@ Cell[5549, 166, 482, 9, 210, "Input"],
 
 Cell[CellGroupData[{
 Cell[6056, 179, 49, 1, 30, "Input"],
-Cell[6108, 182, 160, 2, 44, "Print"]
+Cell[6108, 182, 161, 2, 44, "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[6305, 189, 151, 3, 30, "Input"],
-Cell[6459, 194, 133, 2, 22, "Message"],
-Cell[6595, 198, 130, 2, 22, "Message"],
-Cell[6728, 202, 209, 3, 52, "Message"],
-Cell[6940, 207, 38, 1, 29, "Output"]
+Cell[6306, 189, 151, 3, 30, "Input"],
+Cell[6460, 194, 133, 2, 22, "Message"],
+Cell[6596, 198, 130, 2, 22, "Message"],
+Cell[6729, 202, 209, 3, 52, "Message"],
+Cell[6941, 207, 38, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[7015, 213, 144, 2, 44, "Input"],
-Cell[7162, 217, 130, 2, 22, "Message"],
-Cell[7295, 221, 210, 3, 37, "Message"],
-Cell[7508, 226, 38, 1, 29, "Output"]
+Cell[7016, 213, 144, 2, 44, "Input"],
+Cell[7163, 217, 130, 2, 22, "Message"],
+Cell[7296, 221, 210, 3, 37, "Message"],
+Cell[7509, 226, 38, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[7583, 232, 162, 3, 31, "Input"],
-Cell[7748, 237, 38, 1, 29, "Output"]
+Cell[7584, 232, 162, 3, 31, "Input"],
+Cell[7749, 237, 38, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[7823, 243, 70, 1, 30, "Input"],
-Cell[7896, 246, 704127, 18739, 296, 634853, 17879, "GraphicsData", \
+Cell[7824, 243, 70, 1, 30, "Input"],
+Cell[7897, 246, 704127, 18739, 296, 634853, 17879, "GraphicsData", \
 "PostScript", "Graphics"],
-Cell[712026, 18987, 132, 3, 29, "Output"]
+Cell[712027, 18987, 132, 3, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[712195, 18995, 49, 1, 30, "Input"],
-Cell[712247, 18998, 138, 2, 22, "Message"],
-Cell[712388, 19002, 241, 3, 67, "Output"]
+Cell[712196, 18995, 108, 2, 31, "Input"],
+Cell[712307, 18999, 38, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[712382, 19005, 321, 5, 93, "Input"],
+Cell[712706, 19012, 38, 1, 29, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]

@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 8, 5, 16, 31, 24.0312500};
+KnotTheoryVersion[] = {2006, 8, 31, 11, 25, 27.5625000};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -3833,8 +3833,7 @@ Block[{t}, Label[start]; A = B;
           
           
           If[Abs[LCM[
-                    Part[CoefficientList[B[[i]], t], 
-                      Exponent[B[[i]], t, Max] + 1], 
+                    Last[CoefficientList[B[[i]], t]], 
                     Part[CoefficientList[B[[j]], t], 
                       Exponent[B[[j]], t, Max] + 1]]/(Part[
                       CoefficientList[B[[j]], t], 
@@ -3920,9 +3919,9 @@ Block[{t}, Label[start]; A = B;
   B = DeleteCases[B, 0];
   For[i = 1, i <= Length[B], i++, 
     B = ReplacePart[B, Expand[B[[i]]/t^(Exponent[B[[i]], t, Min])], i]];
-  B = Union[B];
-  If[B != A, Goto[start]]];
   B = Expand[#/Sign[Coefficient[#, t, 0]]]& /@ B;
+  B = Union[B];
+  If[B =!= A, Goto[start]]];
   Evaluate[B /. t->#]&
 ))
 Conway[K_] := Conway[K] = Function @@ {Module[{t},
