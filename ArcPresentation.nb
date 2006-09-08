@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     47313,        990]*)
-(*NotebookOutlinePosition[     48163,       1020]*)
-(*  CellTagsIndexPosition[     48074,       1014]*)
+(*NotebookOptionsPosition[     51316,       1061]*)
+(*NotebookOutlinePosition[     52163,       1091]*)
+(*  CellTagsIndexPosition[     52074,       1085]*)
 (*WindowFrame->Normal*)
 
 
@@ -220,7 +220,7 @@ Cell[BoxData[{
 \[IndentingNewLine]}]]\[IndentingNewLine]]\)}], "Input"],
 
 Cell[BoxData[
-    \("Loading KnotTheory` version of August 5, 2006, 16:31:24.0313.\nRead \
+    \("Loading KnotTheory` version of August 31, 2006, 11:25:27.5625.\nRead \
 more at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"],
 
 Cell[BoxData[
@@ -257,8 +257,9 @@ Cell[BoxData[
 
 Cell[BoxData[
     \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
-      "\!\(\"The GaussCode to PD conversion was written by Siddarth Sankaran \
-at the University of Toronto in the summer of 2005.\"\)"\)], "Message"],
+      "\!\(\"The GaussCode to PD conversion was written by Siddart\"\
+\[Ellipsis]\"n at the University of Toronto in the summer of 2005.\"\)"\)], \
+"Message"],
 
 Cell[BoxData[
     \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
@@ -961,37 +962,107 @@ strand running bottom-left to top-right is over/under the crossing, b and c \
 give the directions of      the bottom-left and bottom-right strands \
 respectively through the crossing. Cap[m,n] is a directed cap, from strand m \
 to strand n.     "\)], "Print",
-  CellTags->"Info3364915099-4371055"]
+  CellTags->"Info3366499022-1531510"]
 }, Open  ]],
 
-Cell[BoxData[
-    \(MorseLink[ap_ArcPresentation]\  := \ 
+Cell[BoxData[{
+    \(\(SwapAt[l_List, \ j_Integer]\  := \ 
+        Join[\[IndentingNewLine]Take[l, \ j - 1], \ l[\([{j + 1, \ j}]\)], \ 
+          Drop[l, \ j + 1]\[IndentingNewLine]];\)\), "\[IndentingNewLine]", 
+    \(MerdeLink[ap_ArcPresentation]\  := \ 
       Module[\[IndentingNewLine]{\[IndentingNewLine]ml = {}, \  (*\ 
             holds\ the\ MorseLink\ under\ construction\ \
 *) \[IndentingNewLine]strands = {}, \  (*\ 
             the\ ArcPresentation\ numbering\ of\ the\ active\ strands\ \
 *) \[IndentingNewLine]dirs\  = \ {}, \  (*\ 
             the\ orientations\ of\ the\ active\ strands\ \
-*) \[IndentingNewLine]k, \ cur, \ fr, \ to, \ MorseIndex, \ hdir, \ frind, \ 
-          toind\[IndentingNewLine]}, \
-\[IndentingNewLine]Do[\[IndentingNewLine]{fr, \ to}\  = \ \(cur\  = \ 
-              ap[\([k]\)]\); \[IndentingNewLine]MorseIndex\  = \ 
-            Length[Intersection[strands, \ cur]]; \[IndentingNewLine]hdir = 
-            Sign[to - fr]; \[IndentingNewLine]frind\ \  = \ 
-            Count[strands, \ 
-              i_\  /; \ i < fr]; \[IndentingNewLine]If[\(MorseIndex\  === \ 
-              0\)\(,\)\[IndentingNewLine]\[IndentingNewLine]]; \
-\[IndentingNewLine]toind\ \  = \ 
-            Count[strands, \ 
-              i_\  /; \ i < to];\[IndentingNewLine], \[IndentingNewLine]{k, 
-            Length[ap]}\[IndentingNewLine]]; \[IndentingNewLine]MorseLink\  \
-@@ \ \((ml\  /. \ {True\  \[Rule] \ Up, \ 
-                False\  \[Rule] \ Down})\)\[IndentingNewLine]]\)], "Input"]
+*) \[IndentingNewLine]k, \ cur, \ fr, \ to, \ MorseIndex, \ frind, \ toind, \ 
+          j\[IndentingNewLine]}, \[IndentingNewLine]Do[\[IndentingNewLine]{\
+\[IndentingNewLine]{fr, \ to}\  = \ \(cur\  = \ 
+                ap[\([k]\)]\), \[IndentingNewLine]{frind, \ 
+                toind}\  = \ \(\((1 + 
+                      Count[strands, \ i_\  /; \ i < #])\) &\)\  /@ \ 
+                cur, \[IndentingNewLine]MorseIndex\  = \ 
+              Length[Intersection[strands, \ 
+                  cur]]\[IndentingNewLine]}; \[IndentingNewLine]If[
+            to\  > \ fr, \ \((\[IndentingNewLine] (*\ 
+                First\ step\  - \ 
+                  create\ /\ 
+                      renumber\ strands\ and\ make\ sure\ that\ frind\ and\ \
+toind\ are\ right\ for\ the\ crossing\ stage\ *) \[IndentingNewLine]If[
+                MorseIndex\  == \ 0, \[IndentingNewLine]AppendTo[ml, \ 
+                  Cup[frind, \ frind + 1]]; \[IndentingNewLine]strands\  = \ 
+                  Flatten[
+                    Insert[strands, \ {fr, \ to}, \ 
+                      frind]]; \[IndentingNewLine]dirs\  = \ 
+                  Flatten[
+                    Insert[dirs, \ {Down, \ Up}, \ 
+                      frind]]; \[IndentingNewLine]\(++frind\); \ \(++toind\)\
+\[IndentingNewLine]]; \[IndentingNewLine]If[MorseIndex\  \[Equal] \ 1, \ 
+                strands[\([frind]\)]\  = \ to]; \[IndentingNewLine]If[
+                MorseIndex\  \[Equal] \ 
+                  2, \ \(--toind\)]; \[IndentingNewLine] (*\ 
+                Second\ step\  - \ 
+                  generate\ crossings\ as\ appropriate\ \
+*) \[IndentingNewLine]Do[\[IndentingNewLine]AppendTo[ml, \ 
+                  X[j, \ Under, \ Up, \ 
+                    dirs[\([j + 1]\)]]]; \[IndentingNewLine]strands = 
+                  SwapAt[strands, \ j]; \[IndentingNewLine]dirs\  = \ 
+                  SwapAt[dirs, \ j], \[IndentingNewLine]{j, \ frind, \ 
+                  toind - 1}\[IndentingNewLine]]; \[IndentingNewLine] (*\ 
+                Third\ step\  - \ 
+                  Eliminate\ strands\ if\ so\ needed\ \
+*) \[IndentingNewLine]If[
+                MorseIndex\  === 2, \[IndentingNewLine]AppendTo[ml, \ 
+                  Cap[toind, \ toind + 1]]; \[IndentingNewLine]strands\  = \ 
+                  Delete[strands, \ {{toind}, \ {toind + 
+                          1}}]; \[IndentingNewLine]dirs\  = \ 
+                  Delete[dirs, \ {{toind}, \ {toind + 
+                          1}}]\[IndentingNewLine]]\[IndentingNewLine])\), \ \
+\((\[IndentingNewLine] (*\ 
+                First\ step\  - \ 
+                  create\ /\ 
+                      renumber\ strands\ and\ make\ sure\ that\ frind\ and\ \
+toind\ are\ right\ for\ the\ crossing\ stage\ *) \[IndentingNewLine]If[
+                MorseIndex\  === \ 0, \[IndentingNewLine]AppendTo[ml, \ 
+                  Cup[frind + 1, \ frind]]; \[IndentingNewLine]strands\  = \ 
+                  Flatten[
+                    Insert[strands, \ {to, \ fr}, \ 
+                      frind]]; \[IndentingNewLine]dirs\  = \ 
+                  Flatten[
+                    Insert[dirs, \ {Up, \ Down}, \ 
+                      frind]]\[IndentingNewLine]]; \[IndentingNewLine]If[
+                MorseIndex\  \[Equal] \ 1, \ 
+                strands[\([frind]\)]\  = \ to]; \[IndentingNewLine]If[
+                MorseIndex\  \[Equal] \ 
+                  2, \ \(++toind\)]; \[IndentingNewLine] (*\ 
+                Second\ step\  - \ 
+                  generate\ crossings\ as\ appropriate\ \
+*) \[IndentingNewLine]Do[\[IndentingNewLine]AppendTo[ml, \ 
+                  X[j - 1, \ Over, \ dirs[\([j - 1]\)], \ 
+                    Up]]; \[IndentingNewLine]strands = 
+                  SwapAt[strands, \ j - 1]; \[IndentingNewLine]dirs\  = \ 
+                  SwapAt[dirs, \ j - 1], \[IndentingNewLine]{j, \ frind, \ 
+                  toind + 
+                    1, \ \(-1\)}\[IndentingNewLine]]; \[IndentingNewLine] (*\ 
+                Third\ step\  - \ 
+                  Eliminate\ strands\ if\ so\ needed\ \
+*) \[IndentingNewLine]If[
+                MorseIndex\  === 2, \[IndentingNewLine]AppendTo[ml, \ 
+                  Cap[toind, \ toind - 1]]; \[IndentingNewLine]strands\  = \ 
+                  Delete[strands, \ {{toind}, \ {toind - 
+                          1}}]; \[IndentingNewLine]dirs\  = \ 
+                  Delete[dirs, \ {{toind}, \ {toind - 
+                          1}}]\[IndentingNewLine]]\[IndentingNewLine])\)]; \
+\[IndentingNewLine]Print[{k, \ cur, \ strands, \ ml}], \[IndentingNewLine]{k, 
+            Length[
+              ap]}\[IndentingNewLine]]; \[IndentingNewLine]MorseLink\  @@ \ 
+          ml\[IndentingNewLine]]\)}], "Input"]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
 ScreenRectangle->{{0, 1280}, {0, 702}},
-WindowSize->{795, 675},
-WindowMargins->{{Automatic, 64}, {Automatic, -20}},
+WindowSize->{632, 675},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
 ShowSelection->True,
 Magnification->1
 ]
@@ -1005,15 +1076,15 @@ you save this file from within Mathematica.
 
 (*CellTagsOutline
 CellTagsIndex->{
-  "Info3364915099-4371055"->{
-    Cell[45294, 953, 693, 10, 139, "Print",
-      CellTags->"Info3364915099-4371055"]}
+  "Info3366499022-1531510"->{
+    Cell[45303, 954, 693, 10, 177, "Print",
+      CellTags->"Info3366499022-1531510"]}
   }
 *)
 
 (*CellTagsIndex
 CellTagsIndex->{
-  {"Info3364915099-4371055", 47961, 1007}
+  {"Info3366499022-1531510", 51961, 1078}
   }
 *)
 
@@ -1021,37 +1092,37 @@ CellTagsIndex->{
 Notebook[{
 
 Cell[CellGroupData[{
-Cell[1776, 53, 9500, 166, 2510, "Input"],
-Cell[11279, 221, 160, 2, 44, "Print"],
-Cell[11442, 225, 371, 6, 37, "Message"],
-Cell[11816, 233, 354, 5, 22, "Message"],
-Cell[12173, 240, 354, 5, 22, "Message"]
+Cell[1776, 53, 9500, 166, 2590, "Input"],
+Cell[11279, 221, 161, 2, 44, "Print"],
+Cell[11443, 225, 371, 6, 37, "Message"],
+Cell[11817, 233, 354, 5, 37, "Message"],
+Cell[12174, 240, 354, 5, 37, "Message"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[12564, 250, 80, 1, 30, "Input"],
-Cell[12647, 253, 138, 2, 22, "Message"],
-Cell[12788, 257, 209, 3, 37, "Message"],
-Cell[13000, 262, 201, 3, 37, "Message"],
-Cell[13204, 267, 15287, 322, 186, 1840, 151, "GraphicsData", "PostScript", \
+Cell[12565, 250, 80, 1, 30, "Input"],
+Cell[12648, 253, 138, 2, 22, "Message"],
+Cell[12789, 257, 217, 4, 37, "Message"],
+Cell[13009, 263, 201, 3, 52, "Message"],
+Cell[13213, 268, 15287, 322, 186, 1840, 151, "GraphicsData", "PostScript", \
 "Graphics"],
-Cell[28494, 591, 130, 3, 29, "Output"]
+Cell[28503, 592, 130, 3, 29, "Output"]
 }, Open  ]],
-Cell[28639, 597, 261, 4, 70, "Input"],
+Cell[28648, 598, 261, 4, 70, "Input"],
 
 Cell[CellGroupData[{
-Cell[28925, 605, 106, 2, 30, "Input"],
-Cell[29034, 609, 16040, 331, 186, 1840, 151, "GraphicsData", "PostScript", \
+Cell[28934, 606, 106, 2, 30, "Input"],
+Cell[29043, 610, 16040, 331, 186, 1840, 151, "GraphicsData", "PostScript", \
 "Graphics"],
-Cell[45077, 942, 130, 3, 29, "Output"]
+Cell[45086, 943, 130, 3, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[45244, 950, 47, 1, 30, "Input"],
-Cell[45294, 953, 693, 10, 139, "Print",
-  CellTags->"Info3364915099-4371055"]
+Cell[45253, 951, 47, 1, 30, "Input"],
+Cell[45303, 954, 693, 10, 177, "Print",
+  CellTags->"Info3366499022-1531510"]
 }, Open  ]],
-Cell[46002, 966, 1307, 22, 430, "Input"]
+Cell[46011, 967, 5301, 92, 1390, "Input"]
 }
 ]
 *)
