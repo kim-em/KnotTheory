@@ -41,16 +41,34 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      5031,        162]*)
-(*NotebookOutlinePosition[      5674,        184]*)
-(*  CellTagsIndexPosition[      5630,        180]*)
+(*NotebookOptionsPosition[     18444,        398]*)
+(*NotebookOutlinePosition[     19108,        421]*)
+(*  CellTagsIndexPosition[     19064,        417]*)
 (*WindowFrame->Normal*)
 
 
 
 Notebook[{
+Cell["\<\
+Really have to do something about connected sum and disjoint union before \
+this is useful!\
+\>", "Text"],
+
+Cell[BoxData[
+    \(ReallyAllLinks[components_, crossings_] := {}\)], "Input"],
 
 Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[ConnectedSum[Knot[3, 1], Knot[4, 1]]]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[9, 12, 10, 13], X[11, 14, 12, 1], X[13, 10, 14, 11], 
+      X[1, 7, 2, 6], X[5, 3, 6, 2], X[3, 8, 4, 9], X[7, 4, 8, 5]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
 Cell[BoxData[{
     \(KnotTheoryPath\  = \ \
 "\<c:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk\\\>"; \), "\
@@ -72,13 +90,18 @@ Cell[BoxData[
     \(FiniteSet[K_] := 
       If[LinkComponents[K] \[Equal] 1, 
         If[Crossings[K] \[LessEqual] 16, 
-          AllKnots[{0, Crossings[K]}], $Failed], $Failed]\)], "Input"],
+          AllKnots[{0, Crossings[K]}], $Failed], 
+        If[Crossings[K] \[LessEqual] 16, 
+          AllLinks[{2, Crossings[K]}]]]\)], "Input"],
 
 Cell[BoxData[
-    \(\(invariants = {Sort[{\(Kh[#]\)[q, t], \(Kh[#]\)[q\^\(-1\), 
-                  t\^\(-1\)]}] &, 
-          Sort[{\(HOMFLYPT[#]\)[a, z], \(HOMFLYPT[#]\)[a\^\(-1\), 
-                  z]}] &};\)\)], "Input"],
+    \(\(invariants = {\(Jones[#]\)[q] &, 
+          Vassiliev[
+            3], \(HOMFLYPT[#]\)[a, z] &, \(Kauffman[#]\)[a, 
+              z] &};\)\)], "Input"],
+
+Cell[BoxData[
+    \(Clear[IdentifyKnot]\)], "Input"],
 
 Cell[BoxData[
     \(IdentifyKnot[K_] := 
@@ -92,15 +115,18 @@ Cell[BoxData[
     \(IdentifyKnot[K_, {A_}, _] := A\)], "Input"],
 
 Cell[BoxData[
-    \(IdentifyKnot[K_, set_, invariants_] := 
-      With[{i = \(invariants\[LeftDoubleBracket]1\[RightDoubleBracket]\)[K]}, 
-        IdentifyKnot[K, 
-          Select[set, \((\(invariants\[LeftDoubleBracket]1\
-\[RightDoubleBracket]\)[#] \[Equal] i &)\)], 
-          Rest[invariants]]\[IndentingNewLine]]\)], "Input"],
+    \(Mirror[pd_PD] := 
+      pd /. X[a_, b_, c_, d_] \[RuleDelayed] X[a, d, c, b]\)], "Input"],
 
 Cell[BoxData[
-    \(I\)], "Input"],
+    \(IdentifyKnot[K_, set_, invariants : {__}] := 
+      With[{i1 = \(invariants\[LeftDoubleBracket]1\[RightDoubleBracket]\)[K], 
+          i2 = \(invariants\[LeftDoubleBracket]1\[RightDoubleBracket]\)[
+              Mirror[PD[K]]]}, 
+        IdentifyKnot[K, 
+          Select[set, 
+            MatchQ[\(invariants\[LeftDoubleBracket]1\[RightDoubleBracket]\)[#]\
+, i1 | i2] &], Rest[invariants]]\[IndentingNewLine]]\)], "Input"],
 
 Cell[CellGroupData[{
 
@@ -114,56 +140,267 @@ Cell[BoxData[
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(Crossings[TorusKnot[7, 3]]\)], "Input"],
+    \(IdentifyKnot /@ AllKnots[10]\)], "Input"],
 
 Cell[BoxData[
-    \(14\)], "Output"]
+    \({Knot[10, 1], Knot[10, 2], Knot[10, 3], Knot[10, 4], Knot[10, 5], 
+      Knot[10, 6], Knot[10, 7], Knot[10, 8], Knot[10, 9], Knot[10, 10], 
+      Knot[10, 11], Knot[10, 12], Knot[10, 13], Knot[10, 14], Knot[10, 15], 
+      Knot[10, 16], Knot[10, 17], Knot[10, 18], Knot[10, 19], Knot[10, 20], 
+      Knot[10, 21], Knot[10, 22], Knot[10, 23], Knot[10, 24], Knot[10, 25], 
+      Knot[10, 26], Knot[10, 27], Knot[10, 28], Knot[10, 29], Knot[10, 30], 
+      Knot[10, 31], Knot[10, 32], Knot[10, 33], Knot[10, 34], Knot[10, 35], 
+      Knot[10, 36], Knot[10, 37], Knot[10, 38], Knot[10, 39], Knot[10, 40], 
+      Knot[10, 41], Knot[10, 42], Knot[10, 43], Knot[10, 44], Knot[10, 45], 
+      Knot[10, 46], Knot[10, 47], Knot[10, 48], Knot[10, 49], Knot[10, 50], 
+      Knot[10, 51], Knot[10, 52], Knot[10, 53], Knot[10, 54], Knot[10, 55], 
+      Knot[10, 56], Knot[10, 57], Knot[10, 58], Knot[10, 59], Knot[10, 60], 
+      Knot[10, 61], Knot[10, 62], Knot[10, 63], Knot[10, 64], Knot[10, 65], 
+      Knot[10, 66], Knot[10, 67], Knot[10, 68], Knot[10, 69], Knot[10, 70], 
+      Knot[10, 71], Knot[10, 72], Knot[10, 73], Knot[10, 74], Knot[10, 75], 
+      Knot[10, 76], Knot[10, 77], Knot[10, 78], Knot[10, 79], Knot[10, 80], 
+      Knot[10, 81], Knot[10, 82], Knot[10, 83], Knot[10, 84], Knot[10, 85], 
+      Knot[10, 86], Knot[10, 87], Knot[10, 88], Knot[10, 89], Knot[10, 90], 
+      Knot[10, 91], Knot[10, 92], Knot[10, 93], Knot[10, 94], Knot[10, 95], 
+      Knot[10, 96], Knot[10, 97], Knot[10, 98], Knot[10, 99], Knot[10, 100], 
+      Knot[10, 101], Knot[10, 102], Knot[10, 103], Knot[10, 104], 
+      Knot[10, 105], Knot[10, 106], Knot[10, 107], Knot[10, 108], 
+      Knot[10, 109], Knot[10, 110], Knot[10, 111], Knot[10, 112], 
+      Knot[10, 113], Knot[10, 114], Knot[10, 115], Knot[10, 116], 
+      Knot[10, 117], Knot[10, 118], Knot[10, 119], Knot[10, 120], 
+      Knot[10, 121], Knot[10, 122], Knot[10, 123], Knot[10, 124], 
+      Knot[10, 125], Knot[10, 126], Knot[10, 127], Knot[10, 128], 
+      Knot[10, 129], Knot[10, 130], Knot[10, 131], Knot[10, 132], 
+      Knot[10, 133], Knot[10, 134], Knot[10, 135], Knot[10, 136], 
+      Knot[10, 137], Knot[10, 138], Knot[10, 139], Knot[10, 140], 
+      Knot[10, 141], Knot[10, 142], Knot[10, 143], Knot[10, 144], 
+      Knot[10, 145], Knot[10, 146], Knot[10, 147], Knot[10, 148], 
+      Knot[10, 149], Knot[10, 150], Knot[10, 151], Knot[10, 152], 
+      Knot[10, 153], Knot[10, 154], Knot[10, 155], Knot[10, 156], 
+      Knot[10, 157], Knot[10, 158], Knot[10, 159], Knot[10, 160], 
+      Knot[10, 161], Knot[10, 162], Knot[10, 163], Knot[10, 164], 
+      Knot[10, 165]}\)], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(IdentifyKnot[TorusKnot[7, 3]]\)], "Input"],
+    \(IdentifyKnot /@ AllLinks[10]\)], "Input"],
 
 Cell[BoxData[
     \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
-      "Loading precomputed data in \!\(\"Kh4Knots11`\"\)."\)], "Message"],
+      "Loading precomputed data in \!\(\"Kauffman4Links`\"\)."\)], "Message"],
 
 Cell[BoxData[
-    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
-      "Loading precomputed data in \!\(\"KnotTheory/12A.dts\"\)."\)], \
-"Message"],
+    \({Link[10, Alternating, 1], Link[10, Alternating, 2], 
+      Link[10, Alternating, 3], Link[10, Alternating, 4], 
+      Link[10, Alternating, 5], Link[10, Alternating, 6], 
+      Link[10, Alternating, 7], Link[10, Alternating, 8], 
+      Link[10, Alternating, 9], Link[10, Alternating, 10], 
+      Link[10, Alternating, 11], Link[10, Alternating, 12], 
+      Link[10, Alternating, 13], Link[10, Alternating, 14], 
+      Link[10, Alternating, 15], Link[10, Alternating, 16], 
+      Link[10, Alternating, 17], Link[10, Alternating, 18], 
+      Link[10, Alternating, 19], Link[10, Alternating, 20], 
+      Link[10, Alternating, 21], Link[10, Alternating, 22], 
+      Link[10, Alternating, 23], Link[10, Alternating, 24], 
+      Link[10, Alternating, 25], Link[10, Alternating, 26], 
+      Link[10, Alternating, 27], Link[10, Alternating, 28], 
+      Link[10, Alternating, 29], Link[10, Alternating, 30], 
+      Link[10, Alternating, 31], Link[10, Alternating, 32], 
+      Link[10, Alternating, 33], Link[10, Alternating, 34], 
+      Link[10, Alternating, 35], Link[10, Alternating, 36], 
+      Link[10, Alternating, 37], 
+      IdentifyKnot[
+        Link[10, Alternating, 38], {Link[10, Alternating, 38], 
+          Link[10, Alternating, 108]}, {}], 
+      IdentifyKnot[
+        Link[10, Alternating, 39], {Link[10, Alternating, 39], 
+          Link[10, Alternating, 109]}, {}], Link[10, Alternating, 40], 
+      Link[10, Alternating, 41], Link[10, Alternating, 42], 
+      Link[10, Alternating, 43], Link[10, Alternating, 44], 
+      Link[10, Alternating, 45], 
+      IdentifyKnot[
+        Link[10, Alternating, 46], {Link[10, Alternating, 46], 
+          Link[10, Alternating, 110]}, {}], Link[10, Alternating, 47], 
+      Link[10, Alternating, 48], Link[10, Alternating, 49], 
+      Link[10, Alternating, 50], Link[10, Alternating, 51], 
+      Link[10, Alternating, 52], Link[10, Alternating, 53], 
+      Link[10, Alternating, 54], Link[10, Alternating, 55], 
+      Link[10, Alternating, 56], Link[10, Alternating, 57], 
+      Link[10, Alternating, 58], Link[10, Alternating, 59], 
+      Link[10, Alternating, 60], Link[10, Alternating, 61], 
+      Link[10, Alternating, 62], Link[10, Alternating, 63], 
+      Link[10, Alternating, 64], Link[10, Alternating, 65], 
+      Link[10, Alternating, 66], Link[10, Alternating, 67], 
+      Link[10, Alternating, 68], Link[10, Alternating, 69], 
+      Link[10, Alternating, 70], Link[10, Alternating, 71], 
+      Link[10, Alternating, 72], Link[10, Alternating, 73], 
+      Link[10, Alternating, 74], Link[10, Alternating, 75], 
+      Link[10, Alternating, 76], Link[10, Alternating, 77], 
+      Link[10, Alternating, 78], Link[10, Alternating, 79], 
+      Link[10, Alternating, 80], Link[10, Alternating, 81], 
+      Link[10, Alternating, 82], Link[10, Alternating, 83], 
+      Link[10, Alternating, 84], Link[10, Alternating, 85], 
+      Link[10, Alternating, 86], Link[10, Alternating, 87], 
+      Link[10, Alternating, 88], Link[10, Alternating, 89], 
+      Link[10, Alternating, 90], Link[10, Alternating, 91], 
+      Link[10, Alternating, 92], Link[10, Alternating, 93], 
+      Link[10, Alternating, 94], Link[10, Alternating, 95], 
+      Link[10, Alternating, 96], Link[10, Alternating, 97], 
+      Link[10, Alternating, 98], Link[10, Alternating, 99], 
+      Link[10, Alternating, 100], Link[10, Alternating, 101], 
+      Link[10, Alternating, 102], Link[10, Alternating, 103], 
+      Link[10, Alternating, 104], Link[10, Alternating, 105], 
+      Link[10, Alternating, 106], Link[10, Alternating, 107], 
+      IdentifyKnot[
+        Link[10, Alternating, 108], {Link[10, Alternating, 38], 
+          Link[10, Alternating, 108]}, {}], 
+      IdentifyKnot[
+        Link[10, Alternating, 109], {Link[10, Alternating, 39], 
+          Link[10, Alternating, 109]}, {}], 
+      IdentifyKnot[
+        Link[10, Alternating, 110], {Link[10, Alternating, 46], 
+          Link[10, Alternating, 110]}, {}], Link[10, Alternating, 111], 
+      Link[10, Alternating, 112], Link[10, Alternating, 113], 
+      Link[10, Alternating, 114], Link[10, Alternating, 115], 
+      Link[10, Alternating, 116], Link[10, Alternating, 117], 
+      Link[10, Alternating, 118], Link[10, Alternating, 119], 
+      Link[10, Alternating, 120], Link[10, Alternating, 121], 
+      Link[10, Alternating, 122], Link[10, Alternating, 123], 
+      Link[10, Alternating, 124], Link[10, Alternating, 125], 
+      Link[10, Alternating, 126], Link[10, Alternating, 127], 
+      Link[10, Alternating, 128], Link[10, Alternating, 129], 
+      Link[10, Alternating, 130], Link[10, Alternating, 131], 
+      Link[10, Alternating, 132], Link[10, Alternating, 133], 
+      Link[10, Alternating, 134], Link[10, Alternating, 135], 
+      Link[10, Alternating, 136], Link[10, Alternating, 137], 
+      Link[10, Alternating, 138], Link[10, Alternating, 139], 
+      Link[10, Alternating, 140], Link[10, Alternating, 141], 
+      Link[10, Alternating, 142], Link[10, Alternating, 143], 
+      Link[10, Alternating, 144], Link[10, Alternating, 145], 
+      Link[10, Alternating, 146], Link[10, Alternating, 147], 
+      Link[10, Alternating, 148], Link[10, Alternating, 149], 
+      Link[10, Alternating, 150], Link[10, Alternating, 151], 
+      Link[10, Alternating, 152], Link[10, Alternating, 153], 
+      Link[10, Alternating, 154], Link[10, Alternating, 155], 
+      Link[10, Alternating, 156], Link[10, Alternating, 157], 
+      Link[10, Alternating, 158], Link[10, Alternating, 159], 
+      Link[10, Alternating, 160], Link[10, Alternating, 161], 
+      Link[10, Alternating, 162], Link[10, Alternating, 163], 
+      Link[10, Alternating, 164], Link[10, Alternating, 165], 
+      Link[10, Alternating, 166], Link[10, Alternating, 167], 
+      Link[10, Alternating, 168], Link[10, Alternating, 169], 
+      Link[10, Alternating, 170], Link[10, Alternating, 171], 
+      Link[10, Alternating, 172], Link[10, Alternating, 173], 
+      Link[10, Alternating, 174], Link[10, NonAlternating, 1], 
+      Link[10, NonAlternating, 2], Link[10, NonAlternating, 3], 
+      Link[10, NonAlternating, 4], Link[10, NonAlternating, 5], 
+      Link[10, NonAlternating, 6], Link[10, NonAlternating, 7], 
+      Link[10, NonAlternating, 8], Link[10, NonAlternating, 9], 
+      Link[10, NonAlternating, 10], Link[10, NonAlternating, 11], 
+      Link[10, NonAlternating, 12], Link[10, NonAlternating, 13], 
+      Link[10, NonAlternating, 14], Link[10, NonAlternating, 15], 
+      Link[10, NonAlternating, 16], Link[10, NonAlternating, 17], 
+      Link[10, NonAlternating, 18], Link[10, NonAlternating, 19], 
+      Link[10, NonAlternating, 20], Link[10, NonAlternating, 21], 
+      Link[10, NonAlternating, 22], Link[10, NonAlternating, 23], 
+      Link[10, NonAlternating, 24], Link[10, NonAlternating, 25], 
+      Link[10, NonAlternating, 26], Link[10, NonAlternating, 27], 
+      Link[10, NonAlternating, 28], Link[10, NonAlternating, 29], 
+      Link[10, NonAlternating, 30], Link[10, NonAlternating, 31], 
+      Link[10, NonAlternating, 32], Link[10, NonAlternating, 33], 
+      Link[10, NonAlternating, 34], 
+      IdentifyKnot[
+        Link[10, NonAlternating, 35], {Link[10, NonAlternating, 35], 
+          Link[10, NonAlternating, 58]}, {}], 
+      IdentifyKnot[
+        Link[10, NonAlternating, 36], {Link[10, NonAlternating, 36], 
+          Link[10, NonAlternating, 59]}, {}], 
+      IdentifyKnot[
+        Link[10, NonAlternating, 37], {Link[10, NonAlternating, 37], 
+          Link[10, NonAlternating, 60]}, {}], 
+      IdentifyKnot[
+        Link[10, NonAlternating, 38], {Link[10, NonAlternating, 38], 
+          Link[10, NonAlternating, 61]}, {}], 
+      IdentifyKnot[
+        Link[10, NonAlternating, 39], {Link[10, NonAlternating, 39], 
+          Link[10, NonAlternating, 62]}, {}], Link[10, NonAlternating, 40], 
+      Link[10, NonAlternating, 41], Link[10, NonAlternating, 42], 
+      Link[10, NonAlternating, 43], Link[10, NonAlternating, 44], 
+      Link[10, NonAlternating, 45], Link[10, NonAlternating, 46], 
+      Link[10, NonAlternating, 47], Link[10, NonAlternating, 48], 
+      Link[10, NonAlternating, 49], Link[10, NonAlternating, 50], 
+      Link[10, NonAlternating, 51], Link[10, NonAlternating, 52], 
+      Link[10, NonAlternating, 53], Link[10, NonAlternating, 54], 
+      Link[10, NonAlternating, 55], Link[10, NonAlternating, 56], 
+      Link[10, NonAlternating, 57], 
+      IdentifyKnot[
+        Link[10, NonAlternating, 58], {Link[10, NonAlternating, 35], 
+          Link[10, NonAlternating, 58]}, {}], 
+      IdentifyKnot[
+        Link[10, NonAlternating, 59], {Link[10, NonAlternating, 36], 
+          Link[10, NonAlternating, 59]}, {}], 
+      IdentifyKnot[
+        Link[10, NonAlternating, 60], {Link[10, NonAlternating, 37], 
+          Link[10, NonAlternating, 60]}, {}], 
+      IdentifyKnot[
+        Link[10, NonAlternating, 61], {Link[10, NonAlternating, 38], 
+          Link[10, NonAlternating, 61]}, {}], 
+      IdentifyKnot[
+        Link[10, NonAlternating, 62], {Link[10, NonAlternating, 39], 
+          Link[10, NonAlternating, 62]}, {}], Link[10, NonAlternating, 63], 
+      Link[10, NonAlternating, 64], Link[10, NonAlternating, 65], 
+      Link[10, NonAlternating, 66], Link[10, NonAlternating, 67], 
+      Link[10, NonAlternating, 68], Link[10, NonAlternating, 69], 
+      Link[10, NonAlternating, 70], Link[10, NonAlternating, 71], 
+      Link[10, NonAlternating, 72], Link[10, NonAlternating, 73], 
+      Link[10, NonAlternating, 74], Link[10, NonAlternating, 75], 
+      Link[10, NonAlternating, 76], Link[10, NonAlternating, 77], 
+      Link[10, NonAlternating, 78], Link[10, NonAlternating, 79], 
+      Link[10, NonAlternating, 80], Link[10, NonAlternating, 81], 
+      Link[10, NonAlternating, 82], Link[10, NonAlternating, 83], 
+      Link[10, NonAlternating, 84], Link[10, NonAlternating, 85], 
+      Link[10, NonAlternating, 86], Link[10, NonAlternating, 87], 
+      Link[10, NonAlternating, 88], Link[10, NonAlternating, 89], 
+      Link[10, NonAlternating, 90], Link[10, NonAlternating, 91], 
+      Link[10, NonAlternating, 92], Link[10, NonAlternating, 93], 
+      Link[10, NonAlternating, 94], Link[10, NonAlternating, 95], 
+      Link[10, NonAlternating, 96], Link[10, NonAlternating, 97], 
+      Link[10, NonAlternating, 98], Link[10, NonAlternating, 99], 
+      Link[10, NonAlternating, 100], Link[10, NonAlternating, 101], 
+      Link[10, NonAlternating, 102], Link[10, NonAlternating, 103], 
+      Link[10, NonAlternating, 104], Link[10, NonAlternating, 105], 
+      Link[10, NonAlternating, 106], Link[10, NonAlternating, 107], 
+      Link[10, NonAlternating, 108], Link[10, NonAlternating, 109], 
+      Link[10, NonAlternating, 110], Link[10, NonAlternating, 111], 
+      Link[10, NonAlternating, 112], 
+      Link[10, NonAlternating, 113]}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
-      "\!\(\"The GaussCode to PD conversion was wri\"\[Ellipsis]\"sity of \
-Toronto in the summer of 2005.\"\)"\)], "Message"],
+    \(IdentifyKnot[TorusKnot[3, 2]]\)], "Input"],
 
 Cell[BoxData[
-    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
-      "\!\(\"The Khovanov homology program JavaKh w\"\[Ellipsis]\" of 2005 at \
-the University of Toronto.\"\)"\)], "Message"],
+    \(Knot[3, 1]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
-      "Loading precomputed data in \!\(\"KnotTheory/12N.dts\"\)."\)], \
-"Message"],
+    \(Crossings[TorusKnot[7, 3]]\)], "Input"],
 
 Cell[BoxData[
-    RowBox[{\(General::"stop"\), \(\(:\)\(\ \)\), "\<\"Further output of \
-\\!\\(KnotTheory :: \\\"loading\\\"\\) will be suppressed during this \
-calculation. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
-ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
-ButtonData:>\\\"General::stop\\\"]\\)\"\>"}]], "Message"],
-
-Cell[BoxData[
-    \($Aborted\)], "Output"]
+    \(14\)], "Output"]
 }, Open  ]]
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
 ScreenRectangle->{{0, 1280}, {0, 713}},
-WindowSize->{495, 555},
-WindowMargins->{{0, Automatic}, {Automatic, 0}}
+WindowSize->{928, 555},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+ShowSelection->True
 ]
 
 (*******************************************************************
@@ -183,39 +420,52 @@ CellTagsIndex->{}
 
 (*NotebookFileOutline
 Notebook[{
+Cell[1754, 51, 115, 3, 33, "Text"],
+Cell[1872, 56, 78, 1, 30, "Input"],
 
 Cell[CellGroupData[{
-Cell[1776, 53, 242, 5, 110, "Input"],
-Cell[2021, 60, 158, 2, 82, "Print"]
-}, Open  ]],
-Cell[2194, 65, 158, 3, 70, "Input"],
-Cell[2355, 70, 190, 4, 70, "Input"],
-Cell[2548, 76, 224, 4, 52, "Input"],
-Cell[2775, 82, 147, 3, 70, "Input"],
-Cell[2925, 87, 91, 1, 50, "Input"],
-Cell[3019, 90, 63, 1, 30, "Input"],
-Cell[3085, 93, 330, 6, 110, "Input"],
-Cell[3418, 101, 34, 1, 30, "Input"],
-
-Cell[CellGroupData[{
-Cell[3477, 106, 59, 1, 30, "Input"],
-Cell[3539, 109, 58, 1, 29, "Output"]
+Cell[1975, 61, 73, 1, 30, "Input"],
+Cell[2051, 64, 158, 2, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[3634, 115, 59, 1, 30, "Input"],
-Cell[3696, 118, 36, 1, 29, "Output"]
+Cell[2246, 71, 242, 5, 70, "Input"],
+Cell[2491, 78, 158, 2, 44, "Print"]
+}, Open  ]],
+Cell[2664, 83, 158, 3, 30, "Input"],
+Cell[2825, 88, 264, 6, 50, "Input"],
+Cell[3092, 96, 173, 4, 30, "Input"],
+Cell[3268, 102, 52, 1, 30, "Input"],
+Cell[3323, 105, 147, 3, 30, "Input"],
+Cell[3473, 110, 91, 1, 30, "Input"],
+Cell[3567, 113, 63, 1, 30, "Input"],
+Cell[3633, 116, 109, 2, 30, "Input"],
+Cell[3745, 120, 443, 8, 90, "Input"],
+
+Cell[CellGroupData[{
+Cell[4213, 132, 59, 1, 30, "Input"],
+Cell[4275, 135, 58, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[3769, 124, 62, 1, 30, "Input"],
-Cell[3834, 127, 132, 2, 22, "Message"],
-Cell[3969, 131, 141, 3, 37, "Message"],
-Cell[4113, 136, 185, 3, 37, "Message"],
-Cell[4301, 141, 185, 3, 37, "Message"],
-Cell[4489, 146, 141, 3, 37, "Message"],
-Cell[4633, 151, 337, 5, 37, "Message"],
-Cell[4973, 158, 42, 1, 29, "Output"]
+Cell[4370, 141, 61, 1, 30, "Input"],
+Cell[4434, 144, 2653, 37, 428, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7124, 186, 61, 1, 30, "Input"],
+Cell[7188, 189, 136, 2, 22, "Message"],
+Cell[7327, 193, 10820, 184, 1682, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[18184, 382, 62, 1, 30, "Input"],
+Cell[18249, 385, 44, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[18330, 391, 59, 1, 30, "Input"],
+Cell[18392, 394, 36, 1, 29, "Output"]
 }, Open  ]]
 }
 ]

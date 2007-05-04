@@ -1,0 +1,348 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      7214,        239]*)
+(*NotebookOutlinePosition[      7859,        261]*)
+(*  CellTagsIndexPosition[      7815,        257]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell["\<\
+You'll need to modify the path in this first line, to point to wherever \
+you've unpacked the KnotTheory` package.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(KnotTheoryPath\  = \ \
+"\<c:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk\\\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(AppendTo[$Path, \ KnotTheoryPath];\)\), "\[IndentingNewLine]", 
+    \(<< \ KnotTheory`\)}], "Input"],
+
+Cell[BoxData[
+    \("Loading KnotTheory` version of July 31, 2006, 9:34:35.6875.\nRead more \
+at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Jones[GaussCode[1, \(-1\)]]\)[q]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"The GaussCode to PD conversion was wri\"\[Ellipsis]\"rsity of \
+Toronto in the summer of 2005.\"\)"\)], "Message"],
+
+Cell[BoxData[
+    \(1\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Jones[GaussCode[1, \(-2\), 2, \(-1\)]]\)[q]\)], "Input"],
+
+Cell[BoxData[
+    \(1\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Jones[GaussCode[1, \(-2\), 3, \(-3\), 2, \(-1\)]]\)[q]\)], "Input"],
+
+Cell[BoxData[
+    \(q\^\(3/2\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Kh[GaussCode[1, \(-2\), 2, \(-1\)], Program -> "\<FastKh\>"]\)[q, 
+      t]\)], "Input"],
+
+Cell[BoxData[
+    \(1\/q + q\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Kh[GaussCode[1, \(-2\), 3, \(-3\), 2, \(-1\)], 
+        Program -> "\<FastKh\>"]\)[q, t]\)], "Input"],
+
+Cell[BoxData[
+    \(q\^2\ t + q\^4\ t\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Writhe[pd_PD] := 
+      Plus @@ \((pd /. {X[i_, j_, k_, 
+                    l_] /; \((j - l \[Equal] 1 || l - j > 1)\) \[RuleDelayed] 
+                1, X[i_, j_, k_, 
+                    l_] /; \((l - j \[Equal] 1 || 
+                      j - l > 1)\) \[RuleDelayed] \(-1\)})\)\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(Writhe\\)\\\" is similar to existing symbol \
+\\\"\\!\\(Write\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Writhe[PD[GaussCode[1, \(-2\), 2, \(-1\)]]]\)], "Input"],
+
+Cell[BoxData[
+    \(0\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Writhe[PD[GaussCode[1, \(-2\), 3, \(-3\), 2, \(-1\)]]]\)], "Input"],
+
+Cell[BoxData[
+    \(3\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[GaussCode[1, \(-2\), 2, \(-1\)]]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[4, 2, 1, 1], X[2, 3, 3, 4]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[GaussCode[1, \(-2\), 3, \(-3\), 2, \(-1\)]]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[6, 2, 1, 1], X[2, 6, 3, 5], X[4, 5, 3, 4]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Kh[GaussCode[1, \(-2\), 2, \(-1\)], Program -> "\<FastKh\>"]\)[q, 
+      t]\)], "Input"],
+
+Cell[BoxData[
+    \(1\/q + q\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Kh[GaussCode[1, \(-2\), 2, \(-1\)], Program -> "\<JavaKh\>"]\)[q, 
+      t]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(StringReplace::"strs"\), \(\(:\)\(\ \)\), "\<\"String or \
+non-empty list of strings expected at position \\!\\(1\\) in \
+\\!\\(StringReplace[\\(\\(EndOfFile, \\(\\({\\(\\(\\\"q\\\" \[Rule] \
+\\\"#1\\\"\\)\\), \\(\\(\\\"t\\\" \[Rule] \\\"#2\\\"\\)\\), \\(\\(\\\"Z\\\" \
+\[Rule] \\\"ZMod\\\"\\)\\)}\\)\\)\\)\\)]\\). \\!\\(\\*ButtonBox[\\\"More\
+\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::strs\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(StringJoin::"string"\), \(\(:\)\(\ \)\), "\<\"String expected \
+at position \\!\\(1\\) in \\!\\(\\(\\(StringReplace[\\(\\(EndOfFile, \
+\\(\\({\\(\\(\\\"q\\\" \[Rule] \\\"#1\\\"\\)\\), \\(\\(\\\"t\\\" \[Rule] \
+\\\"#2\\\"\\)\\), \\(\\(\\\"Z\\\" \[Rule] \\\"ZMod\\\"\\)\\)}\\)\\)\\)\\)]\\)\
+\\) <> \\\"&\\\"\\). \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::string\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(ToExpression::"notstrbox"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(\\(\\(StringReplace[\\(\\(EndOfFile, \\(\\({\\(\\(\\\"q\\\" \
+\[Rule] \\\"#1\\\"\\)\\), \\(\\(\\\"t\\\" \[Rule] \\\"#2\\\"\\)\\), \
+\\(\\(\\\"Z\\\" \[Rule] \\\"ZMod\\\"\\)\\)}\\)\\)\\)\\)]\\)\\) <> \
+\\\"&\\\"\\) is not a string or a box. ToExpression can only interpret \
+strings or boxes as Mathematica input. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\
+\\\", ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"ToExpression::notstrbox\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \($Failed[q, t]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Kh[GaussCode[1, \(-2\), 3, \(-3\), 2, \(-1\)], 
+        Program -> "\<JavaKh\>"]\)[q, t]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"The Khovanov homology program JavaKh was written by Jeremy Green \
+in the summer of 2005 at the University of Toronto.\"\)"\)], "Message"],
+
+Cell[BoxData[
+    \(q\^4\ t + q\^5\ t\^2\)], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 713}},
+WindowSize->{495, 589},
+WindowMargins->{{24, Automatic}, {Automatic, 30}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 138, 3, 52, "Text"],
+
+Cell[CellGroupData[{
+Cell[1917, 58, 248, 5, 110, "Input"],
+Cell[2168, 65, 158, 2, 82, "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2363, 72, 67, 1, 30, "Input"],
+Cell[2433, 75, 186, 3, 37, "Message"],
+Cell[2622, 80, 35, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2694, 86, 78, 1, 30, "Input"],
+Cell[2775, 89, 35, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2847, 95, 89, 1, 30, "Input"],
+Cell[2939, 98, 44, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3020, 104, 110, 2, 50, "Input"],
+Cell[3133, 108, 42, 1, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3212, 114, 123, 2, 50, "Input"],
+Cell[3338, 118, 51, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3426, 124, 314, 6, 90, "Input"],
+Cell[3743, 132, 359, 5, 52, "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4139, 142, 76, 1, 30, "Input"],
+Cell[4218, 145, 35, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4290, 151, 87, 1, 30, "Input"],
+Cell[4380, 154, 35, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4452, 160, 68, 1, 30, "Input"],
+Cell[4523, 163, 66, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4626, 169, 79, 1, 30, "Input"],
+Cell[4708, 172, 81, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4826, 178, 110, 2, 50, "Input"],
+Cell[4939, 182, 42, 1, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5018, 188, 110, 2, 50, "Input"],
+Cell[5131, 192, 506, 7, 52, "Message"],
+Cell[5640, 201, 503, 7, 37, "Message"],
+Cell[6146, 210, 572, 8, 67, "Message"],
+Cell[6721, 220, 47, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6805, 226, 123, 2, 50, "Input"],
+Cell[6931, 230, 210, 3, 52, "Message"],
+Cell[7144, 235, 54, 1, 29, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
