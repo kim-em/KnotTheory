@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      7214,        239]*)
-(*NotebookOutlinePosition[      7859,        261]*)
-(*  CellTagsIndexPosition[      7815,        257]*)
+(*NotebookOptionsPosition[      7332,        256]*)
+(*NotebookOutlinePosition[      7977,        278]*)
+(*  CellTagsIndexPosition[      7933,        274]*)
 (*WindowFrame->Normal*)
 
 
@@ -103,6 +103,24 @@ Cell[BoxData[
 Cell[CellGroupData[{
 
 Cell[BoxData[
+    \(PD[GaussCode[1, \(-2\), 3, \(-3\), 2, \(-1\)]]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[6, 2, 1, 1], X[2, 6, 3, 5], X[4, 5, 3, 4]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Jones[%]\)[q]\)], "Input"],
+
+Cell[BoxData[
+    \(q\^\(3/2\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
     \(\(Kh[GaussCode[1, \(-2\), 2, \(-1\)], Program -> "\<FastKh\>"]\)[q, 
       t]\)], "Input"],
 
@@ -120,22 +138,21 @@ Cell[BoxData[
     \(q\^2\ t + q\^4\ t\)], "Output"]
 }, Open  ]],
 
+Cell[BoxData[
+    \(Writhe[
+        pd_PD] := \((pd /. {X[i_, j_, k_, 
+                  l_] /; \((j - l \[Equal] 1 || l - j > 1)\) \[RuleDelayed] 
+              1, X[i_, j_, k_, 
+                  l_] /; \((l - j \[Equal] 1 || 
+                    j - l > 1)\) \[RuleDelayed] \(-1\)})\)\)], "Input"],
+
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(Writhe[pd_PD] := 
-      Plus @@ \((pd /. {X[i_, j_, k_, 
-                    l_] /; \((j - l \[Equal] 1 || l - j > 1)\) \[RuleDelayed] 
-                1, X[i_, j_, k_, 
-                    l_] /; \((l - j \[Equal] 1 || 
-                      j - l > 1)\) \[RuleDelayed] \(-1\)})\)\)], "Input"],
+    \(PD[GaussCode[1, \(-2\), 2, \(-1\)]]\)], "Input"],
 
 Cell[BoxData[
-    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
-error: new symbol name \\\"\\!\\(Writhe\\)\\\" is similar to existing symbol \
-\\\"\\!\\(Write\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
-ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
-ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
+    \(PD[X[4, 2, 1, 1], X[2, 3, 3, 4]]\)], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -144,7 +161,7 @@ Cell[BoxData[
     \(Writhe[PD[GaussCode[1, \(-2\), 2, \(-1\)]]]\)], "Input"],
 
 Cell[BoxData[
-    \(0\)], "Output"]
+    \(PD[1, \(-1\)]\)], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -153,7 +170,7 @@ Cell[BoxData[
     \(Writhe[PD[GaussCode[1, \(-2\), 3, \(-3\), 2, \(-1\)]]]\)], "Input"],
 
 Cell[BoxData[
-    \(3\)], "Output"]
+    \(PD[1, 1, 1]\)], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -284,57 +301,68 @@ Cell[2939, 98, 44, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[3020, 104, 110, 2, 50, "Input"],
-Cell[3133, 108, 42, 1, 44, "Output"]
+Cell[3020, 104, 79, 1, 30, "Input"],
+Cell[3102, 107, 81, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[3212, 114, 123, 2, 50, "Input"],
-Cell[3338, 118, 51, 1, 29, "Output"]
+Cell[3220, 113, 48, 1, 30, "Input"],
+Cell[3271, 116, 44, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[3426, 124, 314, 6, 90, "Input"],
-Cell[3743, 132, 359, 5, 52, "Message"]
+Cell[3352, 122, 110, 2, 50, "Input"],
+Cell[3465, 126, 42, 1, 44, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[4139, 142, 76, 1, 30, "Input"],
-Cell[4218, 145, 35, 1, 29, "Output"]
+Cell[3544, 132, 123, 2, 50, "Input"],
+Cell[3670, 136, 51, 1, 29, "Output"]
+}, Open  ]],
+Cell[3736, 140, 300, 6, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[4061, 150, 68, 1, 30, "Input"],
+Cell[4132, 153, 66, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[4290, 151, 87, 1, 30, "Input"],
-Cell[4380, 154, 35, 1, 29, "Output"]
+Cell[4235, 159, 76, 1, 30, "Input"],
+Cell[4314, 162, 47, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[4452, 160, 68, 1, 30, "Input"],
-Cell[4523, 163, 66, 1, 29, "Output"]
+Cell[4398, 168, 87, 1, 30, "Input"],
+Cell[4488, 171, 45, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[4626, 169, 79, 1, 30, "Input"],
-Cell[4708, 172, 81, 1, 29, "Output"]
+Cell[4570, 177, 68, 1, 30, "Input"],
+Cell[4641, 180, 66, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[4826, 178, 110, 2, 50, "Input"],
-Cell[4939, 182, 42, 1, 44, "Output"]
+Cell[4744, 186, 79, 1, 30, "Input"],
+Cell[4826, 189, 81, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[5018, 188, 110, 2, 50, "Input"],
-Cell[5131, 192, 506, 7, 52, "Message"],
-Cell[5640, 201, 503, 7, 37, "Message"],
-Cell[6146, 210, 572, 8, 67, "Message"],
-Cell[6721, 220, 47, 1, 29, "Output"]
+Cell[4944, 195, 110, 2, 50, "Input"],
+Cell[5057, 199, 42, 1, 44, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[6805, 226, 123, 2, 50, "Input"],
-Cell[6931, 230, 210, 3, 52, "Message"],
-Cell[7144, 235, 54, 1, 29, "Output"]
+Cell[5136, 205, 110, 2, 50, "Input"],
+Cell[5249, 209, 506, 7, 52, "Message"],
+Cell[5758, 218, 503, 7, 37, "Message"],
+Cell[6264, 227, 572, 8, 67, "Message"],
+Cell[6839, 237, 47, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6923, 243, 123, 2, 50, "Input"],
+Cell[7049, 247, 210, 3, 52, "Message"],
+Cell[7262, 252, 54, 1, 29, "Output"]
 }, Open  ]]
 }
 ]

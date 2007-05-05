@@ -1,0 +1,450 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     11710,        329]*)
+(*NotebookOutlinePosition[     12377,        352]*)
+(*  CellTagsIndexPosition[     12333,        348]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell[BoxData[
+    \(OPD[PD[crossings___]] := 
+      OPD[crossings] /. {X[i_, j_, k_, 
+                l_] /; \((j - l \[Equal] 1 || l - j > 1)\) \[RuleDelayed] 
+            Xp[i, j, k, l], 
+          X[i_, j_, k_, 
+                l_] /; \((l - j \[Equal] 1 || j - l > 1)\) \[RuleDelayed] 
+            Xn[i, j, k, l]}\)], "Input"],
+
+Cell[BoxData[{
+    \(OPD[K_Knot] := OPD[PD[K]]\), "\[IndentingNewLine]", 
+    \(OPD[L_Link] := OPD[PD[L]]\)}], "Input"],
+
+Cell[BoxData[
+    \(SetAttributes[Unordered, {Flat, Orderless}]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[OPD[f___]] := 
+      Module[{pairs, rules, n = 0}, \[IndentingNewLine]pairs\  = \ 
+          Unordered @@ \((Join @@ \(({f} /. {Xp[i_, j_, k_, 
+                          l_] \[RuleDelayed] {{i, k}, {l, j}}, 
+                      Xn[i_, j_, k_, 
+                          l_] \[RuleDelayed] {{i, k}, {j, 
+                            l}}})\))\); \[IndentingNewLine]cycles = 
+          List @@ \((pairs //. 
+                Unordered[{x___, y_}, {y_, z___}] \[RuleDelayed] 
+                  Unordered[{x, y, 
+                      z}])\); \[IndentingNewLine]rules = \(# \[Rule] \(++n\) \
+&\) /@ Flatten[cycles]; \[IndentingNewLine]\(PD[f] /. 
+            rules\) /. {Xp | Xn \[Rule] X}\[IndentingNewLine]]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(rules\\)\\\" is similar to existing symbol \
+\\\"\\!\\(rule\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(i$::"shdw"\), \(\(:\)\(\ \)\), "\<\"Symbol \\!\\(\\\"i$\\\"\\) \
+appears in multiple contexts \\!\\({\\\"Global`\\\", \\\"KnotTheory`FastKh`\\\
+\"}\\); definitions in context \\!\\(\\\"Global`\\\"\\) may shadow or be \
+shadowed by other definitions. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::shdw\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[OPD[Xp[1, 2, 3, 4], Xp[3, 4, 5, 6]]]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[1, 6, 2, 5], X[2, 5, 3, 4]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[OPD[PD[Knot[3, 1]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[3, 6, 4, 1], X[5, 2, 6, 3], X[1, 4, 2, 5]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(test[K_] := \(Jones[PD[OPD[PD[K]]]]\)[q] - \(Jones[K]\)[q]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(test\\)\\\" is similar to existing symbol \\\
+\"\\!\\(rest\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(test[Knot[3, 1]]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"Jones4Knots`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(0\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(test /@ AllKnots[10]\)], "Input"],
+
+Cell[BoxData[
+    \({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+      0}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(test /@ AllLinks[9]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"PD4Links`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"Jones4Links`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[{
+    \(OrientedResolution[OPD[f___, Xp[a_, b_, c_, d_], g___], 
+        Xp[a_, b_, c_, d_]] := 
+      OPD[f, g, Arc[a, b], Arc[d, c]]\), "\[IndentingNewLine]", 
+    \(OrientedResolution[OPD[f___, Xn[a_, b_, c_, d_], g___], 
+        Xn[a_, b_, c_, d_]] := OPD[f, g, Arc[a, d], Arc[b, c]]\)}], "Input"],
+
+Cell[BoxData[{
+    \(DisorientedResolution[OPD[f___, Xp[a_, b_, c_, d_], g___], 
+        Xp[a_, b_, c_, d_]] := 
+      OPD[f, g, DisorientationIn[d, a], 
+        DisorientationOut[c, b]]\), "\[IndentingNewLine]", 
+    \(DisorientedResolution[OPD[f___, Xn[a_, b_, c_, d_], g___], 
+        Xn[a_, b_, c_, d_]] := 
+      OPD[f, g, DisorientationIn[a, b], DisorientationOut[d, c]]\)}], "Input"],
+
+Cell[BoxData[
+    \(\(vertigoRule = {OPD[f___, DisorientationIn[e_, c_], g___, 
+              Xn[a_, b_, c_, d_], h___] \[RuleDelayed] 
+            OPD[DisorientationIn[c, a], Xp[e, d, c, b], f, g, 
+              h], \[IndentingNewLine]OPD[f___, Xn[a_, b_, c_, d_], g___, 
+              DisorientationIn[e_, c_], h___] \[RuleDelayed] 
+            OPD[DisorientationIn[c, a], Xp[e, d, c, b], f, g, 
+              h], \[IndentingNewLine]OPD[f___, DisorientationIn[e_, c_], 
+              g___, Xp[a_, b_, c_, d_], h___] \[RuleDelayed] 
+            OPD[DisorientationIn[c, a], Xn[e, d, c, b], f, g, 
+              h], \[IndentingNewLine]OPD[f___, Xp[a_, b_, c_, d_], g___, 
+              DisorientationIn[e_, c_], h___] \[RuleDelayed] 
+            OPD[DisorientationIn[c, a], Xn[e, d, c, b], f, g, 
+              h], \[IndentingNewLine]OPD[f___, DisorientationIn[e_, c_], 
+              g___, Xp[b_, c_, d_, a_], h___] \[RuleDelayed] 
+            OPD[DisorientationIn[c, a], Xn[b, e, d, c], f, g, 
+              h], \[IndentingNewLine]OPD[f___, Xp[b_, c_, d_, a_], g___, 
+              DisorientationIn[e_, c_], h___] \[RuleDelayed] 
+            OPD[DisorientationIn[c, a], Xn[b, e, d, c], f, g, 
+              h], \[IndentingNewLine]OPD[f___, DisorientationIn[e_, c_], 
+              g___, Xn[d_, a_, b_, c_], h___] \[RuleDelayed] 
+            OPD[DisorientationIn[c, a], Xp[d, c, b, e], f, g, 
+              h], \[IndentingNewLine]OPD[f___, Xn[d_, a_, b_, c_], g___, 
+              DisorientationIn[e_, c_], h___] \[RuleDelayed] 
+            OPD[DisorientationIn[c, a], Xp[d, c, b, e], f, g, 
+              h]};\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(cancellationRule = {\[IndentingNewLine]OPD[f___, 
+              DisorientationIn[a_, b_], g___, DisorientationOut[c_, b_], 
+              h___] \[RuleDelayed] OPD[f, g, h, Arc[a, c]], 
+          OPD[f___, DisorientationIn[b_, a_], g___, 
+              DisorientationOut[b_, c_], h___] \[RuleDelayed] 
+            OPD[f, g, h, Arc[a, c]], \[IndentingNewLine]OPD[f___, 
+              DisorientationIn[a_, b_], g___, DisorientationOut[b_, c_], 
+              h___] \[RuleDelayed] OPD[f, g, h, Arc[a, c]], 
+          OPD[f___, DisorientationIn[b_, a_], g___, 
+              DisorientationOut[c_, b_], h___] \[RuleDelayed] 
+            OPD[f, g, h, Arc[a, c]]\[IndentingNewLine]};\)\)], "Input"],
+
+Cell["This isn't complete, but I'm not using it anyway:", "Text"],
+
+Cell[BoxData[
+    \(\(arcRemovalRule = {OPD[f___, Arc[a_, b_], g___] /; 
+              a \[NotEqual] b \[RuleDelayed] \((OPD[f, g] /. a \[Rule] b)\), 
+          OPD[f___, Arc[a_, a_], g___] \[RuleDelayed] 
+            OPD[f, g, Loop[a]]};\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(reorientingRules = vertigoRule~Join~cancellationRule;\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(opd = OPD[PD[Knot[3, 1]]]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(opd\\)\\\" is similar to existing symbol \
+\\\"\\!\\(OPD\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \(OPD[Xn[1, 4, 2, 5], Xn[3, 6, 4, 1], Xn[5, 2, 6, 3]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(dis = DisorientedResolution[opd, Xn[5, 2, 6, 3]]\)], "Input"],
+
+Cell[BoxData[
+    \(OPD[Xn[1, 4, 2, 5], Xn[3, 6, 4, 1], DisorientationIn[5, 2], 
+      DisorientationOut[3, 6]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(% //. reorientingRules\)], "Input"],
+
+Cell[BoxData[
+    \(OPD[Xp[3, 1, 4, 2], Xp[5, 5, 2, 4], Arc[1, 3]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(% //. arcRemovalRule\)], "Input"],
+
+Cell[BoxData[
+    \(OPD[Xp[3, 3, 4, 2], Xp[5, 5, 2, 4]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[%]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[2, 2, 3, 1], X[4, 4, 1, 3]]\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\(untwistingRule = {Xp[a_, b_, c_, c_] \[RuleDelayed] Arc[a, b], 
+          Xp[a_, a_, c_, d_] \[RuleDelayed] Arc[d, c], 
+          Xn[a_, b_, b_, d_] \[RuleDelayed] Arc[a, d], 
+          Xn[a_, b_, c_, a_] \[RuleDelayed] Arc[b, c]};\)\)], "Input"],
+
+Cell[BoxData[
+    \(Sanitise[d_OPD] := 
+      d //. reorientingRules~Join~arcRemovalRule~Join~
+          untwistingRule\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Sanitise[dis]\)], "Input"],
+
+Cell[BoxData[
+    \(OPD[Loop[4]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Jones[PD[%]]\)[q]\)], "Input"],
+
+Cell[BoxData[
+    \(1\)], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 713}},
+WindowSize->{1060, 589},
+WindowMargins->{{48, Automatic}, {30, Automatic}},
+ShowSelection->True
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 330, 7, 50, "Input"],
+Cell[2087, 60, 119, 2, 50, "Input"],
+Cell[2209, 64, 76, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[2310, 69, 740, 13, 130, "Input"],
+Cell[3053, 84, 357, 5, 22, "Message"],
+Cell[3413, 91, 441, 6, 37, "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3891, 102, 72, 1, 30, "Input"],
+Cell[3966, 105, 66, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4069, 111, 56, 1, 30, "Input"],
+Cell[4128, 114, 81, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4246, 120, 91, 1, 30, "Input"],
+Cell[4340, 123, 356, 5, 22, "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4733, 133, 49, 1, 30, "Input"],
+Cell[4785, 136, 133, 2, 22, "Message"],
+Cell[4921, 140, 35, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4993, 146, 53, 1, 30, "Input"],
+Cell[5049, 149, 578, 8, 86, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5664, 162, 52, 1, 30, "Input"],
+Cell[5719, 165, 130, 2, 22, "Message"],
+Cell[5852, 169, 133, 2, 22, "Message"],
+Cell[5988, 173, 304, 4, 48, "Output"]
+}, Open  ]],
+Cell[6307, 180, 314, 5, 50, "Input"],
+Cell[6624, 187, 390, 7, 50, "Input"],
+Cell[7017, 196, 1625, 25, 170, "Input"],
+Cell[8645, 223, 712, 11, 130, "Input"],
+Cell[9360, 236, 65, 0, 33, "Text"],
+Cell[9428, 238, 253, 4, 30, "Input"],
+Cell[9684, 244, 90, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[9799, 249, 58, 1, 30, "Input"],
+Cell[9860, 252, 354, 5, 22, "Message"],
+Cell[10217, 259, 85, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10339, 265, 81, 1, 30, "Input"],
+Cell[10423, 268, 125, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10585, 275, 55, 1, 30, "Input"],
+Cell[10643, 278, 80, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10760, 284, 53, 1, 30, "Input"],
+Cell[10816, 287, 69, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10922, 293, 38, 1, 30, "Input"],
+Cell[10963, 296, 66, 1, 29, "Output"]
+}, Open  ]],
+Cell[11044, 300, 268, 4, 30, "Input"],
+Cell[11315, 306, 132, 3, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[11472, 313, 46, 1, 30, "Input"],
+Cell[11521, 316, 46, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[11604, 322, 52, 1, 30, "Input"],
+Cell[11659, 325, 35, 1, 29, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

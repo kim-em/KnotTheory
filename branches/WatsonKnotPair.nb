@@ -1,0 +1,1910 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     55378,       1518]*)
+(*NotebookOutlinePosition[     56043,       1541]*)
+(*  CellTagsIndexPosition[     55999,       1537]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+    \(\(KnotTheoryPath = "\<C:\\Program Files\\Wolfram \
+Research\\Mathematica\\5.1\\AddOns\\\>";\)\), "\[IndentingNewLine]", 
+    \(\(AppendTo[$Path, KnotTheoryPath];\)\), "\[IndentingNewLine]", 
+    \(<< KnotTheory`\)}], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(Get::"noopen"\), \(\(:\)\(\ \)\), "\<\"Cannot open \
+\\!\\(\\\"KnotTheory`\\\"\\). \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::noopen\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \($Failed\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(SetAttributes[Diagram, {Flat, Orderless}]\)], "Input"],
+
+Cell[BoxData[
+    \(SetAttributes[DebugPrint, HoldAll]\)], "Input"],
+
+Cell[BoxData[
+    \(DebugPrint[p_] := If[$debug, Print[p]]\)], "Input"],
+
+Cell[BoxData[
+    \(RotateTangle[Tangle[boundary_, interior_Diagram], n_] := 
+      Tangle[RotateLeft[boundary, n], interior]\)], "Input"],
+
+Cell[BoxData[
+    \(RotateTangle[t_Tangle] := RotateTangle[t, 1]\)], "Input"],
+
+Cell[BoxData[
+    \(JoinTangle[Tangle[boundary1_, interior1_Diagram], 
+        Tangle[boundary2_, interior2_Diagram]] := 
+      Tangle[Join[boundary1, boundary2], 
+        Join[interior1, interior2]]\)], "Input"],
+
+Cell[BoxData[
+    \(OrientationOfFirstPoint[Tangle[boundary_, interior_Diagram]] := 
+      With[\[IndentingNewLine]{d = 
+            boundary[\([1]\)]}, \[IndentingNewLine]If[\(! FreeQ[interior, \ 
+              Arc[_, d] | Xp[_, d, _, _] | Xp[_, _, d, _] | Xn[_, _, d, _] | 
+                Xn[_, _, _, d]]\), 1, \(-1\)]]\)], "Input"],
+
+Cell[BoxData[
+    \(OrientationOfNPoint[Tangle[boundary_, interior_Diagram], n_] := 
+      With[\[IndentingNewLine]{d = 
+            boundary[\([n]\)]}, \[IndentingNewLine]If[\(! FreeQ[interior, \ 
+              Arc[_, d] | Xp[_, d, _, _] | Xp[_, _, d, _] | Xn[_, _, d, _] | 
+                Xn[_, _, _, d]]\), 1, \(-1\)]]\)], "Input"],
+
+Cell[BoxData[
+    \(SewTangle[Tangle[boundary_, interior_Diagram]] := 
+      Module[\[IndentingNewLine]{newArc}, \[IndentingNewLine]newArc = 
+          If[OrientationOfFirstPoint[Tangle[boundary, interior]] == 
+              1, \[IndentingNewLine]Arc[boundary[\([1]\)], 
+              boundary[\([\(-1\)]\)]], \[IndentingNewLine]Arc[
+              boundary[\([\(-1\)]\)], 
+              boundary[\([1]\)]]]; \[IndentingNewLine]Tangle[
+          Take[boundary, {2, \(-2\)}], Append[interior, newArc]]]\)], "Input"],
+
+Cell[BoxData[
+    \(SewTangle[t_Tangle, n_Integer] := 
+      RotateTangle[
+        Nest[RotateTangle[SewTangle[#], \(-1\)] &, t, n]]\)], "Input"],
+
+Cell[BoxData[
+    \(NumberOfBoundaryPoints[Tangle[boundary_, _]] := 
+      Length[boundary]\)], "Input"],
+
+Cell[BoxData[
+    \(StitchTangles[t1_Tangle, t2_Tangle, n_] := \[IndentingNewLine]SewTangle[
+        JoinTangle[t1, RotateTangle[t2, n]], n]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(SimplifyTangle[t_Tangle] := 
+      Module[\[IndentingNewLine]{diagram}, \[IndentingNewLine]diagram = 
+          t[\([2]\)]; \[IndentingNewLine]diagram = 
+          diagram //. {Diagram[Arc[a_, b_], Arc[b_, c_]] \[RuleDelayed] 
+                Arc[a, c], 
+              Diagram[Arc[a_, b_], Xn[c_, b_, e_, f_]] \[RuleDelayed] 
+                Xn[c, a, e, f], 
+              Diagram[Arc[a_, b_], Xp[c_, d_, e_, b_]] \[RuleDelayed] 
+                Xp[c, d, e, a], 
+              Diagram[Arc[b_, a_], Xp[c_, b_, e_, f_]] \[RuleDelayed] 
+                Xp[c, a, e, f], 
+              Diagram[Arc[b_, a_], Xn[c_, d_, e_, b_]] \[RuleDelayed] 
+                Xn[c, d, e, a], 
+              Diagram[Arc[a_, b_], Xp[b_, d_, e_, f_]] \[RuleDelayed] 
+                Xp[a, d, e, f], 
+              Diagram[Arc[a_, b_], Xn[b_, d_, e_, f_]] \[RuleDelayed] 
+                Xn[a, d, e, f], 
+              Diagram[Arc[b_, a_], Xn[c_, d_, b_, f_]] \[RuleDelayed] 
+                Xn[c, d, a, f], 
+              Diagram[Arc[b_, a_], Xp[c_, d_, b_, f_]] \[RuleDelayed] 
+                Xp[c, d, a, f]}; \[IndentingNewLine]Tangle[t[\([1]\)], 
+          diagram]\[IndentingNewLine]]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(diagram\\)\\\" is similar to existing symbol \
+\\\"\\!\\(Diagram\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(ComposeNNTangles[t1_, t2_, t3__] := 
+      ComposeNNTangles[ComposeNNTangles[t1, t2], t3]\)], "Input"],
+
+Cell[BoxData[
+    \(ComposeNNTangles[t1_Tangle, t2_Tangle] := 
+      With[{k = NumberOfBoundaryPoints[t2]/2}, 
+        StitchTangles[t1, RotateTangle[t2, k], k]]\)], "Input"],
+
+Cell[BoxData[
+    \(TraceNNTangle[t_Tangle] := 
+      SewTangle[t, NumberOfBoundaryPoints[t]/2]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Writhe[Tangle[_, interior_Diagram]] := 
+      Count[interior, _Xp] - Count[interior, _Xn]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(Writhe\\)\\\" is similar to existing symbol \
+\\\"\\!\\(Write\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(AddStrandToNNTangle[t_Tangle] := 
+      Module[\[IndentingNewLine]{k, a, b}, \[IndentingNewLine]k = 
+          NumberOfBoundaryPoints[t]/2; \[IndentingNewLine]RotateTangle[
+          JoinTangle[RotateTangle[t, k], Tangle[{a, b}, Diagram[Arc[b, a]]]], 
+          k]]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(AddStrandsToNNTangle[t_Tangle, n_Integer] := 
+      Nest[AddStrandToNNTangle, t, n]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(AddStrandsToNNTangle\\)\\\" is similar to \
+existing symbol \\\"\\!\\(AddStrandToNNTangle\\)\\\". \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], \
+"Message"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(CutTangle[Tangle[{}, interior_Diagram]] := 
+      Module[\[IndentingNewLine]{cutpoint, newinterior, 
+          l}, \[IndentingNewLine]cutpoint = 
+          First[First[interior]]; \[IndentingNewLine]newinterior = 
+          interior; \[IndentingNewLine]newinterior[\([1, 1]\)] = 
+          l; \[IndentingNewLine]Tangle[{cutpoint, l}, 
+          newinterior]]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[Tangle[boundary : {__}, interior_Diagram]] := 
+      Module[\[IndentingNewLine]{i, current, \ next, replacements = {}, \ 
+          n = 0, d, cases}, \[IndentingNewLine]For\ [i = 1, \ 
+          i \[LessEqual] Length[boundary], \(i++\), \[IndentingNewLine]d = 
+            boundary[\([i]\)]; \[IndentingNewLine]Print["\<d: \>", 
+            d, "\< cases: \>", 
+            Cases[interior, \ 
+              Arc[_, d] | Xp[_, d, _, _] | Xp[_, _, d, _] | Xn[_, _, d, _] | 
+                Xn[_, _, _, d]]]; \[IndentingNewLine]If[\(! FreeQ[interior, \ 
+                Arc[_, d] | Xp[_, d, _, _] | Xp[_, _, d, _] | 
+                  Xn[_, _, d, _] | Xn[_, _, _, d]]\), \ 
+            Continue[]]; \[IndentingNewLine]current = 
+            d; \[IndentingNewLine]Print["\<starting at: \>", 
+            current]; \[IndentingNewLine]While[\[IndentingNewLine]cases = 
+              Cases[interior, \ 
+                Arc[current, n_] | Xp[current, _, n_, _] | 
+                    Xp[_, n_, _, current] | Xn[current, _, n_, _] | 
+                    Xn[_, current, _, n_] \[RuleDelayed] 
+                  n]; \[IndentingNewLine]If[Length[cases] \[Equal] 0, 
+              Print["\<current = \>", current, "\<  interior = \>", 
+                interior]; Return[$Failed]]; \[IndentingNewLine]next = 
+              cases\[LeftDoubleBracket]1\[RightDoubleBracket]; \
+\[IndentingNewLine]\(! MemberQ[boundary, 
+                next]\), \[IndentingNewLine]Print["\<current: \>", \ 
+              current, "\<  next: \>", \ next]; \[IndentingNewLine]AppendTo[
+              replacements, 
+              current \[Rule] \(++n\)]; \[IndentingNewLine]current = 
+              next;\[IndentingNewLine]]; \[IndentingNewLine]Print["\<reached \
+boundary: \>", next]; \[IndentingNewLine]AppendTo[replacements, 
+            current \[Rule] \(++n\)]; \[IndentingNewLine]AppendTo[
+            replacements, next \[Rule] \(++n\)]; \[IndentingNewLine]n += 
+            100\[IndentingNewLine]]; \[IndentingNewLine]PD @@ \((\(interior /. 
+                replacements\) /. {Xn \[Rule] X, Xp \[Rule] X, 
+                Arc \[Rule] P})\)]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(next\\)\\\" is similar to existing symbol \\\
+\"\\!\\(Next\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(cases\\)\\\" is similar to existing symbol \
+\\\"\\!\\(Cases\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ct\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{a, l$62}, 
+      Diagram[Arc[a$44, a$48[0, 3]], Arc[a$47, f], Arc[b, a], 
+        Arc[b$44, a$44], Arc[b$47, a$47], Arc[b$47, g], Arc[c, d], Arc[d, c], 
+        Arc[e, f], Arc[g, h], Arc[h, b], Arc[l$62, a$45[0, 3]], 
+        Arc[a$45[0, 1], a$45[0, 2]], Arc[a$45[4, 1], a$45[4, 2]], 
+        Arc[a$45[4, 3], e], Arc[a$48[0, 1], a$48[0, 2]], 
+        Arc[a$48[4, 1], a$48[4, 2]], Arc[a$48[4, 3], b$44], 
+        Xn[a$45[0, 2], a$45[0, 3], a$45[1, 3], a$45[1, 2]], 
+        Xn[a$45[2, 2], a$45[1, 3], a$45[3, 3], a$45[3, 2]], 
+        Xn[a$45[3, 2], a$45[3, 3], a$45[4, 3], a$45[4, 2]], 
+        Xn[a$48[0, 1], a$48[2, 2], a$48[3, 2], a$48[4, 1]], 
+        Xp[a$45[1, 2], a$45[2, 2], a$45[4, 1], a$45[0, 1]], 
+        Xp[a$48[0, 3], a$48[1, 3], a$48[1, 2], a$48[0, 2]], 
+        Xp[a$48[1, 3], a$48[3, 3], a$48[2, 2], a$48[1, 2]], 
+        Xp[a$48[3, 3], a$48[4, 3], a$48[4, 2], a$48[3, 2]]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[ct]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[\("d: "\[InvisibleSpace]a\[InvisibleSpace]" cases: "\
+\[InvisibleSpace]{Arc[b, a]}\),
+      SequenceForm[ "d: ", a, " cases: ", {
+        Arc[ b, a]}],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("d: "\[InvisibleSpace]l$62\[InvisibleSpace]" cases: "\
+\[InvisibleSpace]{}\),
+      SequenceForm[ "d: ", l$62, " cases: ", {}],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("starting at: "\[InvisibleSpace]l$62\),
+      SequenceForm[ "starting at: ", l$62],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("current: "\[InvisibleSpace]l$62\[InvisibleSpace]"  \
+next: "\[InvisibleSpace]a$45[0, 3]\),
+      SequenceForm[ "current: ", l$62, "  next: ", 
+        a$45[ 0, 3]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("current: "\[InvisibleSpace]a$45[0, 
+          3]\[InvisibleSpace]"  next: "\[InvisibleSpace]a$45[1, 2]\),
+      SequenceForm[ "current: ", 
+        a$45[ 0, 3], "  next: ", 
+        a$45[ 1, 2]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("current: "\[InvisibleSpace]a$45[1, 
+          2]\[InvisibleSpace]"  next: "\[InvisibleSpace]a$45[4, 1]\),
+      SequenceForm[ "current: ", 
+        a$45[ 1, 2], "  next: ", 
+        a$45[ 4, 1]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("current: "\[InvisibleSpace]a$45[4, 
+          1]\[InvisibleSpace]"  next: "\[InvisibleSpace]a$45[4, 2]\),
+      SequenceForm[ "current: ", 
+        a$45[ 4, 1], "  next: ", 
+        a$45[ 4, 2]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("current = "\[InvisibleSpace]a$45[4, 
+          2]\[InvisibleSpace]"  interior = "\[InvisibleSpace]Diagram[
+          Arc[a$44, a$48[0, 3]], Arc[a$47, f], Arc[b, a], Arc[b$44, a$44], 
+          Arc[b$47, a$47], Arc[b$47, g], Arc[c, d], Arc[d, c], Arc[e, f], 
+          Arc[g, h], Arc[h, b], Arc[l$62, a$45[0, 3]], 
+          Arc[a$45[0, 1], a$45[0, 2]], Arc[a$45[4, 1], a$45[4, 2]], 
+          Arc[a$45[4, 3], e], Arc[a$48[0, 1], a$48[0, 2]], 
+          Arc[a$48[4, 1], a$48[4, 2]], Arc[a$48[4, 3], b$44], 
+          Xn[a$45[0, 2], a$45[0, 3], a$45[1, 3], a$45[1, 2]], 
+          Xn[a$45[2, 2], a$45[1, 3], a$45[3, 3], a$45[3, 2]], 
+          Xn[a$45[3, 2], a$45[3, 3], a$45[4, 3], a$45[4, 2]], 
+          Xn[a$48[0, 1], a$48[2, 2], a$48[3, 2], a$48[4, 1]], 
+          Xp[a$45[1, 2], a$45[2, 2], a$45[4, 1], a$45[0, 1]], 
+          Xp[a$48[0, 3], a$48[1, 3], a$48[1, 2], a$48[0, 2]], 
+          Xp[a$48[1, 3], a$48[3, 3], a$48[2, 2], a$48[1, 2]], 
+          Xp[a$48[3, 3], a$48[4, 3], a$48[4, 2], a$48[3, 2]]]\),
+      SequenceForm[ "current = ", 
+        a$45[ 4, 2], "  interior = ", 
+        Diagram[ 
+          Arc[ a$44, 
+            a$48[ 0, 3]], 
+          Arc[ a$47, f], 
+          Arc[ b, a], 
+          Arc[ b$44, a$44], 
+          Arc[ b$47, a$47], 
+          Arc[ b$47, g], 
+          Arc[ c, d], 
+          Arc[ d, c], 
+          Arc[ e, f], 
+          Arc[ g, h], 
+          Arc[ h, b], 
+          Arc[ l$62, 
+            a$45[ 0, 3]], 
+          Arc[ 
+            a$45[ 0, 1], 
+            a$45[ 0, 2]], 
+          Arc[ 
+            a$45[ 4, 1], 
+            a$45[ 4, 2]], 
+          Arc[ 
+            a$45[ 4, 3], e], 
+          Arc[ 
+            a$48[ 0, 1], 
+            a$48[ 0, 2]], 
+          Arc[ 
+            a$48[ 4, 1], 
+            a$48[ 4, 2]], 
+          Arc[ 
+            a$48[ 4, 3], b$44], 
+          Xn[ 
+            a$45[ 0, 2], 
+            a$45[ 0, 3], 
+            a$45[ 1, 3], 
+            a$45[ 1, 2]], 
+          Xn[ 
+            a$45[ 2, 2], 
+            a$45[ 1, 3], 
+            a$45[ 3, 3], 
+            a$45[ 3, 2]], 
+          Xn[ 
+            a$45[ 3, 2], 
+            a$45[ 3, 3], 
+            a$45[ 4, 3], 
+            a$45[ 4, 2]], 
+          Xn[ 
+            a$48[ 0, 1], 
+            a$48[ 2, 2], 
+            a$48[ 3, 2], 
+            a$48[ 4, 1]], 
+          Xp[ 
+            a$45[ 1, 2], 
+            a$45[ 2, 2], 
+            a$45[ 4, 1], 
+            a$45[ 0, 1]], 
+          Xp[ 
+            a$48[ 0, 3], 
+            a$48[ 1, 3], 
+            a$48[ 1, 2], 
+            a$48[ 0, 2]], 
+          Xp[ 
+            a$48[ 1, 3], 
+            a$48[ 3, 3], 
+            a$48[ 2, 2], 
+            a$48[ 1, 2]], 
+          Xp[ 
+            a$48[ 3, 3], 
+            a$48[ 4, 3], 
+            a$48[ 4, 2], 
+            a$48[ 3, 2]]]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    InterpretationBox[\("reached boundary: "\[InvisibleSpace]a$45[4, 2]\),
+      SequenceForm[ "reached boundary: ", 
+        a$45[ 4, 2]],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    \(PD[P[1, 2], P[4, 5], P[a$44, a$48[0, 3]], P[a$47, f], P[b, a], 
+      P[b$44, a$44], P[b$47, a$47], P[b$47, g], P[c, d], P[d, c], P[e, f], 
+      P[g, h], P[h, b], P[a$45[0, 1], a$45[0, 2]], P[a$45[4, 3], e], 
+      P[a$48[0, 1], a$48[0, 2]], P[a$48[4, 1], a$48[4, 2]], 
+      P[a$48[4, 3], b$44], X[3, a$45[2, 2], 4, a$45[0, 1]], 
+      X[a$45[0, 2], 2, a$45[1, 3], 3], 
+      X[a$45[2, 2], a$45[1, 3], a$45[3, 3], a$45[3, 2]], 
+      X[a$45[3, 2], a$45[3, 3], a$45[4, 3], 5], 
+      X[a$48[0, 1], a$48[2, 2], a$48[3, 2], a$48[4, 1]], 
+      X[a$48[0, 3], a$48[1, 3], a$48[1, 2], a$48[0, 2]], 
+      X[a$48[1, 3], a$48[3, 3], a$48[2, 2], a$48[1, 2]], 
+      X[a$48[3, 3], a$48[4, 3], a$48[4, 2], a$48[3, 2]]]\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(ClosePD[pd_PD] := 
+      Module[{labels, boundary}, \[IndentingNewLine]labels = 
+          Union[Flatten[\(List @@ # &\) /@ \((List @@ 
+                    pd)\)]]; \[IndentingNewLine]boundary = 
+          Select[labels, Count[pd, #, 2] \[Equal] 1 &]; \[IndentingNewLine]If[
+          Length[boundary] \[NotEqual] 2, 
+          Return[$Failed]]; \[IndentingNewLine]pd~Join~
+          PD[P @@ boundary]]\)], "Input"],
+
+Cell[BoxData[
+    \(InverseBR[BR[n_, crossings_List]] := 
+      BR[n, Reverse[\(-crossings\)]]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[t : Tangle[{}, _Diagram]] := ClosePD[PD[CutTangle[t]]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[BR[n_, crossings_]] := 
+      Module[{a, boundary, interior, k, 
+          c}, \[IndentingNewLine]boundary = \[IndentingNewLine]Table[
+              a[Length[crossings], j], {j, n, 1, \(-1\)}]~Join~
+            Table[a[0, j], {j, 1, n}]; \[IndentingNewLine]interior = 
+          Diagram @@ 
+            Flatten[Table[
+                Arc[a[i, j], a[i + 1, j]], {j, 1, n}, {i, 0, 
+                  Length[crossings] - 1}]]; \[IndentingNewLine]For[k = 1, 
+          k \[LessEqual] Length[crossings], \(++k\), \[IndentingNewLine]c = 
+            Abs[crossings\[LeftDoubleBracket]
+                k\[RightDoubleBracket]]; \[IndentingNewLine]interior = 
+            interior /. 
+              Diagram[Arc[a[k - 1, c], a[k, c]], 
+                  Arc[a[k - 1, c + 1], 
+                    a[k, c + 1]]] \[RuleDelayed] \[IndentingNewLine]If[
+                  crossings\[LeftDoubleBracket]k\[RightDoubleBracket] > 
+                    0, \[IndentingNewLine]Diagram[
+                    Xp[a[k - 1, c + 1], a[k, c + 1], a[k, c], 
+                      a[k - 1, c]]], \[IndentingNewLine]Diagram[
+                    Xn[a[k - 1, c], a[k - 1, c + 1], a[k, c + 1], 
+                      a[k, c]]]\[IndentingNewLine]]\[IndentingNewLine]]; \
+\[IndentingNewLine]SimplifyTangle[Tangle[boundary, interior]]]\)], "Input"],
+
+Cell[BoxData[
+    \(AddCrossingNNTangleT[t_Tangle] := 
+      Module[\[IndentingNewLine]{a, b, c, d, ft, fp, 
+          lp}, \[IndentingNewLine]fp = 
+          OrientationOfFirstPoint[t]; \[IndentingNewLine]lp = 
+          OrientationOfNPoint[t, 4]; \[IndentingNewLine]If[
+          fp \[Equal] 1 && lp \[Equal] 1, 
+          ft = JoinTangle[
+              Tangle[{d, a}, 
+                Diagram[Arc[First[t[\([1]\)]], b], Arc[Last[t[\([1]\)]], c], 
+                  Xn[b, c, d, a]]], t]]; \[IndentingNewLine]If[
+          fp \[Equal] 1 && lp \[Equal] \(-1\), \[IndentingNewLine]ft = 
+            JoinTangle[
+              Tangle[{d, a}, 
+                Diagram[Arc[First[t[\([1]\)]], b], Arc[c, Last[t[\([1]\)]]], 
+                  Xp[b, c, d, a]]], t]]; \[IndentingNewLine]If[
+          fp \[Equal] \(-1\) && lp \[Equal] 1, \[IndentingNewLine]ft = 
+            JoinTangle[
+              Tangle[{d, a}, 
+                Diagram[Arc[b, First[t[\([1]\)]]], Arc[Last[t[\([1]\)]], c], 
+                  Xp[d, a, b, c]]], t]]; \[IndentingNewLine]If[
+          fp \[Equal] \(-1\) && lp \[Equal] \(-1\), 
+          ft = JoinTangle[
+              Tangle[{d, a}, 
+                Diagram[Arc[b, First[t[\([1]\)]]], Arc[c, Last[t[\([1]\)]]], 
+                  Xn[d, a, b, c]]], t]]; \[IndentingNewLine]ft = 
+          RotateTangle[ft, 2]; \[IndentingNewLine]ft = 
+          Tangle[Drop[ft[\([1]\)], 1], \ 
+            ft[\([2]\)]]; \[IndentingNewLine]ft = 
+          RotateTangle[ft, \(-2\)]; \[IndentingNewLine]ft = 
+          Tangle[Drop[ft[\([1]\)], \(-1\)], \ 
+            ft[\([2]\)]]; \[IndentingNewLine]ft = 
+          RotateTangle[ft, 1]; \[IndentingNewLine]SimplifyTangle[
+          ft]\[IndentingNewLine]]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(AddCrossingNNTangleU[t_Tangle] := 
+      Module[\[IndentingNewLine]{a, b, c, d, ft, fp, lp, 
+          x}, \[IndentingNewLine]fp = 
+          OrientationOfNPoint[t, 2]; \[IndentingNewLine]lp = 
+          OrientationOfNPoint[t, 3]; \[IndentingNewLine]If[
+          fp \[Equal] 1 && lp \[Equal] 1, 
+          ft = JoinTangle[t, 
+              Tangle[{b, c}, 
+                Diagram[Arc[t[\([1, 2]\)], a], Arc[t[\([1, 3]\)], d], 
+                  Xp[a, b, c, d]]]]]; \[IndentingNewLine]If[
+          fp \[Equal] 1 && lp \[Equal] \(-1\), 
+          ft = JoinTangle[t, 
+              Tangle[{b, c}, 
+                Diagram[Arc[t[\([1, 2]\)], a], Arc[d, t[\([1, 3]\)]], 
+                  Xn[a, b, c, d]]]]]; \[IndentingNewLine]If[
+          fp \[Equal] \(-1\) && lp \[Equal] 1, 
+          ft = JoinTangle[t, 
+              Tangle[{b, c}, 
+                Diagram[Arc[a, t[\([1, 2]\)]], Arc[t[\([1, 3]\)], d], 
+                  Xn[c, d, a, b]]]]]; \[IndentingNewLine]If[
+          fp \[Equal] \(-1\) && lp \[Equal] \(-1\), 
+          ft = JoinTangle[t, 
+              Tangle[{b, c}, 
+                Diagram[Arc[a, t[\([1, 2]\)]], Arc[d, t[\([1, 3]\)]], 
+                  Xp[c, d, a, b]]]]]; \[IndentingNewLine]x = 
+          ft[\([1, 4]\)]; \[IndentingNewLine]ft = 
+          RotateTangle[ft, 1]; \[IndentingNewLine]ft = 
+          Tangle[Drop[ft[\([1]\)], 3], \ 
+            ft[\([2]\)]]; \[IndentingNewLine]ft = 
+          RotateTangle[ft, \(-1\)]; \[IndentingNewLine]ft = 
+          Tangle[Append[ft[\([1]\)], x], 
+            ft[\([2]\)]]; \[IndentingNewLine]SimplifyTangle[
+          ft]\[IndentingNewLine]]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(AddCrossingNNTangleU\\)\\\" is similar to \
+existing symbol \\\"\\!\\(AddCrossingNNTangleT\\)\\\". \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], \
+"Message"]
+}, Open  ]],
+
+Cell[BoxData[
+    \( (*\[IndentingNewLine]Test\ data\ below\[IndentingNewLine]*) \)], \
+"Input"],
+
+Cell[BoxData[
+    \(WatsonKnot[T_Tangle, U_Tangle, b_BR] /; 
+        Writhe[T] \[Equal] \(-Writhe[U]\) := 
+      Module[\[IndentingNewLine]{}, \[IndentingNewLine]Print[
+          AddStrandToNNTangle[T]]; \[IndentingNewLine]Print[
+          AddStrandToNNTangle[U]]; \[IndentingNewLine]Print[
+          Show[BraidPlot[b]]]; \[IndentingNewLine]Print[
+          Show[BraidPlot[InverseBR[b]]]]; \[IndentingNewLine]Print[
+          ComposeNNTangles[AddStrandToNNTangle[T], Tangle[b], 
+            AddStrandToNNTangle[U], 
+            Tangle[InverseBR[b]]]]; \[IndentingNewLine]TraceNNTangle[
+          ComposeNNTangles[AddStrandToNNTangle[T], Tangle[b], 
+            AddStrandToNNTangle[U], 
+            Tangle[InverseBR[b]]]]\[IndentingNewLine]]\)], "Input"],
+
+Cell[BoxData[
+    \(WatsonKnot[T_Tangle, U_Tangle, b_BR] /; 
+        Writhe[T] \[Equal] \(-Writhe[U]\) := 
+      TraceNNTangle[
+        ComposeNNTangles[AddStrandToNNTangle[T], Tangle[b], 
+          AddStrandToNNTangle[U], Tangle[InverseBR[b]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(WatsonKnotPair[T_Tangle, U_Tangle, b_BR] /; 
+        Writhe[T] \[Equal] \(-Writhe[U]\) := 
+      TraceNNTangle[
+        ComposeNNTangles[AddStrandToNNTangle[AddCrossingNNTangleT[T]], 
+          Tangle[b], AddStrandToNNTangle[AddCrossingNNTangleU[U]], 
+          Tangle[InverseBR[b]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(\(T = Tangle[{a, b, c, d}, Diagram[Arc[b, a], Arc[d, c]]];\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(U = Tangle[{e, f, g, h}, Diagram[Arc[e, f], Arc[g, h]]];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(B = BR[3, {\(-2\), 1, \(-2\), \(-2\)}]\)], "Input"],
+
+Cell[BoxData[
+    \(BR[3, {\(-2\), 1, \(-2\), \(-2\)}]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Show[BraidPlot[B]]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(Show::"gtype"\), \(\(:\)\(\ \)\), "\<\"\\!\\(BraidPlot\\) is \
+not a type of graphics. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"Show::gtype\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \(Show[BraidPlot[BR[3, {\(-2\), 1, \(-2\), \(-2\)}]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(WatsonKnot[T, U, B]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{}, 
+      Diagram[Arc[a, a$27[0, 3]], Arc[a$26, a$30[0, 3]], Arc[a$29, f], 
+        Arc[b, a], Arc[b$26, a$26], Arc[b$29, a$29], Arc[b$29, g], Arc[c, d], 
+        Arc[d, c], Arc[e, f], Arc[g, h], Arc[h, b], 
+        Arc[a$27[0, 1], a$27[0, 2]], Arc[a$27[4, 1], a$27[4, 2]], 
+        Arc[a$27[4, 3], e], Arc[a$30[0, 1], a$30[0, 2]], 
+        Arc[a$30[4, 1], a$30[4, 2]], Arc[a$30[4, 3], b$26], 
+        Xn[a$27[0, 2], a$27[0, 3], a$27[1, 3], a$27[1, 2]], 
+        Xn[a$27[2, 2], a$27[1, 3], a$27[3, 3], a$27[3, 2]], 
+        Xn[a$27[3, 2], a$27[3, 3], a$27[4, 3], a$27[4, 2]], 
+        Xn[a$30[0, 1], a$30[2, 2], a$30[3, 2], a$30[4, 1]], 
+        Xp[a$27[1, 2], a$27[2, 2], a$27[4, 1], a$27[0, 1]], 
+        Xp[a$30[0, 3], a$30[1, 3], a$30[1, 2], a$30[0, 2]], 
+        Xp[a$30[1, 3], a$30[3, 3], a$30[2, 2], a$30[1, 2]], 
+        Xp[a$30[3, 3], a$30[4, 3], a$30[4, 2], a$30[3, 2]]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ct = CutTangle[WatsonKnot[T, U, B]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{a, l$62}, 
+      Diagram[Arc[a$44, a$48[0, 3]], Arc[a$47, f], Arc[b, a], 
+        Arc[b$44, a$44], Arc[b$47, a$47], Arc[b$47, g], Arc[c, d], Arc[d, c], 
+        Arc[e, f], Arc[g, h], Arc[h, b], Arc[l$62, a$45[0, 3]], 
+        Arc[a$45[0, 1], a$45[0, 2]], Arc[a$45[4, 1], a$45[4, 2]], 
+        Arc[a$45[4, 3], e], Arc[a$48[0, 1], a$48[0, 2]], 
+        Arc[a$48[4, 1], a$48[4, 2]], Arc[a$48[4, 3], b$44], 
+        Xn[a$45[0, 2], a$45[0, 3], a$45[1, 3], a$45[1, 2]], 
+        Xn[a$45[2, 2], a$45[1, 3], a$45[3, 3], a$45[3, 2]], 
+        Xn[a$45[3, 2], a$45[3, 3], a$45[4, 3], a$45[4, 2]], 
+        Xn[a$48[0, 1], a$48[2, 2], a$48[3, 2], a$48[4, 1]], 
+        Xp[a$45[1, 2], a$45[2, 2], a$45[4, 1], a$45[0, 1]], 
+        Xp[a$48[0, 3], a$48[1, 3], a$48[1, 2], a$48[0, 2]], 
+        Xp[a$48[1, 3], a$48[3, 3], a$48[2, 2], a$48[1, 2]], 
+        Xp[a$48[3, 3], a$48[4, 3], a$48[4, 2], a$48[3, 2]]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(CutTangle[%]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{a, l$70}, 
+      Diagram[Arc[a$52, a$56[0, 3]], Arc[a$55, f], Arc[b, a], 
+        Arc[b$52, a$52], Arc[b$55, a$55], Arc[b$55, g], Arc[c, d], Arc[d, c], 
+        Arc[e, f], Arc[g, h], Arc[h, b], Arc[l$70, a$53[0, 3]], 
+        Arc[a$53[0, 1], a$53[0, 2]], Arc[a$53[4, 1], a$53[4, 2]], 
+        Arc[a$53[4, 3], e], Arc[a$56[0, 1], a$56[0, 2]], 
+        Arc[a$56[4, 1], a$56[4, 2]], Arc[a$56[4, 3], b$52], 
+        Xn[a$53[0, 2], a$53[0, 3], a$53[1, 3], a$53[1, 2]], 
+        Xn[a$53[2, 2], a$53[1, 3], a$53[3, 3], a$53[3, 2]], 
+        Xn[a$53[3, 2], a$53[3, 3], a$53[4, 3], a$53[4, 2]], 
+        Xn[a$56[0, 1], a$56[2, 2], a$56[3, 2], a$56[4, 1]], 
+        Xp[a$53[1, 2], a$53[2, 2], a$53[4, 1], a$53[0, 1]], 
+        Xp[a$56[0, 3], a$56[1, 3], a$56[1, 2], a$56[0, 2]], 
+        Xp[a$56[1, 3], a$56[3, 3], a$56[2, 2], a$56[1, 2]], 
+        Xp[a$56[3, 3], a$56[4, 3], a$56[4, 2], a$56[3, 2]]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[%]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(Part::"partw"\), \(\(:\)\(\ \)\), "\<\"Part \\!\\(1\\) of \
+\\!\\({}\\) does not exist. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::partw\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(Part::"partw"\), \(\(:\)\(\ \)\), "\<\"Part \\!\\(1\\) of \
+\\!\\({}\\) does not exist. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::partw\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(Part::"partw"\), \(\(:\)\(\ \)\), "\<\"Part \\!\\(1\\) of \
+\\!\\({}\\) does not exist. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::partw\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(General::"stop"\), \(\(:\)\(\ \)\), "\<\"Further output of \
+\\!\\(Part :: \\\"partw\\\"\\) will be suppressed during this calculation. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::stop\\\"]\\)\"\>"}]], \
+"Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(g\)], "Input"],
+
+Cell[BoxData[
+    \(g\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(WatsonKnotPair[T, U, b]\)], "Input"],
+
+Cell[BoxData[
+    \({Tangle[{}, 
+        Diagram[Arc[b$105, a$168[1, 1]], Arc[a$163[0, 3], a$168[1, 3]], 
+          Xn[a$165, a$168[1, 2], c$165, a$165], 
+          Xn[a$163[1, 1], a$163[1, 2], a$168[1, 2], a$168[1, 1]], 
+          Xp[b$160, b$160, a$168[1, 3], a$163[0, 3]], 
+          Xp[c$165, a$163[1, 2], a$163[1, 1], b$105]]], 0}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(AddCrossingNNTangleT[
+      Tangle[{a, b, c, d}, Diagram[Xp[a, b, c, d]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{a$76, b, c, d$76}, 
+      Diagram[Xn[d$76, a$76, b$76, c$76], Xp[b$76, b, c, c$76]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(AddCrossingNNTangleU[
+      Tangle[{a, b, c, d}, Diagram[Arc[a, b], Arc[c, d]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{a, b, c, d, b$97, c$97}, 
+      Diagram[Arc[a, b], Arc[b, a$97], Arc[c, d], Arc[d$97, c], 
+        Xn[a$97, b$97, c$97, d$97]]]\)], "Print"],
+
+Cell[BoxData[
+    \(Tangle[{b$97, c$97, a}, 
+      Diagram[Arc[a, b], Arc[b, a$97], Arc[c, d], Arc[d$97, c], 
+        Xn[a$97, b$97, c$97, d$97]]]\)], "Print"],
+
+Cell[BoxData[
+    \(Tangle[{a, b$97, c$97, d}, Xn[a, b$97, c$97, d]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(SimplifyTangle[%]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{a$72, b, c, d$72}, 
+      Diagram[Xn[d$72, a$72, b$72, c$72], Xp[b$72, b, c, c$72]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Sort /@ \((PD[
+            Tangle[{c, d, a, i, h, b}, 
+              Diagram[Xn[c, d, f, b], Xp[g, i, h, e], 
+                Xp[a, g, e, f]]]] \[Equal] 
+          PD[X[1, 105, 2, 106], X[207, 3, 208, 2], 
+            X[3, 209, 4, 208]])\)\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[Tangle[{a, c, e, b}, Diagram[Arc[a, b], Arc[c, e]]]] \[Equal] 
+      PD[P[1, 2], P[103, 104]]\)], "Input"],
+
+Cell[BoxData[
+    \(True\)], "Output"]
+}, Open  ]],
+
+Cell["This is an example with a closed component.", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[Tangle[{a, d}, Diagram[Xp[a, c, e, b], Xp[c, d, b, e]]]] \[Equal] 
+      PD[X[1, 4, 2, 5], X[4, 3, 5, 2]]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[1, c, 2, b], X[c, 3, b, 2]] \[Equal] 
+      PD[X[1, 4, 2, 5], X[4, 3, 5, 2]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[Tangle[{u, aa, t, e, a, f}, 
+        Diagram[Xn[a, g, h, b], Xp[z, s, r, y], Xp[d, c, n, o], 
+          Xn[p, x, y, q], Xp[s, z, aa, t], Xn[u, v, j, i], Xp[w, x, m, l], 
+          Xp[m, p, o, n], Xn[k, j, v, w], Xn[i, h, g, f], Xp[b, k, l, c], 
+          Xn[q, r, e, d]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[1, 8, 2, 9], X[3, 13, 4, 12], X[4, 121, 5, 120], X[7, 2, 8, 3], 
+      X[9, 226, 10, 227], X[11, 7, 12, 6], X[14, 118, 15, 119], 
+      X[117, 123, 118, 122], X[119, 6, 120, 5], X[121, 13, 122, 14], 
+      X[123, 117, 124, 116], X[225, 10, 226, 11]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(RotateTangle[
+      Tangle[{q, w, p, e, a, f}, 
+        Diagram[Xn[a, f, g, b], Xp[q, r, h, g], Xp[r, s, i, h], 
+          Xp[b, i, j, c], Xp[k, l, d, c], Xn[l, t, u, m], Xp[n, u, v, o], 
+          Xn[o, v, w, p], Xp[s, t, k, j], Xp[m, n, e, d]]], 3]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{e, a, f, q, w, p}, 
+      Diagram[Xn[a, f, g, b], Xn[l, t, u, m], Xn[o, v, w, p], Xp[b, i, j, c], 
+        Xp[k, l, d, c], Xp[m, n, e, d], Xp[n, u, v, o], Xp[q, r, h, g], 
+        Xp[r, s, i, h], Xp[s, t, k, j]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(JoinTangle[Tangle[{a, c, e, b}, Diagram[Arc[a, b], Arc[c, e]]], 
+      Tangle[{u, aa, t, e, a, f}, 
+        Diagram[Xn[a, g, h, b], Xp[z, s, r, y], Xp[d, c, n, o], 
+          Xn[p, x, y, q], Xp[s, z, aa, t], Xn[u, v, j, i], Xp[w, x, m, l], 
+          Xp[m, p, o, n], Xn[k, j, v, w], Xn[i, h, g, f], Xp[b, k, l, c], 
+          Xn[q, r, e, d]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{a, c, e, b, u, aa, t, e, a, f}, 
+      Diagram[Arc[a, b], Arc[c, e], Xn[a, g, h, b], Xn[i, h, g, f], 
+        Xn[k, j, v, w], Xn[p, x, y, q], Xn[q, r, e, d], Xn[u, v, j, i], 
+        Xp[b, k, l, c], Xp[d, c, n, o], Xp[m, p, o, n], Xp[s, z, aa, t], 
+        Xp[w, x, m, l], Xp[z, s, r, y]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(OrientationOfFirstPoint[
+      Tangle[{a, b, c, d}, Diagram[Xn[c, d, a, b]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(1\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(OrientationOfLastPoint[
+      Tangle[{a, b, c, d}, Diagram[Xn[c, d, a, b]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(d\)], "Print"],
+
+Cell[BoxData[
+    \(\(-1\)\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[""], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(SewTangle[
+      Tangle[{n, g, h, a, b, c, d, e, f, i, j, k, l, m}, \ 
+        Diagram[Xp[m, n, p, q], Xn[p, k, l, q], Arc[j, i], Xp[f, a, b, o], 
+          Xn[c, d, e, o], Arc[g, h]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{g, h, a, b, c, d, e, f, i, j, k, l}, 
+      Diagram[Arc[g, h], Arc[j, i], Arc[n, m], Xn[c, d, e, o], 
+        Xn[p, k, l, q], Xp[f, a, b, o], Xp[m, n, p, q]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(SewTangle[Tangle[{b, c, d, a}, Diagram[Xn[c, d, a, b]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{c, d}, Diagram[Arc[b, a], Xn[c, d, a, b]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(SewTangle[
+      Tangle[{a, aa, t, d, u, c, e, b}, 
+        Diagram[Arc[a, b], Arc[c, e], Xn[a, g, h, b], Xp[z, s, r, y], 
+          Xp[d, c, n, o], Xn[p, x, y, q], Xp[s, z, aa, t], Xn[u, v, j, i], 
+          Xp[w, x, m, l], Xp[m, p, o, n], Xn[k, j, v, w], Xn[i, h, g, f], 
+          Xp[b, k, l, c], Xn[q, r, e, d]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{aa, t, d, u, c, e}, 
+      Diagram[Arc[a, b], Arc[b, a], Arc[c, e], Xn[a, g, h, b], 
+        Xn[i, h, g, f], Xn[k, j, v, w], Xn[p, x, y, q], Xn[q, r, e, d], 
+        Xn[u, v, j, i], Xp[b, k, l, c], Xp[d, c, n, o], Xp[m, p, o, n], 
+        Xp[s, z, aa, t], Xp[w, x, m, l], Xp[z, s, r, y]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(SewTangle[
+      Tangle[{a, aa, t, d, u, c, e, b}, 
+        Diagram[Arc[a, b], Arc[c, e], Xn[a, g, h, b], Xp[z, s, r, y], 
+          Xp[d, c, n, o], Xn[p, x, y, q], Xp[s, z, aa, t], Xn[u, v, j, i], 
+          Xp[w, x, m, l], Xp[m, p, o, n], Xn[k, j, v, w], Xn[i, h, g, f], 
+          Xp[b, k, l, c], Xn[q, r, e, d]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{aa, t, d, u, c, e}, 
+      Diagram[Arc[a, b], Arc[b, a], Arc[c, e], Xn[a, g, h, b], 
+        Xn[i, h, g, f], Xn[k, j, v, w], Xn[p, x, y, q], Xn[q, r, e, d], 
+        Xn[u, v, j, i], Xp[b, k, l, c], Xp[d, c, n, o], Xp[m, p, o, n], 
+        Xp[s, z, aa, t], Xp[w, x, m, l], Xp[z, s, r, y]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(SewTangle[
+      Tangle[{a, aa, t, d, u, c, e, b}, 
+        Diagram[Arc[a, b], Arc[c, e], Xn[a, g, h, b], Xp[z, s, r, y], 
+          Xp[d, c, n, o], Xn[p, x, y, q], Xp[s, z, aa, t], Xn[u, v, j, i], 
+          Xp[w, x, m, l], Xp[m, p, o, n], Xn[k, j, v, w], Xn[i, h, g, f], 
+          Xp[b, k, l, c], Xn[q, r, e, d]]], 3]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{d, u}, 
+      Diagram[Xn[a, g, h, b], Xn[i, h, g, f], Xn[k, j, v, w], Xn[p, x, y, q], 
+        Xn[q, r, e, d], Xn[u, v, j, i], Xp[b, k, l, c], Xp[d, e, n, o], 
+        Xp[m, p, o, n], Xp[s, z, e, c], Xp[w, x, m, l], 
+        Xp[z, s, r, y]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(StitchTangles[
+      Tangle[{n, i, j, k, l, m}, 
+        Diagram[Xp[m, n, p, q], Xn[p, k, l, q], Arc[j, i]]], 
+      Tangle[{b, c, d, e, f, g, h, a}, 
+        Diagram[Xp[f, a, b, o], Xn[c, d, e, o], Arc[g, h]]], 6]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{h, a}, 
+      Diagram[Xn[l, d, e, o], Xn[p, d, l, q], Xp[b, h, p, q], 
+        Xp[e, a, b, o]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(SimplifyTangle[
+      Tangle[{a, c}, Diagram[Arc[a, b], Arc[b, c]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{a, c}, Arc[a, c]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(SimplifyTangle[
+      Tangle[{h, a}, 
+        Diagram[Xp[m, n, p, q], Xn[p, k, l, q], Arc[j, i], Xp[f, a, b, o], 
+          Xn[c, d, e, o], Arc[g, h], Arc[n, g], Arc[i, f], Arc[e, j], 
+          Arc[d, k], Arc[l, c], Arc[b, m]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{h, a}, 
+      Diagram[Xn[l, d, e, o], Xn[p, d, l, q], Xp[b, h, p, q], 
+        Xp[e, a, b, o]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Tangle[BR[3, {1, \(-2\)}]] \[Equal] 
+      Tangle[{a[0, 1], a[0, 2], a[0, 3], a[2, 1], a[2, 2], a[2, 3]}, 
+        Diagram[Xp[a[0, 1], a[0, 2], a[1, 2], a[1, 1]], 
+          Arc[a[0, 3], a[1, 3]], Arc[a[1, 1], a[2, 1]], 
+          Xn[a[1, 2], a[1, 3], a[2, 3], a[2, 2]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{a$50[2, 3], a$50[2, 2], a$50[2, 1], a$50[0, 1], a$50[0, 2], 
+          a$50[0, 3]}, 
+        Diagram[Xn[a$50[1, 2], a$50[0, 3], a$50[2, 3], a$50[2, 2]], 
+          Xp[a$50[0, 2], a$50[1, 2], a$50[2, 1], a$50[0, 1]]]] \[Equal] 
+      Tangle[{a[0, 1], a[0, 2], a[0, 3], a[2, 1], a[2, 2], a[2, 3]}, 
+        Diagram[Arc[a[0, 3], a[1, 3]], Arc[a[1, 1], a[2, 1]], 
+          Xn[a[1, 2], a[1, 3], a[2, 3], a[2, 2]], 
+          Xp[a[0, 1], a[0, 2], a[1, 2], a[1, 1]]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Tangle[BR[3, {\(-1\), 2}]] \[Equal] 
+      Tangle[{a[0, 1], a[0, 2], a[0, 3], a[2, 1], a[2, 2], a[2, 3]}, 
+        Diagram[Xp[a[0, 1], a[0, 2], a[1, 2], a[1, 1]], 
+          Arc[a[0, 3], a[1, 3]], Arc[a[1, 1], a[2, 1]], 
+          Xn[a[1, 2], a[1, 3], a[2, 3], a[2, 2]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{a$52[2, 3], a$52[2, 2], a$52[2, 1], a$52[0, 1], a$52[0, 2], 
+          a$52[0, 3]}, 
+        Diagram[Xn[a$52[0, 1], a$52[0, 2], a$52[1, 2], a$52[2, 1]], 
+          Xp[a$52[0, 3], a$52[2, 3], a$52[2, 2], a$52[1, 2]]]] \[Equal] 
+      Tangle[{a[0, 1], a[0, 2], a[0, 3], a[2, 1], a[2, 2], a[2, 3]}, 
+        Diagram[Arc[a[0, 3], a[1, 3]], Arc[a[1, 1], a[2, 1]], 
+          Xn[a[1, 2], a[1, 3], a[2, 3], a[2, 2]], 
+          Xp[a[0, 1], a[0, 2], a[1, 2], a[1, 1]]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Show[BraidPlot[BR[3, {\(-1\)}]]]\)], "Input"],
+
+Cell[GraphicsData["PostScript", "\<\
+%!
+%%Creator: Mathematica
+%%AspectRatio: .61803 
+MathPictureStart
+/Mabs {
+Mgmatrix idtransform
+Mtmatrix dtransform
+} bind def
+/Mabsadd { Mabs
+3 -1 roll add
+3 1 roll add
+exch } bind def
+%% Graphics
+%%IncludeResource: font Courier
+%%IncludeFont: Courier
+/Courier findfont 10  scalefont  setfont
+% Scaling calculations
+0.0238095 0.952381 -0.132436 0.294302 [
+[ 0 0 0 0 ]
+[ 1 .61803 0 0 ]
+] MathScale
+% Start of Graphics
+1 setlinecap
+1 setlinejoin
+newpath
+0 0 m
+1 0 L
+1 .61803 L
+0 .61803 L
+closepath
+clip
+newpath
+0 g
+.5 Mabswid
+[ ] 0 setdash
+.02381 .60332 m
+.2619 .52974 L
+s
+.5 .45617 m
+.97619 .60332 L
+s
+.02381 .30902 m
+.5 .45617 L
+s
+.7381 .38259 m
+.97619 .30902 L
+s
+.02381 .01472 m
+.97619 .01472 L
+s
+% End of Graphics
+MathPictureEnd
+\
+\>"], "Graphics",
+  ImageSize->{288, 177.938},
+  ImageMargins->{{43, 0}, {0, 0}},
+  ImageRegion->{{0, 1}, {0, 1}},
+  ImageCache->GraphicsData["Bitmap", "\<\
+CF5dJ6E]HGAYHf4PAg9QL6QYHg<PAVmbKF5d0`40004P0000/B000`400?l00000o`00003oo`3ooolQ
+0?ooo`00o`3ooolQ0?ooo`00o`3ooolQ0?ooo`00o`3ooolQ0?ooo`001`3ooooo000001800000203o
+ool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3o
+ool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3o
+ool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3o
+ool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3o
+ool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3o
+ool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3o
+ool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3o
+ool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3o
+ool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3o
+ool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3o
+ool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3o
+ool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3o
+ool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3o
+ool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3o
+ool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3o
+ool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3o
+ool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool000L0oooo0P00003o0?ooo`h0oooo
+0P0000080?ooo`002@3oool300000?l0oooo203oool3000000X0oooo000<0?ooo`@00000o`3oool4
+000000d0oooo000@0?ooo`<00000n@3oool300000140oooo000C0?ooo`<00000l`3oool3000001@0
+oooo000F0?ooo`<00000k@3oool3000001L0oooo000I0?ooo`@00000i@3oool4000001X0oooo000M
+0?ooo`<00000g`3oool3000001h0oooo000P0?ooo`<00000f@3oool300000240oooo000S0?ooo`<0
+0000d`3oool3000002@0oooo000V0?ooo`<00000c@3oool3000002L0oooo000Y0?ooo`@00000a@3o
+ool4000002X0oooo000]0?ooo`<00000_`3oool3000002h0oooo000`0?ooo`<00000^@3oool30000
+0340oooo000c0?ooo`<00000/`3oool3000003@0oooo000f0?ooo`@00000Z`3oool4000003L0oooo
+000j0?ooo`<00000Y@3oool3000003/0oooo000m0?ooo`<00000W`3oool3000003h0oooo00100?oo
+o`<00000V@3oool300000440oooo00130?ooo`@00000T@3oool4000004@0oooo00170?ooo`<00000
+R`3oool3000004P0oooo001:0?ooo`<00000QP3oool2000004/0oooo001=0?ooo`<00000d03oool0
+0500oooo1000003<0?ooo`00E03oool300000<T0oooo001G0?ooo`<00000aP3oool005X0oooo0`00
+00330?ooo`00G@3oool400000;l0oooo001Q0?ooo`<00000_03oool006@0oooo0`00002i0?ooo`00
+I`3oool300000;H0oooo001Z0?ooo`<00000/`3oool006d0oooo1000002_0?ooo`00L@3oool30000
+0:`0oooo001d0?ooo`<00000Z@3oool007L0oooo0`00002V0?ooo`00NP3oool400000:80oooo001n
+0?ooo`<00000W`3oool00840oooo0`00002L0?ooo`00Q03oool3000009T0oooo00270?ooo`@00000
+U@3oool008/0oooo0`00002B0?ooo`00SP3oool3000008l0oooo002A0?ooo`<00000S03oool009@0
+oooo100000280?ooo`00V03oool3000008D0oooo002K0?ooo`<00000PP3oool009h0oooo0`00001o
+0?ooo`00X@3oool4000007/0oooo002U0?ooo`<00000N03oool00:P0oooo0`00001e0?ooo`00Z`3o
+ool300000780oooo002^0?ooo`<00000K`3oool00;40oooo1000001[0?ooo`00]@3oool3000006P0
+oooo002h0?ooo`<00000I@3oool00;/0oooo0`00001R0?ooo`00_P3oool4000005h0oooo00320?oo
+o`<00000F`3oool00<D0oooo0`00001H0?ooo`00b03oool3000005D0oooo003;0?ooo`@00000D@3o
+ool00<l0oooo0`00001>0?ooo`00BP3oool2000008H0oooo0`00001;0?ooo`00A`3oool3000008/0
+oooo0`0000180?ooo`00@`3oool400000940oooo100000140?ooo`00@03oool3000009T0oooo0`00
+00110?ooo`00?@3oool3000009l0oooo0`00000n0?ooo`00>P3oool300000:D0oooo0`00000k0?oo
+o`00=P3oool400000:/0oooo1000000g0?ooo`00<`3oool300000;<0oooo0`00000d0?ooo`00<03o
+ool300000;T0oooo0`00000a0?ooo`00;@3oool300000;l0oooo0`00000^0?ooo`00:P3oool30000
+0<D0oooo0`00000[0?ooo`009P3oool400000</0oooo1000000W0?ooo`008`3oool300000=<0oooo
+0`00000T0?ooo`00803oool300000=T0oooo0`00000Q0?ooo`007@3oool300000=l0oooo0`00000N
+0?ooo`006@3oool400000>D0oooo1000000J0?ooo`005P3oool300000>d0oooo0`00000G0?ooo`00
+4`3oool300000?<0oooo0`00000D0?ooo`00403oool300000?T0oooo0`00000A0?ooo`00303oool4
+00000?l0oooo1000000=0?ooo`002@3oool300000?l0oooo203oool3000000X0oooo00070?ooo`80
+0000o`3oool>0?ooo`800000203oool00?l0oooo8@3oool00?l0oooo8@3oool00?l0oooo8@3oool0
+0?l0oooo8@3oool00001\
+\>"],
+  ImageRangeCache->{{{0, 287}, {176.938, 0}} -> {-0.0263022, 0.44999, \
+0.00366761, 0.0118686}}],
+
+Cell[BoxData[
+    TagBox[\(\[SkeletonIndicator]  Graphics  \[SkeletonIndicator]\),
+      False,
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[BoxData[""], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Tangle[BR[3, {\(-1\), 2}]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{a$54[2, 3], a$54[2, 2], a$54[2, 1], a$54[0, 1], a$54[0, 2], 
+        a$54[0, 3]}, 
+      Diagram[Xn[a$54[0, 1], a$54[0, 2], a$54[1, 2], a$54[2, 1]], 
+        Xp[a$54[0, 3], a$54[2, 3], a$54[2, 2], a$54[1, 2]]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[%]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[1, 104, 2, 105], X[206, 3, 207, 2]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(NumberOfBoundaryPoints[Tangle[BR[3, {2, 2}]]]\)], "Input"],
+
+Cell[BoxData[
+    \(6\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ComposeNNTangles[Tangle[BR[3, {\(-1\), 2}]], 
+      Tangle[BR[3, {2, 2}]]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{a$59[0, 1], a$59[0, 2], a$59[0, 3], a$61[2, 3], a$61[2, 2], 
+        a$61[2, 1]}, 
+      Diagram[Xn[a$59[0, 1], a$59[0, 2], a$59[1, 2], a$61[2, 1]], 
+        Xp[a$59[0, 3], a$61[0, 3], a$59[2, 2], a$59[1, 2]], 
+        Xp[a$61[0, 3], a$61[1, 3], a$61[1, 2], a$59[2, 2]], 
+        Xp[a$61[1, 3], a$61[2, 3], a$61[2, 2], a$61[1, 2]]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[%]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[1, 106, 2, 107], X[3, 210, 4, 209], X[208, 3, 209, 2], 
+      X[210, 5, 211, 4]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[Tangle[BR[3, {\(-1\), 2, 2, 2}]]]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[1, 106, 2, 107], X[3, 210, 4, 209], X[208, 3, 209, 2], 
+      X[210, 5, 211, 4]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(TraceNNTangle[Tangle[BR[3, {\(-1\), 2, 2, 2}]]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{}, 
+      Diagram[Xn[a$71[0, 1], a$71[4, 2], a$71[1, 2], a$71[0, 1]], 
+        Xp[a$71[0, 3], a$71[2, 3], a$71[2, 2], a$71[1, 2]], 
+        Xp[a$71[2, 3], a$71[3, 3], a$71[3, 2], a$71[2, 2]], 
+        Xp[a$71[3, 3], a$71[0, 3], a$71[4, 2], a$71[3, 2]]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[%]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[1, 8, 2, 9], X[3, 7, 4, 6], X[5, 3, 6, 2], X[7, 5, 8, 4], 
+      P[1, 9]]\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[""], "Input"],
+
+Cell[BoxData[""], "Input"],
+
+Cell[BoxData[{
+    \(\(U = 
+        AddStrandsToNNTangle[Tangle[{}, Diagram[]], 
+          2];\)\), "\[IndentingNewLine]", 
+    \(\(T = AddStrandsToNNTangle[Tangle[{}, Diagram[]], 2];\)\)}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(b = BR[3, {1}]\)], "Input"],
+
+Cell[BoxData[
+    \(BR[3, {1}]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Tangle[b]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{a$156[1, 3], a$156[1, 2], a$156[1, 1], a$156[0, 1], 
+        a$156[0, 2], a$156[0, 3]}, 
+      Diagram[Arc[a$156[0, 3], a$156[1, 3]], 
+        Xp[a$156[0, 2], a$156[1, 2], a$156[1, 1], a$156[0, 1]]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(WatsonKnotPair[T, U, b]\)], "Input"],
+
+Cell[BoxData[
+    \({Tangle[{}, 
+        Diagram[Arc[b$148, a$162[1, 1]], Arc[b$149, a$162[1, 2]], 
+          Arc[b$161, a$162[1, 3]], Arc[b$161, a$162[1, 3]], 
+          Xn[a$159[1, 1], a$159[1, 2], a$162[1, 2], a$162[1, 1]], 
+          Xp[b$149, a$159[1, 2], a$159[1, 1], b$148]]], 0}\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[""], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(Kh[#]\)[q, t] &\) /@ WatsonKnotPair[T, U, b]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"The Khovanov homology program JavaKh was written by Jeremy Green \
+in the summer of 2005 at the University of Toronto.\"\)"\)], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(StringReplace::"strs"\), \(\(:\)\(\ \)\), "\<\"String or \
+non-empty list of strings expected at position \\!\\(1\\) in \
+\\!\\(StringReplace[\\(\\(EndOfFile, \\(\\({\\(\\(\\\"q\\\" \[Rule] \
+\\\"#1\\\"\\)\\), \\(\\(\\\"t\\\" \[Rule] \\\"#2\\\"\\)\\), \\(\\(\\\"Z\\\" \
+\[Rule] \\\"ZMod\\\"\\)\\)}\\)\\)\\)\\)]\\). \\!\\(\\*ButtonBox[\\\"More\
+\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::strs\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(StringJoin::"string"\), \(\(:\)\(\ \)\), "\<\"String expected \
+at position \\!\\(1\\) in \\!\\(\\(\\(StringReplace[\\(\\(EndOfFile, \
+\\(\\({\\(\\(\\\"q\\\" \[Rule] \\\"#1\\\"\\)\\), \\(\\(\\\"t\\\" \[Rule] \
+\\\"#2\\\"\\)\\), \\(\\(\\\"Z\\\" \[Rule] \\\"ZMod\\\"\\)\\)}\\)\\)\\)\\)]\\)\
+\\) <> \\\"&\\\"\\). \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::string\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(ToExpression::"notstrbox"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(\\(\\(StringReplace[\\(\\(EndOfFile, \\(\\({\\(\\(\\\"q\\\" \
+\[Rule] \\\"#1\\\"\\)\\), \\(\\(\\\"t\\\" \[Rule] \\\"#2\\\"\\)\\), \
+\\(\\(\\\"Z\\\" \[Rule] \\\"ZMod\\\"\\)\\)}\\)\\)\\)\\)]\\)\\) <> \
+\\\"&\\\"\\) is not a string or a box. ToExpression can only interpret \
+strings or boxes as Mathematica input. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\
+\\\", ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"ToExpression::notstrbox\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(StringReplace::"strs"\), \(\(:\)\(\ \)\), "\<\"String or \
+non-empty list of strings expected at position \\!\\(1\\) in \
+\\!\\(StringReplace[\\(\\(EndOfFile, \\(\\({\\(\\(\\\"q\\\" \[Rule] \
+\\\"#1\\\"\\)\\), \\(\\(\\\"t\\\" \[Rule] \\\"#2\\\"\\)\\), \\(\\(\\\"Z\\\" \
+\[Rule] \\\"ZMod\\\"\\)\\)}\\)\\)\\)\\)]\\). \\!\\(\\*ButtonBox[\\\"More\
+\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::strs\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(StringJoin::"string"\), \(\(:\)\(\ \)\), "\<\"String expected \
+at position \\!\\(1\\) in \\!\\(\\(\\(StringReplace[\\(\\(EndOfFile, \
+\\(\\({\\(\\(\\\"q\\\" \[Rule] \\\"#1\\\"\\)\\), \\(\\(\\\"t\\\" \[Rule] \
+\\\"#2\\\"\\)\\), \\(\\(\\\"Z\\\" \[Rule] \\\"ZMod\\\"\\)\\)}\\)\\)\\)\\)]\\)\
+\\) <> \\\"&\\\"\\). \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::string\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(ToExpression::"notstrbox"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(\\(\\(StringReplace[\\(\\(EndOfFile, \\(\\({\\(\\(\\\"q\\\" \
+\[Rule] \\\"#1\\\"\\)\\), \\(\\(\\\"t\\\" \[Rule] \\\"#2\\\"\\)\\), \
+\\(\\(\\\"Z\\\" \[Rule] \\\"ZMod\\\"\\)\\)}\\)\\)\\)\\)]\\)\\) <> \
+\\\"&\\\"\\) is not a string or a box. ToExpression can only interpret \
+strings or boxes as Mathematica input. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\
+\\\", ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"ToExpression::notstrbox\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \(WatsonKnotPair[$Failed[q, t], $Failed[q, t], $Failed[q, t]]\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[""], "Input"],
+
+Cell[BoxData[""], "Input"],
+
+Cell[BoxData[""], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(CutTangle[
+      Tangle[{}, 
+        Diagram[Xp[b, f, c, e], Xp[f, d, a, c], Xp[d, b, e, a]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{b, l$80}, 
+      Diagram[Xp[d, b, e, a], Xp[f, d, a, c], Xp[l$80, f, c, e]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[%]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[1, 5, 2, 4], X[3, 7, 4, 6], X[5, 3, 6, 2]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ClosePD[%]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[1, 5, 2, 4], X[3, 7, 4, 6], X[5, 3, 6, 2], P[1, 7]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Jones[%]\)[q]\)], "Input"],
+
+Cell[BoxData[
+    \(q + q\^3 - q\^4\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[Tangle[{}, 
+        Diagram[Xp[b, f, c, e], Xp[f, d, a, c], Xp[d, b, e, a]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[1, 5, 2, 4], X[3, 7, 4, 6], X[5, 3, 6, 2], P[1, 7]]\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[""], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(AddStrandToNNTangle[
+      Tangle[{}, 
+        Diagram[Xp[b, f, c, e], Xp[f, d, a, c], Xp[d, b, e, a]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{a$91, b$91}, 
+      Diagram[Arc[b$91, a$91], Xp[b, f, c, e], Xp[d, b, e, a], 
+        Xp[f, d, a, c]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(AddStrandToNNTangle[
+      Tangle[{a, b, c, d}, Diagram[Xp[a, b, c, d]]]]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{a, b, a$92, b$92, c, d}, 
+      Diagram[Arc[b$92, a$92], Xp[a, b, c, d]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(AddStrandToNNTangle[%]\)], "Input"],
+
+Cell[BoxData[
+    \(Tangle[{a, b, a$92, a$93, b$93, b$92, c, d}, 
+      Diagram[Arc[b$92, a$92], Arc[b$93, a$93], Xp[a, b, c, d]]]\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(SewTangle[t_Tangle, n_Integer] := 
+      SimplifyTangle[Nest[SewTangle, t, n]]\)], "Input"],
+
+Cell[BoxData[
+    \(SewTangle[t_Tangle, n_Integer] := 
+      Module[{i, r = t}, \[IndentingNewLine]For[i = 1, 
+          i \[LessEqual] n, \(++i\), 
+          r = RotateTangle[
+              SewTangle[r], \(-1\)]]; \[IndentingNewLine]RotateTangle[
+          r]]\)], "Input"]
+},
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 713}},
+WindowSize->{1272, 679},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+ShowSelection->True
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 246, 4, 70, "Input"],
+Cell[2025, 59, 276, 4, 22, "Message"],
+Cell[2304, 65, 41, 1, 29, "Output"]
+}, Open  ]],
+Cell[2360, 69, 74, 1, 30, "Input"],
+Cell[2437, 72, 67, 1, 30, "Input"],
+Cell[2507, 75, 71, 1, 30, "Input"],
+Cell[2581, 78, 138, 2, 30, "Input"],
+Cell[2722, 82, 77, 1, 30, "Input"],
+Cell[2802, 85, 212, 4, 30, "Input"],
+Cell[3017, 91, 335, 5, 70, "Input"],
+Cell[3355, 98, 335, 5, 70, "Input"],
+Cell[3693, 105, 513, 8, 130, "Input"],
+Cell[4209, 115, 145, 3, 30, "Input"],
+Cell[4357, 120, 104, 2, 30, "Input"],
+Cell[4464, 124, 153, 2, 50, "Input"],
+
+Cell[CellGroupData[{
+Cell[4642, 130, 1197, 22, 210, "Input"],
+Cell[5842, 154, 362, 5, 22, "Message"]
+}, Open  ]],
+Cell[6219, 162, 122, 2, 30, "Input"],
+Cell[6344, 166, 174, 3, 30, "Input"],
+Cell[6521, 171, 108, 2, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[6654, 177, 122, 2, 30, "Input"],
+Cell[6779, 181, 359, 5, 22, "Message"]
+}, Open  ]],
+Cell[7153, 189, 298, 5, 90, "Input"],
+
+Cell[CellGroupData[{
+Cell[7476, 198, 116, 2, 30, "Input"],
+Cell[7595, 202, 389, 6, 22, "Message"]
+}, Open  ]],
+Cell[7999, 211, 391, 7, 130, "Input"],
+
+Cell[CellGroupData[{
+Cell[8415, 222, 2145, 34, 470, "Input"],
+Cell[10563, 258, 356, 5, 22, "Message"],
+Cell[10922, 265, 358, 5, 22, "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[11317, 275, 35, 1, 30, "Input"],
+Cell[11355, 278, 933, 15, 105, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[12325, 298, 39, 1, 30, "Input"],
+Cell[12367, 301, 221, 5, 25, "Print"],
+Cell[12591, 308, 199, 4, 25, "Print"],
+Cell[12793, 314, 155, 3, 25, "Print"],
+Cell[12951, 319, 237, 5, 25, "Print"],
+Cell[13191, 326, 268, 6, 25, "Print"],
+Cell[13462, 334, 268, 6, 25, "Print"],
+Cell[13733, 342, 268, 6, 25, "Print"],
+Cell[14004, 350, 2854, 90, 101, "Print"],
+Cell[16861, 442, 187, 4, 25, "Print"],
+Cell[17051, 448, 743, 12, 86, "Output"]
+}, Open  ]],
+Cell[17809, 463, 435, 8, 110, "Input"],
+Cell[18247, 473, 107, 2, 30, "Input"],
+Cell[18357, 477, 90, 1, 30, "Input"],
+Cell[18450, 480, 1333, 23, 270, "Input"],
+Cell[19786, 505, 1724, 33, 350, "Input"],
+
+Cell[CellGroupData[{
+Cell[21535, 542, 1645, 33, 310, "Input"],
+Cell[23183, 577, 390, 6, 22, "Message"]
+}, Open  ]],
+Cell[23588, 586, 96, 2, 70, "Input"],
+Cell[23687, 590, 753, 13, 190, "Input"],
+Cell[24443, 605, 258, 5, 50, "Input"],
+Cell[24704, 612, 317, 6, 50, "Input"],
+Cell[25024, 620, 93, 1, 30, "Input"],
+Cell[25120, 623, 93, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[25238, 628, 71, 1, 30, "Input"],
+Cell[25312, 631, 68, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[25417, 637, 51, 1, 30, "Input"],
+Cell[25471, 640, 276, 4, 22, "Message"],
+Cell[25750, 646, 85, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[25872, 652, 52, 1, 30, "Input"],
+Cell[25927, 655, 923, 15, 105, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[26887, 675, 68, 1, 30, "Input"],
+Cell[26958, 678, 933, 15, 105, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[27928, 698, 45, 1, 30, "Input"],
+Cell[27976, 701, 933, 15, 105, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[28946, 721, 38, 1, 30, "Input"],
+Cell[28987, 724, 280, 4, 22, "Message"],
+Cell[29270, 730, 280, 4, 22, "Message"],
+Cell[29553, 736, 280, 4, 22, "Message"],
+Cell[29836, 742, 329, 5, 22, "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[30202, 752, 34, 1, 30, "Input"],
+Cell[30239, 755, 35, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[30311, 761, 56, 1, 30, "Input"],
+Cell[30370, 764, 349, 6, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[30756, 775, 107, 2, 30, "Input"],
+Cell[30866, 779, 126, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[31029, 786, 113, 2, 30, "Input"],
+Cell[31145, 790, 168, 3, 25, "Print"],
+Cell[31316, 795, 159, 3, 25, "Print"],
+Cell[31478, 800, 82, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[31597, 806, 50, 1, 30, "Input"],
+Cell[31650, 809, 126, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[31813, 816, 272, 6, 30, "Input"],
+Cell[32088, 824, 38, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[32163, 830, 129, 2, 30, "Input"],
+Cell[32295, 834, 38, 1, 29, "Output"]
+}, Open  ]],
+Cell[32348, 838, 59, 0, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[32432, 842, 141, 2, 30, "Input"],
+Cell[32576, 846, 115, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[32728, 853, 308, 5, 50, "Input"],
+Cell[33039, 860, 288, 4, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[33364, 869, 283, 5, 50, "Input"],
+Cell[33650, 876, 254, 4, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[33941, 885, 376, 6, 70, "Input"],
+Cell[34320, 893, 331, 5, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[34688, 903, 110, 2, 30, "Input"],
+Cell[34801, 907, 35, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[34873, 913, 109, 2, 30, "Input"],
+Cell[34985, 917, 34, 1, 25, "Print"],
+Cell[35022, 920, 40, 1, 29, "Output"]
+}, Open  ]],
+Cell[35077, 924, 26, 0, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[35128, 928, 218, 4, 30, "Input"],
+Cell[35349, 934, 200, 3, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[35586, 942, 89, 1, 30, "Input"],
+Cell[35678, 945, 84, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[35799, 951, 350, 6, 50, "Input"],
+Cell[36152, 959, 330, 5, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[36519, 969, 350, 6, 50, "Input"],
+Cell[36872, 977, 330, 5, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[37239, 987, 353, 6, 50, "Input"],
+Cell[37595, 995, 283, 5, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[37915, 1005, 247, 5, 50, "Input"],
+Cell[38165, 1012, 137, 3, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[38339, 1020, 101, 2, 30, "Input"],
+Cell[38443, 1024, 59, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[38539, 1030, 262, 5, 70, "Input"],
+Cell[38804, 1037, 137, 3, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[38978, 1045, 304, 5, 50, "Input"],
+Cell[39285, 1052, 503, 8, 86, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[39825, 1065, 304, 5, 50, "Input"],
+Cell[40132, 1072, 503, 8, 86, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[40672, 1085, 65, 1, 30, "Input"],
+Cell[40740, 1088, 5182, 113, 186, 787, 54, "GraphicsData", "PostScript", \
+"Graphics"],
+Cell[45925, 1203, 130, 3, 29, "Output"]
+}, Open  ]],
+Cell[46070, 1209, 26, 0, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[46121, 1213, 59, 1, 30, "Input"],
+Cell[46183, 1216, 252, 4, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[46472, 1225, 38, 1, 30, "Input"],
+Cell[46513, 1228, 74, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[46624, 1234, 78, 1, 30, "Input"],
+Cell[46705, 1237, 35, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[46777, 1243, 107, 2, 30, "Input"],
+Cell[46887, 1247, 374, 6, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[47298, 1258, 38, 1, 30, "Input"],
+Cell[47339, 1261, 119, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[47495, 1268, 69, 1, 30, "Input"],
+Cell[47567, 1271, 119, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[47723, 1278, 80, 1, 30, "Input"],
+Cell[47806, 1281, 295, 5, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[48138, 1291, 38, 1, 30, "Input"],
+Cell[48179, 1294, 112, 2, 29, "Output"]
+}, Open  ]],
+Cell[48306, 1299, 26, 0, 30, "Input"],
+Cell[48335, 1301, 26, 0, 30, "Input"],
+Cell[48364, 1303, 199, 4, 50, "Input"],
+
+Cell[CellGroupData[{
+Cell[48588, 1311, 47, 1, 30, "Input"],
+Cell[48638, 1314, 44, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[48719, 1320, 42, 1, 30, "Input"],
+Cell[48764, 1323, 241, 4, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[49042, 1332, 56, 1, 30, "Input"],
+Cell[49101, 1335, 300, 5, 48, "Output"]
+}, Open  ]],
+Cell[49416, 1343, 26, 0, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[49467, 1347, 81, 1, 30, "Input"],
+Cell[49551, 1350, 210, 3, 22, "Message"],
+Cell[49764, 1355, 506, 7, 22, "Message"],
+Cell[50273, 1364, 503, 7, 22, "Message"],
+Cell[50779, 1373, 572, 8, 22, "Message"],
+Cell[51354, 1383, 506, 7, 22, "Message"],
+Cell[51863, 1392, 503, 7, 22, "Message"],
+Cell[52369, 1401, 572, 8, 22, "Message"],
+Cell[52944, 1411, 93, 1, 29, "Output"]
+}, Open  ]],
+Cell[53052, 1415, 26, 0, 30, "Input"],
+Cell[53081, 1417, 26, 0, 30, "Input"],
+Cell[53110, 1419, 26, 0, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[53161, 1423, 127, 3, 30, "Input"],
+Cell[53291, 1428, 118, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[53446, 1435, 38, 1, 30, "Input"],
+Cell[53487, 1438, 81, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[53605, 1444, 43, 1, 30, "Input"],
+Cell[53651, 1447, 90, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[53778, 1453, 48, 1, 30, "Input"],
+Cell[53829, 1456, 49, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[53915, 1462, 113, 2, 30, "Input"],
+Cell[54031, 1466, 90, 1, 29, "Output"]
+}, Open  ]],
+Cell[54136, 1470, 26, 0, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[54187, 1474, 137, 3, 30, "Input"],
+Cell[54327, 1479, 144, 3, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[54508, 1487, 106, 2, 30, "Input"],
+Cell[54617, 1491, 115, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[54769, 1498, 55, 1, 30, "Input"],
+Cell[54827, 1501, 144, 2, 29, "Output"]
+}, Open  ]],
+Cell[54986, 1506, 111, 2, 30, "Input"],
+Cell[55100, 1510, 274, 6, 70, "Input"]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
