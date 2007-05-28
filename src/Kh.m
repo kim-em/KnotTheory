@@ -480,6 +480,7 @@ Options[Kh] = {
   ExpansionOrder -> Automatic,
   Program -> "JavaKh",
   Modulus -> 0,
+  Universal -> False,
   JavaOptions -> ""
 };
 
@@ -489,6 +490,7 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     eo = (ExpansionOrder /. {opts} /. Options[Kh]),
     prog = (Program /. {opts} /. Options[Kh]),
     modulus = (Modulus /. {opts} /. Options[Kh]),
+    universal = (Universal /. {opts} /. Options[Kh]),
     javaoptions = (JavaOptions /. {opts} /. Options[Kh])
   },
   L1 = PD[L];
@@ -513,7 +515,7 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     cl = StringJoin[
       "!java -classpath \"", ToFileName[KnotTheoryDirectory[], "JavaKh"],
       "\" ", javaoptions, " JavaKh ",
-      If[modulus === Null, "-Z", "-mod "<>ToString[modulus]],
+      If[universal, "-U", If[modulus === Null, "-Z", "-mod "<>ToString[modulus]]],
       " < pd"
     ];
     f = OpenRead[cl];
