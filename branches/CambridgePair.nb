@@ -1,0 +1,342 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      7595,        236]*)
+(*NotebookOutlinePosition[      8419,        265]*)
+(*  CellTagsIndexPosition[      8332,        259]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+    \(\(KnotTheoryPath\  = \ \
+"\<c:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk\\\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(AppendTo[$Path, \ KnotTheoryPath];\)\), "\[IndentingNewLine]", 
+    \(<< \ KnotTheory`\)}], "Input"],
+
+Cell[BoxData[
+    \("Loading KnotTheory` version of June 24, 2006, 17:55:18.4679.\nRead \
+more at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(K1 = Knot["\<K11n34\>"]\)], "Input"],
+
+Cell[BoxData[
+    \(Knot[11, NonAlternating, 34]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(K2 = Knot["\<K11n42\>"]\)], "Input"],
+
+Cell[BoxData[
+    \(Knot[11, NonAlternating, 42]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Jones[K1]\)[q]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"Jones4Knots11`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(1\/q\^6 - 2\/q\^5 + 2\/q\^4 - 2\/q\^3 + 1\/q\^2 + 2\ q - 2\ q\^2 + 
+      2\ q\^3 - q\^4\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Jones[K2]\)[q]\)], "Input"],
+
+Cell[BoxData[
+    \(1\/q\^6 - 2\/q\^5 + 2\/q\^4 - 2\/q\^3 + 1\/q\^2 + 2\ q - 2\ q\^2 + 
+      2\ q\^3 - q\^4\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[{
+    \(\(LinKnotPath = \
+"\<C:\\scott\\projects\\svn-checkouts\\LinKnot\\trunk\>";\)\), "\
+\[IndentingNewLine]", 
+    \(\(AppendTo[$Path, LinKnotPath];\)\)}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ConwayNotation[K1]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(Invariants::"shdw"\), \(\(:\)\(\ \)\), "\<\"Symbol \
+\\!\\(\\\"Invariants\\\"\\) appears in multiple contexts \
+\\!\\({\\\"DiscreteMath`Combinatorica`\\\", \
+\\\"KnotTheory`KnotAtlas`ManagingKnotData`\\\"}\\); definitions in context \
+\\!\\(\\\"DiscreteMath`Combinatorica`\\\"\\) may shadow or be shadowed by \
+other definitions. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::shdw\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"DTCode4KnotsTo11`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(ConwayNotation["6*2.(2 1,2) 0"]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ConwayNotation[K2]\)], "Input"],
+
+Cell[BoxData[
+    \(ConwayNotation["6*2.(2,2 1) 0"]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(BR[K1]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"DTCode4KnotsTo11`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"The GaussCode to PD conversion was written by Siddarth Sankaran \
+at the University of Toronto in the summer of 2005.\"\)"\)], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"Vogel's algorithm was implemented by Dan Carney in the summer of \
+2005 at the University of Toronto.\"\)"\)], "Message"],
+
+Cell[BoxData[
+    \(BR[4, {1, 1, 2, \(-3\), 2, 
+        1, \(-3\), \(-2\), \(-2\), \(-3\), \(-3\)}]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(BR[K2]\)], "Input"],
+
+Cell[BoxData[
+    \(BR[4, {1, \(-2\), 3, \(-2\), 3, \(-2\), \(-2\), \(-1\), 
+        2, \(-3\), \(-3\), 2, 2}]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(?QuantumKnotInvariant\)\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[\("Loading QuantumGroups` version 2.0\n"\
+\[InvisibleSpace]"Read more at \
+http://katlas.math.toronto.edu/wiki/QuantumGroups"\),
+      SequenceForm[ 
+      "Loading QuantumGroups` version 2.0\n", 
+        "Read more at http://katlas.math.toronto.edu/wiki/QuantumGroups"],
+      Editable->False]], "Print"],
+
+Cell[BoxData[
+    \("QuantumKnotInvariant[\[CapitalGamma], V][K][q] calculates the quantum \
+knot invariant of the knot K in the representation V of the quantum group \
+\[CapitalGamma]. This relies on the QuantumGroups` package, and you should \
+look there for details of how \[CapitalGamma] and V may be specified.  \
+Examples:    QuantumKnotInvariant[Subscript[A,2], Irrep[Subscript[A,2]][{1, \
+0}]][Knot[5, 2]][q]    QuantumKnotInvariant[Subscript[G,2], \
+Irrep[Subscript[G,2]][{1, 0}]\[CirclePlus]Irrep[Subscript[G,2]][{0, \
+1}]][Knot[5, 2]][q]"\)], "Print",
+  CellTags->"Info3361348088-2529699"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\(QuantumKnotInvariant[G\_2, \(Irrep[G\_2]\)[{1, 0}]]\)[K1]\)[
+      q]\)], "Input"],
+
+Cell[BoxData[
+    \(QuantumGroups::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \
+\!\(\"QuantumGroups`Data`G2`BraidingData`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(\(-20\) + 1\/q\^60 - 1\/q\^58 + 2\/q\^56 - 2\/q\^54 - 4\/q\^48 + 
+      5\/q\^46 - 3\/q\^44 - 2\/q\^42 + 5\/q\^40 - 6\/q\^38 + 1\/q\^36 + 
+      5\/q\^34 - 11\/q\^32 + 9\/q\^30 - 2\/q\^28 - 10\/q\^26 + 15\/q\^24 - 
+      12\/q\^22 + 1\/q\^20 + 14\/q\^18 - 23\/q\^16 + 20\/q\^14 - 1\/q\^12 - 
+      14\/q\^10 + 31\/q\^8 - 24\/q\^6 + 9\/q\^4 + 15\/q\^2 + 21\ q\^2 - 
+      3\ q\^4 - 8\ q\^6 + 19\ q\^8 - 13\ q\^10 + 5\ q\^12 + 4\ q\^14 - 
+      9\ q\^16 + 10\ q\^18 - 12\ q\^20 + 8\ q\^22 - 9\ q\^24 + 3\ q\^26 + 
+      2\ q\^28 - 18\ q\^30 + 20\ q\^32 - 20\ q\^34 + 4\ q\^36 + 10\ q\^38 - 
+      26\ q\^40 + 22\ q\^42 - 5\ q\^44 - 14\ q\^46 + 25\ q\^48 - 22\ q\^50 + 
+      5\ q\^52 + 16\ q\^54 - 26\ q\^56 + 25\ q\^58 - 10\ q\^60 - 4\ q\^62 + 
+      17\ q\^64 - 17\ q\^66 + 11\ q\^68 + q\^70 - 6\ q\^72 + 6\ q\^74 - 
+      2\ q\^76 - 2\ q\^78 + 6\ q\^80 - 5\ q\^82 + q\^86 - 3\ q\^88 + 
+      2\ q\^90 - q\^92 + q\^94\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\(\(QuantumKnotInvariant[G\_2, \(Irrep[G\_2]\)[{1, 0}]]\)[K2]\)[
+      q]\)], "Input"]
+},
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 713}},
+WindowSize->{975, 550},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+ShowSelection->True
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{
+  "Info3361348088-2529699"->{
+    Cell[5609, 193, 600, 9, 82, "Print",
+      CellTags->"Info3361348088-2529699"]}
+  }
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{
+  {"Info3361348088-2529699", 8222, 252}
+  }
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 248, 5, 70, "Input"],
+Cell[2027, 60, 159, 2, 44, "Print"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2223, 67, 56, 1, 30, "Input"],
+Cell[2282, 70, 62, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2381, 76, 56, 1, 30, "Input"],
+Cell[2440, 79, 62, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2539, 85, 49, 1, 30, "Input"],
+Cell[2591, 88, 135, 2, 22, "Message"],
+Cell[2729, 92, 122, 2, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2888, 99, 49, 1, 30, "Input"],
+Cell[2940, 102, 122, 2, 44, "Output"]
+}, Open  ]],
+Cell[3077, 107, 181, 4, 50, "Input"],
+
+Cell[CellGroupData[{
+Cell[3283, 115, 51, 1, 30, "Input"],
+Cell[3337, 118, 521, 8, 37, "Message"],
+Cell[3861, 128, 138, 2, 22, "Message"],
+Cell[4002, 132, 65, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4104, 138, 51, 1, 30, "Input"],
+Cell[4158, 141, 65, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4260, 147, 39, 1, 30, "Input"],
+Cell[4302, 150, 138, 2, 22, "Message"],
+Cell[4443, 154, 209, 3, 22, "Message"],
+Cell[4655, 159, 193, 3, 22, "Message"],
+Cell[4851, 164, 113, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5001, 171, 39, 1, 30, "Input"],
+Cell[5043, 174, 124, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5204, 181, 58, 1, 30, "Input"],
+Cell[5265, 184, 341, 7, 44, "Print"],
+Cell[5609, 193, 600, 9, 82, "Print",
+  CellTags->"Info3361348088-2529699"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6246, 207, 106, 2, 30, "Input"],
+Cell[6355, 211, 161, 3, 22, "Message"],
+Cell[6519, 216, 951, 13, 119, "Output"]
+}, Open  ]],
+Cell[7485, 232, 106, 2, 30, "Input"]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

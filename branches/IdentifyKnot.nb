@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     18444,        398]*)
-(*NotebookOutlinePosition[     19108,        421]*)
-(*  CellTagsIndexPosition[     19064,        417]*)
+(*NotebookOptionsPosition[     19959,        446]*)
+(*NotebookOutlinePosition[     20626,        469]*)
+(*  CellTagsIndexPosition[     20582,        465]*)
 (*WindowFrame->Normal*)
 
 
@@ -94,6 +94,8 @@ Cell[BoxData[
         If[Crossings[K] \[LessEqual] 16, 
           AllLinks[{2, Crossings[K]}]]]\)], "Input"],
 
+Cell[CellGroupData[{
+
 Cell[BoxData[
     \(\(invariants = {\(Jones[#]\)[q] &, 
           Vassiliev[
@@ -101,12 +103,31 @@ Cell[BoxData[
               z] &};\)\)], "Input"],
 
 Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(invariants\\)\\\" is similar to existing \
+symbol \\\"\\!\\(Invariants\\)\\\". \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], \
+"Message"]
+}, Open  ]],
+
+Cell[BoxData[
     \(Clear[IdentifyKnot]\)], "Input"],
+
+Cell[CellGroupData[{
 
 Cell[BoxData[
     \(IdentifyKnot[K_] := 
       With[{set = FiniteSet[K]}, 
         If[set === $Failed, $Failed, IdentifyKnot[K, set]]]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(set\\)\\\" is similar to existing symbol \
+\\\"\\!\\(Set\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]],
 
 Cell[BoxData[
     \(IdentifyKnot[K_, set_] := IdentifyKnot[K, set, invariants]\)], "Input"],
@@ -141,6 +162,24 @@ Cell[CellGroupData[{
 
 Cell[BoxData[
     \(IdentifyKnot /@ AllKnots[10]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"Jones4Knots`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"The HOMFLYPT program was written by Scott Morrison.\"\)"\)], \
+"Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"Kauffman4Knots`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(KnotTheory::"credits" \(\(:\)\(\ \)\) 
+      "\!\(\"The Kauffman polynomial program was written by Scott Morrison.\"\
+\)"\)], "Message"],
 
 Cell[BoxData[
     \({Knot[10, 1], Knot[10, 2], Knot[10, 3], Knot[10, 4], Knot[10, 5], 
@@ -180,6 +219,15 @@ Cell[BoxData[
       Knot[10, 157], Knot[10, 158], Knot[10, 159], Knot[10, 160], 
       Knot[10, 161], Knot[10, 162], Knot[10, 163], Knot[10, 164], 
       Knot[10, 165]}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(IdentifyKnot[eek]\)], "Input"],
+
+Cell[BoxData[
+    \(Knot[8, 19]\)], "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -399,7 +447,7 @@ Cell[BoxData[
 FrontEndVersion->"5.2 for Microsoft Windows",
 ScreenRectangle->{{0, 1280}, {0, 713}},
 WindowSize->{928, 555},
-WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowMargins->{{Automatic, -15}, {Automatic, -7}},
 ShowSelection->True
 ]
 
@@ -434,38 +482,55 @@ Cell[2491, 78, 158, 2, 44, "Print"]
 }, Open  ]],
 Cell[2664, 83, 158, 3, 30, "Input"],
 Cell[2825, 88, 264, 6, 50, "Input"],
-Cell[3092, 96, 173, 4, 30, "Input"],
-Cell[3268, 102, 52, 1, 30, "Input"],
-Cell[3323, 105, 147, 3, 30, "Input"],
-Cell[3473, 110, 91, 1, 30, "Input"],
-Cell[3567, 113, 63, 1, 30, "Input"],
-Cell[3633, 116, 109, 2, 30, "Input"],
-Cell[3745, 120, 443, 8, 90, "Input"],
 
 Cell[CellGroupData[{
-Cell[4213, 132, 59, 1, 30, "Input"],
-Cell[4275, 135, 58, 1, 29, "Output"]
+Cell[3114, 98, 173, 4, 30, "Input"],
+Cell[3290, 104, 370, 6, 22, "Message"]
+}, Open  ]],
+Cell[3675, 113, 52, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[3752, 118, 147, 3, 30, "Input"],
+Cell[3902, 123, 354, 5, 22, "Message"]
+}, Open  ]],
+Cell[4271, 131, 91, 1, 30, "Input"],
+Cell[4365, 134, 63, 1, 30, "Input"],
+Cell[4431, 137, 109, 2, 30, "Input"],
+Cell[4543, 141, 443, 8, 90, "Input"],
+
+Cell[CellGroupData[{
+Cell[5011, 153, 59, 1, 30, "Input"],
+Cell[5073, 156, 58, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[4370, 141, 61, 1, 30, "Input"],
-Cell[4434, 144, 2653, 37, 428, "Output"]
+Cell[5168, 162, 61, 1, 30, "Input"],
+Cell[5232, 165, 133, 2, 22, "Message"],
+Cell[5368, 169, 145, 3, 22, "Message"],
+Cell[5516, 174, 136, 2, 22, "Message"],
+Cell[5655, 178, 156, 3, 22, "Message"],
+Cell[5814, 183, 2653, 37, 428, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[7124, 186, 61, 1, 30, "Input"],
-Cell[7188, 189, 136, 2, 22, "Message"],
-Cell[7327, 193, 10820, 184, 1682, "Output"]
+Cell[8504, 225, 50, 1, 30, "Input"],
+Cell[8557, 228, 45, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[18184, 382, 62, 1, 30, "Input"],
-Cell[18249, 385, 44, 1, 29, "Output"]
+Cell[8639, 234, 61, 1, 30, "Input"],
+Cell[8703, 237, 136, 2, 22, "Message"],
+Cell[8842, 241, 10820, 184, 1682, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[18330, 391, 59, 1, 30, "Input"],
-Cell[18392, 394, 36, 1, 29, "Output"]
+Cell[19699, 430, 62, 1, 30, "Input"],
+Cell[19764, 433, 44, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[19845, 439, 59, 1, 30, "Input"],
+Cell[19907, 442, 36, 1, 29, "Output"]
 }, Open  ]]
 }
 ]

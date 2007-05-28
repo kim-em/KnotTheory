@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2006, 8, 31, 11, 25, 27.5625000};
+KnotTheoryVersion[] = {2007, 5, 27, 23, 26, 9.2235168};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -76,6 +76,9 @@ DeclarePackage["KnotTheory`KnotAtlas`ManagingKnotData`",
 (* declare the public interfaces of the QuantumKnotInvariants subpackage *)
 DeclarePackage["KnotTheory`QuantumKnotInvariants`",
     {"QuantumKnotInvariant"}]
+(* declare the public interfaces of the UniversalKh subpackage *)
+DeclarePackage["KnotTheory`UniversalKh`",
+    {"UniversalKh", "ReducedKh", "KhC", "KhE"}]
 (* Begin source file src/Base.m*)
 
 BeginPackage["KnotTheory`"]
@@ -3112,6 +3115,7 @@ Options[Kh] = {
   ExpansionOrder -> Automatic,
   Program -> "JavaKh",
   Modulus -> 0,
+  Universal -> False,
   JavaOptions -> ""
 };
 Kh[L_, opts___] := Kh[L, opts] = Module[
@@ -3120,6 +3124,7 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     eo = (ExpansionOrder /. {opts} /. Options[Kh]),
     prog = (Program /. {opts} /. Options[Kh]),
     modulus = (Modulus /. {opts} /. Options[Kh]),
+    universal = (Universal /. {opts} /. Options[Kh]),
     javaoptions = (JavaOptions /. {opts} /. Options[Kh])
   },
   L1 = PD[L];
@@ -3144,7 +3149,7 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     cl = StringJoin[
       "!java -classpath \"", ToFileName[KnotTheoryDirectory[], "JavaKh"],
       "\" ", javaoptions, " JavaKh ",
-      If[modulus === Null, "-Z", "-mod "<>ToString[modulus]],
+      If[universal, "-U", If[modulus === Null, "-Z", "-mod "<>ToString[modulus]]],
       " < pd"
     ];
     f = OpenRead[cl];
