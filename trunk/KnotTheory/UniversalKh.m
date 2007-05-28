@@ -25,7 +25,9 @@ BeginPackage[
 
 UniversalKh::about="Universal Khovanov homology over Q[t] is calculated using Jeremy Green's JavaKh program, interpreted by a wrapper written by Dror Bar-Natan, and decomposed into direct summands using a program of Scott Morrison and Alexander Shumakovitch.";
 
+UniversalKh::usage="UniversalKh[K] computes the universal Khovanov homology over Q. (Probably broken for links, at present.) See also KhC and KhE for more about the output.";
 
+sInvariant::usage="sInvariant[K] computes the s-invariant of a knot K, using the UniversalKh program. (Probably broken for links, at present.)";
 
 KhReduced::usage="KhReduced[K][q,t] gives the reduced Khovanov homology of the knot K, using the UniversalKh program.";
 
@@ -209,6 +211,8 @@ While[
  result += KhE*Plus @@ (t^g*q^#1 & ) /@ gradings[[1]];
  result
  ]
+
+\!\(sInvariant[K_] := With[{ukh = UniversalKh[K]}, \[IndentingNewLine]If[Length[Position[ukh, KhE]] \[Equal] 1, \[IndentingNewLine]Replace[ukh /. {_KhC \[RuleDelayed] 0, KhE \[Rule] 1}, {q\^s_.  \[RuleDelayed] s, 1 \[Rule] 0}], \[IndentingNewLine]ukh /. {_KhC \[RuleDelayed] 0, KhE \[Rule] 1}\[IndentingNewLine]]\[IndentingNewLine]]\)
 
 \!\(\(\[Alpha]0rules = {KhE \[Rule] q + q\^\(-1\), KhC[1] \[Rule] \(t\^\(-1\)\) q\^\(-3\) + \ q\^1, KhC[n_] /; n \[GreaterEqual] 2 \[RuleDelayed] \((q + q\^\(-1\))\) \((t\^\(-1\)\ q\^\(\(-2\) n\) + 1)\)};\)\)
 
