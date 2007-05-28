@@ -96,7 +96,3 @@ DeclarePackage["KnotTheory`KnotAtlas`ManagingKnotData`",
 (* declare the public interfaces of the QuantumKnotInvariants subpackage *)
 DeclarePackage["KnotTheory`QuantumKnotInvariants`",
     {"QuantumKnotInvariant"}]
-
-(* declare the public interfaces of the UniversalKh subpackage *)
-DeclarePackage["KnotTheory`UniversalKh`",
-    {"UniversalKh", "ReducedKh", "KhC", "KhE"}]
