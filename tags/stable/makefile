@@ -11,7 +11,8 @@ PackageSources = src/Base.m src/Braids.m src/TubePlot.m \
 	src/KTtoLinKnot.m
 
 main_distribution = KnotTheory/*.m KnotTheory/JavaKh/* KnotTheory/WikiLink/* \
-		    KnotTheory/KnotAtlas/* KnotTheory/scripts/*
+		    KnotTheory/KnotAtlas/* KnotTheory/scripts/* \
+			KnotTheory/QuantumGroups/*
 
 posted_files = KnotTheory.tar.gz KnotTheory.zip DTCodes4Knots12To16.tar.gz \
 	DTCodes4Knots12To16.zip
