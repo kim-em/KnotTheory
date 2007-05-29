@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      5836,        169]*)
-(*NotebookOutlinePosition[      6502,        192]*)
-(*  CellTagsIndexPosition[      6458,        188]*)
+(*NotebookOptionsPosition[      5944,        177]*)
+(*NotebookOutlinePosition[      6611,        200]*)
+(*  CellTagsIndexPosition[      6567,        196]*)
 (*WindowFrame->Normal*)
 
 
@@ -52,14 +52,13 @@ Notebook[{
 
 Cell[CellGroupData[{
 Cell[BoxData[{
-    \(\(KnotTheoryPath\  = \ \
-"\<c:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk\\\>";\)\), "\
+    \(\(KnotTheoryPath\  = \ "\<c:\\scott\\scratch\\knottheory\\\>";\)\), "\
 \[IndentingNewLine]", 
     \(\(AppendTo[$Path, \ KnotTheoryPath];\)\), "\[IndentingNewLine]", 
     \(<< \ KnotTheory`\)}], "Input"],
 
 Cell[BoxData[
-    \("Loading KnotTheory` version of May 27, 2007, 23:26:9.22352.\nRead more \
+    \("Loading KnotTheory` version of May 28, 2007, 16:44:28.5956.\nRead more \
 at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
 }, Open  ]],
 
@@ -103,6 +102,15 @@ Cell[BoxData[
 Cell[BoxData[
     \(q\^5 + q\^7 + q\^9\ t\^2 + q\^13\ t\^3 + q\^11\ t\^4 + q\^13\ t\^4 + 
       q\^15\ t\^5 + q\^17\ t\^5\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(sInvariant[Knot[10, 124]]\)], "Input"],
+
+Cell[BoxData[
+    \(8\)], "Output"]
 }, Open  ]],
 
 Cell["\<\
@@ -170,7 +178,7 @@ Cell[BoxData[
 FrontEndVersion->"5.2 for Microsoft Windows",
 ScreenRectangle->{{0, 1280}, {0, 713}},
 WindowSize->{982, 589},
-WindowMargins->{{56, Automatic}, {Automatic, 16}},
+WindowMargins->{{Automatic, 64}, {Automatic, -20}},
 ShowSelection->True
 ]
 
@@ -193,40 +201,45 @@ CellTagsIndex->{}
 Notebook[{
 
 Cell[CellGroupData[{
-Cell[1776, 53, 248, 5, 70, "Input"],
-Cell[2027, 60, 158, 2, 44, "Print"]
+Cell[1776, 53, 223, 4, 70, "Input"],
+Cell[2002, 59, 158, 2, 44, "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[2222, 67, 57, 1, 30, "Input"],
-Cell[2282, 70, 290, 4, 37, "Message"],
-Cell[2575, 76, 130, 2, 22, "Message"],
-Cell[2708, 80, 87, 1, 29, "Output"]
+Cell[2197, 66, 57, 1, 30, "Input"],
+Cell[2257, 69, 290, 4, 37, "Message"],
+Cell[2550, 75, 130, 2, 22, "Message"],
+Cell[2683, 79, 87, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[2832, 86, 65, 1, 30, "Input"],
-Cell[2900, 89, 93, 1, 29, "Output"]
+Cell[2807, 85, 65, 1, 30, "Input"],
+Cell[2875, 88, 93, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[3030, 95, 58, 1, 30, "Input"],
-Cell[3091, 98, 130, 2, 22, "Message"],
-Cell[3224, 102, 135, 2, 29, "Output"]
-}, Open  ]],
-Cell[3374, 107, 540, 9, 90, "Text"],
-
-Cell[CellGroupData[{
-Cell[3939, 120, 114, 2, 30, "Input"],
-Cell[4056, 124, 599, 11, 63, "Print"],
-Cell[4658, 137, 222, 4, 37, "Message"],
-Cell[4883, 143, 217, 4, 22, "Message"],
-Cell[5103, 149, 237, 3, 29, "Output"]
+Cell[3005, 94, 58, 1, 30, "Input"],
+Cell[3066, 97, 130, 2, 22, "Message"],
+Cell[3199, 101, 135, 2, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[5377, 157, 117, 2, 30, "Input"],
-Cell[5497, 161, 323, 5, 80, "Output"]
+Cell[3371, 108, 58, 1, 30, "Input"],
+Cell[3432, 111, 35, 1, 29, "Output"]
+}, Open  ]],
+Cell[3482, 115, 540, 9, 90, "Text"],
+
+Cell[CellGroupData[{
+Cell[4047, 128, 114, 2, 30, "Input"],
+Cell[4164, 132, 599, 11, 63, "Print"],
+Cell[4766, 145, 222, 4, 37, "Message"],
+Cell[4991, 151, 217, 4, 22, "Message"],
+Cell[5211, 157, 237, 3, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5485, 165, 117, 2, 30, "Input"],
+Cell[5605, 169, 323, 5, 80, "Output"]
 }, Open  ]]
 }
 ]
