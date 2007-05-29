@@ -99,4 +99,4 @@ DeclarePackage["KnotTheory`QuantumKnotInvariants`",
 
 (* declare the public interfaces of the UniversalKh subpackage *)
 DeclarePackage["KnotTheory`UniversalKh`",
-    {"UniversalKh", "ReducedKh", "KhC", "KhE"}]
+    {"UniversalKh", "KhReduced", "sInvariant", "KhC", "KhE"}]
