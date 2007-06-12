@@ -102,6 +102,7 @@ Begin["`Private`"]
 SetAttributes[P, Orderless]
 
 PD[pd_PD] := pd
+PD[Mirror[K_]] := Mirror[PD[K]]
 
 PD[BR[k_, {}]] := PD @@ (Loop /@ Range[k])
 PD[BR[k_Integer, l_List]] := Module[
