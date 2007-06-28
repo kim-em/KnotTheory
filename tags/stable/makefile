@@ -33,12 +33,12 @@ KnotTheory/init.m:  src/System.mm $(PackageSources) KnotTheory/JavaKh/*;
 	cat $(PackageSources) >> KnotTheory/init.m
 
 KnotTheory.tar.gz: KnotTheory/init.m $(main_distribution);
-	tar cvf KnotTheory.tar $(main_distribution)
+	tar cvf KnotTheory.tar $(main_distribution) --exclude .svn
 	gzip -9 -f KnotTheory.tar
 
 KnotTheory.zip: KnotTheory/init.m $(main_distribution);
 	/bin/rm -f KnotTheory.zip
-	zip -r KnotTheory.zip $(main_distribution)
+	zip -r KnotTheory.zip $(main_distribution) -x \*.svn
 
 DTCodes4Knots12To16.tar.gz: KnotTheory/*.dts;
 	tar cvf DTCodes4Knots12To16.tar KnotTheory/*.dts
