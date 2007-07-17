@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     10532,        251]*)
-(*NotebookOutlinePosition[     11199,        274]*)
-(*  CellTagsIndexPosition[     11155,        270]*)
+(*NotebookOptionsPosition[     11237,        265]*)
+(*NotebookOutlinePosition[     11904,        288]*)
+(*  CellTagsIndexPosition[     11860,        284]*)
 (*WindowFrame->Normal*)
 
 
@@ -65,6 +65,8 @@ Cell[BoxData[{
 Cell[BoxData[
     \(SetAttributes[Unordered, {Flat, Orderless}]\)], "Input"],
 
+Cell[CellGroupData[{
+
 Cell[BoxData[
     \(PD[OPD[f___]] := 
       Module[{pairs, rules, n = 0}, \[IndentingNewLine]pairs\  = \ 
@@ -79,6 +81,22 @@ Cell[BoxData[
                       z}])\); \[IndentingNewLine]rules = \(# \[Rule] \(++n\) \
 &\) /@ Flatten[cycles]; \[IndentingNewLine]\(PD[f] /. 
             rules\) /. {Xp | Xn \[Rule] X}\[IndentingNewLine]]\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(rules\\)\\\" is similar to existing symbol \
+\\\"\\!\\(rule\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"],
+
+Cell[BoxData[
+    RowBox[{\(i$::"shdw"\), \(\(:\)\(\ \)\), "\<\"Symbol \\!\\(\\\"i$\\\"\\) \
+appears in multiple contexts \\!\\({\\\"Global`\\\", \\\"KnotTheory`FastKh`\\\
+\"}\\); definitions in context \\!\\(\\\"Global`\\\"\\) may shadow or be \
+shadowed by other definitions. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::shdw\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]],
 
 Cell[BoxData[{
     \(OrientedResolution[OPD[f___, Xp[a_, b_, c_, d_], g___], 
@@ -156,10 +174,6 @@ Cell[CellGroupData[{
 
 Cell[BoxData[
     \(Skeleton[Link[5, Alternating, 1]]\)], "Input"],
-
-Cell[BoxData[
-    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
-      "Loading precomputed data in \!\(\"PD4Links`\"\)."\)], "Message"],
 
 Cell[BoxData[
     \({Loop[1, 2, 3, 4], Loop[5, 6, 7, 8, 9, 10]}\)], "Output"]
@@ -276,35 +290,39 @@ Notebook[{
 Cell[1754, 51, 330, 7, 50, "Input"],
 Cell[2087, 60, 119, 2, 50, "Input"],
 Cell[2209, 64, 76, 1, 30, "Input"],
-Cell[2288, 67, 740, 13, 130, "Input"],
-Cell[3031, 82, 314, 5, 50, "Input"],
-Cell[3348, 89, 390, 7, 50, "Input"],
-Cell[3741, 98, 1625, 25, 170, "Input"],
-Cell[5369, 125, 712, 11, 130, "Input"],
-Cell[6084, 138, 306, 5, 50, "Input"],
-Cell[6393, 145, 90, 1, 30, "Input"],
-Cell[6486, 148, 268, 4, 30, "Input"],
 
 Cell[CellGroupData[{
-Cell[6779, 156, 66, 1, 30, "Input"],
-Cell[6848, 159, 130, 2, 22, "Message"],
-Cell[6981, 163, 77, 1, 29, "Output"]
+Cell[2310, 69, 740, 13, 130, "Input"],
+Cell[3053, 84, 357, 5, 22, "Message"],
+Cell[3413, 91, 441, 6, 37, "Message"]
 }, Open  ]],
-Cell[7073, 167, 110, 2, 30, "Input"],
-Cell[7186, 171, 478, 9, 70, "Input"],
-Cell[7667, 182, 114, 2, 30, "Input"],
-Cell[7784, 186, 1245, 22, 170, "Input"],
-Cell[9032, 210, 252, 4, 50, "Input"],
-Cell[9287, 216, 176, 3, 30, "Input"],
+Cell[3869, 100, 314, 5, 50, "Input"],
+Cell[4186, 107, 390, 7, 50, "Input"],
+Cell[4579, 116, 1625, 25, 170, "Input"],
+Cell[6207, 143, 712, 11, 130, "Input"],
+Cell[6922, 156, 306, 5, 50, "Input"],
+Cell[7231, 163, 90, 1, 30, "Input"],
+Cell[7324, 166, 268, 4, 30, "Input"],
 
 Cell[CellGroupData[{
-Cell[9488, 223, 78, 1, 30, "Input"],
-Cell[9569, 226, 439, 8, 86, "Output"]
+Cell[7617, 174, 66, 1, 30, "Input"],
+Cell[7686, 177, 77, 1, 29, "Output"]
+}, Open  ]],
+Cell[7778, 181, 110, 2, 30, "Input"],
+Cell[7891, 185, 478, 9, 70, "Input"],
+Cell[8372, 196, 114, 2, 30, "Input"],
+Cell[8489, 200, 1245, 22, 170, "Input"],
+Cell[9737, 224, 252, 4, 50, "Input"],
+Cell[9992, 230, 176, 3, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[10193, 237, 78, 1, 30, "Input"],
+Cell[10274, 240, 439, 8, 86, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[10045, 239, 109, 2, 30, "Input"],
-Cell[10157, 243, 359, 5, 22, "Message"]
+Cell[10750, 253, 109, 2, 30, "Input"],
+Cell[10862, 257, 359, 5, 22, "Message"]
 }, Open  ]]
 }
 ]

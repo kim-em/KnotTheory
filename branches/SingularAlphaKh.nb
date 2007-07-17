@@ -1,0 +1,511 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     10183,        354]*)
+(*NotebookOutlinePosition[     10829,        376]*)
+(*  CellTagsIndexPosition[     10785,        372]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell["\<\
+Run the code from JustFreeAlpha, and from SingularKh, before starting here.\
+\>", "Text"],
+
+Cell[BoxData[
+    \(f[c_] := {Factor[Expand[c /. \[Alpha]0rules]], 
+        Factor[Expand[\((c /. \[Alpha]0rules)\) /. 
+              t \[Rule] \(-1\)]]}\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\[Alpha]Kh[PD[X[1, 4, 2, 5], X[3, 6, 4, 1], X[5, 2, 6, 3]]]\)], "Input"],
+
+Cell[BoxData[
+    \(C\/q\^2 + Q[1]\/\(q\^6\ t\^2\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(f[%]\)], "Input"],
+
+Cell[BoxData[
+    \({\(1 + q\^4\ t + q\^6\ t\^3 + q\^8\ t\^3\)\/\(q\^9\ t\^3\), \(\((1 + \
+q\^2)\)\ \((\(-1\) + q\^2 + q\^6)\)\)\/q\^9}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The horrible brokenness of my code means you better not have the strand 1 \
+involved in an singular crossings...\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\[Alpha]Kh[
+      PD[X[1, 4, 2, 5], X[3, 6, 4, 1], 
+        SingularCrossing[5, 2, 6, 3]]]\)], "Input"],
+
+Cell[BoxData[
+    \(Q[1]\/\(q\^6\ t\^2\) + t\ Q[1]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(f[%]\)], "Input"],
+
+Cell[BoxData[
+    \({\(\((1 + q\^2\ t)\)\ \((1 + q\^4\ t)\)\ \((1 - q\^2\ t + q\^4\ t\^2)\)\
+\)\/\(q\^9\ t\^3\), \(-\(\(\((\(-1\) + q)\)\^2\ \((1 + q)\)\^2\ \((1 + 
+                  q\^2)\)\ \((1 - q + q\^2)\)\ \((1 + q + 
+                  q\^2)\)\)\/q\^9\)\)}\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\(pd = 
+        PD[X[4, 2, 5, 1], X[8, 4, 9, 3], X[9, 15, 10, 14], X[5, 13, 6, 12], 
+          X[13, 7, 14, 6], X[11, 1, 12, 16], X[15, 11, 16, 10], 
+          X[2, 8, 3, 7]];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(kh = \[Alpha]Kh[pd]\)], "Input"],
+
+Cell[BoxData[
+    \(C\ q\^6 + q\^12\ t\^3\ Q[1] + q\^16\ t\^5\ Q[2]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[kh]\)], "Input"],
+
+Cell[BoxData[
+    \(q\^6\ \((C + q\^6\ t\^3\ Q[1] + q\^10\ t\^5\ Q[2])\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(f[kh]\)], "Input"],
+
+Cell[BoxData[
+    \({q\^5\ \((1 + q\^2 + q\^4\ t\^2 + q\^8\ t\^3 + q\^6\ t\^4 + 
+            q\^8\ t\^4 + q\^10\ t\^5 + q\^12\ t\^5)\), \(-q\^5\)\ \((1 + 
+            q\^2)\)\ \((\(-1\) - q\^4 + q\^10)\)}\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\(pd = 
+        PD[X[4, 2, 5, 1], X[8, 4, 9, 3], SingularCrossing[9, 15, 10, 14], 
+          X[5, 13, 6, 12], X[13, 7, 14, 6], X[11, 1, 12, 16], 
+          X[15, 11, 16, 10], X[2, 8, 3, 7]];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(kh = \[Alpha]Kh[pd]\)], "Input"],
+
+Cell[BoxData[
+    \(\(C\ q\^3\)\/t + C\ q\^9\ t\^2 + q\^11\ t\^4\ Q[1] + 
+      q\^17\ t\^7\ Q[1]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[kh]\)], "Input"],
+
+Cell[BoxData[
+    \(\(q\^3\ \((1 + q\^2\ t)\)\ \((1 - q\^2\ t + q\^4\ t\^2)\)\ \((C + q\^8\ \
+t\^5\ Q[1])\)\)\/t\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(f[kh]\)], "Input"],
+
+Cell[BoxData[
+    \({\(q\^2\ \((1 + q\^2\ t)\)\ \((1 - q\^2\ t + q\^4\ t\^2)\)\ \((1 + q\^2 \
++ q\^6\ t\^4 + q\^10\ t\^5)\)\)\/t, \(-\((\(-1\) + q)\)\)\ q\^2\ \((1 + 
+            q)\)\ \((1 + q\^2)\)\ \((1 - q + q\^2)\)\ \((1 + q + 
+            q\^2)\)\ \((\(-1\) - q\^6 + q\^8)\)}\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\(pd = 
+        PD[X[4, 2, 5, 1], X[8, 4, 9, 3], SingularCrossing[9, 15, 10, 14], 
+          X[5, 13, 6, 12], X[13, 7, 14, 6], X[11, 1, 12, 16], 
+          SingularCrossing[15, 11, 16, 10], X[2, 8, 3, 7]];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(kh = \[Alpha]Kh[pd]\)], "Input"],
+
+Cell[BoxData[
+    \(C\/t\^2 + C\ q\^4\ t + C\ q\^6\ t + C\ q\^10\ t\^4 + q\^8\ t\^3\ Q[1] + 
+      q\^12\ t\^6\ Q[1] + q\^14\ t\^6\ Q[1] + q\^18\ t\^9\ Q[1]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[kh]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\((1 + q\^2\ t)\)\ \((1 - q\^2\ t + q\^4\ t\^2)\)\ \((1 + q\^4\ t\^3)\
+\)\ \((C + q\^8\ t\^5\ Q[1])\)\)\/t\^2\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(f[kh]\)], "Input"],
+
+Cell[BoxData[
+    \({\(\((1 + q\^2\ t)\)\ \((1 - q\^2\ t + q\^4\ t\^2)\)\ \((1 + q\^4\ \
+t\^3)\)\ \((1 + q\^2 + q\^6\ t\^4 + q\^10\ t\^5)\)\)\/\(q\ t\^2\), \
+\(-\(\(1\/q\)\((\((\(-1\) + q)\)\^2\ \((1 + q)\)\^2\ \((1 + q\^2)\)\^2\ \((1 \
+- q + q\^2)\)\ \((1 + q + q\^2)\)\ \((\(-1\) - q\^6 + 
+                q\^8)\))\)\)\)}\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\(pd = 
+        PD[X[4, 2, 5, 1], SingularCrossing[8, 4, 9, 3], 
+          SingularCrossing[9, 15, 10, 14], X[5, 13, 6, 12], X[13, 7, 14, 6], 
+          X[11, 1, 12, 16], SingularCrossing[15, 11, 16, 10], 
+          X[2, 8, 3, 7]];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(kh = \[Alpha]Kh[pd]\)], "Input"],
+
+Cell[BoxData[
+    \(2\ C\ q + C\ q\^3 + C\/\(q\^3\ t\^3\) + C\ q\^5\ t\^3 + 
+      2\ C\ q\^7\ t\^3 + C\ q\^11\ t\^6 + q\^5\ t\^2\ Q[1] + 
+      q\^9\ t\^5\ Q[1] + q\^11\ t\^5\ Q[1] + q\^15\ t\^8\ Q[1]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[kh]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\((1 + q\^2\ t)\)\ \((1 - q\^2\ t + q\^4\ t\^2)\)\ \((1 + q\^4\ t\^3)\
+\)\ \((C + C\ q\^4\ t\^3 + q\^8\ t\^5\ Q[1])\)\)\/\(q\^3\ t\^3\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(f[kh]\)], "Input"],
+
+Cell[BoxData[
+    \({\(\(1\/\(q\^4\ t\^3\)\)\((\((1 + q\^2\ t)\)\ \((1 - q\^2\ t + 
+              q\^4\ t\^2)\)\ \((1 + q\^4\ t\^3)\)\ \((1 + q\^2 + q\^4\ t\^3 + 
+              q\^6\ t\^3 + q\^6\ t\^4 + 
+              q\^10\ t\^5)\))\)\), \(\((\(-1\) + q)\)\^3\ \((1 + q)\)\^3\ \
+\((1 + q\^2)\)\^2\ \((1 - q + q\^2)\)\ \((1 + q + q\^2)\)\ \((1 + q\^2 + \
+q\^6)\)\)\/q\^4}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[
+      C + C\ q\^4\ t\^3 + q\^8\ t\^5\ Q[1] /. \[Alpha]0rules]\)], "Input"],
+
+Cell[BoxData[
+    \(\(1 + q\^2 + q\^4\ t\^3 + q\^6\ t\^3 + q\^6\ t\^4 + q\^10\ \
+t\^5\)\/q\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[\(C + C\ q\^4\ t\^3 + q\^8\ t\^5\ Q[1] /. \[Alpha]0rules\) /. 
+        t \[Rule] \(-1\)]\)], "Input"],
+
+Cell[BoxData[
+    \(\(-\(\(\((\(-1\) + q)\)\ \((1 + q)\)\ \((1 + q\^2)\)\ \((1 + q\^2 + 
+                q\^6)\)\)\/q\)\)\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\(pd = 
+        PD[X[4, 2, 5, 1], SingularCrossing[8, 4, 9, 3], 
+          SingularCrossing[9, 15, 10, 14], X[5, 13, 6, 12], 
+          SingularCrossing[13, 7, 14, 6], X[11, 1, 12, 16], 
+          SingularCrossing[15, 11, 16, 10], X[2, 8, 3, 7]];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(kh = \[Alpha]Kh[pd]\)], "Input"],
+
+Cell[BoxData[
+    \(C\/\(q\^6\ t\^4\) + C\/t + \(3\ C\)\/\(q\^2\ t\) + 2\ C\ q\^2\ t\^2 + 
+      4\ C\ q\^4\ t\^2 + 3\ C\ q\^8\ t\^5 + C\ q\^10\ t\^5 + C\ q\^14\ t\^8 + 
+      q\^2\ t\ Q[1] + q\^6\ t\^4\ Q[1] + q\^8\ t\^4\ Q[1] + 
+      q\^12\ t\^7\ Q[1]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[kh]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(1\/\(q\^6\ t\^4\)\)\((\((1 + q\^2\ t)\)\ \((1 - q\^2\ t + 
+            q\^4\ t\^2)\)\ \((1 + q\^4\ t\^3)\)\ \((C + 2\ C\ q\^4\ t\^3 + 
+            C\ q\^10\ t\^6 + q\^8\ t\^5\ Q[1])\))\)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(f[kh]\)], "Input"],
+
+Cell[BoxData[
+    \({\(\(1\/\(q\^7\ t\^4\)\)\((\((1 + q\^2\ t)\)\ \((1 - q\^2\ t + 
+              q\^4\ t\^2)\)\ \((1 + q\^4\ t\^3)\)\ \((1 + q\^2 + 
+              2\ q\^4\ t\^3 + 2\ q\^6\ t\^3 + q\^6\ t\^4 + q\^10\ t\^5 + 
+              q\^10\ t\^6 + 
+              q\^12\ t\^6)\))\)\), \(\(1\/q\^7\)\((\((\(-1\) + q)\)\^4\ \((1 \
++ q)\)\^4\ \((1 + q\^2)\)\^2\ \((1 - q + q\^2)\)\ \((1 + q + q\^2)\)\ \((1 + 
+              2\ q\^2 + q\^4 + q\^6)\))\)\)}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[
+      C + 2\ C\ q\^4\ t\^3 + C\ q\^10\ t\^6 + 
+          q\^8\ t\^5\ Q[1] /. \[Alpha]0rules]\)], "Input"],
+
+Cell[BoxData[
+    \(\(1 + q\^2 + 2\ q\^4\ t\^3 + 2\ q\^6\ t\^3 + q\^6\ t\^4 + q\^10\ t\^5 + \
+q\^10\ t\^6 + q\^12\ t\^6\)\/q\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[\(C + 2\ C\ q\^4\ t\^3 + C\ q\^10\ t\^6 + 
+            q\^8\ t\^5\ Q[1] /. \[Alpha]0rules\) /. 
+        t \[Rule] \(-1\)]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\((\(-1\) + q)\)\^2\ \((1 + q)\)\^2\ \((1 + q\^2)\)\ \((1 + 2\ q\^2 + \
+q\^4 + q\^6)\)\)\/q\)], "Output"]
+}, Open  ]],
+
+Cell["blegh", "Text"]
+},
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 713}},
+WindowSize->{495, 555},
+WindowMargins->{{Automatic, 145}, {Automatic, 60}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 99, 2, 33, "Text"],
+Cell[1856, 55, 166, 3, 50, "Input"],
+
+Cell[CellGroupData[{
+Cell[2047, 62, 92, 1, 30, "Input"],
+Cell[2142, 65, 64, 1, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2243, 71, 37, 1, 30, "Input"],
+Cell[2283, 74, 149, 2, 47, "Output"]
+}, Open  ]],
+Cell[2447, 79, 136, 3, 52, "Text"],
+
+Cell[CellGroupData[{
+Cell[2608, 86, 123, 3, 50, "Input"],
+Cell[2734, 91, 64, 1, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2835, 97, 37, 1, 30, "Input"],
+Cell[2875, 100, 276, 4, 87, "Output"]
+}, Open  ]],
+Cell[3166, 107, 210, 4, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[3401, 115, 52, 1, 30, "Input"],
+Cell[3456, 118, 81, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3574, 124, 43, 1, 30, "Input"],
+Cell[3620, 127, 86, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3743, 133, 38, 1, 30, "Input"],
+Cell[3784, 136, 218, 3, 48, "Output"]
+}, Open  ]],
+Cell[4017, 142, 225, 4, 90, "Input"],
+
+Cell[CellGroupData[{
+Cell[4267, 150, 52, 1, 30, "Input"],
+Cell[4322, 153, 111, 2, 45, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4470, 160, 43, 1, 30, "Input"],
+Cell[4516, 163, 126, 2, 45, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4679, 170, 38, 1, 30, "Input"],
+Cell[4720, 173, 295, 4, 89, "Output"]
+}, Open  ]],
+Cell[5030, 180, 240, 4, 90, "Input"],
+
+Cell[CellGroupData[{
+Cell[5295, 188, 52, 1, 30, "Input"],
+Cell[5350, 191, 170, 2, 62, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5557, 198, 43, 1, 30, "Input"],
+Cell[5603, 201, 145, 2, 45, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5785, 208, 38, 1, 30, "Input"],
+Cell[5826, 211, 337, 5, 110, "Output"]
+}, Open  ]],
+Cell[6178, 219, 266, 5, 90, "Input"],
+
+Cell[CellGroupData[{
+Cell[6469, 228, 52, 1, 30, "Input"],
+Cell[6524, 231, 215, 3, 64, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6776, 239, 43, 1, 30, "Input"],
+Cell[6822, 242, 171, 2, 47, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7030, 249, 38, 1, 30, "Input"],
+Cell[7071, 252, 385, 6, 129, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7493, 263, 102, 2, 31, "Input"],
+Cell[7598, 267, 104, 2, 47, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7739, 274, 128, 2, 31, "Input"],
+Cell[7870, 278, 135, 2, 47, "Output"]
+}, Open  ]],
+Cell[8020, 283, 281, 5, 90, "Input"],
+
+Cell[CellGroupData[{
+Cell[8326, 292, 52, 1, 30, "Input"],
+Cell[8381, 295, 268, 4, 64, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8686, 304, 43, 1, 30, "Input"],
+Cell[8732, 307, 226, 3, 64, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8995, 315, 38, 1, 30, "Input"],
+Cell[9036, 318, 468, 7, 125, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9541, 330, 133, 3, 31, "Input"],
+Cell[9677, 335, 138, 2, 47, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9852, 342, 161, 3, 31, "Input"],
+Cell[10016, 347, 127, 2, 47, "Output"]
+}, Open  ]],
+Cell[10158, 352, 21, 0, 33, "Text"]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

@@ -38,6 +38,7 @@ KnotTheory.tar.gz: KnotTheory/init.m $(main_distribution);
 
 KnotTheory.zip: KnotTheory/init.m $(main_distribution);
 	/bin/rm -f KnotTheory.zip
+	# this isn't successfully exlcuding the .svn subdirectories...
 	zip -r KnotTheory.zip $(main_distribution) -x \*.svn
 
 DTCodes4Knots12To16.tar.gz: KnotTheory/*.dts;

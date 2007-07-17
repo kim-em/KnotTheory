@@ -1,0 +1,1105 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     26963,        887]*)
+(*NotebookOutlinePosition[     27627,        910]*)
+(*  CellTagsIndexPosition[     27583,        906]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+    \(\(KnotTheoryPath\  = \ \
+"\<c:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk\\\>";\)\), "\n", 
+    \(\(AppendTo[$Path, \ KnotTheoryPath];\)\), "\n", 
+    \(<< \ KnotTheory`\)}], "Input"],
+
+Cell[BoxData[
+    \("Loading KnotTheory` version of July 7, 2007, 9:53:56.5473.\nRead more \
+at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
+}, Open  ]],
+
+Cell[BoxData[{
+    \(\(BeginPackage["\<KnotTheory`\>"];\)\), "\[IndentingNewLine]", 
+    \(\(SingularCrossing;\)\), "\[IndentingNewLine]", 
+    \(\(Begin["\<`FastKh`\>"];\)\), "\[IndentingNewLine]", 
+    \(\(KhComplex[SingularCrossing[i_, j_, k_, l_]] := 
+        Kom[\(-1\), \[IndentingNewLine]Objects[\[IndentingNewLine]e[1] 
+                Smoothing[Q\^\(-2\)\ P[i, j]\ P[k, l]], \[IndentingNewLine]e[
+                  1] Smoothing[
+                  Q\^\(-1\)\ P[i, l]\ P[j, k]], \[IndentingNewLine]e[1] 
+                Smoothing[Q\ P[i, l]\ P[j, k]], \[IndentingNewLine]e[1] 
+                Smoothing[Q\^2\ P[i, j]\ P[k, l]]\[IndentingNewLine]] /. 
+            P[m_, n_] \[RuleDelayed] \(P[m, n]\)[
+                Min[m, n]], \
+\[IndentingNewLine]Morphisms[\[IndentingNewLine]MM[e[1], 
+              e[1], {{1}}], \[IndentingNewLine]MM[e[1], 
+              e[1], {{bdot[Min[i, l]] - 
+                    bdot[Min[j, k]]}}], \[IndentingNewLine]MM[e[1], 
+              e[1], {{1}}]\[IndentingNewLine]]\[IndentingNewLine]];\)\), "\
+\[IndentingNewLine]", 
+    \(\(End[];\)\), "\[IndentingNewLine]", 
+    \(\(EndPackage[];\)\)}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[Knot[3, 1]]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory::"loading" \(\(:\)\(\ \)\) 
+      "Loading precomputed data in \!\(\"PD4Knots`\"\)."\)], "Message"],
+
+Cell[BoxData[
+    \(PD[X[1, 4, 2, 5], X[3, 6, 4, 1], X[5, 2, 6, 3]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Kh[PD[Knot[3, 1]], Program -> "\<FastKh\>"]\)[q, t]\)], "Input"],
+
+Cell[BoxData[
+    \(1\/q\^3 + 1\/q + 1\/\(q\^9\ t\^3\) + 1\/\(q\^5\ t\^2\)\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\(pd = PD[X[1, 4, 2, 5], X[3, 6, 4, 1]];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(KnotTheory`FastKh`KhComplex[pd]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory`FastKh`Kom[\(-2\), 
+      KnotTheory`FastKh`Objects[
+        KnotTheory`FastKh`e[
+            1]\ KnotTheory`FastKh`Smoothing[\(\(P[2, 5]\)[2]\ \(P[3, \
+6]\)[3]\)\/KnotTheory`FastKh`Q\^5], 
+        KnotTheory`FastKh`e[
+            1]\ KnotTheory`FastKh`Smoothing[\(\(P[2, 5]\)[1]\ \(P[3, \
+6]\)[3]\)\/KnotTheory`FastKh`Q\^3], 
+        KnotTheory`FastKh`e[
+            1]\ KnotTheory`FastKh`Smoothing[\(\(P[2, 6]\)[2]\ \(P[3, \
+5]\)[1]\)\/KnotTheory`FastKh`Q\^2]], 
+      KnotTheory`FastKh`Morphisms[
+        KnotTheory`FastKh`MM[KnotTheory`FastKh`e[1], 
+          KnotTheory`FastKh`e[
+            1], {{KnotTheory`FastKh`bdot[1] - KnotTheory`FastKh`bdot[3]}}], 
+        KnotTheory`FastKh`MM[KnotTheory`FastKh`e[1], 
+          KnotTheory`FastKh`e[1], {{\(-1\)}}]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(KnotTheory`FastKh`KhComplex[SingularCrossing[5, 2, 6, 3]]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory`FastKh`Kom[\(-1\), 
+      KnotTheory`FastKh`Objects[
+        KnotTheory`FastKh`e[
+            1]\ KnotTheory`FastKh`Smoothing[\(\(P[2, 5]\)[2]\ \(P[3, \
+6]\)[3]\)\/KnotTheory`FastKh`Q\^2], 
+        KnotTheory`FastKh`e[
+            1]\ KnotTheory`FastKh`Smoothing[\(\(P[2, 6]\)[2]\ \(P[3, \
+5]\)[3]\)\/KnotTheory`FastKh`Q], 
+        KnotTheory`FastKh`e[1]\ KnotTheory`FastKh`Smoothing[
+            KnotTheory`FastKh`Q\ \(P[2, 6]\)[2]\ \(P[3, 5]\)[3]], 
+        KnotTheory`FastKh`e[1]\ KnotTheory`FastKh`Smoothing[
+            KnotTheory`FastKh`Q\^2\ \(P[2, 5]\)[2]\ \(P[3, 6]\)[3]]], 
+      KnotTheory`FastKh`Morphisms[
+        KnotTheory`FastKh`MM[KnotTheory`FastKh`e[1], 
+          KnotTheory`FastKh`e[1], {{1}}], 
+        KnotTheory`FastKh`MM[KnotTheory`FastKh`e[1], 
+          KnotTheory`FastKh`e[
+            1], {{\(-KnotTheory`FastKh`bdot[2]\) + 
+                KnotTheory`FastKh`bdot[3]}}], 
+        KnotTheory`FastKh`MM[KnotTheory`FastKh`e[1], 
+          KnotTheory`FastKh`e[1], {{1}}]]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(kom = 
+      KnotTheory`FastKh`KhComplex[
+        PD[X[3, 6, 4, 1], SingularCrossing[5, 2, 6, 3]]]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory`FastKh`Kom[\(-2\), 
+      KnotTheory`FastKh`Objects[
+        KnotTheory`FastKh`e[
+            1]\ KnotTheory`FastKh`Smoothing[\(\(P[1, 4]\)[1]\ \(P[2, \
+5]\)[2]\)\/KnotTheory`FastKh`Q\^5], 
+        KnotTheory`FastKh`e[
+            1]\ KnotTheory`FastKh`Smoothing[\(\(P[1, 4]\)[1]\ \(P[2, \
+5]\)[2]\)\/KnotTheory`FastKh`Q\^3], 
+        KnotTheory`FastKh`e[
+            1]\ KnotTheory`FastKh`Smoothing[\(\(P[1, 5]\)[1]\ \(P[2, \
+4]\)[2]\)\/KnotTheory`FastKh`Q\^2], 
+        KnotTheory`FastKh`e[
+            1]\ KnotTheory`FastKh`Smoothing[\(P[1, 5]\)[1]\ \(P[2, 4]\)[2]], 
+        0], KnotTheory`FastKh`Morphisms[
+        KnotTheory`FastKh`MM[KnotTheory`FastKh`e[1], 
+          KnotTheory`FastKh`e[
+            1], {{KnotTheory`FastKh`bdot[1] - KnotTheory`FastKh`bdot[2]}}], 
+        KnotTheory`FastKh`MM[KnotTheory`FastKh`e[1], 
+          KnotTheory`FastKh`e[1], {{\(-1\)}}], 
+        KnotTheory`FastKh`MM[KnotTheory`FastKh`e[1], 
+          KnotTheory`FastKh`e[
+            1], {{\(-KnotTheory`FastKh`bdot[1]\) + 
+                KnotTheory`FastKh`bdot[2]}}], 0]]\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\(kom2 = 
+        KnotTheory`FastKh`HC[KnotTheory`FastKh`KhComplex[X[1, 4, 2, 5]], 
+          kom];\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(dkom2 = KnotTheory`FastKh`DeLoop[kom2];\)\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(dkom2\\)\\\" is similar to existing symbol \
+\\\"\\!\\(kom2\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(KnotTheory`FastKh`Contract[dkom2]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory`FastKh`Kom[\(-3\), 
+      KnotTheory`FastKh`Objects[
+        KnotTheory`FastKh`e[1]\ KnotTheory`FastKh`Smoothing[
+            1\/KnotTheory`FastKh`Q\^9], 
+        KnotTheory`FastKh`e[1]\ KnotTheory`FastKh`Smoothing[
+            1\/KnotTheory`FastKh`Q\^5], 0, 
+        KnotTheory`FastKh`e[1]\ KnotTheory`FastKh`Smoothing[
+            1\/KnotTheory`FastKh`Q\^3], 
+        KnotTheory`FastKh`e[1]\ KnotTheory`FastKh`Smoothing[
+            KnotTheory`FastKh`Q], 0], 
+      KnotTheory`FastKh`Morphisms[0, 0, 0, 0, 0]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(KnotTheory`FastKh`KhComplex[
+      PD[X[1, 4, 2, 5], X[3, 6, 4, 1], 
+        SingularCrossing[5, 2, 6, 3]]]\)], "Input"],
+
+Cell[BoxData[
+    \(KnotTheory`FastKh`Kom[\(-3\), 
+      KnotTheory`FastKh`Objects[
+        KnotTheory`FastKh`e[1]\ KnotTheory`FastKh`Smoothing[
+            1\/KnotTheory`FastKh`Q\^9], 
+        KnotTheory`FastKh`e[1]\ KnotTheory`FastKh`Smoothing[
+            1\/KnotTheory`FastKh`Q\^5], 0, 
+        KnotTheory`FastKh`e[1]\ KnotTheory`FastKh`Smoothing[
+            1\/KnotTheory`FastKh`Q\^3], 
+        KnotTheory`FastKh`e[1]\ KnotTheory`FastKh`Smoothing[
+            KnotTheory`FastKh`Q], 0], 
+      KnotTheory`FastKh`Morphisms[0, 0, 0, 0, 0]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Kh[PD[X[1, 4, 2, 5], X[3, 6, 4, 1], X[5, 2, 6, 3]], 
+        Program -> "\<FastKh\>"]\)[q, t]\)], "Input"],
+
+Cell[BoxData[
+    \(1\/q\^3 + 1\/q + 1\/\(q\^9\ t\^3\) + 1\/\(q\^5\ t\^2\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(p = \(Kh[
+          PD[X[1, 4, 2, 5], X[3, 6, 4, 1], SingularCrossing[5, 2, 6, 3]], 
+          Program -> "\<FastKh\>"]\)[q, t]\)], "Input"],
+
+Cell[BoxData[
+    \(1\/q\^3 + 1\/\(q\^9\ t\^3\) + 1\/\(q\^5\ t\^2\) + q\ t\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[%]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\((1 + q\^2\ t)\)\ \((1 + q\^4\ t)\)\ \((1 - q\^2\ t + q\^4\ \
+t\^2)\)\)\/\(q\^9\ t\^3\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[% /. t \[Rule] \(-1\)]\)], "Input"],
+
+Cell[BoxData[
+    \(\(-\(\(\((\(-1\) + q)\)\^2\ \((1 + q)\)\^2\ \((1 + q\^2)\)\ \((1 - q + 
+                q\^2)\)\ \((1 + q + q\^2)\)\)\/q\^9\)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(exp[h] = Series[\[ExponentialE]\^h, {h, 0, 3}]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{"1", "+", "h", "+", \(h\^2\/2\), "+", \(h\^3\/6\), "+", 
+        InterpretationBox[\(O[h]\^4\),
+          SeriesData[ h, 0, {}, 0, 4, 1],
+          Editable->False]}],
+      SeriesData[ h, 0, {1, 1, 
+        Rational[ 1, 2], 
+        Rational[ 1, 6]}, 0, 4, 1],
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Expand[p /. q \[Rule] exp[h]]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{\((1 + 1\/t\^3 + 1\/t\^2 + t)\), 
+        "+", \(\((\(-3\) - 9\/t\^3 - 5\/t\^2 + t)\)\ h\), 
+        "+", \(\((9\/2 + 81\/\(2\ t\^3\) + 25\/\(2\ t\^2\) + t\/2)\)\ h\^2\), 
+        "+", \(\((\(-\(9\/2\)\) - 243\/\(2\ t\^3\) - 125\/\(6\ t\^2\) + 
+              t\/6)\)\ h\^3\), "+", 
+        InterpretationBox[\(O[h]\^4\),
+          SeriesData[ h, 0, {}, 0, 4, 1],
+          Editable->False]}],
+      SeriesData[ h, 0, {
+        Plus[ 1, 
+          Power[ t, -3], 
+          Power[ t, -2], t], 
+        Plus[ -3, 
+          Times[ -9, 
+            Power[ t, -3]], 
+          Times[ -5, 
+            Power[ t, -2]], t], 
+        Plus[ 
+          Rational[ 9, 2], 
+          Times[ 
+            Rational[ 81, 2], 
+            Power[ t, -3]], 
+          Times[ 
+            Rational[ 25, 2], 
+            Power[ t, -2]], 
+          Times[ 
+            Rational[ 1, 2], t]], 
+        Plus[ 
+          Rational[ -9, 2], 
+          Times[ 
+            Rational[ -243, 2], 
+            Power[ t, -3]], 
+          Times[ 
+            Rational[ -125, 6], 
+            Power[ t, -2]], 
+          Times[ 
+            Rational[ 1, 6], t]]}, 0, 4, 1],
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(% /. t \[Rule] \(-1\)\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{\(-\(24\ h\^2\)\), "+", \(96\ h\^3\), "+", 
+        InterpretationBox[\(O[h]\^4\),
+          SeriesData[ h, 0, {}, 2, 4, 1],
+          Editable->False]}],
+      SeriesData[ h, 0, {-24, 96}, 2, 4, 1],
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Expand[\((p /. t \[Rule] \(\[Tau]\^2\) q\^\(-3\))\) /. 
+        q \[Rule] exp[h]]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{\((1 + 1\/\[Tau]\^6 + 1\/\[Tau]\^4 + \[Tau]\^2)\), 
+        "+", \(\((\(-3\) + 1\/\[Tau]\^4 - 2\ \[Tau]\^2)\)\ h\), 
+        "+", \(\((9\/2 + 1\/\(2\ \[Tau]\^4\) + 2\ \[Tau]\^2)\)\ h\^2\), 
+        "+", \(\((\(-\(9\/2\)\) + 
+              1\/\(6\ \[Tau]\^4\) - \(4\ \[Tau]\^2\)\/3)\)\ h\^3\), "+", 
+        InterpretationBox[\(O[h]\^4\),
+          SeriesData[ h, 0, {}, 0, 4, 1],
+          Editable->False]}],
+      SeriesData[ h, 0, {
+        Plus[ 1, 
+          Power[ \[Tau], -6], 
+          Power[ \[Tau], -4], 
+          Power[ \[Tau], 2]], 
+        Plus[ -3, 
+          Power[ \[Tau], -4], 
+          Times[ -2, 
+            Power[ \[Tau], 2]]], 
+        Plus[ 
+          Rational[ 9, 2], 
+          Times[ 
+            Rational[ 1, 2], 
+            Power[ \[Tau], -4]], 
+          Times[ 2, 
+            Power[ \[Tau], 2]]], 
+        Plus[ 
+          Rational[ -9, 2], 
+          Times[ 
+            Rational[ 1, 6], 
+            Power[ \[Tau], -4]], 
+          Times[ 
+            Rational[ -4, 3], 
+            Power[ \[Tau], 2]]]}, 0, 4, 1],
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(% /. \[Tau] \[Rule] \[ImaginaryI]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{\(3\ h\^2\), "-", \(3\ h\^3\), "+", 
+        InterpretationBox[\(O[h]\^4\),
+          SeriesData[ h, 0, {}, 2, 4, 1],
+          Editable->False]}],
+      SeriesData[ h, 0, {3, -3}, 2, 4, 1],
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PD[Knot[8, 19]]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[4, 2, 5, 1], X[8, 4, 9, 3], X[9, 15, 10, 14], X[5, 13, 6, 12], 
+      X[13, 7, 14, 6], X[11, 1, 12, 16], X[15, 11, 16, 10], 
+      X[2, 8, 3, 7]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(pd = 
+      PD[X[4, 2, 5, 1], X[8, 4, 9, 3], SingularCrossing[9, 15, 10, 14], 
+        X[5, 13, 6, 12], X[13, 7, 14, 6], X[11, 1, 12, 16], 
+        X[15, 11, 16, 10], X[2, 8, 3, 7]]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[4, 2, 5, 1], X[8, 4, 9, 3], SingularCrossing[9, 15, 10, 14], 
+      X[5, 13, 6, 12], X[13, 7, 14, 6], X[11, 1, 12, 16], X[15, 11, 16, 10], 
+      X[2, 8, 3, 7]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[\(Kh[pd, Program -> "\<FastKh\>"]\)[q, \(-1\)]]\)], "Input"],
+
+Cell[BoxData[
+    \(\(-\((\(-1\) + q)\)\)\ q\^2\ \((1 + q)\)\ \((1 + q\^2)\)\ \((1 - q + 
+          q\^2)\)\ \((1 + q + q\^2)\)\ \((\(-1\) - q\^6 + q\^8)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[\(Kh[pd, Program -> "\<FastKh\>"]\)[q, t]]\)], "Input"],
+
+Cell[BoxData[
+    \(\(q\^2\ \((1 + q\^2\ t)\)\ \((1 - q\^2\ t + q\^4\ t\^2)\)\ \((1 + q\^2 \
++ q\^6\ t\^4 + q\^10\ t\^5)\)\)\/t\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Kh[pd, Program -> "\<FastKh\>"]\)[q, t] /. 
+      q \[Rule] exp[h]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{\((2\/t + 2\ t\^2 + t\^3 + t\^4 + t\^6 + t\^7)\), 
+        "+", \(\((6\/t + 18\ t\^2 + 8\ t\^3 + 12\ t\^4 + 14\ t\^6 + 
+              18\ t\^7)\)\ h\), 
+        "+", \(\((10\/t + 82\ t\^2 + 32\ t\^3 + 72\ t\^4 + 98\ t\^6 + 
+              162\ t\^7)\)\ h\^2\), 
+        "+", \(\((12\/t + 252\ t\^2 + \(256\ t\^3\)\/3 + 
+              288\ t\^4 + \(1372\ t\^6\)\/3 + 972\ t\^7)\)\ h\^3\), "+", 
+        InterpretationBox[\(O[h]\^4\),
+          SeriesData[ h, 0, {}, 0, 4, 1],
+          Editable->False]}],
+      SeriesData[ h, 0, {
+        Plus[ 
+          Times[ 2, 
+            Power[ t, -1]], 
+          Times[ 2, 
+            Power[ t, 2]], 
+          Power[ t, 3], 
+          Power[ t, 4], 
+          Power[ t, 6], 
+          Power[ t, 7]], 
+        Plus[ 
+          Times[ 6, 
+            Power[ t, -1]], 
+          Times[ 18, 
+            Power[ t, 2]], 
+          Times[ 8, 
+            Power[ t, 3]], 
+          Times[ 12, 
+            Power[ t, 4]], 
+          Times[ 14, 
+            Power[ t, 6]], 
+          Times[ 18, 
+            Power[ t, 7]]], 
+        Plus[ 
+          Times[ 10, 
+            Power[ t, -1]], 
+          Times[ 82, 
+            Power[ t, 2]], 
+          Times[ 32, 
+            Power[ t, 3]], 
+          Times[ 72, 
+            Power[ t, 4]], 
+          Times[ 98, 
+            Power[ t, 6]], 
+          Times[ 162, 
+            Power[ t, 7]]], 
+        Plus[ 
+          Times[ 12, 
+            Power[ t, -1]], 
+          Times[ 252, 
+            Power[ t, 2]], 
+          Times[ 
+            Rational[ 256, 3], 
+            Power[ t, 3]], 
+          Times[ 288, 
+            Power[ t, 4]], 
+          Times[ 
+            Rational[ 1372, 3], 
+            Power[ t, 6]], 
+          Times[ 972, 
+            Power[ t, 7]]]}, 0, 4, 1],
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(% /. t \[Rule] \(-1\)\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{\(12\ h\), "+", \(48\ h\^2\), "-", \(72\ h\^3\), "+", 
+        InterpretationBox[\(O[h]\^4\),
+          SeriesData[ h, 0, {}, 1, 4, 1],
+          Editable->False]}],
+      SeriesData[ h, 0, {12, 48, -72}, 1, 4, 1],
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(pd = 
+      PD[X[4, 2, 5, 1], X[8, 4, 9, 3], SingularCrossing[9, 15, 10, 14], 
+        X[5, 13, 6, 12], X[13, 7, 14, 6], X[11, 1, 12, 16], 
+        SingularCrossing[15, 11, 16, 10], X[2, 8, 3, 7]]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[4, 2, 5, 1], X[8, 4, 9, 3], SingularCrossing[9, 15, 10, 14], 
+      X[5, 13, 6, 12], X[13, 7, 14, 6], X[11, 1, 12, 16], 
+      SingularCrossing[15, 11, 16, 10], X[2, 8, 3, 7]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[\(Kh[pd, Program -> "\<FastKh\>"]\)[q, \(-1\)]]\)], "Input"],
+
+Cell[BoxData[
+    \(\(-\(\(\((\(-1\) + q)\)\^2\ \((1 + q)\)\^2\ \((1 + q\^2)\)\^2\ \((1 - 
+                q + q\^2)\)\ \((1 + q + q\^2)\)\ \((\(-1\) - q\^6 + 
+                q\^8)\)\)\/q\)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[\(Kh[pd, Program -> "\<FastKh\>"]\)[q, t]]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\((1 + q\^2\ t)\)\ \((1 - q\^2\ t + q\^4\ t\^2)\)\ \((1 + q\^4\ t\^3)\
+\)\ \((1 + q\^2 + q\^6\ t\^4 + q\^10\ t\^5)\)\)\/\(q\ t\^2\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Kh[pd, Program -> "\<FastKh\>"]\)[q, t] /. 
+      q \[Rule] exp[h]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{\((2\/t\^2 + 4\ t + t\^2 + t\^3 + 2\ t\^4 + 2\ t\^5 + 2\ t\^6 + 
+            t\^8 + t\^9)\), 
+        "+", \(\((20\ t + 5\ t\^2 + 9\ t\^3 + 20\ t\^4 + 20\ t\^5 + 
+              28\ t\^6 + 15\ t\^8 + 19\ t\^9)\)\ h\), 
+        "+", \(\((1\/t\^2 + 54\ t + \(25\ t\^2\)\/2 + \(81\ t\^3\)\/2 + 
+              101\ t\^4 + 101\ t\^5 + 
+              197\ t\^6 + \(225\ t\^8\)\/2 + \(361\ t\^9\)\/2)\)\ h\^2\), 
+        "+", \(\((\(310\ t\)\/3 + \(125\ t\^2\)\/6 + \(243\ t\^3\)\/2 + \
+\(1030\ t\^4\)\/3 + \(1030\ t\^5\)\/3 + \(2786\ t\^6\)\/3 + \(1125\ t\^8\)\/2 \
++ \(6859\ t\^9\)\/6)\)\ h\^3\), "+", 
+        InterpretationBox[\(O[h]\^4\),
+          SeriesData[ h, 0, {}, 0, 4, 1],
+          Editable->False]}],
+      SeriesData[ h, 0, {
+        Plus[ 
+          Times[ 2, 
+            Power[ t, -2]], 
+          Times[ 4, t], 
+          Power[ t, 2], 
+          Power[ t, 3], 
+          Times[ 2, 
+            Power[ t, 4]], 
+          Times[ 2, 
+            Power[ t, 5]], 
+          Times[ 2, 
+            Power[ t, 6]], 
+          Power[ t, 8], 
+          Power[ t, 9]], 
+        Plus[ 
+          Times[ 20, t], 
+          Times[ 5, 
+            Power[ t, 2]], 
+          Times[ 9, 
+            Power[ t, 3]], 
+          Times[ 20, 
+            Power[ t, 4]], 
+          Times[ 20, 
+            Power[ t, 5]], 
+          Times[ 28, 
+            Power[ t, 6]], 
+          Times[ 15, 
+            Power[ t, 8]], 
+          Times[ 19, 
+            Power[ t, 9]]], 
+        Plus[ 
+          Power[ t, -2], 
+          Times[ 54, t], 
+          Times[ 
+            Rational[ 25, 2], 
+            Power[ t, 2]], 
+          Times[ 
+            Rational[ 81, 2], 
+            Power[ t, 3]], 
+          Times[ 101, 
+            Power[ t, 4]], 
+          Times[ 101, 
+            Power[ t, 5]], 
+          Times[ 197, 
+            Power[ t, 6]], 
+          Times[ 
+            Rational[ 225, 2], 
+            Power[ t, 8]], 
+          Times[ 
+            Rational[ 361, 2], 
+            Power[ t, 9]]], 
+        Plus[ 
+          Times[ 
+            Rational[ 310, 3], t], 
+          Times[ 
+            Rational[ 125, 6], 
+            Power[ t, 2]], 
+          Times[ 
+            Rational[ 243, 2], 
+            Power[ t, 3]], 
+          Times[ 
+            Rational[ 1030, 3], 
+            Power[ t, 4]], 
+          Times[ 
+            Rational[ 1030, 3], 
+            Power[ t, 5]], 
+          Times[ 
+            Rational[ 2786, 3], 
+            Power[ t, 6]], 
+          Times[ 
+            Rational[ 1125, 2], 
+            Power[ t, 8]], 
+          Times[ 
+            Rational[ 6859, 6], 
+            Power[ t, 9]]]}, 0, 4, 1],
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(% /. t \[Rule] \(-1\)\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{\(48\ h\^2\), "+", \(144\ h\^3\), "+", 
+        InterpretationBox[\(O[h]\^4\),
+          SeriesData[ h, 0, {}, 2, 4, 1],
+          Editable->False]}],
+      SeriesData[ h, 0, {48, 144}, 2, 4, 1],
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(pd = 
+      PD[X[4, 2, 5, 1], SingularCrossing[8, 4, 9, 3], 
+        SingularCrossing[9, 15, 10, 14], X[5, 13, 6, 12], X[13, 7, 14, 6], 
+        X[11, 1, 12, 16], SingularCrossing[15, 11, 16, 10], 
+        X[2, 8, 3, 7]]\)], "Input"],
+
+Cell[BoxData[
+    \(PD[X[4, 2, 5, 1], SingularCrossing[8, 4, 9, 3], 
+      SingularCrossing[9, 15, 10, 14], X[5, 13, 6, 12], X[13, 7, 14, 6], 
+      X[11, 1, 12, 16], SingularCrossing[15, 11, 16, 10], 
+      X[2, 8, 3, 7]]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[\(Kh[pd, Program -> "\<FastKh\>"]\)[q, \(-1\)]]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\((\(-1\) + q)\)\^3\ \((1 + q)\)\^3\ \((1 + q\^2)\)\^2\ \((1 - q + \
+q\^2)\)\ \((1 + q + q\^2)\)\ \((1 + q\^2 + q\^6)\)\)\/q\^4\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[\(Kh[pd, Program -> "\<FastKh\>"]\)[q, t]]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\((1 + q\^2\ t)\)\ \((1 - q\^2\ t + q\^4\ t\^2)\)\ \((1 + q\^4\ t\^3)\
+\)\ \((1 + q\^2 + q\^4\ t\^3 + q\^6\ t\^3 + q\^6\ t\^4 + q\^10\ \
+t\^5)\)\)\/\(q\^4\ t\^3\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[\((1 - q\^2\ t + q\^4\ t\^2)\) /. t \[Rule] \(-1\)]\)], "Input"],
+
+Cell[BoxData[
+    \(\((1 - q + q\^2)\)\ \((1 + q + q\^2)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Factor[\((1 + q\^2 + q\^4\ t\^3 + q\^6\ t\^3 + q\^6\ t\^4 + 
+            q\^10\ t\^5)\) /. t \[Rule] \(-1\)]\)], "Input"],
+
+Cell[BoxData[
+    \(\(-\((\(-1\) + q)\)\)\ \((1 + q)\)\ \((1 + q\^2)\)\ \((1 + q\^2 + 
+          q\^6)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(Kh[pd, Program -> "\<FastKh\>"]\)[q, t] /. 
+      q \[Rule] exp[h]\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{\((6 + 2\/t\^3 + t + t\^2 + 6\ t\^3 + 2\ t\^4 + 2\ t\^5 + 
+            2\ t\^6 + t\^7 + t\^8)\), 
+        "+", \(\((10 - 6\/t\^3 + 2\ t + 6\ t\^2 + 38\ t\^3 + 14\ t\^4 + 
+              22\ t\^5 + 22\ t\^6 + 12\ t\^7 + 16\ t\^8)\)\ h\), 
+        "+", \(\((14 + 10\/t\^3 + 2\ t + 18\ t\^2 + 126\ t\^3 + 50\ t\^4 + 
+              122\ t\^5 + 122\ t\^6 + 72\ t\^7 + 128\ t\^8)\)\ h\^2\), 
+        "+", \(\((44\/3 - 12\/t\^3 + \(4\ t\)\/3 + 
+              36\ t\^2 + \(868\ t\^3\)\/3 + \(364\ t\^4\)\/3 + \(1364\ t\^5\)\
+\/3 + \(1364\ t\^6\)\/3 + 288\ t\^7 + \(2048\ t\^8\)\/3)\)\ h\^3\), "+", 
+        InterpretationBox[\(O[h]\^4\),
+          SeriesData[ h, 0, {}, 0, 4, 1],
+          Editable->False]}],
+      SeriesData[ h, 0, {
+        Plus[ 6, 
+          Times[ 2, 
+            Power[ t, -3]], t, 
+          Power[ t, 2], 
+          Times[ 6, 
+            Power[ t, 3]], 
+          Times[ 2, 
+            Power[ t, 4]], 
+          Times[ 2, 
+            Power[ t, 5]], 
+          Times[ 2, 
+            Power[ t, 6]], 
+          Power[ t, 7], 
+          Power[ t, 8]], 
+        Plus[ 10, 
+          Times[ -6, 
+            Power[ t, -3]], 
+          Times[ 2, t], 
+          Times[ 6, 
+            Power[ t, 2]], 
+          Times[ 38, 
+            Power[ t, 3]], 
+          Times[ 14, 
+            Power[ t, 4]], 
+          Times[ 22, 
+            Power[ t, 5]], 
+          Times[ 22, 
+            Power[ t, 6]], 
+          Times[ 12, 
+            Power[ t, 7]], 
+          Times[ 16, 
+            Power[ t, 8]]], 
+        Plus[ 14, 
+          Times[ 10, 
+            Power[ t, -3]], 
+          Times[ 2, t], 
+          Times[ 18, 
+            Power[ t, 2]], 
+          Times[ 126, 
+            Power[ t, 3]], 
+          Times[ 50, 
+            Power[ t, 4]], 
+          Times[ 122, 
+            Power[ t, 5]], 
+          Times[ 122, 
+            Power[ t, 6]], 
+          Times[ 72, 
+            Power[ t, 7]], 
+          Times[ 128, 
+            Power[ t, 8]]], 
+        Plus[ 
+          Rational[ 44, 3], 
+          Times[ -12, 
+            Power[ t, -3]], 
+          Times[ 
+            Rational[ 4, 3], t], 
+          Times[ 36, 
+            Power[ t, 2]], 
+          Times[ 
+            Rational[ 868, 3], 
+            Power[ t, 3]], 
+          Times[ 
+            Rational[ 364, 3], 
+            Power[ t, 4]], 
+          Times[ 
+            Rational[ 1364, 3], 
+            Power[ t, 5]], 
+          Times[ 
+            Rational[ 1364, 3], 
+            Power[ t, 6]], 
+          Times[ 288, 
+            Power[ t, 7]], 
+          Times[ 
+            Rational[ 2048, 3], 
+            Power[ t, 8]]]}, 0, 4, 1],
+      Editable->False]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(% /. t \[Rule] \(-1\)\)], "Input"],
+
+Cell[BoxData[
+    InterpretationBox[
+      RowBox[{\(288\ h\^3\), "+", 
+        InterpretationBox[\(O[h]\^4\),
+          SeriesData[ h, 0, {}, 3, 4, 1],
+          Editable->False]}],
+      SeriesData[ h, 0, {288}, 3, 4, 1],
+      Editable->False]], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 713}},
+WindowSize->{949, 555},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+ShowSelection->True
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 212, 4, 70, "Input"],
+Cell[1991, 59, 157, 2, 44, "Print"]
+}, Open  ]],
+Cell[2163, 64, 1143, 20, 377, "Input"],
+
+Cell[CellGroupData[{
+Cell[3331, 88, 47, 1, 30, "Input"],
+Cell[3381, 91, 130, 2, 22, "Message"],
+Cell[3514, 95, 81, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3632, 101, 86, 1, 30, "Input"],
+Cell[3721, 104, 88, 1, 44, "Output"]
+}, Open  ]],
+Cell[3824, 108, 75, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[3924, 113, 64, 1, 30, "Input"],
+Cell[3991, 116, 808, 17, 205, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4836, 138, 90, 1, 30, "Input"],
+Cell[4929, 141, 1041, 21, 231, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6007, 167, 131, 3, 30, "Input"],
+Cell[6141, 172, 1107, 23, 249, "Output"]
+}, Open  ]],
+Cell[7263, 198, 134, 3, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[7422, 205, 76, 1, 30, "Input"],
+Cell[7501, 208, 357, 5, 22, "Message"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7895, 218, 66, 1, 30, "Input"],
+Cell[7964, 221, 556, 11, 168, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8557, 237, 140, 3, 30, "Input"],
+Cell[8700, 242, 556, 11, 168, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9293, 258, 128, 2, 30, "Input"],
+Cell[9424, 262, 88, 1, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9549, 268, 160, 3, 30, "Input"],
+Cell[9712, 273, 88, 1, 44, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9837, 279, 42, 1, 30, "Input"],
+Cell[9882, 282, 124, 2, 47, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10043, 289, 62, 1, 30, "Input"],
+Cell[10108, 292, 161, 2, 47, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10306, 299, 79, 1, 31, "Input"],
+Cell[10388, 302, 347, 9, 45, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10772, 316, 62, 1, 30, "Input"],
+Cell[10837, 319, 1222, 39, 43, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[12096, 363, 54, 1, 30, "Input"],
+Cell[12153, 366, 285, 7, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[12475, 378, 114, 2, 31, "Input"],
+Cell[12592, 382, 1137, 34, 46, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[13766, 421, 66, 1, 30, "Input"],
+Cell[13835, 424, 276, 7, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[14148, 436, 48, 1, 30, "Input"],
+Cell[14199, 439, 184, 3, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[14420, 447, 214, 4, 50, "Input"],
+Cell[14637, 453, 199, 3, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[14873, 461, 87, 1, 30, "Input"],
+Cell[14963, 464, 169, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[15169, 471, 82, 1, 30, "Input"],
+Cell[15254, 474, 141, 2, 45, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[15432, 481, 101, 2, 30, "Input"],
+Cell[15536, 485, 1850, 63, 79, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[17423, 553, 54, 1, 30, "Input"],
+Cell[17480, 556, 300, 7, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[17817, 568, 229, 4, 50, "Input"],
+Cell[18049, 574, 214, 3, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[18300, 582, 87, 1, 30, "Input"],
+Cell[18390, 585, 206, 3, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[18633, 593, 82, 1, 30, "Input"],
+Cell[18718, 596, 167, 2, 47, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[18922, 603, 101, 2, 30, "Input"],
+Cell[19026, 607, 2709, 91, 117, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[21772, 703, 54, 1, 30, "Input"],
+Cell[21829, 706, 281, 7, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[22147, 718, 253, 5, 50, "Input"],
+Cell[22403, 725, 236, 4, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[22676, 734, 87, 1, 30, "Input"],
+Cell[22766, 737, 163, 2, 48, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[22966, 744, 82, 1, 30, "Input"],
+Cell[23051, 747, 198, 3, 47, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[23286, 755, 91, 1, 31, "Input"],
+Cell[23380, 758, 72, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[23489, 764, 141, 2, 31, "Input"],
+Cell[23633, 768, 118, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[23788, 775, 101, 2, 30, "Input"],
+Cell[23892, 779, 2703, 90, 113, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[26632, 874, 54, 1, 30, "Input"],
+Cell[26689, 877, 258, 7, 29, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
