@@ -27,8 +27,7 @@ CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'c
 KnotTheory::credits = "`1`";
 
 Begin["`System`"]
-
-KnotTheoryVersion[] = {2007, 6, 12, 14, 17, 57.1250000};
+KnotTheoryVersion[] = {2007, 7, 7, 9, 53, 56.5472832};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
