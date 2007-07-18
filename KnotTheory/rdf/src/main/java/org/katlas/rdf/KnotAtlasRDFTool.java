@@ -40,7 +40,7 @@ public class KnotAtlasRDFTool {
 		String outputFile = null;
 		boolean preserve = true;
 
-		File dataDir = new File("/www/html/sesame/repositories/katlas/");
+		File dataDir = new File("/www/sesame/openrdf-sesame/repositories/katlas/");
 
 		try {
 			CommandLineParser parser = new PosixParser();
@@ -58,7 +58,7 @@ public class KnotAtlasRDFTool {
 							"r",
 							"repository <directory>",
 							true,
-							"use <directory> as the RDF repository. (default /www/html/sesame/repositories/katlas/)");
+							"use <directory> as the RDF repository. (default /www/sesame/openrdf-sesame/repositories/katlas/)");
 			options.addOption("info", false,
 					"turn on lower level debugging statements [INFO]");
 			options.addOption("debug", false,
