@@ -7,8 +7,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import net.tqft.iterables.Iterables;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -137,11 +135,8 @@ public class KnotAtlasRDFTool {
 							(Value) null, context);
 				}
 
-				Iterable<Statement> statements = new KnotAtlasRDFStatements(
-						inputFile, repository);
+				Iterable<Statement> statements = new KnotAtlasRDFStatements(inputFile, repository);
 
-				statements = Iterables.takeAtMost(statements, 1000);
-				
 				connection.add(statements, context);
 			} finally {
 				if (connection != null)
