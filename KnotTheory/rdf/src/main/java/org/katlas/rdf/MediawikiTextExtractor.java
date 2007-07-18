@@ -4,8 +4,6 @@ package org.katlas.rdf;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
@@ -17,27 +15,10 @@ import javax.xml.stream.XMLStreamReader;
 import net.tqft.iterables.AbstractIterator;
 import net.tqft.iterables.Iterables;
 import net.tqft.iterables.Pairs;
-import net.tqft.iterables.Predicates;
-import net.tqft.iterables.Triples;
 import net.tqft.iterables.interfaces.Pair;
-import net.tqft.iterables.interfaces.Predicate;
-import net.tqft.iterables.interfaces.Transformer;
-import net.tqft.iterables.interfaces.Triple;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.ValueFactory;
-import org.openrdf.repository.Repository;
-import org.openrdf.repository.RepositoryConnection;
-import org.openrdf.repository.RepositoryException;
-import org.openrdf.repository.http.HTTPRepository;
-import org.openrdf.repository.sail.SailRepository;
-import org.openrdf.rio.RDFHandler;
-import org.openrdf.rio.RDFHandlerException;
-import org.openrdf.rio.ntriples.NTriplesWriter;
-import org.openrdf.sail.nativerdf.NativeStore;
 
 public class MediawikiTextExtractor implements Iterable<Pair<String, String>> {
 	private static Log log = LogFactory.getLog(MediawikiTextExtractor.class);

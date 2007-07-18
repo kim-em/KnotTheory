@@ -11,7 +11,6 @@ import net.tqft.iterables.interfaces.Triple;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.repository.Repository;
@@ -59,14 +58,6 @@ public class KnotAtlasRDFStatements implements Iterable<Statement> {
 		iterable = createIterable(triples);
 	}
 
-	public void saveStatements(Resource...contexts) throws RepositoryException {
-		log.debug("Adding statements to repository.");
-		for(Resource context : contexts) {
-			log.debug(" ... using context " + context);
-		}
-		connection.add(this, contexts);
-	}
-	
 	public Iterator<Statement> iterator() {
 		return iterable.iterator();
 	}

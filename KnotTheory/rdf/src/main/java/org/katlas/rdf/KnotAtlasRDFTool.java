@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import net.tqft.iterables.Iterables;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -18,6 +20,8 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
@@ -39,21 +43,27 @@ public class KnotAtlasRDFTool {
 		boolean preserve = true;
 
 		File dataDir = new File("/www/html/sesame/repositories/katlas/");
-		
+
 		try {
 			CommandLineParser parser = new PosixParser();
 
 			Options options = new Options();
 			options.addOption("h", "help", false, "show this help screen");
-			options.addOption("p", "preserve", false, "preserve pre-existing RDF statements in the repository. (by default these are removed before processing input.)");
+			options.addOption("p", "preserve", false,
+					"preserve pre-existing RDF statements in the repository.");
 			options.addOption("i", "input <filename>", true,
 					"process mediawiki XML export in file <filename>");
 			options.addOption("o", "output <filename>", true,
 					"write RDF statements to <filename>.");
-			options.addOption("r", "repository <directory>", true, "using <directory> as the RDF repository. (defaults to /www/html/sesame/repositories/katlas/)");
-			options.addOption(null, "info", false,
+			options
+					.addOption(
+							"r",
+							"repository <directory>",
+							true,
+							"use <directory> as the RDF repository. (default /www/html/sesame/repositories/katlas/)");
+			options.addOption("info", false,
 					"turn on lower level debugging statements [INFO]");
-			options.addOption(null, "debug", false,
+			options.addOption("debug", false,
 					"turn on lowest level debugging statements [DEBUG]");
 
 			CommandLine line = parser.parse(options, args);
@@ -68,7 +78,7 @@ public class KnotAtlasRDFTool {
 				rootLogger.setLevel(Level.WARN);
 
 			preserve = line.hasOption("p");
-			
+
 			if (line.hasOption("i")) {
 				inputFile = line.getOptionValue("i");
 			}
@@ -104,6 +114,7 @@ public class KnotAtlasRDFTool {
 				new NativeStore(dataDir));
 
 		Repository repository = localRepository;
+		repository.initialize();
 		ValueFactory vf = repository.getValueFactory();
 
 		String contextURI = "http://katlas.org/rdf/latest/";
@@ -117,23 +128,39 @@ public class KnotAtlasRDFTool {
 		}
 
 		if (inputFile != null) {
-			if(!preserve) {
-				RepositoryConnection connection = repository.getConnection();
-				connection.remove((Statement)null, context);	
-				connection.close();
-			}
-			
-			KnotAtlasRDFStatements statements = new KnotAtlasRDFStatements(
-					inputFile, repository);
+			RepositoryConnection connection = null;
+			try {
+				connection = repository.getConnection();
 
-			statements.saveStatements(context);
+				if (!preserve) {
+					connection.remove((Resource) null, (URI) null,
+							(Value) null, context);
+				}
+
+				Iterable<Statement> statements = new KnotAtlasRDFStatements(
+						inputFile, repository);
+
+				statements = Iterables.takeAtMost(statements, 1000);
+				
+				connection.add(statements, context);
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
 		}
 
 		if (outputFile != null) {
-			RepositoryConnection connection = repository.getConnection();
+			RepositoryConnection connection = null;
+			try {
+			connection = repository.getConnection();
 			RDFHandler writer = new NTriplesWriter(new FileWriter(outputFile));
 			connection.export(writer, context);
-			connection.close();
+			connection.close(); 
+			} finally {
+				if(connection != null) {
+					connection.close();
+				}
+			}
 		}
 
 	}
