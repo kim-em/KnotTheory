@@ -45,6 +45,7 @@ public class KnotAtlasRDFStatements implements Iterable<Statement> {
 	public KnotAtlasRDFStatements(String xmlFilename, Repository repository) throws RepositoryException {
 		vf = repository.getValueFactory();
 		connection =  repository.getConnection();
+		log.debug("Initialising RDF repository.");
 		init();
 		
 		iterable = createIterable(new KnotAtlasDataExtractor(xmlFilename));
@@ -53,6 +54,7 @@ public class KnotAtlasRDFStatements implements Iterable<Statement> {
 	public KnotAtlasRDFStatements(Iterable<Triple<String, String, String>> triples, Repository repository) throws RepositoryException {
 		vf = repository.getValueFactory();
 		connection =  repository.getConnection();
+		log.debug("Initialising RDF repository.");
 		init();
 		
 		iterable = createIterable(triples);
