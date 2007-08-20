@@ -151,7 +151,6 @@ public class KnotAtlasRDFTool {
 			RDFHandler writer = new NTriplesWriter(new FileWriter(outputFile));
 			writer.handleNamespace("knot", "http://katlas.org/wiki/");
 			writer.handleNamespace("invariant", "http://katlas.org/wiki/Invariants/");
-			writer.startRDF();
 			connection.export(writer, context);
 			connection.close(); 
 			} finally {
