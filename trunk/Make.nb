@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       145,          7]
-NotebookDataLength[   1509616,      24988]
-NotebookOptionsPosition[   1507120,      24902]
-NotebookOutlinePosition[   1507550,      24919]
-CellTagsIndexPosition[   1507507,      24916]
+NotebookDataLength[   1509764,      24964]
+NotebookOptionsPosition[   1507750,      24893]
+NotebookOutlinePosition[   1508092,      24908]
+CellTagsIndexPosition[   1508049,      24905]
 WindowFrame->Normal
 ContainsDynamic->False*)
 
@@ -36,78 +36,47 @@ Cell[CellGroupData[{
 Cell["The Make Part", "Subtitle"],
 
 Cell["\<\
-Change the following line to whatever the path of \"trunk\" is on you system.\
-\
-\>", "Text"],
-
-Cell["Dror's version", "Text"],
+Change and execute the following cell to set the path for \"trunk\" on your \
+system:\
+\>", "Text",
+ CellChangeTimes->{{3.4052060384375*^9, 3.40520607515625*^9}}],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
- RowBox[{"SetDirectory", "[", 
-  "\"\<C:/drorbn/projects/KnotTheory/svn/trunk\>\"", "]"}]], "Input"],
+ RowBox[{"Switch", "[", 
+  RowBox[{
+  "\"\<Dror\>\"", ",", "\[IndentingNewLine]", "\"\<Dror\>\"", ",", " ", 
+   RowBox[{
+   "SetDirectory", "[", "\"\<C:/drorbn/projects/KnotTheory/svn/trunk\>\"", 
+    "]"}], ",", "\[IndentingNewLine]", "\"\<Scott\>\"", ",", " ", 
+   RowBox[{
+   "SetDirectory", "[", 
+    "\"\<C:\\\\scott\\\\projects\\\\svn-checkouts\\\\KnotTheory\\\\trunk\>\"",
+     "]"}], ",", "\[IndentingNewLine]", "\"\<Radmila\>\"", ",", " ", 
+   RowBox[{
+   "SetDirectory", "[", "\"\<C:\\\\radmila\\\\KnotTheory\\\\trunk\>\"", 
+    "]"}]}], "\[IndentingNewLine]", "]"}]], "Input",
+ CellChangeTimes->{{3.405206115984375*^9, 3.405206187390625*^9}}],
 
 Cell[BoxData["\<\"C:\\\\drorbn\\\\projects\\\\KnotTheory\\\\svn\\\\trunk\"\>"]\
 , "Output",
- CellChangeTimes->{3.39066107565625*^9}]
-}, Open  ]],
-
-Cell["Radmila's version", "Text"],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"SetDirectory", "[", "\"\<C:\\\\radmila\\\\KnotTheory\\\\trunk\>\"", 
-  "]"}]], "Input"],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"SetDirectory", "::", "\<\"cdir\"\>"}], 
-  RowBox[{
-  ":", " "}], "\<\"Cannot set current directory to \
-\\!\\(\\\"C:\\\\\\\\radmila\\\\\\\\KnotTheory\\\\\\\\trunk\\\"\\). \
-\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
-ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/General/cdir\\\", \
-ButtonNote -> \\\"SetDirectory::cdir\\\"]\\)\"\>"}]], "Message",
- CellChangeTimes->{3.390661076953125*^9}],
-
-Cell[BoxData["$Failed"], "Output",
- CellChangeTimes->{3.390661076953125*^9}]
-}, Open  ]],
-
-Cell["Scott's version", "Text"],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"SetDirectory", "[", 
-  "\"\<C:\\\\scott\\\\projects\\\\svn-checkouts\\\\KnotTheory\\\\trunk\>\"", 
-  "]"}]], "Input"],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"SetDirectory", "::", "\<\"cdir\"\>"}], 
-  RowBox[{
-  ":", " "}], "\<\"Cannot set current directory to \
-\\!\\(\\\"C:\\\\\\\\scott\\\\\\\\projects\\\\\\\\svn-checkouts\\\\\\\\\
-KnotTheory\\\\\\\\trunk\\\"\\). \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
-ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
-ButtonData:>\\\"paclet:ref/message/General/cdir\\\", ButtonNote -> \
-\\\"SetDirectory::cdir\\\"]\\)\"\>"}]], "Message", "MSG",
- CellChangeTimes->{3.390661077015625*^9}],
-
-Cell[BoxData["$Failed"], "Output",
- CellChangeTimes->{3.39066107703125*^9}]
+ CellChangeTimes->{3.405206381*^9, 3.40520647671875*^9, 3.40520753734375*^9}]
 }, Open  ]],
 
 Cell["\<\
-PackageSources is identical to the corresponding variable in the makefile\
-\>", "Text"],
+Most times you will not need to edit the follwing variables, so just execute \
+the following cell to initialize them:\
+\>", "Text",
+ CellChangeTimes->{{3.405206248140625*^9, 3.405206297578125*^9}}],
 
-Cell[BoxData[
+Cell[BoxData[{
  RowBox[{
-  RowBox[{"PackageSources", " ", "=", " ", 
+  RowBox[{
+   RowBox[{"PathOf", "[", "\"\<7z\>\"", "]"}], " ", ":=", " ", 
+   "\"\<c:\\\\Program Files\\\\7-Zip\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"InitSources", " ", "=", " ", 
    RowBox[{
     RowBox[{
      RowBox[{"(", 
@@ -128,12 +97,15 @@ Cell[BoxData[
        ",", " ", "\"\<TestRMatrix.m\>\"", ",", " ", "\"\<CJREngine.m\>\"", 
       ",", " ", "\"\<ColouredJones.m\>\"", ",", " ", "\"\<HFGenus.m\>\"", 
       ",", "\"\<KTtoLinKnot.m\>\""}], "\[IndentingNewLine]", "}"}]}]}], 
-  ";"}]], "Input"],
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.40520623484375*^9, 3.40520623528125*^9}, {
+  3.40520723653125*^9, 3.405207237125*^9}, {3.405207272828125*^9, 
+  3.405207281671875*^9}, {3.405207320984375*^9, 3.40520734403125*^9}, {
+  3.40520738878125*^9, 3.40520741828125*^9}, {3.4052075480625*^9, 
+  3.40520754834375*^9}, {3.405207835203125*^9, 3.405207861390625*^9}}],
 
-Cell[BoxData[
- RowBox[{
-  RowBox[{"UnifiedFile", " ", "=", " ", "\"\<KnotTheory/init.m\>\""}], 
-  ";"}]], "Input"],
+Cell["And now the action itself :", "Text",
+ CellChangeTimes->{{3.40520632546875*^9, 3.40520634675*^9}}],
 
 Cell[CellGroupData[{
 
@@ -169,14 +141,33 @@ Cell[BoxData[{
           RowBox[{
           "\"\<(* End source file \>\"", "<>", "#", "<>", 
            "\"\<*)\\n\\n\>\""}]}], "\[IndentingNewLine]", "}"}], "&"}], " ", "/@",
-        " ", "PackageSources"}]}], "\[IndentingNewLine]", "}"}], "]"}]}], 
+        " ", "InitSources"}]}], "\[IndentingNewLine]", "}"}], "]"}]}], 
   ";"}], "\[IndentingNewLine]", 
- RowBox[{"Export", "[", 
-  RowBox[{"UnifiedFile", ",", " ", "lines", ",", " ", "\"\<Lines\>\""}], 
-  "]"}]}], "Input"],
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+   "\"\<KnotTheory/init.m\>\"", ",", " ", "lines", ",", " ", 
+    "\"\<Lines\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Run", "[", 
+  RowBox[{"StringJoin", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"\"\<\\\"\>\"", "<>", 
+     RowBox[{"PathOf", "[", "\"\<7z\>\"", "]"}], "<>", 
+     "\"\<\\\\7z.exe\\\" \>\""}], ",", "\[IndentingNewLine]", 
+    "\"\<a -tzip KnotTheory.zip \>\"", ",", "\[IndentingNewLine]", 
+    "\"\<KnotTheory\\\\*.m\>\""}], "\[IndentingNewLine]", "]"}], 
+  "]"}]}], "Input",
+ CellChangeTimes->{{3.405207245140625*^9, 3.405207245671875*^9}, 
+   3.405207277375*^9, {3.405207421390625*^9, 3.405207553890625*^9}, {
+   3.405207627046875*^9, 3.405207627203125*^9}, 3.405207660171875*^9, {
+   3.405207761234375*^9, 3.405207761375*^9}, {3.405207872421875*^9, 
+   3.40520788234375*^9}}],
 
-Cell[BoxData["\<\"KnotTheory/init.m\"\>"], "Output",
- CellChangeTimes->{3.390661077671875*^9}]
+Cell[BoxData["0"], "Output",
+ CellChangeTimes->{
+  3.390661077671875*^9, 3.40520639040625*^9, 3.40520756003125*^9, 
+   3.405207602703125*^9, {3.40520763415625*^9, 3.405207662203125*^9}, 
+   3.405207763*^9, 3.40520784521875*^9, 3.405207886359375*^9}]
 }, Open  ]]
 }, Open  ]],
 
@@ -217,10 +208,10 @@ Cell[CellGroupData[{
 Cell[BoxData[
  RowBox[{"<<", " ", "KnotTheory`"}]], "Input"],
 
-Cell[BoxData["\<\"Loading KnotTheory` version of June 12, 2007, 14:17:57.125.\
-\\nRead more at http://katlas.math.toronto.edu/wiki/KnotTheory.\"\>"], "Print",\
-
- CellChangeTimes->{3.390661077734375*^9}]
+Cell[BoxData["\<\"Loading KnotTheory` version of November 27, 2007, \
+21:39:49.6406.\\nRead more at http://katlas.math.toronto.edu/wiki/KnotTheory.\
+\"\>"], "Print",
+ CellChangeTimes->{3.390661077734375*^9, 3.405206398015625*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -24900,10 +24891,8 @@ Cell[BoxData["True"], "Output",
 }, Open  ]]
 }, Open  ]]
 },
-WindowSize->{748, 651},
-WindowMargins->{{Automatic, -1289}, {-32, Automatic}},
-DockedCells->FEPrivate`FrontEndResource[
- "FEExpressions", "CompatibilityToolbar"],
+WindowSize->{829, 948},
+WindowMargins->{{68, Automatic}, {Automatic, 44}},
 FrontEndVersion->"6.0 for Microsoft Windows (32-bit) (April 20, 2007)",
 StyleDefinitions->"Default.nb"
 ]
@@ -24923,70 +24912,57 @@ Cell[590, 23, 36, 0, 83, "Title"],
 Cell[629, 25, 346, 6, 65, "Text"],
 Cell[CellGroupData[{
 Cell[1000, 35, 33, 0, 49, "Subtitle"],
-Cell[1036, 37, 103, 3, 29, "Text"],
-Cell[1142, 42, 30, 0, 29, "Text"],
+Cell[1036, 37, 172, 4, 29, "Text"],
 Cell[CellGroupData[{
-Cell[1197, 46, 114, 2, 31, "Input"],
-Cell[1314, 50, 132, 2, 30, "Output"]
+Cell[1233, 45, 667, 14, 112, "Input"],
+Cell[1903, 61, 169, 2, 30, "Output"]
 }, Open  ]],
-Cell[1461, 55, 33, 0, 29, "Text"],
+Cell[2087, 66, 207, 4, 29, "Text"],
+Cell[2297, 72, 1755, 32, 172, "Input"],
+Cell[4055, 106, 104, 1, 29, "Text"],
 Cell[CellGroupData[{
-Cell[1519, 59, 111, 2, 31, "Input"],
-Cell[1633, 63, 462, 9, 22, "Message"],
-Cell[2098, 74, 76, 1, 30, "Output"]
-}, Open  ]],
-Cell[2189, 78, 31, 0, 29, "Text"],
-Cell[CellGroupData[{
-Cell[2245, 82, 141, 3, 31, "Input"],
-Cell[2389, 87, 506, 10, 21, "Message"],
-Cell[2898, 99, 75, 1, 30, "Output"]
-}, Open  ]],
-Cell[2988, 103, 97, 2, 29, "Text"],
-Cell[3088, 107, 1253, 23, 172, "Input"],
-Cell[4344, 132, 114, 3, 31, "Input"],
-Cell[CellGroupData[{
-Cell[4483, 139, 1428, 36, 252, "Input"],
-Cell[5914, 177, 94, 1, 30, "Output"]
+Cell[4184, 111, 2175, 52, 352, "Input"],
+Cell[6362, 165, 249, 4, 30, "Output"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[6057, 184, 33, 0, 49, "Subtitle"],
-Cell[6093, 186, 1021, 26, 212, "Input"],
+Cell[6660, 175, 33, 0, 49, "Subtitle"],
+Cell[6696, 177, 1021, 26, 212, "Input"],
 Cell[CellGroupData[{
-Cell[7139, 216, 60, 1, 31, "Input"],
-Cell[7202, 219, 202, 3, 43, "Print"]
+Cell[7742, 207, 60, 1, 31, "Input"],
+Cell[7805, 210, 229, 3, 43, "Print"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[7441, 227, 367, 11, 31, "Input"],
-Cell[7811, 240, 227, 6, 22, "Message"],
-Cell[8041, 248, 223, 6, 22, "Message"],
-Cell[8267, 256, 304, 7, 59, "Message"],
-Cell[8574, 265, 73, 1, 30, "Output"]
+Cell[8071, 218, 367, 11, 31, "Input"],
+Cell[8441, 231, 227, 6, 22, "Message"],
+Cell[8671, 239, 223, 6, 22, "Message"],
+Cell[8897, 247, 304, 7, 59, "Message"],
+Cell[9204, 256, 73, 1, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[8684, 271, 601, 20, 48, "Input"],
-Cell[9288, 293, 221, 6, 22, "Message"],
-Cell[9512, 301, 304, 7, 59, "Message"],
-Cell[9819, 310, 72, 1, 30, "Output"]
+Cell[9314, 262, 601, 20, 48, "Input"],
+Cell[9918, 284, 221, 6, 22, "Message"],
+Cell[10142, 292, 304, 7, 59, "Message"],
+Cell[10449, 301, 72, 1, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[9928, 316, 521, 15, 33, "Input"],
-Cell[10452, 333, 73, 1, 30, "Output"]
+Cell[10558, 307, 521, 15, 33, "Input"],
+Cell[11082, 324, 73, 1, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[10562, 339, 160, 4, 31, "Input"],
-Cell[10725, 345, 1494047, 24473, 375, 1459331, 23902, "CachedBoxData", \
+Cell[11192, 330, 160, 4, 31, "Input"],
+Cell[11355, 336, 1494047, 24473, 375, 1459331, 23902, "CachedBoxData", \
 "BoxData", "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1504809, 24823, 290, 9, 33, "Input"],
-Cell[1505102, 24834, 239, 6, 21, "Message"],
-Cell[1505344, 24842, 344, 7, 39, "Message"],
-Cell[1505691, 24851, 73, 1, 30, "Output"]
+Cell[1505439, 24814, 290, 9, 33, "Input"],
+Cell[1505732, 24825, 239, 6, 21, "Message"],
+Cell[1505974, 24833, 344, 7, 39, "Message"],
+Cell[1506321, 24842, 73, 1, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1505801, 24857, 1203, 37, 98, "Input"],
-Cell[1507007, 24896, 73, 1, 30, "Output"]
+Cell[1506431, 24848, 1203, 37, 98, "Input"],
+Cell[1507637, 24887, 73, 1, 30, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
@@ -24995,4 +24971,3 @@ Cell[1507007, 24896, 73, 1, 30, "Output"]
 *)
 
 (* End of internal cache information *)
-
