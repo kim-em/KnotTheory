@@ -19,11 +19,21 @@
 
 
 
+(* ::Subtitle:: *)
+(*Definitions*)
+
+
+(* ::Input:: *)
+(*<< KnotTheory`*)
+
+
 BeginPackage["KnotTheory`"];
 
-ArcPresentation; Draw; MorseLink; Cup; Cap; X; Over; Under; Reduce;
+ArcPresentation; Draw; MorseLink; Cup; Cap; X; Over; Under; Reduce; PD; OverlayMatrix; Up; Down;
 
 ArcPresentation::usage = "ArcPresentation[{a1,b1}, {a2, b2}, ..., {an,bn}] is an arc presentation of a knot (as often used in the realm of Heegaard-Floer homologies), where ai is horizontal arc at row i connects column ai to column bi. ArcPresentation[K] returns an arc presentation of the knot K. ArcPresentation[K, Reduce -> r] attemps at most r reduction steps (using a naive reduction algorithm) following a naive creation of some arc presentation for K.";
+
+Draw::usage = "Draw[ap] draws the Arc Presentation ap. Draw[ap, OverlayMatrix -> M] overlays the matrix M on top of that draw.";
 
 Begin["`ArcPresentation`"];
 
@@ -147,7 +157,7 @@ Transpose[om], {2}
 SwapAt[l_List, j_Integer] := Join[
 Take[l, j-1], l[[{j+1, j}]], Drop[l, j+1]
 ];
-MorseLink[ap_ArcPresentation] := Module[
+ArcPresentation /: MorseLink[ap_ArcPresentation] := Module[
 {
 ml={}, (* holds the MorseLink under construction *)
 strands={}, (* the ArcPresentation numbering of the active strands *)
@@ -172,7 +182,7 @@ Do[
 {
 {fr, to} = cur = ap[[k]],
 {frind, toind} = (1+Count[strands, i_ /; i<#])& /@ cur,
-type = {MemberQ[strands, #]& /@ cur, Sign[to-fr]},
+type = {MemberQ[strands, #]& /@ cur, Sign[to-fr]}
 };
 Switch[type,
 {{False, False}, +1}, (
@@ -220,9 +230,95 @@ dirs = Delete[dirs, {{toind+1}, {toind}}]
 ];
 MorseLink @@ ml
 ];
-PD[ap_ArcPresentation] := PD[MorseLink[ap]];
+PD[ap_ArcPresentation] := (ml=MorseLink[ap]; PD[ml]);
 
 End[]; EndPackage[];
 
 
+(* ::Subtitle:: *)
+(*Presentation*)
 
+
+(* ::Input:: *)
+(*?ArcPresentation*)
+
+
+(* ::Input:: *)
+(*ap=ArcPresentation["K11n11"]*)
+
+
+(* ::Input:: *)
+(*Draw[ap]*)
+
+
+(* ::Input:: *)
+(*ap0=ArcPresentation["K11n11", Reduce -> 0]*)
+
+
+(* ::Input:: *)
+(*Draw[ap0]*)
+
+
+(* ::Input:: *)
+(*br=BR[ap] *)
+
+
+(* ::Input:: *)
+(*BraidPlot[br]*)
+
+
+(* ::Input:: *)
+(*Reflect[ap_ArcPresentation] := ArcPresentation @@ ( *)
+(*(Last /@ Sort[Reverse /@ Position[ap, #]])& /@ Range[Length[ap]]*)
+(*)*)
+
+
+(* ::Input:: *)
+(*Reflect[ap] // Draw*)
+
+
+(* ::Input:: *)
+(*MinesweeperMatrix[ap_ArcPresentation] := Module[*)
+(*{l, CurrentRow, c1,c2,k,s},*)
+(*l=Length[ap];*)
+(*CurrentRow = Table[0, {l}];*)
+(*Table[*)
+(*{c1, c2} = Sort[ap[[k]]];*)
+(*s=Sign[{-1,1}.ap[[k]]];*)
+(*Do[*)
+(*CurrentRow[[c]]+=s,*)
+(*{c, c1, c2-1}*)
+(*];*)
+(*CurrentRow,*)
+(*{k,l}*)
+(*]*)
+(*];*)
+
+
+(* ::Input:: *)
+(*?Draw*)
+
+
+(* ::Input:: *)
+(*Draw[ap, OverlayMatrix ->MinesweeperMatrix[ap]]*)
+
+
+(* ::Input:: *)
+(*{Det[t^MinesweeperMatrix[ap]], Alexander[ap][t]} // Factor*)
+
+
+(* ::Subtitle:: *)
+(**)
+(*Further Testing*)
+
+
+(* ::Input:: *)
+(*Test[K_] := (K -> Jones[K][q] == Jones[ArcPresentation[K]][q])*)
+
+
+(* ::Input:: *)
+(*test= Test /@ AllKnots[10]*)
+
+
+(* ::Input:: *)
+(*Total[Last /@ test]*)
