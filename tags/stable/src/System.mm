@@ -66,7 +66,7 @@ AppendTo[$Path, ToFileName[{KnotTheoryDirectory[], "QuantumGroups"}]]
 KnotTheoryWelcomeMessage[] = StringJoin[
   "Loading KnotTheory` version of ",
   KnotTheoryVersionString[],
-  ".\nRead more at http://katlas.math.toronto.edu/wiki/KnotTheory."
+  ".\nRead more at http://katlas.org/wiki/KnotTheory."
 ]
 
 Print[KnotTheoryWelcomeMessage[]]
