@@ -28,7 +28,7 @@ KnotTheory::credits = "`1`";
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2007, 12, 1, 18, 54, 54.6562500};
+KnotTheoryVersion[] = {2007, 12, 3, 10, 28, 18.6875000};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
@@ -66,7 +66,7 @@ AppendTo[$Path, ToFileName[{KnotTheoryDirectory[], "QuantumGroups"}]]
 KnotTheoryWelcomeMessage[] = StringJoin[
   "Loading KnotTheory` version of ",
   KnotTheoryVersionString[],
-  ".\nRead more at http://katlas.math.toronto.edu/wiki/KnotTheory."
+  ".\nRead more at http://katlas.org/wiki/KnotTheory."
 ]
 
 Print[KnotTheoryWelcomeMessage[]]
@@ -6831,4 +6831,46 @@ End[]; EndPackage[];
 (* ::Input:: *)
 (*Total[Last /@ test]*)
 (* End source file src/ArcPresentation.m*)
+
+
+(* Begin source file src/HFK.m*)
+
+BeginPackage["KnotTheory`"];
+
+HFKHat::usage = 
+  "HFKHat[K][t,m] returns the Poincare polynomial of the Heegaard-Floer \
+Knot Homology of the knot K, in the Alexander variable t and the \
+Maslov variable m.";
+
+HFKHat::about = 
+  "The Heegaard-Floer Knot Homology program was written by Jean-Marie \
+Droz in 2007 at the University of Zurich, based on methods of Anna \
+Beliakova's arXiv:07050669.";
+
+Begin["`HFK`"];
+
+HFKHat[K_] := HFKHat[ArcPresentation[K]];
+HFKHat[ap_ArcPresentation] := 
+  HFKHat[ap] = Module[{f, out, minA, maxA, minM, maxM, R, q, t},
+    CreditMessage[
+     "The HFKHat program was written by Jean-Marie Droz in 2007 at the \
+University of Zurich, based on methods of Anna \
+Beliakova's arXiv:07050669."];
+    SetDirectory[ToFileName[{KnotTheoryDirectory[], "HFK-Zurich"}]];
+    f = OpenWrite["in", PageWidth -> Infinity];
+    WriteString[f, 
+     StringDrop[ToString[ap], StringLength["ArcPresentation"]]];
+    Close[f];
+    Run["batchVersion.py"];
+    f = OpenRead["out"];
+    out = Read[f, String];
+    Close[f];
+    ResetDirectory[];
+    {minA, maxA, minM, maxM, R} = 
+     ToExpression[StringReplace[out, {"[" -> "{", "]" -> "}"}]];
+    Function @@ {(#2^Range[minM, maxM]).R.(#1^Range[minA, maxA])}
+    ];
+
+End[]; EndPackage[];
+(* End source file src/HFK.m*)
 
