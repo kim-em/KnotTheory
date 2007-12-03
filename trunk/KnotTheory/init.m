@@ -28,7 +28,7 @@ KnotTheory::credits = "`1`";
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2007, 12, 3, 10, 28, 18.6875000};
+KnotTheoryVersion[] = {2007, 12, 3, 11, 11, 51.6406250};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
@@ -6839,8 +6839,8 @@ BeginPackage["KnotTheory`"];
 
 HFKHat::usage = 
   "HFKHat[K][t,m] returns the Poincare polynomial of the Heegaard-Floer \
-Knot Homology of the knot K, in the Alexander variable t and the \
-Maslov variable m.";
+Knot Homology (hat version) of the knot K, in the Alexander variable t \
+and the Maslov variable m.";
 
 HFKHat::about = 
   "The Heegaard-Floer Knot Homology program was written by Jean-Marie \

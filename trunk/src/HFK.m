@@ -2,8 +2,8 @@ BeginPackage["KnotTheory`"];
 
 HFKHat::usage = 
   "HFKHat[K][t,m] returns the Poincare polynomial of the Heegaard-Floer \
-Knot Homology of the knot K, in the Alexander variable t and the \
-Maslov variable m.";
+Knot Homology (hat version) of the knot K, in the Alexander variable t \
+and the Maslov variable m.";
 
 HFKHat::about = 
   "The Heegaard-Floer Knot Homology program was written by Jean-Marie \
