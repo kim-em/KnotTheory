@@ -110,7 +110,7 @@ public class KnotAtlasRDFTool {
 
 		Repository localRepository = new SailRepository(
 				new NativeStore(dataDir));
-
+		
 		Repository repository = localRepository;
 		repository.initialize();
 		ValueFactory vf = repository.getValueFactory();
@@ -134,7 +134,7 @@ public class KnotAtlasRDFTool {
 					connection.remove((Resource) null, (URI) null,
 							(Value) null, context);
 				}
-
+				
 				Iterable<Statement> statements = new KnotAtlasRDFStatements(inputFile, repository);
 
 				connection.add(statements, context);
