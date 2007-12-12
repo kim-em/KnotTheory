@@ -28,7 +28,7 @@ KnotTheory::credits = "`1`";
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2007, 12, 11, 19, 51, 9.1406250};
+KnotTheoryVersion[] = {2007, 12, 11, 20, 47, 17.2213750};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
@@ -6784,7 +6784,7 @@ Beliakova's arXiv:07050669."];
     ResetDirectory[];
     {minA, maxA, minM, maxM, R} = 
      ToExpression[StringReplace[out, {"[" -> "{", "]" -> "}"}]];
-    Function @@ {(#2^Range[minM, maxM]).R.(#1^Range[minA, maxA])}
+    Function @@ {Expand[(#2^Range[minM, maxM]).R.(#1^Range[minA, maxA])]}
     ];
 
 End[]; EndPackage[];
