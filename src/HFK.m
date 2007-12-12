@@ -35,7 +35,7 @@ Beliakova's arXiv:07050669."];
     ResetDirectory[];
     {minA, maxA, minM, maxM, R} = 
      ToExpression[StringReplace[out, {"[" -> "{", "]" -> "}"}]];
-    Function @@ {(#2^Range[minM, maxM]).R.(#1^Range[minA, maxA])}
+    Function @@ {Expand[(#2^Range[minM, maxM]).R.(#1^Range[minA, maxA])]}
     ];
 
 End[]; EndPackage[];
