@@ -12,9 +12,13 @@ Beliakova's arXiv:07050669.";
 
 Begin["`HFK`"];
 
-HFKHat[K_] := HFKHat[ArcPresentation[K]];
+HFKHat[K_] /; AlternatingQ[K] := Function @@ {Expand[
+  Alexander[K][-#1 #2]*(-#2)^(KnotSignature[K]/2)
+]};
+HFKHat[K_] /; (!AlternatingQ[K] && Head[K] =!= ArcPresentation) :=
+  HFKHat[ArcPresentation[K]];
 HFKHat[ap_ArcPresentation] := 
-  HFKHat[ap] = Module[{f, out, minA, maxA, minM, maxM, R, q, t},
+  HFKHat[ap] = Module[{f, out, minA, maxA, minM, maxM, R},
     CreditMessage[
      "The HFKHat program was written by Jean-Marie Droz in 2007 at the \
 University of Zurich, based on methods of Anna \

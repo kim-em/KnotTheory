@@ -28,7 +28,7 @@ KnotTheory::credits = "`1`";
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2007, 12, 4, 19, 59, 55.6406250};
+KnotTheoryVersion[] = {2007, 12, 11, 19, 51, 9.1406250};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
@@ -159,6 +159,10 @@ PositiveQ::usage = "
 NegativeQ::usage = "
   NegativeQ[xing] returns True if xing is a negative (left handed)
   crossing and False if it is positive (right handed).
+"
+
+AlternatingQ::usage = "
+  AlternatingQ[D] returns True iff the knot/link diagram D is alternating.
 "
 
 P::usage = "
@@ -306,6 +310,11 @@ PositiveCrossings[pd_PD] := Count[pd, _?PositiveQ];
 PositiveCrossings[L_] := PositiveCrossings[PD[L]];
 NegativeCrossings[pd_PD] := Count[pd, _?NegativeQ];
 NegativeCrossings[L_] := NegativeCrossings[PD[L]];
+
+AlternatingQ[diag_] := Module[{h},
+  0 === Plus @@ (PD[diag] /. 
+    X[i_, j_, k_, l_] :> h[i] - h[j] + h[k] - h[l])
+]
 
 ConnectedSum[pd1_PD, pd2_PD] := Module[
   {c1, c2, l2, npd1, npd2},
@@ -6752,9 +6761,13 @@ Beliakova's arXiv:07050669.";
 
 Begin["`HFK`"];
 
-HFKHat[K_] := HFKHat[ArcPresentation[K]];
+HFKHat[K_] /; AlternatingQ[K] := Function @@ {Expand[
+  Alexander[K][-#1 #2]*(-#2)^(KnotSignature[K]/2)
+]};
+HFKHat[K_] /; (!AlternatingQ[K] && Head[K] =!= ArcPresentation) :=
+  HFKHat[ArcPresentation[K]];
 HFKHat[ap_ArcPresentation] := 
-  HFKHat[ap] = Module[{f, out, minA, maxA, minM, maxM, R, q, t},
+  HFKHat[ap] = Module[{f, out, minA, maxA, minM, maxM, R},
     CreditMessage[
      "The HFKHat program was written by Jean-Marie Droz in 2007 at the \
 University of Zurich, based on methods of Anna \
