@@ -57,6 +57,10 @@ NegativeQ::usage = "
   crossing and False if it is positive (right handed).
 "
 
+AlternatingQ::usage = "
+  AlternatingQ[D] returns True iff the knot/link diagram D is alternating.
+"
+
 P::usage = "
   P[i,j] represents a bivalent vertex whose adjacent edges are i and j
   (i.e., a \"Point\" between the segment i and the segment j). Presently P
@@ -202,6 +206,11 @@ PositiveCrossings[pd_PD] := Count[pd, _?PositiveQ];
 PositiveCrossings[L_] := PositiveCrossings[PD[L]];
 NegativeCrossings[pd_PD] := Count[pd, _?NegativeQ];
 NegativeCrossings[L_] := NegativeCrossings[PD[L]];
+
+AlternatingQ[diag_] := Module[{h},
+  0 === Plus @@ (PD[diag] /. 
+    X[i_, j_, k_, l_] :> h[i] - h[j] + h[k] - h[l])
+]
 
 ConnectedSum[pd1_PD, pd2_PD] := Module[
   {c1, c2, l2, npd1, npd2},
