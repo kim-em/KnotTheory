@@ -28,7 +28,7 @@ KnotTheory::credits = "`1`";
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2007, 12, 11, 20, 47, 17.2213750};
+KnotTheoryVersion[] = {2007, 12, 12, 20, 18, 58.8437500};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
@@ -6760,6 +6760,17 @@ Droz in 2007 at the University of Zurich, based on methods of Anna \
 Beliakova's arXiv:07050669.";
 
 Begin["`HFK`"];
+
+HFKHat[Knot[n_, k_]] := (
+  Needs["KnotTheory`HFKHat4KnotsTo11`"];
+  Unset[HFKHat[Knot[n1_, k1_]]];
+  HFKHat[Knot[n, k]]
+)
+HFKHat[Knot[11, t_, k_]] := (
+  Needs["KnotTheory`HFKHat4KnotsTo11`"];
+  Unset[HFKHat[Knot[11, t1_, k1_]]];
+  HFKHat[Knot[11, t, k]]
+)
 
 HFKHat[K_] /; AlternatingQ[K] := Function @@ {Expand[
   Alexander[K][-#1 #2]*(-#2)^(KnotSignature[K]/2)
