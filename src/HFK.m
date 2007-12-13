@@ -12,6 +12,17 @@ Beliakova's arXiv:07050669.";
 
 Begin["`HFK`"];
 
+HFKHat[Knot[n_, k_]] := (
+  Needs["KnotTheory`HFKHat4KnotsTo11`"];
+  Unset[HFKHat[Knot[n1_, k1_]]];
+  HFKHat[Knot[n, k]]
+)
+HFKHat[Knot[11, t_, k_]] := (
+  Needs["KnotTheory`HFKHat4KnotsTo11`"];
+  Unset[HFKHat[Knot[11, t1_, k1_]]];
+  HFKHat[Knot[11, t, k]]
+)
+
 HFKHat[K_] /; AlternatingQ[K] := Function @@ {Expand[
   Alexander[K][-#1 #2]*(-#2)^(KnotSignature[K]/2)
 ]};
