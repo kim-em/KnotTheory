@@ -208,8 +208,10 @@ NegativeCrossings[pd_PD] := Count[pd, _?NegativeQ];
 NegativeCrossings[L_] := NegativeCrossings[PD[L]];
 
 AlternatingQ[diag_] := Module[{h},
-  0 === Plus @@ (PD[diag] /. 
-    X[i_, j_, k_, l_] :> h[i] - h[j] + h[k] - h[l])
+  0 === Plus @@ (PD[diag] /. {
+    X[i_, j_, k_, l_] :> h[i] - h[j] + h[k] - h[l],
+    _Loop -> 0
+  })
 ]
 
 ConnectedSum[pd1_PD, pd2_PD] := Module[

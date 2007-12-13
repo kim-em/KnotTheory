@@ -28,7 +28,7 @@ KnotTheory::credits = "`1`";
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2007, 12, 12, 20, 49, 44.2500000};
+KnotTheoryVersion[] = {2007, 12, 12, 20, 59, 7.0625000};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
@@ -312,8 +312,10 @@ NegativeCrossings[pd_PD] := Count[pd, _?NegativeQ];
 NegativeCrossings[L_] := NegativeCrossings[PD[L]];
 
 AlternatingQ[diag_] := Module[{h},
-  0 === Plus @@ (PD[diag] /. 
-    X[i_, j_, k_, l_] :> h[i] - h[j] + h[k] - h[l])
+  0 === Plus @@ (PD[diag] /. {
+    X[i_, j_, k_, l_] :> h[i] - h[j] + h[k] - h[l],
+    _Loop -> 0
+  })
 ]
 
 ConnectedSum[pd1_PD, pd2_PD] := Module[
