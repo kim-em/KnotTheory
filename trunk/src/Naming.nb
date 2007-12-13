@@ -1,58 +1,32 @@
-(************** Content-type: application/mathematica **************
-                     CreatedBy='Mathematica 5.2'
+(* Content-type: application/mathematica *)
 
-                    Mathematica-Compatible Notebook
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
 
-This notebook can be used with any Mathematica-compatible
-application, such as Mathematica, MathReader or Publicon. The data
-for the notebook starts with the line containing stars above.
+(* CreatedBy='Mathematica 6.0' *)
 
-To get the notebook into a Mathematica-compatible application, do
-one of the following:
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     36463,       1162]
+NotebookOptionsPosition[     33012,       1045]
+NotebookOutlinePosition[     33388,       1061]
+CellTagsIndexPosition[     33345,       1058]
+WindowFrame->Normal
+ContainsDynamic->False*)
 
-* Save the data starting with the line of stars above into a file
-  with a name ending in .nb, then open the file inside the
-  application;
-
-* Copy the data starting with the line of stars above to the
-  clipboard, then use the Paste menu command inside the application.
-
-Data for notebooks contains only printable 7-bit ASCII and can be
-sent directly in email or through ftp in text mode.  Newlines can be
-CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
-
-NOTE: If you modify the data for this notebook not in a Mathematica-
-compatible application, you must delete the line below containing
-the word CacheID, otherwise Mathematica-compatible applications may
-try to use invalid cache data.
-
-For more information on notebooks and Mathematica-compatible 
-applications, contact Wolfram Research:
-  web: http://www.wolfram.com
-  email: info@wolfram.com
-  phone: +1-217-398-0700 (U.S.)
-
-Notebook reader applications are available free of charge from 
-Wolfram Research.
-*******************************************************************)
-
-(*CacheID: 232*)
-
-
-(*NotebookFileLineBreakTest
-NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     18621,        491]*)
-(*NotebookOutlinePosition[     19299,        514]*)
-(*  CellTagsIndexPosition[     19255,        510]*)
-(*WindowFrame->Normal*)
-
-
-
+(* Beginning of Notebook Content *)
 Notebook[{
+Cell[BoxData[
+ RowBox[{"<<", "KnotTheory`"}]], "Input",
+ CellChangeTimes->{{3.406499170359375*^9, 3.406499177359375*^9}}],
 
 Cell[CellGroupData[{
+
 Cell["KnotTheory`Naming`", "Section",
-  InitializationCell->True],
+ InitializationCell->True],
 
 Cell["\<\
 This file is a subpackage of the KnotTheory` package, whose home is at \
@@ -66,570 +40,1127 @@ formats. It's been added on late in the development of the KnotTheory` \
 package, so some code that ought to live here is buried elsewhere in the \
 package.\
 \>", "Text",
-  InitializationCell->True],
+ InitializationCell->True],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"BeginPackage", "[", "\"\<KnotTheory`\>\"", "]"}], ";"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"TorusKnots", "::", "usage"}], "=", 
+   "\"\<TorusKnots[n_] returns a list of all torus knots with up to n \
+crossings.\>\""}], ";"}]], "Input",
+ InitializationCell->True],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"NameString", "::", "usage"}], "=", 
+   "\"\<NameString[K_] returns the 'standard' string name for the knot K. \
+These names are used throughout the Knot Atlas, and can be reinterpreted \
+simply using the function Knot. Thus NameString[Knot[7,2]] returns \
+\\\"7_2\\\", and NameString[Knot[10,NonAlternating,124]] returns \
+\\\"K10n124\\\".\>\""}], ";"}]], "Input",
+ InitializationCell->True],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"NextKnot", "::", "usage"}], "=", 
+   RowBox[{
+    RowBox[{"PreviousKnot", "::", "usage"}], "=", 
+    "\"\<Use NextKnot and PreviousKnot to traverse lists of knots. These \
+functions mostly exist to generate navigation links for the Knot \
+Atlas.\>\""}]}], ";"}]], "Input",
+ InitializationCell->True],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"KnotNumber", "::", "usage"}], "=", 
+   "\"\<For a knot K from the tables, KnotNumber[K] returns its number in the \
+appropriate sequence. Thus KnotNumber[Knot[8,19]] returns 19, while \
+KnotNumber[Link[10,NonAlternating,5]] returns 5.\>\""}], ";"}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.406498716390625*^9, 3.4064987176875*^9}}],
 
 Cell[CellGroupData[{
 
-Cell[BoxData[{
-    \(\(AppendTo[$Path, \ \
-"\<C:/drorbn/projects/KnotTheory/svn/trunk\>"];\)\), "\[IndentingNewLine]", 
-    \(<< \ KnotTheory`\)}], "Input"],
-
 Cell[BoxData[
-    \("Loading KnotTheory` version of March 5, 2006, 19:24:29.2656.\nRead \
-more at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
+ RowBox[{"Begin", "[", "\"\<`Naming`\>\"", "]"}]], "Input",
+ InitializationCell->True],
+
+Cell[BoxData["\<\"KnotTheory`Naming`\"\>"], "Output"]
 }, Open  ]],
 
 Cell[BoxData[
-    \(\(BeginPackage["\<KnotTheory`\>"];\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(TorusKnots::usage = "\<TorusKnots[n_] returns a list of all torus \
-knots with up to n crossings.\>";\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(NameString::usage = "\<NameString[K_] returns the 'standard' string \
-name for the knot K. These names are used throughout the Knot Atlas, and can \
-be reinterpreted simply using the function Knot. Thus NameString[Knot[7,2]] \
-returns \"7_2\", and NameString[Knot[10,NonAlternating,124]] returns \
-\"K10n124\".\>";\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \(\(NextKnot::usage = \(PreviousKnot::usage = "\<Use NextKnot and \
-PreviousKnot to traverse lists of knots. These functions mostly exist to \
-generate navigation links for the Knot Atlas.\>"\);\)\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[{
-    \(\(AlternatingQ::usage = "\<AlternatingQ[K] tries to decide if the knot \
-K is alternating. This function is extremely incomplete; it only works for \
-named knots from the tables, or torus knots.\>";\)\), "\[IndentingNewLine]", 
-    \(\(KnotNumber::usage = "\<For a knot K from the tables, KnotNumber[K] \
-returns its number in the appropriate sequence. Thus KnotNumber[Knot[8,19]] \
-returns 19, while KnotNumber[Link[10,NonAlternating,5]] returns 5.\>";\)\)}], \
-"Input",
-  InitializationCell->True],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
-    \(Begin["\<`Naming`\>"]\)], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[
-    \("KnotTheory`Naming`"\)], "Output"]
-}, Open  ]],
-
-Cell[BoxData[
-    \(TorusKnots[Xmax_] := 
-      Module[{res}, \[IndentingNewLine]res = 
-          Flatten[Table[
-              Cases[Range[2, Min[Floor[1 + Xmax/m], m - 1]], 
-                n_ /; GCD[m, n] \[Equal] 1 \[RuleDelayed] 
-                  TorusKnot[m, n]], {m, 3, Xmax}]]; \[IndentingNewLine]Last /@ 
-          Sort[\({Crossings[#], #} &\) /@ res]\[IndentingNewLine]]\)], "Input",\
-
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{"TorusKnots", "[", "Xmax_", "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", "res", "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"res", "=", 
+      RowBox[{"Flatten", "[", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"Cases", "[", 
+          RowBox[{
+           RowBox[{"Range", "[", 
+            RowBox[{"2", ",", 
+             RowBox[{"Min", "[", 
+              RowBox[{
+               RowBox[{"Floor", "[", 
+                RowBox[{"1", "+", 
+                 RowBox[{"Xmax", "/", "m"}]}], "]"}], ",", 
+               RowBox[{"m", "-", "1"}]}], "]"}]}], "]"}], ",", 
+           RowBox[{
+            RowBox[{"n_", "/;", 
+             RowBox[{
+              RowBox[{"GCD", "[", 
+               RowBox[{"m", ",", "n"}], "]"}], "\[Equal]", "1"}]}], 
+            "\[RuleDelayed]", 
+            RowBox[{"TorusKnot", "[", 
+             RowBox[{"m", ",", "n"}], "]"}]}]}], "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"m", ",", "3", ",", "Xmax"}], "}"}]}], "]"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Last", "/@", 
+      RowBox[{"Sort", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Crossings", "[", "#", "]"}], ",", "#"}], "}"}], "&"}], "/@",
+         "res"}], "]"}]}]}]}], "\[IndentingNewLine]", "]"}]}]], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[{
-    \(AlternatingQ[
-          Knot[n_, k_]] /; \((0 \[LessEqual] n \[LessEqual] 10 \[And] 
-            1 \[LessEqual] k \[LessEqual] 
-              NumberOfKnots[n])\) := \((k \[LessEqual] 
-          NumberOfKnots[n, Alternating])\)\), "\[IndentingNewLine]", 
-    \(AlternatingQ[Knot[_, Alternating, _]] := 
-      True\), "\[IndentingNewLine]", 
-    \(AlternatingQ[Knot[_, NonAlternating, _]] := 
-      False\), "\[IndentingNewLine]", 
-    \(AlternatingQ[Link[_, Alternating, _]] := 
-      True\), "\[IndentingNewLine]", 
-    \(AlternatingQ[Link[_, NonAlternating, _]] := 
-      False\), "\[IndentingNewLine]", 
-    \(AlternatingQ[TorusKnot[2, _]] := True\), "\[IndentingNewLine]", 
-    \(AlternatingQ[TorusKnot[_, 2]] := True\), "\[IndentingNewLine]", 
-    \(AlternatingQ[TorusKnot[_, _]] := False\)}], "Input",
-  InitializationCell->True],
-
-Cell[BoxData[{
-    \(KnotNumber[Knot[_, k_]] := k\), "\[IndentingNewLine]", 
-    \(KnotNumber[Knot[_, _, k_]] := k\), "\[IndentingNewLine]", 
-    \(KnotNumber[Link[_, _, k_]] := k\)}], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{"KnotNumber", "[", 
+   RowBox[{"Knot", "[", 
+    RowBox[{"_", ",", "k_"}], "]"}], "]"}], ":=", 
+  "k"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"KnotNumber", "[", 
+   RowBox[{"Knot", "[", 
+    RowBox[{"_", ",", "_", ",", "k_"}], "]"}], "]"}], ":=", 
+  "k"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"KnotNumber", "[", 
+   RowBox[{"Link", "[", 
+    RowBox[{"_", ",", "_", ",", "k_"}], "]"}], "]"}], ":=", "k"}]}], "Input",
+ InitializationCell->True],
 
 Cell[CellGroupData[{
 
 Cell["NameString", "Subsection",
-  InitializationCell->True],
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(NameString[
-          Knot[n_Integer?\((# \[LessEqual] 10 &)\), 
-            k_Integer]] /; \((k \[LessEqual] NumberOfKnots[n])\) := 
-      ToString[n] <> "\<_\>" <> ToString[k]\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{
+   RowBox[{"NameString", "[", 
+    RowBox[{"Knot", "[", 
+     RowBox[{
+      RowBox[{"n_Integer", "?", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"#", "\[LessEqual]", "10"}], "&"}], ")"}]}], ",", 
+      "k_Integer"}], "]"}], "]"}], "/;", 
+   RowBox[{"(", 
+    RowBox[{"k", "\[LessEqual]", 
+     RowBox[{"NumberOfKnots", "[", "n", "]"}]}], ")"}]}], ":=", 
+  RowBox[{
+   RowBox[{"ToString", "[", "n", "]"}], "<>", "\"\<_\>\"", "<>", 
+   RowBox[{"ToString", "[", "k", "]"}]}]}]], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(NameString[
-          Knot[n_Integer?\((# \[GreaterEqual] 11 &)\), Alternating, 
-            k_Integer]] /; \((k \[LessEqual] 
-            NumberOfKnots[n, Alternating])\) := "\<K\>" <> 
-        ToString[n] <> "\<a\>" <> ToString[k]\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{
+   RowBox[{"NameString", "[", 
+    RowBox[{"Knot", "[", 
+     RowBox[{
+      RowBox[{"n_Integer", "?", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"#", "\[GreaterEqual]", "11"}], "&"}], ")"}]}], ",", 
+      "Alternating", ",", "k_Integer"}], "]"}], "]"}], "/;", 
+   RowBox[{"(", 
+    RowBox[{"k", "\[LessEqual]", 
+     RowBox[{"NumberOfKnots", "[", 
+      RowBox[{"n", ",", "Alternating"}], "]"}]}], ")"}]}], ":=", 
+  RowBox[{"\"\<K\>\"", "<>", 
+   RowBox[{"ToString", "[", "n", "]"}], "<>", "\"\<a\>\"", "<>", 
+   RowBox[{"ToString", "[", "k", "]"}]}]}]], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(NameString[
-          Knot[n_Integer?\((# \[GreaterEqual] 11 &)\), NonAlternating, 
-            k_Integer]] /; \((k \[LessEqual] 
-            NumberOfKnots[n, NonAlternating])\) := "\<K\>" <> 
-        ToString[n] <> "\<n\>" <> ToString[k]\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{
+   RowBox[{"NameString", "[", 
+    RowBox[{"Knot", "[", 
+     RowBox[{
+      RowBox[{"n_Integer", "?", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"#", "\[GreaterEqual]", "11"}], "&"}], ")"}]}], ",", 
+      "NonAlternating", ",", "k_Integer"}], "]"}], "]"}], "/;", 
+   RowBox[{"(", 
+    RowBox[{"k", "\[LessEqual]", 
+     RowBox[{"NumberOfKnots", "[", 
+      RowBox[{"n", ",", "NonAlternating"}], "]"}]}], ")"}]}], ":=", 
+  RowBox[{"\"\<K\>\"", "<>", 
+   RowBox[{"ToString", "[", "n", "]"}], "<>", "\"\<n\>\"", "<>", 
+   RowBox[{"ToString", "[", "k", "]"}]}]}]], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(NameString[
-          Link[n_Integer, Alternating, k_Integer]] /; \((k \[LessEqual] 
-            NumberOfLinks[n, Alternating])\) := "\<L\>" <> 
-        ToString[n] <> "\<a\>" <> ToString[k]\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{
+   RowBox[{"NameString", "[", 
+    RowBox[{"Link", "[", 
+     RowBox[{"n_Integer", ",", "Alternating", ",", "k_Integer"}], "]"}], 
+    "]"}], "/;", 
+   RowBox[{"(", 
+    RowBox[{"k", "\[LessEqual]", 
+     RowBox[{"NumberOfLinks", "[", 
+      RowBox[{"n", ",", "Alternating"}], "]"}]}], ")"}]}], ":=", 
+  RowBox[{"\"\<L\>\"", "<>", 
+   RowBox[{"ToString", "[", "n", "]"}], "<>", "\"\<a\>\"", "<>", 
+   RowBox[{"ToString", "[", "k", "]"}]}]}]], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(NameString[
-          Link[n_Integer, NonAlternating, k_Integer]] /; \((k \[LessEqual] 
-            NumberOfLinks[n, NonAlternating])\) := "\<L\>" <> 
-        ToString[n] <> "\<n\>" <> ToString[k]\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{
+   RowBox[{"NameString", "[", 
+    RowBox[{"Link", "[", 
+     RowBox[{"n_Integer", ",", "NonAlternating", ",", "k_Integer"}], "]"}], 
+    "]"}], "/;", 
+   RowBox[{"(", 
+    RowBox[{"k", "\[LessEqual]", 
+     RowBox[{"NumberOfLinks", "[", 
+      RowBox[{"n", ",", "NonAlternating"}], "]"}]}], ")"}]}], ":=", 
+  RowBox[{"\"\<L\>\"", "<>", 
+   RowBox[{"ToString", "[", "n", "]"}], "<>", "\"\<n\>\"", "<>", 
+   RowBox[{"ToString", "[", "k", "]"}]}]}]], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(NameString[TorusKnot[m_Integer, n_Integer]] := "\<T(\>" <> 
-        ToString[m] <> "\<,\>" <> ToString[n] <> "\<)\>"\)], "Input",
-  InitializationCell->True]
+ RowBox[{
+  RowBox[{"NameString", "[", 
+   RowBox[{"TorusKnot", "[", 
+    RowBox[{"m_Integer", ",", "n_Integer"}], "]"}], "]"}], ":=", 
+  RowBox[{"\"\<T(\>\"", "<>", 
+   RowBox[{"ToString", "[", "m", "]"}], "<>", "\"\<,\>\"", "<>", 
+   RowBox[{"ToString", "[", "n", "]"}], "<>", "\"\<)\>\""}]}]], "Input",
+ InitializationCell->True]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell["Recognise knot string names", "Subsection",
-  InitializationCell->True],
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(Knot[
-          S_String?\((StringMatchQ[#, 
-                  StringExpression[DigitCharacter .. , \ "\<_\>" | "\< \>", \ 
-                    DigitCharacter .. ]] &)\)] /; \((\(\((#\
-\[LeftDoubleBracket]1\[RightDoubleBracket] \[LessEqual] 
-                    10 \[And] #\[LeftDoubleBracket]2\[RightDoubleBracket] \
-\[LessEqual] 
-                    NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket]]\
-)\) &\)[ToExpression /@ StringSplit[S, "\<_\>" | "\< \>"]])\) := 
-      Knot @@ \((ToExpression /@ 
-            StringSplit[S, "\<_\>" | "\< \>"])\)\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{
+   RowBox[{"Knot", "[", 
+    RowBox[{"S_String", "?", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"StringMatchQ", "[", 
+        RowBox[{"#", ",", 
+         RowBox[{"StringExpression", "[", 
+          RowBox[{
+           RowBox[{"DigitCharacter", ".."}], ",", " ", 
+           RowBox[{"\"\<_\>\"", "|", "\"\< \>\""}], ",", " ", 
+           RowBox[{"DigitCharacter", ".."}]}], "]"}]}], "]"}], "&"}], ")"}]}],
+     "]"}], "/;", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+         "\[LessEqual]", "10"}], "\[And]", 
+        RowBox[{
+         RowBox[{"#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+         "\[LessEqual]", 
+         RowBox[{"NumberOfKnots", "[", 
+          RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}],
+           "]"}]}]}], ")"}], "&"}], "[", 
+     RowBox[{"ToExpression", "/@", 
+      RowBox[{"StringSplit", "[", 
+       RowBox[{"S", ",", 
+        RowBox[{"\"\<_\>\"", "|", "\"\< \>\""}]}], "]"}]}], "]"}], ")"}]}], ":=",
+   
+  RowBox[{"Knot", "@@", 
+   RowBox[{"(", 
+    RowBox[{"ToExpression", "/@", 
+     RowBox[{"StringSplit", "[", 
+      RowBox[{"S", ",", 
+       RowBox[{"\"\<_\>\"", "|", "\"\< \>\""}]}], "]"}]}], ")"}]}]}]], "Input",\
+
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(Knot[
-          S_String?\((StringMatchQ[#, 
-                  StringExpression["\<K\>", \ 
-                    DigitCharacter .. , \ "\<a\>", \ 
-                    DigitCharacter .. ]] &)\)] /; \((\(\((#\
-\[LeftDoubleBracket]1\[RightDoubleBracket] \[GreaterEqual] 
-                    11 \[And] #\[LeftDoubleBracket]2\[RightDoubleBracket] \
-\[LessEqual] NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket], 
-                      Alternating])\) &\)[
-            ToExpression /@ 
-              StringSplit[
-                S, {"\<K\>", "\<a\>"}]])\) := \(Knot[#\[LeftDoubleBracket]1\
-\[RightDoubleBracket], 
-            Alternating, #\[LeftDoubleBracket]2\[RightDoubleBracket]] \
-&\)[\((ToExpression /@ StringSplit[S, {"\<K\>", "\<a\>"}])\)]\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{
+   RowBox[{"Knot", "[", 
+    RowBox[{"S_String", "?", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"StringMatchQ", "[", 
+        RowBox[{"#", ",", 
+         RowBox[{"StringExpression", "[", 
+          RowBox[{"\"\<K\>\"", ",", " ", 
+           RowBox[{"DigitCharacter", ".."}], ",", " ", "\"\<a\>\"", ",", " ", 
+           
+           RowBox[{"DigitCharacter", ".."}]}], "]"}]}], "]"}], "&"}], ")"}]}],
+     "]"}], "/;", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+         "\[GreaterEqual]", "11"}], "\[And]", 
+        RowBox[{
+         RowBox[{"#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+         "\[LessEqual]", 
+         RowBox[{"NumberOfKnots", "[", 
+          RowBox[{
+           RowBox[{
+           "#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], ",", 
+           "Alternating"}], "]"}]}]}], ")"}], "&"}], "[", 
+     RowBox[{"ToExpression", "/@", 
+      RowBox[{"StringSplit", "[", 
+       RowBox[{"S", ",", 
+        RowBox[{"{", 
+         RowBox[{"\"\<K\>\"", ",", "\"\<a\>\""}], "}"}]}], "]"}]}], "]"}], 
+    ")"}]}], ":=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Knot", "[", 
+     RowBox[{
+      RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+      ",", "Alternating", ",", 
+      RowBox[{"#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+     "]"}], "&"}], "[", 
+   RowBox[{"(", 
+    RowBox[{"ToExpression", "/@", 
+     RowBox[{"StringSplit", "[", 
+      RowBox[{"S", ",", 
+       RowBox[{"{", 
+        RowBox[{"\"\<K\>\"", ",", "\"\<a\>\""}], "}"}]}], "]"}]}], ")"}], 
+   "]"}]}]], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(Knot[
-          S_String?\((StringMatchQ[#, 
-                  StringExpression["\<K\>", \ 
-                    DigitCharacter .. , \ "\<n\>", \ 
-                    DigitCharacter .. ]] &)\)] /; \((\(\((#\
-\[LeftDoubleBracket]1\[RightDoubleBracket] \[GreaterEqual] 
-                    11 \[And] #\[LeftDoubleBracket]2\[RightDoubleBracket] \
-\[LessEqual] NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket], 
-                      NonAlternating])\) &\)[
-            ToExpression /@ 
-              StringSplit[
-                S, {"\<K\>", "\<n\>"}]])\) := \(Knot[#\[LeftDoubleBracket]1\
-\[RightDoubleBracket], 
-            NonAlternating, #\[LeftDoubleBracket]2\[RightDoubleBracket]] &\)[\
-\((ToExpression /@ StringSplit[S, {"\<K\>", "\<n\>"}])\)]\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{
+   RowBox[{"Knot", "[", 
+    RowBox[{"S_String", "?", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"StringMatchQ", "[", 
+        RowBox[{"#", ",", 
+         RowBox[{"StringExpression", "[", 
+          RowBox[{"\"\<K\>\"", ",", " ", 
+           RowBox[{"DigitCharacter", ".."}], ",", " ", "\"\<n\>\"", ",", " ", 
+           
+           RowBox[{"DigitCharacter", ".."}]}], "]"}]}], "]"}], "&"}], ")"}]}],
+     "]"}], "/;", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+         "\[GreaterEqual]", "11"}], "\[And]", 
+        RowBox[{
+         RowBox[{"#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+         "\[LessEqual]", 
+         RowBox[{"NumberOfKnots", "[", 
+          RowBox[{
+           RowBox[{
+           "#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], ",", 
+           "NonAlternating"}], "]"}]}]}], ")"}], "&"}], "[", 
+     RowBox[{"ToExpression", "/@", 
+      RowBox[{"StringSplit", "[", 
+       RowBox[{"S", ",", 
+        RowBox[{"{", 
+         RowBox[{"\"\<K\>\"", ",", "\"\<n\>\""}], "}"}]}], "]"}]}], "]"}], 
+    ")"}]}], ":=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Knot", "[", 
+     RowBox[{
+      RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+      ",", "NonAlternating", ",", 
+      RowBox[{"#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+     "]"}], "&"}], "[", 
+   RowBox[{"(", 
+    RowBox[{"ToExpression", "/@", 
+     RowBox[{"StringSplit", "[", 
+      RowBox[{"S", ",", 
+       RowBox[{"{", 
+        RowBox[{"\"\<K\>\"", ",", "\"\<n\>\""}], "}"}]}], "]"}]}], ")"}], 
+   "]"}]}]], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(Knot[
-          S_String?\((StringMatchQ[#, 
-                  StringExpression["\<L\>", \ 
-                    DigitCharacter .. , \ "\<a\>", \ 
-                    DigitCharacter .. ]] &)\)] /; \((\(\((1 \[LessEqual] #\
-\[LeftDoubleBracket]2\[RightDoubleBracket] \[LessEqual] 
-                  NumberOfLinks[#\[LeftDoubleBracket]1\[RightDoubleBracket], 
-                    Alternating])\) &\)[
-            ToExpression /@ 
-              StringSplit[
-                S, {"\<L\>", "\<a\>"}]])\) := \(Link[#\[LeftDoubleBracket]1\
-\[RightDoubleBracket], 
-            Alternating, #\[LeftDoubleBracket]2\[RightDoubleBracket]] \
-&\)[\((ToExpression /@ StringSplit[S, {"\<L\>", "\<a\>"}])\)]\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{
+   RowBox[{"Knot", "[", 
+    RowBox[{"S_String", "?", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"StringMatchQ", "[", 
+        RowBox[{"#", ",", 
+         RowBox[{"StringExpression", "[", 
+          RowBox[{"\"\<L\>\"", ",", " ", 
+           RowBox[{"DigitCharacter", ".."}], ",", " ", "\"\<a\>\"", ",", " ", 
+           
+           RowBox[{"DigitCharacter", ".."}]}], "]"}]}], "]"}], "&"}], ")"}]}],
+     "]"}], "/;", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"1", "\[LessEqual]", 
+        RowBox[{"#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+        "\[LessEqual]", 
+        RowBox[{"NumberOfLinks", "[", 
+         RowBox[{
+          RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}],
+           ",", "Alternating"}], "]"}]}], ")"}], "&"}], "[", 
+     RowBox[{"ToExpression", "/@", 
+      RowBox[{"StringSplit", "[", 
+       RowBox[{"S", ",", 
+        RowBox[{"{", 
+         RowBox[{"\"\<L\>\"", ",", "\"\<a\>\""}], "}"}]}], "]"}]}], "]"}], 
+    ")"}]}], ":=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Link", "[", 
+     RowBox[{
+      RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+      ",", "Alternating", ",", 
+      RowBox[{"#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+     "]"}], "&"}], "[", 
+   RowBox[{"(", 
+    RowBox[{"ToExpression", "/@", 
+     RowBox[{"StringSplit", "[", 
+      RowBox[{"S", ",", 
+       RowBox[{"{", 
+        RowBox[{"\"\<L\>\"", ",", "\"\<a\>\""}], "}"}]}], "]"}]}], ")"}], 
+   "]"}]}]], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(Knot[
-          S_String?\((StringMatchQ[#, 
-                  StringExpression["\<L\>", \ 
-                    DigitCharacter .. , \ "\<n\>", \ 
-                    DigitCharacter .. ]] &)\)] /; \((\(\((1 \[LessEqual] #\
-\[LeftDoubleBracket]2\[RightDoubleBracket] \[LessEqual] 
-                  NumberOfLinks[#\[LeftDoubleBracket]1\[RightDoubleBracket], 
-                    NonAlternating])\) &\)[
-            ToExpression /@ 
-              StringSplit[
-                S, {"\<L\>", "\<n\>"}]])\) := \(Link[#\[LeftDoubleBracket]1\
-\[RightDoubleBracket], 
-            NonAlternating, #\[LeftDoubleBracket]2\[RightDoubleBracket]] &\)[\
-\((ToExpression /@ StringSplit[S, {"\<L\>", "\<n\>"}])\)]\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{
+   RowBox[{"Knot", "[", 
+    RowBox[{"S_String", "?", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"StringMatchQ", "[", 
+        RowBox[{"#", ",", 
+         RowBox[{"StringExpression", "[", 
+          RowBox[{"\"\<L\>\"", ",", " ", 
+           RowBox[{"DigitCharacter", ".."}], ",", " ", "\"\<n\>\"", ",", " ", 
+           
+           RowBox[{"DigitCharacter", ".."}]}], "]"}]}], "]"}], "&"}], ")"}]}],
+     "]"}], "/;", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"1", "\[LessEqual]", 
+        RowBox[{"#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+        "\[LessEqual]", 
+        RowBox[{"NumberOfLinks", "[", 
+         RowBox[{
+          RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}],
+           ",", "NonAlternating"}], "]"}]}], ")"}], "&"}], "[", 
+     RowBox[{"ToExpression", "/@", 
+      RowBox[{"StringSplit", "[", 
+       RowBox[{"S", ",", 
+        RowBox[{"{", 
+         RowBox[{"\"\<L\>\"", ",", "\"\<n\>\""}], "}"}]}], "]"}]}], "]"}], 
+    ")"}]}], ":=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Link", "[", 
+     RowBox[{
+      RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+      ",", "NonAlternating", ",", 
+      RowBox[{"#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+     "]"}], "&"}], "[", 
+   RowBox[{"(", 
+    RowBox[{"ToExpression", "/@", 
+     RowBox[{"StringSplit", "[", 
+      RowBox[{"S", ",", 
+       RowBox[{"{", 
+        RowBox[{"\"\<L\>\"", ",", "\"\<n\>\""}], "}"}]}], "]"}]}], ")"}], 
+   "]"}]}]], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(Knot[
-        S_String?\((StringMatchQ[#, 
-                StringExpression["\<T(\>", \ DigitCharacter .. , \ "\<,\>", \ 
-                  DigitCharacter .. , \ "\<)\>"]] &)\)] := \(TorusKnot[#\
-\[LeftDoubleBracket]1\[RightDoubleBracket], #\[LeftDoubleBracket]2\
-\[RightDoubleBracket]] &\)[\((ToExpression /@ 
-            StringSplit[S, {"\<T(\>", "\<,\>", "\<)\>"}])\)]\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{"Knot", "[", 
+   RowBox[{"S_String", "?", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"StringMatchQ", "[", 
+       RowBox[{"#", ",", 
+        RowBox[{"StringExpression", "[", 
+         RowBox[{"\"\<T(\>\"", ",", " ", 
+          RowBox[{"DigitCharacter", ".."}], ",", " ", "\"\<,\>\"", ",", " ", 
+          RowBox[{"DigitCharacter", ".."}], ",", " ", "\"\<)\>\""}], "]"}]}], 
+       "]"}], "&"}], ")"}]}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"TorusKnot", "[", 
+     RowBox[{
+      RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+      ",", 
+      RowBox[{"#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+     "]"}], "&"}], "[", 
+   RowBox[{"(", 
+    RowBox[{"ToExpression", "/@", 
+     RowBox[{"StringSplit", "[", 
+      RowBox[{"S", ",", 
+       RowBox[{"{", 
+        RowBox[{"\"\<T(\>\"", ",", "\"\<,\>\"", ",", "\"\<)\>\""}], "}"}]}], 
+      "]"}]}], ")"}], "]"}]}]], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(Link[S_String] := Knot[S]\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{"Link", "[", "S_String", "]"}], ":=", 
+  RowBox[{"Knot", "[", "S", "]"}]}]], "Input",
+ InitializationCell->True],
 
 Cell[CellGroupData[{
 
 Cell["Recognise Livingston's naming system.", "Subsubsection",
-  InitializationCell->True],
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(Knot[
-          S_String?\((StringMatchQ[#, 
-                  StringExpression[DigitCharacter .. , \ "\<a_\>", \ 
-                    DigitCharacter .. ]] &)\)] /; \((\(\((#\
-\[LeftDoubleBracket]1\[RightDoubleBracket] \[GreaterEqual] 
-                    11 \[And] #\[LeftDoubleBracket]2\[RightDoubleBracket] \
-\[LessEqual] NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket], 
-                      Alternating])\) &\)[
-            ToExpression /@ 
-              StringSplit[
-                S, {"\<a_\>"}]])\) := \(Knot[#\[LeftDoubleBracket]1\
-\[RightDoubleBracket], 
-            Alternating, #\[LeftDoubleBracket]2\[RightDoubleBracket]] \
-&\)[\((ToExpression /@ StringSplit[S, {"\<a_\>"}])\)]\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{
+   RowBox[{"Knot", "[", 
+    RowBox[{"S_String", "?", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"StringMatchQ", "[", 
+        RowBox[{"#", ",", 
+         RowBox[{"StringExpression", "[", 
+          RowBox[{
+           RowBox[{"DigitCharacter", ".."}], ",", " ", "\"\<a_\>\"", ",", " ",
+            
+           RowBox[{"DigitCharacter", ".."}]}], "]"}]}], "]"}], "&"}], ")"}]}],
+     "]"}], "/;", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+         "\[GreaterEqual]", "11"}], "\[And]", 
+        RowBox[{
+         RowBox[{"#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+         "\[LessEqual]", 
+         RowBox[{"NumberOfKnots", "[", 
+          RowBox[{
+           RowBox[{
+           "#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], ",", 
+           "Alternating"}], "]"}]}]}], ")"}], "&"}], "[", 
+     RowBox[{"ToExpression", "/@", 
+      RowBox[{"StringSplit", "[", 
+       RowBox[{"S", ",", 
+        RowBox[{"{", "\"\<a_\>\"", "}"}]}], "]"}]}], "]"}], ")"}]}], ":=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Knot", "[", 
+     RowBox[{
+      RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+      ",", "Alternating", ",", 
+      RowBox[{"#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+     "]"}], "&"}], "[", 
+   RowBox[{"(", 
+    RowBox[{"ToExpression", "/@", 
+     RowBox[{"StringSplit", "[", 
+      RowBox[{"S", ",", 
+       RowBox[{"{", "\"\<a_\>\"", "}"}]}], "]"}]}], ")"}], "]"}]}]], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(Knot[
-          S_String?\((StringMatchQ[#, 
-                  StringExpression[DigitCharacter .. , \ "\<n_\>", \ 
-                    DigitCharacter .. ]] &)\)] /; \((\(\((#\
-\[LeftDoubleBracket]1\[RightDoubleBracket] \[GreaterEqual] 
-                    11 \[And] #\[LeftDoubleBracket]2\[RightDoubleBracket] \
-\[LessEqual] NumberOfKnots[#\[LeftDoubleBracket]1\[RightDoubleBracket], 
-                      NonAlternating])\) &\)[
-            ToExpression /@ 
-              StringSplit[
-                S, {"\<n_\>"}]])\) := \(Knot[#\[LeftDoubleBracket]1\
-\[RightDoubleBracket], 
-            NonAlternating, #\[LeftDoubleBracket]2\[RightDoubleBracket]] &\)[\
-\((ToExpression /@ StringSplit[S, {"\<n_\>"}])\)]\)], "Input",
-  InitializationCell->True]
+ RowBox[{
+  RowBox[{
+   RowBox[{"Knot", "[", 
+    RowBox[{"S_String", "?", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"StringMatchQ", "[", 
+        RowBox[{"#", ",", 
+         RowBox[{"StringExpression", "[", 
+          RowBox[{
+           RowBox[{"DigitCharacter", ".."}], ",", " ", "\"\<n_\>\"", ",", " ",
+            
+           RowBox[{"DigitCharacter", ".."}]}], "]"}]}], "]"}], "&"}], ")"}]}],
+     "]"}], "/;", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+         "\[GreaterEqual]", "11"}], "\[And]", 
+        RowBox[{
+         RowBox[{"#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+         "\[LessEqual]", 
+         RowBox[{"NumberOfKnots", "[", 
+          RowBox[{
+           RowBox[{
+           "#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], ",", 
+           "NonAlternating"}], "]"}]}]}], ")"}], "&"}], "[", 
+     RowBox[{"ToExpression", "/@", 
+      RowBox[{"StringSplit", "[", 
+       RowBox[{"S", ",", 
+        RowBox[{"{", "\"\<n_\>\"", "}"}]}], "]"}]}], "]"}], ")"}]}], ":=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Knot", "[", 
+     RowBox[{
+      RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+      ",", "NonAlternating", ",", 
+      RowBox[{"#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+     "]"}], "&"}], "[", 
+   RowBox[{"(", 
+    RowBox[{"ToExpression", "/@", 
+     RowBox[{"StringSplit", "[", 
+      RowBox[{"S", ",", 
+       RowBox[{"{", "\"\<n_\>\"", "}"}]}], "]"}]}], ")"}], "]"}]}]], "Input",
+ InitializationCell->True]
 }, Open  ]]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell["NextKnot and PreviousKnot", "Subsection",
-  InitializationCell->True],
+ InitializationCell->True],
 
 Cell[BoxData[{
-    \(\(NextKnot[Knot[0, 1]] = Knot[3, 1];\)\), "\[IndentingNewLine]", 
-    \(NextKnot[
-          Knot[n_Integer?\((# \[LessEqual] 10 &)\), k_Integer]] /; \((k < 
-            NumberOfKnots[n])\) := Knot[n, k + 1]\), "\n", 
-    \(NextKnot[
-          Knot[n_Integer?\((# \[LessEqual] 9 &)\), k_Integer]] /; \((k == 
-            NumberOfKnots[n])\) := Knot[n + 1, 1]\), "\n", 
-    \(NextKnot[Knot[10, k_Integer]] /; \((k == NumberOfKnots[10])\) := 
-      Knot[11, Alternating, 1]\)}], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{
+   RowBox[{"NextKnot", "[", 
+    RowBox[{"Knot", "[", 
+     RowBox[{"0", ",", "1"}], "]"}], "]"}], "=", 
+   RowBox[{"Knot", "[", 
+    RowBox[{"3", ",", "1"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"NextKnot", "[", 
+    RowBox[{"Knot", "[", 
+     RowBox[{
+      RowBox[{"n_Integer", "?", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"#", "\[LessEqual]", "10"}], "&"}], ")"}]}], ",", 
+      "k_Integer"}], "]"}], "]"}], "/;", 
+   RowBox[{"(", 
+    RowBox[{"k", "<", 
+     RowBox[{"NumberOfKnots", "[", "n", "]"}]}], ")"}]}], ":=", 
+  RowBox[{"Knot", "[", 
+   RowBox[{"n", ",", 
+    RowBox[{"k", "+", "1"}]}], "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"NextKnot", "[", 
+    RowBox[{"Knot", "[", 
+     RowBox[{
+      RowBox[{"n_Integer", "?", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"#", "\[LessEqual]", "9"}], "&"}], ")"}]}], ",", 
+      "k_Integer"}], "]"}], "]"}], "/;", 
+   RowBox[{"(", 
+    RowBox[{"k", "==", 
+     RowBox[{"NumberOfKnots", "[", "n", "]"}]}], ")"}]}], ":=", 
+  RowBox[{"Knot", "[", 
+   RowBox[{
+    RowBox[{"n", "+", "1"}], ",", "1"}], "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"NextKnot", "[", 
+    RowBox[{"Knot", "[", 
+     RowBox[{"10", ",", "k_Integer"}], "]"}], "]"}], "/;", 
+   RowBox[{"(", 
+    RowBox[{"k", "==", 
+     RowBox[{"NumberOfKnots", "[", "10", "]"}]}], ")"}]}], ":=", 
+  RowBox[{"Knot", "[", 
+   RowBox[{"11", ",", "Alternating", ",", "1"}], "]"}]}]}], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[{
-    \(NextKnot[
-          Knot[n_Integer?\((# \[GreaterEqual] 11 &)\), t_, 
-            k_Integer]] /; \((k < NumberOfKnots[n, t])\) := 
-      Knot[n, t, k + 1]\), "\[IndentingNewLine]", 
-    \(NextKnot[
-          Knot[n_Integer?\((# \[GreaterEqual] 11 &)\), Alternating, 
-            k_Integer]] /; \((k == NumberOfKnots[n, Alternating])\) := 
-      Knot[n, NonAlternating, 1]\), "\[IndentingNewLine]", 
-    \(NextKnot[
-          Knot[n_Integer?\((# \[GreaterEqual] 11 &)\), NonAlternating, 
-            k_Integer]] /; \((k == NumberOfKnots[n, NonAlternating])\) := 
-      Knot[n + 1, Alternating, 1]\)}], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{
+   RowBox[{"NextKnot", "[", 
+    RowBox[{"Knot", "[", 
+     RowBox[{
+      RowBox[{"n_Integer", "?", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"#", "\[GreaterEqual]", "11"}], "&"}], ")"}]}], ",", "t_", 
+      ",", "k_Integer"}], "]"}], "]"}], "/;", 
+   RowBox[{"(", 
+    RowBox[{"k", "<", 
+     RowBox[{"NumberOfKnots", "[", 
+      RowBox[{"n", ",", "t"}], "]"}]}], ")"}]}], ":=", 
+  RowBox[{"Knot", "[", 
+   RowBox[{"n", ",", "t", ",", 
+    RowBox[{"k", "+", "1"}]}], "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"NextKnot", "[", 
+    RowBox[{"Knot", "[", 
+     RowBox[{
+      RowBox[{"n_Integer", "?", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"#", "\[GreaterEqual]", "11"}], "&"}], ")"}]}], ",", 
+      "Alternating", ",", "k_Integer"}], "]"}], "]"}], "/;", 
+   RowBox[{"(", 
+    RowBox[{"k", "==", 
+     RowBox[{"NumberOfKnots", "[", 
+      RowBox[{"n", ",", "Alternating"}], "]"}]}], ")"}]}], ":=", 
+  RowBox[{"Knot", "[", 
+   RowBox[{"n", ",", "NonAlternating", ",", "1"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"NextKnot", "[", 
+    RowBox[{"Knot", "[", 
+     RowBox[{
+      RowBox[{"n_Integer", "?", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"#", "\[GreaterEqual]", "11"}], "&"}], ")"}]}], ",", 
+      "NonAlternating", ",", "k_Integer"}], "]"}], "]"}], "/;", 
+   RowBox[{"(", 
+    RowBox[{"k", "==", 
+     RowBox[{"NumberOfKnots", "[", 
+      RowBox[{"n", ",", "NonAlternating"}], "]"}]}], ")"}]}], ":=", 
+  RowBox[{"Knot", "[", 
+   RowBox[{
+    RowBox[{"n", "+", "1"}], ",", "Alternating", ",", "1"}], 
+   "]"}]}]}], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[{
-    \(\(PreviousKnot[Knot[0, 1]] = Knot[0, 1];\)\), "\[IndentingNewLine]", 
-    \(\(PreviousKnot[Knot[3, 1]] = Knot[0, 1];\)\), "\[IndentingNewLine]", 
-    \(PreviousKnot[Knot[n_Integer?\((# \[LessEqual] 10 &)\), 1]] := 
-      Knot[n - 1, NumberOfKnots[n - 1]]\), "\[IndentingNewLine]", 
-    \(PreviousKnot[Knot[n_Integer?\((# \[LessEqual] 10 &)\), k_Integer]] := 
-      Knot[n, k - 1]\)}], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{
+   RowBox[{"PreviousKnot", "[", 
+    RowBox[{"Knot", "[", 
+     RowBox[{"0", ",", "1"}], "]"}], "]"}], "=", 
+   RowBox[{"Knot", "[", 
+    RowBox[{"0", ",", "1"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"PreviousKnot", "[", 
+    RowBox[{"Knot", "[", 
+     RowBox[{"3", ",", "1"}], "]"}], "]"}], "=", 
+   RowBox[{"Knot", "[", 
+    RowBox[{"0", ",", "1"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"PreviousKnot", "[", 
+   RowBox[{"Knot", "[", 
+    RowBox[{
+     RowBox[{"n_Integer", "?", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"#", "\[LessEqual]", "10"}], "&"}], ")"}]}], ",", "1"}], 
+    "]"}], "]"}], ":=", 
+  RowBox[{"Knot", "[", 
+   RowBox[{
+    RowBox[{"n", "-", "1"}], ",", 
+    RowBox[{"NumberOfKnots", "[", 
+     RowBox[{"n", "-", "1"}], "]"}]}], "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"PreviousKnot", "[", 
+   RowBox[{"Knot", "[", 
+    RowBox[{
+     RowBox[{"n_Integer", "?", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"#", "\[LessEqual]", "10"}], "&"}], ")"}]}], ",", 
+     "k_Integer"}], "]"}], "]"}], ":=", 
+  RowBox[{"Knot", "[", 
+   RowBox[{"n", ",", 
+    RowBox[{"k", "-", "1"}]}], "]"}]}]}], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[{
-    \(\(PreviousKnot[Knot[11, Alternating, 1]] = 
-        Knot[10, NumberOfKnots[10]];\)\), "\[IndentingNewLine]", 
-    \(PreviousKnot[
-        Knot[n_Integer?\((# \[GreaterEqual] 12 &)\), Alternating, 1]] := 
-      Knot[n - 1, NonAlternating, 
-        NumberOfKnots[n - 1, NonAlternating]]\), "\[IndentingNewLine]", 
-    \(PreviousKnot[
-        Knot[n_Integer?\((# \[GreaterEqual] 11 &)\), NonAlternating, 1]] := 
-      Knot[n, Alternating, 
-        NumberOfKnots[n, Alternating]]\), "\[IndentingNewLine]", 
-    \(PreviousKnot[
-        Knot[n_Integer?\((# \[GreaterEqual] 11 &)\), t_, k_Integer]] := 
-      Knot[n, t, k - 1]\)}], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{
+   RowBox[{"PreviousKnot", "[", 
+    RowBox[{"Knot", "[", 
+     RowBox[{"11", ",", "Alternating", ",", "1"}], "]"}], "]"}], "=", 
+   RowBox[{"Knot", "[", 
+    RowBox[{"10", ",", 
+     RowBox[{"NumberOfKnots", "[", "10", "]"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"PreviousKnot", "[", 
+   RowBox[{"Knot", "[", 
+    RowBox[{
+     RowBox[{"n_Integer", "?", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"#", "\[GreaterEqual]", "12"}], "&"}], ")"}]}], ",", 
+     "Alternating", ",", "1"}], "]"}], "]"}], ":=", 
+  RowBox[{"Knot", "[", 
+   RowBox[{
+    RowBox[{"n", "-", "1"}], ",", "NonAlternating", ",", 
+    RowBox[{"NumberOfKnots", "[", 
+     RowBox[{
+      RowBox[{"n", "-", "1"}], ",", "NonAlternating"}], "]"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"PreviousKnot", "[", 
+   RowBox[{"Knot", "[", 
+    RowBox[{
+     RowBox[{"n_Integer", "?", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"#", "\[GreaterEqual]", "11"}], "&"}], ")"}]}], ",", 
+     "NonAlternating", ",", "1"}], "]"}], "]"}], ":=", 
+  RowBox[{"Knot", "[", 
+   RowBox[{"n", ",", "Alternating", ",", 
+    RowBox[{"NumberOfKnots", "[", 
+     RowBox[{"n", ",", "Alternating"}], "]"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"PreviousKnot", "[", 
+   RowBox[{"Knot", "[", 
+    RowBox[{
+     RowBox[{"n_Integer", "?", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"#", "\[GreaterEqual]", "11"}], "&"}], ")"}]}], ",", "t_", 
+     ",", "k_Integer"}], "]"}], "]"}], ":=", 
+  RowBox[{"Knot", "[", 
+   RowBox[{"n", ",", "t", ",", 
+    RowBox[{"k", "-", "1"}]}], "]"}]}]}], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[{
-    \(\(NextKnot[Last[AllLinks[]]] = 
-        Last[AllLinks[]];\)\), "\[IndentingNewLine]", 
-    \(\(PreviousKnot[Link[2, Alternating, 1]] := 
-        Link[2, Alternating, 1];\)\), "\[IndentingNewLine]", 
-    \(NextKnot[L_Link] := 
-      With[{all = AllLinks[]}, 
-        all\[LeftDoubleBracket]\(Position[all, L]\)\[LeftDoubleBracket]1, 
-              1\[RightDoubleBracket] + 
-            1\[RightDoubleBracket]]\), "\[IndentingNewLine]", 
-    \(PreviousKnot[L_Link] := 
-      With[{all = AllLinks[]}, 
-        all\[LeftDoubleBracket]\(Position[all, L]\)\[LeftDoubleBracket]1, 
-              1\[RightDoubleBracket] - 1\[RightDoubleBracket]]\)}], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{
+   RowBox[{"NextKnot", "[", 
+    RowBox[{"Last", "[", 
+     RowBox[{"AllLinks", "[", "]"}], "]"}], "]"}], "=", 
+   RowBox[{"Last", "[", 
+    RowBox[{"AllLinks", "[", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"PreviousKnot", "[", 
+    RowBox[{"Link", "[", 
+     RowBox[{"2", ",", "Alternating", ",", "1"}], "]"}], "]"}], ":=", 
+   RowBox[{"Link", "[", 
+    RowBox[{"2", ",", "Alternating", ",", "1"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"NextKnot", "[", "L_Link", "]"}], ":=", 
+  RowBox[{"With", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"all", "=", 
+      RowBox[{"AllLinks", "[", "]"}]}], "}"}], ",", 
+    RowBox[{"all", "\[LeftDoubleBracket]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Position", "[", 
+        RowBox[{"all", ",", "L"}], "]"}], "\[LeftDoubleBracket]", 
+       RowBox[{"1", ",", "1"}], "\[RightDoubleBracket]"}], "+", "1"}], 
+     "\[RightDoubleBracket]"}]}], "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"PreviousKnot", "[", "L_Link", "]"}], ":=", 
+  RowBox[{"With", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"all", "=", 
+      RowBox[{"AllLinks", "[", "]"}]}], "}"}], ",", 
+    RowBox[{"all", "\[LeftDoubleBracket]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Position", "[", 
+        RowBox[{"all", ",", "L"}], "]"}], "\[LeftDoubleBracket]", 
+       RowBox[{"1", ",", "1"}], "\[RightDoubleBracket]"}], "-", "1"}], 
+     "\[RightDoubleBracket]"}]}], "]"}]}]}], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(\(PreviousKnot[TorusKnot[3, 2]] = TorusKnot[3, 2];\)\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{
+   RowBox[{"PreviousKnot", "[", 
+    RowBox[{"TorusKnot", "[", 
+     RowBox[{"3", ",", "2"}], "]"}], "]"}], "=", 
+   RowBox[{"TorusKnot", "[", 
+    RowBox[{"3", ",", "2"}], "]"}]}], ";"}]], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(TorusKnotPosition[TorusKnot[m_, n_]] := 
-      Module[{l = 
-            36}, \[IndentingNewLine]While[\(! MemberQ[TorusKnots[l], 
-              TorusKnot[m, n]]\), 
-          l += 36]; \[IndentingNewLine]\(Position[TorusKnots[l], 
-            TorusKnot[m, n]]\)\[LeftDoubleBracket]1, 
-          1\[RightDoubleBracket]\[IndentingNewLine]]\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{"TorusKnotPosition", "[", 
+   RowBox[{"TorusKnot", "[", 
+    RowBox[{"m_", ",", "n_"}], "]"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"l", "=", "36"}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"While", "[", 
+      RowBox[{
+       RowBox[{"!", 
+        RowBox[{"MemberQ", "[", 
+         RowBox[{
+          RowBox[{"TorusKnots", "[", "l", "]"}], ",", 
+          RowBox[{"TorusKnot", "[", 
+           RowBox[{"m", ",", "n"}], "]"}]}], "]"}]}], ",", 
+       RowBox[{"l", "+=", "36"}]}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"Position", "[", 
+       RowBox[{
+        RowBox[{"TorusKnots", "[", "l", "]"}], ",", 
+        RowBox[{"TorusKnot", "[", 
+         RowBox[{"m", ",", "n"}], "]"}]}], "]"}], "\[LeftDoubleBracket]", 
+      RowBox[{"1", ",", "1"}], "\[RightDoubleBracket]"}]}]}], 
+   "\[IndentingNewLine]", "]"}]}]], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(PreviousKnot[
-        T_TorusKnot] := \(TorusKnots[Crossings[T]]\)\[LeftDoubleBracket]
-        TorusKnotPosition[T] - 1\[RightDoubleBracket]\)], "Input",
-  InitializationCell->True],
+ RowBox[{
+  RowBox[{"PreviousKnot", "[", "T_TorusKnot", "]"}], ":=", 
+  RowBox[{
+   RowBox[{"TorusKnots", "[", 
+    RowBox[{"Crossings", "[", "T", "]"}], "]"}], "\[LeftDoubleBracket]", 
+   RowBox[{
+    RowBox[{"TorusKnotPosition", "[", "T", "]"}], "-", "1"}], 
+   "\[RightDoubleBracket]"}]}]], "Input",
+ InitializationCell->True],
 
 Cell[BoxData[
-    \(NextKnot[T_TorusKnot] := 
-      Module[{p = TorusKnotPosition[T] + 1, n = 36}, \[IndentingNewLine]While[
-          Length[TorusKnots[n]] < p, 
-          n += 36]; \[IndentingNewLine]\(TorusKnots[n]\)\[LeftDoubleBracket]
-          p\[RightDoubleBracket]\[IndentingNewLine]]\)], "Input",
-  InitializationCell->True]
+ RowBox[{
+  RowBox[{"NextKnot", "[", "T_TorusKnot", "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"p", "=", 
+       RowBox[{
+        RowBox[{"TorusKnotPosition", "[", "T", "]"}], "+", "1"}]}], ",", 
+      RowBox[{"n", "=", "36"}]}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"While", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Length", "[", 
+         RowBox[{"TorusKnots", "[", "n", "]"}], "]"}], "<", "p"}], ",", 
+       RowBox[{"n", "+=", "36"}]}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"TorusKnots", "[", "n", "]"}], "\[LeftDoubleBracket]", "p", 
+      "\[RightDoubleBracket]"}]}]}], "\[IndentingNewLine]", "]"}]}]], "Input",\
+
+ InitializationCell->True]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell["EndPackage", "Subsection",
-  InitializationCell->True],
+ InitializationCell->True],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(End[]\)], "Input",
-  InitializationCell->True],
+ RowBox[{"End", "[", "]"}]], "Input",
+ InitializationCell->True],
 
-Cell[BoxData[
-    \("KnotTheory`Naming`"\)], "Output"]
+Cell[BoxData["\<\"KnotTheory`Naming`\"\>"], "Output"]
 }, Open  ]],
 
 Cell[BoxData[
-    \(EndPackage[]\)], "Input",
-  InitializationCell->True],
+ RowBox[{"EndPackage", "[", "]"}]], "Input",
+ InitializationCell->True],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
-    \(Equal[\[IndentingNewLine]Knot\  /@ \ {"\<3 1\>", \ "\<3_1\>", \ \
-"\<K11a1\>", \ "\<K11n1\>", \ "\<L11a1\>", \ "\<L11n1\>", \ "\<11a_1\>", \ \
-"\<11n_1\>"}, \[IndentingNewLine]{Knot[3, 1], Knot[3, 1], 
-        Knot[11, Alternating, 1], Knot[11, NonAlternating, 1], 
-        Link[11, Alternating, 1], Link[11, NonAlternating, 1], 
-        Knot[11, Alternating, 1], 
-        Knot[11, NonAlternating, 1]}\[IndentingNewLine]]\)], "Input"],
+ RowBox[{"Equal", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"Knot", " ", "/@", " ", 
+    RowBox[{"{", 
+     RowBox[{
+     "\"\<3 1\>\"", ",", " ", "\"\<3_1\>\"", ",", " ", "\"\<K11a1\>\"", ",", 
+      " ", "\"\<K11n1\>\"", ",", " ", "\"\<L11a1\>\"", ",", " ", 
+      "\"\<L11n1\>\"", ",", " ", "\"\<11a_1\>\"", ",", " ", "\"\<11n_1\>\""}],
+      "}"}]}], ",", "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"Knot", "[", 
+      RowBox[{"3", ",", "1"}], "]"}], ",", 
+     RowBox[{"Knot", "[", 
+      RowBox[{"3", ",", "1"}], "]"}], ",", 
+     RowBox[{"Knot", "[", 
+      RowBox[{"11", ",", "Alternating", ",", "1"}], "]"}], ",", 
+     RowBox[{"Knot", "[", 
+      RowBox[{"11", ",", "NonAlternating", ",", "1"}], "]"}], ",", 
+     RowBox[{"Link", "[", 
+      RowBox[{"11", ",", "Alternating", ",", "1"}], "]"}], ",", 
+     RowBox[{"Link", "[", 
+      RowBox[{"11", ",", "NonAlternating", ",", "1"}], "]"}], ",", 
+     RowBox[{"Knot", "[", 
+      RowBox[{"11", ",", "Alternating", ",", "1"}], "]"}], ",", 
+     RowBox[{"Knot", "[", 
+      RowBox[{"11", ",", "NonAlternating", ",", "1"}], "]"}]}], "}"}]}], 
+  "\[IndentingNewLine]", "]"}]], "Input"],
 
-Cell[BoxData[
-    \(True\)], "Output"]
+Cell[BoxData["True"], "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
 },
-FrontEndVersion->"5.2 for Microsoft Windows",
-ScreenRectangle->{{0, 1600}, {0, 1102}},
 AutoGeneratedPackage->Automatic,
 WindowSize->{908, 937},
-WindowMargins->{{Automatic, 11}, {Automatic, 6}}
+WindowMargins->{{289, Automatic}, {Automatic, 54}},
+FrontEndVersion->"6.0 for Microsoft Windows (32-bit) (April 20, 2007)",
+StyleDefinitions->"Default.nb"
 ]
+(* End of Notebook Content *)
 
-(*******************************************************************
-Cached data follows.  If you edit this Notebook file directly, not
-using Mathematica, you must remove the line containing CacheID at
-the top of  the file.  The cache data will then be recreated when
-you save this file from within Mathematica.
-*******************************************************************)
-
+(* Internal cache information *)
 (*CellTagsOutline
 CellTagsIndex->{}
 *)
-
 (*CellTagsIndex
 CellTagsIndex->{}
 *)
-
 (*NotebookFileOutline
 Notebook[{
-
+Cell[568, 21, 121, 2, 31, "Input"],
 Cell[CellGroupData[{
-Cell[1776, 53, 65, 1, 73, "Section",
-  InitializationCell->True],
-Cell[1844, 56, 528, 12, 128, "Text",
-  InitializationCell->True],
-
+Cell[714, 27, 64, 1, 71, "Section",
+ InitializationCell->True],
+Cell[781, 30, 527, 12, 119, "Text",
+ InitializationCell->True],
+Cell[1311, 44, 101, 2, 31, "Input"],
+Cell[1415, 48, 217, 6, 31, "Input",
+ InitializationCell->True],
+Cell[1635, 56, 438, 9, 92, "Input",
+ InitializationCell->True],
+Cell[2076, 67, 346, 9, 92, "Input",
+ InitializationCell->True],
+Cell[2425, 78, 397, 8, 72, "Input",
+ InitializationCell->True],
 Cell[CellGroupData[{
-Cell[2397, 72, 156, 3, 50, "Input"],
-Cell[2556, 77, 159, 2, 44, "Print"]
+Cell[2847, 90, 100, 2, 31, "Input",
+ InitializationCell->True],
+Cell[2950, 94, 53, 0, 30, "Output"]
 }, Open  ]],
-Cell[2730, 82, 97, 2, 30, "Input",
-  InitializationCell->True],
-Cell[2830, 86, 166, 3, 30, "Input",
-  InitializationCell->True],
-Cell[2999, 91, 379, 6, 90, "Input",
-  InitializationCell->True],
-Cell[3381, 99, 255, 4, 90, "Input",
-  InitializationCell->True],
-Cell[3639, 105, 520, 8, 130, "Input",
-  InitializationCell->True],
-
+Cell[3018, 97, 1414, 40, 112, "Input",
+ InitializationCell->True],
+Cell[4435, 139, 492, 15, 72, "Input",
+ InitializationCell->True],
 Cell[CellGroupData[{
-Cell[4184, 117, 82, 2, 30, "Input",
-  InitializationCell->True],
-Cell[4269, 121, 54, 1, 29, "Output"]
+Cell[4952, 158, 59, 1, 36, "Subsection",
+ InitializationCell->True],
+Cell[5014, 161, 560, 17, 31, "Input",
+ InitializationCell->True],
+Cell[5577, 180, 639, 18, 52, "Input",
+ InitializationCell->True],
+Cell[6219, 200, 645, 18, 52, "Input",
+ InitializationCell->True],
+Cell[6867, 220, 513, 14, 52, "Input",
+ InitializationCell->True],
+Cell[7383, 236, 519, 14, 52, "Input",
+ InitializationCell->True],
+Cell[7905, 252, 346, 8, 31, "Input",
+ InitializationCell->True]
 }, Open  ]],
-Cell[4338, 125, 423, 9, 110, "Input",
-  InitializationCell->True],
-Cell[4764, 136, 855, 17, 170, "Input",
-  InitializationCell->True],
-Cell[5622, 155, 221, 4, 70, "Input",
-  InitializationCell->True],
-
 Cell[CellGroupData[{
-Cell[5868, 163, 60, 1, 38, "Subsection",
-  InitializationCell->True],
-Cell[5931, 166, 238, 5, 30, "Input",
-  InitializationCell->True],
-Cell[6172, 173, 293, 6, 50, "Input",
-  InitializationCell->True],
-Cell[6468, 181, 299, 6, 50, "Input",
-  InitializationCell->True],
-Cell[6770, 189, 251, 5, 50, "Input",
-  InitializationCell->True],
-Cell[7024, 196, 257, 5, 50, "Input",
-  InitializationCell->True],
-Cell[7284, 203, 177, 3, 30, "Input",
-  InitializationCell->True]
-}, Open  ]],
-
+Cell[8288, 265, 76, 1, 36, "Subsection",
+ InitializationCell->True],
+Cell[8367, 268, 1397, 41, 72, "Input",
+ InitializationCell->True],
+Cell[9767, 311, 1767, 52, 72, "Input",
+ InitializationCell->True],
+Cell[11537, 365, 1773, 52, 72, "Input",
+ InitializationCell->True],
+Cell[13313, 419, 1608, 47, 72, "Input",
+ InitializationCell->True],
+Cell[14924, 468, 1614, 47, 72, "Input",
+ InitializationCell->True],
+Cell[16541, 517, 992, 28, 52, "Input",
+ InitializationCell->True],
+Cell[17536, 547, 146, 4, 31, "Input",
+ InitializationCell->True],
 Cell[CellGroupData[{
-Cell[7498, 211, 77, 1, 38, "Subsection",
-  InitializationCell->True],
-Cell[7578, 214, 621, 12, 70, "Input",
-  InitializationCell->True],
-Cell[8202, 228, 810, 16, 70, "Input",
-  InitializationCell->True],
-Cell[9015, 246, 816, 16, 70, "Input",
-  InitializationCell->True],
-Cell[9834, 264, 749, 15, 70, "Input",
-  InitializationCell->True],
-Cell[10586, 281, 755, 15, 70, "Input",
-  InitializationCell->True],
-Cell[11344, 298, 432, 8, 50, "Input",
-  InitializationCell->True],
-Cell[11779, 308, 86, 2, 30, "Input",
-  InitializationCell->True],
-
-Cell[CellGroupData[{
-Cell[11890, 314, 90, 1, 29, "Subsubsection",
-  InitializationCell->True],
-Cell[11983, 317, 763, 15, 70, "Input",
-  InitializationCell->True],
-Cell[12749, 334, 769, 15, 70, "Input",
-  InitializationCell->True]
+Cell[17707, 555, 89, 1, 28, "Subsubsection",
+ InitializationCell->True],
+Cell[17799, 558, 1663, 48, 72, "Input",
+ InitializationCell->True],
+Cell[19465, 608, 1669, 48, 72, "Input",
+ InitializationCell->True]
 }, Open  ]]
 }, Open  ]],
-
 Cell[CellGroupData[{
-Cell[13567, 355, 75, 1, 38, "Subsection",
-  InitializationCell->True],
-Cell[13645, 358, 533, 10, 90, "Input",
-  InitializationCell->True],
-Cell[14181, 370, 658, 13, 110, "Input",
-  InitializationCell->True],
-Cell[14842, 385, 442, 7, 90, "Input",
-  InitializationCell->True],
-Cell[15287, 394, 682, 14, 110, "Input",
-  InitializationCell->True],
-Cell[15972, 410, 699, 14, 90, "Input",
-  InitializationCell->True],
-Cell[16674, 426, 113, 2, 30, "Input",
-  InitializationCell->True],
-Cell[16790, 430, 398, 8, 90, "Input",
-  InitializationCell->True],
-Cell[17191, 440, 201, 4, 30, "Input",
-  InitializationCell->True],
-Cell[17395, 446, 333, 6, 90, "Input",
-  InitializationCell->True]
+Cell[21183, 662, 74, 1, 36, "Subsection",
+ InitializationCell->True],
+Cell[21260, 665, 1535, 50, 92, "Input",
+ InitializationCell->True],
+Cell[22798, 717, 1691, 53, 112, "Input",
+ InitializationCell->True],
+Cell[24492, 772, 1267, 41, 92, "Input",
+ InitializationCell->True],
+Cell[25762, 815, 1688, 52, 112, "Input",
+ InitializationCell->True],
+Cell[27453, 869, 1546, 44, 92, "Input",
+ InitializationCell->True],
+Cell[29002, 915, 260, 8, 31, "Input",
+ InitializationCell->True],
+Cell[29265, 925, 977, 27, 92, "Input",
+ InitializationCell->True],
+Cell[30245, 954, 343, 9, 31, "Input",
+ InitializationCell->True],
+Cell[30591, 965, 780, 22, 92, "Input",
+ InitializationCell->True]
 }, Open  ]],
-
 Cell[CellGroupData[{
-Cell[17765, 457, 60, 1, 38, "Subsection",
-  InitializationCell->True],
-
+Cell[31408, 992, 59, 1, 36, "Subsection",
+ InitializationCell->True],
 Cell[CellGroupData[{
-Cell[17850, 462, 66, 2, 30, "Input",
-  InitializationCell->True],
-Cell[17919, 466, 54, 1, 29, "Output"]
+Cell[31492, 997, 78, 2, 31, "Input",
+ InitializationCell->True],
+Cell[31573, 1001, 53, 0, 30, "Output"]
 }, Open  ]],
-Cell[17988, 470, 73, 2, 30, "Input",
-  InitializationCell->True],
-
+Cell[31641, 1004, 85, 2, 31, "Input",
+ InitializationCell->True],
 Cell[CellGroupData[{
-Cell[18086, 476, 454, 7, 110, "Input"],
-Cell[18543, 485, 38, 1, 29, "Output"]
+Cell[31751, 1010, 1187, 28, 112, "Input"],
+Cell[32941, 1040, 31, 0, 30, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
@@ -637,9 +1168,4 @@ Cell[18543, 485, 38, 1, 29, "Output"]
 ]
 *)
 
-
-
-(*******************************************************************
-End of Mathematica Notebook file.
-*******************************************************************)
-
+(* End of internal cache information *)
