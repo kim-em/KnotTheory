@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     17561,        449]*)
-(*NotebookOutlinePosition[     18240,        472]*)
-(*  CellTagsIndexPosition[     18196,        468]*)
+(*NotebookOptionsPosition[     17634,        451]*)
+(*NotebookOutlinePosition[     18313,        474]*)
+(*  CellTagsIndexPosition[     18269,        470]*)
 (*WindowFrame->Normal*)
 
 
@@ -97,9 +97,9 @@ the following cell to initialize them:\
   CellChangeTimes -> {{3.405206248140625*^9, 3.405206297578125*^9}}],
 
 Cell[BoxData[{
-    \(PathOf["\<7z\>"]\  := \ "\<c:\\Program Files\\7-Zip\>"; \), "\
+    \(\(PathOf["\<7z\>"]\  := \ "\<c:\\Program Files\\7-Zip\>";\)\), "\
 \[IndentingNewLine]", 
-    \(InitSources\  = \ \(\(("\<src/\>" <> #)\) &\)\  /@ \ {\
+    \(\(InitSources\  = \ \(\(("\<src/\>" <> #)\) &\)\  /@ \ {\
 \[IndentingNewLine]"\<Base.m\>", \ "\<Braids.m\>", \ "\<TubePlot.m\>", \ \
 "\<DrawPD.m\>", \ "\<Data.m\>", \ "\<BraidData.m\>", "\<Naming.m\>", \ \
 "\<GaussCode.m\>", \ "\<GC2PD.m\>", \ "\<Indiana.m\>", \
@@ -109,17 +109,17 @@ Cell[BoxData[{
 "\<MultivariableAlexander.m\>", \ "\<REngine.m\>", \ "\<TestRMatrix.m\>", \ "\
 \<CJREngine.m\>", \ "\<ColouredJones.m\>", \ "\<HFGenus.m\>", \
 "\<KTtoLinKnot.m\>", \ "\<ArcPresentation.m\>", \ "\<HFK.m\>"\
-\[IndentingNewLine]}; \), "\[IndentingNewLine]", 
-    \(DistributionFiles = \ 
-      Join[\[IndentingNewLine]FileNames["\<*.m\>", "\<KnotTheory\>"], \
+\[IndentingNewLine]};\)\), "\[IndentingNewLine]", 
+    \(\(DistributionFiles = \ 
+        Join[\[IndentingNewLine]FileNames["\<*.m\>", "\<KnotTheory\>"], \
 \[IndentingNewLine]Select[\[IndentingNewLine]FileNames["\<*\>", \ \ \
 {"\<KnotTheory\\JavaKh\>", \ "\<KnotTheory\\WikiLink\>", \ \
 "\<KnotTheory\\KnotAtlas\>", \ "\<KnotTheory\\scripts\>", \ \
 "\<KnotTheory\\QuantumGroups\>", \ "\<KnotTheory\\HFK-Zurich\>"}, \ 
-            Infinity], \[IndentingNewLine]\((FileType[#] \[Equal] 
-                  File)\)\  && \ 
-              StringFreeQ[#, \ "\<\\.\>"] &\[IndentingNewLine]]\
-\[IndentingNewLine]]; \)}], "Input",
+              Infinity], \[IndentingNewLine]\((FileType[#] \[Equal] 
+                    File)\)\  && \ 
+                StringFreeQ[#, \ "\<\\.\>"] &\[IndentingNewLine]]\
+\[IndentingNewLine]];\)\)}], "Input",
   CellChangeTimes -> {{3.40520623484375*^9, 3.40520623528125*^9}, \
 {3.40520723653125*^9, 3.405207237125*^9}, {3.405207272828125*^9, \
 3.405207281671875*^9}, {3.405207320984375*^9, 3.40520734403125*^9}, \
@@ -135,35 +135,37 @@ Cell["And now the action itself :", "Text",
 Cell[CellGroupData[{
 
 Cell[BoxData[{
-    \(lines\  = \ \(StringReplace[#, \[IndentingNewLine]"\<---date---\>"\  \
+    \(\(lines\  = \ \(StringReplace[#, \[IndentingNewLine]"\<---date---\>"\  \
 \[Rule] \ ToString[Date[]]\[IndentingNewLine]] &\)\  /@ \ 
-        Import["\<src/System.mm\>", \ "\<Lines\>"]; \), \
-"\[IndentingNewLine]", 
-    \(lines\  = \ 
-      Flatten[{\[IndentingNewLine]lines, \[IndentingNewLine]\({\
+          Import["\<src/System.mm\>", \ "\<Lines\>"];\)\), "\
+\[IndentingNewLine]", 
+    \(\(lines\  = \ 
+        Flatten[{\[IndentingNewLine]lines, \[IndentingNewLine]\({\
 \[IndentingNewLine]"\<(* Begin source file \>" <> # <> "\<*)\n\>", \
 \[IndentingNewLine]Import[#, \ "\<Lines\>"], \[IndentingNewLine]"\<(* End \
 source file \>" <> # <> "\<*)\n\n\>"\[IndentingNewLine]} &\)\  /@ \ 
-            InitSources\[IndentingNewLine]}]; \), "\[IndentingNewLine]", 
-    \(Export["\<KnotTheory/init.m\>", \ 
-      lines, \ "\<Lines\>"]; \), "\[IndentingNewLine]", 
-    \(DeleteFile["\<KnotTheory.zip\>"]; \), "\[IndentingNewLine]", 
-    \(Run[
-      StringJoin[\[IndentingNewLine]"\<\"\>" <> 
-          PathOf["\<7z\>"] <> "\<\\7z.exe\" \>", \[IndentingNewLine]"\<a \
+              InitSources\[IndentingNewLine]}];\)\), "\[IndentingNewLine]", 
+    \(\(Export["\<KnotTheory/init.m\>", \ 
+        lines, \ "\<Lines\>"];\)\), "\[IndentingNewLine]", 
+    \(\(DeleteFile["\<KnotTheory.zip\>"];\)\), "\[IndentingNewLine]", 
+    \(\(Run[
+        StringJoin[\[IndentingNewLine]"\<\"\>" <> 
+            PathOf["\<7z\>"] <> "\<\\7z.exe\" \>", \[IndentingNewLine]"\<a \
 -tzip KnotTheory.zip \>", \[IndentingNewLine]\(\((# <> "\< \>")\) &\)\  /@ \ 
-          DistributionFiles\[IndentingNewLine]]]; \), "\[IndentingNewLine]", 
-    \(DeleteFile["\<KnotTheory.tar\>"]; \), "\[IndentingNewLine]", 
-    \(Run[
-      StringJoin[\[IndentingNewLine]"\<\"\>" <> 
-          PathOf["\<7z\>"] <> "\<\\7z.exe\" \>", \[IndentingNewLine]"\<a \
+            DistributionFiles\[IndentingNewLine]]];\)\), \
+"\[IndentingNewLine]", 
+    \(\(DeleteFile["\<KnotTheory.tar\>"];\)\), "\[IndentingNewLine]", 
+    \(\(Run[
+        StringJoin[\[IndentingNewLine]"\<\"\>" <> 
+            PathOf["\<7z\>"] <> "\<\\7z.exe\" \>", \[IndentingNewLine]"\<a \
 -ttar KnotTheory.tar \>", \[IndentingNewLine]\(\((# <> "\< \>")\) &\)\  /@ \ 
-          DistributionFiles\[IndentingNewLine]]]; \), "\[IndentingNewLine]", 
-    \(DeleteFile["\<KnotTheory.tar.gz\>"]; \), "\[IndentingNewLine]", 
-    \(Run["\<\"\>" <> 
-        PathOf["\<7z\>"] <> "\<\\7z.exe\" a -tgzip KnotTheory.tar.gz \
-KnotTheory.tar\>"]; \), "\[IndentingNewLine]", 
-    \(DeleteFile["\<KnotTheory.tar\>"]; \)}], "Input",
+            DistributionFiles\[IndentingNewLine]]];\)\), \
+"\[IndentingNewLine]", 
+    \(\(DeleteFile["\<KnotTheory.tar.gz\>"];\)\), "\[IndentingNewLine]", 
+    \(\(Run["\<\"\>" <> 
+          PathOf["\<7z\>"] <> "\<\\7z.exe\" a -tgzip KnotTheory.tar.gz \
+KnotTheory.tar\>"];\)\), "\[IndentingNewLine]", 
+    \(\(DeleteFile["\<KnotTheory.tar\>"];\)\)}], "Input",
   CellChangeTimes -> {{3.405207245140625*^9, 3.405207245671875*^9}, \
 3.405207277375*^9, {3.405207421390625*^9, 3.405207553890625*^9}, \
 {3.405207627046875*^9, 3.405207627203125*^9}, 3.405207660171875*^9, \
@@ -485,89 +487,89 @@ Cell[2636, 78, 443, 8, 110, "Input"],
 Cell[3082, 88, 74, 1, 29, "Output"]
 }, Open  ]],
 Cell[3171, 92, 210, 4, 33, "Text"],
-Cell[3384, 98, 1943, 31, 330, "Input"],
-Cell[5330, 131, 107, 1, 33, "Text"],
+Cell[3384, 98, 1960, 31, 330, "Input"],
+Cell[5347, 131, 107, 1, 33, "Text"],
 
 Cell[CellGroupData[{
-Cell[5462, 136, 2528, 42, 550, "Input"],
-Cell[7993, 180, 308, 5, 22, "Message"]
+Cell[5479, 136, 2584, 44, 550, "Input"],
+Cell[8066, 182, 308, 5, 22, "Message"]
 }, Open  ]]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[8350, 191, 117, 1, 51, "Subtitle"],
-Cell[8470, 194, 466, 9, 210, "Input"],
+Cell[8423, 193, 117, 1, 51, "Subtitle"],
+Cell[8543, 196, 466, 9, 210, "Input"],
 
 Cell[CellGroupData[{
-Cell[8961, 207, 49, 1, 30, "Input"],
-Cell[9013, 210, 673, 10, 44, "Print"]
+Cell[9034, 209, 49, 1, 30, "Input"],
+Cell[9086, 212, 673, 10, 44, "Print"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[9723, 225, 151, 3, 30, "Input"],
-Cell[9877, 230, 178, 3, 22, "Message"],
-Cell[10058, 235, 174, 3, 22, "Message"],
-Cell[10235, 240, 254, 4, 37, "Message"],
-Cell[10492, 246, 493, 8, 29, "Output"]
+Cell[9796, 227, 151, 3, 30, "Input"],
+Cell[9950, 232, 178, 3, 22, "Message"],
+Cell[10131, 237, 174, 3, 22, "Message"],
+Cell[10308, 242, 254, 4, 37, "Message"],
+Cell[10565, 248, 493, 8, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[11022, 259, 144, 2, 44, "Input"],
-Cell[11169, 263, 175, 3, 22, "Message"],
-Cell[11347, 268, 253, 4, 37, "Message"],
-Cell[11603, 274, 490, 8, 29, "Output"]
+Cell[11095, 261, 144, 2, 44, "Input"],
+Cell[11242, 265, 175, 3, 22, "Message"],
+Cell[11420, 270, 253, 4, 37, "Message"],
+Cell[11676, 276, 490, 8, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[12130, 287, 162, 3, 31, "Input"],
-Cell[12295, 292, 490, 8, 29, "Output"]
+Cell[12203, 289, 162, 3, 31, "Input"],
+Cell[12368, 294, 490, 8, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[12822, 305, 108, 2, 31, "Input"],
-Cell[12933, 309, 185, 4, 22, "Message"],
-Cell[13121, 315, 278, 5, 37, "Message"],
-Cell[13402, 322, 83, 2, 29, "Output"]
+Cell[12895, 307, 108, 2, 31, "Input"],
+Cell[13006, 311, 185, 4, 22, "Message"],
+Cell[13194, 317, 278, 5, 37, "Message"],
+Cell[13475, 324, 83, 2, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[13522, 329, 321, 5, 73, "Input"],
-Cell[13846, 336, 81, 2, 29, "Output"]
+Cell[13595, 331, 321, 5, 73, "Input"],
+Cell[13919, 338, 81, 2, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[13964, 343, 338, 5, 90, "Input"],
-Cell[14305, 350, 247, 4, 37, "Message"],
-Cell[14555, 356, 80, 2, 29, "Output"]
+Cell[14037, 345, 338, 5, 90, "Input"],
+Cell[14378, 352, 247, 4, 37, "Message"],
+Cell[14628, 358, 80, 2, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[14672, 363, 493, 8, 110, "Input"],
-Cell[15168, 373, 237, 4, 22, "Message"],
-Cell[15408, 379, 81, 2, 29, "Output"]
+Cell[14745, 365, 493, 8, 110, "Input"],
+Cell[15241, 375, 237, 4, 22, "Message"],
+Cell[15481, 381, 81, 2, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[15526, 386, 259, 4, 42, "Input"],
-Cell[15788, 392, 185, 4, 22, "Message"],
-Cell[15976, 398, 344, 6, 29, "Output"]
+Cell[15599, 388, 259, 4, 42, "Input"],
+Cell[15861, 394, 185, 4, 22, "Message"],
+Cell[16049, 400, 344, 6, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[16357, 409, 226, 4, 30, "Input"],
-Cell[16586, 415, 281, 5, 29, "Output"]
+Cell[16430, 411, 226, 4, 30, "Input"],
+Cell[16659, 417, 281, 5, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[16904, 425, 147, 2, 30, "Input"],
-Cell[17054, 429, 105, 2, 29, "Output"]
+Cell[16977, 427, 147, 2, 30, "Input"],
+Cell[17127, 431, 105, 2, 29, "Output"]
 }, Open  ]]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[17208, 437, 113, 1, 51, "Subtitle"],
-Cell[17324, 440, 70, 1, 30, "Input"],
-Cell[17397, 443, 136, 2, 30, "Input"]
+Cell[17281, 439, 113, 1, 51, "Subtitle"],
+Cell[17397, 442, 70, 1, 30, "Input"],
+Cell[17470, 445, 136, 2, 30, "Input"]
 }, Open  ]]
 }, Open  ]]
 }
