@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2008, 1, 11, 14, 14, 23.3932416};
+KnotTheoryVersion[] = {2008, 1, 11, 14, 15, 37.2794848};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -75,7 +75,7 @@ DeclarePackage["KnotTheory`KnotAtlas`ManagingKnotData`",
     "FindDataDiscrepancies", "FindMissingData", "ProcessKnotAtlasUploadQueue", "CreateDataPackage"}]
 (* declare some public interfaces of the QuantumGroups` package *)
 DeclarePackage["QuantumGroups`",
-    {"QuantumGroupsDirectory", "QuantumGroupsDataDirectory", "qInteger", "qFactorial", "qBinomial"}]
+    {"QuantumGroupsDirectory", "QuantumGroupsDataDirectory"}]
 (* declare the public interfaces of the QuantumKnotInvariants` subpackage *)
 DeclarePackage["KnotTheory`QuantumKnotInvariants`",
     {"QuantumKnotInvariant"}]
