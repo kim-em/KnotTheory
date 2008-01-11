@@ -95,7 +95,7 @@ DeclarePackage["KnotTheory`KnotAtlas`ManagingKnotData`",
 
 (* declare some public interfaces of the QuantumGroups` package *)
 DeclarePackage["QuantumGroups`",
-    {"QuantumGroupsDirectory", "QuantumGroupsDataDirectory", "qInteger", "qFactorial", "qBinomial"}]
+    {"QuantumGroupsDirectory", "QuantumGroupsDataDirectory"}]
 
 (* declare the public interfaces of the QuantumKnotInvariants` subpackage *)
 DeclarePackage["KnotTheory`QuantumKnotInvariants`",
