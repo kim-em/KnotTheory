@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2008, 1, 11, 14, 15, 37.2794848};
+KnotTheoryVersion[] = {2008, 1, 11, 14, 20, 14.2277168};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -4904,7 +4904,6 @@ http://mathworld.wolfram.com/q-PochhammerSymbol.html
 and Axel Riese's\n
 www.risc.uni-linz.ac.at/research/combinat/risc/software/qMultiSum/
 "
-qBinomial = QuantumGroups`qBinomial;
 qBinomial::usage = "
 qBinomial[n, k, q] represents the q-binomial coefficient of n and k in base
 q. For k<0 it is 0; otherwise it is\n
