@@ -20,7 +20,7 @@ location on the host computer. It can be reset by the user.
 CreditMessage::usage = "CreditMessage[cm] is used to print the string cm as a 'credit message'. Every credit message is printed at most once."
 KnotTheory::credits = "`1`";
 Begin["`System`"]
-KnotTheoryVersion[] = {2008, 1, 11, 14, 5, 42.8146864};
+KnotTheoryVersion[] = {2008, 1, 11, 14, 14, 23.3932416};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 KnotTheoryVersionString[] = StringJoin[
   {
@@ -62,21 +62,24 @@ CreditMessage[cm_String] := Module[
   If[Length[$MessageList] > l, CreditMessage[cm] = Null];
 ]
 End[]; EndPackage[];
-(* declare the public interfaces of the WikiLink package (we've attempted to add it to the path above) *)
+(* declare the public interfaces of the WikiLink` package (we've attempted to add it to the path above) *)
 DeclarePackage["WikiLink`", {"CreateWikiConnection","WikiGetPageText",
     "WikiGetPageTexts","WikiSetPageText","WikiSetPageTexts","WikiUploadFile",
     "WikiUserName","WikiPageMatchQ","WikiPageFreeQ","WikiStringReplace",
     "WikiStringCases","WikiAllPages"}]
-(* declare the public interfaces of the ManagingKnotData subpackage *)
+(* declare the public interfaces of the ManagingKnotData` subpackage *)
 DeclarePackage["KnotTheory`KnotAtlas`ManagingKnotData`",
     {"LoadInvariantRules", "InvariantDefinitionTable", "Invariants", "InvariantNames", 
     "RetrieveInvariant", "RetrieveInvariants", "StoreInvariants", "KnotInvariantURL",
     "ParseKnotInvariantFromURL", "TransferUnknownInvariants",
     "FindDataDiscrepancies", "FindMissingData", "ProcessKnotAtlasUploadQueue", "CreateDataPackage"}]
-(* declare the public interfaces of the QuantumKnotInvariants subpackage *)
+(* declare some public interfaces of the QuantumGroups` package *)
+DeclarePackage["QuantumGroups`",
+    {"QuantumGroupsDirectory", "QuantumGroupsDataDirectory", "qInteger", "qFactorial", "qBinomial"}]
+(* declare the public interfaces of the QuantumKnotInvariants` subpackage *)
 DeclarePackage["KnotTheory`QuantumKnotInvariants`",
     {"QuantumKnotInvariant"}]
-(* declare the public interfaces of the UniversalKh subpackage *)
+(* declare the public interfaces of the UniversalKh` subpackage *)
 DeclarePackage["KnotTheory`UniversalKh`",
     {"UniversalKh", "KhReduced", "sInvariant", "KhC", "KhE"}]
 (* Begin source file src/Base.m*)
