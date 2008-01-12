@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      5914,        151]*)
-(*NotebookOutlinePosition[      6581,        174]*)
-(*  CellTagsIndexPosition[      6537,        170]*)
+(*NotebookOptionsPosition[      9297,        228]*)
+(*NotebookOutlinePosition[     10210,        259]*)
+(*  CellTagsIndexPosition[     10123,        253]*)
 (*WindowFrame->Normal*)
 
 
@@ -53,15 +53,19 @@ Notebook[{
 Cell[CellGroupData[{
 Cell[BoxData[{
     \(\(KnotTheoryPath\  = \ \
-"\<c:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk\\\>";\)\), "\
-\[IndentingNewLine]", 
+"\<c:\\scott\\projects\\KnotTheory\\trunk\\\>";\)\), "\[IndentingNewLine]", 
     \(\(AppendTo[$Path, \ KnotTheoryPath];\)\), "\[IndentingNewLine]", 
     \(<< \ KnotTheory`\)}], "Input"],
 
 Cell[BoxData[
-    \("Loading KnotTheory` version of June 23, 2006, 13:7:39.8399.\nRead more \
-at http://katlas.math.toronto.edu/wiki/KnotTheory."\)], "Print"]
+    \("Loading KnotTheory` version of January 11, 2008, 14:20:14.2277.\nRead \
+more at http://katlas.org/wiki/KnotTheory."\)], "Print"]
 }, Open  ]],
+
+Cell["\<\
+Note to self; CreateDataPackage, defined in ManagingKnotData.nb, needs an \
+extra argument for needed packages.\
+\>", "Text"],
 
 Cell[CellGroupData[{
 
@@ -78,8 +82,81 @@ Cell[BoxData[
       AllKnots[{3, 10}]]\)], "Input"],
 
 Cell[BoxData[
-    \("c:\\scott\\projects\\svn-checkouts\\KnotTheory\\trunk\\KnotTheory/\
-QuantumInvariants4Knots.m"\)], "Output"]
+    \("Warning! There's already a file called c:\\scott\\projects\\KnotTheory\
+\\trunk\\KnotTheory/QuantumInvariants4Knots.m\nPlease double check the name, \
+and delete the pre-existing file if appropriate."\)], "Print"],
+
+Cell[BoxData[
+    \($Failed\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(?? CreateDataPackage\)], "Input"],
+
+Cell["KnotTheory`KnotAtlas`ManagingKnotData`CreateDataPackage", "Print",
+  CellTags->"Info3409051462-8785994"],
+
+Cell[BoxData[
+    InterpretationBox[GridBox[{
+          {GridBox[{
+                {\(CreateDataPackage[
+                      KnotTheory`KnotAtlas`ManagingKnotData`Private`\
+datasetname_String, 
+                      KnotTheory`KnotAtlas`ManagingKnotData`Private`invariant_\
+String, KnotTheory`KnotAtlas`ManagingKnotData`Private`knotset_List] := 
+                    CreateDataPackage[
+                      KnotTheory`KnotAtlas`ManagingKnotData`Private`\
+datasetname, {KnotTheory`KnotAtlas`ManagingKnotData`Private`invariant}, 
+                      KnotTheory`KnotAtlas`ManagingKnotData`Private`knotset]\)\
+},
+                {" "},
+                {\(CreateDataPackage[
+                      KnotTheory`KnotAtlas`ManagingKnotData`Private`\
+datasetname_String, 
+                      KnotTheory`KnotAtlas`ManagingKnotData`Private`\
+invariants : {__String}, 
+                      KnotTheory`KnotAtlas`ManagingKnotData`Private`knotset_\
+List] := Module[{KnotTheory`KnotAtlas`ManagingKnotData`Private`filename}, 
+                      KnotTheory`KnotAtlas`ManagingKnotData`Private`filename \
+= KnotTheoryDirectory[] <> "/" <> 
+                          KnotTheory`KnotAtlas`ManagingKnotData`Private`\
+datasetname <> ".m"; 
+                      If[FileNames[
+                            KnotTheory`KnotAtlas`ManagingKnotData`Private`\
+datasetname <> ".m", {KnotTheoryDirectory[]}] =!= {}, 
+                        Print["Warning! There's already a file called " <> 
+                            KnotTheory`KnotAtlas`ManagingKnotData`Private`\
+filename <> 
+                            "\nPlease double check the name, and delete the \
+pre-existing file if appropriate."]; Return[$Failed]]; 
+                      WriteString[
+                        KnotTheory`KnotAtlas`ManagingKnotData`Private`\
+filename, "BeginPackage[\"KnotTheory`" <> 
+                          KnotTheory`KnotAtlas`ManagingKnotData`Private`\
+datasetname <> "`\",{\"KnotTheory`\"}]\n" <> 
+                          "Message[KnotTheory::loading, \"" <> 
+                          KnotTheory`KnotAtlas`ManagingKnotData`Private`\
+datasetname <> "`\"]\n" <> 
+                          StoreInvariants[
+                            RetrieveInvariants[
+                              KnotTheory`KnotAtlas`ManagingKnotData`Private`\
+invariants, KnotTheory`KnotAtlas`ManagingKnotData`Private`knotset, 
+                              "KnotAtlas"], "KnotTheoryInputString"] <> 
+                          "\nEndPackage[]"]; 
+                      Close[KnotTheory`KnotAtlas`ManagingKnotData`Private`\
+filename]]\)}
+                },
+              GridBaseline->{Baseline, {1, 1}},
+              ColumnWidths->0.999,
+              ColumnAlignments->{Left}]}
+          },
+        GridBaseline->{Baseline, {1, 1}},
+        ColumnAlignments->{Left}],
+      Definition[ "CreateDataPackage"],
+      Editable->False]], "Print",
+  CellTags->"Info3409051462-8785994"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -151,8 +228,8 @@ Cell[BoxData[
 },
 FrontEndVersion->"5.2 for Microsoft Windows",
 ScreenRectangle->{{0, 1280}, {0, 713}},
-WindowSize->{674, 589},
-WindowMargins->{{Automatic, 111}, {Automatic, 32}},
+WindowSize->{674, 579},
+WindowMargins->{{Automatic, 260}, {23, Automatic}},
 ShowSelection->True
 ]
 
@@ -164,39 +241,57 @@ you save this file from within Mathematica.
 *******************************************************************)
 
 (*CellTagsOutline
-CellTagsIndex->{}
+CellTagsIndex->{
+  "Info3409051462-8785994"->{
+    Cell[3244, 97, 110, 1, 25, "Print",
+      CellTags->"Info3409051462-8785994"],
+    Cell[3357, 100, 2916, 58, 632, "Print",
+      CellTags->"Info3409051462-8785994"]}
+  }
 *)
 
 (*CellTagsIndex
-CellTagsIndex->{}
+CellTagsIndex->{
+  {"Info3409051462-8785994", 9927, 244}
+  }
 *)
 
 (*NotebookFileOutline
 Notebook[{
 
 Cell[CellGroupData[{
-Cell[1776, 53, 248, 5, 70, "Input"],
-Cell[2027, 60, 158, 2, 44, "Print"]
+Cell[1776, 53, 231, 4, 70, "Input"],
+Cell[2010, 59, 149, 2, 44, "Print"]
+}, Open  ]],
+Cell[2174, 64, 135, 3, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[2334, 71, 536, 10, 170, "Input"],
+Cell[2873, 83, 234, 3, 63, "Print"],
+Cell[3110, 88, 41, 1, 29, "Output"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[2222, 67, 536, 10, 170, "Input"],
-Cell[2761, 79, 129, 2, 48, "Output"]
+Cell[3188, 94, 53, 1, 30, "Input"],
+Cell[3244, 97, 110, 1, 25, "Print",
+  CellTags->"Info3409051462-8785994"],
+Cell[3357, 100, 2916, 58, 632, "Print",
+  CellTags->"Info3409051462-8785994"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[2927, 86, 81, 1, 30, "Input"],
-Cell[3011, 89, 147, 3, 22, "Message"],
-Cell[3161, 94, 524, 7, 52, "Message"],
-Cell[3688, 103, 486, 7, 67, "Message"],
-Cell[4177, 112, 494, 7, 67, "Message"],
-Cell[4674, 121, 486, 7, 67, "Message"],
-Cell[5163, 130, 486, 7, 67, "Message"]
+Cell[6310, 163, 81, 1, 30, "Input"],
+Cell[6394, 166, 147, 3, 22, "Message"],
+Cell[6544, 171, 524, 7, 52, "Message"],
+Cell[7071, 180, 486, 7, 67, "Message"],
+Cell[7560, 189, 494, 7, 67, "Message"],
+Cell[8057, 198, 486, 7, 67, "Message"],
+Cell[8546, 207, 486, 7, 67, "Message"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[5686, 142, 104, 2, 30, "Input"],
-Cell[5793, 146, 105, 2, 29, "Output"]
+Cell[9069, 219, 104, 2, 30, "Input"],
+Cell[9176, 223, 105, 2, 29, "Output"]
 }, Open  ]]
 }
 ]

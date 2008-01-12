@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     41665,        976]*)
-(*NotebookOutlinePosition[    125267,       3807]*)
-(*  CellTagsIndexPosition[    125223,       3803]*)
+(*NotebookOptionsPosition[     41771,        981]*)
+(*NotebookOutlinePosition[    125373,       3812]*)
+(*  CellTagsIndexPosition[    125329,       3808]*)
 (*WindowFrame->Normal*)
 
 
@@ -928,6 +928,11 @@ Cell[BoxData[
     \(CreateDataPackage[datasetname_String, invariant_String, knotset_List] := 
       CreateDataPackage[datasetname, {invariant}, knotset]\)], "Input",
   InitializationCell->True],
+
+Cell["\<\
+Note to self; this really needs an extra argument, for other needed packages.\
+\
+\>", "Text"],
 
 Cell[BoxData[
     \(CreateDataPackage[datasetname_String, invariants : {__String}, 
@@ -4002,17 +4007,18 @@ Cell[38815, 904, 1056, 20, 190, "Input",
   InitializationCell->True],
 Cell[39874, 926, 193, 3, 30, "Input",
   InitializationCell->True],
-Cell[40070, 931, 1175, 21, 270, "Input",
+Cell[40070, 931, 103, 3, 33, "Text"],
+Cell[40176, 936, 1175, 21, 270, "Input",
   InitializationCell->True],
-Cell[41248, 954, 71, 2, 30, "Input",
+Cell[41354, 959, 71, 2, 30, "Input",
   InitializationCell->True],
-Cell[41322, 958, 78, 2, 30, "Input",
+Cell[41428, 963, 78, 2, 30, "Input",
   InitializationCell->True],
 
 Cell[CellGroupData[{
-Cell[41425, 964, 143, 3, 30, "Input",
+Cell[41531, 969, 143, 3, 30, "Input",
   InitializationCell->True],
-Cell[41571, 969, 42, 1, 29, "Output"]
+Cell[41677, 974, 42, 1, 29, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
