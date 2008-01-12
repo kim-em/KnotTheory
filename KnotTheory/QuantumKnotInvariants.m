@@ -23,7 +23,7 @@ BeginPackage[
     "KnotTheory`QuantumKnotInvariants`",{"KnotTheory`","QuantumGroups`",
       "QuantumGroups`Braiding`"}];
 
-QuantumKnotInvariant::about="Quantum knot invariants are calculated using the mathematica package QuantumGroups`, written by Scott Morrison 2003-2006.";
+QuantumKnotInvariant::about="Quantum knot invariants are calculated using the mathematica package QuantumGroups`, written by Scott Morrison 2003-2008.";
 
 QuantumKnotInvariant::usage="QuantumKnotInvariant[\[CapitalGamma], V][K][q] calculates the quantum knot invariant of the knot K in the representation V of the quantum group \[CapitalGamma]. This relies on the QuantumGroups` package, and you should look there for details of how \[CapitalGamma] and V may be specified.
 
@@ -39,18 +39,21 @@ ExtractMatrices[indices:{__Integer},matrices_]:=
   Extract[matrices,
     indices/.{n_/;n<0\[RuleDelayed]{2,-n},n_/;n>0\[RuleDelayed]{1,n}}]
 
-QuantumKnotInvariant[\[CapitalGamma]_,V_][K_]:=Module[{br=BR[K],n,data},
-    CreditMessage[QuantumKnotInvariant::about];
-    n=br\[LeftDoubleBracket]1\[RightDoubleBracket];
-    data=BraidingData[\[CapitalGamma]][V,n];
-    Function[{q0},
-      Evaluate[Expand[
-          Together[
-              Plus@@(#\[LeftDoubleBracket]1\[RightDoubleBracket]Tr[
-                          Dot@@ExtractMatrices[
-                              br\[LeftDoubleBracket]2\[RightDoubleBracket],#\
+QuantumKnotInvariant[\[CapitalGamma]_,V_][K_]:=
+  QuantumKnotInvariant[\[CapitalGamma],V][K]=Module[{br=BR[K],n,data},
+      CreditMessage[QuantumKnotInvariant::about];
+      n=br\[LeftDoubleBracket]1\[RightDoubleBracket];
+      data=BraidingData[\[CapitalGamma]][V,n];
+      Function[{q0},
+        Evaluate[
+          Expand[Together[
+                Plus@@(#\[LeftDoubleBracket]1\[RightDoubleBracket]Tr[
+                            Dot@@ExtractMatrices[
+                                br\[LeftDoubleBracket]2\[RightDoubleBracket],#\
 \[LeftDoubleBracket]2\[RightDoubleBracket]]]&)/@data]/.q\[Rule]q0]]]
-    ]
+      ]
+
+
 
 End[]
 

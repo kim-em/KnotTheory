@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      4511,        129]*)
-(*NotebookOutlinePosition[     88093,       2959]*)
-(*  CellTagsIndexPosition[     88049,       2955]*)
+(*NotebookOptionsPosition[      5198,        143]*)
+(*NotebookOutlinePosition[     88780,       2973]*)
+(*  CellTagsIndexPosition[     88736,       2969]*)
 (*WindowFrame->Normal*)
 
 
@@ -69,7 +69,7 @@ Cell[BoxData[
 Cell[BoxData[
     \(\(QuantumKnotInvariant::about = "\<Quantum knot invariants are \
 calculated using the mathematica package QuantumGroups`, written by Scott \
-Morrison 2003-2006.\>";\)\)], "Input",
+Morrison 2003-2008.\>";\)\)], "Input",
   InitializationCell->True],
 
 Cell[BoxData[
@@ -102,21 +102,35 @@ Cell[BoxData[
   InitializationCell->True],
 
 Cell[BoxData[
-    \(\(QuantumKnotInvariant[\[CapitalGamma]_, V_]\)[K_] := 
-      Module[{br = BR[K], n, data}, \[IndentingNewLine]CreditMessage[
-          QuantumKnotInvariant::about]; \[IndentingNewLine]n = 
-          br\[LeftDoubleBracket]1\[RightDoubleBracket]; \
+    \(\(QuantumKnotInvariant[\[CapitalGamma]_, V_]\)[
+        K_] := \(\(QuantumKnotInvariant[\[CapitalGamma], V]\)[K] = 
+        Module[{br = BR[K], n, data}, \[IndentingNewLine]CreditMessage[
+            QuantumKnotInvariant::about]; \[IndentingNewLine]n = 
+            br\[LeftDoubleBracket]1\[RightDoubleBracket]; \
 \[IndentingNewLine]data = \(BraidingData[\[CapitalGamma]]\)[V, 
-            n]; \[IndentingNewLine]Function[{q0}, 
-          Evaluate[
-            Expand[Together[
-                  Plus @@ \(\((#\[LeftDoubleBracket]1\[RightDoubleBracket] 
-                            Tr[Dot @@ 
-                                ExtractMatrices[
-                                  br\[LeftDoubleBracket]2\[RightDoubleBracket]\
-, #\[LeftDoubleBracket]2\[RightDoubleBracket]]] &)\) /@ data\)] /. 
-                q \[Rule] q0]]]\[IndentingNewLine]]\)], "Input",
+              n]; \[IndentingNewLine]Function[{q0}, 
+            Evaluate[
+              Expand[Together[
+                    Plus @@ \(\((#\[LeftDoubleBracket]1\[RightDoubleBracket] 
+                              Tr[Dot @@ 
+                                  ExtractMatrices[
+                                    br\[LeftDoubleBracket]2\
+\[RightDoubleBracket], #\[LeftDoubleBracket]2\[RightDoubleBracket]]] &)\) /@ 
+                        data\)] /. 
+                  q \[Rule] q0]]]\[IndentingNewLine]]\)\)], "Input",
   InitializationCell->True],
+
+Cell[BoxData[
+    \(PackageQuantumKnotInvariants[\[CapitalGamma]_\_n_] := 
+      PackageData[\[IndentingNewLine]{{QuantumKnotInvariant, \
+\(QuantumKnotInvariant[\[CapitalGamma]\_n, _]\)[_]}}, \
+\[IndentingNewLine]{ToString[\[CapitalGamma]] <> 
+            ToString[
+              n], "\<QuantumKnotInvariants\>"}, \
+\[IndentingNewLine]"\<Needs\>" \[Rule] {"\<QuantumGroups`\>", \
+"\<KnotTheory`\>", "\<KnotTheory`QuantumKnotInvariants`\>"}, \
+\[IndentingNewLine]"\<ExtraPrivateCode\>" \[Rule] "\<q=Global`q;\>", \
+"\<UseGzip\>" \[Rule] False\[IndentingNewLine]]\)], "Input"],
 
 Cell[BoxData[
     \(End[]\)], "Input",
@@ -2976,11 +2990,12 @@ Cell[3183, 92, 78, 2, 30, "Input",
   InitializationCell->True],
 Cell[3264, 96, 248, 5, 50, "Input",
   InitializationCell->True],
-Cell[3515, 103, 835, 15, 170, "Input",
+Cell[3515, 103, 945, 17, 210, "Input",
   InitializationCell->True],
-Cell[4353, 120, 66, 2, 30, "Input",
+Cell[4463, 122, 574, 10, 134, "Input"],
+Cell[5040, 134, 66, 2, 30, "Input",
   InitializationCell->True],
-Cell[4422, 124, 73, 2, 30, "Input",
+Cell[5109, 138, 73, 2, 30, "Input",
   InitializationCell->True]
 }, Open  ]]
 }
