@@ -20,8 +20,8 @@ overwritten.
 
 
 BeginPackage[
-    "KnotTheory`QuantumKnotInvariants`",{"KnotTheory`","QuantumGroups`",
-      "QuantumGroups`Braiding`"}];
+    "KnotTheory`QuantumKnotInvariants`",{"KnotTheory`","QuantumGroups`","QuantumGroups`Braiding`",
+      "QuantumGroups`Utilities`DataPackage`"}];
 
 QuantumKnotInvariant::about="Quantum knot invariants are calculated using the mathematica package QuantumGroups`, written by Scott Morrison 2003-2008.";
 
@@ -31,29 +31,27 @@ Examples:
    QuantumKnotInvariant[Subscript[A,2], Irrep[Subscript[A,2]][{1, 0}]][Knot[5, 2]][q]
    QuantumKnotInvariant[Subscript[G,2], Irrep[Subscript[G,2]][{1, 0}]\[CirclePlus]Irrep[Subscript[G,2]][{0, 1}]][Knot[5, 2]][q]"
 
+PackageQuantumKnotInvariants::usage=
+  "PackageQuantumKnotInvariants[\[CapitalGamma]] saves all calculated quantum knot invariants for the quantum group K into a data file in the QuantumGroupsDataDirectory[]."
+
 Begin["`Private`"]
 
 q=Global`q;
+
+Wants[x_]:=
+  (Off[Get::noopen];Off[Needs::nocont];Needs[x];On[Needs::nocont];
+    On[Get::noopen];)
 
 ExtractMatrices[indices:{__Integer},matrices_]:=
   Extract[matrices,
     indices/.{n_/;n<0\[RuleDelayed]{2,-n},n_/;n>0\[RuleDelayed]{1,n}}]
 
-QuantumKnotInvariant[\[CapitalGamma]_,V_][K_]:=
-  QuantumKnotInvariant[\[CapitalGamma],V][K]=Module[{br=BR[K],n,data},
-      CreditMessage[QuantumKnotInvariant::about];
-      n=br\[LeftDoubleBracket]1\[RightDoubleBracket];
-      data=BraidingData[\[CapitalGamma]][V,n];
-      Function[{q0},
-        Evaluate[
-          Expand[Together[
-                Plus@@(#\[LeftDoubleBracket]1\[RightDoubleBracket]Tr[
-                            Dot@@ExtractMatrices[
-                                br\[LeftDoubleBracket]2\[RightDoubleBracket],#\
-\[LeftDoubleBracket]2\[RightDoubleBracket]]]&)/@data]/.q\[Rule]q0]]]
-      ]
+TogetherDot[x_,y_]:=x.y
+TogetherDot[x_,y_,z__]:=TogetherDot[Together[x.y],z]
 
+\!\(\(QuantumKnotInvariant[\[CapitalGamma]_\_n_, V_]\)[K_] := \(\(QuantumKnotInvariant[\[CapitalGamma]\_n, V]\)[K] = Module[{br = BR[K], k, data}, \[IndentingNewLine]CreditMessage[QuantumKnotInvariant::about]; \[IndentingNewLine]Wants["\<QuantumGroups`Data`\>" <> ToString[\[CapitalGamma]] <> ToString[n] <> "\<`BraidingData`\>"]; \[IndentingNewLine]k = br\[LeftDoubleBracket]1\[RightDoubleBracket]; \[IndentingNewLine]data = \(BraidingData[\[CapitalGamma]\_n]\)[V, k]; \[IndentingNewLine]Function[{Global`q0}, Evaluate[Expand[Together[Plus @@ \(\((#\[LeftDoubleBracket]1\[RightDoubleBracket] Tr[TogetherDot @@ ExtractMatrices[br\[LeftDoubleBracket]2\[RightDoubleBracket], #\[LeftDoubleBracket]2\[RightDoubleBracket]]] &)\) /@ data\)]] /. q \[Rule] Global`q0]]\[IndentingNewLine]]\)\)
 
+\!\(PackageQuantumKnotInvariants[\[CapitalGamma]_\_n_] := PackageData[\[IndentingNewLine]{{QuantumKnotInvariant, HoldPattern[\(QuantumKnotInvariant[\[CapitalGamma]\_n, _]\)[_Knot]]}}, \[IndentingNewLine]{ToString[\[CapitalGamma]] <> ToString[n], "\<QuantumKnotInvariants\>"}, \[IndentingNewLine]"\<Needs\>" \[Rule] {"\<QuantumGroups`\>", "\<KnotTheory`\>", "\<KnotTheory`QuantumKnotInvariants`\>"}, \[IndentingNewLine]"\<ExtraPrivateCode\>" \[Rule] "\<q0=Global`q0;\>", "\<UseGzip\>" \[Rule] False\[IndentingNewLine]]\)
 
 End[]
 
