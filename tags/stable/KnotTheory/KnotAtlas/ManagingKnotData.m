@@ -570,6 +570,8 @@ ProcessKnotAtlasUploadQueueEntry[pagename_String,item_String,invariant_String,
 CreateDataPackage[datasetname_String,invariant_String,knotset_List]:=
   CreateDataPackage[datasetname,{invariant},knotset]
 
+
+
 CreateDataPackage[datasetname_String,invariants:{__String},knotset_List]:=
   Module[{filename},
     filename=KnotTheoryDirectory[]<>"/"<>datasetname<>".m";
