@@ -37,17 +37,23 @@ Beliakova's arXiv:07050669."];
     SetDirectory[ToFileName[{KnotTheoryDirectory[], "HFK-Zurich"}]];
     f = OpenWrite["in", PageWidth -> Infinity];
     WriteString[f, 
-     StringDrop[ToString[ap], StringLength["ArcPresentation"]]];
+      StringDrop[ToString[ap], StringLength["ArcPresentation"]]];
+    Close[f];
+    f = OpenWrite["out", PageWidth -> Infinity];
+    Write[f, "batchVersion.py running..."];
     Close[f];
     Run["batchVersion.py"];
     f = OpenRead["out"];
     out = Read[f, String];
     Close[f];
     ResetDirectory[];
-    {minA, maxA, minM, maxM, R} = 
-     ToExpression[StringReplace[out, {"[" -> "{", "]" -> "}"}]];
-    Function @@ {Expand[(#2^Range[minM, maxM]).R.(#1^Range[minA, maxA])]}
-    ];
+    If[StringMatchQ[out, "*batchVersion.py running...*"],
+      $Failed,
+    (*Else*) {minA, maxA, minM, maxM, R} = 
+      ToExpression[StringReplace[out, {"[" -> "{", "]" -> "}"}]];
+      Function @@ {Expand[(#2^Range[minM, maxM]).R.(#1^Range[minA, maxA])]}
+    ]
+  ]
 
 End[]; EndPackage[];
 
