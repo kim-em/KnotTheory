@@ -28,7 +28,7 @@ KnotTheory::credits = "`1`";
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2008, 2, 28, 14, 2, 53.5482544};
+KnotTheoryVersion[] = {2008, 2, 28, 14, 27, 25.9955296};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
@@ -3084,19 +3084,29 @@ TabularKh::usage = "TabularKh[polynomial, {diagonals}] generates an html table d
 of the polynomial, with diagonals highlighted. The tables appearing in the Knot Atlas are generated using
 TabularKh[Kh[K][q,t], KnotSignature[K]+{1,-1}]";
 
+(* Here we expose just a few of the names in the context KnotTheory`FastKh`Tangles`.
+   You can thus use AppendTo[$ContextPath, "KnotTheory`FastKh`Tangles`"], and gain access to these symbols,
+   without importing all the local variables from the implementations below. *)
+
+BeginPackage["KnotTheory`FastKh`Tangles`"]
+
+bdot; Morphisms; Objects; Smoothing; MM; e; Q; KhComplex; HC; Kom; DeLoop; Contract;
+
+EndPackage[]
+
 Begin["`FastKh`"]
 
 bdot[_]^_ ^=0; tdot[_]^_ ^=0;
 
-EquivalenceClasses[l_List] := Fold[
+EquivalenceClasses[l_List] := Module[{pos}, Fold[
       (
           pos = First /@ Position[#1, #2];
           Append[Delete[#1, List /@ pos], Union@@(#1[[pos]])]
           )&,
       l, Union @@ l
-];
+]];
 
-DotRule[top_, bot_] := DotRule[top, bot] = Flatten[Cases[
+DotRule[top_, bot_] := DotRule[top, bot] = Module[{z}, Flatten[Cases[
   DeleteCases[
     EquivalenceClasses[Join[
       Cases[{top}, P[i_,j_][m_] :> {z@i,z@j,tdot@m}, Infinity],
@@ -3105,7 +3115,7 @@ DotRule[top_, bot_] := DotRule[top, bot] = Flatten[Cases[
     _z, {2}
   ],
   l_List :> ((# -> First[l])& /@ l)
-]];
+]]];
 
 HCLaw[
         Cobordism[top1_Smoothing,bot1_Smoothing],
