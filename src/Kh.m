@@ -405,7 +405,7 @@ Contract[kom_Kom] := Module[
             Infinity, 1]
           ];
         obs[[1+k]] = obs[[1+k]] /. ((#->0)& /@ killed0);
-        obs[[1+k+1]] = obs[[1+k+1]] /. ((#->0)& /@ killed1);;
+        obs[[1+k+1]] = obs[[1+k+1]] /. ((#->0)& /@ killed1);
         If[k>0,
           mos[[1+k-1]] = mos[[1+k-1]] /.
               MM[i_e, j_e, mm_] /; MemberQ[killed0, j] :> 0

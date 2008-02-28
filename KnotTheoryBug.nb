@@ -10,15 +10,17 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       145,          7]
-NotebookDataLength[      4771,        168]
-NotebookOptionsPosition[      3889,        133]
-NotebookOutlinePosition[      4231,        148]
-CellTagsIndexPosition[      4188,        145]
+NotebookDataLength[      4063,        147]
+NotebookOptionsPosition[      3262,        114]
+NotebookOutlinePosition[      3604,        129]
+CellTagsIndexPosition[      3561,        126]
 WindowFrame->Normal
 ContainsDynamic->False*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
+
+Cell[CellGroupData[{
 Cell[BoxData[{
  RowBox[{
   RowBox[{
@@ -32,31 +34,10 @@ Cell[BoxData[{
  CellChangeTimes->{{3.4131552503211775`*^9, 3.4131552523941584`*^9}, {
   3.4131554750443134`*^9, 3.4131554899156976`*^9}}],
 
-Cell[CellGroupData[{
-
-Cell["FastKh broken in v6.", "Subsection",
- CellChangeTimes->{{3.4132160081766834`*^9, 3.4132160125329475`*^9}}],
-
-Cell["\<\
-This fails with strange errors in v6, but works fine in v5 .2.\
-\>", "Text",
- CellChangeTimes->{{3.413216051839467*^9, 3.4132160677723775`*^9}}],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"Kh", "[", 
-   RowBox[{
-    RowBox[{"PD", "[", 
-     RowBox[{
-      RowBox[{"X", "[", 
-       RowBox[{"1", ",", "5", ",", "2", ",", "4"}], "]"}], ",", 
-      RowBox[{"X", "[", 
-       RowBox[{"5", ",", "3", ",", "6", ",", "2"}], "]"}], ",", 
-      RowBox[{"X", "[", 
-       RowBox[{"3", ",", "1", ",", "4", ",", "6"}], "]"}]}], "]"}], ",", 
-    RowBox[{"Program", "->", "\"\<FastKh\>\""}]}], "]"}], "[", 
-  RowBox[{"q", ",", "t"}], "]"}]], "Input",
- CellChangeTimes->{{3.413215825303725*^9, 3.4132158377115664`*^9}}]
+Cell[BoxData["\<\"Loading KnotTheory` version of January 18, 2008, \
+18:17:28.7446.\\nRead more at http://katlas.org/wiki/KnotTheory.\"\>"], \
+"Print",
+ CellChangeTimes->{3.4132162481817937`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -147,27 +128,25 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[568, 21, 445, 11, 92, "Input"],
 Cell[CellGroupData[{
-Cell[1038, 36, 112, 1, 36, "Subsection"],
-Cell[1153, 39, 154, 3, 29, "Text"],
-Cell[1310, 44, 550, 14, 52, "Input"]
+Cell[590, 23, 445, 11, 92, "Input"],
+Cell[1038, 36, 195, 3, 62, "Print"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1897, 63, 139, 1, 36, "Subsection"],
+Cell[1270, 44, 139, 1, 36, "Subsection"],
 Cell[CellGroupData[{
-Cell[2061, 68, 141, 3, 31, "Input"],
-Cell[2205, 73, 232, 6, 41, "Message"],
-Cell[2440, 81, 289, 7, 59, "Message"],
-Cell[2732, 90, 541, 14, 50, "Output"]
+Cell[1434, 49, 141, 3, 31, "Input"],
+Cell[1578, 54, 232, 6, 41, "Message"],
+Cell[1813, 62, 289, 7, 59, "Message"],
+Cell[2105, 71, 541, 14, 50, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[3310, 109, 103, 2, 31, "Input"],
-Cell[3416, 113, 71, 1, 30, "Output"]
+Cell[2683, 90, 103, 2, 31, "Input"],
+Cell[2789, 94, 71, 1, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[3524, 119, 143, 3, 31, "Input"],
-Cell[3670, 124, 191, 5, 41, "Message"]
+Cell[2897, 100, 143, 3, 31, "Input"],
+Cell[3043, 105, 191, 5, 41, "Message"]
 }, Open  ]]
 }, Open  ]]
 }
@@ -175,4 +154,3 @@ Cell[3670, 124, 191, 5, 41, "Message"]
 *)
 
 (* End of internal cache information *)
-
