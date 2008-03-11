@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       145,          7]
-NotebookDataLength[    124691,       2669]
-NotebookOptionsPosition[      8433,        250]
-NotebookOutlinePosition[    123813,       2640]
-CellTagsIndexPosition[    123770,       2637]
+NotebookDataLength[    125691,       2692]
+NotebookOptionsPosition[      9432,        273]
+NotebookOutlinePosition[    124812,       2663]
+CellTagsIndexPosition[    124769,       2660]
 WindowFrame->Normal
 ContainsDynamic->False*)
 
@@ -39,9 +39,11 @@ Cell[BoxData[
      RowBox[{
      "\"\<KnotTheory`\>\"", ",", "\"\<QuantumGroups`\>\"", ",", 
       "\"\<QuantumGroups`Braiding`\>\"", ",", 
+      "\"\<QuantumGroups`Representations`\>\"", ",", 
       "\"\<QuantumGroups`Utilities`DataPackage`\>\""}], "}"}]}], "]"}], 
   ";"}]], "Input",
- InitializationCell->True],
+ InitializationCell->True,
+ CellChangeTimes->{{3.4141686120525265`*^9, 3.4141686141054783`*^9}}],
 
 Cell[BoxData[
  RowBox[{
@@ -163,6 +165,24 @@ Cell[BoxData[
       RowBox[{"CreditMessage", "[", 
        RowBox[{"QuantumKnotInvariant", "::", "about"}], "]"}], ";", 
       "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"br", "===", 
+         RowBox[{"BR", "[", 
+          RowBox[{"1", ",", 
+           RowBox[{"{", "}"}]}], "]"}]}], ",", "\[IndentingNewLine]", 
+        RowBox[{"Return", "[", 
+         RowBox[{"Function", "[", 
+          RowBox[{
+           RowBox[{"{", "Global`q0", "}"}], ",", 
+           RowBox[{"Evaluate", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"qDimension", "[", 
+               SubscriptBox["\[CapitalGamma]", "n"], "]"}], "[", "V", "]"}], "/.",
+              
+             RowBox[{"q", "\[Rule]", "Global`q0"}]}], "]"}]}], "]"}], "]"}]}],
+        "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
       RowBox[{"Wants", "[", 
        RowBox[{"\"\<QuantumGroups`Data`\>\"", "<>", 
         RowBox[{"ToString", "[", "\[CapitalGamma]", "]"}], "<>", 
@@ -204,7 +224,10 @@ Cell[BoxData[
                ")"}], "/@", "data"}]}], "]"}], "]"}], "/.", 
           RowBox[{"q", "\[Rule]", "Global`q0"}]}], "]"}]}], "]"}]}]}], 
     "\[IndentingNewLine]", "]"}]}]}]], "Input",
- InitializationCell->True],
+ InitializationCell->True,
+ CellChangeTimes->{{3.4141666787726064`*^9, 3.4141667232365427`*^9}, {
+  3.4141686637568736`*^9, 3.414168673200453*^9}, {3.4141687151507745`*^9, 
+  3.414168717724475*^9}}],
 
 Cell[BoxData[
  RowBox[{
@@ -2644,31 +2667,31 @@ Cell[590, 23, 88, 1, 49, "Subtitle",
  InitializationCell->True],
 Cell[681, 26, 172, 5, 47, "Text",
  InitializationCell->True],
-Cell[856, 33, 380, 10, 69, "Input",
+Cell[856, 33, 504, 12, 69, "Input",
  InitializationCell->True],
-Cell[1239, 45, 276, 6, 69, "Input",
+Cell[1363, 47, 276, 6, 69, "Input",
  InitializationCell->True],
-Cell[1518, 53, 664, 11, 209, "Input",
+Cell[1642, 55, 664, 11, 209, "Input",
  InitializationCell->True],
-Cell[2185, 66, 313, 6, 69, "Input",
+Cell[2309, 68, 313, 6, 69, "Input",
  InitializationCell->True],
-Cell[2501, 74, 101, 2, 28, "Input",
+Cell[2625, 76, 101, 2, 28, "Input",
  InitializationCell->True],
-Cell[2605, 78, 101, 3, 28, "Input",
+Cell[2729, 80, 101, 3, 28, "Input",
  InitializationCell->True],
-Cell[2709, 83, 515, 14, 49, "Input",
+Cell[2833, 85, 515, 14, 49, "Input",
  InitializationCell->True],
-Cell[3227, 99, 714, 22, 49, "Input",
+Cell[3351, 101, 714, 22, 49, "Input",
  InitializationCell->True],
-Cell[3944, 123, 576, 16, 69, "Input",
+Cell[4068, 125, 576, 16, 69, "Input",
  InitializationCell->True],
-Cell[4523, 141, 2481, 65, 231, "Input",
+Cell[4647, 143, 3356, 86, 291, "Input",
  InitializationCell->True],
-Cell[7007, 208, 1241, 31, 131, "Input",
+Cell[8006, 231, 1241, 31, 131, "Input",
  InitializationCell->True],
-Cell[8251, 241, 78, 2, 28, "Input",
+Cell[9250, 264, 78, 2, 28, "Input",
  InitializationCell->True],
-Cell[8332, 245, 85, 2, 28, "Input",
+Cell[9331, 268, 85, 2, 28, "Input",
  InitializationCell->True]
 }, Open  ]]
 }
@@ -2676,4 +2699,3 @@ Cell[8332, 245, 85, 2, 28, "Input",
 *)
 
 (* End of internal cache information *)
-

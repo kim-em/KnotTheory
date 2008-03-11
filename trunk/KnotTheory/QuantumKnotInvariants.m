@@ -19,7 +19,7 @@
 
 
 
-BeginPackage["KnotTheory`QuantumKnotInvariants`",{"KnotTheory`","QuantumGroups`","QuantumGroups`Braiding`","QuantumGroups`Utilities`DataPackage`"}];
+BeginPackage["KnotTheory`QuantumKnotInvariants`",{"KnotTheory`","QuantumGroups`","QuantumGroups`Braiding`","QuantumGroups`Representations`","QuantumGroups`Utilities`DataPackage`"}];
 
 
 QuantumKnotInvariant::about="Quantum knot invariants are calculated using the mathematica package QuantumGroups`, written by Scott Morrison 2003-2008.";
@@ -55,6 +55,9 @@ TogetherDot[x_,y_,z__]:=TogetherDot[Together[x.y],z]
 
 QuantumKnotInvariant[Subscript[\[CapitalGamma]_, n_],V_][K_]:=QuantumKnotInvariant[Subscript[\[CapitalGamma], n],V][K]=Module[{br=BR[K],k,data},
 CreditMessage[QuantumKnotInvariant::about];
+If[br===BR[1,{}],
+Return[Function[{Global`q0},Evaluate[qDimension[Subscript[\[CapitalGamma], n]][V]/.q->Global`q0]]]
+];
 Wants["QuantumGroups`Data`"<>ToString[\[CapitalGamma]]<>ToString[n]<>"`BraidingData`"];
 k=br[[1]];
 data=BraidingData[Subscript[\[CapitalGamma], n]][V,k];
