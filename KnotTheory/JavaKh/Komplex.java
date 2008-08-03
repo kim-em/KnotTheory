@@ -95,7 +95,7 @@ public class Komplex implements Serializable {
 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	int tangle[][] = getPD(br);
 	br.close();
-	Komplex k = generateFast(tangle, getSigns(tangle));
+	Komplex k = generateFast(tangle, getSigns(tangle), true);
 	System.out.println(k.Kh());
 	//System.out.println("maxn: " + BaseRing.maxn + ", maxd: " + BaseRing.maxd);
 	//System.out.println("size: " + CannedCobordism.cache.size());
@@ -810,6 +810,16 @@ public class Komplex implements Serializable {
 	}
     }
 
+    private static int takeNextCrossing(int edges[], int pd[][], boolean in[],
+			boolean done[], int depth, int retmax[]) {
+		for (int i = 0; i < pd.length; ++i) {
+			if (!done[i])
+				return i;
+		}
+		assert (false);
+		return 0;
+	}
+    
     private static int chooseXingRecursive(int edges[], int pd[][],
 					   boolean in[], boolean done[],
 					   int depth, int retmax[]) {
@@ -935,7 +945,7 @@ public class Komplex implements Serializable {
     }
 
     //adds crossings one by one
-    public static Komplex generateFast(int pd[][], int xsigns[]) {
+    public static Komplex generateFast(int pd[][], int xsigns[], boolean reorderCrossings) {
 	if (pd.length == 0) { // assume unknot
 	    Komplex kom = new Komplex(1);
 	    kom.columns[0] = new SmoothingColumn(1);
@@ -965,8 +975,9 @@ public class Komplex implements Serializable {
 	int edges[] = new int[0];
 	int firstdepth = (pd.length > MAXDEPTH + 1 ? MAXDEPTH : pd.length - 1);
 	int firstdummy[] = new int[firstdepth + 1];
-	int first = chooseXingRecursive(edges, pd, in, done, firstdepth,
-					firstdummy);
+	int first = 
+		reorderCrossings ? chooseXingRecursive(edges, pd, in, done, firstdepth,	firstdummy)
+						 :    takeNextCrossing(edges, pd, in, done, firstdepth,	firstdummy);
 	if (xsigns[first] == 1)
 	    kom = kplus;
 	else
@@ -1050,7 +1061,9 @@ public class Komplex implements Serializable {
 	    if (depth > MAXDEPTH)
 		depth = MAXDEPTH;
 	    int dummy[] = new int[depth + 1];
-	    int best = chooseXingRecursive(edges, pd, in, done, depth, dummy);
+	    int best = 
+	    	reorderCrossings ? chooseXingRecursive(edges, pd, in, done, depth,	dummy)
+			             	 :    takeNextCrossing(edges, pd, in, done, depth,	dummy);
 	    int nbest = 0;
 	    for (int j = 0; j < 4; j++)
 		if (in[pd[best][j]])
