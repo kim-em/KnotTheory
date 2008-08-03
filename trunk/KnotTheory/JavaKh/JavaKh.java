@@ -22,6 +22,7 @@ public class JavaKh {
     public static void main(String args[]) throws java.io.IOException {
     	
     	boolean reorderCrossings = true;
+    	boolean caching = false;
     	
     /* Process command-line arguments */
     	
@@ -38,7 +39,8 @@ public class JavaKh {
 			options.addOption("Z", "integer", false, "work over the integers");
 			options.addOption("Q", "rational", false, "work over the rationals");
 			options.addOption("m", "mod", true, "work over a field of characteristic p");
-			options.addOption("O" , "ordered", false, "don't change the ordering of the crossings");
+			options.addOption("O", "ordered", false, "don't change the ordering of the crossings");
+			options.addOption("C", "caching", false, "cache intermediate steps to the cache/ directory");
 			
 			CommandLine line = parser.parse(options, args);
 			String[] clean_args = line.getArgs();
@@ -72,6 +74,7 @@ public class JavaKh {
 			}
 			
 			if(line.hasOption("O")) reorderCrossings = false;
+			if(line.hasOption("C")) caching = true;
 			
 			if (line.hasOption("h")) {
 				HelpFormatter formatter = new HelpFormatter();
@@ -91,7 +94,7 @@ public class JavaKh {
 	    int knot[][] = Komplex.getPD(br);
 	    if (knot == null)
 		break;
-	    Komplex k = Komplex.generateFast(knot, Komplex.getSigns(knot), reorderCrossings);
+	    Komplex k = Komplex.generateFast(knot, Komplex.getSigns(knot), reorderCrossings, caching);
 	    assert k.check(true);
 	    System.out.println("\"" + k.Kh() + "\"");
 	    //k.debugPrint();
