@@ -71,7 +71,7 @@ public class JavaKh {
 			if (line.hasOption("h")) {
 				HelpFormatter formatter = new HelpFormatter();
 				formatter.printHelp(
-						"Usage: java JavaKh [OPTIONS]\n", options);
+						"Usage: java JavaKh [OPTIONS]", options);
 				System.exit(1);
 			}
 
@@ -79,39 +79,6 @@ public class JavaKh {
 			log.fatal("Error found initializing", e);
 			System.exit(1);
 		}
-
-    /*
-	switch (args.length) {
-	case 0:
-	    BaseRing.setRing("Rational");
-	    break;
-	case 1:
-	    if (args[0].equals("-Q"))
-		BaseRing.setRing("Rational");
-	    else if (args[0].equals("-Z"))
-		BaseRing.setRing("Int");
-	    else if (args[0].equals("-U")) {
-		using_h = true;
-		BaseRing.setRing("Int");
-	    } else
-		printHelp();
-	    break;
-	case 2:
-	    if (args[0].equals("-mod")) {
-		int p = Integer.parseInt(args[1]);
-		if (p == 0)
-		    BaseRing.setRing("Rational");
-		else {
-		    BaseRing.setRing("ModP");
-		    ModP.setP(p);
-		}
-	    } else
-		printHelp();
-	    break;
-	default:
-	    printHelp();
-	}
-	*/
 
 	//Komplex.checkReidemeister();
 	BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
@@ -127,14 +94,4 @@ public class JavaKh {
 	br.close();
     }
 
-    public static void printHelp() {
-	System.out.println("Usage: java JavaKh [OPTION]\n"
-			   +"Options specify the base ring class:\n"
-			   +"  -Q        Rationals (default)\n"
-			   +"  -Z        Integers\n"
-			   +"  -mod p    Modulus p\n"
-			   +"  -U        Universal homology (over Z)\n"
-			   +"Any other option gives this message");
-	System.exit(0);
-    }
 }
