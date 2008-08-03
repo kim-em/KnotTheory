@@ -1,6 +1,11 @@
 import java.util.*;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.math.BigInteger;
 public class Komplex implements Serializable {
@@ -95,7 +100,7 @@ public class Komplex implements Serializable {
 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	int tangle[][] = getPD(br);
 	br.close();
-	Komplex k = generateFast(tangle, getSigns(tangle), true);
+	Komplex k = generateFast(tangle, getSigns(tangle), true, false);
 	System.out.println(k.Kh());
 	//System.out.println("maxn: " + BaseRing.maxn + ", maxd: " + BaseRing.maxd);
 	//System.out.println("size: " + CannedCobordism.cache.size());
@@ -945,7 +950,7 @@ public class Komplex implements Serializable {
     }
 
     //adds crossings one by one
-    public static Komplex generateFast(int pd[][], int xsigns[], boolean reorderCrossings) {
+    public static Komplex generateFast(int pd[][], int xsigns[], boolean reorderCrossings, boolean caching) {
 	if (pd.length == 0) { // assume unknot
 	    Komplex kom = new Komplex(1);
 	    kom.columns[0] = new SmoothingColumn(1);
@@ -988,6 +993,38 @@ public class Komplex implements Serializable {
 	for (int i = 0; i < 4; i++)
 	    in[pd[first][i]] = true;
 	for (int i = 1; i < pd.length; i++) {
+		
+boolean dryRun = false;
+
+	if(caching) {
+		/* skip ahead if we can see more cached files */
+		if(new File("cache/" + new Integer(i+1).toString()).exists()) {
+			System.out.println("More cache files exist, skipping ahead at crossing: " + i);
+			dryRun = true;			
+		}
+		
+		/* just load from the cache, if the file already exists */
+		File cache = new File("cache/" + new Integer(i).toString());
+		if(!dryRun && cache.exists()) {
+			try {
+				ObjectInputStream deserializer = new ObjectInputStream(new FileInputStream(cache));
+				kom = (Komplex)(deserializer.readObject());
+				System.out.println("Successfully loaded cached complex for crossing: " + i);
+				dryRun = true;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("Trying to delete broken cache file...");
+				cache.deleteOnExit();
+				cache.delete();
+				System.out.println("Aborting!");
+				System.exit(1);
+			}
+		}
+	}
+
+		
+		
 	    /*int best = -1, nbest = -1;
 	    for (int j = 0; j < pd.length; j++)
 		if (!done[j]) {
@@ -1134,7 +1171,29 @@ public class Komplex implements Serializable {
 	    done[best] = true;
 	    for (int j = 0; j < 4; j++)
 		in[pd[best][j]] = true;
+	    
+	    
+	    if(caching) {
+	    if(!dryRun) {
+			File output = new File("cache/" + new Integer(i).toString());
+			output.getParentFile().mkdirs();
+			try {
+				System.out.println("Caching complex after crossing: " + i);
+				ObjectOutputStream serializer = new ObjectOutputStream(new FileOutputStream(output));
+				serializer.writeObject(kom);
+				serializer.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("Trying to delete failed output file...");
+				output.deleteOnExit();
+				output.delete();
+			}
+			}
+	    }
+	    
 	}
+	
 	if (JavaKh.using_h && nedges == 2)
 	    kom.finalizeH();
 	return kom;
