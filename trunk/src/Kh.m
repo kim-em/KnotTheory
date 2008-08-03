@@ -501,7 +501,8 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     prog = (Program /. {opts} /. Options[Kh]),
     modulus = (Modulus /. {opts} /. Options[Kh]),
     universal = (Universal /. {opts} /. Options[Kh]),
-    javaoptions = (JavaOptions /. {opts} /. Options[Kh])
+    javaoptions = (JavaOptions /. {opts} /. Options[Kh]),
+    JavaKhDirectory, jarDirectory, classpath
   },
   L1 = PD[L];
   Switch[prog,
@@ -522,10 +523,24 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     f = OpenWrite["pd", PageWidth -> Infinity];
     WriteString[f, ToString[L1]];
     Close[f];
+    JavaKhDirectory = ToFileName[KnotTheoryDirectory[], "JavaKh"];
+    jarDirectory = ToFileName[JavaKhDirectory, "jars"];
+    classpath = StringJoin[
+        (* this is a horrible hack to make sure the classpath works on both unix and windows systems *)
+        JavaKhDirectory, 
+        ":" , ToFileName[jarDirectory, "commons-cli-1.0.jar"],
+        ":" , ToFileName[jarDirectory, "commons-logging-1.1.jar"],
+        ":" , ToFileName[jarDirectory, "log4j-1.2.12.jar"],
+        ":;",
+        JavaKhDirectory, 
+        ";" , ToFileName[jarDirectory, "commons-cli-1.0.jar"],
+        ";" , ToFileName[jarDirectory, "commons-logging-1.1.jar"],
+        ";" , ToFileName[jarDirectory, "log4j-1.2.12.jar"]
+    ];
     cl = StringJoin[
-      "!java -classpath \"", ToFileName[KnotTheoryDirectory[], "JavaKh"],
+      "!java -classpath \"", classpath,
       "\" ", javaoptions, " JavaKh ",
-      If[universal, "-U", If[modulus === Null, "-Z", "-mod "<>ToString[modulus]]],
+      If[universal, "-U", If[modulus === Null, "-Z", "--mod "<>ToString[modulus]]],
       " < pd"
     ];
     f = OpenRead[cl];
