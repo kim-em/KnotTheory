@@ -1,4 +1,6 @@
-public class SmoothingColumn {
+import java.io.Serializable;
+
+public class SmoothingColumn implements Serializable {
     int n;
     Cap smoothings[];
     int numbers[];

@@ -1,4 +1,6 @@
-public class Cap implements Comparable {
+import java.io.Serializable;
+
+public class Cap implements Comparable, Serializable {
     public int n, ncycles;
     public int pairings[];
     private static java.util.Map cache = new java.util.TreeMap();
