@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="cache/|jars/|Komplex2.java" kind="src" output="" path=""/>
+	<classpathentry excluding="cache/|jars/" kind="src" output="" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="jars/commons-cli-1.0.jar"/>
 	<classpathentry kind="lib" path="jars/commons-logging-1.1.jar"/>
