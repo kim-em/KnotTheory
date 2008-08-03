@@ -1,6 +1,8 @@
+import java.io.Serializable;
+
 // CannedCobordisms should be treated as immutable
 // don't touch them except just after calling the constructor
-public class CannedCobordism implements Comparable {
+public class CannedCobordism implements Comparable, Serializable {
     public static final int zerosize = 500;
     public static final int zeros[][] = fillZeros();
     public static final int counting[][] = fillCounting();

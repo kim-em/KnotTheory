@@ -1,6 +1,8 @@
+import java.io.Serializable;
+
 // sparse matrix
 // based on http://www.ii.uib.no/~geirg/jaggedarrays.html
-public class CobMatrix {
+public class CobMatrix implements Serializable{
     SmoothingColumn source, target;
     LCCC values[][];
     int indices[][];

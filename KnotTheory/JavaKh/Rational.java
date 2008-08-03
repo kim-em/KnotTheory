@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.math.BigInteger;
 // rationals
 // using BigIntegers since they are probably necessary
-public class Rational extends BaseRing {
+public class Rational extends BaseRing implements Serializable {
     BigInteger n, d;
     public Rational(int n) {
 	this.n = BigInteger.valueOf(n);
