@@ -1,8 +1,9 @@
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.math.BigInteger;
-public class Komplex {
+public class Komplex implements Serializable {
     static final int MAXDEPTH = 3;
     int ncolumns, nfixed;
     SmoothingColumn columns[];
