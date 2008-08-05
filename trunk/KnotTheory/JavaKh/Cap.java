@@ -1,9 +1,15 @@
 import java.io.Serializable;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class Cap implements Comparable, Serializable {
-    public int n, ncycles;
+public class Cap implements Comparable<Cap>, Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6365827964169634427L;
+	public int n, ncycles;
     public int pairings[];
-    private static java.util.Map cache = new java.util.TreeMap();
+    private static Map<ComposeInput, ComposeOutput> cache = new TreeMap<ComposeInput, ComposeOutput>();
 
     public Cap(int n, int cycles) {
 	this.n = n;
@@ -25,8 +31,7 @@ public class Cap implements Comparable, Serializable {
 	return true;
     }
 
-    public int compareTo(Object o) {
-	Cap c = (Cap) o;
+    public int compareTo(Cap c) {
 	if (n != c.n)
 	    return n - c.n;
 	if (ncycles != c.ncycles)
@@ -206,7 +211,7 @@ public class Cap implements Comparable, Serializable {
 	System.out.println("Associativity checks OK");
     }
 
-    private class ComposeInput implements Comparable {
+    private class ComposeInput implements Comparable<ComposeInput> {
 	Cap a, b;
 	int astart, bstart, nc;
 	public ComposeInput(Cap a, int astart, Cap b, int bstart, int nc) {
@@ -216,8 +221,7 @@ public class Cap implements Comparable, Serializable {
 	    this.bstart = bstart;
 	    this.nc = nc;
 	}
-	public int compareTo(Object o) {
-	    ComposeInput ci = (ComposeInput) o;
+	public int compareTo(ComposeInput ci) {
 	    if (astart != ci.astart)
 		return astart - ci.astart;
 	    if (bstart != ci.bstart)

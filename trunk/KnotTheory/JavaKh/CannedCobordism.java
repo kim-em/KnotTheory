@@ -1,9 +1,16 @@
 import java.io.Serializable;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.TreeMap;
 
 // CannedCobordisms should be treated as immutable
 // don't touch them except just after calling the constructor
-public class CannedCobordism implements Comparable, Serializable {
-    public static final int zerosize = 500;
+public class CannedCobordism implements Comparable<CannedCobordism>, Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3719377672479984518L;
+	public static final int zerosize = 500;
     public static final int zeros[][] = fillZeros();
     public static final int counting[][] = fillCounting();
     private static int[][] fillZeros() {
@@ -34,8 +41,8 @@ public class CannedCobordism implements Comparable, Serializable {
     public int boundaryComponents[][]; // which boundary components are connected to each connected component
     public int edges[][]; // which edges are part of each mixed boundary component
 
-    static java.util.Map vcache = new java.util.TreeMap();
-    static java.util.Map hcache = new java.util.TreeMap();
+    static Map<VComposeInput, ComposeOutput> vcache = new TreeMap<VComposeInput, ComposeOutput>();
+    static Map<HComposeInput, ComposeOutput> hcache = new TreeMap<HComposeInput, ComposeOutput>();
 
     public static void main(String args[]) {
 	int n = 8;
@@ -47,8 +54,8 @@ public class CannedCobordism implements Comparable, Serializable {
 	    System.out.println("Error in associativity check");
     }
 
-    private CannedCobordism() {
-    }
+    //private CannedCobordism() {
+    //}
 
     public CannedCobordism(CannedCobordism cc) {
 	// copies most of cc
@@ -173,8 +180,7 @@ public class CannedCobordism implements Comparable, Serializable {
 	return r;
     }
 
-    public int compareTo(Object o) {
-	CannedCobordism cc = (CannedCobordism) o;
+    public int compareTo(CannedCobordism cc) {
 	if (nbc != cc.nbc)
 	    return nbc - cc.nbc;
 	for (int i = 0; i < nbc; i++)
@@ -394,7 +400,7 @@ public class CannedCobordism implements Comparable, Serializable {
 	if (ncc + cc.ncc > 20)
 	    return compose2(cc);
 	VComposeInput ci = new VComposeInput(this, cc);
-	ComposeOutput co = (ComposeOutput) vcache.get(ci);
+	ComposeOutput co = vcache.get(ci);
 	if (co == null) {
 	    co = new ComposeOutput(this, cc);
 	    vcache.put(ci, co);
@@ -748,7 +754,7 @@ public class CannedCobordism implements Comparable, Serializable {
 	if (ncc + cc.ncc > 20)
 	    return compose2(start, cc, cstart, nc);
 	HComposeInput ci = new HComposeInput(this, start, cc, cstart, nc);
-	ComposeOutput co = (ComposeOutput) hcache.get(ci);
+	ComposeOutput co = hcache.get(ci);
 	if (co == null) {
 	    co = new ComposeOutput(this, start, cc, cstart, nc);
 	    hcache.put(ci, co);
@@ -1138,9 +1144,8 @@ public class CannedCobordism implements Comparable, Serializable {
 	    sortarr[i][4] = rgenus[concomp];
 	    sortarr[i][5] = concomp;
 	    }*/
-	java.util.Comparator comp = new java.util.Comparator() {
-		public int compare(Object o1, Object o2) {
-		    int a[] = (int[]) o1, b[] = (int[]) o2;
+	Comparator<int[]> comp = new Comparator<int[]>() {
+		public int compare(int[] a, int[] b) {
 		    for (int i = 0; i < a.length; i++)
 			if (a[i] != b[i])
 			    return a[i] - b[i];
@@ -1239,7 +1244,7 @@ public class CannedCobordism implements Comparable, Serializable {
 	return ret;
     }
 
-    private class VComposeInput implements Comparable {
+    private class VComposeInput implements Comparable<VComposeInput> {
 	int n;
 	Cap top, middle, bottom;
 	int topnbc, botnbc;
@@ -1260,8 +1265,7 @@ public class CannedCobordism implements Comparable, Serializable {
 	    botConnectedComponent = a.connectedComponent;
 	}
 
-	public int compareTo(Object o) {
-	    VComposeInput ci = (VComposeInput) o;
+	public int compareTo(VComposeInput ci) {
 	    if (n != ci.n)
 		return n - ci.n;
 	    if (topnbc != ci.topnbc)
@@ -1352,7 +1356,7 @@ public class CannedCobordism implements Comparable, Serializable {
 	}
     }
 
-    private class HComposeInput implements Comparable {
+    private class HComposeInput implements Comparable<HComposeInput> {
 	int an, bn;
 	Cap atop, abottom, btop, bbottom;
 	int anbc, bnbc, ancc, bncc;
@@ -1370,8 +1374,7 @@ public class CannedCobordism implements Comparable, Serializable {
 	    this.astart = astart; this.bstart = bstart; this.nc = nc;
 	}
 
-	public int compareTo(Object o) {
-	    HComposeInput ci = (HComposeInput) o;
+	public int compareTo(HComposeInput ci) {
 	    if (astart != ci.astart)
 		return astart - ci.astart;
 	    if (bstart != ci.bstart)

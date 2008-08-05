@@ -1,8 +1,11 @@
 import java.io.Serializable;
-import java.util.*;
 
 public class LCCC implements Serializable { // Linear Combination of Canned Cobordisms
-    //static int maxsz = 0; // is 10 for T(7.6)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8539035436108747574L;
+	//static int maxsz = 0; // is 10 for T(7.6)
     Cap top, bottom;
     // coefficients are BaseRing
     int n;

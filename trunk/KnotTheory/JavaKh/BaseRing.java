@@ -1,7 +1,9 @@
 public abstract class BaseRing {
-    private static java.lang.reflect.Constructor constructor;
+    @SuppressWarnings("unchecked")
+	private static java.lang.reflect.Constructor constructor;
     public static String ring;
-    public static void setRing(String cls) {
+    @SuppressWarnings("unchecked")
+	public static void setRing(String cls) {
 	ring = cls;
 	try {
 	    Class params[] = {Integer.TYPE};
