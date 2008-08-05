@@ -1,4 +1,11 @@
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,6 +20,11 @@ import java.math.BigInteger;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 public class Komplex implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6669296477790589829L;
+
 	private static final Log log = LogFactory.getLog(Komplex.class);
 	
     static final int MAXDEPTH = 3;
@@ -451,6 +463,12 @@ public class Komplex implements Serializable {
     }
 
     public void reduce() {
+    	/*
+    	 * Can this be safely parallelised?
+    	 */
+    	
+    	// parallelReduce();
+    	
 		for (int i = 0; i < ncolumns; i++) {
 			log.debug("delooping " + (i+1) + "/" + ncolumns); 
 			deLoop(i);
@@ -465,6 +483,62 @@ public class Komplex implements Serializable {
 		}
 	}
 
+    public void parallelReduce() {
+    	ExecutorService executor = new ThreadPoolExecutor(1, 10, 10, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+    	int p = 4;
+    	for(int j = 0; j < p; ++j) {
+    		// prepare the tasks.
+    		List<Callable<Boolean>> tasks = new ArrayList<Callable<Boolean>>();
+    		for(int i = j; i < ncolumns; i+=p) {
+    			tasks.add(new reduceTask(i));
+    		}
+    		// submit them.
+    		List<Future<Boolean>> futures = null;
+    		try {
+				futures = executor.invokeAll(tasks);
+			} catch (InterruptedException e) {
+				log.warn("Maybe parallel reduction wasn't such a good idea.", e);
+			}
+    		// block until they're all done.
+			if(futures != null) {
+				for(Future<Boolean> future : futures) {
+					try {
+						future.get();
+					} catch (InterruptedException e) {
+						log.warn("Maybe parallel reduction wasn't such a good idea.", e);
+					} catch (ExecutionException e) {
+						log.warn("Maybe parallel reduction wasn't such a good idea.", e);
+					}
+				}
+			}
+    	}
+    }
+    
+    private class reduceTask implements Callable<Boolean> {
+
+    	private final int i;
+    	
+    	reduceTask(int i) {
+    		this.i = i;
+    	}
+
+		@Override
+		public Boolean call() throws Exception {
+			log.debug("delooping " + (i+1) + "/" + ncolumns); 
+			deLoop(i);
+			if (i > 0) {
+				log.debug("applying reduce");
+				CobMatrix m = _matrices.get(i - 1);
+				m.reduce();
+				_matrices.set(i - 1, m);
+				log.debug("applying reduction lemma");
+				reductionLemma(i - 1);
+			}
+			return true;
+		}
+    	
+    }
+    
     public void reduceLocal() {
 		for (int i = 0; i < _matrices.size(); i++) {
 			CobMatrix m = _matrices.get(i);
@@ -473,11 +547,12 @@ public class Komplex implements Serializable {
 		}
 	}
 
+    /*
+     * This function looks horrible inefficient; however it doesn't actually get used. meh. ---Scott
+     */
     public void deLoop() { // deloops all columns
 		for (int i = 0; i < ncolumns; i++) {
 			deLoop(i);
-			// TODO: This seems scary, why are we calling reduceLocal so many
-			// times? ---Scott
 			reduceLocal();
 		}
 	}
@@ -532,30 +607,32 @@ public class Komplex implements Serializable {
 		newsc.smoothings[newn] = newsm;
 		newsc.numbers[newn] = columns[colnum].numbers[i] + nmod;
 		if (prev != null) {
-		    prev.rowsizes[newn] = _matrices.get(colnum - 1).rowsizes[i];
-		    prev.indices[newn] = _matrices.get(colnum - 1).indices[i];
+			CobMatrix prevMatrix = _matrices.get(colnum - 1);
+		    prev.rowsizes[newn] = prevMatrix.rowsizes[i];
+		    prev.indices[newn] = prevMatrix.indices[i];
 		    if (oldsm.ncycles != 0) {
 			LCCC lc = new LCCC(oldsm, newsm);
 			lc.add(prevcc, 1);
 			prev.values[newn] = new LCCC[prev.rowsizes[newn]];
 			for (int k = 0; k < prev.rowsizes[newn]; k++)
-			    prev.values[newn][k] = lc.compose(_matrices.get(colnum - 1).values[i][k]);
+			    prev.values[newn][k] = lc.compose(prevMatrix.values[i][k]);
 		    } else
-			prev.values[newn] = _matrices.get(colnum - 1).values[i];
+			prev.values[newn] = prevMatrix.values[i];
 		}
 		if (next != null) {
+			CobMatrix nextMatrix = _matrices.get(colnum);
 		    if (oldsm.ncycles != 0) {
 			LCCC lc = new LCCC(newsm, oldsm);
 			lc.add(nextcc, 1);
-			for (int k = 0; k<_matrices.get(colnum).values.length; k++)
-			    for (int l = 0; l < _matrices.get(colnum).rowsizes[k]; l++)
-				if (_matrices.get(colnum).indices[k][l] == i)
-				    next.append(k, newn, _matrices.get(colnum).values[k][l].compose(lc));
+			for (int k = 0; k < nextMatrix.values.length; k++)
+			    for (int l = 0; l < nextMatrix.rowsizes[k]; l++)
+				if (nextMatrix.indices[k][l] == i)
+				    next.append(k, newn, nextMatrix.values[k][l].compose(lc));
 		    } else
-			for (int k = 0; k<_matrices.get(colnum).values.length; k++)
-			    for (int l = 0; l < _matrices.get(colnum).rowsizes[k]; l++)
-				if (_matrices.get(colnum).indices[k][l] == i)
-				    next.append(k, newn, _matrices.get(colnum).values[k][l]);
+			for (int k = 0; k < nextMatrix.values.length; k++)
+			    for (int l = 0; l < nextMatrix.rowsizes[k]; l++)
+				if (nextMatrix.indices[k][l] == i)
+				    next.append(k, newn, nextMatrix.values[k][l]);
 		    next.trim();
 		}
 
