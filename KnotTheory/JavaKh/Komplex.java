@@ -1669,7 +1669,7 @@ boolean dryRun = false;
     	if(inMemory) {
     		_matrices = new ArrayList<CobMatrix>(ncolumns - 1);
     	} else {
-    		_matrices = new CachingList<CobMatrix>(new DiskBackedList<CobMatrix>(new File(System.getProperty("java.io.tmpdir"))), 2);
+    		_matrices = new CachingList<CobMatrix>(new DiskBackedList<CobMatrix>(new File(System.getProperty("java.io.tmpdir"))), 3);
     	}	
     }
     
