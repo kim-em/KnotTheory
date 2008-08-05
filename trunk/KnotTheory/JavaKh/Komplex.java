@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -16,9 +17,10 @@ public class Komplex implements Serializable {
 	
     static final int MAXDEPTH = 3;
     int ncolumns, nfixed;
-    SmoothingColumn columns[];
+    final SmoothingColumn columns[];
     // CobMatrix __matrices[];
-    List<CobMatrix> _matrices;
+    final boolean inMemory;
+    transient List<CobMatrix> _matrices;
     int startnum;
 
     static int pascalTriangle[][];
@@ -37,11 +39,12 @@ public class Komplex implements Serializable {
 	}
     }
 
-    public Komplex(int n) {
-	ncolumns = n;
-	columns = new SmoothingColumn[ncolumns];
-	// __matrices = new CobMatrix[ncolumns - 1];
-	_matrices = new ArrayList<CobMatrix>(ncolumns - 1);
+    public Komplex(int n, boolean inMemory) {
+    	ncolumns = n;
+    	columns = new SmoothingColumn[ncolumns];
+    	// _matrices = new ArrayList<CobMatrix>(ncolumns - 1);
+    	this.inMemory = inMemory;
+    	createMatrixList();
     }
 
     public boolean equals(Object o) { // doesn't fully check for equivalence
@@ -107,7 +110,7 @@ public class Komplex implements Serializable {
 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	int tangle[][] = getPD(br);
 	br.close();
-	Komplex k = generateFast(tangle, getSigns(tangle), true, false);
+	Komplex k = generateFast(tangle, getSigns(tangle), true, false, true);
 	System.out.println(k.Kh());
 	//System.out.println("maxn: " + BaseRing.maxn + ", maxd: " + BaseRing.maxd);
 	//System.out.println("size: " + CannedCobordism.cache.size());
@@ -115,14 +118,14 @@ public class Komplex implements Serializable {
 
     public static void checkReidemeister() {
 	int R1aPD[][] = {{2,0,1,2}}, R1aS[] = {-1};
-	Komplex R1a = new Komplex(R1aPD, R1aS, 2);
+	Komplex R1a = new Komplex(R1aPD, R1aS, 2, true);
 	R1a.deLoop();
 	R1a.reductionLemma();
 	int R1bPD[][] = {{0,1,2,2}}, R1bS[] = {1};
-	Komplex R1b = new Komplex(R1bPD, R1bS, 2);
+	Komplex R1b = new Komplex(R1bPD, R1bS, 2, true);
 	R1b.deLoop();
 	R1b.reductionLemma();
-	Komplex R1c = new Komplex(1);
+	Komplex R1c = new Komplex(1, true);
 	R1c.startnum = 0;
 	R1c.columns[0] = new SmoothingColumn(1);
 	R1c.columns[0].smoothings[0] = new Cap(2, 0);
@@ -134,14 +137,14 @@ public class Komplex implements Serializable {
 	    System.out.println("Error checking R1");
 	
 	int R2aPD[][] = {{0,1,5,4},{5,2,3,4}}, R2aS[] = {-1, 1};
-	Komplex R2a = new Komplex(R2aPD, R2aS, 4);
+	Komplex R2a = new Komplex(R2aPD, R2aS, 4, true);
 	R2a.deLoop();
 	R2a.reductionLemma();
 	int R2bPD[][] = {{1,5,4,0},{4,5,2,3}}, R2bS[] = {1, -1};
-	Komplex R2b = new Komplex(R2bPD, R2bS, 4);
+	Komplex R2b = new Komplex(R2bPD, R2bS, 4, true);
 	R2b.deLoop();
 	R2b.reductionLemma();
-	Komplex R2c = new Komplex(1);
+	Komplex R2c = new Komplex(1, true);
 	R2c.startnum = 0;
 	R2c.columns[0] = new SmoothingColumn(1);
 	R2c.columns[0].smoothings[0] = new Cap(4, 0);
@@ -155,11 +158,11 @@ public class Komplex implements Serializable {
 	    System.out.println("Error checking R2");
 
 	int R3aPD[][] = {{0,6,8,5},{2,7,6,1},{8,7,3,4}}, R3aS[] = {-1,1,-1};
-	Komplex R3a = new Komplex(R3aPD, R3aS, 6);
+	Komplex R3a = new Komplex(R3aPD, R3aS, 6, true);
 	R3a.deLoop();
 	R3a.reductionLemma();
 	int R3bPD[][] = {{0,1,7,6},{7,2,3,8},{8,4,5,6}}, R3bS[] = {-1,-1,1};
-	Komplex R3b = new Komplex(R3bPD, R3bS, 6);
+	Komplex R3b = new Komplex(R3bPD, R3bS, 6, true);
 	R3b.deLoop();
 	R3b.reductionLemma();
 	if (R3a.equals(R3b))
@@ -987,9 +990,9 @@ public class Komplex implements Serializable {
     }
     
     //adds crossings one by one
-    public static Komplex generateFast(int pd[][], int xsigns[], boolean reorderCrossings, boolean caching) {
+    public static Komplex generateFast(int pd[][], int xsigns[], boolean reorderCrossings, boolean caching, boolean inMemory) {
 	if (pd.length == 0) { // assume unknot
-	    Komplex kom = new Komplex(1);
+	    Komplex kom = new Komplex(1, true);
 	    kom.columns[0] = new SmoothingColumn(1);
 	    kom.columns[0].smoothings[0] = new Cap(0, 1);
 	    kom.reduce();
@@ -1000,9 +1003,9 @@ public class Komplex implements Serializable {
 	int pd1[][] = {{0, 1, 2, 3}};
 	int xsign1[] = new int[1];
 	xsign1[0] = 1;
-	Komplex kplus = new Komplex(pd1, xsign1, 4);
+	Komplex kplus = new Komplex(pd1, xsign1, 4, true);
 	xsign1[0] = -1;
-	Komplex kminus = new Komplex(pd1, xsign1, 4);
+	Komplex kminus = new Komplex(pd1, xsign1, 4, true);
 	Komplex kom;
 	/*if (xsigns[0] == 1)
 	    kom = kplus;
@@ -1178,9 +1181,9 @@ boolean dryRun = false;
 	    if(!dryRun) {
 		    log.info("Crossing number: " + i + "\tGirth: " + nedges + "\t ");
 	    if (xsigns[best] == 1)
-		kom = kom.compose(start, kplus, kstart, nbest);
+		kom = kom.compose(start, kplus, kstart, nbest, inMemory);
 	    else
-		kom = kom.compose(start, kminus, kstart, nbest);
+		kom = kom.compose(start, kminus, kstart, nbest, inMemory);
 	    System.gc();
 	    log.info("Time: " + timeElapsed() + "\tMemory: " + (Runtime.getRuntime().totalMemory () - Runtime.getRuntime().freeMemory()));
 	    }
@@ -1251,8 +1254,8 @@ boolean dryRun = false;
     //uses horizontal composition
     // WARNING: this destroys the original Komplex object in the process, for the sake
     // of speedy(?) garbage collection.
-    public Komplex compose(int start, Komplex kom, int kstart, int nc) {
-	Komplex ret = new Komplex(ncolumns + kom.ncolumns - 1);
+    public Komplex compose(int start, Komplex kom, int kstart, int nc, boolean inMemory) {
+	Komplex ret = new Komplex(ncolumns + kom.ncolumns - 1, inMemory);
 	ret.startnum = startnum + kom.startnum;
 	ret.nfixed = nfixed + kom.nfixed - 2 * nc;
 	int colsizes[] = new int[ret.ncolumns];
@@ -1370,12 +1373,13 @@ boolean dryRun = false;
 
     // this is currently limited to 31 or 32 crossings
     // of course, memory will be exhausted much sooner
-    public Komplex(int pd[][], int xsigns[], int nfixed) {
+    public Komplex(int pd[][], int xsigns[], int nfixed, boolean inMemory) {
 	// pd defines a tangle in PD form, with nfixed fixed points
 	this.nfixed = nfixed;
 	ncolumns = pd.length + 1; // pd.length is the number of crossings
 	columns = new SmoothingColumn[ncolumns];
-	_matrices = new ArrayList<CobMatrix>(ncolumns - 1);
+	this.inMemory = inMemory;
+	createMatrixList();
 	startnum = 0;
 	for (int i = 0; i < pd.length; i++)
 	    if (xsigns[i] == -1)
@@ -1649,4 +1653,30 @@ boolean dryRun = false;
 	}
 	return true;
     }
+    
+    private void writeObject(ObjectOutputStream s) throws IOException {
+    	s.defaultWriteObject();
+    	s.writeInt(_matrices.size());
+    	for(CobMatrix m : _matrices) {
+    		s.writeObject(m);
+    	}
+    }
+    
+    private void createMatrixList() {
+    	if(inMemory) {
+    		_matrices = new ArrayList<CobMatrix>(ncolumns - 1);
+    	} else {
+    		_matrices = new CachingList<CobMatrix>(new DiskBackedList<CobMatrix>(new File(System.getProperty("java.io.tmpdir"))), 2);
+    	}	
+    }
+    
+    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
+    	s.defaultReadObject();
+    	int size = s.readInt();
+    	createMatrixList();
+    	for(int i = 0; i < size; ++i) {
+    		_matrices.add((CobMatrix)(s.readObject()));
+    	}
+    }
+    
 }
