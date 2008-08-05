@@ -473,11 +473,11 @@ public class Komplex implements Serializable {
 			log.debug("delooping " + (i+1) + "/" + ncolumns); 
 			deLoop(i);
 			if (i > 0) {
-				log.debug("applying reduce");
+				// log.debug("applying reduce");
 				CobMatrix m = _matrices.get(i - 1);
 				m.reduce();
 				_matrices.set(i - 1, m);
-				log.debug("applying reduction lemma");
+				// log.debug("applying reduction lemma");
 				reductionLemma(i - 1);
 			}
 		}
