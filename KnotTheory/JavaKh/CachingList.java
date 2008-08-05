@@ -35,7 +35,7 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 	}
 	
 	@Override
-	public Element get(int index) {
+	public synchronized Element get(int index) {
 		if(!cache.containsKey(index)) {
 			while(cache.size() >= numberToCache) reduceCacheSize();
 			Element e = innerList.get(index);
@@ -47,12 +47,12 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 	}
 
 	@Override
-	public int size() {
+	public synchronized int size() {
 		return innerList.size();
 	}
 	
 	@Override
-	public boolean add(Element element) {
+	public synchronized boolean add(Element element) {
 		while(cache.size() >= numberToCache) reduceCacheSize();
 		int size = size();
 		cache.put(size, element);
@@ -63,26 +63,26 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 	}
 
 	@Override
-	public void add(int index, Element element) {
+	public synchronized void add(int index, Element element) {
 		// blegh, I don't want to have to deal with shifting indices.
 		throw new UnsupportedOperationException();
 	}
 	
 	@Override
-	public void clear() {
+	public synchronized void clear() {
 		cache.clear();
 		cacheOrder.clear();
 		innerList.clear();
 	}
 
 	@Override
-	public Element remove(int index) {
+	public synchronized Element remove(int index) {
 		// blegh, I don't want to have to deal with shifting indices.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Element set(int index, Element element) {
+	public synchronized Element set(int index, Element element) {
 		Element old = get(index);
 		cache.put(index, element);
 		return old;
