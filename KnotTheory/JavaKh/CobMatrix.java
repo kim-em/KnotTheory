@@ -3,7 +3,11 @@ import java.io.Serializable;
 // sparse matrix
 // based on http://www.ii.uib.no/~geirg/jaggedarrays.html
 public class CobMatrix implements Serializable{
-    SmoothingColumn source, target;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6928267083411895640L;
+	SmoothingColumn source, target;
     LCCC values[][];
     int indices[][];
     int rowsizes[];

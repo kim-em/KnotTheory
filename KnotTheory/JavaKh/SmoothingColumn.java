@@ -1,7 +1,11 @@
 import java.io.Serializable;
 
 public class SmoothingColumn implements Serializable {
-    int n;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4287954448286736780L;
+	int n;
     Cap smoothings[];
     int numbers[];
 

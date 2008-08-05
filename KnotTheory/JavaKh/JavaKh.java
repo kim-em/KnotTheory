@@ -1,8 +1,5 @@
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -45,7 +42,7 @@ public class JavaKh {
 			options.addOption("D", "disk", false, "store large lists on disk, rather than in memory (slow!)");
 			
 			CommandLine line = parser.parse(options, args);
-			String[] clean_args = line.getArgs();
+			// String[] clean_args = line.getArgs();
 
 			Logger rootLogger = Logger.getRootLogger();
 			if (line.hasOption("d"))

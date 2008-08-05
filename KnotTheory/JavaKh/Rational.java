@@ -3,7 +3,11 @@ import java.math.BigInteger;
 // rationals
 // using BigIntegers since they are probably necessary
 public class Rational extends BaseRing implements Serializable {
-    BigInteger n, d;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6075252910094756294L;
+	BigInteger n, d;
     public Rational(int n) {
 	this.n = BigInteger.valueOf(n);
 	d = BigInteger.ONE;
