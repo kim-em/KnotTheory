@@ -23,6 +23,7 @@ public class JavaKh {
     	
     	boolean reorderCrossings = true;
     	boolean caching = false;
+    	boolean inMemory = true;
     	
     /* Process command-line arguments */
     	
@@ -41,6 +42,7 @@ public class JavaKh {
 			options.addOption("m", "mod", true, "work over a field of characteristic p");
 			options.addOption("O", "ordered", false, "don't change the ordering of the crossings");
 			options.addOption("C", "caching", false, "cache intermediate steps to the cache/ directory");
+			options.addOption("D", "disk", false, "store large lists on disk, rather than in memory (slow!)");
 			
 			CommandLine line = parser.parse(options, args);
 			String[] clean_args = line.getArgs();
@@ -75,6 +77,7 @@ public class JavaKh {
 			
 			if(line.hasOption("O")) reorderCrossings = false;
 			if(line.hasOption("C")) caching = true;
+			if(line.hasOption("D")) inMemory = false;
 			
 			if (line.hasOption("h")) {
 				HelpFormatter formatter = new HelpFormatter();
@@ -94,7 +97,7 @@ public class JavaKh {
 	    int knot[][] = Komplex.getPD(br);
 	    if (knot == null)
 		break;
-	    Komplex k = Komplex.generateFast(knot, Komplex.getSigns(knot), reorderCrossings, caching);
+	    Komplex k = Komplex.generateFast(knot, Komplex.getSigns(knot), reorderCrossings, caching, inMemory);
 	    assert k.check(true);
 	    System.out.println("\"" + k.Kh() + "\"");
 	    //k.debugPrint();
