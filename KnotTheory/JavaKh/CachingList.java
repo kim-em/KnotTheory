@@ -24,6 +24,7 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 	}
 
 	private void reduceCacheSize() {
+		log.debug("reducing cache size...");
 		int deleteIndex = cacheOrder.get(0);
 		Element e = cache.remove(deleteIndex);
 		cacheOrder.remove(0);
