@@ -452,12 +452,14 @@ public class Komplex implements Serializable {
 
     public void reduce() {
 		for (int i = 0; i < ncolumns; i++) {
-			log.debug("reducing " + (i+1) + "/" + ncolumns); 
+			log.debug("delooping " + (i+1) + "/" + ncolumns); 
 			deLoop(i);
 			if (i > 0) {
+				log.debug("applying reduce");
 				CobMatrix m = _matrices.get(i - 1);
 				m.reduce();
 				_matrices.set(i - 1, m);
+				log.debug("applying reduction lemma");
 				reductionLemma(i - 1);
 			}
 		}
