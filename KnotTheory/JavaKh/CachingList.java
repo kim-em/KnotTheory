@@ -22,12 +22,19 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 		cache = new HashMap<Integer, Element>();
 		cacheOrder = new ArrayList<Integer>();
 	}
-
+	
+	private static void invokeGC() {
+		for(int i = 0; i < 4; ++i) {
+			System.gc();
+		}
+	}
+	
 	private void reduceCacheSize() {
 		int deleteIndex = cacheOrder.get(0);
 		Element e = cache.remove(deleteIndex);
 		cacheOrder.remove(0);
 		innerList.set(deleteIndex, e);
+		invokeGC();
 	}
 	
 	@Override
