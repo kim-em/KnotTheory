@@ -1,3 +1,4 @@
+package org.katlas.JavaKh.utils;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
@@ -9,7 +10,7 @@ import java.util.Map.Entry;
  * 
  */
 
-class AlwaysEmptyMap<K,V> implements Map<K,V>, Serializable {
+public class AlwaysEmptyMap<K,V> implements Map<K,V>, Serializable {
 
 	/**
 	 * 
