@@ -44,6 +44,16 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
     static Map<VComposeInput, ComposeOutput> vcache = new TreeMap<VComposeInput, ComposeOutput>();
     static Map<HComposeInput, ComposeOutput> hcache = new TreeMap<HComposeInput, ComposeOutput>();
 
+    public static void disableCache() {
+    	vcache = new AlwaysEmptyMap<VComposeInput, ComposeOutput>();
+    	hcache = new AlwaysEmptyMap<HComposeInput, ComposeOutput>();
+    }
+    
+    public static void enableCache() {
+    	vcache = new TreeMap<VComposeInput, ComposeOutput>();
+    	hcache = new TreeMap<HComposeInput, ComposeOutput>();
+    }
+    
     public static void main(String args[]) {
 	int n = 8;
 	if (checkAssociativity(n))
