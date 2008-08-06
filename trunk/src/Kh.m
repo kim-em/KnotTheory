@@ -502,7 +502,7 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     modulus = (Modulus /. {opts} /. Options[Kh]),
     universal = (Universal /. {opts} /. Options[Kh]),
     javaoptions = (JavaOptions /. {opts} /. Options[Kh]),
-    JavaKhDirectory, jarDirectory, classpath
+    JavaKhDirectory, jarDirectory, classDirectory, classpath
   },
   L1 = PD[L];
   Switch[prog,
@@ -525,15 +525,20 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     Close[f];
     JavaKhDirectory = ToFileName[KnotTheoryDirectory[], "JavaKh"];
     jarDirectory = ToFileName[JavaKhDirectory, "jars"];
+    classDirectory = ToFileName[ToFileName[ToFileName[ToFileName[JavaKhDirectory, "bin"], "org"],"katlas"],"JavaKh"];
     classpath = StringJoin[
         (* this is a horrible hack to make sure the classpath works on both unix and windows systems *)
-        JavaKhDirectory, 
+        classDirectory, 
+        ":" , ToFileName[classDirectory, "utils"],
         ":" , ToFileName[jarDirectory, "commons-cli-1.0.jar"],
+        ":" , ToFileName[jarDirectory, "commons-io-1.2.jar"],
         ":" , ToFileName[jarDirectory, "commons-logging-1.1.jar"],
         ":" , ToFileName[jarDirectory, "log4j-1.2.12.jar"],
         ":;",
-        JavaKhDirectory, 
+        classDirectory, 
+        ";" , ToFileName[classDirectory, "utils"],
         ";" , ToFileName[jarDirectory, "commons-cli-1.0.jar"],
+        ";" , ToFileName[jarDirectory, "commons-io-1.2.jar"],
         ";" , ToFileName[jarDirectory, "commons-logging-1.1.jar"],
         ";" , ToFileName[jarDirectory, "log4j-1.2.12.jar"]
     ];
