@@ -116,55 +116,6 @@ public class Komplex implements Serializable {
 		return true;
 	}
 
-	public static void main(String[] args) throws java.io.IOException {
-		BaseRing.setRing("Rational");
-		// checkReidemeister();
-		// int tangle[][] = {{1,5,4,0},{5,2,3,4}}, signs[] = {1, 1}; // tangle
-		// with 4 fixed points
-		// int tangle[][] = {{0,3,1,4},{2,5,3,0},{4,1,5,2}};
-		// int tangle[][] = {{3,1,4,0},{7,5,0,4},{5,2,6,3},{1,6,2,7}};
-		// int tangle[][] = {{0,5,1,6},{2,7,3,8},{4,9,5,0},{6,1,7,2},{8,3,9,4}};
-		// int tangle[][] = {{0,3,1,4},{2,7,3,8},{4,9,5,0},{8,5,9,6},{6,1,7,2}};
-		// int tangle[][] =
-		// {{0,3,1,4},{4,9,5,10},{2,8,3,7},{8,2,9,1},{6,11,7,0},{10,5,11,6}};
-		// //6.2
-		// int tangle[][] =
-		// {{0,3,1,4},{4,9,5,10},{2,8,3,7},{8,2,9,1},{10,13,11,0
-		// },{6,12,7,11},{12,6,13,5}}; // 7.7
-		// int tangle[][] =
-		// {{0,3,1,4},{8,11,9,12},{2,10,3,9},{10,2,11,1},{4,13,5
-		// ,14},{6,15,7,0},{14,5,15,6},{12,7,13,8}}; // 8.6
-		// int tangle[][] =
-		// {{0,3,1,4},{4,9,5,10},{2,8,3,7},{8,2,9,1},{6,13,7,14}
-		// ,{10,15,11,0},{14,11,15,12},{12,5,13,6}}; // 8.14
-		// int tangle[][] =
-		// {{3,1,4,0},{7,3,8,2},{8,14,9,13},{4,12,5,11},{12,6,13
-		// ,5},{10,0,11,15},{14,10,15,9},{1,7,2,6}}; // 8.19
-		// int tangle[][] =
-		// {{3,1,4,0},{7,3,8,2},{4,11,5,12},{12,15,13,0},{8,13,9
-		// ,14},{14,9,15,10},{10,5,11,6},{1,7,2,6}}; // 8.20
-		// int tangle[][] =
-		// {{6,0,7,19},{13,1,14,0},{14,8,15,7},{1,9,2,8},{2,16,3
-		// ,15},{9,17,10,16},{10,4,11,3},{17,5,18,4},{18,12,19,11},{5,13,6,12}};
-		// // T(5,3)
-		// int tangle[][] =
-		// {{3,1,4,0},{11,7,12,6},{7,2,8,3},{1,8,2,9},{19,12,20,
-		// 13},{15,4,16,5},{
-		// 5,18,6,19},{21,14,0,15},{13,20,14,21},{17,11,18,10},{9,17,10,16}};
-		// //K11a66
-		// int tangle[][] = {{5,0,6,1},{7,2,4,3},{1,4,2,5},{3,6,0,7}}; //L4a1
-		// int tangle[][] = {{0,5,4,3},{4,5,1,2}}, signs[] = {1, -1}; // R2
-		// int tangle[][] = {{2,0,1,2}}, signs[] = {-1}; // R1
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int tangle[][] = getPD(br);
-		br.close();
-		Komplex k = generateFast(tangle, getSigns(tangle), true, false, true);
-		System.out.println(k.Kh());
-		// System.out.println("maxn: " + BaseRing.maxn + ", maxd: " +
-		// BaseRing.maxd);
-		// System.out.println("size: " + CannedCobordism.cache.size());
-	}
-
 	public static void checkReidemeister() {
 		int R1aPD[][] = { { 2, 0, 1, 2 } }, R1aS[] = { -1 };
 		Komplex R1a = new Komplex(R1aPD, R1aS, 2, true);
@@ -1217,10 +1168,10 @@ public class Komplex implements Serializable {
 						dryRun = true;
 						
 						// uncomment this to upconvert serialization versions...
-						System.out.println("Writing the complex back to disk, in the new serialization format...");
-						writeCache(kom, i);
-						System.exit(0);
-						
+//						System.out.println("Writing the complex back to disk, in the new serialization format...");
+//						writeCache(kom, i);
+//						System.exit(0);
+//						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -1292,7 +1243,7 @@ public class Komplex implements Serializable {
 			if (!dryRun) {
 				info("reducing");
 				kom.reduce();
-				System.gc();
+				invokeGC();
 				info("finished reducing");
 			}
 			int newedges[] = new int[nedges + 4 - 2 * nbest];
@@ -1777,29 +1728,32 @@ public class Komplex implements Serializable {
 	private void readObject(ObjectInputStream s) throws IOException,
 			ClassNotFoundException {
 		s.defaultReadObject();
-		// int serializationVersion = s.readInt();
+    	int serializationVersion = s.readInt();
+    	if(serializationVersion < 1 || serializationVersion > 1) {
+    		log.warn("Serialization version looks wrong...");
+    	}
 		int size = s.readInt();
 		createMatrixList();
-//		if(s.readBoolean()) {
-//			for(int i = 0; i < size; ++i) {
-//				long fileLength = s.readLong();
-//				int hash = s.readInt();
-//				InputStream lsis = new LimitedSizeInputStream(s, fileLength);
-//				if(matrices instanceof SerializingList) {
-//					matrices.add(null);
-//					((SerializingList<CobMatrix>) matrices).setSerializedForm(i, hash, lsis);
-//				} else {
-//					ObjectInputStream p = new ObjectInputStream(lsis);
-//					matrices.add((CobMatrix) (p.readObject()));
-//					invokeGC();
-//				}
-//			}
-//		} else {
+		if(s.readBoolean()) {
+			for(int i = 0; i < size; ++i) {
+				long fileLength = s.readLong();
+				int hash = s.readInt();
+				InputStream lsis = new LimitedSizeInputStream(s, fileLength);
+				if(matrices instanceof SerializingList) {
+					matrices.add(null);
+					((SerializingList<CobMatrix>) matrices).setSerializedForm(i, hash, lsis);
+				} else {
+					ObjectInputStream p = new ObjectInputStream(lsis);
+					matrices.add((CobMatrix) (p.readObject()));
+					invokeGC();
+				}
+			}
+		} else {
 			for (int i = 0; i < size; ++i) {
 				matrices.add((CobMatrix) (s.readObject()));
 				invokeGC();
 			}
-//		}
+		}
 	}
 
 }
