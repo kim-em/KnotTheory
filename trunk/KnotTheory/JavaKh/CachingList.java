@@ -12,15 +12,20 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 	private static final Log log = LogFactory.getLog(CachingList.class);
 
 	private final List<Element> innerList;
-	private final int numberToCache;
+	private int cacheSize;
 	private final Map<Integer, Element> cache;
 	private final List<Integer> cacheOrder;
 	
-	public CachingList(List<Element> innerList, int numberToCache) {
+	public CachingList(List<Element> innerList, int cacheSize) {
 		this.innerList = innerList;
-		this.numberToCache = (numberToCache >=1) ? numberToCache : 1;
+		this.cacheSize = (cacheSize >=1) ? cacheSize : 1;
 		cache = new HashMap<Integer, Element>();
 		cacheOrder = new ArrayList<Integer>();
+	}
+	
+	public void resetCacheSize(int newCacheSize) {
+		cacheSize = newCacheSize;
+		while(cache.size() > cacheSize) reduceCacheSize();	
 	}
 	
 	private static void invokeGC() {
@@ -40,7 +45,7 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 	@Override
 	public synchronized Element get(int index) {
 		if(!cache.containsKey(index)) {
-			while(cache.size() >= numberToCache) reduceCacheSize();
+			while(cache.size() >= cacheSize) reduceCacheSize();
 			Element e = innerList.get(index);
 			cache.put(index, e);
 			cacheOrder.add(index);
@@ -56,7 +61,7 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 	
 	@Override
 	public synchronized boolean add(Element element) {
-		while(cache.size() >= numberToCache) reduceCacheSize();
+		while(cache.size() >= cacheSize) reduceCacheSize();
 		int size = size();
 		cache.put(size, element);
 		cacheOrder.add(size);

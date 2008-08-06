@@ -1314,6 +1314,9 @@ public class Komplex implements Serializable {
 	public Komplex compose(int start, Komplex kom, int kstart, int nc,
 			boolean inMemory) {
 		Komplex ret = new Komplex(ncolumns + kom.ncolumns - 1, inMemory);
+		if(ret.matrices instanceof CachingList) {
+			((CachingList<CobMatrix>)(ret.matrices)).resetCacheSize(1);
+		}
 		ret.startnum = startnum + kom.startnum;
 		ret.nfixed = nfixed + kom.nfixed - 2 * nc;
 		int colsizes[] = new int[ret.ncolumns];
@@ -1414,6 +1417,9 @@ public class Komplex implements Serializable {
 			newMatrix.trim();
 			ret.matrices.add(newMatrix);
 			invokeGC();
+		}
+		if(ret.matrices instanceof CachingList) {
+			((CachingList<CobMatrix>)(ret.matrices)).resetCacheSize(3);
 		}
 		return ret;
 	}
