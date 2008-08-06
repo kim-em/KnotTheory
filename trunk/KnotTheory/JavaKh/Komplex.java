@@ -1116,7 +1116,7 @@ public class Komplex implements Serializable {
 	}	
 
 	private static String prependLoggingStatus(String msg) {
-		return "Time: " + System.currentTimeMillis() + " Memory: " + memoryInUse() + msg;
+		return "Time: " + System.currentTimeMillis() + " Memory: " + memoryInUse() + " " + msg;
 	}
 	
 	private static void debug(String msg, Throwable t) {
