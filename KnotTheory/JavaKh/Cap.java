@@ -11,6 +11,15 @@ public class Cap implements Comparable<Cap>, Serializable {
     public int pairings[];
     private static Map<ComposeInput, ComposeOutput> cache = new TreeMap<ComposeInput, ComposeOutput>();
 
+    public static void disableCache() {
+    	cache = new AlwaysEmptyMap<ComposeInput, ComposeOutput>();
+    }
+    
+    public static void enableCache() {
+    	cache = new TreeMap<ComposeInput, ComposeOutput>();
+    }
+ 
+    
     public Cap(int n, int cycles) {
 	this.n = n;
 	ncycles = cycles;
@@ -243,4 +252,8 @@ public class Cap implements Comparable<Cap>, Serializable {
 	    cap = ci.a.compose2(ci.astart, ci.b, ci.bstart, ci.nc, joins);
 	}
     }
+
+	public static  int cacheSize() {
+		return cache.size();
+	}
 }
