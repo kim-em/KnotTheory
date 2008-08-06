@@ -1256,7 +1256,7 @@ public class Komplex implements Serializable {
 					kom = kom.compose(start, kplus, kstart, nbest, inMemory);
 				else
 					kom = kom.compose(start, kminus, kstart, nbest, inMemory);
-				System.gc();
+				invokeGC();
 				info("Finished composition.");
 			}
 
@@ -1413,6 +1413,7 @@ public class Komplex implements Serializable {
 				}
 			newMatrix.trim();
 			ret.matrices.add(newMatrix);
+			invokeGC();
 		}
 		return ret;
 	}
@@ -1708,6 +1709,7 @@ public class Komplex implements Serializable {
 		s.writeInt(matrices.size());
 		for (CobMatrix m : matrices) {
 			s.writeObject(m);
+			invokeGC();
 		}
 	}
 
@@ -1728,6 +1730,7 @@ public class Komplex implements Serializable {
 		createMatrixList();
 		for (int i = 0; i < size; ++i) {
 			matrices.add((CobMatrix) (s.readObject()));
+			invokeGC();
 		}
 	}
 
