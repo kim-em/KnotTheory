@@ -492,6 +492,12 @@ public class Komplex implements Serializable {
 		}
 	}
 
+	private static void invokeGC() {
+		for(int i = 0; i < 4; ++i) {
+			System.gc();
+		}
+	}
+	
 	public void reduce() {
 		/*
 		 * Can this be safely parallelised?
@@ -503,13 +509,16 @@ public class Komplex implements Serializable {
 			for (int i = 0; i < ncolumns; i++) {
 				debug("delooping " + (i + 1) + "/" + ncolumns);
 				deLoop(i);
+				invokeGC();
 				if (i > 0) {
-					// debug("applying reduce");
+					debug("applying reduce " + (i + 1) + "/" + ncolumns);
 					CobMatrix m = getMatrix(i - 1);
 					m.reduce();
 					setMatrix(i - 1, m);
-					// debug("applying reduction lemma");
+					invokeGC();
+					debug("applying reduction lemma " + (i + 1) + "/" + ncolumns);
 					reductionLemma(i - 1);
+					invokeGC();
 				}
 			}
 		}
