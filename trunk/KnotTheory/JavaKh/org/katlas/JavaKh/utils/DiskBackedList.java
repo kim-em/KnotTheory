@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import org.apache.commons.io.IOUtils;
 
 
 public class DiskBackedList<Element extends Serializable> extends AbstractList<Element> implements SerializingList<Element> {
@@ -163,44 +166,19 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 		return hashlist.hashCode() + storePath.hashCode();
 	}
 
-	/*@Override
-	public Iterator<ObjectInputStream> getSerializedForms() throws IOException {
-		List<ObjectInputStream> result = new ArrayList<ObjectInputStream>();
+	@Override
+	public List<File> getSerializedForms() throws IOException {
+		List<File> result = new ArrayList<File>();
 		for(int hash : hashlist) {
-			result.add(new ObjectInputStream(new FileInputStream(file(hash))));
+			result.add(file(hash));
 		}
 		return result;
-	}*/
-	
-	public Iterator<ObjectInputStream> getSerializedForms() throws IOException {
-		final Iterator<Integer> iterator = hashlist.iterator();
-		return new Iterator<ObjectInputStream>() {
-
-			@Override
-			public boolean hasNext() {
-				return iterator.hasNext();
-			}
-
-			@Override
-			public ObjectInputStream next() {
-				if(hasNext()) {
-					try {
-						return new ObjectInputStream(new FileInputStream(file(iterator.next())));
-					} catch (IOException e) {
-						e.printStackTrace();
-						throw new NoSuchElementException();
-					}
-				} else {
-					throw new NoSuchElementException();
-				}
-			}
-
-			@Override
-			public void remove() {
-				throw new UnsupportedOperationException();
-			}
-			
-		};
 	}
-	
+
+	public void setSerializedForm(int index, int hash, InputStream is) throws IOException {
+		if(! hashlist.contains(hash)) {
+			IOUtils.copy(is, new FileOutputStream(file(hash)));
+		}
+		hashlist.set(index, hash);
+	}
 }
