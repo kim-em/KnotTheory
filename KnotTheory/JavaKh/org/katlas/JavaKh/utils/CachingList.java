@@ -1,5 +1,7 @@
 package org.katlas.JavaKh.utils;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -101,9 +103,19 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 	}
 
 	@Override
-	public Iterator<ObjectInputStream> getSerializedForms() throws IOException {
+	public List<File> getSerializedForms() throws IOException {
 		while(cache.size() > 0) reduceCacheSize();
 		return innerList.getSerializedForms();
+	}
+
+	@Override
+	public void setSerializedForm(int index, int hash, InputStream is)
+			throws IOException {
+		if(cache.containsKey(index)) {
+			cache.remove(index);
+			cacheOrder.remove((Object)index); // ugh, we want to remove the object, not by index. Confusing!
+		}
+		innerList.setSerializedForm(index, hash, is);
 	}
 	
 	

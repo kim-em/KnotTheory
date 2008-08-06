@@ -1,7 +1,23 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.StringTokenizer;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -9,21 +25,14 @@ import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.math.BigInteger;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.katlas.JavaKh.utils.CachingList;
 import org.katlas.JavaKh.utils.DiskBackedList;
+import org.katlas.JavaKh.utils.LimitedSizeInputStream;
+import org.katlas.JavaKh.utils.SerializingList;
 
 public class Komplex implements Serializable {
 	/**
@@ -1722,17 +1731,9 @@ public class Komplex implements Serializable {
 		return true;
 	}
 
-	private void writeObject(ObjectOutputStream s) throws IOException {
-		s.defaultWriteObject();
-		s.writeInt(matrices.size());
-		for (CobMatrix m : matrices) {
-			s.writeObject(m);
-			invokeGC();
-		}
-	}
-
 	private void createMatrixList() {
 		if (inMemory) {
+//			matrices = new SerializableListWrapper<CobMatrix>(new ArrayList<CobMatrix>(ncolumns - 1));
 			matrices = new ArrayList<CobMatrix>(ncolumns - 1);
 		} else {
 			matrices = new CachingList<CobMatrix>(
@@ -1741,14 +1742,50 @@ public class Komplex implements Serializable {
 		}
 	}
 
+	private void writeObject(ObjectOutputStream s) throws IOException {
+		s.defaultWriteObject();
+		s.writeInt(matrices.size());
+		if (matrices instanceof SerializingList) {
+			s.writeBoolean(true);
+			for (File file : ((SerializingList<CobMatrix>) (matrices))
+					.getSerializedForms()) {
+				s.writeLong(file.length());
+				s.writeInt(Integer.parseInt(file.getName()));
+				IOUtils.copy(new FileInputStream(file), s);
+			}
+		} else {
+			s.writeBoolean(false);
+			for (CobMatrix m : matrices) {
+				s.writeObject(m);
+				invokeGC();
+			}
+		}
+	}
+
 	private void readObject(ObjectInputStream s) throws IOException,
 			ClassNotFoundException {
 		s.defaultReadObject();
 		int size = s.readInt();
 		createMatrixList();
-		for (int i = 0; i < size; ++i) {
-			matrices.add((CobMatrix) (s.readObject()));
-			invokeGC();
+		if(s.readBoolean()) {
+			for(int i = 0; i < size; ++i) {
+				long fileLength = s.readLong();
+				int hash = s.readInt();
+				InputStream lsis = new LimitedSizeInputStream(s, fileLength);
+				if(matrices instanceof SerializingList) {
+					matrices.add(null);
+					((SerializingList<CobMatrix>) matrices).setSerializedForm(i, hash, lsis);
+				} else {
+					ObjectInputStream p = new ObjectInputStream(lsis);
+					matrices.add((CobMatrix) (p.readObject()));
+					invokeGC();
+				}
+			}
+		} else {
+			for (int i = 0; i < size; ++i) {
+				matrices.add((CobMatrix) (s.readObject()));
+				invokeGC();
+			}
 		}
 	}
 
