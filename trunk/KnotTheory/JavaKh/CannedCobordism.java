@@ -1418,4 +1418,11 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	    return bbottom.compareTo(ci.bbottom);
 	}
     }
+
+	public static int vcacheSize() {
+		return vcache.size();
+	}
+	public static int hcacheSize() {
+		return hcache.size();
+	}
 }
