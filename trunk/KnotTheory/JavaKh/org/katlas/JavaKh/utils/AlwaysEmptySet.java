@@ -1,3 +1,4 @@
+package org.katlas.JavaKh.utils;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;

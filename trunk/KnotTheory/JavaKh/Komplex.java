@@ -22,6 +22,8 @@ import java.math.BigInteger;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.katlas.JavaKh.utils.CachingList;
+import org.katlas.JavaKh.utils.DiskBackedList;
 
 public class Komplex implements Serializable {
 	/**

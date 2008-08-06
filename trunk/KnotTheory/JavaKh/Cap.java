@@ -2,6 +2,8 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.katlas.JavaKh.utils.AlwaysEmptyMap;
+
 public class Cap implements Comparable<Cap>, Serializable {
     /**
 	 * 

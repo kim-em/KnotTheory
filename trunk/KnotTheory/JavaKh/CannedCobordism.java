@@ -3,6 +3,8 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.katlas.JavaKh.utils.AlwaysEmptyMap;
+
 // CannedCobordisms should be treated as immutable
 // don't touch them except just after calling the constructor
 public class CannedCobordism implements Comparable<CannedCobordism>, Serializable {
