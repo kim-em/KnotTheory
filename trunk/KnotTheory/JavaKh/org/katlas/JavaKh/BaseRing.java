@@ -1,3 +1,4 @@
+package org.katlas.JavaKh;
 public abstract class BaseRing {
     @SuppressWarnings("unchecked")
 	private static java.lang.reflect.Constructor constructor;

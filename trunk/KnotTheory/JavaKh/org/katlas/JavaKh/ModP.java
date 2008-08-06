@@ -1,3 +1,5 @@
+package org.katlas.JavaKh;
+
 public class ModP extends BaseRing {
     static int p, inv[];
     int n;

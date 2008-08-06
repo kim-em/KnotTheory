@@ -1,5 +1,7 @@
+package org.katlas.JavaKh;
 import java.io.Serializable;
 import java.math.BigInteger;
+
 // rationals
 // using BigIntegers since they are probably necessary
 public class Rational extends BaseRing implements Serializable {

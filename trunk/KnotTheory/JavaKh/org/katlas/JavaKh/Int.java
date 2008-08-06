@@ -1,4 +1,6 @@
+package org.katlas.JavaKh;
 import java.math.BigInteger;
+
 public class Int extends BaseRing {
 	private static final BigInteger MINUSONE = BigInteger.valueOf(-1);
 	

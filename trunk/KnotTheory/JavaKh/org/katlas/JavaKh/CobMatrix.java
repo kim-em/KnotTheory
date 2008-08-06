@@ -1,4 +1,6 @@
+package org.katlas.JavaKh;
 import java.io.Serializable;
+
 
 // sparse matrix
 // based on http://www.ii.uib.no/~geirg/jaggedarrays.html
