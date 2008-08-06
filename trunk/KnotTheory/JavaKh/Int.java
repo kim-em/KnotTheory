@@ -1,5 +1,7 @@
 import java.math.BigInteger;
 public class Int extends BaseRing {
+	private static final BigInteger MINUSONE = BigInteger.valueOf(-1);
+	
     BigInteger n;
 
     public Int(int i) {
@@ -18,7 +20,7 @@ public class Int extends BaseRing {
     }
 
     public boolean isInvertible() {
-	return n.equals(BigInteger.ONE) || n.equals(BigInteger.valueOf(-1));
+	return n.equals(BigInteger.ONE) || n.equals(MINUSONE);
     }
 
     public BaseRing inverse() {
