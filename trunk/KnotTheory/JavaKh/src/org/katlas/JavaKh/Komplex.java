@@ -1215,6 +1215,12 @@ public class Komplex implements Serializable {
 						info("Successfully loaded cached complex for crossing: "
 										+ i);
 						dryRun = true;
+						
+						// uncomment this to upconvert serialization versions...
+						System.out.println("Writing the complex back to disk, in the new serialization format...");
+						writeCache(kom, i);
+						System.exit(0);
+						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -1303,21 +1309,7 @@ public class Komplex implements Serializable {
 
 			if (caching) {
 				if (!dryRun) {
-					File output = new File("cache/" + new Integer(i).toString());
-					output.getParentFile().mkdirs();
-					try {
-						info("Caching complex after crossing: " + i);
-						ObjectOutputStream serializer = new ObjectOutputStream(
-								new FileOutputStream(output));
-						serializer.writeObject(kom);
-						serializer.close();
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						log.warn("Trying to delete failed output file...");
-						output.deleteOnExit();
-						output.delete();
-					}
+					writeCache(kom, i);
 				}
 			}
 
@@ -1326,6 +1318,24 @@ public class Komplex implements Serializable {
 		if (JavaKh.using_h && nedges == 2)
 			kom.finalizeH();
 		return kom;
+	}
+
+	private static void writeCache(Komplex kom, int i) {
+		File output = new File("cache/" + new Integer(i).toString());
+		output.getParentFile().mkdirs();
+		try {
+			info("Caching complex after crossing: " + i);
+			ObjectOutputStream serializer = new ObjectOutputStream(
+					new FileOutputStream(output));
+			serializer.writeObject(kom);
+			serializer.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			log.warn("Trying to delete failed output file...");
+			output.deleteOnExit();
+			output.delete();
+		}
 	}
 
 	// adds the tangle contained in kom to this tangle
@@ -1745,6 +1755,7 @@ public class Komplex implements Serializable {
 
 	private void writeObject(ObjectOutputStream s) throws IOException {
 		s.defaultWriteObject();
+		s.writeInt(1); // Serialization version
 		s.writeInt(matrices.size());
 		if (matrices instanceof SerializingList) {
 			s.writeBoolean(true);
@@ -1766,28 +1777,29 @@ public class Komplex implements Serializable {
 	private void readObject(ObjectInputStream s) throws IOException,
 			ClassNotFoundException {
 		s.defaultReadObject();
+		// int serializationVersion = s.readInt();
 		int size = s.readInt();
 		createMatrixList();
-		if(s.readBoolean()) {
-			for(int i = 0; i < size; ++i) {
-				long fileLength = s.readLong();
-				int hash = s.readInt();
-				InputStream lsis = new LimitedSizeInputStream(s, fileLength);
-				if(matrices instanceof SerializingList) {
-					matrices.add(null);
-					((SerializingList<CobMatrix>) matrices).setSerializedForm(i, hash, lsis);
-				} else {
-					ObjectInputStream p = new ObjectInputStream(lsis);
-					matrices.add((CobMatrix) (p.readObject()));
-					invokeGC();
-				}
-			}
-		} else {
+//		if(s.readBoolean()) {
+//			for(int i = 0; i < size; ++i) {
+//				long fileLength = s.readLong();
+//				int hash = s.readInt();
+//				InputStream lsis = new LimitedSizeInputStream(s, fileLength);
+//				if(matrices instanceof SerializingList) {
+//					matrices.add(null);
+//					((SerializingList<CobMatrix>) matrices).setSerializedForm(i, hash, lsis);
+//				} else {
+//					ObjectInputStream p = new ObjectInputStream(lsis);
+//					matrices.add((CobMatrix) (p.readObject()));
+//					invokeGC();
+//				}
+//			}
+//		} else {
 			for (int i = 0; i < size; ++i) {
 				matrices.add((CobMatrix) (s.readObject()));
 				invokeGC();
 			}
-		}
+//		}
 	}
 
 }
