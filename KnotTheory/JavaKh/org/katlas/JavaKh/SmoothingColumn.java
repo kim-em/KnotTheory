@@ -1,3 +1,4 @@
+package org.katlas.JavaKh;
 import java.io.Serializable;
 
 public class SmoothingColumn implements Serializable {

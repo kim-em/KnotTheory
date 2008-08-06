@@ -1,3 +1,4 @@
+package org.katlas.JavaKh;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
