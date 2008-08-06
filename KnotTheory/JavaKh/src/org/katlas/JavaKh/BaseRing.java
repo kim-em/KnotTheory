@@ -8,7 +8,7 @@ public abstract class BaseRing {
 	ring = cls;
 	try {
 	    Class params[] = {Integer.TYPE};
-	    constructor = Class.forName(cls).getConstructor(params);
+	    constructor = Class.forName("org.katlas.JavaKh." + cls).getConstructor(params);
 	} catch (Exception e) {
 	    System.err.println("Error setting BaseRing");
 	    System.exit(1);
