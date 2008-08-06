@@ -1,22 +1,25 @@
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class CachingList<Element extends Serializable> extends AbstractList<Element> implements List<Element> {
+public class CachingList<Element extends Serializable> extends AbstractList<Element> implements SerializingList<Element> {
 	private static final Log log = LogFactory.getLog(CachingList.class);
 
-	private final List<Element> innerList;
+	private final SerializingList<Element> innerList;
 	private int cacheSize;
 	private final Map<Integer, Element> cache;
 	private final List<Integer> cacheOrder;
 	
-	public CachingList(List<Element> innerList, int cacheSize) {
+	public CachingList(SerializingList<Element> innerList, int cacheSize) {
 		this.innerList = innerList;
 		this.cacheSize = (cacheSize >=1) ? cacheSize : 1;
 		cache = new HashMap<Integer, Element>();
@@ -94,6 +97,12 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 		Element old = get(index);
 		cache.put(index, element);
 		return old;
+	}
+
+	@Override
+	public Iterator<ObjectInputStream> getSerializedForms() throws IOException {
+		while(cache.size() > 0) reduceCacheSize();
+		return innerList.getSerializedForms();
 	}
 	
 	

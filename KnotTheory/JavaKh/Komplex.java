@@ -1,3 +1,6 @@
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -1115,9 +1118,16 @@ public class Komplex implements Serializable {
 		return (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
 	}	
 
+	private static final DateFormat timeFormatter =
+	    DateFormat.getTimeInstance(DateFormat.DEFAULT,
+                new Locale("en", "US"));
+	
+	private static final NumberFormat memoryFormatter = new DecimalFormat("###,###,###,###");
+	
 	private static String prependLoggingStatus(String msg) {
 //		return "Time: " + System.currentTimeMillis() + " Memory: " + memoryInUse() + " " + msg;
-		return "Time: " + System.currentTimeMillis() + " Memory: " + memoryInUse() + " Cache size: " + CannedCobordism.vcacheSize() + "/" + CannedCobordism.hcacheSize() + "/" + Cap.cacheSize() + " " + msg;
+		return "Time: " + timeFormatter.format(new Date()) + " Memory: " + memoryFormatter.format(memoryInUse()) + " Cache size: " + CannedCobordism.vcacheSize() + "/" + CannedCobordism.hcacheSize() + "/" + Cap.cacheSize() + " " + msg;
+
 	}
 	
 	private static void debug(String msg, Throwable t) {
