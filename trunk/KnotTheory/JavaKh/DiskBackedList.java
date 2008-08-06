@@ -8,10 +8,12 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
-public class DiskBackedList<Element extends Serializable> extends AbstractList<Element> implements List<Element> {
+public class DiskBackedList<Element extends Serializable> extends AbstractList<Element> implements SerializingList<Element> {
 
 	static private int counter = 0;
 	
@@ -158,6 +160,46 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 	@Override
 	public int hashCode() {
 		return hashlist.hashCode() + storePath.hashCode();
+	}
+
+	/*@Override
+	public Iterator<ObjectInputStream> getSerializedForms() throws IOException {
+		List<ObjectInputStream> result = new ArrayList<ObjectInputStream>();
+		for(int hash : hashlist) {
+			result.add(new ObjectInputStream(new FileInputStream(file(hash))));
+		}
+		return result;
+	}*/
+	
+	public Iterator<ObjectInputStream> getSerializedForms() throws IOException {
+		final Iterator<Integer> iterator = hashlist.iterator();
+		return new Iterator<ObjectInputStream>() {
+
+			@Override
+			public boolean hasNext() {
+				return iterator.hasNext();
+			}
+
+			@Override
+			public ObjectInputStream next() {
+				if(hasNext()) {
+					try {
+						return new ObjectInputStream(new FileInputStream(file(iterator.next())));
+					} catch (IOException e) {
+						e.printStackTrace();
+						throw new NoSuchElementException();
+					}
+				} else {
+					throw new NoSuchElementException();
+				}
+			}
+
+			@Override
+			public void remove() {
+				throw new UnsupportedOperationException();
+			}
+			
+		};
 	}
 	
 }
