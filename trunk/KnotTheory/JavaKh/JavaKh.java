@@ -40,6 +40,7 @@ public class JavaKh {
 			options.addOption("O", "ordered", false, "don't change the ordering of the crossings");
 			options.addOption("C", "caching", false, "cache intermediate steps to the cache/ directory");
 			options.addOption("D", "disk", false, "store large lists on disk, rather than in memory (slow!)");
+			options.addOption("N", "nocache", false, "disable the cobordism cache");
 			
 			CommandLine line = parser.parse(options, args);
 			// String[] clean_args = line.getArgs();
@@ -75,6 +76,7 @@ public class JavaKh {
 			if(line.hasOption("O")) reorderCrossings = false;
 			if(line.hasOption("C")) caching = true;
 			if(line.hasOption("D")) inMemory = false;
+			if(line.hasOption("N")) CannedCobordism.disableCache();
 			
 			if (line.hasOption("h")) {
 				HelpFormatter formatter = new HelpFormatter();
