@@ -1146,6 +1146,10 @@ public class Komplex implements Serializable {
 			in[pd[first][i]] = true;
 		for (int i = 1; i < pd.length; i++) {
 
+			// flush the cobordism cache
+			CannedCobordism.disableCache();
+			CannedCobordism.enableCache();
+			
 			boolean dryRun = false;
 
 			if (caching) {
