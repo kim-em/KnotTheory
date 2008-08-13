@@ -290,11 +290,11 @@ public class Komplex implements Serializable {
 									 * if (first2) first2 = false; else
 									 */
 									ret.append(", ");
-									if (row[k] == null || row[k].n == 0)
+									if (row[k] == null || row[k].size() == 0)
 										ret.append("0");
 									else {
-										assert row[k].n == 1;
-										ret.append(row[k].coefficients[0]);
+										assert row[k].size() == 1;
+										ret.append(row[k].coefficients.get(0));
 									}
 								}
 							// ret += "}";
@@ -449,9 +449,9 @@ public class Komplex implements Serializable {
 			for (int j = 0; j < m.target.n; j++)
 				for (int k = 0; k < m.rowsizes[j]; k++) {
 					LCCC lc = m.values[j][k];
-					if (lc != null && lc.n != 0) {
+					if (lc != null && lc.size() != 0) {
 						m.values[j][k] = lc.finalizeH();
-						assert m.values[j][k] == null || m.values[j][k].n < 2;
+						assert m.values[j][k] == null || m.values[j][k].size() < 2;
 					}
 				}
 			setMatrix(i, m);
@@ -796,15 +796,15 @@ public class Komplex implements Serializable {
 			rlfor: for (int j = 0; j < m.values.length; j++)
 				for (int l = 0; l < m.rowsizes[j]; l++) {
 					LCCC lc = m.values[j][l];
-					if (lc != null && lc.n == 1) {
+					if (lc != null && lc.size() == 1) {
 						int k = m.indices[j][l];
 						if (!columns[i].smoothings[k]
 								.equals(columns[i + 1].smoothings[j]))
 							continue;
-						BaseRing n = lc.coefficients[0];
+						BaseRing n = lc.coefficients.get(0);
 						if (!n.isInvertible())
 							continue;
-						CannedCobordism cc = lc.cobordisms[0];
+						CannedCobordism cc = lc.cobordisms.get(0);
 						if (!cc.isIsomorphism())
 							continue;
 						found2 = found = true;
@@ -1149,6 +1149,8 @@ public class Komplex implements Serializable {
 			// flush the cobordism cache
 			CannedCobordism.disableCache();
 			CannedCobordism.enableCache();
+			Cap.disableCache();
+			Cap.enableCache();
 			
 			boolean dryRun = false;
 
@@ -1244,6 +1246,13 @@ public class Komplex implements Serializable {
 			}
 
 			assert kom.check(true);
+			
+			// flush the cobordism cache again!
+			CannedCobordism.disableCache();
+			CannedCobordism.enableCache();
+			Cap.disableCache();
+			Cap.enableCache();
+			
 			if (!dryRun) {
 				info("reducing");
 				kom.reduce();
@@ -1351,7 +1360,7 @@ public class Komplex implements Serializable {
 							for (int n = 0; n < columns[j + 1].n; n++) {
 								for (int o = 0; o < matrixJ.rowsizes[n]; o++) {
 									LCCC lc = matrixJ.values[n][o];
-									if (lc != null && lc.n != 0) {
+									if (lc != null && lc.size() != 0) {
 										int l = matrixJ.indices[n][o];
 										lc = lc.compose(start, komcc, kstart,
 												nc, false);
@@ -1387,7 +1396,7 @@ public class Komplex implements Serializable {
 							for (int n = 0; n < kom.columns[k + 1].n; n++)
 								for (int o = 0; o < komMatrixK.rowsizes[n]; o++) {
 									LCCC lc = komMatrixK.values[n][o];
-									if (lc != null && lc.n != 0) {
+									if (lc != null && lc.size() != 0) {
 										int m = komMatrixK.indices[n][o];
 										lc = lc.compose(kstart, thiscc, start,
 												nc, true);

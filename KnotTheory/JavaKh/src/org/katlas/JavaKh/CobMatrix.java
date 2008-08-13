@@ -37,7 +37,7 @@ public class CobMatrix implements Serializable{
 
     // assumes matrix[i][j] is not contained in this sparse matrix
     public void append(int i, int j, LCCC lc) {
-	if (lc == null || lc.n == 0)
+	if (lc == null || lc.size() == 0)
 	    return;
 	if (values[i] == null || values[i].length == rowsizes[i]) {
 	    int newsize;
@@ -69,13 +69,13 @@ public class CobMatrix implements Serializable{
     public void packRow(LCCC rowi[], int i) {
 	int size = 0;
 	for (int j = 0; j < source.n; j++)
-	    if (rowi[j] != null && rowi[j].n != 0)
+	    if (rowi[j] != null && rowi[j].size() != 0)
 		size++;
 	rowsizes[i] = size;
 	values[i] = new LCCC[size];
 	indices[i] = new int[size];
 	for (int j = 0, k = 0; j < source.n; j++)
-	    if (rowi[j] != null && rowi[j].n != 0) {
+	    if (rowi[j] != null && rowi[j].size() != 0) {
 		values[i][k] = rowi[j];
 		indices[i][k++] = j;
 	    }
@@ -98,7 +98,7 @@ public class CobMatrix implements Serializable{
 		if (arowi[j] != null) {
 		    if (!arowi[j].equals(browi[j]))
 			return false;
-		} else if (browi[j] != null && browi[j].n != 0)
+		} else if (browi[j] != null && browi[j].size() != 0)
 		    return false;
 	}
 	return true;
@@ -126,13 +126,13 @@ public class CobMatrix implements Serializable{
 	    }
 	    int size = 0;
 	    for (int j = 0; j < rowi.length; j++)
-		if (rowi[j] != null && rowi[j].n != 0)
+		if (rowi[j] != null && rowi[j].size() != 0)
 		    size++;
 	    ret.rowsizes[i] = size;
 	    ret.values[i] = new LCCC[size];
 	    ret.indices[i] = new int[size];
 	    for (int j = 0, k = 0; j < rowi.length; j++)
-		if (rowi[j] != null && rowi[j].n != 0) {
+		if (rowi[j] != null && rowi[j].size() != 0) {
 		    ret.values[i][k] = rowi[j];
 		    ret.indices[i][k] = j;
 		    k++;
@@ -163,13 +163,13 @@ public class CobMatrix implements Serializable{
 	    }
 	    int size = 0;
 	    for (int j = 0; j < source.n; j++)
-		if (rowi[j] != null && rowi[j].n != 0)
+		if (rowi[j] != null && rowi[j].size() != 0)
 		    size++;
 	    rowsizes[i] = size;
 	    values[i] = new LCCC[size];
 	    indices[i] = new int[size];
 	    for (int j = 0, k = 0; j < source.n; j++)
-		if (rowi[j] != null && rowi[j].n != 0) {
+		if (rowi[j] != null && rowi[j].size() != 0) {
 		    values[i][k] = rowi[j];
 		    indices[i][k] = j;
 		    k++;
@@ -187,7 +187,7 @@ public class CobMatrix implements Serializable{
     public boolean isZero() {
 	for (int i = 0; i < target.n; i++)
 	    for (int j = 0; j < rowsizes[i]; j++)
-		if (values[i][j] != null && values[i][j].n != 0)
+		if (values[i][j] != null && values[i][j].size() != 0)
 		    return false;
 	return true;
     }
@@ -208,11 +208,11 @@ public class CobMatrix implements Serializable{
 	    LCCC rowi[] = unpackRow(i);
 	    for (int j = 0; j < source.n; j++) {
 		String n;
-		if (rowi[j] == null || rowi[j].n == 0)
+		if (rowi[j] == null || rowi[j].size() == 0)
 		    n = "0";
 		else {
-		    assert rowi[j].n == 1;
-		    n = rowi[j].coefficients[0].toString();
+		    assert rowi[j].size() == 1;
+		    n = rowi[j].coefficients.get(0).toString();
 		}
 		System.out.print(n);
 		if (j != source.n - 1)
@@ -231,9 +231,9 @@ public class CobMatrix implements Serializable{
 		if (rowi[j] == null)
 		    System.out.print("0");
 		else {
-		    int n = rowi[j].n;
+		    int n = rowi[j].size();
 		    if (n == 1) {
-			CannedCobordism cc = rowi[j].cobordisms[0];
+			CannedCobordism cc = rowi[j].cobordisms.get(0);
 			if (cc.isIsomorphism())
 			    System.out.print("i");
 			else

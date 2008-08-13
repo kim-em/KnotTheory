@@ -23,11 +23,11 @@ public class IntMatrix {
 	for (int i = 0; i < rows; i++) {
 	    LCCC rowi[] = cm.unpackRow(i);
 	    for (int j = 0; j < columns; j++)
-		if (rowi[j] == null || rowi[j].n == 0)
+		if (rowi[j] == null || rowi[j].size() == 0)
 		    matrix[i][j] = BigInteger.ZERO;
 		else {
-		    assert rowi[j].n == 1;
-		    matrix[i][j] = ((Int) rowi[j].coefficients[0]).n;
+		    assert rowi[j].size() == 1;
+		    matrix[i][j] = ((Int) rowi[j].coefficients.get(0)).n;
 		}
 	}
     }
