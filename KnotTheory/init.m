@@ -28,7 +28,7 @@ KnotTheory::credits = "`1`";
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2008, 8, 3, 13, 58, 5.7268384};
+KnotTheoryVersion[] = {2008, 8, 13, 14, 12, 59.6219184};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
@@ -3555,7 +3555,7 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     modulus = (Modulus /. {opts} /. Options[Kh]),
     universal = (Universal /. {opts} /. Options[Kh]),
     javaoptions = (JavaOptions /. {opts} /. Options[Kh]),
-    JavaKhDirectory, jarDirectory, classpath
+    JavaKhDirectory, jarDirectory, classDirectory, classpath
   },
   L1 = PD[L];
   Switch[prog,
@@ -3578,27 +3578,31 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     Close[f];
     JavaKhDirectory = ToFileName[KnotTheoryDirectory[], "JavaKh"];
     jarDirectory = ToFileName[JavaKhDirectory, "jars"];
+    classDirectory = ToFileName[JavaKhDirectory, "bin"];
     classpath = StringJoin[
         (* this is a horrible hack to make sure the classpath works on both unix and windows systems *)
-        JavaKhDirectory, 
+        classDirectory, 
         ":" , ToFileName[jarDirectory, "commons-cli-1.0.jar"],
+        ":" , ToFileName[jarDirectory, "commons-io-1.2.jar"],
         ":" , ToFileName[jarDirectory, "commons-logging-1.1.jar"],
         ":" , ToFileName[jarDirectory, "log4j-1.2.12.jar"],
         ":;",
-        JavaKhDirectory, 
+        classDirectory, 
         ";" , ToFileName[jarDirectory, "commons-cli-1.0.jar"],
+        ";" , ToFileName[jarDirectory, "commons-io-1.2.jar"],
         ";" , ToFileName[jarDirectory, "commons-logging-1.1.jar"],
         ";" , ToFileName[jarDirectory, "log4j-1.2.12.jar"]
     ];
     cl = StringJoin[
       "!java -classpath \"", classpath,
-      "\" ", javaoptions, " JavaKh ",
+      "\" ", javaoptions, " org.katlas.JavaKh.JavaKh ",
       If[universal, "-U", If[modulus === Null, "-Z", "--mod "<>ToString[modulus]]],
       " < pd"
     ];
     f = OpenRead[cl];
     out = Read[f, Expression];
     Close[f];
+    If[out == EndOfFile, Print["Something went wrong running JavaKh; nothing was returned. The command line was: "];Print[cl];Return[$Failed]];
     out = StringReplace[out, {
       "q" -> "#1", "t" -> "#2", "Z" -> "ZMod"
     }];
