@@ -66,8 +66,13 @@ public class JavaKh {
 				if (p == 0)
 				    BaseRing.setRing("Rational");
 				else {
-				    BaseRing.setRing("ModP");
-				    ModP.setP(p);
+					if(0 < p && p < 127) {
+						BaseRing.setRing("ModP_byte");
+					    ModP_byte.setP(p);
+					} else {
+						BaseRing.setRing("ModP_int");
+					    ModP_int.setP(p);
+					}
 				}
 			} else {
 				// default
