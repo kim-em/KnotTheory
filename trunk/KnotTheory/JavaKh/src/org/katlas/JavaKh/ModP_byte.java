@@ -1,7 +1,13 @@
 package org.katlas.JavaKh;
 
-public class ModP_byte extends BaseRing {
-    static byte p, inv[];
+import java.io.Serializable;
+
+public class ModP_byte extends BaseRing implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2729753942642967726L;
+	static byte p, inv[];
     byte n;
 
     public static void setP(int i) {
