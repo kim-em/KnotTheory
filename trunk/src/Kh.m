@@ -549,6 +549,7 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     f = OpenRead[cl];
     out = Read[f, Expression];
     Close[f];
+    If[out == EndOfFile, Print["Something went wrong running JavaKh; nothing was returned. The command line was: "];Print[cl];Return[$Failed]];
     out = StringReplace[out, {
       "q" -> "#1", "t" -> "#2", "Z" -> "ZMod"
     }];
