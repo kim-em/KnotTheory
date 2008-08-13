@@ -1402,6 +1402,7 @@ public class Komplex implements Serializable {
 					}
 				}
 			newMatrix.trim();
+			debug("Finished composition step " + (i + 1) + "/" + ret.ncolumns);
 			ret.matrices.add(newMatrix);
 			invokeGC();
 		}
