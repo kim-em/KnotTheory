@@ -1722,10 +1722,12 @@ public class Komplex implements Serializable {
 		s.defaultWriteObject();
 		s.writeInt(1); // Serialization version
 		s.writeInt(matrices.size());
+		int i = 0;
 		if (matrices instanceof SerializingList) {
 			s.writeBoolean(true);
 			for (File file : ((SerializingList<CobMatrix>) (matrices))
 					.getSerializedForms()) {
+				debug("Writing height " + (++i) + "/" + matrices.size());
 				s.writeLong(file.length());
 				s.writeInt(Integer.parseInt(file.getName()));
 				IOUtils.copy(new FileInputStream(file), s);
@@ -1733,6 +1735,7 @@ public class Komplex implements Serializable {
 		} else {
 			s.writeBoolean(false);
 			for (CobMatrix m : matrices) {
+				debug("Writing height " + (++i) + "/" + matrices.size());
 				s.writeObject(m);
 				invokeGC();
 			}
@@ -1750,6 +1753,7 @@ public class Komplex implements Serializable {
 		createMatrixList();
 		if(s.readBoolean()) {
 			for(int i = 0; i < size; ++i) {
+				debug("Reading height " + (i + 1) + "/" + size);
 				long fileLength = s.readLong();
 				int hash = s.readInt();
 				InputStream lsis = new LimitedSizeInputStream(s, fileLength);
@@ -1764,6 +1768,7 @@ public class Komplex implements Serializable {
 			}
 		} else {
 			for (int i = 0; i < size; ++i) {
+				debug("Reading height " + (i + 1) + "/" + size);
 				matrices.add((CobMatrix) (s.readObject()));
 				invokeGC();
 			}
