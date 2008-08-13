@@ -1,6 +1,6 @@
 package org.katlas.JavaKh;
 
-public class ModP extends BaseRing {
+public class ModP_int extends BaseRing {
     static int p, inv[];
     int n;
 
@@ -15,16 +15,16 @@ public class ModP extends BaseRing {
 		}
     }
 
-    public ModP(int i) {
+    public ModP_int(int i) {
 	n = i % p;
 	if (n < 0)
 	    n += p;
     }
 
     public boolean equals(Object o) {
-	if (!(o instanceof ModP))
+	if (!(o instanceof ModP_int))
 	    return false;
-	ModP mp = (ModP) o;
+	ModP_int mp = (ModP_int) o;
 	return n == mp.n;
     }
 
@@ -34,21 +34,21 @@ public class ModP extends BaseRing {
 
     public BaseRing inverse() {
 	assert inv[n] != 0;
-	return new ModP(inv[n]);
+	return new ModP_int(inv[n]);
     }
 
     public BaseRing multiply(BaseRing br) {
-	ModP mp = (ModP) br;
-	return new ModP(n * mp.n);
+	ModP_int mp = (ModP_int) br;
+	return new ModP_int(n * mp.n);
     }
 
     public BaseRing multiply(int n) {
-	return new ModP(this.n * n);
+	return new ModP_int(this.n * n);
     }
 
     public BaseRing add(BaseRing br) {
-	ModP mp = (ModP) br;
-	return new ModP(n + mp.n);
+	ModP_int mp = (ModP_int) br;
+	return new ModP_int(n + mp.n);
     }
 
     public boolean isZero() {
