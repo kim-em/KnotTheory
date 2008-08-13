@@ -212,7 +212,7 @@ public class CobMatrix implements Serializable{
 		    n = "0";
 		else {
 		    assert rowi[j].size() == 1;
-		    n = rowi[j].coefficients.get(0).toString();
+		    n = rowi[j].firstCoefficient().toString();
 		}
 		System.out.print(n);
 		if (j != source.n - 1)
@@ -233,7 +233,7 @@ public class CobMatrix implements Serializable{
 		else {
 		    int n = rowi[j].size();
 		    if (n == 1) {
-			CannedCobordism cc = rowi[j].cobordisms.get(0);
+			CannedCobordism cc = rowi[j].coefficients.firstKey();
 			if (cc.isIsomorphism())
 			    System.out.print("i");
 			else
