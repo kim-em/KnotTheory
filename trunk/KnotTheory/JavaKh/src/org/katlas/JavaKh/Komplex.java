@@ -294,7 +294,7 @@ public class Komplex implements Serializable {
 										ret.append("0");
 									else {
 										assert row[k].size() == 1;
-										ret.append(row[k].coefficients.get(0));
+										ret.append(row[k].firstCoefficient());
 									}
 								}
 							// ret += "}";
@@ -801,10 +801,10 @@ public class Komplex implements Serializable {
 						if (!columns[i].smoothings[k]
 								.equals(columns[i + 1].smoothings[j]))
 							continue;
-						BaseRing n = lc.coefficients.get(0);
+						CannedCobordism cc = lc.coefficients.firstKey();
+						BaseRing n = lc.coefficients.get(cc);
 						if (!n.isInvertible())
 							continue;
-						CannedCobordism cc = lc.cobordisms.get(0);
 						if (!cc.isIsomorphism())
 							continue;
 						found2 = found = true;

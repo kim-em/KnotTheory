@@ -27,7 +27,7 @@ public class IntMatrix {
 		    matrix[i][j] = BigInteger.ZERO;
 		else {
 		    assert rowi[j].size() == 1;
-		    matrix[i][j] = ((Int) rowi[j].coefficients.get(0)).n;
+		    matrix[i][j] = ((Int) rowi[j].firstCoefficient()).n;
 		}
 	}
     }
