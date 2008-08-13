@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       145,          7]
-NotebookDataLength[   1528255,      25441]
-NotebookOptionsPosition[   1525088,      25331]
-NotebookOutlinePosition[   1525430,      25346]
-CellTagsIndexPosition[   1525387,      25343]
+NotebookDataLength[   1529119,      25465]
+NotebookOptionsPosition[   1525804,      25350]
+NotebookOutlinePosition[   1526146,      25365]
+CellTagsIndexPosition[   1526103,      25362]
 WindowFrame->Normal
 ContainsDynamic->False*)
 
@@ -69,7 +69,8 @@ Cell[BoxData["\<\"C:\\\\scott\\\\projects\\\\KnotTheory\\\\trunk\"\>"], \
  CellChangeTimes->{3.409261552057125*^9, 3.409262052619625*^9, 
   3.40926301119775*^9, 3.409687046869625*^9, 3.413224968320738*^9, 
   3.4132259938854275`*^9, 3.4132260445582914`*^9, 3.4132262690010242`*^9, 
-  3.4132264434318433`*^9, 3.4267858816009054`*^9}]
+  3.4132264434318433`*^9, 3.4267858816009054`*^9, 3.4276578242603984`*^9, 
+  3.4276592239530573`*^9}]
 }, Open  ]],
 
 Cell["\<\
@@ -120,7 +121,7 @@ Cell[BoxData[{
         RowBox[{"\"\<*\>\"", ",", "  ", 
          RowBox[{"{", 
           RowBox[{
-          "\"\<KnotTheory\\\\JavaKh\>\"", ",", " ", 
+          "\"\<KnotTheory\\\\JavaKh\>\"", ",", 
            "\"\<KnotTheory\\\\WikiLink\>\"", ",", " ", 
            "\"\<KnotTheory\\\\KnotAtlas\>\"", ",", " ", 
            "\"\<KnotTheory\\\\scripts\>\"", ",", " ", 
@@ -144,10 +145,30 @@ Cell[BoxData[{
   3.40520754834375*^9}, {3.405207835203125*^9, 3.405207861390625*^9}, {
   3.405287870859375*^9, 3.405287936984375*^9}, {3.405370691265625*^9, 
   3.405370700609375*^9}, {3.4055419588125*^9, 3.4055419650625*^9}, {
-  3.405684235421875*^9, 3.4056842561875*^9}}],
+  3.405684235421875*^9, 3.4056842561875*^9}, {3.4276585169564466`*^9, 
+  3.427658519680363*^9}, {3.427658569101427*^9, 3.427658571855387*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"f", "=", 
+   RowBox[{"OpenWrite", "[", 
+    RowBox[{"\"\<distribution_files\>\"", ",", 
+     RowBox[{"PageWidth", "\[Rule]", "Infinity"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"WriteString", "[", 
+   RowBox[{"f", ",", 
+    RowBox[{"StringJoin", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"#", "<>", "\"\<\\n\>\""}], "&"}], "/@", "DistributionFiles"}],
+      "]"}]}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Close", "[", "f", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.4276594081879745`*^9, 3.4276594151079245`*^9}}],
 
 Cell["And now the action itself :", "Text",
- CellChangeTimes->{{3.40520632546875*^9, 3.40520634675*^9}}],
+ CellChangeTimes->{{3.40520632546875*^9, 3.40520634675*^9}, {
+  3.4276578231888576`*^9, 3.42765782424037*^9}}],
 
 Cell[CellGroupData[{
 
@@ -200,13 +221,8 @@ Cell[BoxData[{
      RowBox[{"\"\<\\\"\>\"", "<>", 
       RowBox[{"PathOf", "[", "\"\<7z\>\"", "]"}], "<>", 
       "\"\<\\\\7z.exe\\\" \>\""}], ",", "\[IndentingNewLine]", 
-     "\"\<a -tzip KnotTheory.zip \>\"", ",", "\[IndentingNewLine]", 
-     RowBox[{
-      RowBox[{
-       RowBox[{"(", 
-        RowBox[{"#", "<>", "\"\< \>\""}], ")"}], "&"}], " ", "/@", " ", 
-      "DistributionFiles"}]}], "\[IndentingNewLine]", "]"}], "]"}], 
-  ";"}], "\[IndentingNewLine]", 
+     "\"\<a -tzip KnotTheory.zip @distribution_files\>\""}], 
+    "\[IndentingNewLine]", "]"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"DeleteFile", "[", "\"\<KnotTheory.tar\>\"", "]"}], 
   ";"}], "\[IndentingNewLine]", 
@@ -217,13 +233,8 @@ Cell[BoxData[{
      RowBox[{"\"\<\\\"\>\"", "<>", 
       RowBox[{"PathOf", "[", "\"\<7z\>\"", "]"}], "<>", 
       "\"\<\\\\7z.exe\\\" \>\""}], ",", "\[IndentingNewLine]", 
-     "\"\<a -ttar KnotTheory.tar \>\"", ",", "\[IndentingNewLine]", 
-     RowBox[{
-      RowBox[{
-       RowBox[{"(", 
-        RowBox[{"#", "<>", "\"\< \>\""}], ")"}], "&"}], " ", "/@", " ", 
-      "DistributionFiles"}]}], "\[IndentingNewLine]", "]"}], "]"}], 
-  ";"}], "\[IndentingNewLine]", 
+     "\"\<a -ttar KnotTheory.tar @distribution_files\>\""}], 
+    "\[IndentingNewLine]", "]"}], "]"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"DeleteFile", "[", "\"\<KnotTheory.tar.gz\>\"", "]"}], 
   ";"}], "\[IndentingNewLine]", 
@@ -248,33 +259,41 @@ Cell[BoxData[{
    3.40528780684375*^9, 3.405287866015625*^9}, {3.405287955171875*^9, 
    3.40528800771875*^9}, {3.405288055265625*^9, 3.40528813365625*^9}, {
    3.405288267640625*^9, 3.40528826784375*^9}, {3.405542056421875*^9, 
-   3.40554209225*^9}}],
+   3.40554209225*^9}, {3.4276579540069647`*^9, 3.4276579977398496`*^9}, {
+   3.4276584204677024`*^9, 3.427658422710928*^9}, {3.4276585125501103`*^9, 
+   3.427658513611637*^9}, {3.4276590757499523`*^9, 3.427659086936037*^9}, 
+   3.4276595770808306`*^9}],
 
 Cell[BoxData[
  RowBox[{
   RowBox[{"DeleteFile", "::", "\<\"nffil\"\>"}], 
   RowBox[{
   ":", " "}], "\<\"File not found during \
-\\!\\(DeleteFile[\\\"KnotTheory.tar\\\"]\\). \\!\\(\\*ButtonBox[\\\"\
+\\!\\(DeleteFile[\\\"KnotTheory.zip\\\"]\\). \\!\\(\\*ButtonBox[\\\"\
 \[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
 ButtonData:>\\\"paclet:ref/message/General/nffil\\\", ButtonNote -> \
 \\\"DeleteFile::nffil\\\"]\\)\"\>"}]], "Message",
  CellChangeTimes->{3.409261568369625*^9, 3.4092620614165*^9, 
   3.40926301982275*^9, 3.409687058244625*^9, 3.4132249901621437`*^9, 
-  3.4132262826406364`*^9, 3.4132264560499873`*^9, 3.426785887729718*^9}],
+  3.4132262826406364`*^9, 3.4132264560499873`*^9, 3.426785887729718*^9, 
+  3.427657835196123*^9, 3.4276580015152783`*^9, 3.4276581913883023`*^9, 
+  3.427658426546443*^9, 3.42765852265464*^9, 3.4276591164785166`*^9, 
+  3.4276594362583375`*^9}],
+
+Cell[BoxData["\<\"\\\"c:\\\\Program Files\\\\7-Zip\\\\7z.exe\\\" a -tgzip \
+KnotTheory.tar.gz KnotTheory.tar\"\>"], "Print",
+ CellChangeTimes->{3.427659443128216*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
 
 Cell[BoxData[
- RowBox[{
-  RowBox[{"DeleteFile", "::", "\<\"nffil\"\>"}], 
-  RowBox[{
-  ":", " "}], "\<\"File not found during \
-\\!\\(DeleteFile[\\\"KnotTheory.tar\\\"]\\). \\!\\(\\*ButtonBox[\\\"\
-\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
-ButtonData:>\\\"paclet:ref/message/General/nffil\\\", ButtonNote -> \
-\\\"DeleteFile::nffil\\\"]\\)\"\>"}]], "Message",
- CellChangeTimes->{3.409261568369625*^9, 3.4092620614165*^9, 
-  3.40926301982275*^9, 3.409687058244625*^9, 3.4132249901621437`*^9, 
-  3.4132262826406364`*^9, 3.4132264560499873`*^9, 3.426785888020136*^9}]
+ RowBox[{"Directory", "[", "]"}]], "Input",
+ CellChangeTimes->{{3.4276580425442753`*^9, 3.4276580435857725`*^9}}],
+
+Cell[BoxData["\<\"C:\\\\scott\\\\projects\\\\KnotTheory\\\\trunk\"\>"], \
+"Output",
+ CellChangeTimes->{3.4276580438661757`*^9}]
 }, Open  ]]
 }, Open  ]],
 
@@ -25353,93 +25372,98 @@ Cell[1211, 38, 33, 0, 49, "Subtitle"],
 Cell[1247, 40, 172, 4, 29, "Text"],
 Cell[CellGroupData[{
 Cell[1444, 48, 751, 16, 112, "Input"],
-Cell[2198, 66, 341, 5, 30, "Output"]
+Cell[2198, 66, 392, 6, 30, "Output"]
 }, Open  ]],
-Cell[2554, 74, 207, 4, 29, "Text"],
-Cell[2764, 80, 3244, 66, 332, "Input"],
-Cell[6011, 148, 104, 1, 29, "Text"],
+Cell[2605, 75, 207, 4, 29, "Text"],
+Cell[2815, 81, 3336, 67, 332, "Input"],
+Cell[6154, 150, 572, 16, 72, "Input"],
+Cell[6729, 168, 154, 2, 29, "Text"],
 Cell[CellGroupData[{
-Cell[6140, 153, 4091, 97, 552, "Input"],
-Cell[10234, 252, 592, 11, 22, "Message"],
-Cell[10829, 265, 592, 11, 22, "Message"]
+Cell[6908, 174, 4001, 90, 512, "Input"],
+Cell[10912, 266, 762, 14, 22, "Message"],
+Cell[11677, 282, 166, 2, 23, "Print"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11880, 289, 127, 2, 31, "Input"],
+Cell[12010, 293, 127, 2, 30, "Output"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[11470, 282, 114, 1, 49, "Subtitle"],
-Cell[11587, 285, 1170, 29, 212, "Input"],
+Cell[12186, 301, 114, 1, 49, "Subtitle"],
+Cell[12303, 304, 1170, 29, 212, "Input"],
 Cell[CellGroupData[{
-Cell[12782, 318, 60, 1, 31, "Input"],
-Cell[12845, 321, 845, 13, 43, "Print"]
+Cell[13498, 337, 60, 1, 31, "Input"],
+Cell[13561, 340, 845, 13, 43, "Print"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[13727, 339, 367, 11, 31, "Input"],
-Cell[14097, 352, 237, 6, 21, "Message"],
-Cell[14337, 360, 234, 6, 21, "Message"],
-Cell[14574, 368, 313, 7, 21, "Message"],
-Cell[14890, 377, 95, 1, 30, "Output"]
+Cell[14443, 358, 367, 11, 31, "Input"],
+Cell[14813, 371, 237, 6, 21, "Message"],
+Cell[15053, 379, 234, 6, 21, "Message"],
+Cell[15290, 387, 313, 7, 21, "Message"],
+Cell[15606, 396, 95, 1, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[15022, 383, 666, 21, 48, "Input"],
-Cell[15691, 406, 234, 6, 21, "Message"],
-Cell[15928, 414, 311, 7, 21, "Message"],
-Cell[16242, 423, 647, 10, 30, "Output"]
+Cell[15738, 402, 666, 21, 48, "Input"],
+Cell[16407, 425, 234, 6, 21, "Message"],
+Cell[16644, 433, 311, 7, 21, "Message"],
+Cell[16958, 442, 647, 10, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[16926, 438, 763, 23, 48, "Input"],
-Cell[17692, 463, 145, 2, 30, "Output"]
+Cell[17642, 457, 763, 23, 48, "Input"],
+Cell[18408, 482, 145, 2, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[17874, 470, 521, 15, 33, "Input"],
-Cell[18398, 487, 596, 9, 30, "Output"]
+Cell[18590, 489, 521, 15, 33, "Input"],
+Cell[19114, 506, 596, 9, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[19031, 501, 290, 9, 33, "Input"],
-Cell[19324, 512, 308, 6, 22, "Message"],
-Cell[19635, 520, 402, 7, 59, "Message"],
-Cell[20040, 529, 158, 2, 30, "Output"]
+Cell[19747, 520, 290, 9, 33, "Input"],
+Cell[20040, 531, 308, 6, 22, "Message"],
+Cell[20351, 539, 402, 7, 59, "Message"],
+Cell[20756, 548, 158, 2, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[20235, 536, 1203, 37, 77, "Input"],
-Cell[21441, 575, 161, 2, 30, "Output"]
+Cell[20951, 555, 1203, 37, 77, "Input"],
+Cell[22157, 594, 161, 2, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[21639, 582, 1075, 31, 92, "Input"],
-Cell[22717, 615, 387, 8, 41, "Message"],
-Cell[23107, 625, 157, 2, 30, "Output"]
+Cell[22355, 601, 1075, 31, 92, "Input"],
+Cell[23433, 634, 387, 8, 41, "Message"],
+Cell[23823, 644, 157, 2, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[23301, 632, 1506, 42, 112, "Input"],
-Cell[24810, 676, 377, 8, 41, "Message"],
-Cell[25190, 686, 162, 2, 30, "Output"]
+Cell[24017, 651, 1506, 42, 112, "Input"],
+Cell[25526, 695, 377, 8, 41, "Message"],
+Cell[25906, 705, 162, 2, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[25389, 693, 625, 18, 46, "Input"],
-Cell[26017, 713, 319, 7, 22, "Message"],
-Cell[26339, 722, 429, 6, 30, "Output"]
+Cell[26105, 712, 625, 18, 46, "Input"],
+Cell[26733, 732, 319, 7, 22, "Message"],
+Cell[27055, 741, 429, 6, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[26805, 733, 662, 19, 46, "Input"],
-Cell[27470, 754, 188, 3, 30, "Output"]
+Cell[27521, 752, 662, 19, 46, "Input"],
+Cell[28186, 773, 188, 3, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[27695, 762, 420, 12, 31, "Input"],
-Cell[28118, 776, 364, 5, 30, "Output"]
+Cell[28411, 781, 420, 12, 31, "Input"],
+Cell[28834, 795, 364, 5, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[28519, 786, 265, 7, 31, "Input"],
-Cell[28787, 795, 185, 3, 30, "Output"]
+Cell[29235, 805, 265, 7, 31, "Input"],
+Cell[29503, 814, 185, 3, 30, "Output"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[29021, 804, 110, 1, 49, "Subtitle"],
+Cell[29737, 823, 110, 1, 49, "Subtitle"],
 Cell[CellGroupData[{
-Cell[29156, 809, 160, 4, 31, "Input"],
-Cell[29319, 815, 1494060, 24473, 375, 1459331, 23902, "CachedBoxData", \
+Cell[29872, 828, 160, 4, 31, "Input"],
+Cell[30035, 834, 1494060, 24473, 375, 1459331, 23902, "CachedBoxData", \
 "BoxData", "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1523416, 25293, 223, 5, 31, "Input"],
-Cell[1523642, 25300, 1406, 26, 374, "Output"]
+Cell[1524132, 25312, 223, 5, 31, "Input"],
+Cell[1524358, 25319, 1406, 26, 374, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
