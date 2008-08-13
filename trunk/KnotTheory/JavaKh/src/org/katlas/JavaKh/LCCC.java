@@ -1,5 +1,7 @@
 package org.katlas.JavaKh;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class LCCC implements Serializable { // Linear Combination of Canned Cobordisms
@@ -10,9 +12,8 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 	//static int maxsz = 0; // is 10 for T(7.6)
     Cap top, bottom;
     // coefficients are BaseRing
-    int n;
-    CannedCobordism cobordisms[];
-    BaseRing coefficients[];
+    List<CannedCobordism> cobordisms;
+    List<BaseRing> coefficients;
     // consider storing the hash codes?
 
     public LCCC(Cap t, Cap b) {
@@ -20,27 +21,31 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 	//throw new IllegalArgumentException();
 	top = t;
 	bottom = b;
-	n = 0;
-	cobordisms = new CannedCobordism[8];
-	coefficients = new BaseRing[8];
+	// n = 0;
+	cobordisms = new ArrayList<CannedCobordism>(8);
+	coefficients = new ArrayList<BaseRing>(8);
     }
 
+    int size() {
+    	return cobordisms.size();
+    }
+    
     public boolean equals(Object o) {
-	if (o == null && n == 0)
+	if (o == null && size() == 0)
 	    return true;
 	if (!(o instanceof LCCC))
 	    return false;
 	LCCC other = (LCCC) o;
-	if (n > 1 || other.n > 1)
+	if (size() > 1 || other.size() > 1)
 	    // not working right now
 	    throw new UnsupportedOperationException();
-	if (n == 0) {
-	    if (other.n != 0 && !other.coefficients[0].isZero())
+	if (size() == 0) {
+	    if (other.size() != 0 && !other.coefficients.get(0).isZero())
 		return false;
-	} else if (other.n == 0 && !coefficients[0].isZero())
+	} else if (other.size() == 0 && !coefficients.get(0).isZero())
 	    return false;
-	else if (!(cobordisms[0].equals(other.cobordisms[0])
-		   && coefficients[0].equals(other.coefficients[0])))
+	else if (!(cobordisms.get(0).equals(other.cobordisms.get(0))
+		   && coefficients.get(0).equals(other.coefficients.get(0))))
 	    return false;
 	return true;
     }
@@ -94,29 +99,19 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
     }
 
     public void add(CannedCobordism cc, BaseRing num) {
-	for (int i = 0; i < n; i++)
-	    if (cobordisms[i].equals(cc)) {
-		coefficients[i] = coefficients[i].add(num);
-		if (coefficients[i].isZero()) {
-		    cobordisms[i] = cobordisms[n - 1];
-		    coefficients[i] = coefficients[n - 1];
-		    n--;
+	for (int i = 0; i < size(); i++)
+	    if (cobordisms.get(i).equals(cc)) {
+		coefficients.set(i, coefficients.get(i).add(num));
+		if (coefficients.get(i).isZero()) {
+			cobordisms.remove(i);
+			coefficients.remove(i);
 		}
 		return;
 	    }
 	if (num.isZero())
 	    return;
-	if (n == coefficients.length) {
-	    CannedCobordism newccs[] = new CannedCobordism[2 * coefficients.length];
-	    System.arraycopy(cobordisms, 0, newccs, 0, n);
-	    cobordisms = newccs;
-	    BaseRing newbrs[] = new BaseRing[2 * coefficients.length];
-	    System.arraycopy(coefficients, 0, newbrs, 0, n);
-	    coefficients = newbrs;
-	}
-	cobordisms[n] = cc;
-	coefficients[n] = num;
-	n++;
+	cobordisms.add(cc);
+	coefficients.add(num);
 	// DEBUG
 	/*if (entries.size() > maxsz)
 	  maxsz = entries.size();*/
@@ -125,49 +120,52 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
     public void add(LCCC other) {
 	if (other == null)
 	    return;
-	for (int i = 0; i < other.n; i++)
-	    add(other.cobordisms[i], other.coefficients[i]);
+	for (int i = 0; i < other.size(); i++)
+	    add(other.cobordisms.get(i), other.coefficients.get(i));
     }
 
     public void multiply(BaseRing num) {
-	if (num.isZero())
-	    n = 0;
-	else
-	    for (int i = 0; i < n; i++)
-		coefficients[i] = coefficients[i].multiply(num);
+	if (num.isZero()) {
+	    coefficients.clear();
+	    cobordisms.clear();
+	} else {
+	    for (int i = 0; i < size(); i++) {
+		coefficients.set(i, coefficients.get(i).multiply(num));
+	    }
+	}
     }
 
     public LCCC compose(LCCC other) { // vertical composition
-	if (other == null || n == 0 || other.n == 0)
+	if (other == null || size() == 0 || other.size() == 0)
 	    return null;
 	assert top.equals(other.bottom);
 	LCCC ret = new LCCC(other.top, bottom);
-	for (int i = 0; i < n; i++)
-	    for (int j = 0; j < other.n; j++)
-		ret.add(cobordisms[i].compose(other.cobordisms[j]),
-			coefficients[i].multiply(other.coefficients[j]));
+	for (int i = 0; i < size(); i++)
+	    for (int j = 0; j < other.size(); j++)
+		ret.add(cobordisms.get(i).compose(other.cobordisms.get(j)),
+			coefficients.get(i).multiply(other.coefficients.get(j)));
 	return ret;
     }
 
     // horizontal composition
     public LCCC compose(int start, CannedCobordism cc, int cstart, int nc,
 			boolean reverse) {
-	if (n == 0)
+	if (size() == 0)
 	    return null;
 	LCCC ret = new LCCC(null, null);
 	if (reverse)
-	    for (int i = 0; i < n; i++)
-		ret.add(cc.compose(cstart, cobordisms[i], start, nc),
-			coefficients[i]);
+	    for (int i = 0; i < size(); i++)
+		ret.add(cc.compose(cstart, cobordisms.get(i), start, nc),
+			coefficients.get(i));
 	else
-	    for (int i = 0; i < n; i++)
-		ret.add(cobordisms[i].compose(start, cc, cstart, nc),
-			coefficients[i]);
-	if (ret.n == 0)
+	    for (int i = 0; i < size(); i++)
+		ret.add(cobordisms.get(i).compose(start, cc, cstart, nc),
+			coefficients.get(i));
+	if (ret.size() == 0)
 	    return null;
 	else {
-	    ret.top = ret.cobordisms[0].top;
-	    ret.bottom = ret.cobordisms[0].bottom;
+	    ret.top = ret.cobordisms.get(0).top;
+	    ret.bottom = ret.cobordisms.get(0).bottom;
 	    return ret;
 	}
     }
@@ -175,13 +173,13 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
     public LCCC reduce() {
 	if (JavaKh.using_h)
 	    return reduceWithH();
-	if (n == 0)
+	if (size() == 0)
 	    return null;
 	LCCC ret = new LCCC(top, bottom);
-	for (int iter = 0; iter < n; iter++) {
-	    CannedCobordism cc = cobordisms[iter];
+	for (int iter = 0; iter < size(); iter++) {
+	    CannedCobordism cc = cobordisms.get(iter);
 	    cc.reverseMaps();
-	    BaseRing num = coefficients[iter];
+	    BaseRing num = coefficients.get(iter);
 	    int dots[] = new int[cc.nbc];
 	    int genus[] = CannedCobordism.zeros[cc.nbc];
 	    int moreWork[] = new int[cc.ncc];
@@ -250,20 +248,20 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 		ret.add(newcc, num);
 	    }
 	}
-	if (ret.n == 0)
+	if (ret.size() == 0)
 	    return null;
 	else
 	    return ret;
     }
 
     public LCCC reduceWithH() {
-	if (n == 0)
+	if (size() == 0)
 	    return null;
 	LCCC ret = new LCCC(top, bottom);
-	for (int iter = 0; iter < n; iter++) {
-	    CannedCobordism cc = cobordisms[iter];
+	for (int iter = 0; iter < size(); iter++) {
+	    CannedCobordism cc = cobordisms.get(iter);
 	    cc.reverseMaps();
-	    BaseRing num = coefficients[iter];
+	    BaseRing num = coefficients.get(iter);
 	    int dots[] = new int[cc.nbc];
 	    int hpow = cc.hpower;
 	    int moreWork[] = new int[cc.ncc];
@@ -378,31 +376,31 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 		ret.add(newcc, nCnum[i]);
 	    }
 	}
-	if (ret.n == 0)
+	if (ret.size() == 0)
 	    return null;
 	else
 	    return ret;
     }
 
     public LCCC finalizeH() {
-	if (n == 0)
+	if (size() == 0)
 	    return null;
 	assert top.n == 2 && top.ncycles == 0
 	    && bottom.n == 2 && bottom.ncycles == 0;
 	LCCC ret = new LCCC(top, bottom);
 	CannedCobordism cc = CannedCobordism.isomorphism(top);
 	boolean hset = false;
-	for (int i = 0; i < n; i++)
-	    if (!coefficients[i].isZero()) {
+	for (int i = 0; i < size(); i++)
+	    if (!coefficients.get(i).isZero()) {
 		if (!hset)
-		    cc.hpower = cobordisms[i].hpower + cobordisms[i].dots[0]
-			+ cobordisms[i].genus[0];
-		else if (cc.hpower != cobordisms[i].hpower
-			 + cobordisms[i].dots[0] + cobordisms[i].genus[0])
+		    cc.hpower = cobordisms.get(i).hpower + cobordisms.get(i).dots[0]
+			+ cobordisms.get(i).genus[0];
+		else if (cc.hpower != cobordisms.get(i).hpower
+			 + cobordisms.get(i).dots[0] + cobordisms.get(i).genus[0])
 		    throw new AssertionError();
-		ret.add(cc, coefficients[i]);
+		ret.add(cc, coefficients.get(i));
 	    }
-	if (ret.n == 0)
+	if (ret.size() == 0)
 	    return null;
 	else
 	    return ret;
