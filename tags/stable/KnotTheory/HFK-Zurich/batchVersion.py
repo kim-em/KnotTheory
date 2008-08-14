@@ -1,3 +1,4 @@
+#! /usr/bin/python
 import sys
 f=open("in","r")
 s=f.read()

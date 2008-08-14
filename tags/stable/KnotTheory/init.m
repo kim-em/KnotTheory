@@ -28,7 +28,7 @@ KnotTheory::credits = "`1`";
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2008, 1, 13, 20, 30, 12.1352500};
+KnotTheoryVersion[] = {2008, 8, 13, 16, 37, 15.5973872};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
@@ -3084,19 +3084,29 @@ TabularKh::usage = "TabularKh[polynomial, {diagonals}] generates an html table d
 of the polynomial, with diagonals highlighted. The tables appearing in the Knot Atlas are generated using
 TabularKh[Kh[K][q,t], KnotSignature[K]+{1,-1}]";
 
+(* Here we expose just a few of the names in the context KnotTheory`FastKh`Tangles`.
+   You can thus use AppendTo[$ContextPath, "KnotTheory`FastKh`Tangles`"], and gain access to these symbols,
+   without importing all the local variables from the implementations below. *)
+
+BeginPackage["KnotTheory`FastKh`Tangles`"]
+
+bdot; Morphisms; Objects; Smoothing; MM; e; Q; KhComplex; HC; Kom; DeLoop; Contract;
+
+EndPackage[]
+
 Begin["`FastKh`"]
 
 bdot[_]^_ ^=0; tdot[_]^_ ^=0;
 
-EquivalenceClasses[l_List] := Fold[
+EquivalenceClasses[l_List] := Module[{pos}, Fold[
       (
           pos = First /@ Position[#1, #2];
           Append[Delete[#1, List /@ pos], Union@@(#1[[pos]])]
           )&,
       l, Union @@ l
-];
+]];
 
-DotRule[top_, bot_] := DotRule[top, bot] = Flatten[Cases[
+DotRule[top_, bot_] := DotRule[top, bot] = Module[{z}, Flatten[Cases[
   DeleteCases[
     EquivalenceClasses[Join[
       Cases[{top}, P[i_,j_][m_] :> {z@i,z@j,tdot@m}, Infinity],
@@ -3105,7 +3115,7 @@ DotRule[top_, bot_] := DotRule[top, bot] = Flatten[Cases[
     _z, {2}
   ],
   l_List :> ((# -> First[l])& /@ l)
-]];
+]]];
 
 HCLaw[
         Cobordism[top1_Smoothing,bot1_Smoothing],
@@ -3458,7 +3468,7 @@ Contract[kom_Kom] := Module[
             Infinity, 1]
           ];
         obs[[1+k]] = obs[[1+k]] /. ((#->0)& /@ killed0);
-        obs[[1+k+1]] = obs[[1+k+1]] /. ((#->0)& /@ killed1);;
+        obs[[1+k+1]] = obs[[1+k+1]] /. ((#->0)& /@ killed1);
         If[k>0,
           mos[[1+k-1]] = mos[[1+k-1]] /.
               MM[i_e, j_e, mm_] /; MemberQ[killed0, j] :> 0
@@ -3544,7 +3554,8 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     prog = (Program /. {opts} /. Options[Kh]),
     modulus = (Modulus /. {opts} /. Options[Kh]),
     universal = (Universal /. {opts} /. Options[Kh]),
-    javaoptions = (JavaOptions /. {opts} /. Options[Kh])
+    javaoptions = (JavaOptions /. {opts} /. Options[Kh]),
+    JavaKhDirectory, jarDirectory, classDirectory, classpath
   },
   L1 = PD[L];
   Switch[prog,
@@ -3565,15 +3576,33 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     f = OpenWrite["pd", PageWidth -> Infinity];
     WriteString[f, ToString[L1]];
     Close[f];
+    JavaKhDirectory = ToFileName[KnotTheoryDirectory[], "JavaKh"];
+    jarDirectory = ToFileName[JavaKhDirectory, "jars"];
+    classDirectory = ToFileName[JavaKhDirectory, "bin"];
+    classpath = StringJoin[
+        (* this is a horrible hack to make sure the classpath works on both unix and windows systems *)
+        classDirectory, 
+        ":" , ToFileName[jarDirectory, "commons-cli-1.0.jar"],
+        ":" , ToFileName[jarDirectory, "commons-io-1.2.jar"],
+        ":" , ToFileName[jarDirectory, "commons-logging-1.1.jar"],
+        ":" , ToFileName[jarDirectory, "log4j-1.2.12.jar"],
+        ":;",
+        classDirectory, 
+        ";" , ToFileName[jarDirectory, "commons-cli-1.0.jar"],
+        ";" , ToFileName[jarDirectory, "commons-io-1.2.jar"],
+        ";" , ToFileName[jarDirectory, "commons-logging-1.1.jar"],
+        ";" , ToFileName[jarDirectory, "log4j-1.2.12.jar"]
+    ];
     cl = StringJoin[
-      "!java -classpath \"", ToFileName[KnotTheoryDirectory[], "JavaKh"],
-      "\" ", javaoptions, " JavaKh ",
-      If[universal, "-U", If[modulus === Null, "-Z", "-mod "<>ToString[modulus]]],
+      "!java -classpath \"", classpath,
+      "\" ", javaoptions, " org.katlas.JavaKh.JavaKh ",
+      If[universal, "-U", If[modulus === Null, "-Z", "--mod "<>ToString[modulus]]],
       " < pd"
     ];
     f = OpenRead[cl];
     out = Read[f, Expression];
     Close[f];
+    If[out == EndOfFile, Print["Something went wrong running JavaKh; nothing was returned. The command line was: "];Print[cl];Return[$Failed]];
     out = StringReplace[out, {
       "q" -> "#1", "t" -> "#2", "Z" -> "ZMod"
     }];
