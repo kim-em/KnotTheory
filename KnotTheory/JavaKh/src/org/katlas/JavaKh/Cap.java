@@ -4,6 +4,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.katlas.JavaKh.utils.AlwaysEmptyMap;
+import org.katlas.JavaKh.utils.Cache;
+import org.katlas.JavaKh.utils.HashCodeCache;
+import org.katlas.JavaKh.utils.TrivialCache;
 
 public class Cap implements Comparable<Cap>, Serializable {
     /**
@@ -12,14 +15,17 @@ public class Cap implements Comparable<Cap>, Serializable {
 	private static final long serialVersionUID = 6365827964169634427L;
 	public int n, ncycles;
     public int pairings[];
-    private static Map<ComposeInput, ComposeOutput> cache = new TreeMap<ComposeInput, ComposeOutput>();
+    
+    static Cache<Cap> capCache = new HashCodeCache<Cap>();
+    
+    private static Map<ComposeInput, ComposeOutput> compositionCache = new TreeMap<ComposeInput, ComposeOutput>();
 
     public static void disableCache() {
-    	cache = new AlwaysEmptyMap<ComposeInput, ComposeOutput>();
+    	compositionCache = new AlwaysEmptyMap<ComposeInput, ComposeOutput>();
     }
     
     public static void enableCache() {
-    	cache = new TreeMap<ComposeInput, ComposeOutput>();
+    	compositionCache = new TreeMap<ComposeInput, ComposeOutput>();
     }
  
     
@@ -30,6 +36,13 @@ public class Cap implements Comparable<Cap>, Serializable {
 	// let pairings be filled elsewhere
     }
 
+//    public CannedCobordism getIdentity() {
+//    	if(isomorphism == null) {
+//    		isomorphism = CannedCobordism.isomorphism(this);
+//    	}
+//    	return isomorphism;
+//    }
+    
     public boolean equals(Object o) {
 	if (!(o instanceof Cap))
 	    return false;
@@ -56,10 +69,10 @@ public class Cap implements Comparable<Cap>, Serializable {
 
     public Cap compose(int start, Cap c, int cstart, int nc) {
 	ComposeInput ci = new ComposeInput(this, start, c, cstart, nc);
-	ComposeOutput co = (ComposeOutput) cache.get(ci);
+	ComposeOutput co = (ComposeOutput) compositionCache.get(ci);
 	if (co == null) {
 	    co = new ComposeOutput(ci);
-	    cache.put(ci, co);
+	    compositionCache.put(ci, co);
 	}
 	return co.cap;
     }
@@ -67,10 +80,10 @@ public class Cap implements Comparable<Cap>, Serializable {
     public Cap compose(int start, Cap c, int cstart, int nc,
 		       int joins[]) {
 	ComposeInput ci = new ComposeInput(this, start, c, cstart, nc);
-	ComposeOutput co = (ComposeOutput) cache.get(ci);
+	ComposeOutput co = (ComposeOutput) compositionCache.get(ci);
 	if (co == null) {
 	    co = new ComposeOutput(ci);
-	    cache.put(ci, co);
+	    compositionCache.put(ci, co);
 	}
 	System.arraycopy(co.joins, 0, joins, 0, co.joins.length);
 	return co.cap;
@@ -164,7 +177,7 @@ public class Cap implements Comparable<Cap>, Serializable {
 		ret.ncycles++;
 		nnew++;
 	    }
-	return ret;
+	return capCache.cache(ret);
     }
 
     private static int generateHelper(Cap caps[], int ncaps, int n,
@@ -257,6 +270,6 @@ public class Cap implements Comparable<Cap>, Serializable {
     }
 
 	public static  int cacheSize() {
-		return cache.size();
+		return compositionCache.size();
 	}
 }
