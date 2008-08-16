@@ -57,49 +57,49 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 	return true;
     }
 
-    public static void main(String args[]) {
-	// associativity check
-	Cap caps[] = Cap.generate(10);
-	for (int i = 0; i < caps.length; i++)
-	    for (int j = 0; j < caps.length; j++)
-		for (int k = 0; k < caps.length; k++)
-		    for (int l = 0; l < caps.length; l++) {
-			CannedCobordism
-			    a1=CannedCobordism.generateRandom(caps[i],caps[j]),
-			    a2=CannedCobordism.generateRandom(caps[i],caps[j]),
-			    a3=CannedCobordism.generateRandom(caps[i],caps[j]),
-			    b1=CannedCobordism.generateRandom(caps[j],caps[k]),
-			    b2=CannedCobordism.generateRandom(caps[j],caps[k]),
-			    b3=CannedCobordism.generateRandom(caps[j],caps[k]),
-			    c1=CannedCobordism.generateRandom(caps[k],caps[l]),
-			    c2=CannedCobordism.generateRandom(caps[k],caps[l]),
-			    c3=CannedCobordism.generateRandom(caps[k],caps[l]);
-			LCCC a = new LCCC(caps[i], caps[j]);
-			a.add(a1, (int) (Math.random() * 10));
-			a.add(a2, (int) (Math.random() * 10));
-			a.add(a3, (int) (Math.random() * 10));
-			LCCC b = new LCCC(caps[j], caps[k]);
-			b.add(b1, (int) (Math.random() * 10));
-			b.add(b2, (int) (Math.random() * 10));
-			b.add(b3, (int) (Math.random() * 10));
-			LCCC c = new LCCC(caps[k], caps[l]);
-			c.add(c1, (int) (Math.random() * 10));
-			c.add(c2, (int) (Math.random() * 10));
-			c.add(c3, (int) (Math.random() * 10));
-			LCCC d = (c.compose(b)).compose(a);
-			LCCC e = c.compose(b.compose(a));
-			if (!d.equals(e)) {
-			    System.out.println("Error in associativity check");
-			    return;
-			}
-			LCCC f = c.reduce().compose(b.reduce().compose(a.reduce()));
-			if (!f.reduce().equals(e.reduce())) {
-			    System.out.println("Error in reduction check");
-			    return;
-			}
-		    }
-	System.out.println("Associativity checks OK!");
-    }
+//    public static void main(String args[]) {
+//	// associativity check
+//	Cap caps[] = Cap.generate(10);
+//	for (int i = 0; i < caps.length; i++)
+//	    for (int j = 0; j < caps.length; j++)
+//		for (int k = 0; k < caps.length; k++)
+//		    for (int l = 0; l < caps.length; l++) {
+//			CannedCobordism
+//			    a1=CannedCobordism.generateRandom(caps[i],caps[j]),
+//			    a2=CannedCobordism.generateRandom(caps[i],caps[j]),
+//			    a3=CannedCobordism.generateRandom(caps[i],caps[j]),
+//			    b1=CannedCobordism.generateRandom(caps[j],caps[k]),
+//			    b2=CannedCobordism.generateRandom(caps[j],caps[k]),
+//			    b3=CannedCobordism.generateRandom(caps[j],caps[k]),
+//			    c1=CannedCobordism.generateRandom(caps[k],caps[l]),
+//			    c2=CannedCobordism.generateRandom(caps[k],caps[l]),
+//			    c3=CannedCobordism.generateRandom(caps[k],caps[l]);
+//			LCCC a = new LCCC(caps[i], caps[j]);
+//			a.add(a1, (int) (Math.random() * 10));
+//			a.add(a2, (int) (Math.random() * 10));
+//			a.add(a3, (int) (Math.random() * 10));
+//			LCCC b = new LCCC(caps[j], caps[k]);
+//			b.add(b1, (int) (Math.random() * 10));
+//			b.add(b2, (int) (Math.random() * 10));
+//			b.add(b3, (int) (Math.random() * 10));
+//			LCCC c = new LCCC(caps[k], caps[l]);
+//			c.add(c1, (int) (Math.random() * 10));
+//			c.add(c2, (int) (Math.random() * 10));
+//			c.add(c3, (int) (Math.random() * 10));
+//			LCCC d = (c.compose(b)).compose(a);
+//			LCCC e = c.compose(b.compose(a));
+//			if (!d.equals(e)) {
+//			    System.out.println("Error in associativity check");
+//			    return;
+//			}
+//			LCCC f = c.reduce().compose(b.reduce().compose(a.reduce()));
+//			if (!f.reduce().equals(e.reduce())) {
+//			    System.out.println("Error in reduction check");
+//			    return;
+//			}
+//		    }
+//	System.out.println("Associativity checks OK!");
+//    }
 
     public void add(CannedCobordism cc, int n) {
 	add(cc, BaseRing.fromInt(n));

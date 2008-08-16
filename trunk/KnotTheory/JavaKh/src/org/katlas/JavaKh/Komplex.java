@@ -590,6 +590,7 @@ public class Komplex implements Serializable {
 			Cap newsm = new Cap(oldsm.n, 0);
 			for (int j = 0; j < oldsm.n; j++)
 				newsm.pairings[j] = oldsm.pairings[j];
+			newsm = Cap.capCache.cache(newsm);
 			CannedCobordism prevcc = new CannedCobordism(oldsm, newsm);
 			prevcc.ncc = prevcc.nbc;
 			prevcc.connectedComponent = CannedCobordism.counting[prevcc.nbc];
@@ -680,6 +681,7 @@ public class Komplex implements Serializable {
 			Cap newsm = new Cap(oldsm.n, 0);
 			for (int j = 0; j < oldsm.n; j++)
 				newsm.pairings[j] = oldsm.pairings[j];
+			newsm = Cap.capCache.cache(newsm);
 			CannedCobordism prevcc = new CannedCobordism(oldsm, newsm);
 			prevcc.ncc = prevcc.nbc;
 			prevcc.connectedComponent = CannedCobordism.counting[prevcc.nbc];
@@ -1116,7 +1118,7 @@ public class Komplex implements Serializable {
 		if (pd.length == 0) { // assume unknot
 			Komplex kom = new Komplex(1, true);
 			kom.columns[0] = new SmoothingColumn(1);
-			kom.columns[0].smoothings[0] = new Cap(0, 1);
+			kom.columns[0].smoothings[0] = Cap.capCache.cache(new Cap(0, 1));
 			kom.reduce();
 			return kom;
 		}
@@ -1147,9 +1149,7 @@ public class Komplex implements Serializable {
 		for (int i = 1; i < pd.length; i++) {
 
 			// flush the cobordism cache
-			CannedCobordism.disableCache();
 			CannedCobordism.enableCache();
-			Cap.disableCache();
 			Cap.enableCache();
 			
 			boolean dryRun = false;
@@ -1248,9 +1248,7 @@ public class Komplex implements Serializable {
 			assert kom.check(true);
 			
 			// flush the cobordism cache again!
-			CannedCobordism.disableCache();
 			CannedCobordism.enableCache();
-			Cap.disableCache();
 			Cap.enableCache();
 			
 			if (!dryRun) {
@@ -1571,6 +1569,7 @@ public class Komplex implements Serializable {
 
 			Cap c = new Cap(nfixed, ncycles);
 			System.arraycopy(pairings, 0, c.pairings, 0, nfixed);
+			c = Cap.capCache.cache(c);
 			whichColumn[i] = num1;
 			whichRow[i] = numsmoothings[num1];
 			columns[num1].smoothings[numsmoothings[num1]] = c;
