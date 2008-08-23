@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -446,14 +447,19 @@ public class Komplex implements Serializable {
 	public void finalizeH() {
 		for (int i = 0; i < ncolumns - 1; i++) {
 			CobMatrix m = getMatrix(i);
-			for (int j = 0; j < m.target.n; j++)
-				for (int k = 0; k < m.rowsizes[j]; k++) {
-					LCCC lc = m.values[j][k];
-					if (lc != null && lc.size() != 0) {
-						m.values[j][k] = lc.finalizeH();
-						assert m.values[j][k] == null || m.values[j][k].size() < 2;
-					}
+			for(Map<Integer, LCCC> rowEntries : m.entries) {
+				for(int j : rowEntries.keySet()) {
+					rowEntries.put(j, rowEntries.get(j).finalizeH());
 				}
+			}
+//			for (int j = 0; j < m.target.n; j++)
+//				for (int k = 0; k < m.rowsizes[j]; k++) {
+//					LCCC lc = m.values[j][k];
+//					if (lc != null && lc.size() != 0) {
+//						m.values[j][k] = lc.finalizeH();
+//						assert m.values[j][k] == null || m.values[j][k].size() < 2;
+//					}
+//				}
 			setMatrix(i, m);
 		}
 	}
@@ -622,36 +628,62 @@ public class Komplex implements Serializable {
 				newsc.numbers[newn] = columns[colnum].numbers[i] + nmod;
 				if (prev != null) {
 					CobMatrix prevMatrix = getMatrix(colnum - 1);
-					prev.rowsizes[newn] = prevMatrix.rowsizes[i];
-					prev.indices[newn] = prevMatrix.indices[i];
+//					prev.rowsizes[newn] = prevMatrix.rowsizes[i];
+//					prev.indices[newn] = prevMatrix.indices[i];
 					if (oldsm.ncycles != 0) {
 						LCCC lc = new LCCC(oldsm, newsm);
 						lc.add(prevcc, 1);
-						prev.values[newn] = new LCCC[prev.rowsizes[newn]];
-						for (int k = 0; k < prev.rowsizes[newn]; k++)
-							prev.values[newn][k] = lc
-									.compose(prevMatrix.values[i][k]);
-					} else
-						prev.values[newn] = prevMatrix.values[i];
+//						prev.values[newn] = new LCCC[prev.rowsizes[newn]];
+						Map<Integer, LCCC> prevMatrixEntriesI = prevMatrix.entries.get(i);
+						Map<Integer, LCCC> prevEntriesNewN = prev.entries.get(newn);
+						for(int k : prevMatrixEntriesI.keySet()) {
+							prevEntriesNewN.put(k, lc.compose(prevMatrixEntriesI.get(k)));
+						}
+//						for (int k = 0; k < prev.rowsizes[newn]; k++) {
+//							prev.values[newn][k] = lc.compose(prevMatrix.values[i][k]);
+//						}
+					} else {
+						prev.entries.set(newn, prevMatrix.entries.get(i));
+//						prev.values[newn] = prevMatrix.values[i];
+					}
 				}
 				if (next != null) {
 					CobMatrix nextMatrix = getMatrix(colnum);
 					if (oldsm.ncycles != 0) {
 						LCCC lc = new LCCC(newsm, oldsm);
 						lc.add(nextcc, 1);
-						for (int k = 0; k < nextMatrix.values.length; k++)
-							for (int l = 0; l < nextMatrix.rowsizes[k]; l++)
-								if (nextMatrix.indices[k][l] == i) {
-									LCCC nmv = nextMatrix.values[k][l];
-									next.append(k, newn, nmv.compose(lc));
-								}
-					} else
-						for (int k = 0; k < nextMatrix.values.length; k++)
-							for (int l = 0; l < nextMatrix.rowsizes[k]; l++)
-								if (nextMatrix.indices[k][l] == i)
-									next.append(k, newn,
-											nextMatrix.values[k][l]);
-					next.trim();
+						
+						for(int k = 0; k < nextMatrix.entries.size(); ++k) {
+							Map<Integer, LCCC> rowEntries = nextMatrix.entries.get(k);
+							if(rowEntries.containsKey(i)) {
+								LCCC nmv = rowEntries.get(i);
+								next.append(k, newn, nmv.compose(lc));
+							}
+						}
+//						for (int k = 0; k < nextMatrix.values.length; k++) {
+//							for (int l = 0; l < nextMatrix.rowsizes[k]; l++) {
+//								if (nextMatrix.indices[k][l] == i) {
+//									LCCC nmv = nextMatrix.values[k][l];
+//									next.append(k, newn, nmv.compose(lc));
+//								}
+//							}
+//						}
+					} else {
+						for(int k = 0; k < nextMatrix.entries.size(); ++k) {
+							Map<Integer, LCCC> rowEntries = nextMatrix.entries.get(k);
+							if(rowEntries.containsKey(i)) {
+								next.append(k, newn, rowEntries.get(i)); 
+							}
+						}
+//						for (int k = 0; k < nextMatrix.values.length; k++) {
+//							for (int l = 0; l < nextMatrix.rowsizes[k]; l++) {
+//								if (nextMatrix.indices[k][l] == i) {
+//									next.append(k, newn, nextMatrix.values[k][l]);
+//								}
+//							}
+//						}
+					}
+//					next.trim();
 				}
 
 				newn++;
@@ -742,35 +774,63 @@ public class Komplex implements Serializable {
 				newsc.numbers[newn] = columns[colnum].numbers[i] + nmod;
 				if (prev != null) {
 					CobMatrix prevMatrix = getMatrix(colnum - 1);
-					prev.rowsizes[newn] = prevMatrix.rowsizes[i];
-					prev.indices[newn] = prevMatrix.indices[i];
+//					prev.rowsizes[newn] = prevMatrix.rowsizes[i];
+//					prev.indices[newn] = prevMatrix.indices[i];
 					if (oldsm.ncycles != 0) {
-						prev.values[newn] = new LCCC[prev.rowsizes[newn]];
-						for (int k = 0; k < prev.rowsizes[newn]; k++)
-							prev.values[newn][k] = prevlc
-									.compose(prevMatrix.values[i][k]);
-					} else
-						prev.values[newn] = prevMatrix.values[i];
+//						prev.values[newn] = new LCCC[prev.rowsizes[newn]];
+						Map<Integer, LCCC> prevMatrixEntriesI = prevMatrix.entries.get(i);
+						Map<Integer, LCCC> prevEntriesNewN = prev.entries.get(newn);
+						for(int k : prevMatrixEntriesI.keySet()) {
+							prevEntriesNewN.put(k, prevlc.compose(prevMatrixEntriesI.get(k)));
+						}
+//						for (int k = 0; k < prev.rowsizes[newn]; k++) {
+//							prev.values[newn][k] = prevlc
+//									.compose(prevMatrix.values[i][k]);
+//						}
+					} else {
+						prev.entries.set(newn, prevMatrix.entries.get(i));
+//						prev.values[newn] = prevMatrix.values[i];
+					}
 				}
 				if (next != null) {
 					CobMatrix nextMatrix = getMatrix(colnum);
 					if (oldsm.ncycles != 0) {
 						LCCC lc = new LCCC(newsm, oldsm);
 						lc.add(nextcc, 1);
-						for (int k = 0; k < nextMatrix.values.length; k++)
-							for (int l = 0; l < nextMatrix.rowsizes[k]; l++)
-								if (nextMatrix.indices[k][l] == i)
-									next
-											.append(k, newn,
-													nextMatrix.values[k][l]
-															.compose(lc));
-					} else
-						for (int k = 0; k < nextMatrix.values.length; k++)
-							for (int l = 0; l < nextMatrix.rowsizes[k]; l++)
-								if (nextMatrix.indices[k][l] == i)
-									next.append(k, newn,
-											nextMatrix.values[k][l]);
-					next.trim();
+
+						for(int k = 0; k < nextMatrix.entries.size(); ++k) {
+							Map<Integer, LCCC> rowEntries = nextMatrix.entries.get(k);
+							if(rowEntries.containsKey(i)) {
+								LCCC nmv = rowEntries.get(i);
+								next.append(k, newn, nmv.compose(lc));
+							}
+						}						
+//						for (int k = 0; k < nextMatrix.values.length; k++) {
+//							for (int l = 0; l < nextMatrix.rowsizes[k]; l++) {
+//								if (nextMatrix.indices[k][l] == i) {
+//									next.append(k, newn,
+//													nextMatrix.values[k][l]
+//															.compose(lc));
+//								}
+//							}
+//						}
+					} else {
+						for(int k = 0; k < nextMatrix.entries.size(); ++k) {
+							Map<Integer, LCCC> rowEntries = nextMatrix.entries.get(k);
+							if(rowEntries.containsKey(i)) {
+								next.append(k, newn, rowEntries.get(i));
+							}
+						}						
+//						for (int k = 0; k < nextMatrix.values.length; k++) {
+//							for (int l = 0; l < nextMatrix.rowsizes[k]; l++) {
+//								if (nextMatrix.indices[k][l] == i) {
+//									next.append(k, newn,
+//											nextMatrix.values[k][l]);
+//								}
+//							}
+//						}
+					}
+//					next.trim();
 				}
 
 				newn++;
@@ -795,26 +855,29 @@ public class Komplex implements Serializable {
 		CobMatrix m = getMatrix(i);
 		do {
 			found = false;
-			rlfor: for (int j = 0; j < m.values.length; j++)
-				for (int l = 0; l < m.rowsizes[j]; l++) {
-					LCCC lc = m.values[j][l];
+			rlfor: for (int j = 0; j < m.entries.size(); j++) {
+				for(int k : m.entries.get(j).keySet()) {
+					LCCC lc = m.entries.get(j).get(k);
 					if (lc != null && lc.size() == 1) {
-						int k = m.indices[j][l];
 						if (!columns[i].smoothings[k]
-								.equals(columns[i + 1].smoothings[j]))
+								.equals(columns[i + 1].smoothings[j])) {
 							continue;
+						}
 						CannedCobordism cc = lc.coefficients.firstKey();
 						BaseRing n = lc.coefficients.get(cc);
-						if (!n.isInvertible())
+						if (!n.isInvertible()) {
 							continue;
-						if (!cc.isIsomorphism())
+						}
+						if (!cc.isIsomorphism()) {
 							continue;
+						}
 						found2 = found = true;
 						reductionLemma(i, j, k, n, false);
 						m = getMatrix(i);
 						break rlfor;
 					}
 				}
+			}
 			if (found)
 				ret = true;
 			if (!found) {
@@ -860,39 +923,69 @@ public class Komplex implements Serializable {
 		CobMatrix delta = null, gamma = null;
 		if (!zeros) {
 			delta = new CobMatrix(scD, scb2);
-			delta.values[0] = new LCCC[m.rowsizes[j]];
-			delta.indices[0] = new int[m.rowsizes[j]];
-			for (int a = 0; a < m.rowsizes[j]; a++) {
-				int idx = m.indices[j][a];
-				if (idx < k) {
-					delta.values[0][delta.rowsizes[0]] = m.values[j][a];
-					delta.indices[0][delta.rowsizes[0]++] = idx;
-				} else if (idx > k) {
-					delta.values[0][delta.rowsizes[0]] = m.values[j][a];
-					delta.indices[0][delta.rowsizes[0]++] = idx - 1;
+			Map<Integer, LCCC> mRowEntriesJ = m.entries.get(j);
+			Map<Integer, LCCC> deltaRowEntries0 = delta.entries.get(0);
+			for(int c : mRowEntriesJ.keySet()) {
+				if(c < k) {
+					deltaRowEntries0.put(c, mRowEntriesJ.get(c));
+				} else if(c > k) {
+					deltaRowEntries0.put(c - 1, mRowEntriesJ.get(c));					
 				}
-			}
+ 			}
+			
+//			delta.values[0] = new LCCC[m.rowsizes[j]];
+//			delta.indices[0] = new int[m.rowsizes[j]];
+//			for (int a = 0; a < m.rowsizes[j]; a++) {
+//				int idx = m.indices[j][a];
+//				if (idx < k) {
+//					delta.values[0][delta.rowsizes[0]] = m.values[j][a];
+//					delta.indices[0][delta.rowsizes[0]++] = idx;
+//				} else if (idx > k) {
+//					delta.values[0][delta.rowsizes[0]] = m.values[j][a];
+//					delta.indices[0][delta.rowsizes[0]++] = idx - 1;
+//				}
+//			}
 			// fill this at the same time as epsilon
 			gamma = new CobMatrix(scb1, scE);
 		}
 		CobMatrix epsilon = new CobMatrix(scD, scE);
-		for (int a = 0, b = 0; a < m.values.length; a++)
+		
+		for (int a = 0, b = 0; a < m.entries.size(); a++) {
 			if (a != j) {
-				epsilon.values[b] = new LCCC[m.rowsizes[a]];
-				epsilon.indices[b] = new int[m.rowsizes[a]];
-				for (int c = 0; c < m.rowsizes[a]; c++) {
-					int idx = m.indices[a][c];
-					if (idx < k) {
-						epsilon.values[b][epsilon.rowsizes[b]] = m.values[a][c];
-						epsilon.indices[b][epsilon.rowsizes[b]++] = idx;
-					} else if (idx > k) {
-						epsilon.values[b][epsilon.rowsizes[b]] = m.values[a][c];
-						epsilon.indices[b][epsilon.rowsizes[b]++] = idx - 1;
-					} else if (!zeros)
-						gamma.append(b, 0, m.values[a][c]);
+				Map<Integer, LCCC> mRowEntriesA = m.entries.get(a);
+				Map<Integer, LCCC> epsilonRowEntriesB = epsilon.entries.get(b);
+				for (int c : mRowEntriesA.keySet()) {
+					if (c < k) {
+						epsilonRowEntriesB.put(c, mRowEntriesA.get(c));
+					} else if (c > k) {
+						epsilonRowEntriesB.put(c - 1, mRowEntriesA.get(c));
+					} else if (!zeros) {
+						gamma.append(b, 0, mRowEntriesA.get(c));
+					}
 				}
 				b++;
 			}
+		}
+		
+//		for (int a = 0, b = 0; a < m.values.length; a++) {
+//			if (a != j) {
+//				epsilon.values[b] = new LCCC[m.rowsizes[a]];
+//				epsilon.indices[b] = new int[m.rowsizes[a]];
+//				for (int c = 0; c < m.rowsizes[a]; c++) {
+//					int idx = m.indices[a][c];
+//					if (idx < k) {
+//						epsilon.values[b][epsilon.rowsizes[b]] = m.values[a][c];
+//						epsilon.indices[b][epsilon.rowsizes[b]++] = idx;
+//					} else if (idx > k) {
+//						epsilon.values[b][epsilon.rowsizes[b]] = m.values[a][c];
+//						epsilon.indices[b][epsilon.rowsizes[b]++] = idx - 1;
+//					} else if (!zeros) {
+//						gamma.append(b, 0, m.values[a][c]);
+//					}
+//				}
+//				b++;
+//			}
+//		}
 		if (zeros) {
 			setMatrix(i, epsilon);
 		} else {
@@ -919,35 +1012,53 @@ public class Komplex implements Serializable {
 		if (i != 0) {
 			CobMatrix previousMatrix = getMatrix(i - 1);
 			CobMatrix beta = new CobMatrix(columns[i - 1], columns[i]);
-			System.arraycopy(previousMatrix.values, 0, beta.values, 0, k);
-			System.arraycopy(previousMatrix.indices, 0, beta.indices, 0, k);
-			System.arraycopy(previousMatrix.rowsizes, 0, beta.rowsizes, 0, k);
-			System.arraycopy(previousMatrix.values, k + 1, beta.values, k,
-					beta.values.length - k);
-			System.arraycopy(previousMatrix.indices, k + 1, beta.indices, k,
-					beta.indices.length - k);
-			System.arraycopy(previousMatrix.rowsizes, k + 1, beta.rowsizes, k,
-					beta.rowsizes.length - k);
+
+			beta.entries.clear();
+			beta.entries.addAll(previousMatrix.entries.subList(0, k));
+			beta.entries.addAll(previousMatrix.entries.subList(k + 1, previousMatrix.entries.size()));
+			
+//			System.arraycopy(previousMatrix.values, 0, beta.values, 0, k);
+//			System.arraycopy(previousMatrix.indices, 0, beta.indices, 0, k);
+//			System.arraycopy(previousMatrix.rowsizes, 0, beta.rowsizes, 0, k);
+//			System.arraycopy(previousMatrix.values, k + 1, beta.values, k,
+//					beta.values.length - k);
+//			System.arraycopy(previousMatrix.indices, k + 1, beta.indices, k,
+//					beta.indices.length - k);
+//			System.arraycopy(previousMatrix.rowsizes, k + 1, beta.rowsizes, k,
+//					beta.rowsizes.length - k);
 			setMatrix(i - 1, beta);
 		}
 		if (i != ncolumns - 2) {
 			CobMatrix nextMatrix = getMatrix(i + 1);
 			CobMatrix nu = new CobMatrix(columns[i + 1], columns[i + 2]);
-			for (int a = 0; a < nextMatrix.values.length; a++) {
-				int size = nextMatrix.rowsizes[a];
-				nu.values[a] = new LCCC[size];
-				nu.indices[a] = new int[size];
-				for (int c = 0; c < size; c++) {
-					int idx = nextMatrix.indices[a][c];
-					if (idx < j) {
-						nu.values[a][nu.rowsizes[a]] = nextMatrix.values[a][c];
-						nu.indices[a][nu.rowsizes[a]++] = idx;
-					} else if (idx > j) {
-						nu.values[a][nu.rowsizes[a]] = nextMatrix.values[a][c];
-						nu.indices[a][nu.rowsizes[a]++] = idx - 1;
+
+			for(int a = 0; a < nextMatrix.entries.size(); ++a) {
+				Map<Integer, LCCC> nextMatrixRowEntriesA = nextMatrix.entries.get(a);
+				Map<Integer, LCCC> nuRowEntriesA = nu.entries.get(a);
+				for(int c : nextMatrixRowEntriesA.keySet()) {
+					if(c < j) {
+						nuRowEntriesA.put(c, nextMatrixRowEntriesA.get(c));
+					} else if (c > j) {
+						nuRowEntriesA.put(c - 1, nextMatrixRowEntriesA.get(c));						
 					}
 				}
 			}
+			
+//			for (int a = 0; a < nextMatrix.values.length; a++) {
+//				int size = nextMatrix.rowsizes[a];
+//				nu.values[a] = new LCCC[size];
+//				nu.indices[a] = new int[size];
+//				for (int c = 0; c < size; c++) {
+//					int idx = nextMatrix.indices[a][c];
+//					if (idx < j) {
+//						nu.values[a][nu.rowsizes[a]] = nextMatrix.values[a][c];
+//						nu.indices[a][nu.rowsizes[a]++] = idx;
+//					} else if (idx > j) {
+//						nu.values[a][nu.rowsizes[a]] = nextMatrix.values[a][c];
+//						nu.indices[a][nu.rowsizes[a]++] = idx - 1;
+//					}
+//				}
+//			}
 			setMatrix(i + 1, nu);
 		}
 	}
@@ -1356,10 +1467,9 @@ public class Komplex implements Serializable {
 							CannedCobordism komcc = CannedCobordism
 									.isomorphism(kom.columns[k].smoothings[m]);
 							for (int n = 0; n < columns[j + 1].n; n++) {
-								for (int o = 0; o < matrixJ.rowsizes[n]; o++) {
-									LCCC lc = matrixJ.values[n][o];
+								for(int l : matrixJ.entries.get(n).keySet()) {
+									LCCC lc = matrixJ.entries.get(n).get(l);
 									if (lc != null && lc.size() != 0) {
-										int l = matrixJ.indices[n][o];
 										lc = lc.compose(start, komcc, kstart,
 												nc, false);
 										if (lc != null) {
@@ -1391,11 +1501,10 @@ public class Komplex implements Serializable {
 						for (int l = 0; l < columns[j].n; l++) {
 							CannedCobordism thiscc = CannedCobordism
 									.isomorphism(columns[j].smoothings[l]);
-							for (int n = 0; n < kom.columns[k + 1].n; n++)
-								for (int o = 0; o < komMatrixK.rowsizes[n]; o++) {
-									LCCC lc = komMatrixK.values[n][o];
+							for (int n = 0; n < kom.columns[k + 1].n; n++) {
+								for(int m : komMatrixK.entries.get(n).keySet()) {
+									LCCC lc = komMatrixK.entries.get(n).get(m);
 									if (lc != null && lc.size() != 0) {
-										int m = komMatrixK.indices[n][o];
 										lc = lc.compose(kstart, thiscc, start,
 												nc, true);
 										if (lc != null)
@@ -1405,10 +1514,11 @@ public class Komplex implements Serializable {
 													* kom.columns[k].n + m, lc);
 									}
 								}
+							}
 						}
 					}
 				}
-			newMatrix.trim();
+//			newMatrix.trim();
 			debug("Finished composition step " + (i + 1) + "/" + ret.ncolumns);
 			ret.matrices.add(newMatrix);
 			invokeGC();

@@ -46,8 +46,8 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
     public int dots[]; // how many dots each connected component has
     public int genus[]; // the genus of each connected component
 
-    public int boundaryComponents[][]; // which boundary components are connected to each connected component
-    public int edges[][]; // which edges are part of each mixed boundary component
+    public transient int boundaryComponents[][]; // which boundary components are connected to each connected component
+    public transient int edges[][]; // which edges are part of each mixed boundary component
 
     static Cache<CannedCobordism> cobordismCache = new TrivialCache<CannedCobordism>();
 
