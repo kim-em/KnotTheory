@@ -6,7 +6,7 @@ public class TrivialCache<E> implements Cache<E> {
 	
 	@Override
 	public E cache(E e) {
-		System.out.println((++count) + e.hashCode());
+		// System.out.println((++count) + e.hashCode());
 		return e;
 	}
 
