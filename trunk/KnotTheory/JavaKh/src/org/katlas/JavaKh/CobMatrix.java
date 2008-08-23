@@ -1,4 +1,6 @@
 package org.katlas.JavaKh;
+import gnu.trove.TIntObjectHashMap;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +25,8 @@ public class CobMatrix implements Serializable{
 //    int indices[][];
 //    int rowsizes[];
 
-    final List<Map<Integer, LCCC>> entries;
+//    final List<Map<Integer, LCCC>> entries;
+    final List<TIntObjectHashMap<LCCC>> entries;
     
     public CobMatrix(SmoothingColumn s, SmoothingColumn t) {
 		source = s;
@@ -31,10 +34,12 @@ public class CobMatrix implements Serializable{
 		// values = new LCCC[t.n][];
 		// indices = new int[t.n][];
 		// rowsizes = new int[t.n];
-		entries = new ArrayList<Map<Integer, LCCC>>(t.n);
+//		entries = new ArrayList<Map<Integer, LCCC>>(t.n);
+		entries = new ArrayList<TIntObjectHashMap<LCCC>>(t.n);
 		for (int i = 0; i < t.n; ++i) {
 //			entries.add(new NonNullValueMapWrapper<Integer, LCCC>(new TreeMap<Integer, LCCC>()));
-			entries.add(new TreeMap<Integer, LCCC>());
+//			entries.add(new TreeMap<Integer, LCCC>());
+			entries.add(new TIntObjectHashMap<LCCC>());
 		}
 	}
 
@@ -79,8 +84,8 @@ public class CobMatrix implements Serializable{
 
     public LCCC[] unpackRow(int i) {
 	LCCC rowi[] = new LCCC[source.n];
-	Map<Integer, LCCC> rowEntries = entries.get(i);
-	for(int j : rowEntries.keySet()) {
+	TIntObjectHashMap<LCCC> rowEntries = entries.get(i);
+	for(int j : rowEntries.keys()) {
 		rowi[j] = rowEntries.get(j);
 	}
 //	for (int j = 0; j < rowsizes[i]; j++) {
@@ -134,12 +139,12 @@ public class CobMatrix implements Serializable{
 	CobMatrix ret = new CobMatrix(cm.source, target);
 
 	for (int i = 0; i < target.n; ++i) {
-			Map<Integer, LCCC> rowEntries = entries.get(i);
+			TIntObjectHashMap<LCCC> rowEntries = entries.get(i);
 //			Map<Integer, LCCC> retRowEntries = new NonNullValueMapWrapper<Integer, LCCC>(
 //					new TreeMap<Integer, LCCC>());
-			Map<Integer, LCCC> retRowEntries = new TreeMap<Integer, LCCC>();
-			for (int j : rowEntries.keySet()) {
-				for (int k : cm.entries.get(j).keySet()) {
+			TIntObjectHashMap<LCCC> retRowEntries = new TIntObjectHashMap<LCCC>();
+			for (int j : rowEntries.keys()) {
+				for (int k : cm.entries.get(j).keys()) {
 					LCCC lc = rowEntries.get(j).compose(
 							cm.entries.get(j).get(k));
 					if (lc != null) {
@@ -187,8 +192,8 @@ public class CobMatrix implements Serializable{
     }
 
     public void multiply(BaseRing n) { // modifies in place
-    	for(Map<Integer, LCCC> rowEntries : entries) {
-    		for(int i : rowEntries.keySet()) {
+    	for(TIntObjectHashMap<LCCC> rowEntries : entries) {
+    		for(int i : rowEntries.keys()) {
     			LCCC lc = rowEntries.get(i);
     			if(lc != null) {
     				lc.multiply(n);
@@ -209,11 +214,10 @@ public class CobMatrix implements Serializable{
 	assert source.equals(cm.source) && target.equals(cm.target);
 	
 	for(int i = 0; i < entries.size(); ++i) {
-		Map<Integer, LCCC> rowEntries = entries.get(i);
-		Map<Integer, LCCC> cmRowEntries = cm.entries.get(i);
-		for(int j : cmRowEntries.keySet()) {
+		TIntObjectHashMap<LCCC> rowEntries = entries.get(i);
+		TIntObjectHashMap<LCCC> cmRowEntries = cm.entries.get(i);
+		for(int j : cmRowEntries.keys()) {
 			if(rowEntries.containsKey(j)) {
-				new HashMap();
 				rowEntries.get(j).add(cmRowEntries.get(j));
 			} else {
 				rowEntries.put(j, cmRowEntries.get(j));
@@ -249,9 +253,9 @@ public class CobMatrix implements Serializable{
     }
 
     public void reduce() { // modifies this CobMatrix in place
-    	for(Map<Integer, LCCC> rowEntries : entries) {
+    	for(TIntObjectHashMap<LCCC> rowEntries : entries) {
     		Set<Integer> entriesToRemove = new HashSet<Integer>();
-    		for(int i : rowEntries.keySet()) {
+    		for(int i : rowEntries.keys()) {
     			LCCC rlc = rowEntries.get(i).reduce();
     			if(rlc == null) {
     				entriesToRemove.add(i);
@@ -274,8 +278,8 @@ public class CobMatrix implements Serializable{
 	}
 
     public boolean isZero() {
-    	for(Map<Integer, LCCC> rowEntries : entries) {
-    		for(int i : rowEntries.keySet()) {
+    	for(TIntObjectHashMap<LCCC> rowEntries : entries) {
+    		for(int i : rowEntries.keys()) {
     			LCCC lc = rowEntries.get(i);
     			if(lc != null && lc.size() > 0) {
     				return false;
