@@ -133,21 +133,26 @@ public class CobMatrix implements Serializable{
 	  throw new IllegalArgumentException();*/
 	CobMatrix ret = new CobMatrix(cm.source, target);
 
-	for(int i = 0; i < target.n; ++i) {
-		Map<Integer, LCCC> rowEntries = entries.get(i);
-		Map<Integer, LCCC> retRowEntries = new HashMap<Integer, LCCC>();
-		for(int j : rowEntries.keySet()) {
-			for(int k : cm.entries.get(j).keySet()) {
-				LCCC lc = rowEntries.get(j).compose(cm.entries.get(j).get(k));
-				if(retRowEntries.containsKey(k)) {
-					retRowEntries.get(k).add(lc);
-				} else {
-					retRowEntries.put(k, lc);
+	for (int i = 0; i < target.n; ++i) {
+			Map<Integer, LCCC> rowEntries = entries.get(i);
+//			Map<Integer, LCCC> retRowEntries = new NonNullValueMapWrapper<Integer, LCCC>(
+//					new TreeMap<Integer, LCCC>());
+			Map<Integer, LCCC> retRowEntries = new TreeMap<Integer, LCCC>();
+			for (int j : rowEntries.keySet()) {
+				for (int k : cm.entries.get(j).keySet()) {
+					LCCC lc = rowEntries.get(j).compose(
+							cm.entries.get(j).get(k));
+					if (lc != null) {
+						if (retRowEntries.containsKey(k)) {
+							retRowEntries.get(k).add(lc);
+						} else {
+							retRowEntries.put(k, lc);
+						}
+					}
 				}
 			}
+			ret.entries.set(i, retRowEntries);
 		}
-		ret.entries.set(i, retRowEntries);
-	}
 	
 //	for (int i = 0; i < target.n; i++) {
 //	    LCCC rowi[] = new LCCC[cm.source.n];
@@ -208,6 +213,7 @@ public class CobMatrix implements Serializable{
 		Map<Integer, LCCC> cmRowEntries = cm.entries.get(i);
 		for(int j : cmRowEntries.keySet()) {
 			if(rowEntries.containsKey(j)) {
+				new HashMap();
 				rowEntries.get(j).add(cmRowEntries.get(j));
 			} else {
 				rowEntries.put(j, cmRowEntries.get(j));
