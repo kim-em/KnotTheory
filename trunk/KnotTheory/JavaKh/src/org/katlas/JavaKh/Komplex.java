@@ -600,15 +600,15 @@ public class Komplex implements Serializable {
 				newsm.pairings[j] = oldsm.pairings[j];
 			newsm = Cap.capCache.cache(newsm);
 			CannedCobordism prevcc = new CannedCobordism(oldsm, newsm);
-			prevcc.ncc = prevcc.nbc;
-			prevcc.connectedComponent = CannedCobordism.counting[prevcc.nbc];
-			prevcc.dots = new int[prevcc.ncc];
-			prevcc.genus = CannedCobordism.zeros[prevcc.ncc];
+//			prevcc.ncc = prevcc.nbc;
+//			prevcc.connectedComponent = CannedCobordism.counting[prevcc.nbc];
+//			prevcc.dots = new int[prevcc.ncc];
+//			prevcc.genus = CannedCobordism.zeros[prevcc.ncc];
 			CannedCobordism nextcc = new CannedCobordism(newsm, oldsm);
-			nextcc.ncc = nextcc.nbc;
-			nextcc.connectedComponent = CannedCobordism.counting[nextcc.nbc];
-			nextcc.dots = new int[nextcc.ncc];
-			nextcc.genus = CannedCobordism.zeros[nextcc.ncc];
+//			nextcc.ncc = nextcc.nbc;
+//			nextcc.connectedComponent = CannedCobordism.counting[nextcc.nbc];
+//			nextcc.dots = new int[nextcc.ncc];
+//			nextcc.genus = CannedCobordism.zeros[nextcc.ncc];
 			// the dots array for prevcc and nextcc is reused here
 			// this is safe because dots are not stored in the CC cache
 			for (int j = 0; j < (1 << oldsm.ncycles); j++) {
@@ -717,15 +717,15 @@ public class Komplex implements Serializable {
 				newsm.pairings[j] = oldsm.pairings[j];
 			newsm = Cap.capCache.cache(newsm);
 			CannedCobordism prevcc = new CannedCobordism(oldsm, newsm);
-			prevcc.ncc = prevcc.nbc;
-			prevcc.connectedComponent = CannedCobordism.counting[prevcc.nbc];
-			prevcc.dots = new int[prevcc.ncc];
-			prevcc.genus = CannedCobordism.zeros[prevcc.ncc];
+//			prevcc.ncc = prevcc.nbc;
+//			prevcc.connectedComponent = CannedCobordism.counting[prevcc.nbc];
+//			prevcc.dots = new int[prevcc.ncc];
+//			prevcc.genus = CannedCobordism.zeros[prevcc.ncc];
 			CannedCobordism nextcc = new CannedCobordism(newsm, oldsm);
-			nextcc.ncc = nextcc.nbc;
-			nextcc.connectedComponent = CannedCobordism.counting[nextcc.nbc];
-			nextcc.dots = new int[nextcc.ncc];
-			nextcc.genus = CannedCobordism.zeros[nextcc.ncc];
+//			nextcc.ncc = nextcc.nbc;
+//			nextcc.connectedComponent = CannedCobordism.counting[nextcc.nbc];
+//			nextcc.dots = new int[nextcc.ncc];
+//			nextcc.genus = CannedCobordism.zeros[nextcc.ncc];
 			for (int j = 0; j < (1 << oldsm.ncycles); j++) {
 				int nmod = 0;
 				int morechoices[] = new int[oldsm.ncycles], nmore = 0;
@@ -763,12 +763,12 @@ public class Komplex implements Serializable {
 						else
 							coeff = -1;
 						CannedCobordism newprev = new CannedCobordism(oldsm,
-								newsm);
-						newprev.ncc = newprev.nbc;
-						newprev.connectedComponent = CannedCobordism.counting[newprev.nbc];
-						newprev.genus = CannedCobordism.zeros[newprev.ncc];
-						newprev.dots = prevdots;
-						newprev.hpower = prevhpow;
+								newsm, CannedCobordism.zeros[CannedCobordism.numberOfBoundaryComponents(oldsm, newsm)], prevdots, prevhpow);
+//						newprev.ncc = newprev.nbc;
+//						newprev.connectedComponent = CannedCobordism.counting[newprev.nbc];
+//						newprev.genus = CannedCobordism.zeros[newprev.ncc];
+//						newprev.dots = prevdots;
+//						newprev.hpower = prevhpow;
 						prevlc.add(newprev, coeff);
 					}
 				}
@@ -996,11 +996,11 @@ public class Komplex implements Serializable {
 					columns[i + 1].smoothings[j], columns[i].smoothings[k]);
 			// assume delooping has been done
 			// make phicc an isomorphism
-			for (int a = 0; a < phicc.nbc; a++)
-				phicc.connectedComponent[a] = a;
-			phicc.ncc = phicc.nbc;
-			phicc.dots = new int[phicc.ncc];
-			phicc.genus = new int[phicc.ncc];
+//			for (int a = 0; a < phicc.nbc; a++)
+//				phicc.connectedComponent[a] = a;
+//			phicc.ncc = phicc.nbc;
+//			phicc.dots = new int[phicc.ncc];
+//			phicc.genus = new int[phicc.ncc];
 			LCCC philc = new LCCC(columns[i + 1].smoothings[j],
 					columns[i].smoothings[k]);
 			philc.add(phicc, n.inverse().multiply(-1));
