@@ -3,18 +3,23 @@ package org.katlas.JavaKh.utils;
 import gnu.trove.TIntObjectHashMap;
 
 import java.lang.ref.WeakReference;
+import java.util.Arrays;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.katlas.JavaKh.Cap;
 
 public class HashCodeCache<E> implements Cache<E> {
 
 	private static final Log log = LogFactory.getLog(HashCodeCache.class);
 	
 	private final TIntObjectHashMap<WeakReference<E>> hashmap = new TIntObjectHashMap<WeakReference<E>>();
+	private transient int hits = 0;
+	private transient int checks = 0;
 	
 	@Override
 	public E cache(E e) {
+		++checks;
 		int hash = e.hashCode();
 		if(hashmap.containsKey(hash)) {
 			E result = hashmap.get(hash).get();
@@ -25,6 +30,7 @@ public class HashCodeCache<E> implements Cache<E> {
 				} else if(!e.equals(result)) {
 					log.warn("Hash collision!");
 				} else {
+					++hits;
 					return result;
 				}
 			} else {
@@ -32,6 +38,9 @@ public class HashCodeCache<E> implements Cache<E> {
 				hashmap.remove(hash);
 			}
 		}
+//		if(e instanceof Cap) {
+//			log.info("Caching cap: " + Arrays.toString(((Cap)e).pairings) + " " + ((Cap)e).ncycles);
+//		}
 		hashmap.put(hash, new WeakReference<E>(e));
 		return e;
 	}
@@ -46,6 +55,7 @@ public class HashCodeCache<E> implements Cache<E> {
 		return hashmap.size();
 	}
 
-	
+	public int getNumberOfChecks() { return checks; }
+	public int getNumberOfHits() { return hits; }
 	
 }

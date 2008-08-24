@@ -2,11 +2,10 @@ package org.katlas.JavaKh.utils;
 
 public class TrivialCache<E> implements Cache<E> {
 
-	private int count = 0;
+	private transient int checks = 0;
 	
 	@Override
 	public E cache(E e) {
-		// System.out.println((++count) + e.hashCode());
 		return e;
 	}
 
@@ -17,6 +16,14 @@ public class TrivialCache<E> implements Cache<E> {
 	@Override
 	public int size() {
 		return 0;
+	}
+
+	public int getNumberOfHits() {
+		return 0;
+	}
+
+	public int getNumberOfChecks() {
+		return checks;
 	}
 
 	

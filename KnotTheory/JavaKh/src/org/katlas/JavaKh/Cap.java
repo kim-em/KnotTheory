@@ -1,5 +1,6 @@
 package org.katlas.JavaKh;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -60,6 +61,10 @@ public class Cap implements Comparable<Cap>, Serializable {
 	return true;
     }
 
+    public int hashCode() {
+    	return Arrays.hashCode(pairings) + ncycles;
+    }
+    
     public int compareTo(Cap c) {
 	if (n != c.n)
 	    return n - c.n;
@@ -78,7 +83,7 @@ public class Cap implements Comparable<Cap>, Serializable {
 	    co = new ComposeOutput(ci);
 	    compositionCache.put(ci, co);
 	}
-	return co.cap;
+	return capCache.cache(co.cap);
     }
 
     public Cap compose(int start, Cap c, int cstart, int nc,
@@ -90,7 +95,7 @@ public class Cap implements Comparable<Cap>, Serializable {
 	    compositionCache.put(ci, co);
 	}
 	System.arraycopy(co.joins, 0, joins, 0, co.joins.length);
-	return co.cap;
+	return capCache.cache(co.cap);
     }
 
     // horizontal composition
@@ -224,21 +229,21 @@ public class Cap implements Comparable<Cap>, Serializable {
     }
 
     // tests horizontal composition associativity
-    public static void main(String[] args) {
-	Cap caps[] = generate(6);
-	int joins[] = new int[10]; // dummy
-	for (int i = 0; i < caps.length; i++)
-	    for (int j = 0; j < caps.length; j++)
-		for (int k = 0; k < caps.length; k++) {
-		    Cap a = caps[i].compose(1, caps[j], 4, 2, joins).compose(5, caps[k], 3, 3, joins);
-		    Cap b = caps[i].compose(1, caps[j].compose(1, caps[k], 3, 3, joins), 0, 2, joins);
-		    if (!a.equals(b)) {
-			System.out.println("Error in associativity check");
-			return;
-		    }
-		}
-	System.out.println("Associativity checks OK");
-    }
+//    public static void main(String[] args) {
+//	Cap caps[] = generate(6);
+//	int joins[] = new int[10]; // dummy
+//	for (int i = 0; i < caps.length; i++)
+//	    for (int j = 0; j < caps.length; j++)
+//		for (int k = 0; k < caps.length; k++) {
+//		    Cap a = caps[i].compose(1, caps[j], 4, 2, joins).compose(5, caps[k], 3, 3, joins);
+//		    Cap b = caps[i].compose(1, caps[j].compose(1, caps[k], 3, 3, joins), 0, 2, joins);
+//		    if (!a.equals(b)) {
+//			System.out.println("Error in associativity check");
+//			return;
+//		    }
+//		}
+//	System.out.println("Associativity checks OK");
+//    }
 
     private class ComposeInput implements Comparable<ComposeInput> {
 	Cap a, b;
@@ -272,8 +277,4 @@ public class Cap implements Comparable<Cap>, Serializable {
 	    cap = ci.a.compose2(ci.astart, ci.b, ci.bstart, ci.nc, joins);
 	}
     }
-
-	public static  int cacheSize() {
-		return compositionCache.size();
-	}
 }
