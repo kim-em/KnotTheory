@@ -1214,10 +1214,9 @@ public class Komplex implements Serializable {
 		return timeFormatter.format(new Date()) + " " + dateFormatter.format(new Date()) + 
 			" Memory(Peak): " + memoryFormatter.format(memoryInUse()) + 
 			"(" + memoryFormatter.format(peakMemoryInUse) + ")" + 
-			" Cache size//hits: " + CannedCobordism.vcacheSize() + "/" + CannedCobordism.hcacheSize() + 
+			" Cache size//hits: " + // CannedCobordism.vcacheSize() + "/" + CannedCobordism.hcacheSize() + 
 				"/" + Cap.capCache.size() + "/" + CannedCobordism.cobordismCache.size() + 
-			"//" + Cap.capCache.getNumberOfHits() + "/" + Cap.capCache.getNumberOfChecks() +
-				"/" + CannedCobordism.cobordismCache.getNumberOfHits() + "/" + CannedCobordism.cobordismCache.getNumberOfChecks() +
+			"//" + CannedCobordism.cobordismCache.getNumberOfHits() + "/" + CannedCobordism.cobordismCache.getNumberOfChecks() +
 			" " + msg;
 
 	}
