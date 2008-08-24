@@ -28,6 +28,10 @@ public class Cap implements Comparable<Cap>, Serializable {
     	compositionCache = new TreeMap<ComposeInput, ComposeOutput>();
     }
  
+    public static void flushCache() {
+    	compositionCache.clear();
+    }
+ 
     
     public Cap(int n, int cycles) {
 	this.n = n;

@@ -65,6 +65,13 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
     	hcache = new TreeMap<HComposeInput, ComposeOutput>();
     	cobordismCache = new HashCodeCache<CannedCobordism>();
     }
+
+    public static void flushCache() {
+    	vcache.clear();
+    	hcache.clear();
+    	cobordismCache.flush();
+    }
+
     
 //    public static void main(String args[]) {
 //	int n = 8;
