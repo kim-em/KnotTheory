@@ -1372,7 +1372,7 @@ public class Komplex implements Serializable {
 			assert kom.check(true);
 			
 			// flush the cobordism cache again!
-//			CannedCobordism.flushCache();
+			CannedCobordism.flushCache();
 //			Cap.flushCache();
 			
 			if (!dryRun) {
@@ -1394,7 +1394,7 @@ public class Komplex implements Serializable {
 				in[pd[best][j]] = true;
 
 			// flush the cobordism cache
-//			CannedCobordism.flushCache();
+			CannedCobordism.flushCache();
 //			Cap.flushCache();
 			
 			if (caching) {
