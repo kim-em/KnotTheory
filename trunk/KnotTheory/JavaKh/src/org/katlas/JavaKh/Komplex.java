@@ -1232,6 +1232,8 @@ public class Komplex implements Serializable {
 	// adds crossings one by one
 	public static Komplex generateFast(int pd[][], int xsigns[],
 			boolean reorderCrossings, boolean caching, boolean inMemory) {
+		invokeGC();
+		
 		if (pd.length == 0) { // assume unknot
 			Komplex kom = new Komplex(1, true);
 			kom.columns[0] = new SmoothingColumn(1);
