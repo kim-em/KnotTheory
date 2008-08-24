@@ -6,6 +6,7 @@ public class TrivialCache<E> implements Cache<E> {
 	
 	@Override
 	public E cache(E e) {
+		++checks;
 		return e;
 	}
 
