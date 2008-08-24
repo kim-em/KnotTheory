@@ -40,6 +40,11 @@ public class HashCodeCache<E> implements Cache<E> {
 		hashmap.clear();
 	}
 
+	@Override
+	public int size() {
+		return hashmap.size();
+	}
+
 	
 	
 }

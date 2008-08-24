@@ -14,4 +14,10 @@ public class TrivialCache<E> implements Cache<E> {
 	public void flush() {
 	}
 
+	@Override
+	public int size() {
+		return 0;
+	}
+
+	
 }

@@ -1203,12 +1203,15 @@ public class Komplex implements Serializable {
 	private static final DateFormat timeFormatter =
 	    DateFormat.getTimeInstance(DateFormat.DEFAULT,
                 new Locale("en", "US"));
+	private static final DateFormat dateFormatter =
+	    DateFormat.getDateInstance(DateFormat.DEFAULT,
+                new Locale("en", "US"));
 	
 	private static final NumberFormat memoryFormatter = new DecimalFormat("###,###,###,###");
 	
 	private static String prependLoggingStatus(String msg) {
 //		return "Time: " + System.currentTimeMillis() + " Memory: " + memoryInUse() + " " + msg;
-		return "Time: " + timeFormatter.format(new Date()) + " Memory: " + memoryFormatter.format(memoryInUse()) + " Cache size: " + CannedCobordism.vcacheSize() + "/" + CannedCobordism.hcacheSize() + "/" + Cap.cacheSize() + " " + msg;
+		return "Time: " + timeFormatter.format(new Date()) + " " + dateFormatter.format(new Date()) + " Memory: " + memoryFormatter.format(memoryInUse()) + " Peak Memory: " + memoryFormatter.format(peakMemoryInUse) + " Cache sizes: " + CannedCobordism.vcacheSize() + "/" + CannedCobordism.hcacheSize() + "/" + Cap.cacheSize() + "/" + CannedCobordism.cobordismCache.size() + " " + msg;
 
 	}
 	
