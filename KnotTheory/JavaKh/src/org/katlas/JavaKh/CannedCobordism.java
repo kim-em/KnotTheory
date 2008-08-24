@@ -51,24 +51,24 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 
     static Cache<CannedCobordism> cobordismCache = new HashCodeCache<CannedCobordism>();
 
-    static Map<VComposeInput, ComposeOutput> vcache = new TreeMap<VComposeInput, ComposeOutput>();
-    static Map<HComposeInput, ComposeOutput> hcache = new TreeMap<HComposeInput, ComposeOutput>();
+//    static Map<VComposeInput, ComposeOutput> vcache = new TreeMap<VComposeInput, ComposeOutput>();
+//    static Map<HComposeInput, ComposeOutput> hcache = new TreeMap<HComposeInput, ComposeOutput>();
 
     public static void disableCache() {
-    	vcache = new AlwaysEmptyMap<VComposeInput, ComposeOutput>();
-    	hcache = new AlwaysEmptyMap<HComposeInput, ComposeOutput>();
-//    	cobordismCache = new TrivialCache<CannedCobordism>();
+//    	vcache = new AlwaysEmptyMap<VComposeInput, ComposeOutput>();
+//    	hcache = new AlwaysEmptyMap<HComposeInput, ComposeOutput>();
+    	cobordismCache = new TrivialCache<CannedCobordism>();
     }
     
     public static void enableCache() {
-    	vcache = new TreeMap<VComposeInput, ComposeOutput>();
-    	hcache = new TreeMap<HComposeInput, ComposeOutput>();
+//    	vcache = new TreeMap<VComposeInput, ComposeOutput>();
+//    	hcache = new TreeMap<HComposeInput, ComposeOutput>();
     	cobordismCache = new HashCodeCache<CannedCobordism>();
     }
 
     public static void flushCache() {
-    	vcache.clear();
-    	hcache.clear();
+//    	vcache.clear();
+//    	hcache.clear();
     	cobordismCache.flush();
     }
 
@@ -430,21 +430,21 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	return true;
     }
     
-    public CannedCobordism compose(CannedCobordism cc) {// cc on top of this
-	assert top.equals(cc.bottom);
-	if (ncc + cc.ncc > 20)
-	    return compose2(cc);
-	VComposeInput ci = new VComposeInput(this, cc);
-	ComposeOutput co = vcache.get(ci);
-	if (co == null) {
-	    co = new ComposeOutput(this, cc);
-	    vcache.put(ci, co);
-	}
-	return co.get(this, cc);
-    }
+//    public CannedCobordism compose(CannedCobordism cc) {// cc on top of this
+//	assert top.equals(cc.bottom);
+//	if (ncc + cc.ncc > 20)
+//	    return compose2(cc);
+//	VComposeInput ci = new VComposeInput(this, cc);
+//	ComposeOutput co = vcache.get(ci);
+//	if (co == null) {
+//	    co = new ComposeOutput(this, cc);
+//	    vcache.put(ci, co);
+//	}
+//	return co.get(this, cc);
+//    }
 
     // new vertical composition
-    public CannedCobordism compose2(CannedCobordism cc) {//cc on top of this
+    public CannedCobordism compose(CannedCobordism cc) {//cc on top of this
 	assert top.equals(cc.bottom);
 
 	reverseMaps();
@@ -785,21 +785,21 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	return cobordismCache.cache(ret);
     }
     
-    public CannedCobordism compose(int start, CannedCobordism cc, int cstart,
-				   int nc) {
-	if (ncc + cc.ncc > 20)
-	    return compose2(start, cc, cstart, nc);
-	HComposeInput ci = new HComposeInput(this, start, cc, cstart, nc);
-	ComposeOutput co = hcache.get(ci);
-	if (co == null) {
-	    co = new ComposeOutput(this, start, cc, cstart, nc);
-	    hcache.put(ci, co);
-	}
-	return co.get(this, cc);
-    }
+//    public CannedCobordism compose(int start, CannedCobordism cc, int cstart,
+//				   int nc) {
+//	if (ncc + cc.ncc > 20)
+//	    return compose2(start, cc, cstart, nc);
+//	HComposeInput ci = new HComposeInput(this, start, cc, cstart, nc);
+//	ComposeOutput co = hcache.get(ci);
+//	if (co == null) {
+//	    co = new ComposeOutput(this, start, cc, cstart, nc);
+//	    hcache.put(ci, co);
+//	}
+//	return co.get(this, cc);
+//    }
 
     // horizontal composition
-    public CannedCobordism compose2(int start, CannedCobordism cc, int cstart,
+    public CannedCobordism compose(int start, CannedCobordism cc, int cstart,
 				    int nc) {
 	assert check() && cc.check();
 	/*if (!check() || !cc.check())
@@ -1281,176 +1281,176 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
     return cobordismCache.cache(ret);
     }
 
-    private class VComposeInput implements Comparable<VComposeInput> {
-	int n;
-	Cap top, middle, bottom;
-	int topnbc, botnbc;
-	int topncc, botncc;
-	int topConnectedComponent[], botConnectedComponent[];
-	public VComposeInput(CannedCobordism a, CannedCobordism b) {
-	    assert a.n == b.n;
-	    n = a.n;
-	    assert a.top.equals(b.bottom);
-	    top = b.top;
-	    middle = b.bottom;
-	    bottom = a.bottom;
-	    topnbc = b.nbc;
-	    botnbc = a.nbc;
-	    topncc = b.ncc;
-	    botncc = a.ncc;
-	    topConnectedComponent = b.connectedComponent;
-	    botConnectedComponent = a.connectedComponent;
-	}
+//    private class VComposeInput implements Comparable<VComposeInput> {
+//	int n;
+//	Cap top, middle, bottom;
+//	int topnbc, botnbc;
+//	int topncc, botncc;
+//	int topConnectedComponent[], botConnectedComponent[];
+//	public VComposeInput(CannedCobordism a, CannedCobordism b) {
+//	    assert a.n == b.n;
+//	    n = a.n;
+//	    assert a.top.equals(b.bottom);
+//	    top = b.top;
+//	    middle = b.bottom;
+//	    bottom = a.bottom;
+//	    topnbc = b.nbc;
+//	    botnbc = a.nbc;
+//	    topncc = b.ncc;
+//	    botncc = a.ncc;
+//	    topConnectedComponent = b.connectedComponent;
+//	    botConnectedComponent = a.connectedComponent;
+//	}
+//
+//	public int compareTo(VComposeInput ci) {
+//	    if (n != ci.n)
+//		return n - ci.n;
+//	    if (topnbc != ci.topnbc)
+//		return topnbc - ci.topnbc;
+//	    if (botnbc != ci.botnbc)
+//		return botnbc - ci.botnbc;
+//	    if (topncc != ci.topncc)
+//		return topncc - ci.topncc;
+//	    if (botncc != ci.botncc)
+//		return botncc - ci.botncc;
+//	    for (int i = 0; i < topnbc; i++)
+//		if (topConnectedComponent[i] != ci.topConnectedComponent[i])
+//		    return topConnectedComponent[i] - ci.topConnectedComponent[i];
+//	    for (int i = 0; i < botnbc; i++)
+//		if (botConnectedComponent[i] != ci.botConnectedComponent[i])
+//		    return botConnectedComponent[i] - ci.botConnectedComponent[i];
+//	    int i = top.compareTo(ci.top);
+//	    if (i != 0)
+//		return i;
+//	    i = middle.compareTo(ci.middle);
+//	    if (i != 0)
+//		return i;
+//	    return bottom.compareTo(ci.bottom);
+//	}
+//    }
+//
+//    private class ComposeOutput {
+//	private final CannedCobordism out;
+//	public ComposeOutput(CannedCobordism a, CannedCobordism b) {
+//	    CannedCobordism bot = new CannedCobordism(a);
+//	    bot.genus = new int[bot.ncc];
+//	    bot.dots = new int[bot.ncc];
+//	    for (int i = 0; i < bot.ncc; i++) {
+//		bot.genus[i] = 1 << (i + 10);
+//		bot.dots[i] = 1 << i;
+//	    }
+//	    CannedCobordism top = new CannedCobordism(b);
+//	    top.genus = new int[top.ncc];
+//	    top.dots = new int[top.ncc];
+//	    for (int i = 0; i < top.ncc; i++) {
+//		top.genus[i] = 1 << (i + 10 + bot.ncc);
+//		top.dots[i] = 1 << (i + bot.ncc);
+//	    }
+//	    out = bot.compose2(top);
+//	}
+//
+//	public ComposeOutput(CannedCobordism a, int astart,
+//			     CannedCobordism b, int bstart, int nc) {
+//	    CannedCobordism aa = new CannedCobordism(a);
+//	    aa.genus = new int[a.ncc];
+//	    aa.dots = new int[a.ncc];
+//	    for (int i = 0; i < a.ncc; i++) {
+//		aa.genus[i] = 1 << (i + 10);
+//		aa.dots[i] = 1 << i;
+//	    }
+//	    CannedCobordism bb = new CannedCobordism(b);
+//	    bb.genus = new int[b.ncc];
+//	    bb.dots = new int[b.ncc];
+//	    for (int i = 0; i < b.ncc; i++) {
+//		bb.genus[i] = 1 << (i + 10 + a.ncc);
+//		bb.dots[i] = 1 << (i + a.ncc);
+//	    }
+//	    out = aa.compose2(astart, bb, bstart, nc);
+//	}
+//
+//	// assumes a and b are appropriate CannedCobordisms
+//	public CannedCobordism get(CannedCobordism a, CannedCobordism b) {
+//	    CannedCobordism ret = new CannedCobordism(out);
+//	    ret.hpower = a.hpower + b.hpower;
+//	    ret.genus = new int[ret.ncc];
+//	    ret.dots = new int[ret.ncc];
+//	    for (int i = 0; i < ret.ncc; i++) {
+//		for (int j = 0; j < a.ncc; j++)
+//		    if ((out.genus[i] & (1 << (10 + j))) != 0)
+//			ret.genus[i] += a.genus[j];
+//		for (int j = 0; j < b.ncc; j++)
+//		    if ((out.genus[i] & (1 << (10 + a.ncc + j))) != 0)
+//			ret.genus[i] += b.genus[j];
+//		ret.genus[i] += out.genus[i] & ((1 << 10) - 1);
+//		for (int j = 0; j < a.ncc; j++)
+//		    if ((out.dots[i] & (1 << j)) != 0)
+//			ret.dots[i] += a.dots[j];
+//		for (int j = 0; j < b.ncc; j++)
+//		    if ((out.dots[i] & (1 << (j + a.ncc))) != 0)
+//			ret.dots[i] += b.dots[j];
+//	    }
+//	    return cobordismCache.cache(ret);
+////	    return ret;
+//	}
+//    }
+//
+//    private class HComposeInput implements Comparable<HComposeInput> {
+//	int an, bn;
+//	Cap atop, abottom, btop, bbottom;
+//	int anbc, bnbc, ancc, bncc;
+//	int aConnectedComponent[], bConnectedComponent[];
+//	int astart, bstart, nc;
+//	public HComposeInput(CannedCobordism a, int astart,
+//			     CannedCobordism b, int bstart, int nc) {
+//	    an = a.n; bn = b.n;
+//	    atop = a.top; abottom = a.bottom;
+//	    btop = b.top; bbottom = b.bottom;
+//	    anbc = a.nbc; ancc = a.ncc;
+//	    bnbc = b.nbc; bncc = b.ncc;
+//	    aConnectedComponent = a.connectedComponent;
+//	    bConnectedComponent = b.connectedComponent;
+//	    this.astart = astart; this.bstart = bstart; this.nc = nc;
+//	}
+//
+//	public int compareTo(HComposeInput ci) {
+//	    if (astart != ci.astart)
+//		return astart - ci.astart;
+//	    if (bstart != ci.bstart)
+//		return bstart - ci.bstart;
+//	    if (nc != ci.nc)
+//		return nc - ci.nc;
+//	    if (an != ci.an)
+//		return an - ci.an;
+//	    if (bn != ci.bn)
+//		return bn - ci.bn;
+//	    if (anbc != ci.anbc)
+//		return anbc - ci.anbc;
+//	    if (bnbc != ci.bnbc)
+//		return bnbc - ci.bnbc;
+//	    if (ancc != ci.ancc)
+//		return ancc - ci.ancc;
+//	    if (bncc != ci.bncc)
+//		return bncc - ci.bncc;
+//	    for (int i = 0; i < anbc; i++)
+//		if (aConnectedComponent[i] != ci.aConnectedComponent[i])
+//		    return aConnectedComponent[i] - ci.aConnectedComponent[i];
+//	    for (int i = 0; i < bnbc; i++)
+//		if (bConnectedComponent[i] != ci.bConnectedComponent[i])
+//		    return bConnectedComponent[i] - ci.bConnectedComponent[i];
+//	    int i = atop.compareTo(ci.atop);
+//	    if (i != 0) return i;
+//	    i = btop.compareTo(ci.btop);
+//	    if (i != 0) return i;
+//	    i = abottom.compareTo(ci.abottom);
+//	    if (i != 0) return i;
+//	    return bbottom.compareTo(ci.bbottom);
+//	}
+//    }
 
-	public int compareTo(VComposeInput ci) {
-	    if (n != ci.n)
-		return n - ci.n;
-	    if (topnbc != ci.topnbc)
-		return topnbc - ci.topnbc;
-	    if (botnbc != ci.botnbc)
-		return botnbc - ci.botnbc;
-	    if (topncc != ci.topncc)
-		return topncc - ci.topncc;
-	    if (botncc != ci.botncc)
-		return botncc - ci.botncc;
-	    for (int i = 0; i < topnbc; i++)
-		if (topConnectedComponent[i] != ci.topConnectedComponent[i])
-		    return topConnectedComponent[i] - ci.topConnectedComponent[i];
-	    for (int i = 0; i < botnbc; i++)
-		if (botConnectedComponent[i] != ci.botConnectedComponent[i])
-		    return botConnectedComponent[i] - ci.botConnectedComponent[i];
-	    int i = top.compareTo(ci.top);
-	    if (i != 0)
-		return i;
-	    i = middle.compareTo(ci.middle);
-	    if (i != 0)
-		return i;
-	    return bottom.compareTo(ci.bottom);
-	}
-    }
-
-    private class ComposeOutput {
-	private final CannedCobordism out;
-	public ComposeOutput(CannedCobordism a, CannedCobordism b) {
-	    CannedCobordism bot = new CannedCobordism(a);
-	    bot.genus = new int[bot.ncc];
-	    bot.dots = new int[bot.ncc];
-	    for (int i = 0; i < bot.ncc; i++) {
-		bot.genus[i] = 1 << (i + 10);
-		bot.dots[i] = 1 << i;
-	    }
-	    CannedCobordism top = new CannedCobordism(b);
-	    top.genus = new int[top.ncc];
-	    top.dots = new int[top.ncc];
-	    for (int i = 0; i < top.ncc; i++) {
-		top.genus[i] = 1 << (i + 10 + bot.ncc);
-		top.dots[i] = 1 << (i + bot.ncc);
-	    }
-	    out = bot.compose2(top);
-	}
-
-	public ComposeOutput(CannedCobordism a, int astart,
-			     CannedCobordism b, int bstart, int nc) {
-	    CannedCobordism aa = new CannedCobordism(a);
-	    aa.genus = new int[a.ncc];
-	    aa.dots = new int[a.ncc];
-	    for (int i = 0; i < a.ncc; i++) {
-		aa.genus[i] = 1 << (i + 10);
-		aa.dots[i] = 1 << i;
-	    }
-	    CannedCobordism bb = new CannedCobordism(b);
-	    bb.genus = new int[b.ncc];
-	    bb.dots = new int[b.ncc];
-	    for (int i = 0; i < b.ncc; i++) {
-		bb.genus[i] = 1 << (i + 10 + a.ncc);
-		bb.dots[i] = 1 << (i + a.ncc);
-	    }
-	    out = aa.compose2(astart, bb, bstart, nc);
-	}
-
-	// assumes a and b are appropriate CannedCobordisms
-	public CannedCobordism get(CannedCobordism a, CannedCobordism b) {
-	    CannedCobordism ret = new CannedCobordism(out);
-	    ret.hpower = a.hpower + b.hpower;
-	    ret.genus = new int[ret.ncc];
-	    ret.dots = new int[ret.ncc];
-	    for (int i = 0; i < ret.ncc; i++) {
-		for (int j = 0; j < a.ncc; j++)
-		    if ((out.genus[i] & (1 << (10 + j))) != 0)
-			ret.genus[i] += a.genus[j];
-		for (int j = 0; j < b.ncc; j++)
-		    if ((out.genus[i] & (1 << (10 + a.ncc + j))) != 0)
-			ret.genus[i] += b.genus[j];
-		ret.genus[i] += out.genus[i] & ((1 << 10) - 1);
-		for (int j = 0; j < a.ncc; j++)
-		    if ((out.dots[i] & (1 << j)) != 0)
-			ret.dots[i] += a.dots[j];
-		for (int j = 0; j < b.ncc; j++)
-		    if ((out.dots[i] & (1 << (j + a.ncc))) != 0)
-			ret.dots[i] += b.dots[j];
-	    }
-	    return cobordismCache.cache(ret);
-//	    return ret;
-	}
-    }
-
-    private class HComposeInput implements Comparable<HComposeInput> {
-	int an, bn;
-	Cap atop, abottom, btop, bbottom;
-	int anbc, bnbc, ancc, bncc;
-	int aConnectedComponent[], bConnectedComponent[];
-	int astart, bstart, nc;
-	public HComposeInput(CannedCobordism a, int astart,
-			     CannedCobordism b, int bstart, int nc) {
-	    an = a.n; bn = b.n;
-	    atop = a.top; abottom = a.bottom;
-	    btop = b.top; bbottom = b.bottom;
-	    anbc = a.nbc; ancc = a.ncc;
-	    bnbc = b.nbc; bncc = b.ncc;
-	    aConnectedComponent = a.connectedComponent;
-	    bConnectedComponent = b.connectedComponent;
-	    this.astart = astart; this.bstart = bstart; this.nc = nc;
-	}
-
-	public int compareTo(HComposeInput ci) {
-	    if (astart != ci.astart)
-		return astart - ci.astart;
-	    if (bstart != ci.bstart)
-		return bstart - ci.bstart;
-	    if (nc != ci.nc)
-		return nc - ci.nc;
-	    if (an != ci.an)
-		return an - ci.an;
-	    if (bn != ci.bn)
-		return bn - ci.bn;
-	    if (anbc != ci.anbc)
-		return anbc - ci.anbc;
-	    if (bnbc != ci.bnbc)
-		return bnbc - ci.bnbc;
-	    if (ancc != ci.ancc)
-		return ancc - ci.ancc;
-	    if (bncc != ci.bncc)
-		return bncc - ci.bncc;
-	    for (int i = 0; i < anbc; i++)
-		if (aConnectedComponent[i] != ci.aConnectedComponent[i])
-		    return aConnectedComponent[i] - ci.aConnectedComponent[i];
-	    for (int i = 0; i < bnbc; i++)
-		if (bConnectedComponent[i] != ci.bConnectedComponent[i])
-		    return bConnectedComponent[i] - ci.bConnectedComponent[i];
-	    int i = atop.compareTo(ci.atop);
-	    if (i != 0) return i;
-	    i = btop.compareTo(ci.btop);
-	    if (i != 0) return i;
-	    i = abottom.compareTo(ci.abottom);
-	    if (i != 0) return i;
-	    return bbottom.compareTo(ci.bbottom);
-	}
-    }
-
-	public static int vcacheSize() {
-		return vcache.size();
-	}
-	public static int hcacheSize() {
-		return hcache.size();
-	}
+//	public static int vcacheSize() {
+//		return vcache.size();
+//	}
+//	public static int hcacheSize() {
+//		return hcache.size();
+//	}
 }
