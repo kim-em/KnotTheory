@@ -35,19 +35,19 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	return ret;
     }
 
-    public int n;
+    public final int n;
     public int hpower;
-    public Cap top, bottom;
-    public int nbc; // number of boundary components
-    public int offtop, offbot; // offsets for numbering cycles in top, bottom
-    public int component[]; // which boundary component each edge belongs to
+    public final Cap top, bottom;
+    public final int nbc; // number of boundary components
+    public final int offtop, offbot; // offsets for numbering cycles in top, bottom
+    public final int component[]; // which boundary component each edge belongs to
     public int ncc; // number of connected components
-    public int connectedComponent[]; // which connected component each boundary component belongs to
-    public int dots[]; // how many dots each connected component has
+    public final int connectedComponent[]; // which connected component each boundary component belongs to
+    public final int dots[]; // how many dots each connected component has
     public int genus[]; // the genus of each connected component
 
-    public transient int boundaryComponents[][]; // which boundary components are connected to each connected component
-    public transient int edges[][]; // which edges are part of each mixed boundary component
+    private transient int boundaryComponents[][]; // which boundary components are connected to each connected component
+    private transient int edges[][]; // which edges are part of each mixed boundary component
 
     static Cache<CannedCobordism> cobordismCache = new TrivialCache<CannedCobordism>();
 
@@ -94,37 +94,84 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	  genus = new int[ncc];*/
     }
 
-    public CannedCobordism(Cap t, Cap b) {
-	top = t;
-	bottom = b;
-	n = t.n; // assume b.n == t.n
-
-	component = new int[n];
-	for (int i = 0; i < n; i++)
-	    component[i] = -1;
-	nbc = 0;
-	for (int i = 0; i < n; i++)
-	    if (component[i] == -1) {
-		int j = i;
-		do {
-		    component[j] = nbc;
-		    j = top.pairings[j];
-		    component[j] = nbc;
-		    j = bottom.pairings[j];
-		} while (j != i);
-		nbc++;
-	    }
-	offtop = nbc;
-	nbc += top.ncycles;
-	offbot = nbc;
-	nbc += bottom.ncycles;
-
-	connectedComponent = new int[nbc];
-
-	// let ncc and connectedComponent be set elsewhere
-	// let dots and genus be created elsewhere
-	// hpower = 0
+    public static int numberOfBoundaryComponents(Cap t, Cap b) {
+    	return new CannedCobordism(t, b).nbc;
     }
+    
+    public CannedCobordism(Cap t, Cap b) {
+    	top = t;
+    	bottom = b;
+    	n = t.n; // assume b.n == t.n
+
+    	component = new int[n];
+    	for (int i = 0; i < n; i++)
+    	    component[i] = -1;
+    	int nbc_ = 0;
+    	for (int i = 0; i < n; i++)
+    	    if (component[i] == -1) {
+    		int j = i;
+    		do {
+    		    component[j] = nbc_;
+    		    j = top.pairings[j];
+    		    component[j] = nbc_;
+    		    j = bottom.pairings[j];
+    		} while (j != i);
+    		nbc_++;
+    	    }
+    	offtop = nbc_;
+    	nbc_ += top.ncycles;
+    	offbot = nbc_;
+    	nbc_ += bottom.ncycles;
+    	nbc = nbc_;
+    	
+//    	connectedComponent = new int[nbc];
+
+    	ncc = nbc;
+    	connectedComponent = counting[nbc];
+    	genus = dots = zeros[ncc];
+    	
+    	// let ncc and connectedComponent be set elsewhere
+    	// let dots and genus be created elsewhere
+    	// hpower = 0
+        }
+
+    public CannedCobordism(Cap t, Cap b, int[] genus, int[] dots, int hpower) {
+    	top = t;
+    	bottom = b;
+    	n = t.n; // assume b.n == t.n
+
+    	component = new int[n];
+    	for (int i = 0; i < n; i++)
+    	    component[i] = -1;
+    	int nbc_ = 0;
+    	for (int i = 0; i < n; i++)
+    	    if (component[i] == -1) {
+    		int j = i;
+    		do {
+    		    component[j] = nbc_;
+    		    j = top.pairings[j];
+    		    component[j] = nbc_;
+    		    j = bottom.pairings[j];
+    		} while (j != i);
+    		nbc_++;
+    	    }
+    	offtop = nbc_;
+    	nbc_ += top.ncycles;
+    	offbot = nbc_;
+    	nbc_ += bottom.ncycles;
+    	nbc = nbc_;
+    	
+//    	connectedComponent = new int[nbc];
+
+    	ncc = nbc;
+    	connectedComponent = counting[nbc];
+    	this.genus = genus;
+    	this.dots = dots;
+    	this.hpower = hpower;
+    	// let ncc and connectedComponent be set elsewhere
+    	// let dots and genus be created elsewhere
+    	// hpower = 0
+        }
 
     public void reverseMaps() { // fills the boundaryComponents array
 	if (boundaryComponents != null) // already done
@@ -255,9 +302,9 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	if (c.ncycles != 0)
 	    throw new IllegalArgumentException("Cycles in cap not supported by CannedCobordism.isomorphism()");
 	CannedCobordism ret = new CannedCobordism(c, c);
-	ret.ncc = ret.nbc;
-	ret.connectedComponent = counting[ret.nbc];
-	ret.genus = ret.dots = zeros[ret.ncc];
+//	ret.ncc = ret.nbc;
+//	ret.connectedComponent = counting[ret.nbc];
+//	ret.genus = ret.dots = zeros[ret.ncc];
 	return cobordismCache.cache(ret);
     }
 
@@ -1434,5 +1481,8 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	}
 	public static int hcacheSize() {
 		return hcache.size();
+	}
+	public int[] getBoundaryComponents(int i) {
+		return boundaryComponents[i];
 	}
 }
