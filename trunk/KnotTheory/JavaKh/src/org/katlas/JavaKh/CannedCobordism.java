@@ -49,7 +49,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
     public transient int boundaryComponents[][]; // which boundary components are connected to each connected component
     public transient int edges[][]; // which edges are part of each mixed boundary component
 
-    static Cache<CannedCobordism> cobordismCache = new TrivialCache<CannedCobordism>();
+    static Cache<CannedCobordism> cobordismCache = new HashCodeCache<CannedCobordism>();
 
     static Map<VComposeInput, ComposeOutput> vcache = new TreeMap<VComposeInput, ComposeOutput>();
     static Map<HComposeInput, ComposeOutput> hcache = new TreeMap<HComposeInput, ComposeOutput>();
