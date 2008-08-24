@@ -1,18 +1,17 @@
 package org.katlas.JavaKh.utils;
 
+import gnu.trove.TIntObjectHashMap;
+
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.katlas.JavaKh.Komplex;
 
 public class HashCodeCache<E> implements Cache<E> {
 
 	private static final Log log = LogFactory.getLog(HashCodeCache.class);
 	
-	private final Map<Integer, WeakReference<E>> hashmap = new HashMap<Integer, WeakReference<E>>();
+	private final TIntObjectHashMap<WeakReference<E>> hashmap = new TIntObjectHashMap<WeakReference<E>>();
 	
 	@Override
 	public E cache(E e) {
@@ -25,12 +24,11 @@ public class HashCodeCache<E> implements Cache<E> {
 					log.warn("Hashcode has mysteriously changed.");
 				} else if(!e.equals(result)) {
 					log.warn("Hash collision!");
-//					e.equals(result);
-//					e.hashCode();
-//					result.hashCode();
 					return e;
 				}
 				return result;
+			} else {
+				hashmap.remove(hash);
 			}
 		}
 		hashmap.put(hash, new WeakReference<E>(e));
