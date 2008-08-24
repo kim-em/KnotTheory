@@ -19,19 +19,19 @@ public class Cap implements Comparable<Cap>, Serializable {
     
     static Cache<Cap> capCache = new HashCodeCache<Cap>();
     
-    private static Map<ComposeInput, ComposeOutput> compositionCache = new TreeMap<ComposeInput, ComposeOutput>();
-
-    public static void disableCache() {
-    	compositionCache = new AlwaysEmptyMap<ComposeInput, ComposeOutput>();
-    }
-    
-    public static void enableCache() {
-    	compositionCache = new TreeMap<ComposeInput, ComposeOutput>();
-    }
- 
-    public static void flushCache() {
-    	compositionCache.clear();
-    }
+//    private static Map<ComposeInput, ComposeOutput> compositionCache = new TreeMap<ComposeInput, ComposeOutput>();
+//
+//    public static void disableCache() {
+//    	compositionCache = new AlwaysEmptyMap<ComposeInput, ComposeOutput>();
+//    }
+//    
+//    public static void enableCache() {
+//    	compositionCache = new TreeMap<ComposeInput, ComposeOutput>();
+//    }
+// 
+//    public static void flushCache() {
+//    	compositionCache.clear();
+//    }
  
     
     public Cap(int n, int cycles) {
@@ -78,22 +78,22 @@ public class Cap implements Comparable<Cap>, Serializable {
 
     public Cap compose(int start, Cap c, int cstart, int nc) {
 	ComposeInput ci = new ComposeInput(this, start, c, cstart, nc);
-	ComposeOutput co = (ComposeOutput) compositionCache.get(ci);
-	if (co == null) {
-	    co = new ComposeOutput(ci);
-	    compositionCache.put(ci, co);
-	}
+//	ComposeOutput co = (ComposeOutput) compositionCache.get(ci);
+//	if (co == null) {
+	    ComposeOutput co = new ComposeOutput(ci);
+//	    compositionCache.put(ci, co);
+//	}
 	return capCache.cache(co.cap);
     }
 
     public Cap compose(int start, Cap c, int cstart, int nc,
 		       int joins[]) {
 	ComposeInput ci = new ComposeInput(this, start, c, cstart, nc);
-	ComposeOutput co = (ComposeOutput) compositionCache.get(ci);
-	if (co == null) {
-	    co = new ComposeOutput(ci);
-	    compositionCache.put(ci, co);
-	}
+//	ComposeOutput co = (ComposeOutput) compositionCache.get(ci);
+//	if (co == null) {
+	    ComposeOutput co = new ComposeOutput(ci);
+//	    compositionCache.put(ci, co);
+//	}
 	System.arraycopy(co.joins, 0, joins, 0, co.joins.length);
 	return capCache.cache(co.cap);
     }
