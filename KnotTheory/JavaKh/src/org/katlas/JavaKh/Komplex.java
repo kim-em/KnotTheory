@@ -1186,6 +1186,8 @@ public class Komplex implements Serializable {
 
 	private static long timeSinceLastLap = System.currentTimeMillis();
 
+	private static long peakMemoryInUse;
+
 	private static long timeElapsed() {
 		long r = System.currentTimeMillis() - timeSinceLastLap;
 		timeSinceLastLap = System.currentTimeMillis();
@@ -1193,7 +1195,9 @@ public class Komplex implements Serializable {
 	}
 	
 	private static long memoryInUse() {
-		return (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+		long m = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+		if(m > peakMemoryInUse) peakMemoryInUse = m;
+		return m;
 	}	
 
 	private static final DateFormat timeFormatter =
@@ -1390,8 +1394,12 @@ public class Komplex implements Serializable {
 
 		}
 
-		if (JavaKh.using_h && nedges == 2)
+		if (JavaKh.using_h && nedges == 2) {
 			kom.finalizeH();
+		}
+		
+		log.info("Peak memory usage: " + memoryFormatter.format(peakMemoryInUse));
+		
 		return kom;
 	}
 

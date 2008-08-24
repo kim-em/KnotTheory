@@ -182,19 +182,24 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 
     public int hashCode() {
 	int r = n;
-	for (int i = 0; i < n; i++) {
-	    r += top.pairings[i] << (i % 16);
-	    r += bottom.pairings[i] << (i % 16);
-	}
+//	for (int i = 0; i < n; i++) {
+//	    r += top.pairings[i] << (i % 16);
+//	    r += bottom.pairings[i] << (i % 16);
+//	}
+	r += top.pairings.hashCode();
+	r += bottom.pairings.hashCode() << 1;
 	r += top.ncycles;
 	r += bottom.ncycles << 16;
 	r += nbc << 4;
 	r += ncc << 20;
+//	r += dots.hashCode();
+//	r += genus.hashCode();
+//	r += connectedComponent.hashCode();
 	for (int i = 0; i < nbc; i++)
-	    r += connectedComponent[i] << (i % 16);
+	    r += (i+1)*connectedComponent[i] << (i % 16);
 	for (int i = 0; i < ncc; i++) {
-	    r += dots[i] << (i % 16);
-	    r += genus[i] << ((i + 9) % 16);
+	    r += (i+1)*dots[i] << (i % 16);
+	    r += (i+1)*genus[i] << ((i + 9) % 16);
 	}
 	r -= hpower;
 	return r;
@@ -259,6 +264,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	ret.connectedComponent = counting[ret.nbc];
 	ret.genus = ret.dots = zeros[ret.ncc];
 	return cobordismCache.cache(ret);
+//	return ret;
     }
 
 //    public static CannedCobordism generateDisconnected(Cap t, Cap b) {
@@ -766,6 +772,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	}
 	// and we are done (hopefully)
 	assert ret.check();
+//	return ret;
 	return cobordismCache.cache(ret);
     }
     
@@ -1261,7 +1268,8 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	    ret.genus[i + rncc] = sortarr[i][0];
 
 	assert ret.check();
-	return cobordismCache.cache(ret);
+//	return ret;
+    return cobordismCache.cache(ret);
     }
 
     private class VComposeInput implements Comparable<VComposeInput> {
@@ -1313,7 +1321,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
     }
 
     private class ComposeOutput {
-	private CannedCobordism out;
+	private final CannedCobordism out;
 	public ComposeOutput(CannedCobordism a, CannedCobordism b) {
 	    CannedCobordism bot = new CannedCobordism(a);
 	    bot.genus = new int[bot.ncc];
@@ -1373,6 +1381,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 			ret.dots[i] += b.dots[j];
 	    }
 	    return cobordismCache.cache(ret);
+//	    return ret;
 	}
     }
 
