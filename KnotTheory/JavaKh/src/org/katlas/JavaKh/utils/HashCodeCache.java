@@ -28,6 +28,7 @@ public class HashCodeCache<E> implements Cache<E> {
 					return result;
 				}
 			} else {
+				log.debug("Weak reference lost object");
 				hashmap.remove(hash);
 			}
 		}
