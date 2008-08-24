@@ -1224,11 +1224,11 @@ public class Komplex implements Serializable {
 	}
 	
 	private static void info(String msg, Throwable t) {
-		log.info(prependLoggingStatus(msg), t);
+		log.info(prependLoggingStatus(" " + msg), t);
 	}
 	
 	private static void info(String msg) {
-		log.info(prependLoggingStatus(msg));
+		log.info(prependLoggingStatus(" " + msg));
 	}
 	
 	
