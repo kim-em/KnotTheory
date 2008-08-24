@@ -1211,7 +1211,14 @@ public class Komplex implements Serializable {
 	
 	private static String prependLoggingStatus(String msg) {
 //		return "Time: " + System.currentTimeMillis() + " Memory: " + memoryInUse() + " " + msg;
-		return "Time: " + timeFormatter.format(new Date()) + " " + dateFormatter.format(new Date()) + " Memory: " + memoryFormatter.format(memoryInUse()) + " Peak Memory: " + memoryFormatter.format(peakMemoryInUse) + " Cache sizes: " + CannedCobordism.vcacheSize() + "/" + CannedCobordism.hcacheSize() + "/" + Cap.cacheSize() + "/" + CannedCobordism.cobordismCache.size() + " " + msg;
+		return "Time: " + timeFormatter.format(new Date()) + " " + dateFormatter.format(new Date()) + 
+			" Memory: " + memoryFormatter.format(memoryInUse()) + 
+			" Peak Memory: " + memoryFormatter.format(peakMemoryInUse) + 
+			" Cache sizes: " + CannedCobordism.vcacheSize() + "/" + CannedCobordism.hcacheSize() + 
+				"/" + Cap.capCache.size() + "/" + CannedCobordism.cobordismCache.size() + 
+			" Cache hits: " + Cap.capCache.getNumberOfHits() + "/" + Cap.capCache.getNumberOfChecks() +
+				"//" + CannedCobordism.cobordismCache.getNumberOfHits() + "/" + CannedCobordism.cobordismCache.getNumberOfChecks() +
+			" " + msg;
 
 	}
 	

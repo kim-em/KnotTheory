@@ -195,8 +195,8 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 //	    r += top.pairings[i] << (i % 16);
 //	    r += bottom.pairings[i] << (i % 16);
 //	}
-	r += top.pairings.hashCode();
-	r += bottom.pairings.hashCode() << 1;
+	r += top.hashCode();
+	r += bottom.hashCode() << 1;
 	r += top.ncycles;
 	r += bottom.ncycles << 16;
 	r += nbc << 4;
