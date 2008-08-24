@@ -55,8 +55,8 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
     static Map<HComposeInput, ComposeOutput> hcache = new TreeMap<HComposeInput, ComposeOutput>();
 
     public static void disableCache() {
-//    	vcache = new AlwaysEmptyMap<VComposeInput, ComposeOutput>();
-//    	hcache = new AlwaysEmptyMap<HComposeInput, ComposeOutput>();
+    	vcache = new AlwaysEmptyMap<VComposeInput, ComposeOutput>();
+    	hcache = new AlwaysEmptyMap<HComposeInput, ComposeOutput>();
     	cobordismCache = new TrivialCache<CannedCobordism>();
     }
     
