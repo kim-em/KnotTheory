@@ -1373,7 +1373,7 @@ public class Komplex implements Serializable {
 			
 			// flush the cobordism cache again!
 			CannedCobordism.flushCache();
-			Cap.flushCache();
+//			Cap.flushCache();
 			
 			if (!dryRun) {
 				info("reducing");
@@ -1395,7 +1395,7 @@ public class Komplex implements Serializable {
 
 			// flush the cobordism cache
 			CannedCobordism.flushCache();
-			Cap.flushCache();
+//			Cap.flushCache();
 			
 			if (caching) {
 				if (!dryRun) {
