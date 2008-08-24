@@ -1305,9 +1305,9 @@ public class Komplex implements Serializable {
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-						log.warn("Trying to delete broken cache file...");
-						cache.deleteOnExit();
-						cache.delete();
+//						log.warn("Trying to delete broken cache file...");
+//						cache.deleteOnExit();
+//						cache.delete();
 						log.warn("Aborting!");
 						System.exit(1);
 					}
