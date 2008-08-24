@@ -1265,10 +1265,6 @@ public class Komplex implements Serializable {
 			in[pd[first][i]] = true;
 		for (int i = 1; i < pd.length; i++) {
 
-			// flush the cobordism cache
-			CannedCobordism.enableCache();
-			Cap.enableCache();
-			
 			boolean dryRun = false;
 
 			if (caching) {
@@ -1386,6 +1382,10 @@ public class Komplex implements Serializable {
 			for (int j = 0; j < 4; j++)
 				in[pd[best][j]] = true;
 
+			// flush the cobordism cache
+			CannedCobordism.enableCache();
+			Cap.enableCache();
+			
 			if (caching) {
 				if (!dryRun) {
 					writeCache(kom, i);
