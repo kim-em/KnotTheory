@@ -57,11 +57,13 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
     public static void disableCache() {
     	vcache = new AlwaysEmptyMap<VComposeInput, ComposeOutput>();
     	hcache = new AlwaysEmptyMap<HComposeInput, ComposeOutput>();
+    	cobordismCache = new TrivialCache<CannedCobordism>();
     }
     
     public static void enableCache() {
     	vcache = new TreeMap<VComposeInput, ComposeOutput>();
     	hcache = new TreeMap<HComposeInput, ComposeOutput>();
+    	cobordismCache = new HashCodeCache<CannedCobordism>();
     }
     
 //    public static void main(String args[]) {
