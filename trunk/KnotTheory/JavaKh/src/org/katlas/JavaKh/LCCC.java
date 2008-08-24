@@ -211,13 +211,13 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 	    for (int i = 0; i < cc.ncc; i++)
 		if (cc.genus[i] + cc.dots[i] > 1) {
 		    kill = true;
-		} else if (cc.getBoundaryComponents(i).length == 0) {
+		} else if (cc.boundaryComponents[i].length == 0) {
 		    if (cc.genus[i] == 1)
 			num = num.multiply(2);
 		    else if (cc.dots[i] == 0)
 			kill = true;
-		} else if (cc.getBoundaryComponents(i).length == 1) {
-		    dots[cc.getBoundaryComponents(i)[0]] = cc.dots[i]+cc.genus[i];
+		} else if (cc.boundaryComponents[i].length == 1) {
+		    dots[cc.boundaryComponents[i][0]] = cc.dots[i]+cc.genus[i];
 		    if (cc.genus[i] == 1)
 			num = num.multiply(2);
 		} else {
@@ -228,8 +228,8 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 			    num = num.multiply(2);
 			}
 			// use dots to cancel out the other factors
-			for (int j =0; j<cc.getBoundaryComponents(i).length;j++)
-			    dots[cc.getBoundaryComponents(i)[j]] = 1;
+			for (int j =0; j<cc.boundaryComponents[i].length;j++)
+			    dots[cc.boundaryComponents[i][j]] = 1;
 		    } else {
 			// cc.bC[i].length choices
 			// use dots to cancel out all the factors, except
@@ -244,30 +244,30 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 	    neckCutting[0] = dots;
 	    for (int i = 0; i < nmoreWork; i++) {
 		int concomp = moreWork[i];
-		int nbc = cc.getBoundaryComponents(concomp).length;
+		int nbc = cc.boundaryComponents[concomp].length;
 		int newarr[][] = new int[neckCutting.length * nbc][cc.nbc];
 		for (int j = 0; j < neckCutting.length; j++) {
 		    System.arraycopy(neckCutting[j], 0, newarr[j * nbc], 0,
 				     cc.nbc);
 		    for (int k = 0; k < nbc; k++)
-			newarr[j * nbc][cc.getBoundaryComponents(concomp)[k]] = 1;
+			newarr[j * nbc][cc.boundaryComponents[concomp][k]] = 1;
 		    for (int k = 1; k < nbc; k++)
 			System.arraycopy(newarr[j * nbc], 0,
 					 newarr[j * nbc + k], 0, cc.nbc);
 		    for (int k = 0; k < nbc; k++)
-			newarr[j * nbc + k][cc.getBoundaryComponents(concomp)[k]] = 0;
+			newarr[j * nbc + k][cc.boundaryComponents[concomp][k]] = 0;
 		}
 		neckCutting = newarr;
 	    }
 	    int connectedComponent[] = CannedCobordism.counting[cc.nbc];
 	    for (int i = 0; i < neckCutting.length; i++) {
-		CannedCobordism newcc = new CannedCobordism(top, bottom, genus, neckCutting[i], 0);
+		CannedCobordism newcc = new CannedCobordism(top, bottom);
 		// IMPORTANT!!! in order for them to safely share arrays
 		// CannedCobordisms must be treated as immutable
-//		newcc.connectedComponent = connectedComponent;
-//		newcc.ncc = newcc.nbc;
-//		newcc.genus = genus;
-//		newcc.dots = neckCutting[i];
+		newcc.connectedComponent = connectedComponent;
+		newcc.ncc = newcc.nbc;
+		newcc.genus = genus;
+		newcc.dots = neckCutting[i];
 		ret.add(newcc, num);
 	    }
 	}
@@ -290,7 +290,7 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 	    int nmoreWork = 0;
 	    boolean kill = false;
 	    for (int i = 0; i < cc.ncc; i++)
-		if (cc.getBoundaryComponents(i).length == 0) {
+		if (cc.boundaryComponents[i].length == 0) {
 		    if (cc.dots[i] > 0)
 			hpow += cc.dots[i] + cc.genus[i] - 1;
 		    else if (cc.genus[i] % 2 == 0)
@@ -299,10 +299,10 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 			num = num.multiply(2);
 			hpow += cc.genus[i] - 1;
 		    }
-		} else if (cc.getBoundaryComponents(i).length == 1) {
+		} else if (cc.boundaryComponents[i].length == 1) {
 		    if (cc.dots[i] > 0) {
 			hpow += cc.dots[i] + cc.genus[i] - 1;
-			dots[cc.getBoundaryComponents(i)[0]] = 1;
+			dots[cc.boundaryComponents[i][0]] = 1;
 		    } else if (cc.genus[i] % 2 == 0)
 			hpow += cc.genus[i];
 		    else
@@ -310,8 +310,8 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 		} else {
 		    if (cc.dots[i] > 0) {
 			// the dot and the -h terms cancel since dot == h
-			for (int j = 0; j<cc.getBoundaryComponents(i).length; j++)
-			    dots[cc.getBoundaryComponents(i)[j]] = 1;
+			for (int j = 0; j<cc.boundaryComponents[i].length; j++)
+			    dots[cc.boundaryComponents[i][j]] = 1;
 			hpow += cc.dots[i] + cc.genus[i] - 1;
 		    } else
 			moreWork[nmoreWork++] = i;
@@ -326,7 +326,7 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 	    nCnum[0] = num;
 	    for (int i = 0; i < nmoreWork; i++) {
 		int concomp = moreWork[i];
-		int nbc = cc.getBoundaryComponents(concomp).length;
+		int nbc = cc.boundaryComponents[concomp].length;
 		assert cc.dots[concomp] == 0;
 		int newdots[][] = new int[nCdots.length << nbc][cc.nbc];
 		int newhpow[] = new int[nChpow.length << nbc];
@@ -340,10 +340,10 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 			int nzeros = 0;
 			for (int l = 0; l < nbc; l++)
 			    if ((k & (1 << l)) == 0) {
-				newdots[idx][cc.getBoundaryComponents(concomp)[l]] = 0;
+				newdots[idx][cc.boundaryComponents[concomp][l]] = 0;
 				nzeros++;
 			    } else
-				newdots[idx][cc.getBoundaryComponents(concomp)[l]] = 1;
+				newdots[idx][cc.boundaryComponents[concomp][l]] = 1;
 			BaseRing nmul = BaseRing.fromInt(0);
 			int hmod = 0;
 			boolean hset = false;
@@ -389,12 +389,12 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 		nCnum = newnum;
 	    }
 	    for (int i = 0; i < nCdots.length; i++) {
-		CannedCobordism newcc = new CannedCobordism(top, bottom, CannedCobordism.zeros[cc.nbc], nCdots[i], nChpow[i]);
-//		newcc.connectedComponent = CannedCobordism.counting[newcc.nbc];
-//		newcc.ncc = newcc.nbc;
-//		newcc.genus = CannedCobordism.zeros[cc.nbc];
-//		newcc.dots = nCdots[i];
-//		newcc.hpower = nChpow[i];
+		CannedCobordism newcc = new CannedCobordism(top, bottom);
+		newcc.connectedComponent = CannedCobordism.counting[newcc.nbc];
+		newcc.ncc = newcc.nbc;
+		newcc.genus = CannedCobordism.zeros[cc.nbc];
+		newcc.dots = nCdots[i];
+		newcc.hpower = nChpow[i];
 		ret.add(newcc, nCnum[i]);
 	    }
 	}
