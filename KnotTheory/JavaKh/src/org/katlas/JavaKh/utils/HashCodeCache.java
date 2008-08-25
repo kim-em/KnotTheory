@@ -26,7 +26,7 @@ public class HashCodeCache<E> implements Cache<E> {
 				if(hash != result.hashCode()) {
 					log.warn("Hashcode has mysteriously changed.");
 				} else if(!e.equals(result)) {
-					log.warn("Hash collision!");
+//					log.warn("Hash collision!");
 				} else {
 					++hits;
 					return result;
