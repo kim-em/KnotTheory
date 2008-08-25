@@ -2,20 +2,15 @@ package org.katlas.JavaKh.utils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 public class CachingList<Element extends Serializable> extends AbstractList<Element> implements SerializingList<Element> {
-	private static final Log log = LogFactory.getLog(CachingList.class);
+//	private static final Log log = LogFactory.getLog(CachingList.class);
 
 	private final SerializingList<Element> innerList;
 	private int cacheSize;

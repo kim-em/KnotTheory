@@ -3,11 +3,9 @@ package org.katlas.JavaKh.utils;
 import gnu.trove.TIntObjectHashMap;
 
 import java.lang.ref.WeakReference;
-import java.util.Arrays;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.katlas.JavaKh.Cap;
 
 public class HashCodeCache<E> implements Cache<E> {
 

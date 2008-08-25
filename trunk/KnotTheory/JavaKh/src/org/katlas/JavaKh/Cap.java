@@ -1,20 +1,17 @@
 package org.katlas.JavaKh;
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Map;
-import java.util.TreeMap;
 
-import org.katlas.JavaKh.utils.AlwaysEmptyMap;
 import org.katlas.JavaKh.utils.Cache;
 import org.katlas.JavaKh.utils.HashCodeCache;
-import org.katlas.JavaKh.utils.TrivialCache;
 
 public class Cap implements Comparable<Cap>, Serializable {
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 6365827964169634427L;
-	public int n, ncycles;
+	// public int n;
+	public int ncycles;
     public int pairings[];
     
     static Cache<Cap> capCache = new HashCodeCache<Cap>();
@@ -35,7 +32,7 @@ public class Cap implements Comparable<Cap>, Serializable {
  
     
     public Cap(int n, int cycles) {
-	this.n = n;
+//	this.n = n;
 	ncycles = cycles;
 	pairings = new int[n];
 	// let pairings be filled elsewhere
@@ -48,11 +45,13 @@ public class Cap implements Comparable<Cap>, Serializable {
 //    	return isomorphism;
 //    }
     
+    public int n() { return pairings.length; }
+    
     public boolean equals(Object o) {
 	if (!(o instanceof Cap))
 	    return false;
 	Cap c = (Cap) o;
-	if (c.n != n)
+	if (c.n() != n())
 	    return false;
 	if (ncycles != c.ncycles)
 	    return false;
@@ -66,11 +65,11 @@ public class Cap implements Comparable<Cap>, Serializable {
     }
     
     public int compareTo(Cap c) {
-	if (n != c.n)
-	    return n - c.n;
+	if (n() != c.n())
+	    return n() - c.n();
 	if (ncycles != c.ncycles)
 	    return ncycles - c.ncycles;
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < n(); i++)
 	    if (pairings[i] != c.pairings[i])
 		return pairings[i] - c.pairings[i];
 	return 0;
@@ -102,43 +101,43 @@ public class Cap implements Comparable<Cap>, Serializable {
     public Cap compose2(int start, Cap c, int cstart, int nc,
 		       int joins[]) {
 	// joins is to be filled with info about new cycles
-	Cap ret = new Cap(n + c.n - 2 * nc, ncycles + c.ncycles);
+	Cap ret = new Cap(n() + c.n() - 2 * nc, ncycles + c.ncycles);
 	// start labelling the edges with the one following the join on this
-	for (int i = 0; i < n - nc; i++) {
-	    int ii = (i + start + nc) % n;
-	    ret.pairings[i] = (pairings[ii] - start - nc + 2 * n) % n;
+	for (int i = 0; i < n() - nc; i++) {
+	    int ii = (i + start + nc) % n();
+	    ret.pairings[i] = (pairings[ii] - start - nc + 2 * n()) % n();
 	    // do something different if it pairs with a connecting edge:
-	    if (ret.pairings[i] >= n - nc)
-		ret.pairings[i] = -1 - (ret.pairings[i] - n + nc);
+	    if (ret.pairings[i] >= n() - nc)
+		ret.pairings[i] = -1 - (ret.pairings[i] - n() + nc);
 	}
 	int thisjoins[] = new int[nc];
 	for (int i = 0; i < nc; i++) {
-	    int ii = (i + start) % n;
-	    thisjoins[i] = (pairings[ii] - start - nc + 2 * n) % n;
-	    if (thisjoins[i] >= n - nc)
-		thisjoins[i] = -1 - (thisjoins[i] - n + nc);
+	    int ii = (i + start) % n();
+	    thisjoins[i] = (pairings[ii] - start - nc + 2 * n()) % n();
+	    if (thisjoins[i] >= n() - nc)
+		thisjoins[i] = -1 - (thisjoins[i] - n() + nc);
 	}
-	for (int i = 0; i < c.n - nc; i++) {
-	    int ii = (i + cstart + nc) % c.n;
-	    int j = i + n - nc;
-	    ret.pairings[j] = (c.pairings[ii] - cstart - nc + 2 * c.n) % c.n;
-	    if (ret.pairings[j] >= c.n - nc)
-		ret.pairings[j] = -1 - (c.n - ret.pairings[j] - 1);
+	for (int i = 0; i < c.n() - nc; i++) {
+	    int ii = (i + cstart + nc) % c.n();
+	    int j = i + n() - nc;
+	    ret.pairings[j] = (c.pairings[ii] - cstart - nc + 2 * c.n()) % c.n();
+	    if (ret.pairings[j] >= c.n() - nc)
+		ret.pairings[j] = -1 - (c.n() - ret.pairings[j] - 1);
 	    else
-		ret.pairings[j] += n - nc;
+		ret.pairings[j] += n() - nc;
 	}
 	int cjoins[] = new int[nc];
 	for (int i = 0; i < nc; i++) {
-	    int ii = (cstart + nc - 1 - i + c.n) % c.n;
-	    cjoins[i] = (c.pairings[ii] - cstart - nc + 2 * c.n) % c.n;
-	    if (cjoins[i] >= c.n - nc)
-		cjoins[i] = -1 - (c.n - cjoins[i] - 1);
+	    int ii = (cstart + nc - 1 - i + c.n()) % c.n();
+	    cjoins[i] = (c.pairings[ii] - cstart - nc + 2 * c.n()) % c.n();
+	    if (cjoins[i] >= c.n() - nc)
+		cjoins[i] = -1 - (c.n() - cjoins[i] - 1);
 	    else
-		cjoins[i] += n - nc;
+		cjoins[i] += n() - nc;
 	}
 	boolean joinsdone[] = new boolean[nc];
 	java.util.Arrays.fill(joinsdone, false);
-	for (int i = 0; i < n - nc; i++)
+	for (int i = 0; i < n() - nc; i++)
 	    if (ret.pairings[i] < 0) {
 		while (ret.pairings[i] < 0) {
 		    int j = -1 - ret.pairings[i];
@@ -152,7 +151,7 @@ public class Cap implements Comparable<Cap>, Serializable {
 		}
 		ret.pairings[ret.pairings[i]] = i;
 	    }
-	for (int i = n - nc; i < ret.n; i++)
+	for (int i = n() - nc; i < ret.n(); i++)
 	    if (ret.pairings[i] < 0) {
 		while (ret.pairings[i] < 0) {
 		    int j = -1 - ret.pairings[i];

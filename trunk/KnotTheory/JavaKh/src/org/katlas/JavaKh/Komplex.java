@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -20,7 +19,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -309,6 +307,7 @@ public class Komplex implements Serializable {
 		return ret.toString();
 	}
 
+	@SuppressWarnings("unchecked")
 	public String KhForZ() {
 		IntMatrix mats[] = new IntMatrix[matrices.size()];
 		int colcopy[][] = new int[ncolumns][];
@@ -595,19 +594,19 @@ public class Komplex implements Serializable {
 		int newn = 0;
 		for (int i = 0; i < columns[colnum].n; i++) {
 			Cap oldsm = columns[colnum].smoothings[i];
-			Cap newsm = new Cap(oldsm.n, 0);
-			for (int j = 0; j < oldsm.n; j++)
+			Cap newsm = new Cap(oldsm.n(), 0);
+			for (int j = 0; j < oldsm.n(); j++)
 				newsm.pairings[j] = oldsm.pairings[j];
 			newsm = Cap.capCache.cache(newsm);
 			CannedCobordism prevcc = new CannedCobordism(oldsm, newsm);
 			prevcc.ncc = prevcc.nbc;
 			prevcc.connectedComponent = CannedCobordism.counting[prevcc.nbc];
-			prevcc.dots = new int[prevcc.ncc];
+			prevcc.dots = new byte[prevcc.ncc];
 			prevcc.genus = CannedCobordism.zeros[prevcc.ncc];
 			CannedCobordism nextcc = new CannedCobordism(newsm, oldsm);
 			nextcc.ncc = nextcc.nbc;
 			nextcc.connectedComponent = CannedCobordism.counting[nextcc.nbc];
-			nextcc.dots = new int[nextcc.ncc];
+			nextcc.dots = new byte[nextcc.ncc];
 			nextcc.genus = CannedCobordism.zeros[nextcc.ncc];
 			// the dots array for prevcc and nextcc is reused here
 			// this is safe because dots are not stored in the CC cache
@@ -712,19 +711,19 @@ public class Komplex implements Serializable {
 		int newn = 0;
 		for (int i = 0; i < columns[colnum].n; i++) {
 			Cap oldsm = columns[colnum].smoothings[i];
-			Cap newsm = new Cap(oldsm.n, 0);
-			for (int j = 0; j < oldsm.n; j++)
+			Cap newsm = new Cap(oldsm.n(), 0);
+			for (int j = 0; j < oldsm.n(); j++)
 				newsm.pairings[j] = oldsm.pairings[j];
 			newsm = Cap.capCache.cache(newsm);
 			CannedCobordism prevcc = new CannedCobordism(oldsm, newsm);
 			prevcc.ncc = prevcc.nbc;
 			prevcc.connectedComponent = CannedCobordism.counting[prevcc.nbc];
-			prevcc.dots = new int[prevcc.ncc];
+			prevcc.dots = new byte[prevcc.ncc];
 			prevcc.genus = CannedCobordism.zeros[prevcc.ncc];
 			CannedCobordism nextcc = new CannedCobordism(newsm, oldsm);
 			nextcc.ncc = nextcc.nbc;
 			nextcc.connectedComponent = CannedCobordism.counting[nextcc.nbc];
-			nextcc.dots = new int[nextcc.ncc];
+			nextcc.dots = new byte[nextcc.ncc];
 			nextcc.genus = CannedCobordism.zeros[nextcc.ncc];
 			for (int j = 0; j < (1 << oldsm.ncycles); j++) {
 				int nmod = 0;
@@ -746,7 +745,7 @@ public class Komplex implements Serializable {
 				LCCC prevlc = new LCCC(oldsm, newsm);
 				if (prev != null) {
 					for (int k = 0; k < (1 << nmore); k++) {
-						int prevdots[] = new int[prevcc.ncc], prevhpow = 0;
+						byte prevdots[] = new byte[prevcc.ncc], prevhpow = 0;
 						System.arraycopy(prevcc.dots, 0, prevdots, 0,
 								prevcc.ncc);
 						for (int l = 0; l < nmore; l++) {
@@ -996,11 +995,11 @@ public class Komplex implements Serializable {
 					columns[i + 1].smoothings[j], columns[i].smoothings[k]);
 			// assume delooping has been done
 			// make phicc an isomorphism
-			for (int a = 0; a < phicc.nbc; a++)
+			for (byte a = 0; a < phicc.nbc; a++)
 				phicc.connectedComponent[a] = a;
 			phicc.ncc = phicc.nbc;
-			phicc.dots = new int[phicc.ncc];
-			phicc.genus = new int[phicc.ncc];
+			phicc.dots = new byte[phicc.ncc];
+			phicc.genus = new byte[phicc.ncc];
 			LCCC philc = new LCCC(columns[i + 1].smoothings[j],
 					columns[i].smoothings[k]);
 			philc.add(phicc, n.inverse().multiply(-1));
@@ -1078,7 +1077,9 @@ public class Komplex implements Serializable {
 	private static int chooseXingRecursive(int edges[], int pd[][],
 			boolean in[], boolean done[], int depth, int retmax[]) {
 		int nedges = edges.length;
-		int best = -1, nbest = 1000000, nconbest = -1;
+		int best = -1;
+//		int nbest = 1000000;
+		int nconbest = -1;
 		int rbest[] = new int[depth];
 		for (int i = 0; i < pd.length; i++) {
 			if (!done[i]) {
@@ -1133,9 +1134,10 @@ public class Komplex implements Serializable {
 					}
 				if (!good)
 					continue;
-				int n, getn[] = new int[depth];
+//				int n;
+				int getn[] = new int[depth];
 				if (depth == 0) {
-					n = nedges + 4 - 2 * ncon;
+//					n = nedges + 4 - 2 * ncon;
 				} else {
 					kstart += 4 - ncon + 1;
 					kstart %= 4;
@@ -1154,7 +1156,7 @@ public class Komplex implements Serializable {
 						in[pd[i][k]] = true;
 					// int getn[] = new int[depth];
 					chooseXingRecursive(newedges, pd, in, done, depth - 1, getn);
-					n = getn[0];
+//					n = getn[0];
 					done[i] = prev;
 					for (int k = 0; k < 4; k++)
 						in[pd[i][k]] = previn[k];
@@ -1184,15 +1186,15 @@ public class Komplex implements Serializable {
 		return best;
 	}
 
-	private static long timeSinceLastLap = System.currentTimeMillis();
-
 	private static long peakMemoryInUse;
 
-	private static long timeElapsed() {
-		long r = System.currentTimeMillis() - timeSinceLastLap;
-		timeSinceLastLap = System.currentTimeMillis();
-		return r;
-	}
+//	private static long timeSinceLastLap = System.currentTimeMillis();
+
+//	private static long timeElapsed() {
+//		long r = System.currentTimeMillis() - timeSinceLastLap;
+//		timeSinceLastLap = System.currentTimeMillis();
+//		return r;
+//	}
 	
 	private static long memoryInUse() {
 		long m = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
@@ -1214,24 +1216,24 @@ public class Komplex implements Serializable {
 		return timeFormatter.format(new Date()) + " " + dateFormatter.format(new Date()) + 
 			" Memory(Peak): " + memoryFormatter.format(memoryInUse()) + 
 			"(" + memoryFormatter.format(peakMemoryInUse) + ")" + 
-			" Cache size//hits: " + // CannedCobordism.vcacheSize() + "/" + CannedCobordism.hcacheSize() + 
-				"/" + Cap.capCache.size() + "/" + CannedCobordism.cobordismCache.size() + 
-			"//" + CannedCobordism.cobordismCache.getNumberOfHits() + "/" + CannedCobordism.cobordismCache.getNumberOfChecks() +
-			" " + msg;
+			" Cache size(hits): " + // CannedCobordism.vcacheSize() + "/" + CannedCobordism.hcacheSize() + 
+				Cap.capCache.size() + "/" + CannedCobordism.cobordismCache.size() + 
+			"(" + CannedCobordism.cobordismCache.getNumberOfHits() + "/" + CannedCobordism.cobordismCache.getNumberOfChecks() +
+			") " + msg;
 
 	}
 	
-	private static void debug(String msg, Throwable t) {
-		log.debug(prependLoggingStatus(msg), t);
-	}
+//	private static void debug(String msg, Throwable t) {
+//		log.debug(prependLoggingStatus(msg), t);
+//	}
 	
 	private static void debug(String msg) {
 		log.debug(prependLoggingStatus(msg));
 	}
 	
-	private static void info(String msg, Throwable t) {
-		log.info(" " + prependLoggingStatus(msg), t);
-	}
+//	private static void info(String msg, Throwable t) {
+//		log.info(" " + prependLoggingStatus(msg), t);
+//	}
 	
 	private static void info(String msg) {
 		log.info(" " + prependLoggingStatus( msg));
@@ -1727,7 +1729,7 @@ public class Komplex implements Serializable {
 						// now, join the components on either side
 						// of each smoothed crossing
 						// and join them together at crossing j
-						java.util.Arrays.fill(cc.connectedComponent, -1);
+						java.util.Arrays.fill(cc.connectedComponent, 0, cc.connectedComponent.length, (byte)(-1));
 						for (int l = 0; l < pd.length; l++)
 							if (l != j) {
 								for (int m = 0; m < 2; m++) {
@@ -1737,7 +1739,7 @@ public class Komplex implements Serializable {
 									else
 										x += cc.offbot;
 									// this may be unnecessary
-									int cci;
+									byte cci;
 									int y = crossing2cycles[k][l][m];
 									if (y < 0)
 										y = cc.component[-1 - y];
@@ -1772,7 +1774,7 @@ public class Komplex implements Serializable {
 											num[x] += cc.offtop;
 									else
 										num[x] = cc.component[-1 - num[x]];
-								int cci = -1;
+								byte cci = -1;
 								for (int x = 0; x < 4; x++)
 									if (cc.connectedComponent[num[x]] != -1) {
 										cci = cc.connectedComponent[num[x]];
@@ -1795,7 +1797,7 @@ public class Komplex implements Serializable {
 						cc.ncc = 0;
 						for (int l = 0; l < cc.nbc; l++)
 							if (cc.connectedComponent[l] > cc.ncc) { // swap
-								int x = cc.connectedComponent[l];
+								byte x = cc.connectedComponent[l];
 								for (int m = l; m < cc.nbc; m++)
 									if (cc.connectedComponent[m] == x)
 										cc.connectedComponent[m] = cc.ncc;

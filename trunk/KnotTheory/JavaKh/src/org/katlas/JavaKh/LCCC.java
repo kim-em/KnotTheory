@@ -203,8 +203,8 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 	for (CannedCobordism cc : coefficients.keySet()) {
 	    BaseRing num = coefficients.get(cc);
 	    cc.reverseMaps();
-	    int dots[] = new int[cc.nbc];
-	    int genus[] = CannedCobordism.zeros[cc.nbc];
+	    byte dots[] = new byte[cc.nbc];
+	    byte genus[] = CannedCobordism.zeros[cc.nbc];
 	    int moreWork[] = new int[cc.ncc];
 	    int nmoreWork = 0;
 	    boolean kill = false;
@@ -217,7 +217,7 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 		    else if (cc.dots[i] == 0)
 			kill = true;
 		} else if (cc.boundaryComponents[i].length == 1) {
-		    dots[cc.boundaryComponents[i][0]] = cc.dots[i]+cc.genus[i];
+		    dots[cc.boundaryComponents[i][0]] = (byte)(cc.dots[i] + cc.genus[i]);
 		    if (cc.genus[i] == 1)
 			num = num.multiply(2);
 		} else {
@@ -240,12 +240,12 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 		}
 	    if (kill)
 		continue;
-	    int neckCutting[][] = new int[1][];
+	    byte neckCutting[][] = new byte[1][];
 	    neckCutting[0] = dots;
 	    for (int i = 0; i < nmoreWork; i++) {
 		int concomp = moreWork[i];
 		int nbc = cc.boundaryComponents[concomp].length;
-		int newarr[][] = new int[neckCutting.length * nbc][cc.nbc];
+		byte newarr[][] = new byte[neckCutting.length * nbc][cc.nbc];
 		for (int j = 0; j < neckCutting.length; j++) {
 		    System.arraycopy(neckCutting[j], 0, newarr[j * nbc], 0,
 				     cc.nbc);
@@ -259,7 +259,7 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 		}
 		neckCutting = newarr;
 	    }
-	    int connectedComponent[] = CannedCobordism.counting[cc.nbc];
+	    byte connectedComponent[] = CannedCobordism.counting[cc.nbc];
 	    for (int i = 0; i < neckCutting.length; i++) {
 		CannedCobordism newcc = new CannedCobordism(top, bottom);
 		// IMPORTANT!!! in order for them to safely share arrays
@@ -284,7 +284,7 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 	for (CannedCobordism cc : coefficients.keySet()) {
 	    BaseRing num = coefficients.get(cc);
 	    cc.reverseMaps();
-	    int dots[] = new int[cc.nbc];
+	    byte dots[] = new byte[cc.nbc];
 	    int hpow = cc.hpower;
 	    int moreWork[] = new int[cc.ncc];
 	    int nmoreWork = 0;
@@ -318,7 +318,7 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 		}
 	    if (kill)
 		continue;
-	    int nCdots[][] = new int[1][];
+	    byte nCdots[][] = new byte[1][];
 	    int nChpow[] = new int[1];
 	    BaseRing nCnum[] = new BaseRing[1];
 	    nCdots[0] = dots;
@@ -328,7 +328,7 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 		int concomp = moreWork[i];
 		int nbc = cc.boundaryComponents[concomp].length;
 		assert cc.dots[concomp] == 0;
-		int newdots[][] = new int[nCdots.length << nbc][cc.nbc];
+		byte newdots[][] = new byte[nCdots.length << nbc][cc.nbc];
 		int newhpow[] = new int[nChpow.length << nbc];
 		BaseRing newnum[] = new BaseRing[nCnum.length << nbc];
 		for (int j = 0; j < nCdots.length; j++) {
@@ -407,8 +407,8 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
     public LCCC finalizeH() {
 	if (size() == 0)
 	    return null;
-	assert top.n == 2 && top.ncycles == 0
-	    && bottom.n == 2 && bottom.ncycles == 0;
+	assert top.n() == 2 && top.ncycles == 0
+	    && bottom.n() == 2 && bottom.ncycles == 0;
 	LCCC ret = new LCCC(top, bottom);
 	CannedCobordism cc = CannedCobordism.isomorphism(top);
 	boolean hset = false;
