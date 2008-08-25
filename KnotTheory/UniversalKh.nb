@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       145,          7]
-NotebookDataLength[    150587,       3388]
-NotebookOptionsPosition[     33188,        934]
-NotebookOutlinePosition[    148591,       3325]
-CellTagsIndexPosition[    148548,       3322]
+NotebookDataLength[    150924,       3395]
+NotebookOptionsPosition[     33525,        941]
+NotebookOutlinePosition[    148928,       3332]
+CellTagsIndexPosition[    148885,       3329]
 WindowFrame->Normal
 ContainsDynamic->False*)
 
@@ -212,6 +212,9 @@ Cell[BoxData[{
          "]"}], ",", "\"\<:\>\"", ",", 
         RowBox[{"ToFileName", "[", 
          RowBox[{"jarDirectory", ",", "\"\<log4j-1.2.12.jar\>\""}], "]"}], 
+        ",", "\"\<:\>\"", ",", 
+        RowBox[{"ToFileName", "[", 
+         RowBox[{"jarDirectory", ",", "\"\<trove-2.0.4.jar\>\""}], "]"}], 
         ",", "\"\<:;\>\"", ",", "classDirectory", ",", "\"\<;\>\"", ",", 
         RowBox[{"ToFileName", "[", 
          RowBox[{"jarDirectory", ",", "\"\<commons-cli-1.0.jar\>\""}], "]"}], 
@@ -223,7 +226,10 @@ Cell[BoxData[{
          RowBox[{"jarDirectory", ",", "\"\<commons-logging-1.1.jar\>\""}], 
          "]"}], ",", "\"\<;\>\"", ",", 
         RowBox[{"ToFileName", "[", 
-         RowBox[{"jarDirectory", ",", "\"\<log4j-1.2.12.jar\>\""}], "]"}]}], 
+         RowBox[{"jarDirectory", ",", "\"\<log4j-1.2.12.jar\>\""}], "]"}], 
+        ",", "\"\<;\>\"", ",", 
+        RowBox[{"ToFileName", "[", 
+         RowBox[{"jarDirectory", ",", "\"\<trove-2.0.4.jar\>\""}], "]"}]}], 
        "]"}]}], ";", 
      RowBox[{"cl", "=", 
       RowBox[{"StringJoin", "[", 
@@ -407,7 +413,8 @@ command line was: \>\"", "]"}], ";",
        "]"}]}]}]}], "\[IndentingNewLine]", "]"}]}]}], "Input",
  InitializationCell->True,
  CellChangeTimes->{{3.427643628589238*^9, 3.4276437155943456`*^9}, {
-  3.4276437530281725`*^9, 3.427643769081256*^9}}],
+  3.4276437530281725`*^9, 3.427643769081256*^9}, {3.428678796617854*^9, 
+  3.4286788322891474`*^9}}],
 
 Cell[BoxData[
  RowBox[{
@@ -3345,49 +3352,49 @@ Cell[3089, 97, 101, 2, 28, "Input",
  InitializationCell->True],
 Cell[3193, 101, 141, 4, 28, "Input",
  InitializationCell->True],
-Cell[3337, 107, 12672, 302, 1089, "Input",
+Cell[3337, 107, 13009, 309, 1109, "Input",
  InitializationCell->True],
-Cell[16012, 411, 265, 6, 28, "Input",
+Cell[16349, 418, 265, 6, 28, "Input",
  InitializationCell->True],
-Cell[16280, 419, 924, 24, 129, "Input",
+Cell[16617, 426, 924, 24, 129, "Input",
  InitializationCell->True],
-Cell[17207, 445, 753, 25, 28, "Input",
+Cell[17544, 452, 753, 25, 28, "Input",
  InitializationCell->True],
 Cell[CellGroupData[{
-Cell[17985, 474, 3166, 78, 209, "Input",
+Cell[18322, 481, 3166, 78, 209, "Input",
  InitializationCell->True],
-Cell[21154, 554, 426, 9, 20, "Message",
+Cell[21491, 561, 426, 9, 20, "Message",
  InitializationCell->True]
 }, Open  ]],
-Cell[21595, 566, 196, 6, 28, "Input",
+Cell[21932, 573, 196, 6, 28, "Input",
  InitializationCell->True],
-Cell[21794, 574, 462, 13, 28, "Input",
+Cell[22131, 581, 462, 13, 28, "Input",
  InitializationCell->True],
-Cell[22259, 589, 2159, 63, 169, "Input",
+Cell[22596, 596, 2159, 63, 169, "Input",
  InitializationCell->True],
-Cell[24421, 654, 575, 16, 50, "Input",
+Cell[24758, 661, 575, 16, 50, "Input",
  InitializationCell->True],
-Cell[24999, 672, 742, 24, 50, "Input",
+Cell[25336, 679, 742, 24, 50, "Input",
  InitializationCell->True],
-Cell[25744, 698, 133, 4, 30, "Input",
+Cell[26081, 705, 133, 4, 30, "Input",
  InitializationCell->True],
-Cell[25880, 704, 418, 14, 30, "Input",
+Cell[26217, 711, 418, 14, 30, "Input",
  InitializationCell->True],
-Cell[26301, 720, 1831, 50, 150, "Input",
+Cell[26638, 727, 1831, 50, 150, "Input",
  InitializationCell->True],
-Cell[28135, 772, 1613, 40, 624, "Input",
+Cell[28472, 779, 1613, 40, 624, "Input",
  InitializationCell->True],
-Cell[29751, 814, 1212, 35, 130, "Input",
+Cell[30088, 821, 1212, 35, 130, "Input",
  InitializationCell->True],
-Cell[30966, 851, 1057, 36, 31, "Input",
+Cell[31303, 858, 1057, 36, 31, "Input",
  InitializationCell->True],
-Cell[32026, 889, 589, 20, 31, "Input",
+Cell[32363, 896, 589, 20, 31, "Input",
  InitializationCell->True],
-Cell[32618, 911, 385, 12, 30, "Input",
+Cell[32955, 918, 385, 12, 30, "Input",
  InitializationCell->True],
-Cell[33006, 925, 78, 2, 30, "Input",
+Cell[33343, 932, 78, 2, 30, "Input",
  InitializationCell->True],
-Cell[33087, 929, 85, 2, 30, "Input",
+Cell[33424, 936, 85, 2, 30, "Input",
  InitializationCell->True]
 }, Open  ]]
 }

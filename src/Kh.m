@@ -533,12 +533,14 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
         ":" , ToFileName[jarDirectory, "commons-io-1.2.jar"],
         ":" , ToFileName[jarDirectory, "commons-logging-1.1.jar"],
         ":" , ToFileName[jarDirectory, "log4j-1.2.12.jar"],
+        ":" , ToFileName[jarDirectory, "trove-2.0.4.jar"],
         ":;",
         classDirectory, 
         ";" , ToFileName[jarDirectory, "commons-cli-1.0.jar"],
         ";" , ToFileName[jarDirectory, "commons-io-1.2.jar"],
         ";" , ToFileName[jarDirectory, "commons-logging-1.1.jar"],
-        ";" , ToFileName[jarDirectory, "log4j-1.2.12.jar"]
+        ";" , ToFileName[jarDirectory, "log4j-1.2.12.jar"],
+        ";" , ToFileName[jarDirectory, "trove-2.0.4.jar"]
     ];
     cl = StringJoin[
       "!java -classpath \"", classpath,
