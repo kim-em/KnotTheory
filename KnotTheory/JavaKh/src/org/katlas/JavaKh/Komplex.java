@@ -23,8 +23,10 @@ import java.util.StringTokenizer;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -501,8 +503,17 @@ public class Komplex implements Serializable {
 	}
 
 	private void parallelReduce() {
-		ExecutorService executor = new ThreadPoolExecutor(1, 10, 10,
-				TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+		ExecutorService executor = Executors.newCachedThreadPool(new ThreadFactory() {
+			ThreadFactory tf = Executors.defaultThreadFactory();
+			
+			public Thread newThread(Runnable arg0) {
+				Thread t = tf.newThread(arg0);
+				t.setDaemon(true);
+				return t;
+			}});
+			
+//		ExecutorService executor =	new ThreadPoolExecutor(1, 10, 10,
+//				TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 		int p = 4;
 		for (int j = 0; j < p; ++j) {
 			// prepare the tasks.
