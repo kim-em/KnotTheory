@@ -23,7 +23,7 @@ public class HashCodeCache<E> implements Cache<E> {
 			if(result != null) {
 //				log.info("Returning object from HashCodeCache. (requested hash: " + hash + ", returned hash: " + result.hashCode() + ", objects " + (e.equals(result) ? "" : "not ") + "equal, objects " + (e == result ? "" : "not ") + "==");
 				if(hash != result.hashCode()) {
-					log.warn("Hashcode has mysteriously changed.");
+					log.info("Hashcode has mysteriously changed.");
 				} else if(!e.equals(result)) {
 //					log.warn("Hash collision!");
 				} else {
