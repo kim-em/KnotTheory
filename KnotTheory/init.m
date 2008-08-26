@@ -28,7 +28,7 @@ KnotTheory::credits = "`1`";
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2008, 8, 13, 16, 37, 15.5973872};
+KnotTheoryVersion[] = {2008, 8, 26, 10, 27, 17.2112624};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
@@ -3586,23 +3586,31 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
         ":" , ToFileName[jarDirectory, "commons-io-1.2.jar"],
         ":" , ToFileName[jarDirectory, "commons-logging-1.1.jar"],
         ":" , ToFileName[jarDirectory, "log4j-1.2.12.jar"],
+        ":" , ToFileName[jarDirectory, "trove-2.0.4.jar"],
         ":;",
         classDirectory, 
         ";" , ToFileName[jarDirectory, "commons-cli-1.0.jar"],
         ";" , ToFileName[jarDirectory, "commons-io-1.2.jar"],
         ";" , ToFileName[jarDirectory, "commons-logging-1.1.jar"],
-        ";" , ToFileName[jarDirectory, "log4j-1.2.12.jar"]
+        ";" , ToFileName[jarDirectory, "log4j-1.2.12.jar"],
+        ";" , ToFileName[jarDirectory, "trove-2.0.4.jar"]
     ];
     cl = StringJoin[
       "!java -classpath \"", classpath,
       "\" ", javaoptions, " org.katlas.JavaKh.JavaKh ",
       If[universal, "-U", If[modulus === Null, "-Z", "--mod "<>ToString[modulus]]],
-      " < pd"
+      " < pd 2> JavaKh.log"
     ];
     f = OpenRead[cl];
     out = Read[f, Expression];
     Close[f];
-    If[out == EndOfFile, Print["Something went wrong running JavaKh; nothing was returned. The command line was: "];Print[cl];Return[$Failed]];
+    If[out == EndOfFile, 
+        Print["Something went wrong running JavaKh; nothing was returned. The command line was: "];
+        Print[cl];
+        Print["There may have been an error log produced by Java: "];
+        FilePrint["JavaKh.log"];
+        Return[$Failed]
+    ];
     out = StringReplace[out, {
       "q" -> "#1", "t" -> "#2", "Z" -> "ZMod"
     }];
