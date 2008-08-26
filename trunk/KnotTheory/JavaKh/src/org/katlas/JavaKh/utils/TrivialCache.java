@@ -4,17 +4,14 @@ public class TrivialCache<E> implements Cache<E> {
 
 	private transient int checks = 0;
 	
-	@Override
 	public E cache(E e) {
 		++checks;
 		return e;
 	}
 
-	@Override
 	public void flush() {
 	}
 
-	@Override
 	public int size() {
 		return 0;
 	}

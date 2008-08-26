@@ -15,7 +15,6 @@ public class HashCodeCache<E> implements Cache<E> {
 	private transient int hits = 0;
 	private transient int checks = 0;
 	
-	@Override
 	public E cache(E e) {
 		++checks;
 		int hash = e.hashCode();
@@ -43,12 +42,10 @@ public class HashCodeCache<E> implements Cache<E> {
 		return e;
 	}
 	
-	@Override
 	public void flush() {
 		hashmap.clear();
 	}
 
-	@Override
 	public int size() {
 		return hashmap.size();
 	}
