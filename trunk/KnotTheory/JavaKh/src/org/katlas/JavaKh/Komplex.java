@@ -51,6 +51,8 @@ public class Komplex implements Serializable {
 	private transient List<CobMatrix> matrices;
 	int startnum;
 
+	transient static boolean parallel;
+
 	private synchronized CobMatrix getMatrix(int i) {
 		return matrices.get(i);
 	}
@@ -477,7 +479,6 @@ public class Komplex implements Serializable {
 		/*
 		 * Can this be safely parallelised?
 		 */
-		boolean parallel = false;
 		if (parallel) {
 			parallelReduce();
 		} else {
@@ -547,6 +548,7 @@ public class Komplex implements Serializable {
 			debug("delooping " + (i + 1) + "/" + ncolumns);
 			deLoop(i);
 			if (i > 0) {
+				deLoop(i - 1);
 				debug("applying reduce " + (i + 1) + "/" + ncolumns);
 				CobMatrix m = getMatrix(i - 1);
 				m.reduce();
@@ -935,6 +937,7 @@ public class Komplex implements Serializable {
 					deltaRowEntries0.put(c - 1, mRowEntriesJ.get(c));					
 				}
  			}
+			deltaRowEntries0.compact();
 			
 //			delta.values[0] = new LCCC[m.rowsizes[j]];
 //			delta.indices[0] = new int[m.rowsizes[j]];
@@ -966,6 +969,7 @@ public class Komplex implements Serializable {
 						gamma.append(b, 0, mRowEntriesA.get(c));
 					}
 				}
+				epsilonRowEntriesB.compact();
 				b++;
 			}
 		}
@@ -1014,27 +1018,34 @@ public class Komplex implements Serializable {
 		columns[i + 1] = scE;
 		if (i != 0) {
 			CobMatrix previousMatrix = getMatrix(i - 1);
-			CobMatrix beta = new CobMatrix(columns[i - 1], columns[i]);
 
-			beta.entries.clear();
-			beta.entries.addAll(previousMatrix.entries.subList(0, k));
-			beta.entries.addAll(previousMatrix.entries.subList(k + 1, previousMatrix.entries.size()));
-			
-//			System.arraycopy(previousMatrix.values, 0, beta.values, 0, k);
-//			System.arraycopy(previousMatrix.indices, 0, beta.indices, 0, k);
-//			System.arraycopy(previousMatrix.rowsizes, 0, beta.rowsizes, 0, k);
-//			System.arraycopy(previousMatrix.values, k + 1, beta.values, k,
-//					beta.values.length - k);
-//			System.arraycopy(previousMatrix.indices, k + 1, beta.indices, k,
-//					beta.indices.length - k);
-//			System.arraycopy(previousMatrix.rowsizes, k + 1, beta.rowsizes, k,
-//					beta.rowsizes.length - k);
-			setMatrix(i - 1, beta);
+			previousMatrix.target = columns[i];
+			previousMatrix.entries.remove(k);
+			setMatrix(i - 1, previousMatrix);
+
+//			CobMatrix beta = new CobMatrix(columns[i - 1], columns[i]);			
+//			beta.entries.clear();
+//			beta.entries.addAll(previousMatrix.entries.subList(0, k));
+//			beta.entries.addAll(previousMatrix.entries.subList(k + 1, previousMatrix.entries.size()));
+//			setMatrix(i - 1, beta);
 		}
 		if (i != ncolumns - 2) {
 			CobMatrix nextMatrix = getMatrix(i + 1);
-			CobMatrix nu = new CobMatrix(columns[i + 1], columns[i + 2]);
 
+//			nextMatrix.source = columns[i + 1];
+//			for(TIntObjectHashMap<LCCC> rowEntry : nextMatrix.entries) {
+//				for(int c : rowEntry.keys()) {
+//					if(c > j) {
+//						rowEntry.put(c - 1, rowEntry.get(c));
+//					}
+//					if(c >= j) {
+//						rowEntry.remove(c);
+//					}
+//				}
+//			}
+//			setMatrix(i + 1, nextMatrix);
+			
+			CobMatrix nu = new CobMatrix(columns[i + 1], columns[i + 2]);
 			for(int a = 0; a < nextMatrix.entries.size(); ++a) {
 				TIntObjectHashMap<LCCC> nextMatrixRowEntriesA = nextMatrix.entries.get(a);
 				TIntObjectHashMap<LCCC> nuRowEntriesA = nu.entries.get(a);
@@ -1045,23 +1056,8 @@ public class Komplex implements Serializable {
 						nuRowEntriesA.put(c - 1, nextMatrixRowEntriesA.get(c));						
 					}
 				}
+				nuRowEntriesA.compact();
 			}
-			
-//			for (int a = 0; a < nextMatrix.values.length; a++) {
-//				int size = nextMatrix.rowsizes[a];
-//				nu.values[a] = new LCCC[size];
-//				nu.indices[a] = new int[size];
-//				for (int c = 0; c < size; c++) {
-//					int idx = nextMatrix.indices[a][c];
-//					if (idx < j) {
-//						nu.values[a][nu.rowsizes[a]] = nextMatrix.values[a][c];
-//						nu.indices[a][nu.rowsizes[a]++] = idx;
-//					} else if (idx > j) {
-//						nu.values[a][nu.rowsizes[a]] = nextMatrix.values[a][c];
-//						nu.indices[a][nu.rowsizes[a]++] = idx - 1;
-//					}
-//				}
-//			}
 			setMatrix(i + 1, nu);
 		}
 	}
