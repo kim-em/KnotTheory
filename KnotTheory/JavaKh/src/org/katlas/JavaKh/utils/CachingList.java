@@ -41,7 +41,7 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 		}
 	}
 	
-	private void reduceCacheSize() {
+	private synchronized void reduceCacheSize() {
 		checkSizes();
 		int deleteIndex = cacheOrder.get(0);
 		Element e = cache.remove(deleteIndex);
@@ -118,7 +118,7 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 		return innerList.getSerializedForms();
 	}
 
-	public void setSerializedForm(int index, int hash, InputStream is)
+	public synchronized void setSerializedForm(int index, int hash, InputStream is)
 			throws IOException {
 		if(cache.containsKey(index)) {
 			checkSizes();

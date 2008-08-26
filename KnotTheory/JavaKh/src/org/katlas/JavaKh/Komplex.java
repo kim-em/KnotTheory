@@ -53,13 +53,13 @@ public class Komplex implements Serializable {
 
 	transient static boolean parallel;
 
-	private synchronized CobMatrix getMatrix(int i) {
+	private CobMatrix getMatrix(int i) {
 		return matrices.get(i);
 	}
 
 	// This is intentionally void return type, instead of the more usual 'CobMatrix',
 	// so DiskBackedList doesn't have to read before it writes.
-	private synchronized void setMatrix(int i, CobMatrix m) {
+	private void setMatrix(int i, CobMatrix m) {
 		matrices.set(i, m);
 	}
 
@@ -500,7 +500,7 @@ public class Komplex implements Serializable {
 		}
 	}
 
-	public void parallelReduce() {
+	private void parallelReduce() {
 		ExecutorService executor = new ThreadPoolExecutor(1, 10, 10,
 				TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 		int p = 4;
@@ -533,6 +533,7 @@ public class Komplex implements Serializable {
 				}
 			}
 		}
+		executor.shutdownNow();
 	}
 
 	private class reduceTask implements Callable<Boolean> {
@@ -898,7 +899,7 @@ public class Komplex implements Serializable {
 		return ret;
 	}
 
-	public synchronized void reductionLemma(int i, int j, int k, BaseRing n,
+	public void reductionLemma(int i, int j, int k, BaseRing n,
 			boolean zeros) {
 		// matrices[i].matrix[j][k] is the isomorphism, with coefficient n
 		// zeros is true if row j or column k is zero
@@ -1211,7 +1212,7 @@ public class Komplex implements Serializable {
 	private static String prependLoggingStatus(String msg) {
 //		return "Time: " + System.currentTimeMillis() + " Memory: " + memoryInUse() + " " + msg;
 		return timeFormatter.format(new Date()) + " " + dateFormatter.format(new Date()) + 
-			" Memory(Peak): " + memoryFormatter.format(memoryInUse()) + 
+			" Memory(peak): " + memoryFormatter.format(memoryInUse()) + 
 			"(" + memoryFormatter.format(peakMemoryInUse) + ")" + 
 			" Cache size(hits): " + // CannedCobordism.vcacheSize() + "/" + CannedCobordism.hcacheSize() + 
 				Cap.capCache.size() + "/" + CannedCobordism.cobordismCache.size() + 
