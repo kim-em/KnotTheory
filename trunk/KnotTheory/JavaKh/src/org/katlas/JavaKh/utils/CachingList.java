@@ -19,13 +19,13 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 	
 	public CachingList(SerializingList<Element> innerList, int cacheSize) {
 		this.innerList = innerList;
-		this.cacheSize = (cacheSize >=1) ? cacheSize : 1;
+		this.cacheSize = (cacheSize > 1) ? cacheSize : 1;
 		cache = new HashMap<Integer, Element>();
 		cacheOrder = new ArrayList<Integer>();
 	}
 	
 	public void resetCacheSize(int newCacheSize) {
-		cacheSize = newCacheSize;
+		cacheSize = (newCacheSize > 1) ? newCacheSize : 1;
 		while(cache.size() > cacheSize) reduceCacheSize();	
 	}
 	
@@ -34,13 +34,21 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 			System.gc();
 		}
 	}
+
+	private void checkSizes() {
+		if(cacheOrder.size() != cache.size()) {
+			throw new AssertionError("cache corruption");
+		}
+	}
 	
 	private void reduceCacheSize() {
+		checkSizes();
 		int deleteIndex = cacheOrder.get(0);
 		Element e = cache.remove(deleteIndex);
 		cacheOrder.remove(0);
 		innerList.set(deleteIndex, e);
 		invokeGC();
+		checkSizes();
 	}
 	
 	@Override
@@ -50,8 +58,9 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 			Element e = innerList.get(index);
 			cache.put(index, e);
 			cacheOrder.add(index);
+			checkSizes();
 		}
-		
+	
 		return cache.get(index);
 	}
 
@@ -67,6 +76,8 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 		cache.put(size, element);
 		cacheOrder.add(size);
 		innerList.add(null);
+		
+		checkSizes();
 		
 		return true;
 	}
@@ -92,9 +103,14 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 
 	@Override
 	public synchronized Element set(int index, Element element) {
-		Element old = get(index);
+//		Element old = get(index);
+		if(!cache.containsKey(index)) {
+			reduceCacheSize();
+			cacheOrder.add(index);
+		}
 		cache.put(index, element);
-		return old;
+//		return old;
+		return null;
 	}
 
 	@Override
@@ -107,8 +123,10 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 	public void setSerializedForm(int index, int hash, InputStream is)
 			throws IOException {
 		if(cache.containsKey(index)) {
+			checkSizes();
 			cache.remove(index);
 			cacheOrder.remove((Object)index); // ugh, we want to remove the object, not by index. Confusing!
+			checkSizes();
 		}
 		innerList.setSerializedForm(index, hash, is);
 	}

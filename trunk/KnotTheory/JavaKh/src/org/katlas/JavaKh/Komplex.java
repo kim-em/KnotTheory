@@ -55,8 +55,10 @@ public class Komplex implements Serializable {
 		return matrices.get(i);
 	}
 
-	private synchronized CobMatrix setMatrix(int i, CobMatrix m) {
-		return matrices.set(i, m);
+	// This is intentionally void return type, instead of the more usual 'CobMatrix',
+	// so DiskBackedList doesn't have to read before it writes.
+	private synchronized void setMatrix(int i, CobMatrix m) {
+		matrices.set(i, m);
 	}
 
 	static int pascalTriangle[][];
@@ -1227,7 +1229,7 @@ public class Komplex implements Serializable {
 //		log.debug(prependLoggingStatus(msg), t);
 //	}
 	
-	private static void debug(String msg) {
+	public static void debug(String msg) {
 		log.debug(prependLoggingStatus(msg));
 	}
 	
@@ -1235,7 +1237,7 @@ public class Komplex implements Serializable {
 //		log.info(" " + prependLoggingStatus(msg), t);
 //	}
 	
-	private static void info(String msg) {
+	public static void info(String msg) {
 		log.info(" " + prependLoggingStatus( msg));
 	}
 	
@@ -1294,9 +1296,8 @@ public class Komplex implements Serializable {
 					try {
 						ObjectInputStream deserializer = new ObjectInputStream(
 								new FileInputStream(cache));
+						info("Beginning to load cached complex for crossing: " + i);
 						kom = (Komplex) (deserializer.readObject());
-						info("Successfully loaded cached complex for crossing: "
-										+ i);
 						dryRun = true;
 						
 						// uncomment this to upconvert serialization versions...
@@ -1312,6 +1313,8 @@ public class Komplex implements Serializable {
 //						cache.delete();
 						log.warn("Aborting!");
 						System.exit(1);
+					} finally {
+						info("Successfully loaded cached complex.");
 					}
 				}
 			}
@@ -1431,6 +1434,8 @@ public class Komplex implements Serializable {
 			log.warn("Trying to delete failed output file...");
 			output.deleteOnExit();
 			output.delete();
+		} finally {
+			info("Completed caching complex.");
 		}
 	}
 
@@ -1906,5 +1911,5 @@ public class Komplex implements Serializable {
 			}
 		}
 	}
-
+	
 }

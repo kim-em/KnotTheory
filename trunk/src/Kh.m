@@ -546,12 +546,18 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
       "!java -classpath \"", classpath,
       "\" ", javaoptions, " org.katlas.JavaKh.JavaKh ",
       If[universal, "-U", If[modulus === Null, "-Z", "--mod "<>ToString[modulus]]],
-      " < pd"
+      " < pd 2> JavaKh.log"
     ];
     f = OpenRead[cl];
     out = Read[f, Expression];
     Close[f];
-    If[out == EndOfFile, Print["Something went wrong running JavaKh; nothing was returned. The command line was: "];Print[cl];Return[$Failed]];
+    If[out == EndOfFile, 
+        Print["Something went wrong running JavaKh; nothing was returned. The command line was: "];
+        Print[cl];
+        Print["There may have been an error log produced by Java: "];
+        FilePrint["JavaKh.log"];
+        Return[$Failed]
+    ];
     out = StringReplace[out, {
       "q" -> "#1", "t" -> "#2", "Z" -> "ZMod"
     }];
