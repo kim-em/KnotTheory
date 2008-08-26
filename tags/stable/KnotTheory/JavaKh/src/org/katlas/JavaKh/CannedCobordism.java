@@ -1,10 +1,11 @@
 package org.katlas.JavaKh;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Map;
-import java.util.TreeMap;
 
-import org.katlas.JavaKh.utils.AlwaysEmptyMap;
+import org.katlas.JavaKh.utils.Cache;
+import org.katlas.JavaKh.utils.HashCodeCache;
+import org.katlas.JavaKh.utils.TrivialCache;
 
 // CannedCobordisms should be treated as immutable
 // don't touch them except just after calling the constructor
@@ -13,19 +14,26 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	 * 
 	 */
 	private static final long serialVersionUID = 3719377672479984518L;
-	public static final int zerosize = 500;
-    public static final int zeros[][] = fillZeros();
-    public static final int counting[][] = fillCounting();
-    private static int[][] fillZeros() {
-	int ret[][] = new int[zerosize][];
+	public static final int zerosize = 127;
+//    public static final int zeros[][] = fillZeros();
+    public static final byte zeros[][] = fillZeros();
+    public static final byte counting[][] = fillCounting();
+//    private static int[][] fillZeros() {
+//    	int ret[][] = new int[zerosize][];
+//    	for (int i = 0; i < zerosize; i++)
+//    	    ret[i] = new int[i];
+//    	return ret;
+//        }
+    private static byte[][] fillZeros() {
+    	byte ret[][] = new byte[zerosize][];
+    	for (int i = 0; i < zerosize; i++)
+    	    ret[i] = new byte[i];
+    	return ret;
+        }
+    private static byte[][] fillCounting() {
+	byte ret[][] = fillZeros();
 	for (int i = 0; i < zerosize; i++)
-	    ret[i] = new int[i];
-	return ret;
-    }
-    private static int[][] fillCounting() {
-	int ret[][] = fillZeros();
-	for (int i = 0; i < zerosize; i++)
-	    for (int j = 0; j < i; j++)
+	    for (byte j = 0; j < i; j++)
 		ret[i][j] = j;
 	return ret;
     }
@@ -33,40 +41,51 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
     public int n;
     public int hpower;
     public Cap top, bottom;
-    public int nbc; // number of boundary components
+    public byte nbc; // number of boundary components
     public int offtop, offbot; // offsets for numbering cycles in top, bottom
-    public int component[]; // which boundary component each edge belongs to
-    public int ncc; // number of connected components
-    public int connectedComponent[]; // which connected component each boundary component belongs to
-    public int dots[]; // how many dots each connected component has
-    public int genus[]; // the genus of each connected component
+    public byte component[]; // which boundary component each edge belongs to
+    public byte ncc; // number of connected components
+    public byte connectedComponent[]; // which connected component each boundary component belongs to
+    public byte dots[]; // how many dots each connected component has
+    public byte genus[]; // the genus of each connected component
 
-    public int boundaryComponents[][]; // which boundary components are connected to each connected component
-    public int edges[][]; // which edges are part of each mixed boundary component
+    public transient byte boundaryComponents[][]; // which boundary components are connected to each connected component
+    public transient byte edges[][]; // which edges are part of each mixed boundary component
 
-    static Map<VComposeInput, ComposeOutput> vcache = new TreeMap<VComposeInput, ComposeOutput>();
-    static Map<HComposeInput, ComposeOutput> hcache = new TreeMap<HComposeInput, ComposeOutput>();
+    static Cache<CannedCobordism> cobordismCache = new HashCodeCache<CannedCobordism>();
+
+//    static Map<VComposeInput, ComposeOutput> vcache = new TreeMap<VComposeInput, ComposeOutput>();
+//    static Map<HComposeInput, ComposeOutput> hcache = new TreeMap<HComposeInput, ComposeOutput>();
 
     public static void disableCache() {
-    	vcache = new AlwaysEmptyMap<VComposeInput, ComposeOutput>();
-    	hcache = new AlwaysEmptyMap<HComposeInput, ComposeOutput>();
+//    	vcache = new AlwaysEmptyMap<VComposeInput, ComposeOutput>();
+//    	hcache = new AlwaysEmptyMap<HComposeInput, ComposeOutput>();
+    	cobordismCache = new TrivialCache<CannedCobordism>();
     }
     
     public static void enableCache() {
-    	vcache = new TreeMap<VComposeInput, ComposeOutput>();
-    	hcache = new TreeMap<HComposeInput, ComposeOutput>();
-    }
-    
-    public static void main(String args[]) {
-	int n = 8;
-	if (checkAssociativity(n))
-	//if (checkHorizontal())
-	//if (findGenusExample(n))
-	    System.out.println("Associativity checks OK");
-	else
-	    System.out.println("Error in associativity check");
+//    	vcache = new TreeMap<VComposeInput, ComposeOutput>();
+//    	hcache = new TreeMap<HComposeInput, ComposeOutput>();
+    	cobordismCache = new HashCodeCache<CannedCobordism>();
     }
 
+    public static void flushCache() {
+//    	vcache.clear();
+//    	hcache.clear();
+    	cobordismCache.flush();
+    }
+
+    
+//    public static void main(String args[]) {
+//	int n = 8;
+//	if (checkAssociativity(n))
+//	//if (checkHorizontal())
+//	//if (findGenusExample(n))
+//	    System.out.println("Associativity checks OK");
+//	else
+//	    System.out.println("Error in associativity check");
+//    }
+//
     //private CannedCobordism() {
     //}
 
@@ -82,7 +101,8 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	nbc = cc.nbc;
 	ncc = cc.ncc;
 	// leaves dots and genus null
-	dots = genus = null;
+	dots = null;
+	genus = null;
 	/*dots = new int[ncc];
 	  genus = new int[ncc];*/
     }
@@ -90,9 +110,9 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
     public CannedCobordism(Cap t, Cap b) {
 	top = t;
 	bottom = b;
-	n = t.n; // assume b.n == t.n
+	n = t.n(); // assume b.n == t.n
 
-	component = new int[n];
+	component = new byte[n];
 	for (int i = 0; i < n; i++)
 	    component[i] = -1;
 	nbc = 0;
@@ -100,9 +120,9 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	    if (component[i] == -1) {
 		int j = i;
 		do {
-		    component[j] = nbc;
+		    component[j] = (byte)nbc;
 		    j = top.pairings[j];
-		    component[j] = nbc;
+		    component[j] = (byte)nbc;
 		    j = bottom.pairings[j];
 		} while (j != i);
 		nbc++;
@@ -112,7 +132,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	offbot = nbc;
 	nbc += bottom.ncycles;
 
-	connectedComponent = new int[nbc];
+	connectedComponent = new byte[nbc];
 
 	// let ncc and connectedComponent be set elsewhere
 	// let dots and genus be created elsewhere
@@ -125,24 +145,24 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	int numBC[] = new int[ncc];
 	for (int i = 0; i < nbc; i++)
 	    numBC[connectedComponent[i]]++;
-	boundaryComponents = new int[ncc][];
+	boundaryComponents = new byte[ncc][];
 	for (int i = 0; i < ncc; i++)
-	    boundaryComponents[i] = new int[numBC[i]];
+	    boundaryComponents[i] = new byte[numBC[i]];
 	int j[] = new int[ncc];
-	for (int i = 0; i < nbc; i++) {
+	for (byte i = 0; i < nbc; i++) {
 	    int k = connectedComponent[i];
 	    boundaryComponents[k][j[k]++] = i;
 	}
 	int nedges[] = new int[offtop];
 	for (int i = 0; i < n; i++)
 	    nedges[component[i]]++;
-	edges = new int[offtop][];
+	edges = new byte[offtop][];
 	for (int i = 0; i < offtop; i++)
-	    edges[i] = new int[nedges[i]];
+	    edges[i] = new byte[nedges[i]];
 	j = new int[offtop];
 	for (int i = 0; i < n; i++) {
 	    int k = component[i];
-	    edges[k][j[k]++] = i;
+	    edges[k][j[k]++] = (byte)i;
 	}
     }
 
@@ -175,21 +195,26 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 
     public int hashCode() {
 	int r = n;
-	for (int i = 0; i < n; i++) {
-	    r += top.pairings[i] << (i % 16);
-	    r += bottom.pairings[i] << (i % 16);
-	}
-	r += top.ncycles;
-	r += bottom.ncycles << 16;
-	r += nbc << 4;
-	r += ncc << 20;
-	for (int i = 0; i < nbc; i++)
-	    r += connectedComponent[i] << (i % 16);
-	for (int i = 0; i < ncc; i++) {
-	    r += dots[i] << (i % 16);
-	    r += genus[i] << ((i + 9) % 16);
-	}
-	r -= hpower;
+//	for (int i = 0; i < n; i++) {
+//	    r += top.pairings[i] << (i % 16);
+//	    r += bottom.pairings[i] << (i % 16);
+//	}
+	r += top.hashCode();
+	r += bottom.hashCode() << 1;
+	int[] f = new int[] {top.ncycles, bottom.ncycles, nbc, ncc, hpower};
+	r += Arrays.hashCode(f) << 2;
+//	r += dots.hashCode();
+//	r += genus.hashCode();
+//	r += connectedComponent.hashCode();
+	r += Arrays.hashCode(connectedComponent) << 3;
+	r += Arrays.hashCode(dots) << 4;
+	r += Arrays.hashCode(genus) << 5;
+//	for (int i = 0; i < nbc; i++)
+//	    r += (i+1)*connectedComponent[i] << (i % 16);
+//	for (int i = 0; i < ncc; i++) {
+//	    r += (i+1)*dots[i] << (i % 16);
+//	    r += (i+1)*genus[i] << ((i + 9) % 16);
+//	}
 	return r;
     }
 
@@ -250,151 +275,153 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	CannedCobordism ret = new CannedCobordism(c, c);
 	ret.ncc = ret.nbc;
 	ret.connectedComponent = counting[ret.nbc];
-	ret.genus = ret.dots = zeros[ret.ncc];
-	return ret;
+	ret.genus = zeros[ret.ncc];
+	ret.dots = zeros[ret.ncc];
+	return cobordismCache.cache(ret);
+//	return ret;
     }
 
-    public static CannedCobordism generateDisconnected(Cap t, Cap b) {
-	CannedCobordism ret = new CannedCobordism(t, b);
-	ret.ncc = ret.nbc;
-	for (int i = 0; i < ret.nbc; i++)
-	    ret.connectedComponent[i] = i;
-	ret.dots = new int[ret.ncc];
-	for (int i = 0; i < ret.ncc; i++)
-	    ret.dots[i] = (int) (Math.random() * 10);
-	//java.util.Arrays.fill(ret.dots, 2);
-	ret.genus = new int[ret.ncc];
-	for (int i = 0; i < ret.ncc; i++)
-	    ret.genus[i] = 0;//(int) (Math.random() * 5);
-	return ret;
-    }
-
-    public static CannedCobordism generateConnected(Cap t, Cap b) {
-	CannedCobordism ret = new CannedCobordism(t, b);
-	ret.ncc = 1;
-	java.util.Arrays.fill(ret.connectedComponent, 0);
-	ret.dots = new int[ret.ncc];
-	ret.dots[0] = (int) (Math.random() * 30);
-	ret.genus = new int[ret.ncc];
-	ret.genus[0] = (int) (Math.random() * 10);
-	return ret;
-    }
-
-    public static CannedCobordism generateRandom(Cap t, Cap b) {
-	CannedCobordism ret = new CannedCobordism(t, b);
-	ret.ncc = 1 + (int) (Math.random() * (ret.nbc - 1));
-	for (int i = 0; i < ret.nbc; i++)
-	    ret.connectedComponent[i] = (int) (Math.random() * ret.ncc);
-	// need to fix the proper consistent ordering
-	int j = 0;
-	for (int i = 0; i < ret.nbc; i++)
-	    if (ret.connectedComponent[i] > j) { // swap values
-		int k = ret.connectedComponent[i];
-		for (int l = i; l < ret.nbc; l++) {
-		    if (ret.connectedComponent[l] == k)
-			ret.connectedComponent[l] = j;
-		    else if (ret.connectedComponent[l] == j)
-			ret.connectedComponent[l] = k;
-		}
-		j++;
-	    } else if (ret.connectedComponent[i] == j)
-		j++;
-	ret.dots = new int[ret.ncc];
-	for (int i = 0; i < ret.ncc; i++)
-	    ret.dots[i] = (int) (Math.random() * 10);
-	//java.util.Arrays.fill(ret.dots, 2);
-	ret.genus = new int[ret.ncc];
-	//for (int i = 0; i < ret.ncc; i++)
-	//ret.genus[i] = (int) (Math.random() * 5);
-	System.arraycopy(ret.dots, 0, ret.genus, 0, ret.ncc);
-	return ret;
-    }
-
-    public static boolean findGenusExample(int n) {
-	Cap[] caps = Cap.generate(n);
-	for (int i = 0; i < caps.length; i++)
-	    for (int j = 0; j < caps.length; j++)
-		for (int k = 0; k < caps.length; k++) {
-		    CannedCobordism a = generateDisconnected(caps[i], caps[j]),
-			b = generateDisconnected(caps[j], caps[k]);
-		    CannedCobordism c = b.compose(a);
-		    for (int l = 0; l < c.ncc; l++)
-			if (c.genus[l] > 0) {
-			    int nbc = 0;
-			    for (int m = 0; m < c.nbc; m++)
-				if (c.connectedComponent[m] == l)
-				    nbc++;
-			    if (nbc == 1)
-				return true;
-			}
-		}
-	return false;
-    }
-
-    public static boolean checkAssociativity(int n) {
-	Cap[] caps = Cap.generate(n);
-	for (int i = 0; i < caps.length; i++)
-	    for (int j = 0; j < caps.length; j++)
-		for (int k = 0; k < caps.length; k++)
-		    for (int l = 0; l < caps.length; l++) {
-			CannedCobordism
-			    a = generateRandom(caps[i], caps[j]),
-			    b = generateRandom(caps[j], caps[k]),
-			    c = generateRandom(caps[k], caps[l]);
-			CannedCobordism d = (c.compose(b)).compose(a);
-			CannedCobordism e = c.compose(b.compose(a));
-			if (!(d.equals(e)))
-			    return false;
-			int ndots = 0; // check that dots add up properly
-			for (int m = 0; m < a.ncc; m++)
-			    ndots += a.dots[m];
-			for (int m = 0; m < b.ncc; m++)
-			    ndots += b.dots[m];
-			for (int m = 0; m < c.ncc; m++)
-			    ndots += c.dots[m];
-			for (int m = 0; m < d.ncc; m++)
-			    ndots -= d.dots[m];
-			if (ndots != 0)
-			    return false;
-			if (!java.util.Arrays.equals(d.dots, d.genus))
-			    i = i + 0;
-		    }
-	return true;
-    }
-
-    public static boolean checkHorizontal() {
-	Cap caps[] = Cap.generate(6);
-	for (int i = 0; i < caps.length; i++)
-	    for (int j = 0; j < caps.length; j++)
-		for (int k = 0; k < caps.length; k++)
-		    for (int l = 0; l < caps.length; l++) {
-			// there is no reason for the caps to match up
-			// like this, but all of the combinations is
-			// a very big number
-			CannedCobordism
-			    a = generateRandom(caps[i], caps[j]),
-			    b = generateRandom(caps[j], caps[k]),
-			    c = generateRandom(caps[k], caps[l]);
-			CannedCobordism d = a.compose(1, b, 4, 2).compose(5, c, 3, 3);
-			CannedCobordism e = a.compose(1, b.compose(1, c, 3, 3), 0, 2);
-			if (!d.equals(e))
-			    return false;
-			int ndots = 0; // check that dots add up properly
-			for (int m = 0; m < a.ncc; m++)
-			    ndots += a.dots[m];
-			for (int m = 0; m < b.ncc; m++)
-			    ndots += b.dots[m];
-			for (int m = 0; m < c.ncc; m++)
-			    ndots += c.dots[m];
-			for (int m = 0; m < d.ncc; m++)
-			    ndots -= d.dots[m];
-			if (ndots != 0)
-			    return false;
-			if (!java.util.Arrays.equals(d.dots, d.genus))
-			    i = i + 0;
-		    }
-	return true;
-    }
+//    public static CannedCobordism generateDisconnected(Cap t, Cap b) {
+//	CannedCobordism ret = new CannedCobordism(t, b);
+//	ret.ncc = ret.nbc;
+//	for (int i = 0; i < ret.nbc; i++)
+//	    ret.connectedComponent[i] = i;
+//	ret.dots = new int[ret.ncc];
+//	for (int i = 0; i < ret.ncc; i++)
+//	    ret.dots[i] = (int) (Math.random() * 10);
+//	//java.util.Arrays.fill(ret.dots, 2);
+//	ret.genus = new int[ret.ncc];
+//	for (int i = 0; i < ret.ncc; i++)
+//	    ret.genus[i] = 0;//(int) (Math.random() * 5);
+//	return ret;
+//    }
+//
+//    public static CannedCobordism generateConnected(Cap t, Cap b) {
+//	CannedCobordism ret = new CannedCobordism(t, b);
+//	ret.ncc = 1;
+//	java.util.Arrays.fill(ret.connectedComponent, 0);
+//	ret.dots = new int[ret.ncc];
+//	ret.dots[0] = (int) (Math.random() * 30);
+//	ret.genus = new int[ret.ncc];
+//	ret.genus[0] = (int) (Math.random() * 10);
+//	return ret;
+//    }
+//
+//    public static CannedCobordism generateRandom(Cap t, Cap b) {
+//	CannedCobordism ret = new CannedCobordism(t, b);
+//	ret.ncc = 1 + (int) (Math.random() * (ret.nbc - 1));
+//	for (int i = 0; i < ret.nbc; i++)
+//	    ret.connectedComponent[i] = (int) (Math.random() * ret.ncc);
+//	// need to fix the proper consistent ordering
+//	int j = 0;
+//	for (int i = 0; i < ret.nbc; i++)
+//	    if (ret.connectedComponent[i] > j) { // swap values
+//		int k = ret.connectedComponent[i];
+//		for (int l = i; l < ret.nbc; l++) {
+//		    if (ret.connectedComponent[l] == k)
+//			ret.connectedComponent[l] = j;
+//		    else if (ret.connectedComponent[l] == j)
+//			ret.connectedComponent[l] = k;
+//		}
+//		j++;
+//	    } else if (ret.connectedComponent[i] == j)
+//		j++;
+//	ret.dots = new int[ret.ncc];
+//	for (int i = 0; i < ret.ncc; i++)
+//	    ret.dots[i] = (int) (Math.random() * 10);
+//	//java.util.Arrays.fill(ret.dots, 2);
+//	ret.genus = new int[ret.ncc];
+//	//for (int i = 0; i < ret.ncc; i++)
+//	//ret.genus[i] = (int) (Math.random() * 5);
+//	System.arraycopy(ret.dots, 0, ret.genus, 0, ret.ncc);
+//	return ret;
+//    }
+//
+//    public static boolean findGenusExample(int n) {
+//	Cap[] caps = Cap.generate(n);
+//	for (int i = 0; i < caps.length; i++)
+//	    for (int j = 0; j < caps.length; j++)
+//		for (int k = 0; k < caps.length; k++) {
+//		    CannedCobordism a = generateDisconnected(caps[i], caps[j]),
+//			b = generateDisconnected(caps[j], caps[k]);
+//		    CannedCobordism c = b.compose(a);
+//		    for (int l = 0; l < c.ncc; l++)
+//			if (c.genus[l] > 0) {
+//			    int nbc = 0;
+//			    for (int m = 0; m < c.nbc; m++)
+//				if (c.connectedComponent[m] == l)
+//				    nbc++;
+//			    if (nbc == 1)
+//				return true;
+//			}
+//		}
+//	return false;
+//    }
+//
+//    public static boolean checkAssociativity(int n) {
+//	Cap[] caps = Cap.generate(n);
+//	for (int i = 0; i < caps.length; i++)
+//	    for (int j = 0; j < caps.length; j++)
+//		for (int k = 0; k < caps.length; k++)
+//		    for (int l = 0; l < caps.length; l++) {
+//			CannedCobordism
+//			    a = generateRandom(caps[i], caps[j]),
+//			    b = generateRandom(caps[j], caps[k]),
+//			    c = generateRandom(caps[k], caps[l]);
+//			CannedCobordism d = (c.compose(b)).compose(a);
+//			CannedCobordism e = c.compose(b.compose(a));
+//			if (!(d.equals(e)))
+//			    return false;
+//			int ndots = 0; // check that dots add up properly
+//			for (int m = 0; m < a.ncc; m++)
+//			    ndots += a.dots[m];
+//			for (int m = 0; m < b.ncc; m++)
+//			    ndots += b.dots[m];
+//			for (int m = 0; m < c.ncc; m++)
+//			    ndots += c.dots[m];
+//			for (int m = 0; m < d.ncc; m++)
+//			    ndots -= d.dots[m];
+//			if (ndots != 0)
+//			    return false;
+//			if (!java.util.Arrays.equals(d.dots, d.genus))
+//			    i = i + 0;
+//		    }
+//	return true;
+//    }
+//
+//    public static boolean checkHorizontal() {
+//	Cap caps[] = Cap.generate(6);
+//	for (int i = 0; i < caps.length; i++)
+//	    for (int j = 0; j < caps.length; j++)
+//		for (int k = 0; k < caps.length; k++)
+//		    for (int l = 0; l < caps.length; l++) {
+//			// there is no reason for the caps to match up
+//			// like this, but all of the combinations is
+//			// a very big number
+//			CannedCobordism
+//			    a = generateRandom(caps[i], caps[j]),
+//			    b = generateRandom(caps[j], caps[k]),
+//			    c = generateRandom(caps[k], caps[l]);
+//			CannedCobordism d = a.compose(1, b, 4, 2).compose(5, c, 3, 3);
+//			CannedCobordism e = a.compose(1, b.compose(1, c, 3, 3), 0, 2);
+//			if (!d.equals(e))
+//			    return false;
+//			int ndots = 0; // check that dots add up properly
+//			for (int m = 0; m < a.ncc; m++)
+//			    ndots += a.dots[m];
+//			for (int m = 0; m < b.ncc; m++)
+//			    ndots += b.dots[m];
+//			for (int m = 0; m < c.ncc; m++)
+//			    ndots += c.dots[m];
+//			for (int m = 0; m < d.ncc; m++)
+//			    ndots -= d.dots[m];
+//			if (ndots != 0)
+//			    return false;
+//			if (!java.util.Arrays.equals(d.dots, d.genus))
+//			    i = i + 0;
+//		    }
+//	return true;
+//    }
 
     // sanity check
     public boolean check() {
@@ -408,21 +435,21 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	return true;
     }
     
-    public CannedCobordism compose(CannedCobordism cc) {// cc on top of this
-	assert top.equals(cc.bottom);
-	if (ncc + cc.ncc > 20)
-	    return compose2(cc);
-	VComposeInput ci = new VComposeInput(this, cc);
-	ComposeOutput co = vcache.get(ci);
-	if (co == null) {
-	    co = new ComposeOutput(this, cc);
-	    vcache.put(ci, co);
-	}
-	return co.get(this, cc);
-    }
+//    public CannedCobordism compose(CannedCobordism cc) {// cc on top of this
+//	assert top.equals(cc.bottom);
+//	if (ncc + cc.ncc > 20)
+//	    return compose2(cc);
+//	VComposeInput ci = new VComposeInput(this, cc);
+//	ComposeOutput co = vcache.get(ci);
+//	if (co == null) {
+//	    co = new ComposeOutput(this, cc);
+//	    vcache.put(ci, co);
+//	}
+//	return co.get(this, cc);
+//    }
 
     // new vertical composition
-    public CannedCobordism compose2(CannedCobordism cc) {//cc on top of this
+    public CannedCobordism compose(CannedCobordism cc) {//cc on top of this
 	assert top.equals(cc.bottom);
 
 	reverseMaps();
@@ -430,15 +457,15 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	CannedCobordism ret = new CannedCobordism(cc.top, bottom);
 	ret.hpower = hpower + cc.hpower;
 
-	for (int i = 0; i < ret.nbc; i++)
+	for (byte i = 0; i < ret.nbc; i++)
 	    ret.connectedComponent[i] = i;
 	int midConComp[] = new int[top.ncycles];
 	for (int i = 0; i < top.ncycles; i++)
 	    midConComp[i] = -2 - i;
-	int rdots[] = new int[ncc + cc.ncc + ret.nbc];
-	int mdots[] = new int[ncc + cc.ncc + ret.nbc + 2];
-	int udots[] = new int[ncc + cc.ncc + ret.nbc];
-	int ugenus[] = new int[ncc + cc.ncc + ret.nbc];
+	byte rdots[] = new byte[ncc + cc.ncc + ret.nbc];
+	byte mdots[] = new byte[ncc + cc.ncc + ret.nbc + 2];
+	byte udots[] = new byte[ncc + cc.ncc + ret.nbc];
+	byte ugenus[] = new byte[ncc + cc.ncc + ret.nbc];
 	int unconnected = 0;
 	// add in connected components from this and cc, one by one
 	for (int i = 0; i < ncc; i++) {
@@ -476,10 +503,10 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 			if (rettest != reti) {
 			    for (int l = 0; l < ret.nbc; l++)
 				if (ret.connectedComponent[l] == rettest)
-				    ret.connectedComponent[l] = reti;
+				    ret.connectedComponent[l] = (byte)reti;
 			    for (int l = 0; l < midConComp.length; l++)
 				if (midConComp[l] == rettest)
-				    midConComp[l] = reti;
+				    midConComp[l] = (byte)reti;
 			    rdots[reti] += rdots[rettest];
 			}
 		    }
@@ -491,7 +518,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 			if (mtest >= 0)
 			    for (int k = 0; k < ret.nbc; k++)
 				if (ret.connectedComponent[k] == mtest)
-				    ret.connectedComponent[k] = reti;
+				    ret.connectedComponent[k] = (byte)reti;
 			for (int k = 0; k < midConComp.length; k++)
 			    if (midConComp[k] == mtest)
 				midConComp[k] = reti;
@@ -511,10 +538,10 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 		    if (rtest != reti) {
 			for (int k = 0; k < ret.nbc; k++)
 			    if (ret.connectedComponent[k] == rtest)
-				ret.connectedComponent[k] = reti;
+				ret.connectedComponent[k] = (byte)reti;
 			for (int k = 0; k < midConComp.length; k++)
 			    if (midConComp[k] == rtest)
-				midConComp[k] = reti;
+				midConComp[k] = (byte)reti;
 			rdots[reti] += rdots[rtest];
 		    }
 		}
@@ -555,7 +582,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 			if (rtest != reti) {
 			    for (int l = 0; l < ret.nbc; l++)
 				if (ret.connectedComponent[l] == rtest)
-				    ret.connectedComponent[l] = reti;
+				    ret.connectedComponent[l] = (byte)reti;
 			    for (int l = 0; l < midConComp.length; l++)
 				if (midConComp[l] == rtest)
 				    midConComp[l] = reti;
@@ -567,7 +594,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 		    if (rtest != reti) {
 			for (int k = 0; k < ret.nbc; k++)
 			    if (ret.connectedComponent[k] == rtest)
-				ret.connectedComponent[k] = reti;
+				ret.connectedComponent[k] = (byte)reti;
 			for (int k = 0; k < midConComp.length; k++)
 			    if (midConComp[k] == rtest)
 				midConComp[k] = reti;
@@ -579,7 +606,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 			if (mtest >= 0)
 			    for (int k = 0; k < ret.nbc; k++)
 				if (ret.connectedComponent[k] == mtest)
-				    ret.connectedComponent[k] = reti;
+				    ret.connectedComponent[k] = (byte)reti;
 			for (int k = 0; k < midConComp.length; k++)
 			    if (midConComp[k] == mtest)
 				midConComp[k] = reti;
@@ -602,7 +629,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	ret.ncc = 0;
 	for (int i = 0; i < ret.nbc; i++) {
 	    if (ret.connectedComponent[i] > ret.ncc) { // swap the values
-		int j = ret.connectedComponent[i];
+		byte j = ret.connectedComponent[i];
 		for (int k = i; k < ret.nbc; k++) {
 		    if (ret.connectedComponent[k] == j)
 			ret.connectedComponent[k] = ret.ncc;
@@ -615,7 +642,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 		    else if (midConComp[k] == ret.ncc)
 			midConComp[k] = j;
 		}
-		int tmp = rdots[ret.ncc];
+		byte tmp = rdots[ret.ncc];
 		rdots[ret.ncc] = rdots[j];
 		rdots[j] = tmp;
 		ret.ncc++;
@@ -625,7 +652,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 
 	// genus
 	ret.reverseMaps(); // since ret.ncc may change later, this may need to be undone later!
-	int rgenus[] = new int[ret.ncc]; 
+	byte rgenus[] = new byte[ret.ncc]; 
 	for (int i = 0; i < ret.ncc; i++) {
 	    int b = ret.boundaryComponents[i].length;
 	    int x = 0; // Euler characteristic
@@ -694,7 +721,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	    int g = 2 - b - x; // twice the genus
 	    if (g % 2 != 0 || g < 0)
 		throw new AssertionError();
-	    rgenus[i] = g / 2;
+	    rgenus[i] = (byte)(g / 2);
 	}
 
 	// same as old way
@@ -725,7 +752,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 				g += cc.genus[j] - 1;
 				break;
 			    }
-		ugenus[unconnected] = g;
+		ugenus[unconnected] = (byte)g;
 		udots[unconnected++] = mdots[i];
 	    }
 	}
@@ -744,10 +771,10 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 
 	int rncc = ret.ncc;
 	ret.ncc += unconnected;
-	ret.dots = new int[ret.ncc];
+	ret.dots = new byte[ret.ncc];
 	System.arraycopy(rdots, 0, ret.dots, 0, rncc);
 	System.arraycopy(udots, 0, ret.dots, rncc, unconnected);
-	ret.genus = new int[ret.ncc];
+	ret.genus = new byte[ret.ncc];
 	System.arraycopy(rgenus, 0, ret.genus, 0, rncc);
 	System.arraycopy(ugenus, 0, ret.genus, rncc, unconnected);
 	// perhaps the unconnected should be sorted differently?
@@ -759,24 +786,25 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	}
 	// and we are done (hopefully)
 	assert ret.check();
-	return ret;
+//	return ret;
+	return cobordismCache.cache(ret);
     }
     
-    public CannedCobordism compose(int start, CannedCobordism cc, int cstart,
-				   int nc) {
-	if (ncc + cc.ncc > 20)
-	    return compose2(start, cc, cstart, nc);
-	HComposeInput ci = new HComposeInput(this, start, cc, cstart, nc);
-	ComposeOutput co = hcache.get(ci);
-	if (co == null) {
-	    co = new ComposeOutput(this, start, cc, cstart, nc);
-	    hcache.put(ci, co);
-	}
-	return co.get(this, cc);
-    }
+//    public CannedCobordism compose(int start, CannedCobordism cc, int cstart,
+//				   int nc) {
+//	if (ncc + cc.ncc > 20)
+//	    return compose2(start, cc, cstart, nc);
+//	HComposeInput ci = new HComposeInput(this, start, cc, cstart, nc);
+//	ComposeOutput co = hcache.get(ci);
+//	if (co == null) {
+//	    co = new ComposeOutput(this, start, cc, cstart, nc);
+//	    hcache.put(ci, co);
+//	}
+//	return co.get(this, cc);
+//    }
 
     // horizontal composition
-    public CannedCobordism compose2(int start, CannedCobordism cc, int cstart,
+    public CannedCobordism compose(int start, CannedCobordism cc, int cstart,
 				    int nc) {
 	assert check() && cc.check();
 	/*if (!check() || !cc.check())
@@ -787,15 +815,15 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	CannedCobordism ret = new CannedCobordism(rtop, rbot);
 	ret.hpower = hpower + cc.hpower;
 
-	for (int i = 0; i < ret.nbc; i++)
+	for (byte i = 0; i < ret.nbc; i++)
 	    ret.connectedComponent[i] = i;
-	int midConComp[] = new int[nc];
+	byte midConComp[] = new byte[nc];
 	for (int i = 0; i < nc; i++)
-	    midConComp[i] = -2 - i;
-	int rdots[] = new int[ret.nbc + nc + 2];
-	int mdots[] = new int[nc];
-	int udots[] = new int[ncc + cc.ncc];
-	int ugenus[] = new int[ncc + cc.ncc];
+	    midConComp[i] = (byte)(-2 - i);
+	byte rdots[] = new byte[ret.nbc + nc + 2];
+	byte mdots[] = new byte[nc];
+	byte udots[] = new byte[ncc + cc.ncc];
+	byte ugenus[] = new byte[ncc + cc.ncc];
 	int unconnected = 0;
 	// add in connectedComponents from this and cc, one by one
 	for (int i = 0; i < ncc; i++) {
@@ -845,10 +873,10 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 				    if (tmp >= 0)
 					for (int l = 0; l < ret.nbc; l++)
 					    if (ret.connectedComponent[l]==tmp)
-						ret.connectedComponent[l]=reti;
+						ret.connectedComponent[l] = (byte)reti;
 				    for (int l = 0; l < nc; l++)
 					if (midConComp[l] == tmp)
-					    midConComp[l] = reti;
+					    midConComp[l] = (byte)reti;
 				    if (tmp >= 0)
 					if (reti >= 0)
 					    rdots[reti] += rdots[tmp];
@@ -875,10 +903,10 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 			    int tmp = ret.connectedComponent[retj];
 			    for (int k = 0; k < ret.nbc; k++)
 				if (ret.connectedComponent[k] == tmp)
-				    ret.connectedComponent[k] = reti;
+				    ret.connectedComponent[k] = (byte)reti;
 			    for (int k = 0; k < nc; k++)
 				if (midConComp[k] == tmp)
-				    midConComp[k] = reti;
+				    midConComp[k] = (byte)reti;
 			    rdots[reti] += rdots[tmp];
 			}
 		    }
@@ -932,11 +960,11 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 				if (tmp != reti) {
 				    if (tmp >= 0)
 					for (int l = 0; l < ret.nbc; l++)
-					    if (ret.connectedComponent[l]==tmp)
-						ret.connectedComponent[l]=reti;
+					    if (ret.connectedComponent[l] == tmp)
+						ret.connectedComponent[l] = (byte)reti;
 				    for (int l = 0; l < nc; l++)
 					if (midConComp[l] == tmp)
-					    midConComp[l] = reti;
+					    midConComp[l] = (byte)reti;
 				    if (tmp >= 0)
 					if (reti >= 0)
 					    rdots[reti] += rdots[tmp];
@@ -964,10 +992,10 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 			    int tmp = ret.connectedComponent[retj];
 			    for (int k = 0; k < ret.nbc; k++)
 				if (ret.connectedComponent[k] == tmp)
-				    ret.connectedComponent[k] = reti;
+				    ret.connectedComponent[k] = (byte)reti;
 			    for (int k = 0; k < nc; k++)
 				if (midConComp[k] == tmp)
-				    midConComp[k] = reti;
+				    midConComp[k] = (byte)reti;
 			    rdots[reti] += rdots[tmp];
 		    }
 		}
@@ -987,13 +1015,13 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 		    if (midConComp[j] >= 0)
 			ret.connectedComponent[reti] = midConComp[j];
 		    else {
-			ret.connectedComponent[reti] = ret.nbc - midConComp[j];
+			ret.connectedComponent[reti] = (byte)(ret.nbc - midConComp[j]);
 			rdots[ret.nbc - midConComp[j]] =
 			    mdots[-2 - midConComp[j]];
 			// want midConComp to have the same labels
 			// as ret.connectedComponent in order for
 			// genus calculation to work
-			midConComp[j] = ret.nbc - midConComp[j];
+			midConComp[j] = (byte)(ret.nbc - midConComp[j]);
 		    }
 		    found = true;
 		    break;
@@ -1010,10 +1038,10 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 		    if (midConComp[j] >= 0)
 			ret.connectedComponent[reti] = midConComp[j];
 		    else {
-			ret.connectedComponent[reti] = ret.nbc - midConComp[j];
+			ret.connectedComponent[reti] = (byte)(ret.nbc - midConComp[j]);
 			rdots[ret.nbc - midConComp[j]] =
 			    mdots[-2 - midConComp[j]];
-			midConComp[j] = ret.nbc - midConComp[j];
+			midConComp[j] = (byte)(ret.nbc - midConComp[j]);
 		    }
 		    found = true;
 		    break;
@@ -1025,7 +1053,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	// HERE IS THE BEST PLACE TO INSERT GENUS CALCULATIONS
 	// they should be the same as for vertical
 	// but rgenus[] needs to be larger as relabelling has not yet occurred
-	int rgenus[] = new int[ret.nbc + nc + 2];
+	byte rgenus[] = new byte[ret.nbc + nc + 2];
 	for (int i = 0; i < rgenus.length; i++) {
 	    int b = 0; // boundary components in ret
 	    for (int j = 0; j < ret.nbc; j++)
@@ -1122,7 +1150,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	    int g = 2 - b - x; // twice the genus
 	    if (g % 2 != 0 || g < 0)
 		throw new AssertionError();
-	    rgenus[i] = g / 2;
+	    rgenus[i] = (byte)(g / 2);
 	}
 
 	/* elaborate seeming sort of top, bottom cycles
@@ -1157,8 +1185,8 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	    sortarr[i][4] = rgenus[concomp];
 	    sortarr[i][5] = concomp;
 	    }*/
-	Comparator<int[]> comp = new Comparator<int[]>() {
-		public int compare(int[] a, int[] b) {
+	Comparator<byte[]> comp = new Comparator<byte[]>() {
+		public int compare(byte[] a, byte[] b) {
 		    for (int i = 0; i < a.length; i++)
 			if (a[i] != b[i])
 			    return a[i] - b[i];
@@ -1208,7 +1236,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	ret.ncc = 0;
 	for (int i = 0; i < ret.nbc; i++) {
 	    if (ret.connectedComponent[i] > ret.ncc) {
-		int j = ret.connectedComponent[i];
+		byte j = ret.connectedComponent[i];
 		for (int k = i; k < ret.nbc; k++) {
 		    if (ret.connectedComponent[k] == j)
 			ret.connectedComponent[k] = ret.ncc;
@@ -1216,7 +1244,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 			ret.connectedComponent[k] = j;
 		}
 		// for genus, do something similar with midConComp?
-		int tmp = rdots[ret.ncc];
+		byte tmp = rdots[ret.ncc];
 		rdots[ret.ncc] = rdots[j];
 		rdots[j] = tmp;
 		tmp = rgenus[ret.ncc];
@@ -1233,7 +1261,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 	  java.util.Arrays.sort(ret.connectedComponent, ret.offbot, ret.nbc);*/
 
 	// resort the unconnected: by genus, dots
-	int sortarr[][] = new int[unconnected][2];
+	byte sortarr[][] = new byte[unconnected][2];
 	for (int i = 0; i < unconnected; i++) {
 	    sortarr[i][0] = ugenus[i];
 	    sortarr[i][1] = udots[i];
@@ -1243,189 +1271,191 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 
 	int rncc = ret.ncc;
 	ret.ncc += unconnected;
-	ret.dots = new int[ret.ncc];
+	ret.dots = new byte[ret.ncc];
 	System.arraycopy(rdots, 0, ret.dots, 0, rncc);
 	//System.arraycopy(udots, 0, ret.dots, rncc, unconnected);
 	for (int i = 0; i < unconnected; i++)
 	    ret.dots[i + rncc] = sortarr[i][1];
-	ret.genus = new int[ret.ncc];
+	ret.genus = new byte[ret.ncc];
 	System.arraycopy(rgenus, 0, ret.genus, 0, rncc);
 	for (int i = 0; i < unconnected; i++)
 	    ret.genus[i + rncc] = sortarr[i][0];
 
 	assert ret.check();
-	return ret;
+//	return ret;
+    return cobordismCache.cache(ret);
     }
 
-    private class VComposeInput implements Comparable<VComposeInput> {
-	int n;
-	Cap top, middle, bottom;
-	int topnbc, botnbc;
-	int topncc, botncc;
-	int topConnectedComponent[], botConnectedComponent[];
-	public VComposeInput(CannedCobordism a, CannedCobordism b) {
-	    assert a.n == b.n;
-	    n = a.n;
-	    assert a.top.equals(b.bottom);
-	    top = b.top;
-	    middle = b.bottom;
-	    bottom = a.bottom;
-	    topnbc = b.nbc;
-	    botnbc = a.nbc;
-	    topncc = b.ncc;
-	    botncc = a.ncc;
-	    topConnectedComponent = b.connectedComponent;
-	    botConnectedComponent = a.connectedComponent;
-	}
+//    private class VComposeInput implements Comparable<VComposeInput> {
+//	int n;
+//	Cap top, middle, bottom;
+//	int topnbc, botnbc;
+//	int topncc, botncc;
+//	int topConnectedComponent[], botConnectedComponent[];
+//	public VComposeInput(CannedCobordism a, CannedCobordism b) {
+//	    assert a.n == b.n;
+//	    n = a.n;
+//	    assert a.top.equals(b.bottom);
+//	    top = b.top;
+//	    middle = b.bottom;
+//	    bottom = a.bottom;
+//	    topnbc = b.nbc;
+//	    botnbc = a.nbc;
+//	    topncc = b.ncc;
+//	    botncc = a.ncc;
+//	    topConnectedComponent = b.connectedComponent;
+//	    botConnectedComponent = a.connectedComponent;
+//	}
+//
+//	public int compareTo(VComposeInput ci) {
+//	    if (n != ci.n)
+//		return n - ci.n;
+//	    if (topnbc != ci.topnbc)
+//		return topnbc - ci.topnbc;
+//	    if (botnbc != ci.botnbc)
+//		return botnbc - ci.botnbc;
+//	    if (topncc != ci.topncc)
+//		return topncc - ci.topncc;
+//	    if (botncc != ci.botncc)
+//		return botncc - ci.botncc;
+//	    for (int i = 0; i < topnbc; i++)
+//		if (topConnectedComponent[i] != ci.topConnectedComponent[i])
+//		    return topConnectedComponent[i] - ci.topConnectedComponent[i];
+//	    for (int i = 0; i < botnbc; i++)
+//		if (botConnectedComponent[i] != ci.botConnectedComponent[i])
+//		    return botConnectedComponent[i] - ci.botConnectedComponent[i];
+//	    int i = top.compareTo(ci.top);
+//	    if (i != 0)
+//		return i;
+//	    i = middle.compareTo(ci.middle);
+//	    if (i != 0)
+//		return i;
+//	    return bottom.compareTo(ci.bottom);
+//	}
+//    }
+//
+//    private class ComposeOutput {
+//	private final CannedCobordism out;
+//	public ComposeOutput(CannedCobordism a, CannedCobordism b) {
+//	    CannedCobordism bot = new CannedCobordism(a);
+//	    bot.genus = new int[bot.ncc];
+//	    bot.dots = new int[bot.ncc];
+//	    for (int i = 0; i < bot.ncc; i++) {
+//		bot.genus[i] = 1 << (i + 10);
+//		bot.dots[i] = 1 << i;
+//	    }
+//	    CannedCobordism top = new CannedCobordism(b);
+//	    top.genus = new int[top.ncc];
+//	    top.dots = new int[top.ncc];
+//	    for (int i = 0; i < top.ncc; i++) {
+//		top.genus[i] = 1 << (i + 10 + bot.ncc);
+//		top.dots[i] = 1 << (i + bot.ncc);
+//	    }
+//	    out = bot.compose2(top);
+//	}
+//
+//	public ComposeOutput(CannedCobordism a, int astart,
+//			     CannedCobordism b, int bstart, int nc) {
+//	    CannedCobordism aa = new CannedCobordism(a);
+//	    aa.genus = new int[a.ncc];
+//	    aa.dots = new int[a.ncc];
+//	    for (int i = 0; i < a.ncc; i++) {
+//		aa.genus[i] = 1 << (i + 10);
+//		aa.dots[i] = 1 << i;
+//	    }
+//	    CannedCobordism bb = new CannedCobordism(b);
+//	    bb.genus = new int[b.ncc];
+//	    bb.dots = new int[b.ncc];
+//	    for (int i = 0; i < b.ncc; i++) {
+//		bb.genus[i] = 1 << (i + 10 + a.ncc);
+//		bb.dots[i] = 1 << (i + a.ncc);
+//	    }
+//	    out = aa.compose2(astart, bb, bstart, nc);
+//	}
+//
+//	// assumes a and b are appropriate CannedCobordisms
+//	public CannedCobordism get(CannedCobordism a, CannedCobordism b) {
+//	    CannedCobordism ret = new CannedCobordism(out);
+//	    ret.hpower = a.hpower + b.hpower;
+//	    ret.genus = new int[ret.ncc];
+//	    ret.dots = new int[ret.ncc];
+//	    for (int i = 0; i < ret.ncc; i++) {
+//		for (int j = 0; j < a.ncc; j++)
+//		    if ((out.genus[i] & (1 << (10 + j))) != 0)
+//			ret.genus[i] += a.genus[j];
+//		for (int j = 0; j < b.ncc; j++)
+//		    if ((out.genus[i] & (1 << (10 + a.ncc + j))) != 0)
+//			ret.genus[i] += b.genus[j];
+//		ret.genus[i] += out.genus[i] & ((1 << 10) - 1);
+//		for (int j = 0; j < a.ncc; j++)
+//		    if ((out.dots[i] & (1 << j)) != 0)
+//			ret.dots[i] += a.dots[j];
+//		for (int j = 0; j < b.ncc; j++)
+//		    if ((out.dots[i] & (1 << (j + a.ncc))) != 0)
+//			ret.dots[i] += b.dots[j];
+//	    }
+//	    return cobordismCache.cache(ret);
+////	    return ret;
+//	}
+//    }
+//
+//    private class HComposeInput implements Comparable<HComposeInput> {
+//	int an, bn;
+//	Cap atop, abottom, btop, bbottom;
+//	int anbc, bnbc, ancc, bncc;
+//	int aConnectedComponent[], bConnectedComponent[];
+//	int astart, bstart, nc;
+//	public HComposeInput(CannedCobordism a, int astart,
+//			     CannedCobordism b, int bstart, int nc) {
+//	    an = a.n; bn = b.n;
+//	    atop = a.top; abottom = a.bottom;
+//	    btop = b.top; bbottom = b.bottom;
+//	    anbc = a.nbc; ancc = a.ncc;
+//	    bnbc = b.nbc; bncc = b.ncc;
+//	    aConnectedComponent = a.connectedComponent;
+//	    bConnectedComponent = b.connectedComponent;
+//	    this.astart = astart; this.bstart = bstart; this.nc = nc;
+//	}
+//
+//	public int compareTo(HComposeInput ci) {
+//	    if (astart != ci.astart)
+//		return astart - ci.astart;
+//	    if (bstart != ci.bstart)
+//		return bstart - ci.bstart;
+//	    if (nc != ci.nc)
+//		return nc - ci.nc;
+//	    if (an != ci.an)
+//		return an - ci.an;
+//	    if (bn != ci.bn)
+//		return bn - ci.bn;
+//	    if (anbc != ci.anbc)
+//		return anbc - ci.anbc;
+//	    if (bnbc != ci.bnbc)
+//		return bnbc - ci.bnbc;
+//	    if (ancc != ci.ancc)
+//		return ancc - ci.ancc;
+//	    if (bncc != ci.bncc)
+//		return bncc - ci.bncc;
+//	    for (int i = 0; i < anbc; i++)
+//		if (aConnectedComponent[i] != ci.aConnectedComponent[i])
+//		    return aConnectedComponent[i] - ci.aConnectedComponent[i];
+//	    for (int i = 0; i < bnbc; i++)
+//		if (bConnectedComponent[i] != ci.bConnectedComponent[i])
+//		    return bConnectedComponent[i] - ci.bConnectedComponent[i];
+//	    int i = atop.compareTo(ci.atop);
+//	    if (i != 0) return i;
+//	    i = btop.compareTo(ci.btop);
+//	    if (i != 0) return i;
+//	    i = abottom.compareTo(ci.abottom);
+//	    if (i != 0) return i;
+//	    return bbottom.compareTo(ci.bbottom);
+//	}
+//    }
 
-	public int compareTo(VComposeInput ci) {
-	    if (n != ci.n)
-		return n - ci.n;
-	    if (topnbc != ci.topnbc)
-		return topnbc - ci.topnbc;
-	    if (botnbc != ci.botnbc)
-		return botnbc - ci.botnbc;
-	    if (topncc != ci.topncc)
-		return topncc - ci.topncc;
-	    if (botncc != ci.botncc)
-		return botncc - ci.botncc;
-	    for (int i = 0; i < topnbc; i++)
-		if (topConnectedComponent[i] != ci.topConnectedComponent[i])
-		    return topConnectedComponent[i] - ci.topConnectedComponent[i];
-	    for (int i = 0; i < botnbc; i++)
-		if (botConnectedComponent[i] != ci.botConnectedComponent[i])
-		    return botConnectedComponent[i] - ci.botConnectedComponent[i];
-	    int i = top.compareTo(ci.top);
-	    if (i != 0)
-		return i;
-	    i = middle.compareTo(ci.middle);
-	    if (i != 0)
-		return i;
-	    return bottom.compareTo(ci.bottom);
-	}
-    }
-
-    private class ComposeOutput {
-	CannedCobordism out;
-	public ComposeOutput(CannedCobordism a, CannedCobordism b) {
-	    CannedCobordism bot = new CannedCobordism(a);
-	    bot.genus = new int[bot.ncc];
-	    bot.dots = new int[bot.ncc];
-	    for (int i = 0; i < bot.ncc; i++) {
-		bot.genus[i] = 1 << (i + 10);
-		bot.dots[i] = 1 << i;
-	    }
-	    CannedCobordism top = new CannedCobordism(b);
-	    top.genus = new int[top.ncc];
-	    top.dots = new int[top.ncc];
-	    for (int i = 0; i < top.ncc; i++) {
-		top.genus[i] = 1 << (i + 10 + bot.ncc);
-		top.dots[i] = 1 << (i + bot.ncc);
-	    }
-	    out = bot.compose2(top);
-	}
-
-	public ComposeOutput(CannedCobordism a, int astart,
-			     CannedCobordism b, int bstart, int nc) {
-	    CannedCobordism aa = new CannedCobordism(a);
-	    aa.genus = new int[a.ncc];
-	    aa.dots = new int[a.ncc];
-	    for (int i = 0; i < a.ncc; i++) {
-		aa.genus[i] = 1 << (i + 10);
-		aa.dots[i] = 1 << i;
-	    }
-	    CannedCobordism bb = new CannedCobordism(b);
-	    bb.genus = new int[b.ncc];
-	    bb.dots = new int[b.ncc];
-	    for (int i = 0; i < b.ncc; i++) {
-		bb.genus[i] = 1 << (i + 10 + a.ncc);
-		bb.dots[i] = 1 << (i + a.ncc);
-	    }
-	    out = aa.compose2(astart, bb, bstart, nc);
-	}
-
-	// assumes a and b are appropriate CannedCobordisms
-	public CannedCobordism get(CannedCobordism a, CannedCobordism b) {
-	    CannedCobordism ret = new CannedCobordism(out);
-	    ret.hpower = a.hpower + b.hpower;
-	    ret.genus = new int[ret.ncc];
-	    ret.dots = new int[ret.ncc];
-	    for (int i = 0; i < ret.ncc; i++) {
-		for (int j = 0; j < a.ncc; j++)
-		    if ((out.genus[i] & (1 << (10 + j))) != 0)
-			ret.genus[i] += a.genus[j];
-		for (int j = 0; j < b.ncc; j++)
-		    if ((out.genus[i] & (1 << (10 + a.ncc + j))) != 0)
-			ret.genus[i] += b.genus[j];
-		ret.genus[i] += out.genus[i] & ((1 << 10) - 1);
-		for (int j = 0; j < a.ncc; j++)
-		    if ((out.dots[i] & (1 << j)) != 0)
-			ret.dots[i] += a.dots[j];
-		for (int j = 0; j < b.ncc; j++)
-		    if ((out.dots[i] & (1 << (j + a.ncc))) != 0)
-			ret.dots[i] += b.dots[j];
-	    }
-	    return ret;
-	}
-    }
-
-    private class HComposeInput implements Comparable<HComposeInput> {
-	int an, bn;
-	Cap atop, abottom, btop, bbottom;
-	int anbc, bnbc, ancc, bncc;
-	int aConnectedComponent[], bConnectedComponent[];
-	int astart, bstart, nc;
-	public HComposeInput(CannedCobordism a, int astart,
-			     CannedCobordism b, int bstart, int nc) {
-	    an = a.n; bn = b.n;
-	    atop = a.top; abottom = a.bottom;
-	    btop = b.top; bbottom = b.bottom;
-	    anbc = a.nbc; ancc = a.ncc;
-	    bnbc = b.nbc; bncc = b.ncc;
-	    aConnectedComponent = a.connectedComponent;
-	    bConnectedComponent = b.connectedComponent;
-	    this.astart = astart; this.bstart = bstart; this.nc = nc;
-	}
-
-	public int compareTo(HComposeInput ci) {
-	    if (astart != ci.astart)
-		return astart - ci.astart;
-	    if (bstart != ci.bstart)
-		return bstart - ci.bstart;
-	    if (nc != ci.nc)
-		return nc - ci.nc;
-	    if (an != ci.an)
-		return an - ci.an;
-	    if (bn != ci.bn)
-		return bn - ci.bn;
-	    if (anbc != ci.anbc)
-		return anbc - ci.anbc;
-	    if (bnbc != ci.bnbc)
-		return bnbc - ci.bnbc;
-	    if (ancc != ci.ancc)
-		return ancc - ci.ancc;
-	    if (bncc != ci.bncc)
-		return bncc - ci.bncc;
-	    for (int i = 0; i < anbc; i++)
-		if (aConnectedComponent[i] != ci.aConnectedComponent[i])
-		    return aConnectedComponent[i] - ci.aConnectedComponent[i];
-	    for (int i = 0; i < bnbc; i++)
-		if (bConnectedComponent[i] != ci.bConnectedComponent[i])
-		    return bConnectedComponent[i] - ci.bConnectedComponent[i];
-	    int i = atop.compareTo(ci.atop);
-	    if (i != 0) return i;
-	    i = btop.compareTo(ci.btop);
-	    if (i != 0) return i;
-	    i = abottom.compareTo(ci.abottom);
-	    if (i != 0) return i;
-	    return bbottom.compareTo(ci.bbottom);
-	}
-    }
-
-	public static int vcacheSize() {
-		return vcache.size();
-	}
-	public static int hcacheSize() {
-		return hcache.size();
-	}
+//	public static int vcacheSize() {
+//		return vcache.size();
+//	}
+//	public static int hcacheSize() {
+//		return hcache.size();
+//	}
 }

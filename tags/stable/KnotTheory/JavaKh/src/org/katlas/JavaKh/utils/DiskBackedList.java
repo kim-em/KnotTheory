@@ -10,14 +10,15 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 public class DiskBackedList<Element extends Serializable> extends AbstractList<Element> implements SerializingList<Element> {
+	private static final Log log = LogFactory.getLog(DiskBackedList.class);
 
 	static private int counter = 0;
 	
@@ -46,6 +47,7 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 		ObjectInputStream ois = null;
 		try {
 			ois = new ObjectInputStream(new FileInputStream(file(hashlist.get(index))));
+			log.debug("Getting index " + index + " ...");
 			Element r = (Element)(ois.readObject());
 			return r;
 		} catch (FileNotFoundException e) {
@@ -64,6 +66,7 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 					e.printStackTrace();
 				}
 			}
+			log.debug("   ... finished.");
 		}
 	}
 
@@ -83,6 +86,7 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 			try {
 				oos = new ObjectOutputStream(
 						new FileOutputStream(f));
+				log.debug("Storing " + element.hashCode() + " ...");
 				oos.writeObject(element);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -98,6 +102,7 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 						e.printStackTrace();
 					}
 				}
+				log.debug("   ... finished.");
 			}
 			return true;
 		} else{
@@ -119,18 +124,19 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 
 	@Override
 	public Element remove(int index) {
-		Element e = get(index);
+//		Element e = get(index);
 		int hashCode = hashlist.get(index);
 		hashlist.remove(index);
 		if(!hashlist.contains(hashCode)) {
 			erase(hashCode);
 		}
-		return e;
+//		return e;
+		return null;
 	}
 
 	@Override
 	public Element set(int index, Element element) {
-		Element e = get(index);
+//		Element e = get(index);
 		if(element == null) {
 			hashlist.set(index, null);
 		} else {
@@ -139,7 +145,8 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 			}
 			hashlist.set(index, element.hashCode());
 		}
-		return e;
+//		return e;
+		return null;
 	}
 
 
@@ -166,7 +173,6 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 		return hashlist.hashCode() + storePath.hashCode();
 	}
 
-	@Override
 	public List<File> getSerializedForms() throws IOException {
 		List<File> result = new ArrayList<File>();
 		for(int hash : hashlist) {
@@ -177,8 +183,11 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 
 	public void setSerializedForm(int index, int hash, InputStream is) throws IOException {
 		if(! hashlist.contains(hash)) {
+			log.debug("Setting serialised form for index " + index + " ...");
 			IOUtils.copy(is, new FileOutputStream(file(hash)));
+			log.debug("   ...finished.");
 		}
 		hashlist.set(index, hash);
 	}
+	
 }
