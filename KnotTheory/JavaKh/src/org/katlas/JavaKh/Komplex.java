@@ -454,7 +454,7 @@ public class Komplex implements Serializable {
 	public void finalizeH() {
 		for (int i = 0; i < ncolumns - 1; i++) {
 			CobMatrix m = getMatrix(i);
-			for(TIntObjectHashMap<LCCC> rowEntries : m.entries) {
+			for(CobMatrixRow rowEntries : m.entries) {
 				for(int j : rowEntries.keys()) {
 					rowEntries.put(j, rowEntries.get(j).finalizeH());
 				}
@@ -609,8 +609,8 @@ public class Komplex implements Serializable {
 		int newn = 0;
 		for (int i = 0; i < columns[colnum].n; i++) {
 			Cap oldsm = columns[colnum].smoothings[i];
-			Cap newsm = new Cap(oldsm.n(), 0);
-			for (int j = 0; j < oldsm.n(); j++)
+			Cap newsm = new Cap(oldsm.n, 0);
+			for (int j = 0; j < oldsm.n; j++)
 				newsm.pairings[j] = oldsm.pairings[j];
 			newsm = Cap.capCache.cache(newsm);
 			CannedCobordism prevcc = new CannedCobordism(oldsm, newsm);
@@ -650,8 +650,8 @@ public class Komplex implements Serializable {
 						LCCC lc = new LCCC(oldsm, newsm);
 						lc.add(prevcc, 1);
 //						prev.values[newn] = new LCCC[prev.rowsizes[newn]];
-						TIntObjectHashMap<LCCC> prevMatrixEntriesI = prevMatrix.entries.get(i);
-						TIntObjectHashMap<LCCC> prevEntriesNewN = prev.entries.get(newn);
+						CobMatrixRow prevMatrixEntriesI = prevMatrix.entries.get(i);
+						CobMatrixRow prevEntriesNewN = prev.entries.get(newn);
 						for(int k : prevMatrixEntriesI.keys()) {
 							prevEntriesNewN.put(k, lc.compose(prevMatrixEntriesI.get(k)));
 						}
@@ -670,7 +670,7 @@ public class Komplex implements Serializable {
 						lc.add(nextcc, 1);
 						
 						for(int k = 0; k < nextMatrix.entries.size(); ++k) {
-							TIntObjectHashMap<LCCC> rowEntries = nextMatrix.entries.get(k);
+							CobMatrixRow rowEntries = nextMatrix.entries.get(k);
 							if(rowEntries.containsKey(i)) {
 								LCCC nmv = rowEntries.get(i);
 								next.append(k, newn, nmv.compose(lc));
@@ -686,7 +686,7 @@ public class Komplex implements Serializable {
 //						}
 					} else {
 						for(int k = 0; k < nextMatrix.entries.size(); ++k) {
-							TIntObjectHashMap<LCCC> rowEntries = nextMatrix.entries.get(k);
+							CobMatrixRow rowEntries = nextMatrix.entries.get(k);
 							if(rowEntries.containsKey(i)) {
 								next.append(k, newn, rowEntries.get(i)); 
 							}
@@ -726,8 +726,8 @@ public class Komplex implements Serializable {
 		int newn = 0;
 		for (int i = 0; i < columns[colnum].n; i++) {
 			Cap oldsm = columns[colnum].smoothings[i];
-			Cap newsm = new Cap(oldsm.n(), 0);
-			for (int j = 0; j < oldsm.n(); j++)
+			Cap newsm = new Cap(oldsm.n, 0);
+			for (int j = 0; j < oldsm.n; j++)
 				newsm.pairings[j] = oldsm.pairings[j];
 			newsm = Cap.capCache.cache(newsm);
 			CannedCobordism prevcc = new CannedCobordism(oldsm, newsm);
@@ -794,8 +794,8 @@ public class Komplex implements Serializable {
 //					prev.indices[newn] = prevMatrix.indices[i];
 					if (oldsm.ncycles != 0) {
 //						prev.values[newn] = new LCCC[prev.rowsizes[newn]];
-						TIntObjectHashMap<LCCC> prevMatrixEntriesI = prevMatrix.entries.get(i);
-						TIntObjectHashMap<LCCC> prevEntriesNewN = prev.entries.get(newn);
+						CobMatrixRow prevMatrixEntriesI = prevMatrix.entries.get(i);
+						CobMatrixRow prevEntriesNewN = prev.entries.get(newn);
 						for(int k : prevMatrixEntriesI.keys()) {
 							prevEntriesNewN.put(k, prevlc.compose(prevMatrixEntriesI.get(k)));
 						}
@@ -815,7 +815,7 @@ public class Komplex implements Serializable {
 						lc.add(nextcc, 1);
 
 						for(int k = 0; k < nextMatrix.entries.size(); ++k) {
-							TIntObjectHashMap<LCCC> rowEntries = nextMatrix.entries.get(k);
+							CobMatrixRow rowEntries = nextMatrix.entries.get(k);
 							if(rowEntries.containsKey(i)) {
 								LCCC nmv = rowEntries.get(i);
 								next.append(k, newn, nmv.compose(lc));
@@ -832,7 +832,7 @@ public class Komplex implements Serializable {
 //						}
 					} else {
 						for(int k = 0; k < nextMatrix.entries.size(); ++k) {
-							TIntObjectHashMap<LCCC> rowEntries = nextMatrix.entries.get(k);
+							CobMatrixRow rowEntries = nextMatrix.entries.get(k);
 							if(rowEntries.containsKey(i)) {
 								next.append(k, newn, rowEntries.get(i));
 							}
@@ -939,8 +939,8 @@ public class Komplex implements Serializable {
 		CobMatrix delta = null, gamma = null;
 		if (!zeros) {
 			delta = new CobMatrix(scD, scb2);
-			TIntObjectHashMap<LCCC> mRowEntriesJ = m.entries.get(j);
-			TIntObjectHashMap<LCCC> deltaRowEntries0 = delta.entries.get(0);
+			CobMatrixRow mRowEntriesJ = m.entries.get(j);
+			CobMatrixRow deltaRowEntries0 = delta.entries.get(0);
 			for(int c : mRowEntriesJ.keys()) {
 				if(c < k) {
 					deltaRowEntries0.put(c, mRowEntriesJ.get(c));
@@ -969,8 +969,8 @@ public class Komplex implements Serializable {
 		
 		for (int a = 0, b = 0; a < m.entries.size(); a++) {
 			if (a != j) {
-				TIntObjectHashMap<LCCC> mRowEntriesA = m.entries.get(a);
-				TIntObjectHashMap<LCCC> epsilonRowEntriesB = epsilon.entries.get(b);
+				CobMatrixRow mRowEntriesA = m.entries.get(a);
+				CobMatrixRow epsilonRowEntriesB = epsilon.entries.get(b);
 				for (int c : mRowEntriesA.keys()) {
 					if (c < k) {
 						epsilonRowEntriesB.put(c, mRowEntriesA.get(c));
@@ -1058,8 +1058,8 @@ public class Komplex implements Serializable {
 			
 			CobMatrix nu = new CobMatrix(columns[i + 1], columns[i + 2]);
 			for(int a = 0; a < nextMatrix.entries.size(); ++a) {
-				TIntObjectHashMap<LCCC> nextMatrixRowEntriesA = nextMatrix.entries.get(a);
-				TIntObjectHashMap<LCCC> nuRowEntriesA = nu.entries.get(a);
+				CobMatrixRow nextMatrixRowEntriesA = nextMatrix.entries.get(a);
+				CobMatrixRow nuRowEntriesA = nu.entries.get(a);
 				for(int c : nextMatrixRowEntriesA.keys()) {
 					if(c < j) {
 						nuRowEntriesA.put(c, nextMatrixRowEntriesA.get(c));
