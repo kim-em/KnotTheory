@@ -407,8 +407,8 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
     public LCCC finalizeH() {
 	if (size() == 0)
 	    return null;
-	assert top.n() == 2 && top.ncycles == 0
-	    && bottom.n() == 2 && bottom.ncycles == 0;
+	assert top.n == 2 && top.ncycles == 0
+	    && bottom.n == 2 && bottom.ncycles == 0;
 	LCCC ret = new LCCC(top, bottom);
 	CannedCobordism cc = CannedCobordism.isomorphism(top);
 	boolean hset = false;

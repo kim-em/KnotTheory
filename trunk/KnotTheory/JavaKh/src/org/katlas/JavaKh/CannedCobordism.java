@@ -110,7 +110,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
     public CannedCobordism(Cap t, Cap b) {
 	top = t;
 	bottom = b;
-	n = t.n(); // assume b.n == t.n
+	n = t.n; // assume b.n == t.n
 
 	component = new byte[n];
 	for (int i = 0; i < n; i++)

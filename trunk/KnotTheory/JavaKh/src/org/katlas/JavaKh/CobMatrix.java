@@ -4,8 +4,13 @@ import gnu.trove.TIntObjectHashMap;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.TreeMap;
+
+import org.katlas.JavaKh.utils.RedBlackIntegerTree;
 
 
 // sparse matrix
@@ -21,7 +26,7 @@ public class CobMatrix implements Serializable{
 //    int rowsizes[];
 
 //    final List<Map<Integer, LCCC>> entries;
-    final List<TIntObjectHashMap<LCCC>> entries;
+    final ArrayList<CobMatrixRow> entries;
     
     public CobMatrix(SmoothingColumn s, SmoothingColumn t) {
 		source = s;
@@ -30,11 +35,11 @@ public class CobMatrix implements Serializable{
 		// indices = new int[t.n][];
 		// rowsizes = new int[t.n];
 //		entries = new ArrayList<Map<Integer, LCCC>>(t.n);
-		entries = new ArrayList<TIntObjectHashMap<LCCC>>(t.n);
+		entries = new ArrayList<CobMatrixRow>(t.n);
 		for (int i = 0; i < t.n; ++i) {
 //			entries.add(new NonNullValueMapWrapper<Integer, LCCC>(new TreeMap<Integer, LCCC>()));
 //			entries.add(new TreeMap<Integer, LCCC>());
-			entries.add(new TIntObjectHashMap<LCCC>());
+			entries.add(new TreeEntryMap());
 		}
 	}
 
@@ -79,7 +84,7 @@ public class CobMatrix implements Serializable{
 
     public LCCC[] unpackRow(int i) {
 	LCCC rowi[] = new LCCC[source.n];
-	TIntObjectHashMap<LCCC> rowEntries = entries.get(i);
+	CobMatrixRow rowEntries = entries.get(i);
 	for(int j : rowEntries.keys()) {
 		rowi[j] = rowEntries.get(j);
 	}
@@ -134,10 +139,10 @@ public class CobMatrix implements Serializable{
 	CobMatrix ret = new CobMatrix(cm.source, target);
 
 	for (int i = 0; i < target.n; ++i) {
-			TIntObjectHashMap<LCCC> rowEntries = entries.get(i);
+			CobMatrixRow rowEntries = entries.get(i);
 //			Map<Integer, LCCC> retRowEntries = new NonNullValueMapWrapper<Integer, LCCC>(
 //					new TreeMap<Integer, LCCC>());
-			TIntObjectHashMap<LCCC> retRowEntries = new TIntObjectHashMap<LCCC>();
+			CobMatrixRow retRowEntries = new TreeEntryMap();
 			for (int j : rowEntries.keys()) {
 				for (int k : cm.entries.get(j).keys()) {
 					LCCC lc = rowEntries.get(j).compose(
@@ -187,7 +192,7 @@ public class CobMatrix implements Serializable{
     }
 
     public void multiply(BaseRing n) { // modifies in place
-    	for(TIntObjectHashMap<LCCC> rowEntries : entries) {
+    	for(CobMatrixRow rowEntries : entries) {
     		for(int i : rowEntries.keys()) {
     			LCCC lc = rowEntries.get(i);
     			if(lc != null) {
@@ -209,8 +214,8 @@ public class CobMatrix implements Serializable{
 	assert source.equals(cm.source) && target.equals(cm.target);
 	
 	for(int i = 0; i < entries.size(); ++i) {
-		TIntObjectHashMap<LCCC> rowEntries = entries.get(i);
-		TIntObjectHashMap<LCCC> cmRowEntries = cm.entries.get(i);
+		CobMatrixRow rowEntries = entries.get(i);
+		CobMatrixRow cmRowEntries = cm.entries.get(i);
 		for(int j : cmRowEntries.keys()) {
 			if(rowEntries.containsKey(j)) {
 				rowEntries.get(j).add(cmRowEntries.get(j));
@@ -248,7 +253,7 @@ public class CobMatrix implements Serializable{
     }
 
     public void reduce() { // modifies this CobMatrix in place
-    	for(TIntObjectHashMap<LCCC> rowEntries : entries) {
+    	for(CobMatrixRow rowEntries : entries) {
     		Set<Integer> entriesToRemove = new HashSet<Integer>();
     		for(int i : rowEntries.keys()) {
     			LCCC rlc = rowEntries.get(i).reduce();
@@ -273,7 +278,7 @@ public class CobMatrix implements Serializable{
 	}
 
     public boolean isZero() {
-    	for(TIntObjectHashMap<LCCC> rowEntries : entries) {
+    	for(CobMatrixRow rowEntries : entries) {
     		for(int i : rowEntries.keys()) {
     			LCCC lc = rowEntries.get(i);
     			if(lc != null && lc.size() > 0) {
@@ -342,4 +347,91 @@ public class CobMatrix implements Serializable{
 	    System.out.println();
 	}
     }
+        
+    
+    
+    private class TreeEntryMap implements CobMatrixRow {
+    	Map<Integer, LCCC> map = new TreeMap<Integer, LCCC>();
+    	
+		public void compact() {	}
+
+		public boolean containsKey(int k) {
+			return map.containsKey(k);
+		}
+
+		public LCCC get(int j) {
+			return map.get(j);
+		}
+
+		public Iterable<Integer> keys() {
+			return map.keySet();
+		}
+
+		public void put(int j, LCCC lc) {
+			map.put(j, lc);
+		}
+
+		public void remove(int i) {
+			map.remove(i);
+		}
+    	
+    	
+    }
+  
+    private class RedBlackEntryMap extends RedBlackIntegerTree<LCCC> implements CobMatrixRow {
+
+		public void compact() {
+			
+		}
+
+    };
+    
+    private class TroveEntryMap implements CobMatrixRow {
+
+    	TIntObjectHashMap<LCCC> map = new TIntObjectHashMap<LCCC>();
+    	
+		public void compact() {
+			map.compact();
+		}
+
+		public boolean containsKey(int k) {
+			return map.contains(k);
+		}
+
+		public LCCC get(int j) {
+			return map.get(j);
+		}
+
+		public Iterable<Integer> keys() {
+			return new Iterable<Integer>() {
+				final int[] keys = map.keys();
+
+				public Iterator<Integer> iterator() {
+					return new Iterator<Integer>() {
+						int i = 0;
+						public boolean hasNext() {
+							return i < keys.length;
+						}
+						public Integer next() {
+							if(!hasNext()) throw new NoSuchElementException();
+							return keys[i++];
+						}
+						public void remove() {
+							throw new UnsupportedOperationException();
+						}
+					};
+				}
+			};
+		}
+
+		public void put(int j, LCCC lc) {
+			map.put(j, lc);
+		}
+
+		public void remove(int i) {
+			map.remove(i);
+		}
+    	
+    }
+
 }
