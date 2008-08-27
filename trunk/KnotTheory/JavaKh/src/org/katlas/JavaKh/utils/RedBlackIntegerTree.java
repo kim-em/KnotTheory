@@ -115,11 +115,15 @@ public class RedBlackIntegerTree<V extends Serializable> implements Serializable
     }
 
     public Iterable<Integer> keys() {
+    	if(null == root) {
+    		return Iterables.emptyIterable();
+    	} else {
     	return Iterables.transform(root.descendents(), new Transformer<Node<V>, Integer>() {
 			public Integer evaluate(Node<V> s) {
 				return s.key;
 			}
     		});
+    	}
     }
     
     private Node<V> getNode(int key) {
