@@ -1,7 +1,11 @@
 package org.katlas.JavaKh.utils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
+import net.tqft.iterables.AbstractIterator;
 import net.tqft.iterables.Iterables;
 import net.tqft.iterables.interfaces.Transformer;
 
@@ -81,6 +85,23 @@ class Node<V>
 		return n;
 	}
     
+    public Node<V> predecessor() {
+    	if(left == null) {
+    		if(parent == null) return null;
+    	
+    		Node<V> n = this;
+    		while(n == n.parent.left) {
+    			n = n.parent;
+    			if(n.parent == null) {
+    				return null;
+    			}
+    		}
+    		return n.parent;
+    	} else {
+    		return left.greatestDescendent();
+    	}
+    }
+    
     @SuppressWarnings("unchecked")
 	public Iterable<Node<V>> descendents() {
     	Iterable<Node<V>> self = Iterables.singleton(this);
@@ -115,15 +136,39 @@ public class RedBlackIntegerTree<V extends Serializable> implements Serializable
     }
 
     public Iterable<Integer> keys() {
-    	if(null == root) {
-    		return Iterables.emptyIterable();
-    	} else {
-    	return Iterables.transform(root.descendents(), new Transformer<Node<V>, Integer>() {
-			public Integer evaluate(Node<V> s) {
-				return s.key;
-			}
-    		});
-    	}
+    	return new Iterable<Integer>() {
+
+			public Iterator<Integer> iterator() {
+				return new AbstractIterator<Integer>() {
+
+					Node<V> next = (root == null) ? null : root.greatestDescendent();
+					
+					@Override
+					public boolean hasNext() {
+						return next != null;
+					}
+
+					@Override
+					protected Integer returnNext() {
+						int r = next.key;
+						next = next.predecessor();
+						return r;
+					}
+			
+				};
+			} 
+    		
+    	};
+    	
+//    	if(null == root) {
+//    		return Iterables.emptyIterable();
+//    	} else {
+//    	return Iterables.transform(root.descendents(), new Transformer<Node<V>, Integer>() {
+//			public Integer evaluate(Node<V> s) {
+//				return s.key;
+//			}
+//    		});
+//    	}
     }
     
     private Node<V> getNode(int key) {
