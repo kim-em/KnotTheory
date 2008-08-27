@@ -28,7 +28,7 @@ KnotTheory::credits = "`1`";
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2008, 8, 26, 13, 31, 31.8470480};
+KnotTheoryVersion[] = {2008, 8, 26, 13, 57, 21.1548432};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
@@ -3555,7 +3555,7 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     modulus = (Modulus /. {opts} /. Options[Kh]),
     universal = (Universal /. {opts} /. Options[Kh]),
     javaoptions = (JavaOptions /. {opts} /. Options[Kh]),
-    JavaKhDirectory, jarDirectory, classDirectory, classpath
+    classpath
   },
   L1 = PD[L];
   Switch[prog,
@@ -3576,25 +3576,7 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     f = OpenWrite["pd", PageWidth -> Infinity];
     WriteString[f, ToString[L1]];
     Close[f];
-    JavaKhDirectory = ToFileName[KnotTheoryDirectory[], "JavaKh"];
-    jarDirectory = ToFileName[JavaKhDirectory, "jars"];
-    classDirectory = ToFileName[JavaKhDirectory, "bin"];
-    classpath = StringJoin[
-        (* this is a horrible hack to make sure the classpath works on both unix and windows systems *)
-        classDirectory, 
-        ":" , ToFileName[jarDirectory, "commons-cli-1.0.jar"],
-        ":" , ToFileName[jarDirectory, "commons-io-1.2.jar"],
-        ":" , ToFileName[jarDirectory, "commons-logging-1.1.jar"],
-        ":" , ToFileName[jarDirectory, "log4j-1.2.12.jar"],
-        ":" , ToFileName[jarDirectory, "trove-2.0.4.jar"],
-        ":;",
-        classDirectory, 
-        ";" , ToFileName[jarDirectory, "commons-cli-1.0.jar"],
-        ";" , ToFileName[jarDirectory, "commons-io-1.2.jar"],
-        ";" , ToFileName[jarDirectory, "commons-logging-1.1.jar"],
-        ";" , ToFileName[jarDirectory, "log4j-1.2.12.jar"],
-        ";" , ToFileName[jarDirectory, "trove-2.0.4.jar"]
-    ];
+    classpath = JavaKhClassPath[]; 
     cl = StringJoin[
       "!java -classpath \"", classpath,
       "\" ", javaoptions, " org.katlas.JavaKh.JavaKh ",
@@ -3617,6 +3599,21 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     ToExpression[out <> "&"]
   )
   ]
+]
+
+JavaKhClassPath[] := Module[{JavaKhDirectory, jarDirectory, classDirectory, pathCharacter}, 
+    JavaKhDirectory = ToFileName[KnotTheoryDirectory[], "JavaKh"];
+    jarDirectory = ToFileName[JavaKhDirectory, "jars"];
+    classDirectory = ToFileName[JavaKhDirectory, "bin"];
+    pathCharacter = If[$PathnameSeparator == "\\", ";", ":"];
+    StringJoin[
+        classDirectory, 
+        pathCharacter , ToFileName[jarDirectory, "commons-cli-1.0.jar"],
+        pathCharacter , ToFileName[jarDirectory, "commons-io-1.2.jar"],
+        pathCharacter , ToFileName[jarDirectory, "commons-logging-1.1.jar"],
+        pathCharacter , ToFileName[jarDirectory, "log4j-1.2.12.jar"],
+        pathCharacter , ToFileName[jarDirectory, "trove-2.0.4.jar"]
+    ]
 ]
 
 TabularKh[kh_]:=TabularKh[kh,{}]
