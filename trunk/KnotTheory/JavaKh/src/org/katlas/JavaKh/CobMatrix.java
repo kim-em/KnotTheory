@@ -351,7 +351,7 @@ public class CobMatrix implements Serializable{
         
     
     
-    private class TreeEntryMap implements CobMatrixRow {
+    private class TreeEntryMap implements CobMatrixRow, Serializable {
     	Map<Integer, LCCC> map = new TreeMap<Integer, LCCC>();
     	
 		public void compact() {	}
@@ -387,7 +387,7 @@ public class CobMatrix implements Serializable{
 
     };
     
-    private class TroveEntryMap implements CobMatrixRow {
+    private class TroveEntryMap implements CobMatrixRow, Serializable {
 
     	TIntObjectHashMap<LCCC> map = new TIntObjectHashMap<LCCC>();
     	
