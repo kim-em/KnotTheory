@@ -1,5 +1,7 @@
 package org.katlas.JavaKh.utils;
 
+import java.io.Serializable;
+
 import net.tqft.iterables.Iterables;
 import net.tqft.iterables.interfaces.Transformer;
 
@@ -98,7 +100,7 @@ class Node<V>
     }
 }
 
-public class RedBlackIntegerTree<V>
+public class RedBlackIntegerTree<V extends Serializable> implements Serializable
 {
 
 	public Node<V> root;
