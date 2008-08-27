@@ -15,7 +15,7 @@ public class HashCodeCache<E> implements Cache<E> {
 	private transient int hits = 0;
 	private transient int checks = 0;
 	
-	public E cache(E e) {
+	public synchronized E cache(E e) {
 		++checks;
 		int hash = e.hashCode();
 		if(hashmap.containsKey(hash)) {
@@ -42,7 +42,7 @@ public class HashCodeCache<E> implements Cache<E> {
 		return e;
 	}
 	
-	public void flush() {
+	public synchronized void flush() {
 		hashmap.clear();
 	}
 
