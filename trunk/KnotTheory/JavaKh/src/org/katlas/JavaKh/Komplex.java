@@ -472,9 +472,9 @@ public class Komplex implements Serializable {
 	}
 
 	private static void invokeGC() {
-//		for(int i = 0; i < 4; ++i) {
-//			System.gc();
-//		}
+		for(int i = 0; i < 4; ++i) {
+			System.gc();
+		}
 	}
 	
 	public void reduce() {
