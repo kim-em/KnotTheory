@@ -1,6 +1,4 @@
 package org.katlas.JavaKh;
-import gnu.trove.TIntObjectHashMap;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,10 +23,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
@@ -47,6 +42,10 @@ public class Komplex implements Serializable {
 	private static final Log log = LogFactory.getLog(Komplex.class);
 
 	static final int MAXDEPTH = 3;
+
+	private static int mostReductions = 0;
+
+	private static int largestMatrix = 0;
 	int ncolumns, nfixed;
 	final SmoothingColumn columns[];
 	final boolean inMemory;
@@ -872,6 +871,11 @@ public class Komplex implements Serializable {
 		// this assumes delooping has taken place
 		boolean found, found2 = false, ret = false;
 		CobMatrix m = getMatrix(i);
+		if(m.target.n > largestMatrix) {
+			largestMatrix = m.target.n;
+			log.info("Largest matrix: " + largestMatrix + " rows.");
+		}
+		int count = 0;
 		do {
 			found = false;
 			rlfor: for (int j = 0; j < m.entries.size(); j++) {
@@ -891,6 +895,10 @@ public class Komplex implements Serializable {
 							continue;
 						}
 						found2 = found = true;
+						if(++count > mostReductions) {
+							mostReductions = count;
+							log.info("Most reductions: " + mostReductions);
+						}
 						reductionLemma(i, j, k, n, false);
 						m = getMatrix(i);
 						break rlfor;
