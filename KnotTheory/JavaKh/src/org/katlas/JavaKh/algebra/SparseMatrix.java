@@ -12,13 +12,13 @@ import java.util.TreeMap;
 import net.tqft.iterables.AbstractIterator;
 import net.tqft.iterables.IterableBundle;
 
-public class LinkedSparseMatrix<R, T extends Algebra<R, T>> implements
+public class SparseMatrix<R, T extends Algebra<R, T>> implements
 		Matrix<L, R, T> {
 
 	List<L> rows, columns;
 	Map<L, SparseMatrixEntry<T>> initialRowEntries, initialColumnEntries;
 
-	public LinkedSparseMatrix(List<L> rows, List<L> columns) {
+	public SparseMatrix(List<L> rows, List<L> columns) {
 		this.rows = rows;
 		this.columns = columns;
 		initialRowEntries = new TreeMap<L, SparseMatrixEntry<T>>();
@@ -28,7 +28,7 @@ public class LinkedSparseMatrix<R, T extends Algebra<R, T>> implements
 	public Matrix<L, R, T> compose(Matrix<L, R, T> matrix) {
 		List<L> resultRows = rows();
 		List<L> resultColumns = matrix.columns();
-		Matrix<L, R, T> result = new LinkedSparseMatrix<R, T>(resultRows, resultColumns);
+		Matrix<L, R, T> result = new SparseMatrix<R, T>(resultRows, resultColumns);
 		for(L row : resultRows) {
 			for(L column : resultColumns) {
 				T t = null;
@@ -68,7 +68,7 @@ public class LinkedSparseMatrix<R, T extends Algebra<R, T>> implements
 			throw new NoSuchElementException();
 		}
 
-		LinkedSparseMatrix<R, T> result = new LinkedSparseMatrix<R, T>(rows,
+		SparseMatrix<R, T> result = new SparseMatrix<R, T>(rows,
 				Collections.singletonList(column));
 		SparseMatrixEntry<T> columnEntry = initialColumnEntries.get(column);
 		columns.remove(column);
@@ -100,7 +100,7 @@ public class LinkedSparseMatrix<R, T extends Algebra<R, T>> implements
 			throw new NoSuchElementException();
 		}
 
-		LinkedSparseMatrix<R, T> result = new LinkedSparseMatrix<R, T>(columns,
+		SparseMatrix<R, T> result = new SparseMatrix<R, T>(columns,
 				Collections.singletonList(row));
 		SparseMatrixEntry<T> rowEntry = initialRowEntries.get(row);
 		rows.remove(row);
