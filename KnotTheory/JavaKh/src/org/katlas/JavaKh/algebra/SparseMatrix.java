@@ -25,6 +25,10 @@ public class SparseMatrix<R, T extends Algebra<R, T>> implements
 		initialColumnEntries = new TreeMap<L, SparseMatrixEntry<T>>();
 	}
 
+	/*
+	 * During composition, we rely on the rows and columns actually being in order.
+	 * The insert operations can break this, so they need to call reorderRows and reorderColumns.
+	 */
 	public Matrix<L, R, T> compose(Matrix<L, R, T> matrix) {
 		List<L> resultRows = rows();
 		List<L> resultColumns = matrix.columns();
@@ -92,9 +96,23 @@ public class SparseMatrix<R, T extends Algebra<R, T>> implements
 			}
 		}
 
+		reindexColumns();
+		
 		return result;
 	}
 
+	private void reindexColumns() {
+		for(int i = 0; i < columns.size(); ++i) {
+			columns.get(i).index = i;
+		}
+	}
+
+	private void reindexRows() {
+		for(int i = 0; i < rows.size(); ++i) {
+			rows.get(i).index = i;
+		}
+	}
+	
 	public Matrix<L, R, T> deleteRow(L row) {
 		if (!rows.contains(row)) {
 			throw new NoSuchElementException();
@@ -123,6 +141,8 @@ public class SparseMatrix<R, T extends Algebra<R, T>> implements
 				rowEntry = rowEntry.right;
 			}
 		}
+
+		reindexRows();
 
 		return result;
 	}
@@ -298,7 +318,7 @@ public class SparseMatrix<R, T extends Algebra<R, T>> implements
 class L implements Comparable<L> {
 	
 	static int counter = 0;
-	private final int index;
+	int index;
 
 	L() {
 		index = ++counter;

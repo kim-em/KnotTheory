@@ -1,13 +1,9 @@
 package org.katlas.JavaKh.utils;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import net.tqft.iterables.AbstractIterator;
-import net.tqft.iterables.Iterables;
-import net.tqft.iterables.interfaces.Transformer;
 
 /* Copyright (c) 2008 the authors listed at the following URL, and/or
 the authors of referenced articles or incorporated external code:
@@ -102,28 +98,33 @@ class Node<V>
     	}
     }
     
-    @SuppressWarnings("unchecked")
-	public Iterable<Node<V>> descendents() {
-    	Iterable<Node<V>> self = Iterables.singleton(this);
-    	if(null != left) {
-    		if(null != right) {
-    			return Iterables.concatenate(left.descendents(), self, right.descendents());
-    		} else {
-    			return Iterables.concatenate(left.descendents(), self);
-    		}
-    	} else {
-    		if(null != right) {
-    			return Iterables.concatenate(self, right.descendents());
-    		} else {
-    			return self;
-    		}	
-    	}
-    }
+//    @SuppressWarnings("unchecked")
+//	public Iterable<Node<V>> descendents() {
+//    	Iterable<Node<V>> self = Iterables.singleton(this);
+//    	if(null != left) {
+//    		if(null != right) {
+//    			return Iterables.concatenate(left.descendents(), self, right.descendents());
+//    		} else {
+//    			return Iterables.concatenate(left.descendents(), self);
+//    		}
+//    	} else {
+//    		if(null != right) {
+//    			return Iterables.concatenate(self, right.descendents());
+//    		} else {
+//    			return self;
+//    		}	
+//    	}
+//    }
 }
 
 public class RedBlackIntegerTree<V extends Serializable> implements Serializable
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2166427780360765127L;
+	
 	public Node<V> root;
 
     public RedBlackIntegerTree() {

@@ -1,16 +1,10 @@
 package org.katlas.JavaKh;
-import gnu.trove.TIntObjectHashMap;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TreeMap;
-
-import org.katlas.JavaKh.utils.RedBlackIntegerTree;
 
 
 // sparse matrix
@@ -352,7 +346,12 @@ public class CobMatrix implements Serializable{
     
     
     private class TreeEntryMap implements CobMatrixRow, Serializable {
-    	Map<Integer, LCCC> map = new TreeMap<Integer, LCCC>();
+    	/**
+		 * 
+		 */
+		private static final long serialVersionUID = 7040588247299310395L;
+		
+		Map<Integer, LCCC> map = new TreeMap<Integer, LCCC>();
     	
 		public void compact() {	}
 
@@ -379,60 +378,60 @@ public class CobMatrix implements Serializable{
     	
     }
   
-    private class RedBlackEntryMap extends RedBlackIntegerTree<LCCC> implements CobMatrixRow {
-
-		public void compact() {
-			
-		}
-
-    };
-    
-    private class TroveEntryMap implements CobMatrixRow, Serializable {
-
-    	TIntObjectHashMap<LCCC> map = new TIntObjectHashMap<LCCC>(2);
-    	
-		public void compact() {
-			map.compact();
-		}
-
-		public boolean containsKey(int k) {
-			return map.contains(k);
-		}
-
-		public LCCC get(int j) {
-			return map.get(j);
-		}
-
-		public Iterable<Integer> keys() {
-			return new Iterable<Integer>() {
-				final int[] keys = map.keys();
-
-				public Iterator<Integer> iterator() {
-					return new Iterator<Integer>() {
-						int i = 0;
-						public boolean hasNext() {
-							return i < keys.length;
-						}
-						public Integer next() {
-							if(!hasNext()) throw new NoSuchElementException();
-							return keys[i++];
-						}
-						public void remove() {
-							throw new UnsupportedOperationException();
-						}
-					};
-				}
-			};
-		}
-
-		public void put(int j, LCCC lc) {
-			map.put(j, lc);
-		}
-
-		public void remove(int i) {
-			map.remove(i);
-		}
-    	
-    }
+//    private class RedBlackEntryMap extends RedBlackIntegerTree<LCCC> implements CobMatrixRow {
+//
+//		public void compact() {
+//			
+//		}
+//
+//    };
+//    
+//    private class TroveEntryMap implements CobMatrixRow, Serializable {
+//
+//    	TIntObjectHashMap<LCCC> map = new TIntObjectHashMap<LCCC>(2);
+//    	
+//		public void compact() {
+//			map.compact();
+//		}
+//
+//		public boolean containsKey(int k) {
+//			return map.contains(k);
+//		}
+//
+//		public LCCC get(int j) {
+//			return map.get(j);
+//		}
+//
+//		public Iterable<Integer> keys() {
+//			return new Iterable<Integer>() {
+//				final int[] keys = map.keys();
+//
+//				public Iterator<Integer> iterator() {
+//					return new Iterator<Integer>() {
+//						int i = 0;
+//						public boolean hasNext() {
+//							return i < keys.length;
+//						}
+//						public Integer next() {
+//							if(!hasNext()) throw new NoSuchElementException();
+//							return keys[i++];
+//						}
+//						public void remove() {
+//							throw new UnsupportedOperationException();
+//						}
+//					};
+//				}
+//			};
+//		}
+//
+//		public void put(int j, LCCC lc) {
+//			map.put(j, lc);
+//		}
+//
+//		public void remove(int i) {
+//			map.remove(i);
+//		}
+//    	
+//    }
 
 }

@@ -3,6 +3,7 @@ package org.katlas.JavaKh.algebra;
 import java.util.List;
 
 
+@SuppressWarnings("hiding")
 public interface Matrix<L extends Comparable<L>, R, T extends Algebra<R, T>> extends Algebra<R, Matrix<L, R, T>> {
 
 	public int numberOfRows();
@@ -12,7 +13,7 @@ public interface Matrix<L extends Comparable<L>, R, T extends Algebra<R, T>> ext
 	public List<L> columns();
 	
 	public Matrix<L, R, T> deleteRow(L row);
-	public Matrix<L, R, T> deleteColumn(L row);
+	public Matrix<L, R, T> deleteColumn(L column);
 	
 	public void insertAfterRow(L row, Matrix<L, R, T> extraRows);
 	public void insertAfterColumn(L column, Matrix<L, R, T> extraColumns);
