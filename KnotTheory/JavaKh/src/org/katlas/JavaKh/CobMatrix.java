@@ -39,8 +39,8 @@ public class CobMatrix implements Serializable{
 		for (int i = 0; i < t.n; ++i) {
 //			entries.add(new TreeMap<Integer, LCCC>());
 //			entries.add(new TreeEntryMap());
-			entries.add(new RedBlackEntryMap());
-//			entries.add(new TroveEntryMap());
+//			entries.add(new RedBlackEntryMap());
+			entries.add(new TroveEntryMap());
 		}
 	}
 
@@ -389,7 +389,7 @@ public class CobMatrix implements Serializable{
     
     private class TroveEntryMap implements CobMatrixRow, Serializable {
 
-    	TIntObjectHashMap<LCCC> map = new TIntObjectHashMap<LCCC>();
+    	TIntObjectHashMap<LCCC> map = new TIntObjectHashMap<LCCC>(2);
     	
 		public void compact() {
 			map.compact();
