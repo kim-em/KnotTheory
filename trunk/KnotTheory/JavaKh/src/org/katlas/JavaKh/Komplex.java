@@ -54,6 +54,7 @@ public class Komplex implements Serializable {
 	int startnum;
 
 	transient static boolean parallel;
+	transient static boolean intenseGarbage;
 
 	private CobMatrix getMatrix(int i) {
 		return matrices.get(i);
@@ -472,8 +473,10 @@ public class Komplex implements Serializable {
 	}
 
 	private static void invokeGC() {
+		if(intenseGarbage) {
 		for(int i = 0; i < 4; ++i) {
 			System.gc();
+		}
 		}
 	}
 	
