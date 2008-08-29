@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.katlas.JavaKh.algebra.Rings;
 
 public class JavaKh {
 	private static final Log log = LogFactory.getLog(JavaKh.class);
@@ -58,23 +59,23 @@ public class JavaKh {
 				rootLogger.setLevel(Level.WARN);
 
 			if(line.hasOption("Z")) {
-				BaseRing.setRing("Int");
+				Rings.setRing("Int");
 			} else if(line.hasOption("Q")) {
-				BaseRing.setRing("Rational");
+				Rings.setRing("Rational");
 			} else if(line.hasOption("U")) {
 				using_h = true;
-				BaseRing.setRing("Int");				
+				Rings.setRing("Int");				
 			} else if(line.hasOption("m")) {
 				int p = Integer.parseInt(line.getOptionValue("m"));
 				if (p == 0)
-				    BaseRing.setRing("Rational");
+					Rings.setRing("Rational");
 				else {
-					BaseRing.setRing("ModP");
+					Rings.setRing("ModP");
 					ModP.setP(p);
 				}
 			} else {
 				// default
-				BaseRing.setRing("Rational");
+				Rings.setRing("Rational");
 			}
 			
 			if(line.hasOption("O")) reorderCrossings = false;

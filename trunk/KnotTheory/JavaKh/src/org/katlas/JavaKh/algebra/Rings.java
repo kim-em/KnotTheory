@@ -8,13 +8,25 @@ import org.apache.commons.logging.LogFactory;
 public class Rings {
 	private static final Log log = LogFactory.getLog(Rings.class);
 	
-	static Class<? extends Ring<?>> ring;
+	static Constructor<?> constructor;
+	public static String ring;
+	
+	public static void setRing(String ringName) {
+		ring = ringName;
+		try {
+		    Class<?> params[] = {Integer.TYPE};
+		    Class<?> ringClass = Class.forName("org.katlas.JavaKh." + ring);
+		    constructor = ringClass.getConstructor(params);
+		} catch (Exception e) {
+		    System.err.println("Error setting BaseRing");
+		    System.exit(1);
+		}
+	    }
 	
 	@SuppressWarnings("unchecked")
-	public static Ring createInstance(int i) {
+	public static <R> R createInstance(int i) {
 		try {
-			Constructor<? extends Ring<?>> c = ring.getConstructor(Integer.class);
-			return (c.newInstance(i));
+			return (R)(constructor.newInstance(i));
 		} catch (Exception e) {
 			log.warn(e);
 			e.printStackTrace();
