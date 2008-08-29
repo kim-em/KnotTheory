@@ -28,12 +28,13 @@ import java.util.concurrent.ThreadFactory;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.utils.CachingList;
 import org.katlas.JavaKh.utils.DiskBackedList;
 import org.katlas.JavaKh.utils.LimitedSizeInputStream;
 import org.katlas.JavaKh.utils.SerializingList;
 
-public class Komplex implements Serializable {
+public class Komplex<R extends Ring<R>> implements Serializable {
 	/**
 	 * 
 	 */
@@ -49,19 +50,19 @@ public class Komplex implements Serializable {
 	int ncolumns, nfixed;
 	final SmoothingColumn columns[];
 	final boolean inMemory;
-	private transient List<CobMatrix> matrices;
+	private transient List<CobMatrix<R>> matrices;
 	int startnum;
 
 	transient static boolean parallel;
 	transient static boolean intenseGarbage;
 
-	private CobMatrix getMatrix(int i) {
+	private CobMatrix<R> getMatrix(int i) {
 		return matrices.get(i);
 	}
 
 	// This is intentionally void return type, instead of the more usual 'CobMatrix',
 	// so DiskBackedList doesn't have to read before it writes.
-	private void setMatrix(int i, CobMatrix m) {
+	private void setMatrix(int i, CobMatrix<R> m) {
 		matrices.set(i, m);
 	}
 
@@ -89,10 +90,11 @@ public class Komplex implements Serializable {
 		createMatrixList();
 	}
 
+	@SuppressWarnings("unchecked")
 	public boolean equals(Object o) { // doesn't fully check for equivalence
 		if (!(o instanceof Komplex))
 			return false;
-		Komplex k = (Komplex) o;
+		Komplex<R> k = (Komplex<R>) o;
 		
 		// try to find a match, allowing for empty columns, etc.
 		int i = 0, j = 0;
@@ -123,16 +125,16 @@ public class Komplex implements Serializable {
 		return true;
 	}
 
-	public static void checkReidemeister() {
+	public static <R extends Ring<R>> void checkReidemeister() {
 		int R1aPD[][] = { { 2, 0, 1, 2 } }, R1aS[] = { -1 };
-		Komplex R1a = new Komplex(R1aPD, R1aS, 2, true);
+		Komplex<R> R1a = new Komplex<R>(R1aPD, R1aS, 2, true);
 		R1a.deLoop();
 		R1a.reductionLemma();
 		int R1bPD[][] = { { 0, 1, 2, 2 } }, R1bS[] = { 1 };
-		Komplex R1b = new Komplex(R1bPD, R1bS, 2, true);
+		Komplex<R> R1b = new Komplex<R>(R1bPD, R1bS, 2, true);
 		R1b.deLoop();
 		R1b.reductionLemma();
-		Komplex R1c = new Komplex(1, true);
+		Komplex<R> R1c = new Komplex<R>(1, true);
 		R1c.startnum = 0;
 		R1c.columns[0] = new SmoothingColumn(1);
 		R1c.columns[0].smoothings[0] = new Cap(2, 0);
@@ -144,14 +146,14 @@ public class Komplex implements Serializable {
 			System.out.println("Error checking R1");
 
 		int R2aPD[][] = { { 0, 1, 5, 4 }, { 5, 2, 3, 4 } }, R2aS[] = { -1, 1 };
-		Komplex R2a = new Komplex(R2aPD, R2aS, 4, true);
+		Komplex<R> R2a = new Komplex<R>(R2aPD, R2aS, 4, true);
 		R2a.deLoop();
 		R2a.reductionLemma();
 		int R2bPD[][] = { { 1, 5, 4, 0 }, { 4, 5, 2, 3 } }, R2bS[] = { 1, -1 };
-		Komplex R2b = new Komplex(R2bPD, R2bS, 4, true);
+		Komplex<R> R2b = new Komplex<R>(R2bPD, R2bS, 4, true);
 		R2b.deLoop();
 		R2b.reductionLemma();
-		Komplex R2c = new Komplex(1, true);
+		Komplex<R> R2c = new Komplex<R>(1, true);
 		R2c.startnum = 0;
 		R2c.columns[0] = new SmoothingColumn(1);
 		R2c.columns[0].smoothings[0] = new Cap(4, 0);
@@ -166,12 +168,12 @@ public class Komplex implements Serializable {
 
 		int R3aPD[][] = { { 0, 6, 8, 5 }, { 2, 7, 6, 1 }, { 8, 7, 3, 4 } }, R3aS[] = {
 				-1, 1, -1 };
-		Komplex R3a = new Komplex(R3aPD, R3aS, 6, true);
+		Komplex<R> R3a = new Komplex<R>(R3aPD, R3aS, 6, true);
 		R3a.deLoop();
 		R3a.reductionLemma();
 		int R3bPD[][] = { { 0, 1, 7, 6 }, { 7, 2, 3, 8 }, { 8, 4, 5, 6 } }, R3bS[] = {
 				-1, -1, 1 };
-		Komplex R3b = new Komplex(R3bPD, R3bS, 6, true);
+		Komplex<R> R3b = new Komplex<R>(R3bPD, R3bS, 6, true);
 		R3b.deLoop();
 		R3b.reductionLemma();
 		if (R3a.equals(R3b))
@@ -290,7 +292,7 @@ public class Komplex implements Serializable {
 							// ret += ", ";
 							// ret += "{";
 							// boolean first2 = true;
-							LCCC row[] = getMatrix(i).unpackRow(j);
+							LCCC<R> row[] = getMatrix(i).unpackRow(j);
 							for (int k = 0; k < columns[i].n; k++)
 								if (columns[i].numbers[k] == min) {
 									/*
@@ -453,8 +455,8 @@ public class Komplex implements Serializable {
 
 	public void finalizeH() {
 		for (int i = 0; i < ncolumns - 1; i++) {
-			CobMatrix m = getMatrix(i);
-			for(CobMatrixRow rowEntries : m.entries) {
+			CobMatrix<R> m = getMatrix(i);
+			for(CobMatrixRow<R> rowEntries : m.entries) {
 				for(int j : rowEntries.keys()) {
 					rowEntries.put(j, rowEntries.get(j).finalizeH());
 				}
@@ -492,7 +494,7 @@ public class Komplex implements Serializable {
 				invokeGC();
 				if (i > 0) {
 					debug("applying reduce " + (i + 1) + "/" + ncolumns);
-					CobMatrix m = getMatrix(i - 1);
+					CobMatrix<R> m = getMatrix(i - 1);
 					m.reduce();
 					setMatrix(i - 1, m);
 					invokeGC();
@@ -563,7 +565,7 @@ public class Komplex implements Serializable {
 			if (i > 0) {
 				deLoop(i - 1);
 				debug("applying reduce " + (i + 1) + "/" + ncolumns);
-				CobMatrix m = getMatrix(i - 1);
+				CobMatrix<R> m = getMatrix(i - 1);
 				m.reduce();
 				setMatrix(i - 1, m);
 				debug("applying reduction lemma " + (i + 1) + "/" + ncolumns);
@@ -577,7 +579,7 @@ public class Komplex implements Serializable {
 
 	public void reduceLocal() {
 		for (int i = 0; i < matrices.size(); i++) {
-			CobMatrix m = getMatrix(i);
+			CobMatrix<R> m = getMatrix(i);
 			m.reduce();
 			setMatrix(i, m);
 		}
@@ -603,11 +605,11 @@ public class Komplex implements Serializable {
 		for (int i = 0; i < columns[colnum].n; i++)
 			size += 1 << columns[colnum].smoothings[i].ncycles;
 		SmoothingColumn newsc = new SmoothingColumn(size);
-		CobMatrix prev = null, next = null;
+		CobMatrix<R> prev = null, next = null;
 		if (colnum != 0)
-			prev = new CobMatrix(columns[colnum - 1], newsc);
+			prev = new CobMatrix<R>(columns[colnum - 1], newsc);
 		if (colnum != ncolumns - 1)
-			next = new CobMatrix(newsc, columns[colnum + 1]);
+			next = new CobMatrix<R>(newsc, columns[colnum + 1]);
 		int newn = 0;
 		for (int i = 0; i < columns[colnum].n; i++) {
 			Cap oldsm = columns[colnum].smoothings[i];
@@ -645,15 +647,15 @@ public class Komplex implements Serializable {
 				newsc.smoothings[newn] = newsm;
 				newsc.numbers[newn] = columns[colnum].numbers[i] + nmod;
 				if (prev != null) {
-					CobMatrix prevMatrix = getMatrix(colnum - 1);
+					CobMatrix<R> prevMatrix = getMatrix(colnum - 1);
 //					prev.rowsizes[newn] = prevMatrix.rowsizes[i];
 //					prev.indices[newn] = prevMatrix.indices[i];
 					if (oldsm.ncycles != 0) {
-						LCCC lc = new LCCC(oldsm, newsm);
+						LCCC<R> lc = new LCCC<R>(oldsm, newsm);
 						lc.add(prevcc, 1);
 //						prev.values[newn] = new LCCC[prev.rowsizes[newn]];
-						CobMatrixRow prevMatrixEntriesI = prevMatrix.entries.get(i);
-						CobMatrixRow prevEntriesNewN = prev.entries.get(newn);
+						CobMatrixRow<R> prevMatrixEntriesI = prevMatrix.entries.get(i);
+						CobMatrixRow<R> prevEntriesNewN = prev.entries.get(newn);
 						for(int k : prevMatrixEntriesI.keys()) {
 							prevEntriesNewN.put(k, lc.compose(prevMatrixEntriesI.get(k)));
 						}
@@ -666,15 +668,15 @@ public class Komplex implements Serializable {
 					}
 				}
 				if (next != null) {
-					CobMatrix nextMatrix = getMatrix(colnum);
+					CobMatrix<R> nextMatrix = getMatrix(colnum);
 					if (oldsm.ncycles != 0) {
-						LCCC lc = new LCCC(newsm, oldsm);
+						LCCC<R> lc = new LCCC<R>(newsm, oldsm);
 						lc.add(nextcc, 1);
 						
 						for(int k = 0; k < nextMatrix.entries.size(); ++k) {
-							CobMatrixRow rowEntries = nextMatrix.entries.get(k);
+							CobMatrixRow<R> rowEntries = nextMatrix.entries.get(k);
 							if(rowEntries.containsKey(i)) {
-								LCCC nmv = rowEntries.get(i);
+								LCCC<R> nmv = rowEntries.get(i);
 								next.append(k, newn, nmv.compose(lc));
 							}
 						}
@@ -688,7 +690,7 @@ public class Komplex implements Serializable {
 //						}
 					} else {
 						for(int k = 0; k < nextMatrix.entries.size(); ++k) {
-							CobMatrixRow rowEntries = nextMatrix.entries.get(k);
+							CobMatrixRow<R> rowEntries = nextMatrix.entries.get(k);
 							if(rowEntries.containsKey(i)) {
 								next.append(k, newn, rowEntries.get(i)); 
 							}
@@ -720,11 +722,11 @@ public class Komplex implements Serializable {
 		for (int i = 0; i < columns[colnum].n; i++)
 			size += 1 << columns[colnum].smoothings[i].ncycles;
 		SmoothingColumn newsc = new SmoothingColumn(size);
-		CobMatrix prev = null, next = null;
+		CobMatrix<R> prev = null, next = null;
 		if (colnum != 0)
-			prev = new CobMatrix(columns[colnum - 1], newsc);
+			prev = new CobMatrix<R>(columns[colnum - 1], newsc);
 		if (colnum != ncolumns - 1)
-			next = new CobMatrix(newsc, columns[colnum + 1]);
+			next = new CobMatrix<R>(newsc, columns[colnum + 1]);
 		int newn = 0;
 		for (int i = 0; i < columns[colnum].n; i++) {
 			Cap oldsm = columns[colnum].smoothings[i];
@@ -759,7 +761,7 @@ public class Komplex implements Serializable {
 						nextcc.dots[nextcc.offbot + k] = 1;
 					}
 				}
-				LCCC prevlc = new LCCC(oldsm, newsm);
+				LCCC<R> prevlc = new LCCC<R>(oldsm, newsm);
 				if (prev != null) {
 					for (int k = 0; k < (1 << nmore); k++) {
 						byte prevdots[] = new byte[prevcc.ncc], prevhpow = 0;
@@ -791,13 +793,13 @@ public class Komplex implements Serializable {
 				newsc.smoothings[newn] = newsm;
 				newsc.numbers[newn] = columns[colnum].numbers[i] + nmod;
 				if (prev != null) {
-					CobMatrix prevMatrix = getMatrix(colnum - 1);
+					CobMatrix<R> prevMatrix = getMatrix(colnum - 1);
 //					prev.rowsizes[newn] = prevMatrix.rowsizes[i];
 //					prev.indices[newn] = prevMatrix.indices[i];
 					if (oldsm.ncycles != 0) {
 //						prev.values[newn] = new LCCC[prev.rowsizes[newn]];
-						CobMatrixRow prevMatrixEntriesI = prevMatrix.entries.get(i);
-						CobMatrixRow prevEntriesNewN = prev.entries.get(newn);
+						CobMatrixRow<R> prevMatrixEntriesI = prevMatrix.entries.get(i);
+						CobMatrixRow<R> prevEntriesNewN = prev.entries.get(newn);
 						for(int k : prevMatrixEntriesI.keys()) {
 							prevEntriesNewN.put(k, prevlc.compose(prevMatrixEntriesI.get(k)));
 						}
@@ -811,15 +813,15 @@ public class Komplex implements Serializable {
 					}
 				}
 				if (next != null) {
-					CobMatrix nextMatrix = getMatrix(colnum);
+					CobMatrix<R> nextMatrix = getMatrix(colnum);
 					if (oldsm.ncycles != 0) {
-						LCCC lc = new LCCC(newsm, oldsm);
+						LCCC<R> lc = new LCCC<R>(newsm, oldsm);
 						lc.add(nextcc, 1);
 
 						for(int k = 0; k < nextMatrix.entries.size(); ++k) {
-							CobMatrixRow rowEntries = nextMatrix.entries.get(k);
+							CobMatrixRow<R> rowEntries = nextMatrix.entries.get(k);
 							if(rowEntries.containsKey(i)) {
-								LCCC nmv = rowEntries.get(i);
+								LCCC<R> nmv = rowEntries.get(i);
 								next.append(k, newn, nmv.compose(lc));
 							}
 						}						
@@ -834,7 +836,7 @@ public class Komplex implements Serializable {
 //						}
 					} else {
 						for(int k = 0; k < nextMatrix.entries.size(); ++k) {
-							CobMatrixRow rowEntries = nextMatrix.entries.get(k);
+							CobMatrixRow<R> rowEntries = nextMatrix.entries.get(k);
 							if(rowEntries.containsKey(i)) {
 								next.append(k, newn, rowEntries.get(i));
 							}
@@ -870,7 +872,7 @@ public class Komplex implements Serializable {
 	public boolean reductionLemma(int i) { // does one matrix
 		// this assumes delooping has taken place
 		boolean found, found2 = false, ret = false;
-		CobMatrix m = getMatrix(i);
+		CobMatrix<R> m = getMatrix(i);
 		if(m.target.n > largestMatrix) {
 			largestMatrix = m.target.n;
 			log.info("Largest matrix: " + largestMatrix + " rows.");
@@ -880,7 +882,7 @@ public class Komplex implements Serializable {
 			found = false;
 			rlfor: for (int j = 0; j < m.entries.size(); j++) {
 				for(int k : m.entries.get(j).keys()) {
-					LCCC lc = m.entries.get(j).get(k);
+					LCCC<R> lc = m.entries.get(j).get(k);
 					if (lc != null && lc.size() == 1) {
 						if (!columns[i].smoothings[k]
 								.equals(columns[i + 1].smoothings[j])) {
@@ -947,13 +949,13 @@ public class Komplex implements Serializable {
 		System.arraycopy(columns[i + 1].numbers, j + 1, scE.numbers, j, scE.n
 				- j);
 
-		CobMatrix m = getMatrix(i);
+		CobMatrix<R> m = getMatrix(i);
 
-		CobMatrix delta = null, gamma = null;
+		CobMatrix<R> delta = null, gamma = null;
 		if (!zeros) {
-			delta = new CobMatrix(scD, scb2);
-			CobMatrixRow mRowEntriesJ = m.entries.get(j);
-			CobMatrixRow deltaRowEntries0 = delta.entries.get(0);
+			delta = new CobMatrix<R>(scD, scb2);
+			CobMatrixRow<R> mRowEntriesJ = m.entries.get(j);
+			CobMatrixRow<R> deltaRowEntries0 = delta.entries.get(0);
 			for(int c : mRowEntriesJ.keys()) {
 				if(c < k) {
 					deltaRowEntries0.put(c, mRowEntriesJ.get(c));
@@ -976,14 +978,14 @@ public class Komplex implements Serializable {
 //				}
 //			}
 			// fill this at the same time as epsilon
-			gamma = new CobMatrix(scb1, scE);
+			gamma = new CobMatrix<R>(scb1, scE);
 		}
-		CobMatrix epsilon = new CobMatrix(scD, scE);
+		CobMatrix<R> epsilon = new CobMatrix<R>(scD, scE);
 		
 		for (int a = 0, b = 0; a < m.entries.size(); a++) {
 			if (a != j) {
-				CobMatrixRow mRowEntriesA = m.entries.get(a);
-				CobMatrixRow epsilonRowEntriesB = epsilon.entries.get(b);
+				CobMatrixRow<R> mRowEntriesA = m.entries.get(a);
+				CobMatrixRow<R> epsilonRowEntriesB = epsilon.entries.get(b);
 				for (int c : mRowEntriesA.keys()) {
 					if (c < k) {
 						epsilonRowEntriesB.put(c, mRowEntriesA.get(c));
@@ -1020,7 +1022,7 @@ public class Komplex implements Serializable {
 		if (zeros) {
 			setMatrix(i, epsilon);
 		} else {
-			CobMatrix phiinv = new CobMatrix(scb2, scb1);
+			CobMatrix<R> phiinv = new CobMatrix<R>(scb2, scb1);
 			CannedCobordism phicc = new CannedCobordism(
 					columns[i + 1].smoothings[j], columns[i].smoothings[k]);
 			// assume delooping has been done
@@ -1030,18 +1032,18 @@ public class Komplex implements Serializable {
 			phicc.ncc = phicc.nbc;
 			phicc.dots = new byte[phicc.ncc];
 			phicc.genus = new byte[phicc.ncc];
-			LCCC philc = new LCCC(columns[i + 1].smoothings[j],
+			LCCC<R> philc = new LCCC<R>(columns[i + 1].smoothings[j],
 					columns[i].smoothings[k]);
 			philc.add(phicc, n.inverse().multiply(-1));
 			phiinv.append(0, 0, philc);
-			CobMatrix gpd = gamma.multiply(phiinv).multiply(delta);
+			CobMatrix<R> gpd = gamma.multiply(phiinv).multiply(delta);
 			gpd.add(epsilon);
 			setMatrix(i, gpd);
 		}
 		columns[i] = scD;
 		columns[i + 1] = scE;
 		if (i != 0) {
-			CobMatrix previousMatrix = getMatrix(i - 1);
+			CobMatrix<R> previousMatrix = getMatrix(i - 1);
 
 			previousMatrix.target = columns[i];
 			previousMatrix.entries.remove(k);
@@ -1054,7 +1056,7 @@ public class Komplex implements Serializable {
 //			setMatrix(i - 1, beta);
 		}
 		if (i != ncolumns - 2) {
-			CobMatrix nextMatrix = getMatrix(i + 1);
+			CobMatrix<R> nextMatrix = getMatrix(i + 1);
 
 //			nextMatrix.source = columns[i + 1];
 //			for(TIntObjectHashMap<LCCC> rowEntry : nextMatrix.entries) {
@@ -1069,10 +1071,10 @@ public class Komplex implements Serializable {
 //			}
 //			setMatrix(i + 1, nextMatrix);
 			
-			CobMatrix nu = new CobMatrix(columns[i + 1], columns[i + 2]);
+			CobMatrix<R> nu = new CobMatrix<R>(columns[i + 1], columns[i + 2]);
 			for(int a = 0; a < nextMatrix.entries.size(); ++a) {
-				CobMatrixRow nextMatrixRowEntriesA = nextMatrix.entries.get(a);
-				CobMatrixRow nuRowEntriesA = nu.entries.get(a);
+				CobMatrixRow<R> nextMatrixRowEntriesA = nextMatrix.entries.get(a);
+				CobMatrixRow<R> nuRowEntriesA = nu.entries.get(a);
 				for(int c : nextMatrixRowEntriesA.keys()) {
 					if(c < j) {
 						nuRowEntriesA.put(c, nextMatrixRowEntriesA.get(c));
@@ -1263,12 +1265,13 @@ public class Komplex implements Serializable {
 	
 	
 	// adds crossings one by one
-	public static Komplex generateFast(int pd[][], int xsigns[],
+	@SuppressWarnings("unchecked")
+	public static <R extends Ring<R>> Komplex<R> generateFast(int pd[][], int xsigns[],
 			boolean reorderCrossings, boolean caching, boolean inMemory) {
 		invokeGC();
 		
 		if (pd.length == 0) { // assume unknot
-			Komplex kom = new Komplex(1, true);
+			Komplex<R> kom = new Komplex<R>(1, true);
 			kom.columns[0] = new SmoothingColumn(1);
 			kom.columns[0].smoothings[0] = Cap.capCache.cache(new Cap(0, 1));
 			kom.reduce();
@@ -1279,10 +1282,10 @@ public class Komplex implements Serializable {
 		int pd1[][] = { { 0, 1, 2, 3 } };
 		int xsign1[] = new int[1];
 		xsign1[0] = 1;
-		Komplex kplus = new Komplex(pd1, xsign1, 4, true);
+		Komplex<R> kplus = new Komplex<R>(pd1, xsign1, 4, true);
 		xsign1[0] = -1;
-		Komplex kminus = new Komplex(pd1, xsign1, 4, true);
-		Komplex kom;
+		Komplex<R> kminus = new Komplex<R>(pd1, xsign1, 4, true);
+		Komplex<R> kom;
 		int edges[] = new int[0];
 		int firstdepth = (pd.length > MAXDEPTH + 1 ? MAXDEPTH : pd.length - 1);
 		int firstdummy[] = new int[firstdepth + 1];
@@ -1317,7 +1320,7 @@ public class Komplex implements Serializable {
 						ObjectInputStream deserializer = new ObjectInputStream(
 								new FileInputStream(cache));
 						info("Beginning to load cached complex for crossing: " + i);
-						kom = (Komplex) (deserializer.readObject());
+						kom = (Komplex<R>) (deserializer.readObject());
 						dryRun = true;
 						
 						// uncomment this to upconvert serialization versions...
@@ -1439,7 +1442,7 @@ public class Komplex implements Serializable {
 		return kom;
 	}
 
-	private static void writeCache(Komplex kom, int i) {
+	private static <R extends Ring<R>> void writeCache(Komplex<R> kom, int i) {
 		File output = new File("cache/" + new Integer(i).toString());
 		output.getParentFile().mkdirs();
 		try {
@@ -1464,11 +1467,11 @@ public class Komplex implements Serializable {
 	// WARNING: this destroys the original Komplex object in the process, for
 	// the sake
 	// of speedy(?) garbage collection.
-	public Komplex compose(int start, Komplex kom, int kstart, int nc,
+	public Komplex<R> compose(int start, Komplex<R> kom, int kstart, int nc,
 			boolean inMemory) {
-		Komplex ret = new Komplex(ncolumns + kom.ncolumns - 1, inMemory);
+		Komplex<R> ret = new Komplex<R>(ncolumns + kom.ncolumns - 1, inMemory);
 		if(ret.matrices instanceof CachingList) {
-			((CachingList<CobMatrix>)(ret.matrices)).resetCacheSize(1);
+			((CachingList<CobMatrix<R>>)(ret.matrices)).resetCacheSize(1);
 		}
 		ret.startnum = startnum + kom.startnum;
 		ret.nfixed = nfixed + kom.nfixed - 2 * nc;
@@ -1502,21 +1505,21 @@ public class Komplex implements Serializable {
 				}
 		// fill the matrices
 		for (int i = 0; i < ret.ncolumns - 1; i++) {
-			CobMatrix newMatrix = new CobMatrix(ret.columns[i],
+			CobMatrix<R> newMatrix = new CobMatrix<R>(ret.columns[i],
 					ret.columns[i + 1]);
 			boolean first = true;
 			for (int j = 0; j <= i && j < ncolumns; j++)
 				if (i - j < kom.ncolumns) {
 					int k = i - j;
 					if (j < ncolumns - 1) {
-						CobMatrix matrixJ = getMatrix(j);
+						CobMatrix<R> matrixJ = getMatrix(j);
 						// entries derived from matrices[j] and kom.columns[k]
 						for (int m = 0; m < kom.columns[k].n; m++) {
 							CannedCobordism komcc = CannedCobordism
 									.isomorphism(kom.columns[k].smoothings[m]);
 							for (int n = 0; n < columns[j + 1].n; n++) {
 								for(int l : matrixJ.entries.get(n).keys()) {
-									LCCC lc = matrixJ.entries.get(n).get(l);
+									LCCC<R> lc = matrixJ.entries.get(n).get(l);
 									if (lc != null && lc.size() != 0) {
 										lc = lc.compose(start, komcc, kstart,
 												nc, false);
@@ -1545,13 +1548,13 @@ public class Komplex implements Serializable {
 					}
 					if (k < kom.ncolumns - 1) {
 						// entries derived from kom.matrix[k] and columns[j]
-						CobMatrix komMatrixK = kom.getMatrix(k);
+						CobMatrix<R> komMatrixK = kom.getMatrix(k);
 						for (int l = 0; l < columns[j].n; l++) {
 							CannedCobordism thiscc = CannedCobordism
 									.isomorphism(columns[j].smoothings[l]);
 							for (int n = 0; n < kom.columns[k + 1].n; n++) {
 								for(int m : komMatrixK.entries.get(n).keys()) {
-									LCCC lc = komMatrixK.entries.get(n).get(m);
+									LCCC<R> lc = komMatrixK.entries.get(n).get(m);
 									if (lc != null && lc.size() != 0) {
 										lc = lc.compose(kstart, thiscc, start,
 												nc, true);
@@ -1572,7 +1575,7 @@ public class Komplex implements Serializable {
 			invokeGC();
 		}
 		if(ret.matrices instanceof CachingList) {
-			((CachingList<CobMatrix>)(ret.matrices)).resetCacheSize(3);
+			((CachingList<CobMatrix<R>>)(ret.matrices)).resetCacheSize(3);
 		}
 		return ret;
 	}
@@ -1612,7 +1615,7 @@ public class Komplex implements Serializable {
 			columns[i] = new SmoothingColumn(pascalTriangle[pd.length][i]);
 		}
 		for (int i = 0; i < ncolumns - 1; i++) {
-			matrices.add(new CobMatrix(columns[i], columns[i + 1]));
+			matrices.add(new CobMatrix<R>(columns[i], columns[i + 1]));
 		}
 
 		int numsmoothings[] = new int[ncolumns];
@@ -1832,7 +1835,7 @@ public class Komplex implements Serializable {
 							} else if (cc.connectedComponent[l] == cc.ncc)
 								cc.ncc++;
 						cc.dots = cc.genus = CannedCobordism.zeros[cc.ncc];
-						LCCC lc = new LCCC(cc.top, cc.bottom);
+						LCCC<R> lc = new LCCC<R>(cc.top, cc.bottom);
 						int num = 1;
 						for (int l = j + 1; l < pd.length; l++) {
 							if ((i & (1 << l)) != 0) {
@@ -1841,7 +1844,7 @@ public class Komplex implements Serializable {
 						}
 						lc.add(cc, num);
 
-						CobMatrix m = getMatrix(num1 - 1);
+						CobMatrix<R> m = getMatrix(num1 - 1);
 						m.append(whichRow[i], whichRow[k], lc);
 						setMatrix(num1 - 1, m);
 					}
@@ -1851,7 +1854,7 @@ public class Komplex implements Serializable {
 
 	public boolean check(boolean reduce) { // checks that d^2 = 0
 		for (int i = 1; i < matrices.size(); i++) {
-			CobMatrix cm = getMatrix(i).multiply(getMatrix(i - 1));
+			CobMatrix<R> cm = getMatrix(i).multiply(getMatrix(i - 1));
 			if (!cm.isZero()) {
 				if (reduce) {
 					cm.reduce();
@@ -1866,11 +1869,10 @@ public class Komplex implements Serializable {
 
 	private void createMatrixList() {
 		if (inMemory) {
-//			matrices = new SerializableListWrapper<CobMatrix>(new ArrayList<CobMatrix>(ncolumns - 1));
-			matrices = new ArrayList<CobMatrix>(ncolumns - 1);
+			matrices = new ArrayList<CobMatrix<R>>(ncolumns - 1);
 		} else {
-			matrices = new CachingList<CobMatrix>(
-					new DiskBackedList<CobMatrix>(new File(System
+			matrices = new CachingList<CobMatrix<R>>(
+					new DiskBackedList<CobMatrix<R>>(new File(System
 							.getProperty("java.io.tmpdir"))), 3);
 		}
 	}
@@ -1882,7 +1884,7 @@ public class Komplex implements Serializable {
 		int i = 0;
 		if (matrices instanceof SerializingList) {
 			s.writeBoolean(true);
-			for (File file : ((SerializingList<CobMatrix>) (matrices))
+			for (File file : ((SerializingList<CobMatrix<R>>) (matrices))
 					.getSerializedForms()) {
 				debug("Writing height " + (++i) + "/" + matrices.size());
 				s.writeLong(file.length());
@@ -1891,7 +1893,7 @@ public class Komplex implements Serializable {
 			}
 		} else {
 			s.writeBoolean(false);
-			for (CobMatrix m : matrices) {
+			for (CobMatrix<R> m : matrices) {
 				debug("Writing height " + (++i) + "/" + matrices.size());
 				s.writeObject(m);
 				invokeGC();
@@ -1899,6 +1901,7 @@ public class Komplex implements Serializable {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void readObject(ObjectInputStream s) throws IOException,
 			ClassNotFoundException {
 		s.defaultReadObject();
@@ -1916,17 +1919,17 @@ public class Komplex implements Serializable {
 				InputStream lsis = new LimitedSizeInputStream(s, fileLength);
 				if(matrices instanceof SerializingList) {
 					matrices.add(null);
-					((SerializingList<CobMatrix>) matrices).setSerializedForm(i, hash, lsis);
+					((SerializingList<CobMatrix<R>>) matrices).setSerializedForm(i, hash, lsis);
 				} else {
 					ObjectInputStream p = new ObjectInputStream(lsis);
-					matrices.add((CobMatrix) (p.readObject()));
+					matrices.add((CobMatrix<R>) (p.readObject()));
 					invokeGC();
 				}
 			}
 		} else {
 			for (int i = 0; i < size; ++i) {
 				debug("Reading height " + (i + 1) + "/" + size);
-				matrices.add((CobMatrix) (s.readObject()));
+				matrices.add((CobMatrix<R>) (s.readObject()));
 				invokeGC();
 			}
 		}

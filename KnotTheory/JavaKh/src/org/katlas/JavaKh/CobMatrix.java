@@ -6,10 +6,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.katlas.JavaKh.algebra.Ring;
+
 
 // sparse matrix
 // based on http://www.ii.uib.no/~geirg/jaggedarrays.html
-public class CobMatrix implements Serializable{
+public class CobMatrix<R extends Ring<R>> implements Serializable{
     /**
 	 * 
 	 */
@@ -20,7 +22,7 @@ public class CobMatrix implements Serializable{
 //    int rowsizes[];
 
 //    final List<Map<Integer, LCCC>> entries;
-    final ArrayList<CobMatrixRow> entries;
+    final ArrayList<CobMatrixRow<R>> entries;
     
     public CobMatrix(SmoothingColumn s, SmoothingColumn t) {
 		source = s;
@@ -29,7 +31,7 @@ public class CobMatrix implements Serializable{
 		// indices = new int[t.n][];
 		// rowsizes = new int[t.n];
 //		entries = new ArrayList<Map<Integer, LCCC>>(t.n);
-		entries = new ArrayList<CobMatrixRow>(t.n);
+		entries = new ArrayList<CobMatrixRow<R>>(t.n);
 		for (int i = 0; i < t.n; ++i) {
 //			entries.add(new TreeMap<Integer, LCCC>());
 			entries.add(new TreeEntryMap());
@@ -52,7 +54,7 @@ public class CobMatrix implements Serializable{
 //    }
 
     // assumes matrix[i][j] is not contained in this sparse matrix
-    public void append(int i, int j, LCCC lc) {
+    public void append(int i, int j, LCCC<R> lc) {
 	if (lc == null || lc.size() == 0) {
 	    return;
 	}
@@ -77,9 +79,10 @@ public class CobMatrix implements Serializable{
 //	rowsizes[i]++;
     }
 
-    public LCCC[] unpackRow(int i) {
-	LCCC rowi[] = new LCCC[source.n];
-	CobMatrixRow rowEntries = entries.get(i);
+    @SuppressWarnings("unchecked")
+	public LCCC<R>[] unpackRow(int i) {
+	LCCC<R> rowi[] = new LCCC[source.n];
+	CobMatrixRow<R> rowEntries = entries.get(i);
 	for(int j : rowEntries.keys()) {
 		rowi[j] = rowEntries.get(j);
 	}
@@ -105,18 +108,19 @@ public class CobMatrix implements Serializable{
 //    }
 
     // not working right now
-    public boolean equals(Object o) {
+    @SuppressWarnings("unchecked")
+	public boolean equals(Object o) {
 	if (!(o instanceof CobMatrix))
 	    return false;
-	CobMatrix cm = (CobMatrix) o;
+	CobMatrix<R> cm = (CobMatrix<R>) o;
 	if (!source.equals(cm.source))
 	    return false;
 	if (!target.equals(cm.target))
 	    return false;
 	// Arrays.equals() isn't adequate because null == 0 for LCCCs
 	for (int i = 0; i < target.n; i++) {
-	    LCCC arowi[] = unpackRow(i);
-	    LCCC browi[] = cm.unpackRow(i);
+	    LCCC<R> arowi[] = unpackRow(i);
+	    LCCC<R> browi[] = cm.unpackRow(i);
 	    for (int j = 0; j < source.n; j++)
 		if (arowi[j] != null) {
 		    if (!arowi[j].equals(browi[j]))
@@ -127,20 +131,20 @@ public class CobMatrix implements Serializable{
 	return true;
     }
 
-    public CobMatrix multiply(CobMatrix cm) { // this * cm
+    public CobMatrix<R> multiply(CobMatrix<R> cm) { // this * cm
 	assert source.equals(cm.target);
 	/*if (!source.equals(cm.target))
 	  throw new IllegalArgumentException();*/
-	CobMatrix ret = new CobMatrix(cm.source, target);
+	CobMatrix<R> ret = new CobMatrix<R>(cm.source, target);
 
 	for (int i = 0; i < target.n; ++i) {
-			CobMatrixRow rowEntries = entries.get(i);
+			CobMatrixRow<R> rowEntries = entries.get(i);
 //			Map<Integer, LCCC> retRowEntries = new NonNullValueMapWrapper<Integer, LCCC>(
 //					new TreeMap<Integer, LCCC>());
-			CobMatrixRow retRowEntries = new TreeEntryMap();
+			CobMatrixRow<R> retRowEntries = new TreeEntryMap();
 			for (int j : rowEntries.keys()) {
 				for (int k : cm.entries.get(j).keys()) {
-					LCCC lc = rowEntries.get(j).compose(
+					LCCC<R> lc = rowEntries.get(j).compose(
 							cm.entries.get(j).get(k));
 					if (lc != null) {
 						if (retRowEntries.containsKey(k)) {
@@ -187,9 +191,9 @@ public class CobMatrix implements Serializable{
     }
 
     public void multiply(BaseRing n) { // modifies in place
-    	for(CobMatrixRow rowEntries : entries) {
+    	for(CobMatrixRow<R> rowEntries : entries) {
     		for(int i : rowEntries.keys()) {
-    			LCCC lc = rowEntries.get(i);
+    			LCCC<R> lc = rowEntries.get(i);
     			if(lc != null) {
     				lc.multiply(n);
     			}
@@ -205,12 +209,12 @@ public class CobMatrix implements Serializable{
 //		}
 	}
 
-    public void add(CobMatrix cm) { // edits in place
+    public void add(CobMatrix<R> cm) { // edits in place
 	assert source.equals(cm.source) && target.equals(cm.target);
 	
 	for(int i = 0; i < entries.size(); ++i) {
-		CobMatrixRow rowEntries = entries.get(i);
-		CobMatrixRow cmRowEntries = cm.entries.get(i);
+		CobMatrixRow<R> rowEntries = entries.get(i);
+		CobMatrixRow<R> cmRowEntries = cm.entries.get(i);
 		for(int j : cmRowEntries.keys()) {
 			if(rowEntries.containsKey(j)) {
 				rowEntries.get(j).add(cmRowEntries.get(j));
@@ -248,10 +252,10 @@ public class CobMatrix implements Serializable{
     }
 
     public void reduce() { // modifies this CobMatrix in place
-    	for(CobMatrixRow rowEntries : entries) {
+    	for(CobMatrixRow<R> rowEntries : entries) {
     		Set<Integer> entriesToRemove = new HashSet<Integer>();
     		for(int i : rowEntries.keys()) {
-    			LCCC rlc = rowEntries.get(i).reduce();
+    			LCCC<R> rlc = rowEntries.get(i).reduce();
     			if(rlc == null) {
     				entriesToRemove.add(i);
     			} else {
@@ -273,9 +277,9 @@ public class CobMatrix implements Serializable{
 	}
 
     public boolean isZero() {
-    	for(CobMatrixRow rowEntries : entries) {
+    	for(CobMatrixRow<R> rowEntries : entries) {
     		for(int i : rowEntries.keys()) {
-    			LCCC lc = rowEntries.get(i);
+    			LCCC<R> lc = rowEntries.get(i);
     			if(lc != null && lc.size() > 0) {
     				return false;
     			}
@@ -303,7 +307,7 @@ public class CobMatrix implements Serializable{
     public void print() {
 	System.out.print("[");
 	for (int i = 0; i < target.n; i++) {
-	    LCCC rowi[] = unpackRow(i);
+	    LCCC<R> rowi[] = unpackRow(i);
 	    for (int j = 0; j < source.n; j++) {
 		String n;
 		if (rowi[j] == null || rowi[j].size() == 0)
@@ -324,7 +328,7 @@ public class CobMatrix implements Serializable{
     public void printZeros() {
 	//throw new UnsupportedOperationException();
 	for (int i = 0; i < target.n; i++) {
-	    LCCC rowi[] = unpackRow(i);
+	    LCCC<R> rowi[] = unpackRow(i);
 	    for (int j = 0; j < source.n; j++)
 		if (rowi[j] == null)
 		    System.out.print("0");
@@ -345,13 +349,13 @@ public class CobMatrix implements Serializable{
         
     
     
-    private class TreeEntryMap implements CobMatrixRow, Serializable {
+    private class TreeEntryMap implements CobMatrixRow<R>, Serializable {
     	/**
 		 * 
 		 */
 		private static final long serialVersionUID = 7040588247299310395L;
 		
-		Map<Integer, LCCC> map = new TreeMap<Integer, LCCC>();
+		Map<Integer, LCCC<R>> map = new TreeMap<Integer, LCCC<R>>();
     	
 		public void compact() {	}
 
@@ -359,7 +363,7 @@ public class CobMatrix implements Serializable{
 			return map.containsKey(k);
 		}
 
-		public LCCC get(int j) {
+		public LCCC<R> get(int j) {
 			return map.get(j);
 		}
 
@@ -367,7 +371,7 @@ public class CobMatrix implements Serializable{
 			return map.keySet();
 		}
 
-		public void put(int j, LCCC lc) {
+		public void put(int j, LCCC<R> lc) {
 			map.put(j, lc);
 		}
 

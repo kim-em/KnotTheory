@@ -3,8 +3,10 @@ import java.io.Serializable;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.katlas.JavaKh.algebra.Ring;
 
-public class LCCC implements Serializable { // Linear Combination of Canned Cobordisms
+
+public class LCCC<R extends Ring<R>> implements Serializable { // Linear Combination of Canned Cobordisms
     /**
 	 * 
 	 */
@@ -37,12 +39,13 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
     	return coefficients.size();
     }
     
-    public boolean equals(Object o) {
+    @SuppressWarnings("unchecked")
+	public boolean equals(Object o) {
 	if (o == null && size() == 0)
 	    return true;
 	if (!(o instanceof LCCC))
 	    return false;
-	LCCC other = (LCCC) o;
+	LCCC<R> other = (LCCC<R>) o;
 	if (size() > 1 || other.size() > 1)
 	    // not working right now
 	    throw new UnsupportedOperationException();
@@ -127,7 +130,7 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 	  maxsz = entries.size();*/
     }
 
-    public void add(LCCC other) {
+    public void add(LCCC<R> other) {
 	if (other == null)
 	    return;
 	for (CannedCobordism cc : other.coefficients.keySet())
@@ -144,11 +147,11 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 	}
 	}
 
-    public LCCC compose(LCCC other) { // vertical composition
+    public LCCC<R> compose(LCCC<R> other) { // vertical composition
 	if (other == null || size() == 0 || other.size() == 0)
 	    return null;
 	assert top.equals(other.bottom);
-	LCCC ret = new LCCC(other.top, bottom);
+	LCCC<R> ret = new LCCC<R>(other.top, bottom);
 	
 	for(CannedCobordism cc : coefficients.keySet()) {
 		for(CannedCobordism occ : other.coefficients.keySet()) {
@@ -160,11 +163,11 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
     }
 
     // horizontal composition
-    public LCCC compose(int start, CannedCobordism cc, int cstart, int nc,
+    public LCCC<R> compose(int start, CannedCobordism cc, int cstart, int nc,
 			boolean reverse) {
 	if (size() == 0)
 	    return null;
-	LCCC ret = new LCCC(null, null);
+	LCCC<R> ret = new LCCC<R>(null, null);
 	if (reverse) {
 		for(CannedCobordism occ : coefficients.keySet()) {
 			ret.add(cc.compose(cstart, occ, start, nc),
@@ -194,12 +197,12 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 	}
     }
 
-    public LCCC reduce() {
+    public LCCC<R> reduce() {
 	if (JavaKh.using_h)
 	    return reduceWithH();
 	if (size() == 0)
 	    return null;
-	LCCC ret = new LCCC(top, bottom);
+	LCCC<R> ret = new LCCC<R>(top, bottom);
 	for (CannedCobordism cc : coefficients.keySet()) {
 	    BaseRing num = coefficients.get(cc);
 	    cc.reverseMaps();
@@ -277,10 +280,10 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 	    return ret;
     }
 
-    public LCCC reduceWithH() {
+    public LCCC<R> reduceWithH() {
 	if (size() == 0)
 	    return null;
-	LCCC ret = new LCCC(top, bottom);
+	LCCC<R> ret = new LCCC<R>(top, bottom);
 	for (CannedCobordism cc : coefficients.keySet()) {
 	    BaseRing num = coefficients.get(cc);
 	    cc.reverseMaps();
@@ -404,12 +407,12 @@ public class LCCC implements Serializable { // Linear Combination of Canned Cobo
 	    return ret;
     }
 
-    public LCCC finalizeH() {
+    public LCCC<R> finalizeH() {
 	if (size() == 0)
 	    return null;
 	assert top.n == 2 && top.ncycles == 0
 	    && bottom.n == 2 && bottom.ncycles == 0;
-	LCCC ret = new LCCC(top, bottom);
+	LCCC<R> ret = new LCCC<R>(top, bottom);
 	CannedCobordism cc = CannedCobordism.isomorphism(top);
 	boolean hset = false;
 	for (CannedCobordism occ : coefficients.keySet()) {
