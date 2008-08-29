@@ -2,7 +2,9 @@ package org.katlas.JavaKh;
 
 import java.io.Serializable;
 
-public class ModP_int extends BaseRing implements Serializable {
+import org.katlas.JavaKh.algebra.Ring;
+
+public class ModP implements Ring<ModP>, Serializable {
     /**
 	 * 
 	 */
@@ -21,16 +23,16 @@ public class ModP_int extends BaseRing implements Serializable {
 		}
     }
 
-    public ModP_int(int i) {
+    public ModP(int i) {
 	n = i % p;
 	if (n < 0)
 	    n += p;
     }
 
     public boolean equals(Object o) {
-	if (!(o instanceof ModP_int))
+	if (!(o instanceof ModP))
 	    return false;
-	ModP_int mp = (ModP_int) o;
+	ModP mp = (ModP) o;
 	return n == mp.n;
     }
 
@@ -38,23 +40,21 @@ public class ModP_int extends BaseRing implements Serializable {
 	return n != 0;
     }
 
-    public BaseRing inverse() {
+    public ModP inverse() {
 	assert inv[n] != 0;
-	return new ModP_int(inv[n]);
+	return new ModP(inv[n]);
     }
 
-    public BaseRing multiply(BaseRing br) {
-	ModP_int mp = (ModP_int) br;
-	return new ModP_int(n * mp.n);
+    public ModP multiply(ModP mp) {
+	return new ModP(n * mp.n);
     }
 
-    public BaseRing multiply(int n) {
-	return new ModP_int(this.n * n);
+    public ModP multiply(int n) {
+	return new ModP(this.n * n);
     }
 
-    public BaseRing add(BaseRing br) {
-	ModP_int mp = (ModP_int) br;
-	return new ModP_int(n + mp.n);
+    public ModP add(ModP mp) {
+	return new ModP(n + mp.n);
     }
 
     public boolean isZero() {

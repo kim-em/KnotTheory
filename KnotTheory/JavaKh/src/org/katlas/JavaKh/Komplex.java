@@ -29,6 +29,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.katlas.JavaKh.algebra.Ring;
+import org.katlas.JavaKh.algebra.Rings;
 import org.katlas.JavaKh.utils.CachingList;
 import org.katlas.JavaKh.utils.DiskBackedList;
 import org.katlas.JavaKh.utils.LimitedSizeInputStream;
@@ -889,7 +890,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 							continue;
 						}
 						CannedCobordism cc = lc.coefficients.firstKey();
-						BaseRing n = lc.coefficients.get(cc);
+						R n = lc.coefficients.get(cc);
 						if (!n.isInvertible()) {
 							continue;
 						}
@@ -925,7 +926,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		return ret;
 	}
 
-	public void reductionLemma(int i, int j, int k, BaseRing n,
+	public void reductionLemma(int i, int j, int k, R n,
 			boolean zeros) {
 		// matrices[i].matrix[j][k] is the isomorphism, with coefficient n
 		// zeros is true if row j or column k is zero
@@ -1467,6 +1468,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 	// WARNING: this destroys the original Komplex object in the process, for
 	// the sake
 	// of speedy(?) garbage collection.
+	@SuppressWarnings("unchecked")
 	public Komplex<R> compose(int start, Komplex<R> kom, int kstart, int nc,
 			boolean inMemory) {
 		Komplex<R> ret = new Komplex<R>(ncolumns + kom.ncolumns - 1, inMemory);
@@ -1525,8 +1527,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 												nc, false);
 										if (lc != null) {
 											if (k % 2 == 0) {
-												lc.multiply(BaseRing
-														.fromInt(-1));
+												lc.multiply((R)Rings.createInstance(-1));
 											}
 											newMatrix.append(startnum[j + 1][k]
 													+ n * kom.columns[k].n + m,

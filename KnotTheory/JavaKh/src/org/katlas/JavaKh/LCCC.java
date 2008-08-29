@@ -1,9 +1,12 @@
 package org.katlas.JavaKh;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.katlas.JavaKh.algebra.Ring;
+import org.katlas.JavaKh.algebra.Rings;
 
 
 public class LCCC<R extends Ring<R>> implements Serializable { // Linear Combination of Canned Cobordisms
@@ -18,9 +21,9 @@ public class LCCC<R extends Ring<R>> implements Serializable { // Linear Combina
     // List<BaseRing> coefficients;
     // consider storing the hash codes?
 
-    final SortedMap<CannedCobordism, BaseRing> coefficients;
+    final SortedMap<CannedCobordism, R> coefficients;
     
-    public BaseRing firstCoefficient() {
+    public R firstCoefficient() {
     	return coefficients.get(coefficients.firstKey());
     }
     
@@ -32,7 +35,7 @@ public class LCCC<R extends Ring<R>> implements Serializable { // Linear Combina
 	// n = 0;
 	// cobordisms = new LinkedList<CannedCobordism>();
 	// coefficients = new LinkedList<BaseRing>();
-	coefficients = new TreeMap<CannedCobordism, BaseRing>();
+	coefficients = new TreeMap<CannedCobordism, R>();
     }
 
     int size() {
@@ -104,14 +107,15 @@ public class LCCC<R extends Ring<R>> implements Serializable { // Linear Combina
 //	System.out.println("Associativity checks OK!");
 //    }
 
-    public void add(CannedCobordism cc, int n) {
-	add(cc, BaseRing.fromInt(n));
+    @SuppressWarnings("unchecked")
+	public void add(CannedCobordism cc, int n) {
+    	add(cc, (R)Rings.createInstance(n));
     }
 
-    public void add(CannedCobordism cc, BaseRing num) {
+    public void add(CannedCobordism cc, R num) {
     	
     if(coefficients.containsKey(cc)) {
-		BaseRing newCoefficient = coefficients.get(cc).add(num);
+		R newCoefficient = coefficients.get(cc).add(num);
 		if(newCoefficient.isZero()) {
 			coefficients.remove(cc);
 		} else {
@@ -137,7 +141,7 @@ public class LCCC<R extends Ring<R>> implements Serializable { // Linear Combina
 	    add(cc, other.coefficients.get(cc));
     }
 
-    public void multiply(BaseRing num) {
+    public void multiply(R num) {
 	if (num.isZero()) {
 	    coefficients.clear();
 	} else {
@@ -204,7 +208,7 @@ public class LCCC<R extends Ring<R>> implements Serializable { // Linear Combina
 	    return null;
 	LCCC<R> ret = new LCCC<R>(top, bottom);
 	for (CannedCobordism cc : coefficients.keySet()) {
-	    BaseRing num = coefficients.get(cc);
+	    R num = coefficients.get(cc);
 	    cc.reverseMaps();
 	    byte dots[] = new byte[cc.nbc];
 	    byte genus[] = CannedCobordism.zeros[cc.nbc];
@@ -280,12 +284,13 @@ public class LCCC<R extends Ring<R>> implements Serializable { // Linear Combina
 	    return ret;
     }
 
-    public LCCC<R> reduceWithH() {
+    @SuppressWarnings("unchecked")
+	public LCCC<R> reduceWithH() {
 	if (size() == 0)
 	    return null;
 	LCCC<R> ret = new LCCC<R>(top, bottom);
 	for (CannedCobordism cc : coefficients.keySet()) {
-	    BaseRing num = coefficients.get(cc);
+	    R num = coefficients.get(cc);
 	    cc.reverseMaps();
 	    byte dots[] = new byte[cc.nbc];
 	    int hpow = cc.hpower;
@@ -323,23 +328,23 @@ public class LCCC<R extends Ring<R>> implements Serializable { // Linear Combina
 		continue;
 	    byte nCdots[][] = new byte[1][];
 	    int nChpow[] = new int[1];
-	    BaseRing nCnum[] = new BaseRing[1];
+	    List<R> nCnum = new ArrayList<R>(1);
 	    nCdots[0] = dots;
 	    nChpow[0] = hpow;
-	    nCnum[0] = num;
+	    nCnum.set(0, num);
 	    for (int i = 0; i < nmoreWork; i++) {
 		int concomp = moreWork[i];
 		int nbc = cc.boundaryComponents[concomp].length;
 		assert cc.dots[concomp] == 0;
 		byte newdots[][] = new byte[nCdots.length << nbc][cc.nbc];
 		int newhpow[] = new int[nChpow.length << nbc];
-		BaseRing newnum[] = new BaseRing[nCnum.length << nbc];
+		List<R> newnum = new ArrayList<R>(nCnum.size() << nbc);
 		for (int j = 0; j < nCdots.length; j++) {
 		    for (int k = 0; k < (1 << nbc); k++) {
 			int idx = (j << nbc) + k;
 			System.arraycopy(nCdots[j], 0,newdots[idx], 0, cc.nbc);
 			newhpow[idx] = nChpow[j];
-			newnum[idx] = nCnum[j];
+			newnum.set(idx, nCnum.get(j));
 			int nzeros = 0;
 			for (int l = 0; l < nbc; l++)
 			    if ((k & (1 << l)) == 0) {
@@ -347,7 +352,7 @@ public class LCCC<R extends Ring<R>> implements Serializable { // Linear Combina
 				nzeros++;
 			    } else
 				newdots[idx][cc.boundaryComponents[concomp][l]] = 1;
-			BaseRing nmul = BaseRing.fromInt(0);
+			R nmul = (R)Rings.createInstance(0);
 			int hmod = 0;
 			boolean hset = false;
 			for (int l = 0; l < (1 << nzeros); l++) {
@@ -366,7 +371,7 @@ public class LCCC<R extends Ring<R>> implements Serializable { // Linear Combina
 				int n = 1;
 				for (int o = 0; o < nzeros - ndots; o++)
 				    n = -n;
-				nmul = nmul.add(BaseRing.fromInt(n));
+				nmul = nmul.add((R)Rings.createInstance(n));
 			    } else if (cc.genus[concomp] % 2 == 0)
 				continue; // coefficient of zero
 			    else {
@@ -380,11 +385,11 @@ public class LCCC<R extends Ring<R>> implements Serializable { // Linear Combina
 				int n = 2;
 				for (int o = 0; o < nzeros; o++)
 				    n = -n;
-				nmul = nmul.add(BaseRing.fromInt(n));
+				nmul = nmul.add((R)Rings.createInstance(n));
 			    }
 			}
 			newhpow[idx] += hmod;
-			newnum[idx] = newnum[idx].multiply(nmul);
+			newnum.set(idx, newnum.get(idx).multiply(nmul));
 		    }
 		}
 		nCdots = newdots;
@@ -398,7 +403,7 @@ public class LCCC<R extends Ring<R>> implements Serializable { // Linear Combina
 		newcc.genus = CannedCobordism.zeros[cc.nbc];
 		newcc.dots = nCdots[i];
 		newcc.hpower = nChpow[i];
-		ret.add(newcc, nCnum[i]);
+		ret.add(newcc, nCnum.get(i));
 	    }
 	}
 	if (ret.size() == 0)

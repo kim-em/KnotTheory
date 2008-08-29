@@ -1,7 +1,9 @@
 package org.katlas.JavaKh;
 import java.math.BigInteger;
 
-public class Int extends BaseRing {
+import org.katlas.JavaKh.algebra.Ring;
+
+public class Int implements Ring<Int> {
 	private static final BigInteger MINUSONE = BigInteger.valueOf(-1);
 	
     BigInteger n;
@@ -25,22 +27,20 @@ public class Int extends BaseRing {
 	return n.equals(BigInteger.ONE) || n.equals(MINUSONE);
     }
 
-    public BaseRing inverse() {
+    public Int inverse() {
 	assert isInvertible();
 	return this;
     }
 
-    public BaseRing multiply(BaseRing br) {
-	Int i = (Int) br;
+    public Int multiply(Int i) {
 	return new Int(n.multiply(i.n));
     }
 
-    public BaseRing multiply(int n) {
+    public Int multiply(int n) {
 	return new Int(this.n.multiply(BigInteger.valueOf(n)));
     }
 
-    public BaseRing add(BaseRing br) {
-	Int i = (Int) br;
+    public Int add(Int i) {
 	return new Int(n.add(i.n));
     }
 

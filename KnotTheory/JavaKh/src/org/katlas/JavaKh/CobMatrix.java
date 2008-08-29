@@ -190,7 +190,7 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
 	return ret;
     }
 
-    public void multiply(BaseRing n) { // modifies in place
+    public void multiply(R n) { // modifies in place
     	for(CobMatrixRow<R> rowEntries : entries) {
     		for(int i : rowEntries.keys()) {
     			LCCC<R> lc = rowEntries.get(i);
