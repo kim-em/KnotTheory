@@ -211,7 +211,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 	public String Kh() {
 		if (JavaKh.using_h)
 			return KhWithH();
-		else if (BaseRing.ring.equals("Int"))
+		else if (Rings.ring.equals("Int"))
 			return KhForZ();
 		String ret = "";
 		for (int i = 0; i < ncolumns; i++) {
