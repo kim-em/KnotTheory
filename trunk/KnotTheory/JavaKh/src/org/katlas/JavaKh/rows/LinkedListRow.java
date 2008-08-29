@@ -80,23 +80,37 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 
 		};
 	}
-
-	public void put(int key, F lc) {
+	
+	public void put(int key, F f) {
 		Entry entry = initial;
 		if (entry == null) {
-			initial = new Entry(key, lc);
+			initial = new Entry(key, f);
+			return;
+		}
+		if(entry.index > key) {
+			Entry newEntry = new Entry(key, f);
+			newEntry.next = entry;
+			initial = newEntry;
+			return;
+		}
+		if(entry.index == key) {
+			entry.value = f;
 			return;
 		}
 		while (entry.next != null && entry.next.index < key) {
 			entry = entry.next;
 		}
 		if (entry.next == null) {
-			entry.next = new Entry(key, lc);
+			if(entry.index == key) {
+				entry.value = f;
+			} else {
+				entry.next = new Entry(key, f);
+			}
 		} else {
 			if (entry.next.index == key) {
-				entry.next.value = lc;
+				entry.next.value = f;
 			} else {
-				Entry newEntry = new Entry(key, lc);
+				Entry newEntry = new Entry(key, f);
 				newEntry.next = entry.next;
 				entry.next = newEntry;
 			}

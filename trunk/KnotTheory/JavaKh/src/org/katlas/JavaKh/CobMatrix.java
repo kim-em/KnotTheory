@@ -7,6 +7,7 @@ import java.util.Set;
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.rows.LinkedListRow;
 import org.katlas.JavaKh.rows.MatrixRow;
+import org.katlas.JavaKh.rows.RedBlackIntegerMap;
 
 
 // sparse matrix
@@ -196,6 +197,7 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
 		for (int i = 0; i < entries.size(); ++i) {
 			MatrixRow<LCCC<R>> row = entries.get(i);
 			for (int j : row.keys()) {
+				assert row.get(j) != null;
 				if (!row.get(j).top.equals(source.smoothings.get(j))) {
 					assert false;
 					return false;
