@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.katlas.JavaKh.algebra.Ring;
+import org.katlas.JavaKh.rows.LinkedListRow;
 import org.katlas.JavaKh.rows.MatrixRow;
-import org.katlas.JavaKh.rows.RedBlackIntegerMap;
 
 
 // sparse matrix
