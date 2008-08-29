@@ -3,6 +3,7 @@ package org.katlas.JavaKh;
 import org.katlas.JavaKh.algebra.MatrixEntry;
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.algebra.SparseMatrix;
+import org.katlas.JavaKh.rows.MatrixRow;
 
 public class AlternativeCobMatrix<R extends Ring<R>> extends SparseMatrix<R, Obj, LCCC<R>> {
 
@@ -21,7 +22,7 @@ public class AlternativeCobMatrix<R extends Ring<R>> extends SparseMatrix<R, Obj
 		this.target = matrix.target;
 		
 		for(int i = 0; i < matrix.target.n; ++i) {
-			CobMatrixRow<R> row = matrix.entries.get(i);
+			MatrixRow<LCCC<R>> row = matrix.entries.get(i);
 			for(int j : row.keys()) {
 				putEntry(i, j, row.get(j));
 			}
