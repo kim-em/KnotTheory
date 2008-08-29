@@ -1,6 +1,7 @@
 package org.katlas.JavaKh;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -97,6 +98,8 @@ public class JavaKh {
 			System.exit(1);
 		}
 
+		long startTime = System.currentTimeMillis();
+		
 	//Komplex.checkReidemeister();
 	BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 	while (true) {
@@ -105,6 +108,10 @@ public class JavaKh {
 		break;
 	    Komplex k = Komplex.generateFast(knot, Komplex.getSigns(knot), reorderCrossings, caching, inMemory);
 	    assert k.check(true);
+	    
+	    log.info("Elapsed time: " + new DecimalFormat("###,###,###,###").format(System.currentTimeMillis() - startTime));
+	    startTime = System.currentTimeMillis();
+	    
 	    System.out.println("\"" + k.Kh() + "\"");
 	    //k.debugPrint();
 	}
