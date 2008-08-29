@@ -12,8 +12,8 @@ public class HashCodeCache<E> implements Cache<E> {
 	private static final Log log = LogFactory.getLog(HashCodeCache.class);
 	
 	private final TIntObjectHashMap<WeakReference<E>> hashmap = new TIntObjectHashMap<WeakReference<E>>();
-	private transient int hits = 0;
-	private transient int checks = 0;
+	private transient long hits = 0;
+	private transient long checks = 0;
 	
 	public synchronized E cache(E e) {
 		++checks;
@@ -50,7 +50,7 @@ public class HashCodeCache<E> implements Cache<E> {
 		return hashmap.size();
 	}
 
-	public int getNumberOfChecks() { return checks; }
-	public int getNumberOfHits() { return hits; }
+	public long getNumberOfChecks() { return checks; }
+	public long getNumberOfHits() { return hits; }
 	
 }

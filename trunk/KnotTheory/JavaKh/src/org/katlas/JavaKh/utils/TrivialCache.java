@@ -2,7 +2,7 @@ package org.katlas.JavaKh.utils;
 
 public class TrivialCache<E> implements Cache<E> {
 
-	private transient int checks = 0;
+	private transient long checks = 0;
 	
 	public E cache(E e) {
 		++checks;
@@ -16,11 +16,11 @@ public class TrivialCache<E> implements Cache<E> {
 		return 0;
 	}
 
-	public int getNumberOfHits() {
+	public long getNumberOfHits() {
 		return 0;
 	}
 
-	public int getNumberOfChecks() {
+	public long getNumberOfChecks() {
 		return checks;
 	}
 

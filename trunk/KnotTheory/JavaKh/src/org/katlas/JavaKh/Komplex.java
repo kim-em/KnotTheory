@@ -14,6 +14,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -58,12 +59,15 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 	transient static boolean intenseGarbage;
 
 	private CobMatrix<R> getMatrix(int i) {
-		return matrices.get(i);
+		CobMatrix<R> result = matrices.get(i);
+		assert (result == null || result.check());
+		return result;
 	}
 
 	// This is intentionally void return type, instead of the more usual 'CobMatrix',
 	// so DiskBackedList doesn't have to read before it writes.
 	private void setMatrix(int i, CobMatrix<R> m) {
+		assert (m == null || m.check());
 		matrices.set(i, m);
 	}
 
@@ -128,40 +132,40 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 
 	public static <R extends Ring<R>> void checkReidemeister() {
 		int R1aPD[][] = { { 2, 0, 1, 2 } }, R1aS[] = { -1 };
-		Komplex<R> R1a = new Komplex<R>(R1aPD, R1aS, 2, true);
+		Komplex<R> R1a = new Komplex<R>(R1aPD, R1aS, 2);
 		R1a.deLoop();
 		R1a.reductionLemma();
 		int R1bPD[][] = { { 0, 1, 2, 2 } }, R1bS[] = { 1 };
-		Komplex<R> R1b = new Komplex<R>(R1bPD, R1bS, 2, true);
+		Komplex<R> R1b = new Komplex<R>(R1bPD, R1bS, 2);
 		R1b.deLoop();
 		R1b.reductionLemma();
 		Komplex<R> R1c = new Komplex<R>(1, true);
 		R1c.startnum = 0;
 		R1c.columns[0] = new SmoothingColumn(1);
-		R1c.columns[0].smoothings[0] = new Cap(2, 0);
-		R1c.columns[0].smoothings[0].pairings[0] = 1;
-		R1c.columns[0].smoothings[0].pairings[1] = 0;
+		R1c.columns[0].smoothings.set(0, new Cap(2, 0));
+		R1c.columns[0].smoothings.get(0).pairings[0] = 1;
+		R1c.columns[0].smoothings.get(0).pairings[1] = 0;
 		if (R1a.equals(R1b) && R1b.equals(R1c) && R1c.equals(R1a))
 			System.out.println("R1 checks OK");
 		else
 			System.out.println("Error checking R1");
 
 		int R2aPD[][] = { { 0, 1, 5, 4 }, { 5, 2, 3, 4 } }, R2aS[] = { -1, 1 };
-		Komplex<R> R2a = new Komplex<R>(R2aPD, R2aS, 4, true);
+		Komplex<R> R2a = new Komplex<R>(R2aPD, R2aS, 4);
 		R2a.deLoop();
 		R2a.reductionLemma();
 		int R2bPD[][] = { { 1, 5, 4, 0 }, { 4, 5, 2, 3 } }, R2bS[] = { 1, -1 };
-		Komplex<R> R2b = new Komplex<R>(R2bPD, R2bS, 4, true);
+		Komplex<R> R2b = new Komplex<R>(R2bPD, R2bS, 4);
 		R2b.deLoop();
 		R2b.reductionLemma();
 		Komplex<R> R2c = new Komplex<R>(1, true);
 		R2c.startnum = 0;
 		R2c.columns[0] = new SmoothingColumn(1);
-		R2c.columns[0].smoothings[0] = new Cap(4, 0);
-		R2c.columns[0].smoothings[0].pairings[0] = 3;
-		R2c.columns[0].smoothings[0].pairings[1] = 2;
-		R2c.columns[0].smoothings[0].pairings[2] = 1;
-		R2c.columns[0].smoothings[0].pairings[3] = 0;
+		R2c.columns[0].smoothings.set(0, new Cap(4, 0));
+		R2c.columns[0].smoothings.get(0).pairings[0] = 3;
+		R2c.columns[0].smoothings.get(0).pairings[1] = 2;
+		R2c.columns[0].smoothings.get(0).pairings[2] = 1;
+		R2c.columns[0].smoothings.get(0).pairings[3] = 0;
 		if (R2a.equals(R2b) && R2b.equals(R2c) && R2c.equals(R2a))
 			System.out.println("R2 checks OK");
 		else
@@ -169,12 +173,12 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 
 		int R3aPD[][] = { { 0, 6, 8, 5 }, { 2, 7, 6, 1 }, { 8, 7, 3, 4 } }, R3aS[] = {
 				-1, 1, -1 };
-		Komplex<R> R3a = new Komplex<R>(R3aPD, R3aS, 6, true);
+		Komplex<R> R3a = new Komplex<R>(R3aPD, R3aS, 6);
 		R3a.deLoop();
 		R3a.reductionLemma();
 		int R3bPD[][] = { { 0, 1, 7, 6 }, { 7, 2, 3, 8 }, { 8, 4, 5, 6 } }, R3bS[] = {
 				-1, -1, 1 };
-		Komplex<R> R3b = new Komplex<R>(R3bPD, R3bS, 6, true);
+		Komplex<R> R3b = new Komplex<R>(R3bPD, R3bS, 6);
 		R3b.deLoop();
 		R3b.reductionLemma();
 		if (R3a.equals(R3b))
@@ -217,19 +221,21 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		for (int i = 0; i < ncolumns; i++) {
 			if (columns[i].n == 0)
 				continue;
-			int nums[] = new int[columns[i].n];
-			System.arraycopy(columns[i].numbers, 0, nums, 0, columns[i].n);
-			Arrays.sort(nums);
-			for (int j = 0; j < nums.length;) {
+//			int nums[] = new int[columns[i].n];
+//			System.arraycopy(columns[i].numbers, 0, nums, 0, columns[i].n);
+//			Arrays.sort(nums);
+			List<Integer> nums = new ArrayList<Integer>(columns[i].numbers);
+			Collections.sort(nums);
+			for (int j = 0; j < nums.size();) {
 				int n, k;
-				for (k = j; k < nums.length && nums[k] == nums[j]; k++)
+				for (k = j; k < nums.size() && nums.get(k) == nums.get(j); k++)
 					;
 				n = k - j;
 				if (!ret.equals(""))
 					ret += "+ ";
 				if (n != 1)
 					ret = ret + n + "*";
-				ret += "q^" + nums[j] + "*t^" + (i + startnum) + " ";
+				ret += "q^" + nums.get(j) + "*t^" + (i + startnum) + " ";
 				j = k;
 			}
 		}
@@ -243,11 +249,11 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			while (true) {
 				int min = 0x7fffffff, count = 0;
 				for (int j = 0; j < columns[i].n; j++)
-					if (columns[i].numbers[j] > last
-							&& columns[i].numbers[j] < min) {
-						min = columns[i].numbers[j];
+					if (columns[i].numbers.get(j) > last
+							&& columns[i].numbers.get(j) < min) {
+						min = columns[i].numbers.get(j);
 						count = 1;
-					} else if (columns[i].numbers[j] == min)
+					} else if (columns[i].numbers.get(j) == min)
 						count++;
 				if (min == 0x7fffffff)
 					break;
@@ -266,15 +272,15 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 					if (last2 == min - 1) {
 						min2 = min;
 						for (int j = 0; j < columns[i + 1].n; j++)
-							if (columns[i + 1].numbers[j] == min2)
+							if (columns[i + 1].numbers.get(j) == min2)
 								count2++;
 					} else
 						for (int j = 0; j < columns[i + 1].n; j++)
-							if (columns[i + 1].numbers[j] > last2
-									&& columns[i + 1].numbers[j] < min2) {
-								min2 = columns[i + 1].numbers[j];
+							if (columns[i + 1].numbers.get(j) > last2
+									&& columns[i + 1].numbers.get(j) < min2) {
+								min2 = columns[i + 1].numbers.get(j);
 								count2 = 1;
-							} else if (columns[i + 1].numbers[j] == min2)
+							} else if (columns[i + 1].numbers.get(j) == min2)
 								count2++;
 					if (min2 == 0x7fffffff)
 						break;
@@ -286,7 +292,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 							+ (min2 - min) / 2 + "*M[" + count2 + ", " + count);
 					// boolean first = true;
 					for (int j = 0; j < columns[i + 1].n; j++)
-						if (columns[i + 1].numbers[j] == min2) {
+						if (columns[i + 1].numbers.get(j) == min2) {
 							/*
 							 * if (first) first = false; else
 							 */
@@ -295,7 +301,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 							// boolean first2 = true;
 							LCCC<R> row[] = getMatrix(i).unpackRow(j);
 							for (int k = 0; k < columns[i].n; k++)
-								if (columns[i].numbers[k] == min) {
+								if (columns[i].numbers.get(k) == min) {
 									/*
 									 * if (first2) first2 = false; else
 									 */
@@ -604,16 +610,16 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		}
 		int size = 0;
 		for (int i = 0; i < columns[colnum].n; i++)
-			size += 1 << columns[colnum].smoothings[i].ncycles;
+			size += 1 << columns[colnum].smoothings.get(i).ncycles;
 		SmoothingColumn newsc = new SmoothingColumn(size);
 		CobMatrix<R> prev = null, next = null;
 		if (colnum != 0)
-			prev = new CobMatrix<R>(columns[colnum - 1], newsc);
+			prev = new CobMatrix<R>(columns[colnum - 1], newsc, true /* don't make a defensive copy of newsc yet */);
 		if (colnum != ncolumns - 1)
-			next = new CobMatrix<R>(newsc, columns[colnum + 1]);
+			next = new CobMatrix<R>(newsc, columns[colnum + 1], true /* don't make a defensive copy of newsc yet */);
 		int newn = 0;
 		for (int i = 0; i < columns[colnum].n; i++) {
-			Cap oldsm = columns[colnum].smoothings[i];
+			Cap oldsm = columns[colnum].smoothings.get(i);
 			Cap newsm = new Cap(oldsm.n, 0);
 			for (int j = 0; j < oldsm.n; j++)
 				newsm.pairings[j] = oldsm.pairings[j];
@@ -645,8 +651,8 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						nextcc.dots[nextcc.offbot + k] = 1;
 					}
 				}
-				newsc.smoothings[newn] = newsm;
-				newsc.numbers[newn] = columns[colnum].numbers[i] + nmod;
+				newsc.smoothings.set(newn, newsm);
+				newsc.numbers.set(newn, columns[colnum].numbers.get(i) + nmod);
 				if (prev != null) {
 					CobMatrix<R> prevMatrix = getMatrix(colnum - 1);
 //					prev.rowsizes[newn] = prevMatrix.rowsizes[i];
@@ -712,16 +718,20 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		}
 
 		columns[colnum] = newsc;
-		if (prev != null)
+		if (prev != null) {
+			prev.unshare(); // make defensive copies of the source and target
 			setMatrix(colnum - 1, prev);
-		if (next != null)
+		}
+		if (next != null) {
+			next.unshare(); // make defensive copies of the source and target
 			setMatrix(colnum, next);
+		}
 	}
 
 	public void deLoopWithH(int colnum) { // deloops one column
 		int size = 0;
 		for (int i = 0; i < columns[colnum].n; i++)
-			size += 1 << columns[colnum].smoothings[i].ncycles;
+			size += 1 << columns[colnum].smoothings.get(i).ncycles;
 		SmoothingColumn newsc = new SmoothingColumn(size);
 		CobMatrix<R> prev = null, next = null;
 		if (colnum != 0)
@@ -730,7 +740,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			next = new CobMatrix<R>(newsc, columns[colnum + 1]);
 		int newn = 0;
 		for (int i = 0; i < columns[colnum].n; i++) {
-			Cap oldsm = columns[colnum].smoothings[i];
+			Cap oldsm = columns[colnum].smoothings.get(i);
 			Cap newsm = new Cap(oldsm.n, 0);
 			for (int j = 0; j < oldsm.n; j++)
 				newsm.pairings[j] = oldsm.pairings[j];
@@ -791,8 +801,8 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						prevlc.add(newprev, coeff);
 					}
 				}
-				newsc.smoothings[newn] = newsm;
-				newsc.numbers[newn] = columns[colnum].numbers[i] + nmod;
+				newsc.smoothings.set(newn, newsm);
+				newsc.numbers.set(newn, columns[colnum].numbers.get(i) + nmod);
 				if (prev != null) {
 					CobMatrix<R> prevMatrix = getMatrix(colnum - 1);
 //					prev.rowsizes[newn] = prevMatrix.rowsizes[i];
@@ -885,8 +895,8 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				for(int k : m.entries.get(j).keys()) {
 					LCCC<R> lc = m.entries.get(j).get(k);
 					if (lc != null && lc.size() == 1) {
-						if (!columns[i].smoothings[k]
-								.equals(columns[i + 1].smoothings[j])) {
+						if (!columns[i].smoothings.get(k)
+								.equals(columns[i + 1].smoothings.get(j))) {
 							continue;
 						}
 						CannedCobordism cc = lc.coefficients.firstKey();
@@ -899,15 +909,11 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						}
 						found2 = found = true;
 						++count;
-						reductionLemma(i, j, k, n, false);
+						reductionLemma(i, j, k, n);
 						m = getMatrix(i);
 						break rlfor;
 					}
 				}
-			}
-			if(count > mostReductions) {
-				mostReductions = count;
-				log.info("Most reductions: " + mostReductions);
 			}
 			
 			if (found)
@@ -923,48 +929,152 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				}
 			}
 		} while (found);
+		
+		if(count > mostReductions) {
+			mostReductions = count;
+			log.info("Most reductions: " + mostReductions);
+		}
+
 		return ret;
 	}
+	
+//	public boolean reductionLemma2(int i) { // does one matrix
+//		// this assumes delooping has taken place
+//		boolean found, found2 = false, ret = false;
+//		AlternativeCobMatrix<R> m = new AlternativeCobMatrix<R>(getMatrix(i));
+//		if(m.numberOfRows() > largestMatrix) {
+//			largestMatrix = m.numberOfRows();
+//			log.info("Largest matrix: " + largestMatrix + " rows.");
+//		}
+//		
+//		int count = 0;
+//		do {
+//			found = false;
+//			
+//			for(MatrixEntry<LCCC<R>> entry : m) {
+//				LCCC<R> lc = entry.getValue();
+//				if(lc != null && lc.size() == 1) {
+//					if (!m.source.smoothings.get(entry.getColumn()).equals(m.target.smoothings.get(entry.getRow()))) {
+//						continue;
+//					}
+//					CannedCobordism cc = lc.coefficients.firstKey();
+//					R n = lc.coefficients.get(cc);
+//					if (!n.isInvertible()) {
+//						continue;
+//					}
+//					if (!cc.isIsomorphism()) {
+//						continue;
+//					}
+//					found2 = found = true;
+//					++count;
+//					reductionLemma2(m, entry.getRow(), entry.getColumn(), n);
+//					break;
+//				}
+//			}
+//			
+//			if (found)
+//				ret = true;
+//			if (!found) {
+//				if (found2) {
+//					// System.out.println("Reduce Local:" + i);
+//					m.reduce();
+//					found = true;
+//					found2 = false;
+//				}
+//			}
+//		} while (found);
+//		
+//		if(count > mostReductions) {
+//			mostReductions = count;
+//			log.info("Most reductions: " + mostReductions);
+//		}
+//
+//		setMatrix(i, m.asCobMatrix());
+//		
+//		return ret;
+//	}
+//
+//	private void reductionLemma2(AlternativeCobMatrix<R> m, int row,
+//			int column, R n) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
-	public void reductionLemma(int i, int j, int k, R n,
-			boolean zeros) {
+	public void reductionLemma(int i, int j, int k, R n) {
 		// matrices[i].matrix[j][k] is the isomorphism, with coefficient n
 		// zeros is true if row j or column k is zero
+	
+		assert columns[i].nonNull();
+		assert columns[i + 1].nonNull();
+		
+		Cap isoSource = columns[i].smoothings.get(k);
+		Cap isoTarget = columns[i + 1].smoothings.get(j);
+		int isoSourceGrading = columns[i].numbers.get(k);
+		int isoTargetGrading = columns[i + 1].numbers.get(j);
+		 
 		SmoothingColumn scb1 = new SmoothingColumn(1);
-		scb1.smoothings[0] = columns[i].smoothings[k];
-		scb1.numbers[0] = columns[i].numbers[k];
+		scb1.smoothings.set(0, isoSource);
+		scb1.numbers.set(0, isoSourceGrading);
+		
 		SmoothingColumn scD = new SmoothingColumn(columns[i].n - 1);
-		System.arraycopy(columns[i].smoothings, 0, scD.smoothings, 0, k);
-		System.arraycopy(columns[i].smoothings, k + 1, scD.smoothings, k, scD.n
-				- k);
-		System.arraycopy(columns[i].numbers, 0, scD.numbers, 0, k);
-		System.arraycopy(columns[i].numbers, k + 1, scD.numbers, k, scD.n - k);
+		
+		scD.smoothings.clear();
+		scD.smoothings.addAll(columns[i].smoothings.subList(0, k));
+		scD.smoothings.addAll(columns[i].smoothings.subList(k + 1, columns[i].n));
+		scD.numbers.clear();
+		scD.numbers.addAll(columns[i].numbers.subList(0, k));
+		scD.numbers.addAll(columns[i].numbers.subList(k + 1, columns[i].n));
+		
+//		System.arraycopy(columns[i].smoothings, 0, scD.smoothings, 0, k);
+//		System.arraycopy(columns[i].smoothings, k + 1, scD.smoothings, k, scD.n
+//				- k);
+//		System.arraycopy(columns[i].numbers, 0, scD.numbers, 0, k);
+//		System.arraycopy(columns[i].numbers, k + 1, scD.numbers, k, scD.n - k);
+	
 		SmoothingColumn scb2 = new SmoothingColumn(1);
-		scb2.smoothings[0] = columns[i + 1].smoothings[j];
-		scb2.numbers[0] = columns[i + 1].numbers[j];
+		scb2.smoothings.set(0, isoTarget);
+		scb2.numbers.set(0, isoTargetGrading);
+		
 		SmoothingColumn scE = new SmoothingColumn(columns[i + 1].n - 1);
-		System.arraycopy(columns[i + 1].smoothings, 0, scE.smoothings, 0, j);
-		System.arraycopy(columns[i + 1].smoothings, j + 1, scE.smoothings, j,
-				scE.n - j);
-		System.arraycopy(columns[i + 1].numbers, 0, scE.numbers, 0, j);
-		System.arraycopy(columns[i + 1].numbers, j + 1, scE.numbers, j, scE.n
-				- j);
+
+		scE.smoothings.clear();
+		scE.smoothings.addAll(columns[i + 1].smoothings.subList(0, j));
+		scE.smoothings.addAll(columns[i + 1].smoothings.subList(j + 1, columns[i + 1].n));
+		scE.numbers.clear();
+		scE.numbers.addAll(columns[i + 1].numbers.subList(0, j));
+		scE.numbers.addAll(columns[i + 1].numbers.subList(j + 1, columns[i + 1].n));
+		
+//		System.arraycopy(columns[i + 1].smoothings, 0, scE.smoothings, 0, j);
+//		System.arraycopy(columns[i + 1].smoothings, j + 1, scE.smoothings, j,
+//				scE.n - j);
+//		System.arraycopy(columns[i + 1].numbers, 0, scE.numbers, 0, j);
+//		System.arraycopy(columns[i + 1].numbers, j + 1, scE.numbers, j, scE.n
+//				- j);
 
 		CobMatrix<R> m = getMatrix(i);
 
 		CobMatrix<R> delta = null, gamma = null;
-		if (!zeros) {
 			delta = new CobMatrix<R>(scD, scb2);
+			
 			CobMatrixRow<R> mRowEntriesJ = m.entries.get(j);
-			CobMatrixRow<R> deltaRowEntries0 = delta.entries.get(0);
-			for(int c : mRowEntriesJ.keys()) {
-				if(c < k) {
-					deltaRowEntries0.put(c, mRowEntriesJ.get(c));
-				} else if(c > k) {
-					deltaRowEntries0.put(c - 1, mRowEntriesJ.get(c));					
-				}
- 			}
-			deltaRowEntries0.compact();
+			m.entries.remove(j);
+			m.target.numbers.remove(j);
+			m.target.smoothings.remove(j);
+			m.target.n--;
+			
+			mRowEntriesJ.remove(k);
+			mRowEntriesJ.decrementIndexesAbove(k);
+			delta.entries.set(0, mRowEntriesJ);
+					
+//			CobMatrixRow<R> deltaRowEntries0 = delta.entries.get(0);
+//			for(int c : mRowEntriesJ.keys()) {
+//				if(c < k) {
+//					deltaRowEntries0.put(c, mRowEntriesJ.get(c));
+//				} else if(c > k) {
+//					deltaRowEntries0.put(c - 1, mRowEntriesJ.get(c));					
+//				}
+// 			}
+//			deltaRowEntries0.compact();
 			
 //			delta.values[0] = new LCCC[m.rowsizes[j]];
 //			delta.indices[0] = new int[m.rowsizes[j]];
@@ -979,70 +1089,43 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 //				}
 //			}
 			// fill this at the same time as epsilon
-			gamma = new CobMatrix<R>(scb1, scE);
-		}
-		CobMatrix<R> epsilon = new CobMatrix<R>(scD, scE);
+		gamma = new CobMatrix<R>(scb1, scE);
+
+		m.source.numbers.remove(k);
+		m.source.smoothings.remove(k);
+		m.source.n--;
 		
-		for (int a = 0, b = 0; a < m.entries.size(); a++) {
-			if (a != j) {
-				CobMatrixRow<R> mRowEntriesA = m.entries.get(a);
-				CobMatrixRow<R> epsilonRowEntriesB = epsilon.entries.get(b);
-				for (int c : mRowEntriesA.keys()) {
-					if (c < k) {
-						epsilonRowEntriesB.put(c, mRowEntriesA.get(c));
-					} else if (c > k) {
-						epsilonRowEntriesB.put(c - 1, mRowEntriesA.get(c));
-					} else if (!zeros) {
-						gamma.append(b, 0, mRowEntriesA.get(c));
-					}
-				}
-				epsilonRowEntriesB.compact();
-				b++;
+		for (int a = 0; a < m.entries.size(); a++) {
+			CobMatrixRow<R> row = m.entries.get(a);
+			if(row.containsKey(k)) {
+				gamma.entries.get(a).put(0, row.get(k));
+				row.remove(k);
 			}
+			row.decrementIndexesAbove(k);
 		}
+
 		
-//		for (int a = 0, b = 0; a < m.values.length; a++) {
-//			if (a != j) {
-//				epsilon.values[b] = new LCCC[m.rowsizes[a]];
-//				epsilon.indices[b] = new int[m.rowsizes[a]];
-//				for (int c = 0; c < m.rowsizes[a]; c++) {
-//					int idx = m.indices[a][c];
-//					if (idx < k) {
-//						epsilon.values[b][epsilon.rowsizes[b]] = m.values[a][c];
-//						epsilon.indices[b][epsilon.rowsizes[b]++] = idx;
-//					} else if (idx > k) {
-//						epsilon.values[b][epsilon.rowsizes[b]] = m.values[a][c];
-//						epsilon.indices[b][epsilon.rowsizes[b]++] = idx - 1;
-//					} else if (!zeros) {
-//						gamma.append(b, 0, m.values[a][c]);
-//					}
-//				}
-//				b++;
-//			}
-//		}
-		if (zeros) {
-			setMatrix(i, epsilon);
-		} else {
-			CobMatrix<R> phiinv = new CobMatrix<R>(scb2, scb1);
-			CannedCobordism phicc = new CannedCobordism(
-					columns[i + 1].smoothings[j], columns[i].smoothings[k]);
-			// assume delooping has been done
-			// make phicc an isomorphism
-			for (byte a = 0; a < phicc.nbc; a++)
-				phicc.connectedComponent[a] = a;
-			phicc.ncc = phicc.nbc;
-			phicc.dots = new byte[phicc.ncc];
-			phicc.genus = new byte[phicc.ncc];
-			LCCC<R> philc = new LCCC<R>(columns[i + 1].smoothings[j],
-					columns[i].smoothings[k]);
-			philc.add(phicc, n.inverse().multiply(-1));
-			phiinv.append(0, 0, philc);
-			CobMatrix<R> gpd = gamma.multiply(phiinv).multiply(delta);
-			gpd.add(epsilon);
-			setMatrix(i, gpd);
-		}
+		CobMatrix<R> phiinv = new CobMatrix<R>(scb2, scb1);
+		CannedCobordism phicc = new CannedCobordism(isoTarget, isoSource);
+		// assume delooping has been done
+		// make phicc an isomorphism
+		for (byte a = 0; a < phicc.nbc; a++)
+			phicc.connectedComponent[a] = a;
+		phicc.ncc = phicc.nbc;
+		phicc.dots = new byte[phicc.ncc];
+		phicc.genus = new byte[phicc.ncc];
+		LCCC<R> philc = new LCCC<R>(isoTarget, isoSource);
+		philc.add(phicc, n.inverse().multiply(-1));
+		phiinv.append(0, 0, philc);
+		CobMatrix<R> gpd = gamma.multiply(phiinv).multiply(delta);
+		gpd.add(m);
+		setMatrix(i, gpd);
 		columns[i] = scD;
 		columns[i + 1] = scE;
+
+		assert columns[i].nonNull();
+		assert columns[i + 1].nonNull();
+
 		if (i != 0) {
 			CobMatrix<R> previousMatrix = getMatrix(i - 1);
 
@@ -1050,42 +1133,16 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			previousMatrix.entries.remove(k);
 			setMatrix(i - 1, previousMatrix);
 
-//			CobMatrix beta = new CobMatrix(columns[i - 1], columns[i]);			
-//			beta.entries.clear();
-//			beta.entries.addAll(previousMatrix.entries.subList(0, k));
-//			beta.entries.addAll(previousMatrix.entries.subList(k + 1, previousMatrix.entries.size()));
-//			setMatrix(i - 1, beta);
 		}
 		if (i != ncolumns - 2) {
 			CobMatrix<R> nextMatrix = getMatrix(i + 1);
 
-//			nextMatrix.source = columns[i + 1];
-//			for(TIntObjectHashMap<LCCC> rowEntry : nextMatrix.entries) {
-//				for(int c : rowEntry.keys()) {
-//					if(c > j) {
-//						rowEntry.put(c - 1, rowEntry.get(c));
-//					}
-//					if(c >= j) {
-//						rowEntry.remove(c);
-//					}
-//				}
-//			}
-//			setMatrix(i + 1, nextMatrix);
-			
-			CobMatrix<R> nu = new CobMatrix<R>(columns[i + 1], columns[i + 2]);
-			for(int a = 0; a < nextMatrix.entries.size(); ++a) {
-				CobMatrixRow<R> nextMatrixRowEntriesA = nextMatrix.entries.get(a);
-				CobMatrixRow<R> nuRowEntriesA = nu.entries.get(a);
-				for(int c : nextMatrixRowEntriesA.keys()) {
-					if(c < j) {
-						nuRowEntriesA.put(c, nextMatrixRowEntriesA.get(c));
-					} else if (c > j) {
-						nuRowEntriesA.put(c - 1, nextMatrixRowEntriesA.get(c));						
-					}
-				}
-				nuRowEntriesA.compact();
+			nextMatrix.source = columns[i + 1];
+			for(CobMatrixRow<R> row : nextMatrix.entries) {
+				row.remove(j);
+				row.decrementIndexesAbove(j);
 			}
-			setMatrix(i + 1, nu);
+			setMatrix(i + 1, nextMatrix);
 		}
 	}
 
@@ -1274,7 +1331,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		if (pd.length == 0) { // assume unknot
 			Komplex<R> kom = new Komplex<R>(1, true);
 			kom.columns[0] = new SmoothingColumn(1);
-			kom.columns[0].smoothings[0] = Cap.capCache.cache(new Cap(0, 1));
+			kom.columns[0].smoothings.set(0, Cap.capCache.cache(new Cap(0, 1)));
 			kom.reduce();
 			return kom;
 		}
@@ -1283,9 +1340,9 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		int pd1[][] = { { 0, 1, 2, 3 } };
 		int xsign1[] = new int[1];
 		xsign1[0] = 1;
-		Komplex<R> kplus = new Komplex<R>(pd1, xsign1, 4, true);
+		Komplex<R> kplus = new Komplex<R>(pd1, xsign1, 4);
 		xsign1[0] = -1;
-		Komplex<R> kminus = new Komplex<R>(pd1, xsign1, 4, true);
+		Komplex<R> kminus = new Komplex<R>(pd1, xsign1, 4);
 		Komplex<R> kom;
 		int edges[] = new int[0];
 		int firstdepth = (pd.length > MAXDEPTH + 1 ? MAXDEPTH : pd.length - 1);
@@ -1496,12 +1553,12 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 					startnum[j][k] = sn;
 					for (int l = 0; l < columns[j].n; l++)
 						for (int m = 0; m < kom.columns[k].n; m++) {
-							ret.columns[i].smoothings[sn] = columns[j].smoothings[l]
+							ret.columns[i].smoothings.set(sn, columns[j].smoothings.get(l)
 									.compose(start,
-											kom.columns[k].smoothings[m],
-											kstart, nc);
-							ret.columns[i].numbers[sn] = columns[j].numbers[l]
-									+ kom.columns[k].numbers[m];
+											kom.columns[k].smoothings.get(m),
+											kstart, nc));
+							ret.columns[i].numbers.set(sn, columns[j].numbers.get(l)
+									+ kom.columns[k].numbers.get(m));
 							sn++;
 						}
 				}
@@ -1518,7 +1575,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						// entries derived from matrices[j] and kom.columns[k]
 						for (int m = 0; m < kom.columns[k].n; m++) {
 							CannedCobordism komcc = CannedCobordism
-									.isomorphism(kom.columns[k].smoothings[m]);
+									.isomorphism(kom.columns[k].smoothings.get(m));
 							for (int n = 0; n < columns[j + 1].n; n++) {
 								for(int l : matrixJ.entries.get(n).keys()) {
 									LCCC<R> lc = matrixJ.entries.get(n).get(l);
@@ -1552,7 +1609,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						CobMatrix<R> komMatrixK = kom.getMatrix(k);
 						for (int l = 0; l < columns[j].n; l++) {
 							CannedCobordism thiscc = CannedCobordism
-									.isomorphism(columns[j].smoothings[l]);
+									.isomorphism(columns[j].smoothings.get(l));
 							for (int n = 0; n < kom.columns[k + 1].n; n++) {
 								for(int m : komMatrixK.entries.get(n).keys()) {
 									LCCC<R> lc = komMatrixK.entries.get(n).get(m);
@@ -1599,12 +1656,12 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 
 	// this is currently limited to 31 or 32 crossings
 	// of course, memory will be exhausted much sooner
-	public Komplex(int pd[][], int xsigns[], int nfixed, boolean inMemory) {
+	public Komplex(int pd[][], int xsigns[], int nfixed) {
 		// pd defines a tangle in PD form, with nfixed fixed points
 		this.nfixed = nfixed;
 		ncolumns = pd.length + 1; // pd.length is the number of crossings
 		columns = new SmoothingColumn[ncolumns];
-		this.inMemory = inMemory;
+		this.inMemory = true;
 		createMatrixList();
 		startnum = 0;
 		for (int i = 0; i < pd.length; i++)
@@ -1616,7 +1673,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			columns[i] = new SmoothingColumn(pascalTriangle[pd.length][i]);
 		}
 		for (int i = 0; i < ncolumns - 1; i++) {
-			matrices.add(new CobMatrix<R>(columns[i], columns[i + 1]));
+			matrices.add(new CobMatrix<R>(columns[i], columns[i + 1], true /* share the columns; don't make defensive copies */));
 		}
 
 		int numsmoothings[] = new int[ncolumns];
@@ -1734,17 +1791,17 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			c = Cap.capCache.cache(c);
 			whichColumn[i] = num1;
 			whichRow[i] = numsmoothings[num1];
-			columns[num1].smoothings[numsmoothings[num1]] = c;
+			columns[num1].smoothings.set(numsmoothings[num1], c);
 			for (int j = 0; j < pd.length; j++)
 				if ((i & (1 << j)) == 0)
 					if (xsigns[j] == 1)
-						columns[num1].numbers[numsmoothings[num1]]++;
+						columns[num1].numbers.set(numsmoothings[num1], columns[num1].numbers.get(numsmoothings[num1]) + 1);
 					else
-						columns[num1].numbers[numsmoothings[num1]] -= 2;
+						columns[num1].numbers.set(numsmoothings[num1], columns[num1].numbers.get(numsmoothings[num1]) - 2);
 				else if (xsigns[j] == 1)
-					columns[num1].numbers[numsmoothings[num1]] += 2;
+					columns[num1].numbers.set(numsmoothings[num1], columns[num1].numbers.get(numsmoothings[num1]) + 2);
 				else
-					columns[num1].numbers[numsmoothings[num1]]--;
+					columns[num1].numbers.set(numsmoothings[num1], columns[num1].numbers.get(numsmoothings[num1]) - 1);
 			numsmoothings[num1]++;
 			smoothings[i] = c;
 
@@ -1845,11 +1902,13 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						}
 						lc.add(cc, num);
 
-						CobMatrix<R> m = getMatrix(num1 - 1);
-						m.append(whichRow[i], whichRow[k], lc);
-						setMatrix(num1 - 1, m);
+						matrices.get(num1 - 1).append(whichRow[i], whichRow[k], lc);
 					}
 			}
+		}
+		
+		for(CobMatrix<R> matrix : matrices) {
+			matrix.unshare();
 		}
 	}
 

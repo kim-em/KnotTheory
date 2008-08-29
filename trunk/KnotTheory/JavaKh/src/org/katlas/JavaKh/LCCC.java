@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.katlas.JavaKh.algebra.LinearMorphism;
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.algebra.Rings;
 
 
-public class LCCC<R extends Ring<R>> implements Serializable { // Linear Combination of Canned Cobordisms
+public class LCCC<R extends Ring<R>> implements LinearMorphism<R, Obj, LCCC<R>>, Serializable { // Linear Combination of Canned Cobordisms
     /**
 	 * 
 	 */
@@ -134,14 +135,14 @@ public class LCCC<R extends Ring<R>> implements Serializable { // Linear Combina
 	  maxsz = entries.size();*/
     }
 
-    public void add(LCCC<R> other) {
-	if (other == null)
-	    return;
+    public LCCC<R> add(LCCC<R> other) {
+	if (other != null)
 	for (CannedCobordism cc : other.coefficients.keySet())
 	    add(cc, other.coefficients.get(cc));
+	return this;
     }
 
-    public void multiply(R num) {
+    public LCCC<R> multiply(R num) {
 	if (num.isZero()) {
 	    coefficients.clear();
 	} else {
@@ -149,6 +150,7 @@ public class LCCC<R extends Ring<R>> implements Serializable { // Linear Combina
 			coefficients.put(cc, coefficients.get(cc).multiply(num));
 		}
 	}
+	return this;
 	}
 
     public LCCC<R> compose(LCCC<R> other) { // vertical composition

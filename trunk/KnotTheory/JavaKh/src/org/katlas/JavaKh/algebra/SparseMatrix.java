@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import net.tqft.iterables.AbstractIterator;
-import net.tqft.iterables.IterableBundle;
+import net.tqft.iterables.ForgetfulIteratorBundle;
 
 public class SparseMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, Obj, Mor>> implements
 		Matrix<R, Obj, Mor> {
@@ -16,6 +16,13 @@ public class SparseMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, 
 	List<Label> rows, columns;
 	Map<Label, SparseMatrixEntry<Mor>> initialRowEntries, initialColumnEntries;
 
+	public SparseMatrix(int numberOfRows, int numberOfColumns) {
+		rows = fillLabels(numberOfRows);
+		columns = fillLabels(numberOfColumns);
+		initialRowEntries = new TreeMap<Label, SparseMatrixEntry<Mor>>();
+		initialColumnEntries = new TreeMap<Label, SparseMatrixEntry<Mor>>();
+	}
+	
 	public SparseMatrix(List<Label> rows, List<Label> columns) {
 		this.rows = rows;
 		this.columns = columns;
@@ -29,7 +36,7 @@ public class SparseMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, 
 		initialRowEntries = new TreeMap<Label, SparseMatrixEntry<Mor>>();
 		initialColumnEntries = new TreeMap<Label, SparseMatrixEntry<Mor>>();
 		
-		for(MatrixEntry<Mor> entry: matrix.matrixEntries()) {
+		for(MatrixEntry<Mor> entry: matrix) {
 			putEntry(entry.getRow(), entry.getColumn(), entry.getValue());
 		}
 	}
@@ -278,6 +285,7 @@ public class SparseMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, 
 			if (currentRowEntry == null) {
 				// the whole row is empty
 				initialRowEntries.put(row, newMatrixEntry);
+				newMatrixEntry.value = t;
 			} else {
 				while (currentRowEntry.right != null
 						&& currentRowEntry.column.index < column.index) {
@@ -333,7 +341,7 @@ public class SparseMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, 
 	// WARNING: adds in place.
 	public Matrix<R, Obj, Mor> add(Matrix<R, Obj, Mor> m) {
 		// this is a pretty crappy implementation!
-		for(MatrixEntry<Mor> entry : m.matrixEntries()) {
+		for(MatrixEntry<Mor> entry : m) {
 			addEntry(entry.getRow(), entry.getColumn(), entry.getValue());
 		}
 		return this;
@@ -351,21 +359,32 @@ public class SparseMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, 
 		return this;
 	}
 
-	public Iterable<SparseMatrixEntry<Mor>> matrixEntries() {
-		return new IterableBundle<Label, SparseMatrixEntry<Mor>>(rows) {
+
+	public Iterator<MatrixEntry<Mor>> iterator() {
+		return new ForgetfulIteratorBundle<Label, MatrixEntry<Mor>, SparseMatrixEntry<Mor>>(rows.iterator()) {
 			@Override
-			protected Iterable<SparseMatrixEntry<Mor>> buildNewFibreIterable(
+			protected Iterator<SparseMatrixEntry<Mor>> buildNewFibreIterator(
 					Label row) {
-				return matrixRowEntries(row.index);
+				return matrixRowEntries(row.index).iterator();
 			}
 		};
 	}
+	
+//	public Iterable<MatrixEntry<Mor>> matrixEntries() {
+//		return new ForgetfulIterableBundle<Label, MatrixEntry<Mor>, SparseMatrixEntry<Mor>>(rows) {
+//			@Override
+//			protected Iterable<SparseMatrixEntry<Mor>> buildNewFibreIterable(
+//					Label row) {
+//				return matrixRowEntries(row.index);
+//			}
+//		};
+//	}
 
 	public Iterable<SparseMatrixEntry<Mor>> matrixColumnEntries(final int column) {
 		return new Iterable<SparseMatrixEntry<Mor>>() {
 			public Iterator<SparseMatrixEntry<Mor>> iterator() {
 				return new AbstractIterator<SparseMatrixEntry<Mor>>() {
-					SparseMatrixEntry<Mor> entry = initialColumnEntries.get(column);
+					SparseMatrixEntry<Mor> entry = initialColumnEntries.get(columns.get(column));
 					public boolean hasNext() {
 						return entry != null;
 					}
@@ -383,7 +402,7 @@ public class SparseMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, 
 		return new Iterable<SparseMatrixEntry<Mor>>() {
 			public Iterator<SparseMatrixEntry<Mor>> iterator() {
 				return new AbstractIterator<SparseMatrixEntry<Mor>>() {
-					SparseMatrixEntry<Mor> entry = initialRowEntries.get(row);
+					SparseMatrixEntry<Mor> entry = initialRowEntries.get(rows.get(row));
 					public boolean hasNext() {
 						return entry != null;
 					}
@@ -427,14 +446,21 @@ public class SparseMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, 
 		public T getValue() {
 			return value;
 		}
+		public void setValue(T value) {
+			this.value = value;
+		}
 	}
 
 
-	class Label {
+	class Label implements Comparable<Label> {
 		int index;
 		Label(int index) {
 			this.index = index;
 		}
+		public int compareTo(Label l) {
+			return index - l.index;
+		}
 	}
+
 
 }
