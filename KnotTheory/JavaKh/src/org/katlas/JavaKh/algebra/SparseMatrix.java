@@ -5,42 +5,65 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.TreeMap;
-
 
 import net.tqft.iterables.AbstractIterator;
 import net.tqft.iterables.IterableBundle;
 
-public class SparseMatrix<R, T extends Algebra<R, T>> implements
-		Matrix<L, R, T> {
+public class SparseMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, Obj, Mor>> implements
+		Matrix<R, Obj, Mor> {
 
-	List<L> rows, columns;
-	Map<L, SparseMatrixEntry<T>> initialRowEntries, initialColumnEntries;
+	List<Label> rows, columns;
+	Map<Label, SparseMatrixEntry<Mor>> initialRowEntries, initialColumnEntries;
 
-	public SparseMatrix(List<L> rows, List<L> columns) {
+	public SparseMatrix(List<Label> rows, List<Label> columns) {
 		this.rows = rows;
 		this.columns = columns;
-		initialRowEntries = new TreeMap<L, SparseMatrixEntry<T>>();
-		initialColumnEntries = new TreeMap<L, SparseMatrixEntry<T>>();
+		initialRowEntries = new TreeMap<Label, SparseMatrixEntry<Mor>>();
+		initialColumnEntries = new TreeMap<Label, SparseMatrixEntry<Mor>>();
 	}
 
+	public SparseMatrix(Matrix<R, Obj, Mor> matrix) {
+		rows = fillLabels(matrix.numberOfRows());
+		columns = fillLabels(matrix.numberOfColumns());
+		initialRowEntries = new TreeMap<Label, SparseMatrixEntry<Mor>>();
+		initialColumnEntries = new TreeMap<Label, SparseMatrixEntry<Mor>>();
+		
+		for(MatrixEntry<Mor> entry: matrix.matrixEntries()) {
+			putEntry(entry.getRow(), entry.getColumn(), entry.getValue());
+		}
+	}
+
+	private List<Label> fillLabels(int i) {
+		List<Label> result = new ArrayList<Label>();
+		for(int index = 0; index < i; ++index) {
+			result.add(new Label(index));
+		}		
+	
+		return result;
+	}	
+	
 	/*
-	 * During composition, we rely on the rows and columns actually being in order.
+	 * During composition, we rely on the rows and columns actually being numbered sequentially.
 	 * The insert operations can break this, so they need to call reorderRows and reorderColumns.
 	 */
-	public Matrix<L, R, T> compose(Matrix<L, R, T> matrix) {
-		List<L> resultRows = rows();
-		List<L> resultColumns = matrix.columns();
-		Matrix<L, R, T> result = new SparseMatrix<R, T>(resultRows, resultColumns);
-		for(L row : resultRows) {
-			for(L column : resultColumns) {
-				T t = null;
-				Iterator<MatrixEntry<L,T>> columnIterator = matrix.matrixColumnEntries(column).iterator();
+	public Matrix<R, Obj, Mor> compose(Matrix<R, Obj, Mor> matrix) {
+		List<Label> resultRows = rows;
+		List<Label> resultColumns;
+		if(matrix instanceof SparseMatrix) {
+			resultColumns = ((SparseMatrix<R, Obj, Mor>)matrix).columns;
+		} else {
+			resultColumns = fillLabels(matrix.numberOfColumns());
+		}
+		Matrix<R, Obj, Mor> result = new SparseMatrix<R, Obj, Mor>(resultRows, resultColumns);
+		for(int row = 0; row < numberOfRows(); ++row) {
+			for(int column = 0; column < matrix.numberOfColumns(); ++column) {
+				Mor t = null;
+				Iterator<? extends MatrixEntry<Mor>> columnIterator = matrix.matrixColumnEntries(column).iterator();
 				if(!columnIterator.hasNext()) continue;
-				MatrixEntry<L,T> columnEntry = columnIterator.next();
-				for(MatrixEntry<L,T> rowEntry : matrixRowEntries(row)) {
-					while(columnEntry.row.compareTo(rowEntry.column) < 0) {
+				MatrixEntry<Mor> columnEntry = columnIterator.next();
+				for(SparseMatrixEntry<Mor> rowEntry : matrixRowEntries(row)) {
+					while(columnEntry.getRow() < rowEntry.getColumn()) {
 						if(columnIterator.hasNext()) {
 							columnEntry = columnIterator.next();
 						} else {
@@ -48,9 +71,9 @@ public class SparseMatrix<R, T extends Algebra<R, T>> implements
 						}
 					}
 					if(columnEntry == null) break;
-					if(columnEntry.row.compareTo(rowEntry.column) == 0) {
+					if(columnEntry.getRow() == rowEntry.getColumn()) {
 						// found something!
-						T product = rowEntry.value.compose(columnEntry.value);
+						Mor product = rowEntry.value.compose(columnEntry.getValue());
 						if(t == null) {
 							t = product;
 						} else {
@@ -67,14 +90,16 @@ public class SparseMatrix<R, T extends Algebra<R, T>> implements
 		return result;
 	}
 
-	public Matrix<L, R, T> deleteColumn(L column) {
-		if (!columns.contains(column)) {
-			throw new NoSuchElementException();
+	public Matrix<R, Obj, Mor> deleteColumn(int columnIndex) {
+		if(columnIndex < 0 || columnIndex >= columns.size()) {
+			throw new ArrayIndexOutOfBoundsException();
 		}
 
-		SparseMatrix<R, T> result = new SparseMatrix<R, T>(rows,
+		Label column = columns.get(columnIndex);
+		
+		SparseMatrix<R, Obj, Mor> result = new SparseMatrix<R, Obj, Mor>(rows,
 				Collections.singletonList(column));
-		SparseMatrixEntry<T> columnEntry = initialColumnEntries.get(column);
+		SparseMatrixEntry<Mor> columnEntry = initialColumnEntries.get(column);
 		columns.remove(column);
 
 		if (columnEntry != null) {
@@ -101,26 +126,16 @@ public class SparseMatrix<R, T extends Algebra<R, T>> implements
 		return result;
 	}
 
-	private void reindexColumns() {
-		for(int i = 0; i < columns.size(); ++i) {
-			columns.get(i).index = i;
+	public Matrix<R, Obj, Mor> deleteRow(int rowIndex) {
+		if(rowIndex < 0 || rowIndex >= rows.size()) {
+			throw new ArrayIndexOutOfBoundsException();
 		}
-	}
-
-	private void reindexRows() {
-		for(int i = 0; i < rows.size(); ++i) {
-			rows.get(i).index = i;
-		}
-	}
+		
+		Label row = rows.get(rowIndex);
 	
-	public Matrix<L, R, T> deleteRow(L row) {
-		if (!rows.contains(row)) {
-			throw new NoSuchElementException();
-		}
-
-		SparseMatrix<R, T> result = new SparseMatrix<R, T>(columns,
+		SparseMatrix<R, Obj, Mor> result = new SparseMatrix<R, Obj, Mor>(columns,
 				Collections.singletonList(row));
-		SparseMatrixEntry<T> rowEntry = initialRowEntries.get(row);
+		SparseMatrixEntry<Mor> rowEntry = initialRowEntries.get(row);
 		rows.remove(row);
 
 		if (rowEntry != null) {
@@ -147,14 +162,82 @@ public class SparseMatrix<R, T extends Algebra<R, T>> implements
 		return result;
 	}
 
-	public void insertAfterColumn(L column,
-			Matrix<L, R, T> extraColumns) {
-		// TODO Auto-generated method stub
-
+	private void reindexColumns() {
+		for(int i = 0; i < columns.size(); ++i) {
+			columns.get(i).index = i;
+		}
 	}
 
-	public void insertAfterRow(L row, Matrix<L, R, T> extraRows) {
-		// TODO Auto-generated method stub
+	private void reindexRows() {
+		for(int i = 0; i < rows.size(); ++i) {
+			rows.get(i).index = i;
+		}
+	}
+	
+	public void insertAfterColumn(int column, Matrix<R, Obj, Mor> extraColumns_) {
+		if(!(extraColumns_ instanceof SparseMatrix)) {
+			insertAfterColumn(column, new SparseMatrix<R, Obj, Mor>(extraColumns_));
+		}
+		SparseMatrix<R, Obj, Mor> extraColumns = (SparseMatrix<R, Obj, Mor>)extraColumns_;
+		
+		for(Label row : rows) {
+			SparseMatrixEntry<Mor> first = extraColumns.initialRowEntries.get(row);
+			SparseMatrixEntry<Mor> last = first;
+			if(last == null) {
+				continue;
+			} else {
+				while(last.right != null) {
+					last = last.right;
+				}
+			}
+			
+			SparseMatrixEntry<Mor> stitch = initialRowEntries.get(row);
+			if(stitch == null) {
+				initialRowEntries.put(row, first);
+			} else {
+				while(stitch.right != null & stitch.getColumn() < column) {
+					stitch = stitch.right;	
+				}
+				last.right = stitch.right;
+				stitch.right.left = last;
+				
+				stitch.right = first;
+				first.left = stitch;
+			}
+		}
+	}
+
+	public void insertAfterRow(int row, Matrix<R, Obj, Mor> extraRows_) {
+		if(!(extraRows_ instanceof SparseMatrix)) {
+			insertAfterRow(row, new SparseMatrix<R, Obj, Mor>(extraRows_));
+		}
+		SparseMatrix<R, Obj, Mor> extraRows = (SparseMatrix<R, Obj, Mor>)extraRows_;
+
+		for(Label column : columns) {
+			SparseMatrixEntry<Mor> first = extraRows.initialColumnEntries.get(column);
+			SparseMatrixEntry<Mor> last = first;
+			if(last == null) {
+				continue;
+			} else {
+				while(last.down != null) {
+					last = last.down;
+				}
+			}
+			
+			SparseMatrixEntry<Mor> stitch = initialColumnEntries.get(column);
+			if(stitch == null) {
+				initialColumnEntries.put(column, first);
+			} else {
+				while(stitch.down != null & stitch.getColumn() < row) {
+					stitch = stitch.down;	
+				}
+				last.down = stitch.down;
+				stitch.down.up = last;
+				
+				stitch.down = first;
+				first.up = stitch;
+			}
+		}
 
 	}
 
@@ -166,30 +249,41 @@ public class SparseMatrix<R, T extends Algebra<R, T>> implements
 		return rows.size();
 	}
 
-	public void putEntry(L row, L column, T t) {
-		put(row, column, t, false);
+	private void checkIndexes(int rowIndex, int columnIndex) {
+		if(rowIndex < 0 || rowIndex >= rows.size()) {
+			throw new ArrayIndexOutOfBoundsException();
+		}
+		if(columnIndex < 0 || columnIndex >= columns.size()) {
+			throw new ArrayIndexOutOfBoundsException();
+		}
+	}
+	
+	public void putEntry(int rowIndex, int columnIndex, Mor t) {
+		checkIndexes(rowIndex, columnIndex);
+		put(rows.get(rowIndex), columns.get(columnIndex), t, false);
 	}
 
-	public void addEntry(L row, L column, T t) {
-		put(row, column, t, true);
+	public void addEntry(int rowIndex, int columnIndex, Mor t) {
+		checkIndexes(rowIndex, columnIndex);
+		put(rows.get(rowIndex), columns.get(columnIndex), t, true);
 	}
 
-	private void put(L row, L column, T t, boolean addition) {
-		SparseMatrixEntry<T> newMatrixEntry = new SparseMatrixEntry<T>(row, column);
+	private void put(Label row, Label column, Mor t, boolean addition) {
+		SparseMatrixEntry<Mor> newMatrixEntry = new SparseMatrixEntry<Mor>(row, column);
 
 		boolean columnRequiresLinking = true;
 
 		{
-			SparseMatrixEntry<T> currentRowEntry = initialRowEntries.get(row);
+			SparseMatrixEntry<Mor> currentRowEntry = initialRowEntries.get(row);
 			if (currentRowEntry == null) {
 				// the whole row is empty
 				initialRowEntries.put(row, newMatrixEntry);
 			} else {
 				while (currentRowEntry.right != null
-						&& currentRowEntry.column.compareTo(column) < 0) {
+						&& currentRowEntry.column.index < column.index) {
 					currentRowEntry = currentRowEntry.right;
 				}
-				if (currentRowEntry.column.compareTo(column) == 0) {
+				if (currentRowEntry.column.index == column.index) {
 					// the matrix entry already exists
 					columnRequiresLinking = false;
 					if (addition) {
@@ -211,16 +305,16 @@ public class SparseMatrix<R, T extends Algebra<R, T>> implements
 			}
 		}
 		if (columnRequiresLinking) {
-			SparseMatrixEntry<T> currentColumnEntry = initialColumnEntries
+			SparseMatrixEntry<Mor> currentColumnEntry = initialColumnEntries
 					.get(column);
 			if (currentColumnEntry == null) {
 				initialColumnEntries.put(column, newMatrixEntry);
 			} else {
 				while (currentColumnEntry.down != null
-						&& currentColumnEntry.row.compareTo(row) < 0) {
+						&& currentColumnEntry.row.index < row.index) {
 					currentColumnEntry = currentColumnEntry.down;
 				}
-				if (currentColumnEntry.row.compareTo(row) == 0) {
+				if (currentColumnEntry.row.index == row.index) {
 					throw new AssertionError(
 							"Failed to find the matrix entry in a row, but it later turned up in a column!");
 				} else {
@@ -237,18 +331,18 @@ public class SparseMatrix<R, T extends Algebra<R, T>> implements
 	}
 
 	// WARNING: adds in place.
-	public Matrix<L, R, T> add(Matrix<L, R, T> m) {
+	public Matrix<R, Obj, Mor> add(Matrix<R, Obj, Mor> m) {
 		// this is a pretty crappy implementation!
-		for(MatrixEntry<L, T> entry : m.matrixEntries()) {
-			addEntry(entry.row, entry.column, entry.value);
+		for(MatrixEntry<Mor> entry : m.matrixEntries()) {
+			addEntry(entry.getRow(), entry.getColumn(), entry.getValue());
 		}
 		return this;
 	}
 
 	// WARNING: multiplies in place.
-	public Matrix<L, R, T> multiply(R r) {
-		for(L row : rows) {
-			SparseMatrixEntry<T> entry = initialRowEntries.get(row);
+	public Matrix<R, Obj, Mor> multiply(R r) {
+		for(Label row : rows) {
+			SparseMatrixEntry<Mor> entry = initialRowEntries.get(row);
 			while(entry != null) {
 				entry.value = entry.value.multiply(r);
 				entry = entry.right;
@@ -257,26 +351,26 @@ public class SparseMatrix<R, T extends Algebra<R, T>> implements
 		return this;
 	}
 
-	public Iterable<MatrixEntry<L, T>> matrixEntries() {
-		return new IterableBundle<L, MatrixEntry<L, T>>(rows) {
+	public Iterable<SparseMatrixEntry<Mor>> matrixEntries() {
+		return new IterableBundle<Label, SparseMatrixEntry<Mor>>(rows) {
 			@Override
-			protected Iterable<MatrixEntry<L, T>> buildNewFibreIterable(
-					L row) {
-				return matrixRowEntries(row);
+			protected Iterable<SparseMatrixEntry<Mor>> buildNewFibreIterable(
+					Label row) {
+				return matrixRowEntries(row.index);
 			}
 		};
 	}
 
-	public Iterable<MatrixEntry<L, T>> matrixColumnEntries(final L column) {
-		return new Iterable<MatrixEntry<L, T>>() {
-			public Iterator<MatrixEntry<L, T>> iterator() {
-				return new AbstractIterator<MatrixEntry<L, T>>() {
-					SparseMatrixEntry<T> entry = initialColumnEntries.get(column);
+	public Iterable<SparseMatrixEntry<Mor>> matrixColumnEntries(final int column) {
+		return new Iterable<SparseMatrixEntry<Mor>>() {
+			public Iterator<SparseMatrixEntry<Mor>> iterator() {
+				return new AbstractIterator<SparseMatrixEntry<Mor>>() {
+					SparseMatrixEntry<Mor> entry = initialColumnEntries.get(column);
 					public boolean hasNext() {
 						return entry != null;
 					}
-					protected MatrixEntry<L,T> returnNext() {
-						MatrixEntry<L,T> result = entry;
+					protected SparseMatrixEntry<Mor> returnNext() {
+						SparseMatrixEntry<Mor> result = entry;
 						entry = entry.down;
 						return result;
 					}		
@@ -285,16 +379,16 @@ public class SparseMatrix<R, T extends Algebra<R, T>> implements
 		};
 	}
 
-	public Iterable<MatrixEntry<L, T>> matrixRowEntries(final L row) {
-		return new Iterable<MatrixEntry<L, T>>() {
-			public Iterator<MatrixEntry<L,T>> iterator() {
-				return new AbstractIterator<MatrixEntry<L,T>>() {
-					SparseMatrixEntry<T> entry = initialRowEntries.get(row);
+	public Iterable<SparseMatrixEntry<Mor>> matrixRowEntries(final int row) {
+		return new Iterable<SparseMatrixEntry<Mor>>() {
+			public Iterator<SparseMatrixEntry<Mor>> iterator() {
+				return new AbstractIterator<SparseMatrixEntry<Mor>>() {
+					SparseMatrixEntry<Mor> entry = initialRowEntries.get(row);
 					public boolean hasNext() {
 						return entry != null;
 					}
-					protected MatrixEntry<L,T> returnNext() {
-						MatrixEntry<L,T> result = entry;
+					protected SparseMatrixEntry<Mor> returnNext() {
+						SparseMatrixEntry<Mor> result = entry;
 						entry = entry.right;
 						return result;
 					}		
@@ -303,37 +397,44 @@ public class SparseMatrix<R, T extends Algebra<R, T>> implements
 		};
 	}
 
-	public List<L> rows() {
-		return new ArrayList<L>(rows);
-	}
-	
-	public List<L> columns() {
-		return new ArrayList<L>(columns);
+	public DirectSum<Obj> source() {
+		// TODO
+		throw new UnsupportedOperationException();
 	}
 
-
-	
-}
-
-class L implements Comparable<L> {
-	
-	static int counter = 0;
-	int index;
-
-	L() {
-		index = ++counter;
+	public DirectSum<Obj> target() {
+		// TODO
+		throw new UnsupportedOperationException();
 	}
 
-	public int compareTo(L label) {
-		return index - label.index;
-	}
-}
 
-
-class SparseMatrixEntry<T> extends MatrixEntry<L, T> {
-	SparseMatrixEntry(L row, L column) {
-		super(row, column);
-	}
+	class SparseMatrixEntry<T> implements MatrixEntry<T> {
+		SparseMatrixEntry(Label row, Label column) {
+			this.row = row;
+			this.column = column;
+		}
 		
-	SparseMatrixEntry<T> up, down, left, right;
+		T value;
+		Label row, column;
+		SparseMatrixEntry<T> up, down, left, right;
+		
+		public int getColumn() {
+			return column.index;
+		}
+		public int getRow() {
+			return row.index;
+		}
+		public T getValue() {
+			return value;
+		}
+	}
+
+
+	class Label {
+		int index;
+		Label(int index) {
+			this.index = index;
+		}
+	}
+
 }
