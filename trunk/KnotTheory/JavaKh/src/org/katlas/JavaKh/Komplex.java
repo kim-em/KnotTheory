@@ -31,6 +31,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.algebra.Rings;
+import org.katlas.JavaKh.rows.MatrixRow;
 import org.katlas.JavaKh.utils.CachingList;
 import org.katlas.JavaKh.utils.DiskBackedList;
 import org.katlas.JavaKh.utils.LimitedSizeInputStream;
@@ -463,7 +464,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 	public void finalizeH() {
 		for (int i = 0; i < ncolumns - 1; i++) {
 			CobMatrix<R> m = getMatrix(i);
-			for(CobMatrixRow<R> rowEntries : m.entries) {
+			for(MatrixRow<LCCC<R>> rowEntries : m.entries) {
 				for(int j : rowEntries.keys()) {
 					rowEntries.put(j, rowEntries.get(j).finalizeH());
 				}
@@ -661,8 +662,8 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						LCCC<R> lc = new LCCC<R>(oldsm, newsm);
 						lc.add(prevcc, 1);
 //						prev.values[newn] = new LCCC[prev.rowsizes[newn]];
-						CobMatrixRow<R> prevMatrixEntriesI = prevMatrix.entries.get(i);
-						CobMatrixRow<R> prevEntriesNewN = prev.entries.get(newn);
+						MatrixRow<LCCC<R>> prevMatrixEntriesI = prevMatrix.entries.get(i);
+						MatrixRow<LCCC<R>> prevEntriesNewN = prev.entries.get(newn);
 						for(int k : prevMatrixEntriesI.keys()) {
 							prevEntriesNewN.put(k, lc.compose(prevMatrixEntriesI.get(k)));
 						}
@@ -681,7 +682,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						lc.add(nextcc, 1);
 						
 						for(int k = 0; k < nextMatrix.entries.size(); ++k) {
-							CobMatrixRow<R> rowEntries = nextMatrix.entries.get(k);
+							MatrixRow<LCCC<R>> rowEntries = nextMatrix.entries.get(k);
 							if(rowEntries.containsKey(i)) {
 								LCCC<R> nmv = rowEntries.get(i);
 								next.append(k, newn, nmv.compose(lc));
@@ -697,7 +698,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 //						}
 					} else {
 						for(int k = 0; k < nextMatrix.entries.size(); ++k) {
-							CobMatrixRow<R> rowEntries = nextMatrix.entries.get(k);
+							MatrixRow<LCCC<R>> rowEntries = nextMatrix.entries.get(k);
 							if(rowEntries.containsKey(i)) {
 								next.append(k, newn, rowEntries.get(i)); 
 							}
@@ -809,8 +810,8 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 //					prev.indices[newn] = prevMatrix.indices[i];
 					if (oldsm.ncycles != 0) {
 //						prev.values[newn] = new LCCC[prev.rowsizes[newn]];
-						CobMatrixRow<R> prevMatrixEntriesI = prevMatrix.entries.get(i);
-						CobMatrixRow<R> prevEntriesNewN = prev.entries.get(newn);
+						MatrixRow<LCCC<R>> prevMatrixEntriesI = prevMatrix.entries.get(i);
+						MatrixRow<LCCC<R>> prevEntriesNewN = prev.entries.get(newn);
 						for(int k : prevMatrixEntriesI.keys()) {
 							prevEntriesNewN.put(k, prevlc.compose(prevMatrixEntriesI.get(k)));
 						}
@@ -830,7 +831,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						lc.add(nextcc, 1);
 
 						for(int k = 0; k < nextMatrix.entries.size(); ++k) {
-							CobMatrixRow<R> rowEntries = nextMatrix.entries.get(k);
+							MatrixRow<LCCC<R>> rowEntries = nextMatrix.entries.get(k);
 							if(rowEntries.containsKey(i)) {
 								LCCC<R> nmv = rowEntries.get(i);
 								next.append(k, newn, nmv.compose(lc));
@@ -847,7 +848,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 //						}
 					} else {
 						for(int k = 0; k < nextMatrix.entries.size(); ++k) {
-							CobMatrixRow<R> rowEntries = nextMatrix.entries.get(k);
+							MatrixRow<LCCC<R>> rowEntries = nextMatrix.entries.get(k);
 							if(rowEntries.containsKey(i)) {
 								next.append(k, newn, rowEntries.get(i));
 							}
@@ -1056,7 +1057,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		CobMatrix<R> delta = null, gamma = null;
 			delta = new CobMatrix<R>(scD, scb2);
 			
-			CobMatrixRow<R> mRowEntriesJ = m.entries.get(j);
+			MatrixRow<LCCC<R>> mRowEntriesJ = m.entries.get(j);
 			m.entries.remove(j);
 			m.target.numbers.remove(j);
 			m.target.smoothings.remove(j);
@@ -1096,7 +1097,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		m.source.n--;
 		
 		for (int a = 0; a < m.entries.size(); a++) {
-			CobMatrixRow<R> row = m.entries.get(a);
+			MatrixRow<LCCC<R>> row = m.entries.get(a);
 			if(row.containsKey(k)) {
 				gamma.entries.get(a).put(0, row.get(k));
 				row.remove(k);
@@ -1138,7 +1139,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			CobMatrix<R> nextMatrix = getMatrix(i + 1);
 
 			nextMatrix.source = columns[i + 1];
-			for(CobMatrixRow<R> row : nextMatrix.entries) {
+			for(MatrixRow<LCCC<R>> row : nextMatrix.entries) {
 				row.remove(j);
 				row.decrementIndexesAbove(j);
 			}
@@ -1918,10 +1919,14 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			if (!cm.isZero()) {
 				if (reduce) {
 					cm.reduce();
-					if (!cm.isZero())
+					if (!cm.isZero()) {
+						assert false;
 						return false;
-				} else
+					}
+				} else {
+					assert false;
 					return false;
+				}
 			}
 		}
 		return true;

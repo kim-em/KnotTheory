@@ -136,6 +136,10 @@ public class RedBlackIntegerTree<V extends Serializable> implements Serializable
         return n == null ? Color.BLACK : n.color;
     }
 
+    public void clear() {
+    	root = null;
+    }
+    
     public Iterable<Integer> keys() {
     	return new Iterable<Integer>() {
 
