@@ -81,6 +81,14 @@ class Node<V>
 		return n;
 	}
     
+    public Node<V> leastDescendent() {
+		Node<V> n = this;
+		while (n.left != null) {
+			n = n.left;
+		}
+		return n;
+	}
+    
     public Node<V> predecessor() {
     	if(left == null) {
     		if(parent == null) return null;
@@ -95,6 +103,23 @@ class Node<V>
     		return n.parent;
     	} else {
     		return left.greatestDescendent();
+    	}
+    }
+    
+    public Node<V> successor() {
+    	if(right == null) {
+    		if(parent == null) return null;
+    	
+    		Node<V> n = this;
+    		while(n == n.parent.right) {
+    			n = n.parent;
+    			if(n.parent == null) {
+    				return null;
+    			}
+    		}
+    		return n.parent;
+    	} else {
+    		return right.leastDescendent();
     	}
     }
     
@@ -146,7 +171,7 @@ public class RedBlackIntegerTree<V extends Serializable> implements Serializable
 			public Iterator<Integer> iterator() {
 				return new AbstractIterator<Integer>() {
 
-					Node<V> next = (root == null) ? null : root.greatestDescendent();
+					Node<V> next = (root == null) ? null : root.leastDescendent();
 					
 					@Override
 					public boolean hasNext() {
@@ -156,7 +181,7 @@ public class RedBlackIntegerTree<V extends Serializable> implements Serializable
 					@Override
 					protected Integer returnNext() {
 						int r = next.key;
-						next = next.predecessor();
+						next = next.successor();
 						return r;
 					}
 			
