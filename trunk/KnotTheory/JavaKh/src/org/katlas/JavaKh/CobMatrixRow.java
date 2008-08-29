@@ -3,11 +3,13 @@
  */
 package org.katlas.JavaKh;
 
-interface CobMatrixRow {
+import org.katlas.JavaKh.algebra.Ring;
 
-	void put(int j, LCCC lc);
+interface CobMatrixRow<R extends Ring<R>> {
+
+	void put(int j, LCCC<R> lc);
 	Iterable<Integer> keys();
-	LCCC get(int j);
+	LCCC<R> get(int j);
 	boolean containsKey(int k);
 	void remove(int i);
 	void compact();

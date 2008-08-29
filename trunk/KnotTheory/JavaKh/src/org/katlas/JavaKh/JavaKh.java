@@ -17,7 +17,8 @@ public class JavaKh {
 	
     public static boolean using_h = false;
     
-    public static void main(String args[]) throws java.io.IOException {
+    @SuppressWarnings("unchecked")
+	public static void main(String args[]) throws java.io.IOException {
     	
     	boolean reorderCrossings = true;
     	boolean caching = false;
