@@ -5,16 +5,16 @@ package net.tqft.iterables;
 
 import java.util.Iterator;
 
-public abstract class IteratorBundle<S, T> extends AbstractIterator<T> implements Iterator<T> {
+public abstract class ForgetfulIteratorBundle<S, T, U extends T> extends AbstractIterator<T> implements Iterator<T> {
 
 	private final Iterator<S> baseIterator;
-	private Iterator<T> fibreIterator;
+	private Iterator<U> fibreIterator;
 	
-	public IteratorBundle(Iterator<S> baseIterator) {
+	public ForgetfulIteratorBundle(Iterator<S> baseIterator) {
 		this.baseIterator = baseIterator;
 	}
 	
-	protected abstract Iterator<T> buildNewFibreIterator(S s);
+	protected abstract Iterator<U> buildNewFibreIterator(S s);
 
 	public boolean hasNext() {
 		while(fibreIterator == null || !fibreIterator.hasNext()) {

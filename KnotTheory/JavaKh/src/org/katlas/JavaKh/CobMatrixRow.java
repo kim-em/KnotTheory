@@ -7,6 +7,7 @@ import org.katlas.JavaKh.algebra.Ring;
 
 interface CobMatrixRow<R extends Ring<R>> {
 
+	void decrementIndexesAbove(int j);
 	void put(int j, LCCC<R> lc);
 	Iterable<Integer> keys();
 	LCCC<R> get(int j);

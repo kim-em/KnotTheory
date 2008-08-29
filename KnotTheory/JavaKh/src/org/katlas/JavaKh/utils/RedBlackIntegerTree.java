@@ -197,6 +197,15 @@ public class RedBlackIntegerTree<V extends Serializable> implements Serializable
         return n == null ? null : n.value;
     }
 
+    public void decrementIndexesAbove(int key) {
+    	if(root == null) return;
+		Node<V> node = root.greatestDescendent();
+		while(node != null && node.key > key) {
+			--node.key;
+			node = node.predecessor();
+		}
+	}
+    
     private void rotateLeft(Node<V> n) {
         Node<V> r = n.right;
         replaceNode(n, r);

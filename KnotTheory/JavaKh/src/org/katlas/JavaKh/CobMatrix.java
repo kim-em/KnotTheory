@@ -1,12 +1,20 @@
 package org.katlas.JavaKh;
+import gnu.trove.TIntObjectHashMap;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import net.tqft.iterables.AbstractIterator;
+
 import org.katlas.JavaKh.algebra.Ring;
+import org.katlas.JavaKh.utils.RedBlackIntegerTree;
 
 
 // sparse matrix
@@ -25,87 +33,58 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
     final ArrayList<CobMatrixRow<R>> entries;
     
     public CobMatrix(SmoothingColumn s, SmoothingColumn t) {
-		source = s;
-		target = t;
-		// values = new LCCC[t.n][];
-		// indices = new int[t.n][];
-		// rowsizes = new int[t.n];
-//		entries = new ArrayList<Map<Integer, LCCC>>(t.n);
+		source = new SmoothingColumn(s);
+		target = new SmoothingColumn(t);
 		entries = new ArrayList<CobMatrixRow<R>>(t.n);
 		for (int i = 0; i < t.n; ++i) {
-//			entries.add(new TreeMap<Integer, LCCC>());
-			entries.add(new TreeEntryMap());
-//			entries.add(new RedBlackEntryMap());
-//			entries.add(new TroveEntryMap());
+			entries.add(newRow());
 		}
 	}
-
-//    public void trim() {
-//	for (int i = 0; i < target.n; i++) {
-//	    if (values[i] != null && values[i].length != rowsizes[i]) {
-//		LCCC newval[] = new LCCC[rowsizes[i]];
-//		System.arraycopy(values[i], 0, newval, 0, rowsizes[i]);
-//		values[i] = newval;
-//		int newidx[] = new int[rowsizes[i]];
-//		System.arraycopy(indices[i], 0, newidx, 0, rowsizes[i]);
-//		indices[i] = newidx;
-//	    }
-//	}
-//    }
+    
+    public CobMatrix(SmoothingColumn s, SmoothingColumn t, boolean shared) {
+    	if(shared) {
+    		source = s;
+    		target = t;
+    	} else {
+    		source = new SmoothingColumn(s);
+    		target = new SmoothingColumn(t);
+    	}
+		entries = new ArrayList<CobMatrixRow<R>>(t.n);
+		for (int i = 0; i < t.n; ++i) {
+			entries.add(newRow());
+		}
+	}
+    
+    void unshare() {
+    	source = new SmoothingColumn(source);
+    	target = new SmoothingColumn(target);
+    }
+    
+    private CobMatrixRow<R> newRow() {
+//    	return new TroveEntryMap();
+//    	return new TreeEntryMap();
+    	return new RedBlackEntryMap();
+    }
 
     // assumes matrix[i][j] is not contained in this sparse matrix
-    public void append(int i, int j, LCCC<R> lc) {
-	if (lc == null || lc.size() == 0) {
-	    return;
+	public void append(int i, int j, LCCC<R> lc) {
+		assert check();
+		if (lc == null || lc.size() == 0) {
+			return;
+		}
+		entries.get(i).put(j, lc);
+		assert check();
 	}
-	entries.get(i).put(j, lc);
-//	if (values[i] == null || values[i].length == rowsizes[i]) {
-//	    int newsize;
-//	    if (values[i] == null || rowsizes[i] < 3)
-//		newsize = 4;
-//	    else
-//		newsize = rowsizes[i] * 2;
-//	    LCCC newval[] = new LCCC[newsize];
-//	    if (values[i] != null)
-//		System.arraycopy(values[i], 0, newval, 0, rowsizes[i]);
-//	    int newidx[] = new int[newsize];
-//	    if (indices[i] != null)
-//		System.arraycopy(indices[i], 0, newidx, 0, rowsizes[i]);
-//	    values[i] = newval;
-//	    indices[i] = newidx;
-//	}
-//	values[i][rowsizes[i]] = lc;
-//	indices[i][rowsizes[i]] = j;
-//	rowsizes[i]++;
-    }
 
     @SuppressWarnings("unchecked")
 	public LCCC<R>[] unpackRow(int i) {
-	LCCC<R> rowi[] = new LCCC[source.n];
-	CobMatrixRow<R> rowEntries = entries.get(i);
-	for(int j : rowEntries.keys()) {
-		rowi[j] = rowEntries.get(j);
+		LCCC<R> rowi[] = new LCCC[source.n];
+		CobMatrixRow<R> rowEntries = entries.get(i);
+		for (int j : rowEntries.keys()) {
+			rowi[j] = rowEntries.get(j);
+		}
+		return rowi;
 	}
-//	for (int j = 0; j < rowsizes[i]; j++) {
-//	    rowi[indices[i][j]] = values[i][j];
-//	}
-	return rowi;
-    }
-
-//    public void packRow(LCCC rowi[], int i) {
-//	int size = 0;
-//	for (int j = 0; j < source.n; j++)
-//	    if (rowi[j] != null && rowi[j].size() != 0)
-//		size++;
-//	rowsizes[i] = size;
-//	values[i] = new LCCC[size];
-//	indices[i] = new int[size];
-//	for (int j = 0, k = 0; j < source.n; j++)
-//	    if (rowi[j] != null && rowi[j].size() != 0) {
-//		values[i][k] = rowi[j];
-//		indices[i][k++] = j;
-//	    }
-//    }
 
     // not working right now
     @SuppressWarnings("unchecked")
@@ -138,55 +117,24 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
 	CobMatrix<R> ret = new CobMatrix<R>(cm.source, target);
 
 	for (int i = 0; i < target.n; ++i) {
-			CobMatrixRow<R> rowEntries = entries.get(i);
-//			Map<Integer, LCCC> retRowEntries = new NonNullValueMapWrapper<Integer, LCCC>(
-//					new TreeMap<Integer, LCCC>());
-			CobMatrixRow<R> retRowEntries = new TreeEntryMap();
-			for (int j : rowEntries.keys()) {
+			CobMatrixRow<R> rowEntriesI = entries.get(i);
+			CobMatrixRow<R> result = newRow();
+			for (int j : rowEntriesI.keys()) {
 				for (int k : cm.entries.get(j).keys()) {
-					LCCC<R> lc = rowEntries.get(j).compose(
+					LCCC<R> lc = rowEntriesI.get(j).compose(
 							cm.entries.get(j).get(k));
 					if (lc != null) {
-						if (retRowEntries.containsKey(k)) {
-							retRowEntries.get(k).add(lc);
+						if (result.containsKey(k)) {
+							result.get(k).add(lc);
 						} else {
-							retRowEntries.put(k, lc);
+							result.put(k, lc);
 						}
 					}
 				}
 			}
-			ret.entries.set(i, retRowEntries);
+			ret.entries.set(i, result);
 		}
 	
-//	for (int i = 0; i < target.n; i++) {
-//	    LCCC rowi[] = new LCCC[cm.source.n];
-//	    for (int j = 0; j < rowsizes[i]; j++) {
-//		int idx = indices[i][j];
-//		LCCC a = values[i][j];
-//		if (a != null)
-//		    for (int k = 0; k < cm.rowsizes[idx]; k++) {
-//			int cmidx = cm.indices[idx][k];
-//			LCCC lc = a.compose(cm.values[idx][k]);
-//			if (rowi[cmidx] == null)
-//			    rowi[cmidx] = lc;
-//			else
-//			    rowi[cmidx].add(lc);
-//		    }
-//	    }
-//	    int size = 0;
-//	    for (int j = 0; j < rowi.length; j++)
-//		if (rowi[j] != null && rowi[j].size() != 0)
-//		    size++;
-//	    ret.rowsizes[i] = size;
-//	    ret.values[i] = new LCCC[size];
-//	    ret.indices[i] = new int[size];
-//	    for (int j = 0, k = 0; j < rowi.length; j++)
-//		if (rowi[j] != null && rowi[j].size() != 0) {
-//		    ret.values[i][k] = rowi[j];
-//		    ret.indices[i][k] = j;
-//		    k++;
-//		}
-//	}
 	return ret;
     }
 
@@ -199,15 +147,7 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
     			}
     		}
     	}
-    	
-//    	for (int i = 0; i < target.n; i++) {
-//			for (int j = 0; j < rowsizes[i]; j++) {
-//				if (values[i][j] != null) {
-//					values[i][j].multiply(n);
-//				}
-//			}
-//		}
-	}
+   	}
 
     public void add(CobMatrix<R> cm) { // edits in place
 	assert source.equals(cm.source) && target.equals(cm.target);
@@ -224,31 +164,6 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
 		}
 	}
 	
-//	for (int i = 0; i < target.n; i++) {
-//	    LCCC rowi[] = new LCCC[source.n];
-//	    for (int j = 0; j < rowsizes[i]; j++)
-//		rowi[indices[i][j]] = values[i][j];
-//	    for (int j = 0; j < cm.rowsizes[i]; j++) {
-//		int idx = cm.indices[i][j];
-//		if (rowi[idx] == null)
-//		    rowi[idx] = cm.values[i][j];
-//		else
-//		    rowi[idx].add(cm.values[i][j]);
-//	    }
-//	    int size = 0;
-//	    for (int j = 0; j < source.n; j++)
-//		if (rowi[j] != null && rowi[j].size() != 0)
-//		    size++;
-//	    rowsizes[i] = size;
-//	    values[i] = new LCCC[size];
-//	    indices[i] = new int[size];
-//	    for (int j = 0, k = 0; j < source.n; j++)
-//		if (rowi[j] != null && rowi[j].size() != 0) {
-//		    values[i][k] = rowi[j];
-//		    indices[i][k] = j;
-//		    k++;
-//		}
-//	}
     }
 
     public void reduce() { // modifies this CobMatrix in place
@@ -266,15 +181,7 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
     			rowEntries.remove(i);
     		}
     	}
-    	
-//		for (int i = 0; i < target.n; i++) {
-//			for (int j = 0; j < rowsizes[i]; j++) {
-//				if (values[i][j] != null) {
-//					values[i][j] = values[i][j].reduce();
-//				}
-//			}
-//		}
-	}
+   	}
 
     public boolean isZero() {
     	for(CobMatrixRow<R> rowEntries : entries) {
@@ -285,24 +192,29 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
     			}
     		}
     	}
-//	for (int i = 0; i < target.n; i++) {
-//	    for (int j = 0; j < rowsizes[i]; j++) {
-//		if (values[i][j] != null && values[i][j].size() != 0) {
-//		    return false;	
-//		}
-//	    }
 		return true;
     }
 
-//    public boolean check() {
-//	for (int i = 0; i < target.n; i++)
-//	    for (int j = 0; j < rowsizes[i]; j++)
-//		if (values[i][j] != null)
-//		    if (!values[i][j].top.equals(source.smoothings[j])
-//			|| !values[i][j].bottom.equals(target.smoothings[i]))
-//			return false;
-//	return true;
-//    }
+    public boolean check() {
+    	if(entries.size() != target.n) {
+    		assert false;
+    		return false;
+    	}
+		for (int i = 0; i < entries.size(); ++i) {
+			CobMatrixRow<R> row = entries.get(i);
+			for (int j : row.keys()) {
+				if (!row.get(j).top.equals(source.smoothings.get(j))) {
+					assert false;
+					return false;
+				}
+				if (!row.get(j).bottom.equals(target.smoothings.get(i))) {
+					assert false;
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 
     public void print() {
 	System.out.print("[");
@@ -349,7 +261,8 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
         
     
     
-    private class TreeEntryMap implements CobMatrixRow<R>, Serializable {
+    @SuppressWarnings("unused")
+	private class TreeEntryMap implements CobMatrixRow<R>, Serializable {
     	/**
 		 * 
 		 */
@@ -378,64 +291,100 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
 		public void remove(int i) {
 			map.remove(i);
 		}
+
+		public void decrementIndexesAbove(int key) {
+			List<Integer> targetIndexes = new ArrayList<Integer>();
+			for(int k : map.keySet()) {
+				if(k > key) {
+					targetIndexes.add(k);
+				}
+			}
+			for(int k : targetIndexes) {
+				map.put(k - 1, map.get(k));
+				map.remove(k);
+			}
+		}
     	
     	
     }
   
-//    private class RedBlackEntryMap extends RedBlackIntegerTree<LCCC> implements CobMatrixRow {
-//
-//		public void compact() {
-//			
-//		}
-//
-//    };
-//    
-//    private class TroveEntryMap implements CobMatrixRow, Serializable {
-//
-//    	TIntObjectHashMap<LCCC> map = new TIntObjectHashMap<LCCC>(2);
-//    	
-//		public void compact() {
-//			map.compact();
-//		}
-//
-//		public boolean containsKey(int k) {
-//			return map.contains(k);
-//		}
-//
-//		public LCCC get(int j) {
-//			return map.get(j);
-//		}
-//
-//		public Iterable<Integer> keys() {
-//			return new Iterable<Integer>() {
-//				final int[] keys = map.keys();
-//
-//				public Iterator<Integer> iterator() {
-//					return new Iterator<Integer>() {
-//						int i = 0;
-//						public boolean hasNext() {
-//							return i < keys.length;
-//						}
-//						public Integer next() {
-//							if(!hasNext()) throw new NoSuchElementException();
-//							return keys[i++];
-//						}
-//						public void remove() {
-//							throw new UnsupportedOperationException();
-//						}
-//					};
-//				}
-//			};
-//		}
-//
-//		public void put(int j, LCCC lc) {
-//			map.put(j, lc);
-//		}
-//
-//		public void remove(int i) {
-//			map.remove(i);
-//		}
-//    	
-//    }
+    @SuppressWarnings("unused")
+	private class RedBlackEntryMap extends RedBlackIntegerTree<LCCC<R>> implements CobMatrixRow<R> {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2840043469285162678L;
+
+		public void compact() {
+			
+		}
+
+    };
+    
+    @SuppressWarnings("unused")
+	private class TroveEntryMap implements CobMatrixRow<R>, Serializable {
+
+    	/**
+		 * 
+		 */
+		private static final long serialVersionUID = -230926858992553476L;
+		
+		TIntObjectHashMap<LCCC<R>> map = new TIntObjectHashMap<LCCC<R>>(2);
+    	
+		public void compact() {
+			map.compact();
+		}
+
+		public boolean containsKey(int k) {
+			return map.contains(k);
+		}
+
+		public LCCC<R> get(int j) {
+			return map.get(j);
+		}
+
+		public Iterable<Integer> keys() {
+			return new Iterable<Integer>() {
+				final int[] keys = map.keys();
+
+				public Iterator<Integer> iterator() {
+					return new AbstractIterator<Integer>() {
+						int i = 0;
+						public boolean hasNext() {
+							return i < keys.length;
+						}
+						public Integer returnNext() {
+							return keys[i++];
+						}
+					};
+				}
+			};
+		}
+
+		public void put(int j, LCCC<R> lc) {
+			map.put(j, lc);
+		}
+
+		public void remove(int i) {
+			map.remove(i);
+		}
+
+		public void decrementIndexesAbove(int key) {
+			List<Integer> targetIndexes = new ArrayList<Integer>();
+			for(int k : map.keys()) {
+				if(k > key) {
+					targetIndexes.add(k);
+				}
+			}
+			Collections.sort(targetIndexes);
+			for(int k : targetIndexes) {
+				map.put(k - 1, map.get(k));
+				map.remove(k);
+			}
+
+		}
+    	
+    }
 
 }
