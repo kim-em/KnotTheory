@@ -2,9 +2,11 @@ package org.katlas.JavaKh;
 import java.io.Serializable;
 import java.math.BigInteger;
 
+import org.katlas.JavaKh.algebra.Ring;
+
 // rationals
 // using BigIntegers since they are probably necessary
-public class Rational extends BaseRing implements Serializable {
+public class Rational implements Ring<Rational>, Serializable {
     /**
 	 * 
 	 */
@@ -25,21 +27,19 @@ public class Rational extends BaseRing implements Serializable {
 	return !(n.equals(BigInteger.ZERO));
     }
 
-    public BaseRing inverse() {
+    public Rational inverse() {
 	return new Rational(d, n);
     }
 
-    public BaseRing multiply(BaseRing br) {
-	Rational r = (Rational) br;
+    public Rational multiply(Rational r) {
 	return new Rational(n.multiply(r.n), d.multiply(r.d));
     }
 
-    public BaseRing multiply(int n) {
+    public Rational multiply(int n) {
 	return new Rational(this.n.multiply(BigInteger.valueOf(n)), d);
     }
 
-    public BaseRing add(BaseRing br) {
-	Rational r = (Rational) br;
+    public Rational add(Rational r) {
 	return new Rational(n.multiply(r.d).add(r.n.multiply(d)),
 			    d.multiply(r.d));
     }
