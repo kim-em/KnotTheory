@@ -1,31 +1,32 @@
 package org.katlas.JavaKh.algebra;
 
-import java.util.List;
 
-
-@SuppressWarnings("hiding")
-public interface Matrix<L extends Comparable<L>, R, T extends Algebra<R, T>> extends Algebra<R, Matrix<L, R, T>> {
+public interface Matrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, Obj, Mor>> extends LinearMorphism<R, DirectSum<Obj>, Matrix<R, Obj, Mor>> {
 
 	public int numberOfRows();
 	public int numberOfColumns();
 	
-	public List<L> rows();
-	public List<L> columns();
+	public Matrix<R, Obj, Mor> deleteRow(int row);
+	public Matrix<R, Obj, Mor> deleteColumn(int column);
 	
-	public Matrix<L, R, T> deleteRow(L row);
-	public Matrix<L, R, T> deleteColumn(L column);
+	public void insertAfterRow(int row, Matrix<R, Obj, Mor> extraRows);
+	public void insertAfterColumn(int column, Matrix<R, Obj, Mor> extraColumns);
 	
-	public void insertAfterRow(L row, Matrix<L, R, T> extraRows);
-	public void insertAfterColumn(L column, Matrix<L, R, T> extraColumns);
+	public Matrix<R, Obj, Mor> compose(Matrix<R, Obj, Mor> matrix);
 	
-	public Matrix<L, R, T> compose(Matrix<L, R, T> matrix);
+	public void putEntry(int row, int column, Mor t);
+	public void addEntry(int row, int column, Mor t);
 	
-	public void putEntry(L row, L column, T t);
-	public void addEntry(L row, L column, T t);
+	public Iterable<? extends MatrixEntry<Mor>> matrixEntries();
+	public Iterable<? extends MatrixEntry<Mor>> matrixRowEntries(int row);
+	public Iterable<? extends MatrixEntry<Mor>> matrixColumnEntries(int column);
 	
-	public Iterable<MatrixEntry<L, T>> matrixEntries();
-	public Iterable<MatrixEntry<L, T>> matrixRowEntries(L row);
-	public Iterable<MatrixEntry<L, T>> matrixColumnEntries(L column);
-	
+}
+
+
+interface MatrixEntry<T> {
+	T getValue();
+	int getRow();
+	int getColumn();
 }
 

@@ -895,16 +895,18 @@ public class Komplex implements Serializable {
 							continue;
 						}
 						found2 = found = true;
-						if(++count > mostReductions) {
-							mostReductions = count;
-							log.info("Most reductions: " + mostReductions);
-						}
+						++count;
 						reductionLemma(i, j, k, n, false);
 						m = getMatrix(i);
 						break rlfor;
 					}
 				}
 			}
+			if(count > mostReductions) {
+				mostReductions = count;
+				log.info("Most reductions: " + mostReductions);
+			}
+			
 			if (found)
 				ret = true;
 			if (!found) {
