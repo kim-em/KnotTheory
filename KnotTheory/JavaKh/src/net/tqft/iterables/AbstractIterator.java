@@ -4,7 +4,6 @@
 package net.tqft.iterables;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 public abstract class AbstractIterator<T> implements Iterator<T> {
 
@@ -12,7 +11,8 @@ public abstract class AbstractIterator<T> implements Iterator<T> {
 	protected abstract T returnNext();
 	
 	public T next() {
-		if(!hasNext()) throw new NoSuchElementException();
+//		if(!hasNext()) throw new NoSuchElementException();
+		assert hasNext() : "No next element.";
 		return returnNext();
 	}
 
