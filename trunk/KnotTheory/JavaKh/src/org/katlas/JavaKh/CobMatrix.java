@@ -2,6 +2,7 @@ package org.katlas.JavaKh;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.katlas.JavaKh.algebra.Ring;
@@ -143,20 +144,72 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
     	}
    	}
 
-    public void add(CobMatrix<R> cm) { // edits in place
-	assert source.equals(cm.source) && target.equals(cm.target);
-	
-	for(int i = 0; i < entries.size(); ++i) {
-		MatrixRow<LCCC<R>> rowEntries = entries.get(i);
-		MatrixRow<LCCC<R>> cmRowEntries = cm.entries.get(i);
-		for(int j : cmRowEntries.keys()) {
-			if(rowEntries.containsKey(j)) {
-				rowEntries.get(j).add(cmRowEntries.get(j));
-			} else {
-				rowEntries.put(j, cmRowEntries.get(j));
+    public void add(CobMatrix<R> that) { // edits in place
+		assert source.equals(that.source) && target.equals(that.target);
+
+		for (int i = 0; i < entries.size(); ++i) {
+			MatrixRow<LCCC<R>> thisRowEntriesI = entries.get(i);
+			MatrixRow<LCCC<R>> thatRowEntriesI = that.entries.get(i);
+
+			Iterator<Integer> thisIterator = thisRowEntriesI.keys().iterator();
+			Iterator<Integer> thatIterator = thatRowEntriesI.keys().iterator();
+
+			if(!thatIterator.hasNext()) continue;
+			else {
+				if(!thisIterator.hasNext()) {
+					while(thatIterator.hasNext()) {
+						int j = thatIterator.next();
+						thisRowEntriesI.put(j, thatRowEntriesI.get(j));
+					}
+				} else {
+					// both rows are non-empty!
+					int thisKey = thisIterator.next(), thatKey = thatIterator.next();
+					while(true) {
+						if(thisKey < thatKey) {
+							if(thisIterator.hasNext()) {
+								thisKey = thisIterator.next();
+								continue;
+							} else {
+								thisRowEntriesI.put(thatKey, thatRowEntriesI.get(thatKey));								
+								break;
+							}
+						} else if(thisKey == thatKey) {
+							thisRowEntriesI.get(thisKey).add(thatRowEntriesI.get(thatKey));	
+							if(!thisIterator.hasNext() || !thatIterator.hasNext()) {
+								break;
+							} else {
+								thisKey = thisIterator.next();
+								thatKey = thatIterator.next();
+								continue;
+							}
+						} else {
+							// thisKey > thatKey
+							thisRowEntriesI.put(thatKey, thatRowEntriesI.get(thatKey));								
+							if(!thatIterator.hasNext()) {
+								break;
+							} else {
+								thatKey = thatIterator.next();
+								continue;
+							}
+						}
+					}
+
+					while (thatIterator.hasNext()) {
+						int j = thatIterator.next();
+						thisRowEntriesI.put(j, thatRowEntriesI.get(j));
+					}
+					
+				}
 			}
+
+//			for (int j : thatRowEntriesI.keys()) {
+//				if (thisRowEntriesI.containsKey(j)) {
+//					thisRowEntriesI.get(j).add(thatRowEntriesI.get(j));
+//				} else {
+//					thisRowEntriesI.put(j, thatRowEntriesI.get(j));
+//				}
+//			}
 		}
-	}
 	
     }
 

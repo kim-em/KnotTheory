@@ -2,12 +2,13 @@ package org.katlas.JavaKh.rows;
 
 import java.util.Iterator;
 
-import net.tqft.iterables.AbstractIterator;
-
 public class LinkedListRow<F> implements MatrixRow<F> {
 
-	Entry initial;
+	private Entry firstEntry;
 
+	private transient Entry lastEntry;
+	private transient Entry cachedEntry;
+	
 	class Entry {
 		int index;
 		F value;
@@ -24,7 +25,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 	}
 
 	public boolean containsKey(int key) {
-		Entry entry = initial;
+		Entry entry = firstEntry;
 		while (entry != null && entry.index <= key) {
 			if (entry.index == key) {
 				return true;
@@ -35,7 +36,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 	}
 
 	public void decrementIndexesAbove(int j) {
-		Entry entry = initial;
+		Entry entry = firstEntry;
 		while (entry != null) {
 			if (entry.index > j) {
 				entry.index--;
@@ -45,9 +46,14 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 	}
 
 	public F get(int key) {
-		Entry entry = initial;
+		if(cachedEntry != null && cachedEntry.index == key) {
+			return cachedEntry.value;
+		}
+			
+		Entry entry = firstEntry;
 		while (entry != null && entry.index <= key) {
 			if (entry.index == key) {
+				cachedEntry = entry;
 				return entry.value;
 			}
 			entry = entry.next;
@@ -61,7 +67,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 			public Iterator<Integer> iterator() {
 				return new Iterator<Integer>() {
 
-					Entry nextEntry = initial;
+					Entry nextEntry = firstEntry;
 
 					public boolean hasNext() {
 						return nextEntry != null;
@@ -69,6 +75,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 
 					public Integer next() {
 						int result = nextEntry.index;
+						cachedEntry = nextEntry;
 						nextEntry = nextEntry.next;
 						return result;
 					}
@@ -84,15 +91,31 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 	}
 	
 	public void put(int key, F f) {
-		Entry entry = initial;
+		if(cachedEntry != null) {
+			if(cachedEntry.index == key) {
+				cachedEntry.value = f;
+				return;
+			} else {
+				cachedEntry = null;
+			}
+		}
+		
+		if(lastEntry != null && key > lastEntry.index) {
+			lastEntry.next = new Entry(key, f);
+			lastEntry = lastEntry.next;
+			return;
+		}
+		
+		Entry entry = firstEntry;
 		if (entry == null) {
-			initial = new Entry(key, f);
+			firstEntry = new Entry(key, f);
+			lastEntry = firstEntry;
 			return;
 		}
 		if(entry.index > key) {
 			Entry newEntry = new Entry(key, f);
 			newEntry.next = entry;
-			initial = newEntry;
+			firstEntry = newEntry;
 			return;
 		}
 		if(entry.index == key) {
@@ -105,27 +128,36 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 		if (entry.next == null) {
 			if(entry.index == key) {
 				entry.value = f;
+				lastEntry = entry;
+				return;
 			} else {
 				entry.next = new Entry(key, f);
+				lastEntry = entry.next;
+				return;
 			}
 		} else {
 			if (entry.next.index == key) {
 				entry.next.value = f;
+				return;
 			} else {
 				Entry newEntry = new Entry(key, f);
 				newEntry.next = entry.next;
 				entry.next = newEntry;
+				return;
 			}
 		}
 	}
 
 	public void remove(int j) {
-		Entry entry = initial;
+		cachedEntry = null;
+		if(lastEntry != null && lastEntry.index == j) lastEntry = null;
+		
+		Entry entry = firstEntry;
 		if (entry == null) {
 			return;
 		}
 		if (entry.index == j) {
-			initial = entry.next;
+			firstEntry = entry.next;
 		} else {
 			while (entry.next != null && entry.next.index < j) {
 				entry = entry.next;
@@ -137,7 +169,9 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 	}
 
 	public void clear() {
-		initial = null;
+		firstEntry = null;
+		cachedEntry = null;
+		lastEntry = null;
 	}
 
 }
