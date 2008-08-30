@@ -1,10 +1,15 @@
 package org.katlas.JavaKh;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.rows.LinkedListRow;
 import org.katlas.JavaKh.rows.MatrixRow;
@@ -17,13 +22,11 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 6928267083411895640L;
+	
+	private static final Log log = LogFactory.getLog(CobMatrix.class);
+	
 	SmoothingColumn source, target;
-//    LCCC values[][];
-//    int indices[][];
-//    int rowsizes[];
-
-//    final List<Map<Integer, LCCC>> entries;
-    final ArrayList<MatrixRow<LCCC<R>>> entries;
+ArrayList<MatrixRow<LCCC<R>>> entries;
     
     public CobMatrix(SmoothingColumn s, SmoothingColumn t) {
 		source = new SmoothingColumn(s);
@@ -307,7 +310,53 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
 	}
     }
         
-    
+	private void writeObject(ObjectOutputStream s) throws IOException {
+		s.defaultWriteObject();
+		s.writeInt(1); // serialization version
+		s.writeInt(target.n); // number of rows
+		s.writeInt(source.n); // number of columns
+		s.writeObject(source);
+		s.writeObject(target);
+		for(int i = 0; i < entries.size(); ++i) {
+			for(int j : entries.get(i).keys()) {
+				s.writeInt(i);
+				s.writeInt(j);
+				s.writeObject(entries.get(i).get(j));
+			}
+		}
+		s.writeInt(-1);
+		s.writeInt(-1);
+		s.writeObject(null);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void readObject(ObjectInputStream s) throws IOException,
+			ClassNotFoundException {
+		s.defaultReadObject();
+    	int serializationVersion = s.readInt();
+    	if(serializationVersion < 1 || serializationVersion > 1) {
+    		log.warn("Serialization version looks wrong...");
+    	}
+    	int rows = s.readInt();
+    	@SuppressWarnings("unused")
+		int columns = s.readInt();
+    	source = (SmoothingColumn)s.readObject();
+    	target = (SmoothingColumn)s.readObject();
+    	entries = new ArrayList<MatrixRow<LCCC<R>>>(rows);
+		for (int i = 0; i < rows; ++i) {
+			entries.add(newRow());
+		}
+    	while(true) {
+    		int i = s.readInt();
+    		int j = s.readInt();
+    		LCCC<R> lc = (LCCC<R>) s.readObject();
+    		if(i == -1 && j == -1) {
+    			break;
+    		} else {
+    			entries.get(i).put(j, lc);
+    		}
+    	}
+	}
 
 
 }
