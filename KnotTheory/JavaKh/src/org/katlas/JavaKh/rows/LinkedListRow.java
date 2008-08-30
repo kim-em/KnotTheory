@@ -100,10 +100,14 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 			}
 		}
 		
-		if(lastEntry != null && key > lastEntry.index) {
-			lastEntry.next = new Entry(key, f);
-			lastEntry = lastEntry.next;
-			return;
+		if(lastEntry != null) {
+			if(key > lastEntry.index) {
+				lastEntry.next = new Entry(key, f);
+				lastEntry = lastEntry.next;
+				return;
+			} else if (key == lastEntry.index) {
+				lastEntry.value = f;
+			}
 		}
 		
 		Entry entry = firstEntry;
