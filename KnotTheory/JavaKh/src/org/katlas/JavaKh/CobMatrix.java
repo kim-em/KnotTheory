@@ -10,14 +10,15 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.katlas.JavaKh.algebra.AbstractMatrix;
+import org.katlas.JavaKh.algebra.Matrix;
+import org.katlas.JavaKh.algebra.MatrixEntry;
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.rows.LinkedListRow;
 import org.katlas.JavaKh.rows.MatrixRow;
 
 
-// sparse matrix
-// based on http://www.ii.uib.no/~geirg/jaggedarrays.html
-public class CobMatrix<R extends Ring<R>> implements Serializable{
+public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>> implements Matrix<R, Obj, LCCC<R>>, Serializable{
     /**
 	 * 
 	 */
@@ -65,7 +66,7 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
     }
 
     // assumes matrix[i][j] is not contained in this sparse matrix
-	public void append(int i, int j, LCCC<R> lc) {
+	public void putEntry(int i, int j, LCCC<R> lc) {
 		assert check();
 		if (lc == null || lc.size() == 0) {
 			return;
@@ -74,6 +75,18 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
 		assert check();
 	}
 
+	public void addEntry(int row, int column, LCCC<R> t) {
+		if (t == null || t.size() == 0) {
+			return;
+		}
+		LCCC<R> entry = entries.get(row).get(column);
+		if(entry == null) {
+			entries.get(row).put(column, t);			
+		} else {
+			entries.get(row).put(column, entry.add(t));						
+		}
+	}
+	
     @SuppressWarnings("unchecked")
 	public LCCC<R>[] unpackRow(int i) {
 		LCCC<R> rowi[] = new LCCC[source.n];
@@ -108,8 +121,19 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
 	return true;
     }
 
-    public CobMatrix<R> multiply(CobMatrix<R> cm) { // this * cm
-	assert source.equals(cm.target);
+    
+    public CobMatrix<R> compose(Matrix<R, Obj, LCCC<R>> matrix) { // this * cm
+
+    	CobMatrix<R> cm;
+    	
+    	if(matrix instanceof CobMatrix) {
+			cm =((CobMatrix<R>) matrix);
+    	} else {
+			throw new UnsupportedOperationException();
+		}
+
+    	
+    	assert source.equals(cm.target);
 	/*if (!source.equals(cm.target))
 	  throw new IllegalArgumentException();*/
 	CobMatrix<R> ret = new CobMatrix<R>(cm.source, target);
@@ -136,7 +160,7 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
 	return ret;
     }
 
-    public void multiply(R n) { // modifies in place
+    public CobMatrix<R> multiply(R n) { // modifies in place
     	for(MatrixRow<LCCC<R>> rowEntries : entries) {
     		for(int i : rowEntries.keys()) {
     			LCCC<R> lc = rowEntries.get(i);
@@ -145,9 +169,19 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
     			}
     		}
     	}
+    	return this;
    	}
-
-    public void add(CobMatrix<R> that) { // edits in place
+    
+    public CobMatrix<R> add(Matrix<R, Obj, LCCC<R>> m) { // edits in place
+    	
+    	CobMatrix<R> that;
+    	
+    	if(m instanceof CobMatrix) {
+			that =((CobMatrix<R>) m);
+    	} else {
+			throw new UnsupportedOperationException();
+		}
+    	
 		assert source.equals(that.source) && target.equals(that.target);
 
 		for (int i = 0; i < entries.size(); ++i) {
@@ -214,6 +248,7 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
 //			}
 		}
 	
+		return this;
     }
 
     public void reduce() { // modifies this CobMatrix in place
@@ -356,6 +391,56 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
     			entries.get(i).put(j, lc);
     		}
     	}
+	}
+
+	public CobMatrix<R> extractColumn(int column) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public CobMatrix<R> extractRow(int row) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void insertAfterColumn(int column,
+			Matrix<R, Obj, LCCC<R>> extraColumns) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void insertAfterRow(int row, Matrix<R, Obj, LCCC<R>> extraRows) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Iterable<? extends MatrixEntry<LCCC<R>>> matrixColumnEntries(
+			int column) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Iterable<? extends MatrixEntry<LCCC<R>>> matrixRowEntries(int row) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int numberOfColumns() {
+		return source.n;
+	}
+
+	public int numberOfRows() {
+		return target.n;
+	}
+
+
+	public Iterator<MatrixEntry<LCCC<R>>> iterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public LCCC<R> getEntry(int row, int column) {
+		return entries.get(row).get(column);
 	}
 
 

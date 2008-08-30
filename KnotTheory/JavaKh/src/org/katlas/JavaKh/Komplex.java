@@ -15,6 +15,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -36,6 +37,9 @@ import org.katlas.JavaKh.utils.CachingList;
 import org.katlas.JavaKh.utils.DiskBackedList;
 import org.katlas.JavaKh.utils.LimitedSizeInputStream;
 import org.katlas.JavaKh.utils.SerializingList;
+
+import com.mallardsoft.tuple.Pair;
+import com.mallardsoft.tuple.Tuple;
 
 public class Komplex<R extends Ring<R>> implements Serializable {
 	/**
@@ -685,7 +689,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 							MatrixRow<LCCC<R>> rowEntries = nextMatrix.entries.get(k);
 							if(rowEntries.containsKey(i)) {
 								LCCC<R> nmv = rowEntries.get(i);
-								next.append(k, newn, nmv.compose(lc));
+								next.putEntry(k, newn, nmv.compose(lc));
 							}
 						}
 //						for (int k = 0; k < nextMatrix.values.length; k++) {
@@ -700,7 +704,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						for(int k = 0; k < nextMatrix.entries.size(); ++k) {
 							MatrixRow<LCCC<R>> rowEntries = nextMatrix.entries.get(k);
 							if(rowEntries.containsKey(i)) {
-								next.append(k, newn, rowEntries.get(i)); 
+								next.putEntry(k, newn, rowEntries.get(i)); 
 							}
 						}
 //						for (int k = 0; k < nextMatrix.values.length; k++) {
@@ -834,7 +838,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 							MatrixRow<LCCC<R>> rowEntries = nextMatrix.entries.get(k);
 							if(rowEntries.containsKey(i)) {
 								LCCC<R> nmv = rowEntries.get(i);
-								next.append(k, newn, nmv.compose(lc));
+								next.putEntry(k, newn, nmv.compose(lc));
 							}
 						}						
 //						for (int k = 0; k < nextMatrix.values.length; k++) {
@@ -850,7 +854,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						for(int k = 0; k < nextMatrix.entries.size(); ++k) {
 							MatrixRow<LCCC<R>> rowEntries = nextMatrix.entries.get(k);
 							if(rowEntries.containsKey(i)) {
-								next.append(k, newn, rowEntries.get(i));
+								next.putEntry(k, newn, rowEntries.get(i));
 							}
 						}						
 //						for (int k = 0; k < nextMatrix.values.length; k++) {
@@ -889,6 +893,9 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			largestMatrix = m.target.n;
 			log.info("Largest matrix: " + largestMatrix + " rows.");
 		}
+		
+		describeIsomorphisms(m);
+		
 		int count = 0;
 		do {
 			found = false;
@@ -939,6 +946,90 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		return ret;
 	}
 	
+private void describeIsomorphisms(CobMatrix<R> m) {
+		List<Pair<Integer, Integer>> locations = new ArrayList<Pair<Integer,Integer>>();
+		
+		for (int j = 0; j < m.entries.size(); j++) {
+			for(int k : m.entries.get(j).keys()) {
+				LCCC<R> lc = m.entries.get(j).get(k);
+				if (lc != null && lc.size() == 1) {
+					CannedCobordism cc = lc.coefficients.firstKey();
+					R n = lc.coefficients.get(cc);
+					if (!n.isInvertible()) {
+						continue;
+					}
+					if (!cc.isIsomorphism()) {
+						continue;
+					}
+					locations.add(Tuple.from(j, k));
+				}
+			}
+		}
+		StringBuilder sb = new StringBuilder();
+		for(Pair<Integer, Integer> location : locations) {
+			sb.append("(");
+			sb.append(Tuple.get1(location));
+			sb.append(",");
+			sb.append(Tuple.get2(location));
+			sb.append(") ");
+		}
+		log.info("Isomorphisms at: " + sb.toString());
+		
+		List<List<Pair<Integer, Integer>>> blocks = new ArrayList<List<Pair<Integer,Integer>>>();
+		while(! locations.isEmpty()) {
+			List<Pair<Integer, Integer>> block = new ArrayList<Pair<Integer,Integer>>();
+			blocks.add(block);
+			block.add(locations.remove(0));
+			for(Pair<Integer, Integer> newLocation : locations) {
+				boolean compatible = true;
+				for(Pair<Integer, Integer> oldLocation : block) {
+					if(!isomorphismsCompatible(m, newLocation, oldLocation)) {
+						compatible = false;
+						break;
+					}
+				}
+				if(compatible) {
+					block.add(newLocation);
+				}
+			}
+			locations.removeAll(block);
+		}
+		
+		Collections.sort(blocks, new Comparator<List<Pair<Integer, Integer>>>() {
+			public int compare(List<Pair<Integer, Integer>> arg0,
+					List<Pair<Integer, Integer>> arg1) {
+				int compare = arg1.size() - arg0.size();
+				if(compare != 0) return compare;
+				for(int i = 0; i < arg0.size(); ++i) {
+					compare = arg0.get(i).compareTo(arg1.get(i));
+					if(compare != 0) return compare;
+				}
+				return 0;
+			}
+		}
+		);
+		
+		sb = new StringBuilder();
+		for(List<Pair<Integer, Integer>> block : blocks) {
+			sb.append("[");
+			for(Pair<Integer, Integer> location : block) {
+				sb.append("(");
+				sb.append(Tuple.get1(location));
+				sb.append(",");
+				sb.append(Tuple.get2(location));
+				sb.append(") ");
+			}
+			sb.append("] ");
+		}
+		
+		log.info("Blocks: " + sb.toString());
+		
+	}
+
+private boolean isomorphismsCompatible(CobMatrix<R> m, Pair<Integer, Integer> location1, Pair<Integer, Integer> location2) {
+	return m.entries.get(Tuple.get1(location1)).get(Tuple.get2(location2)) == null &&
+	m.entries.get(Tuple.get1(location2)).get(Tuple.get2(location1)) == null;
+}
 //	public boolean reductionLemma2(int i) { // does one matrix
 //		// this assumes delooping has taken place
 //		boolean found, found2 = false, ret = false;
@@ -1117,8 +1208,8 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		phicc.genus = new byte[phicc.ncc];
 		LCCC<R> philc = new LCCC<R>(isoTarget, isoSource);
 		philc.add(phicc, n.inverse().multiply(-1));
-		phiinv.append(0, 0, philc);
-		CobMatrix<R> gpd = gamma.multiply(phiinv).multiply(delta);
+		phiinv.putEntry(0, 0, philc);
+		CobMatrix<R> gpd = gamma.compose(phiinv).compose(delta);
 		gpd.add(m);
 		setMatrix(i, gpd);
 		columns[i] = scD;
@@ -1587,7 +1678,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 											if (k % 2 == 0) {
 												lc.multiply((R)Rings.createInstance(-1));
 											}
-											newMatrix.append(startnum[j + 1][k]
+											newMatrix.putEntry(startnum[j + 1][k]
 													+ n * kom.columns[k].n + m,
 													startnum[j][k] + l
 															* kom.columns[k].n
@@ -1618,7 +1709,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 										lc = lc.compose(kstart, thiscc, start,
 												nc, true);
 										if (lc != null)
-											newMatrix.append(startnum[j][k + 1]
+											newMatrix.putEntry(startnum[j][k + 1]
 													+ l * kom.columns[k + 1].n
 													+ n, startnum[j][k] + l
 													* kom.columns[k].n + m, lc);
@@ -1903,7 +1994,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						}
 						lc.add(cc, num);
 
-						matrices.get(num1 - 1).append(whichRow[i], whichRow[k], lc);
+						matrices.get(num1 - 1).putEntry(whichRow[i], whichRow[k], lc);
 					}
 			}
 		}
@@ -1915,7 +2006,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 
 	public boolean check(boolean reduce) { // checks that d^2 = 0
 		for (int i = 1; i < matrices.size(); i++) {
-			CobMatrix<R> cm = getMatrix(i).multiply(getMatrix(i - 1));
+			CobMatrix<R> cm = getMatrix(i).compose(getMatrix(i - 1));
 			if (!cm.isZero()) {
 				if (reduce) {
 					cm.reduce();

@@ -32,7 +32,7 @@ public class AlternativeCobMatrix<R extends Ring<R>> extends SparseMatrix<R, Obj
 	public CobMatrix<R> asCobMatrix() {
 		CobMatrix<R> result = new CobMatrix<R>(source, target);
 		for(MatrixEntry<LCCC<R>> entry : this) {
-			result.append(entry.getRow(), entry.getColumn(), entry.getValue());
+			result.putEntry(entry.getRow(), entry.getColumn(), entry.getValue());
 		}
 		return result;
 	}

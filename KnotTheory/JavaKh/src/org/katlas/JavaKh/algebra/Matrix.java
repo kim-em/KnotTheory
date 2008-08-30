@@ -9,18 +9,21 @@ public interface Matrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, Ob
 	public int numberOfRows();
 	public int numberOfColumns();
 	
-	public Matrix<R, Obj, Mor> deleteRow(int row);
-	public Matrix<R, Obj, Mor> deleteColumn(int column);
+	public Mor getEntry(int row, int column);
+	public void putEntry(int row, int column, Mor t);
+	public void addEntry(int row, int column, Mor t);
+	
+	public Matrix<R, Obj, Mor> extractRow(int row);
+	public Matrix<R, Obj, Mor> extractColumn(int column);
+
+	public Matrix<R, Obj, Mor> extractRows(Iterable<Integer> rows);
+	public Matrix<R, Obj, Mor> extractColumns(Iterable<Integer> columns);
 	
 	public void insertAfterRow(int row, Matrix<R, Obj, Mor> extraRows);
 	public void insertAfterColumn(int column, Matrix<R, Obj, Mor> extraColumns);
 	
 	public Matrix<R, Obj, Mor> compose(Matrix<R, Obj, Mor> matrix);
 	
-	public void putEntry(int row, int column, Mor t);
-	public void addEntry(int row, int column, Mor t);
-	
-//	public Iterable<? extends MatrixEntry<Mor>> matrixEntries();
 	public Iterable<? extends MatrixEntry<Mor>> matrixRowEntries(int row);
 	public Iterable<? extends MatrixEntry<Mor>> matrixColumnEntries(int column);
 	

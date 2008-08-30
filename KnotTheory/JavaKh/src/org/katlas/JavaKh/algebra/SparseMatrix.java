@@ -10,8 +10,8 @@ import java.util.TreeMap;
 import net.tqft.iterables.AbstractIterator;
 import net.tqft.iterables.ForgetfulIteratorBundle;
 
-public class SparseMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, Obj, Mor>> implements
-		Matrix<R, Obj, Mor> {
+public class SparseMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, Obj, Mor>> extends
+		AbstractMatrix<R, Obj, Mor> implements Matrix<R, Obj, Mor> {
 
 	List<Label> rows, columns;
 	Map<Label, SparseMatrixEntry<Mor>> initialRowEntries, initialColumnEntries;
@@ -97,7 +97,7 @@ public class SparseMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, 
 		return result;
 	}
 
-	public Matrix<R, Obj, Mor> deleteColumn(int columnIndex) {
+	public Matrix<R, Obj, Mor> extractColumn(int columnIndex) {
 		if(columnIndex < 0 || columnIndex >= columns.size()) {
 			throw new ArrayIndexOutOfBoundsException();
 		}
@@ -133,7 +133,7 @@ public class SparseMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, 
 		return result;
 	}
 
-	public Matrix<R, Obj, Mor> deleteRow(int rowIndex) {
+	public Matrix<R, Obj, Mor> extractRow(int rowIndex) {
 		if(rowIndex < 0 || rowIndex >= rows.size()) {
 			throw new ArrayIndexOutOfBoundsException();
 		}
@@ -460,6 +460,12 @@ public class SparseMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, 
 		public int compareTo(Label l) {
 			return index - l.index;
 		}
+	}
+
+
+	public Mor getEntry(int row, int column) {
+		// TODO
+		throw new UnsupportedOperationException();
 	}
 
 
