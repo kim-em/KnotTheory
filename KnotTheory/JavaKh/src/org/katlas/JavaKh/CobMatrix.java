@@ -8,8 +8,6 @@ import java.util.Set;
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.rows.LinkedListRow;
 import org.katlas.JavaKh.rows.MatrixRow;
-import org.katlas.JavaKh.rows.RedBlackIntegerMap;
-import org.katlas.JavaKh.rows.TroveEntryMap;
 
 
 // sparse matrix
@@ -56,10 +54,11 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
     }
     
     private MatrixRow<LCCC<R>> newRow() {
-    	return new TroveEntryMap<LCCC<R>>();
+//    	return new TroveEntryMap<LCCC<R>>();
+//    	return new ArrayListRow<LCCC<R>>();
 //    	return new TreeEntryMap<LCCC<R>>();
 //    	return new RedBlackIntegerMap<LCCC<R>>();
-//    	return new LinkedListRow<LCCC<R>>();
+    	return new LinkedListRow<LCCC<R>>();
     }
 
     // assumes matrix[i][j] is not contained in this sparse matrix

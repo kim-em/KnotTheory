@@ -91,15 +91,6 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 	}
 	
 	public void put(int key, F f) {
-		if(cachedEntry != null) {
-			if(cachedEntry.index == key) {
-				cachedEntry.value = f;
-				return;
-			} else {
-				cachedEntry = null;
-			}
-		}
-		
 		if(lastEntry != null) {
 			if(key > lastEntry.index) {
 				lastEntry.next = new Entry(key, f);
@@ -107,10 +98,27 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 				return;
 			} else if (key == lastEntry.index) {
 				lastEntry.value = f;
+				return;
 			}
 		}
 		
-		Entry entry = firstEntry;
+		Entry entry;
+		
+		if(cachedEntry != null) {
+			if(cachedEntry.index == key) {
+				cachedEntry.value = f;
+				return;
+			} else if(cachedEntry.index < key) {
+				entry = cachedEntry;
+				cachedEntry = null;
+			} else {
+				entry = firstEntry;
+				cachedEntry = null;
+			}
+		} else {
+			entry = firstEntry;
+		}
+		
 		if (entry == null) {
 			firstEntry = new Entry(key, f);
 			lastEntry = firstEntry;
