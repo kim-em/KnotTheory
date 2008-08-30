@@ -132,6 +132,8 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 			throw new UnsupportedOperationException();
 		}
 
+    	assert check();
+    	assert cm.check();
     	
     	assert source.equals(cm.target);
 	/*if (!source.equals(cm.target))
@@ -181,6 +183,9 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
     	} else {
 			throw new UnsupportedOperationException();
 		}
+    	
+    	assert check();
+    	assert that.check();
     	
 		assert source.equals(that.source) && target.equals(that.target);
 
@@ -394,24 +399,52 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 	}
 
 	public CobMatrix<R> extractColumn(int column) {
-		// TODO Auto-generated method stub
-		return null;
+		SmoothingColumn sc = new SmoothingColumn(1);
+		sc.smoothings.set(0, source.smoothings.get(column));
+		sc.numbers.set(0, source.numbers.get(column));
+		
+		source.numbers.remove(column);
+		source.smoothings.remove(column);
+		source.n--;
+		
+		CobMatrix<R> result = new CobMatrix<R>(sc, target);
+		
+		for (int a = 0; a < entries.size(); a++) {
+			MatrixRow<LCCC<R>> row = entries.get(a);
+			if(row.containsKey(column)) {
+				result.entries.get(a).put(0, row.get(column));
+				row.remove(column);
+			}
+			row.decrementIndexesAbove(column);
+		}
+		
+		return result;
 	}
 
 	public CobMatrix<R> extractRow(int row) {
-		// TODO Auto-generated method stub
-		return null;
+		SmoothingColumn sc = new SmoothingColumn(1);
+		sc.smoothings.set(0, target.smoothings.get(row));
+		sc.numbers.set(0, target.numbers.get(row));
+		
+		target.numbers.remove(row);
+		target.smoothings.remove(row);
+		target.n--;
+		
+		CobMatrix<R> result = new CobMatrix<R>(source, sc);
+		result.entries.set(0, entries.remove(row));
+		
+		return result;
 	}
 
 	public void insertAfterColumn(int column,
 			Matrix<R, Obj, LCCC<R>> extraColumns) {
-		// TODO Auto-generated method stub
-		
+		// TODO
+		throw new UnsupportedOperationException();
 	}
 
 	public void insertAfterRow(int row, Matrix<R, Obj, LCCC<R>> extraRows) {
-		// TODO Auto-generated method stub
-		
+		// TODO
+		throw new UnsupportedOperationException();
 	}
 
 	public Iterable<? extends MatrixEntry<LCCC<R>>> matrixColumnEntries(
