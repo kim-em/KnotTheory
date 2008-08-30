@@ -52,8 +52,9 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 	static final int MAXDEPTH = 3;
 
 	private static int mostReductions = 0;
-
 	private static int largestMatrix = 0;
+	private static int largestIsomorphismBlock = 0;
+	
 	int ncolumns, nfixed;
 	final SmoothingColumn columns[];
 	final boolean inMemory;
@@ -971,14 +972,14 @@ private void describeIsomorphisms(CobMatrix<R> m) {
 			}
 		}
 		StringBuilder sb = new StringBuilder();
-		for(Pair<Integer, Integer> location : locations) {
-			sb.append("(");
-			sb.append(Tuple.get1(location));
-			sb.append(",");
-			sb.append(Tuple.get2(location));
-			sb.append(") ");
-		}
-		log.info("Isomorphisms at: " + sb.toString());
+//		for(Pair<Integer, Integer> location : locations) {
+//			sb.append("(");
+//			sb.append(Tuple.get1(location));
+//			sb.append(",");
+//			sb.append(Tuple.get2(location));
+//			sb.append(") ");
+//		}
+//		log.info("Isomorphisms at: " + sb.toString());
 		
 		List<List<Pair<Integer, Integer>>> blocks = new ArrayList<List<Pair<Integer,Integer>>>();
 		while(! locations.isEmpty()) {
@@ -1014,20 +1015,27 @@ private void describeIsomorphisms(CobMatrix<R> m) {
 		}
 		);
 		
-		sb = new StringBuilder();
-		for(List<Pair<Integer, Integer>> block : blocks) {
-			sb.append("[");
-			for(Pair<Integer, Integer> location : block) {
-				sb.append("(");
-				sb.append(Tuple.get1(location));
-				sb.append(",");
-				sb.append(Tuple.get2(location));
-				sb.append(") ");
-			}
-			sb.append("] ");
-		}
+//		sb = new StringBuilder();
+//		for(List<Pair<Integer, Integer>> block : blocks) {
+//			sb.append("[");
+//			for(Pair<Integer, Integer> location : block) {
+//				sb.append("(");
+//				sb.append(Tuple.get1(location));
+//				sb.append(",");
+//				sb.append(Tuple.get2(location));
+//				sb.append(") ");
+//			}
+//			sb.append("] ");
+//		}
+//		
+//		log.info("Blocks: " + sb.toString());
 		
-		log.info("Blocks: " + sb.toString());
+		if(blocks.size() > 0) {
+			if(blocks.get(0).size() > largestIsomorphismBlock) {
+				largestIsomorphismBlock = blocks.get(0).size();
+				log.info("New largest block of isomorphisms: " + largestIsomorphismBlock);
+			}
+		}
 		
 	}
 
