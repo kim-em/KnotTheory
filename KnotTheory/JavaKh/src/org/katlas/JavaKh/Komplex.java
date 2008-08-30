@@ -609,6 +609,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 	}
 
 	public void deLoop(int colnum) { // deloops one column
+	
 		if (JavaKh.using_h) {
 			deLoopWithH(colnum);
 			return;
@@ -618,10 +619,14 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			size += 1 << columns[colnum].smoothings.get(i).ncycles;
 		SmoothingColumn newsc = new SmoothingColumn(size);
 		CobMatrix<R> prev = null, next = null;
-		if (colnum != 0)
+		if (colnum != 0) {
 			prev = new CobMatrix<R>(columns[colnum - 1], newsc, true /* don't make a defensive copy of newsc yet */);
-		if (colnum != ncolumns - 1)
+			assert prev.check();
+		}
+		if (colnum != ncolumns - 1) {
 			next = new CobMatrix<R>(newsc, columns[colnum + 1], true /* don't make a defensive copy of newsc yet */);
+			assert next.check();
+		}
 		int newn = 0;
 		for (int i = 0; i < columns[colnum].n; i++) {
 			Cap oldsm = columns[colnum].smoothings.get(i);
@@ -1098,106 +1103,19 @@ private boolean isomorphismsCompatible(CobMatrix<R> m, Pair<Integer, Integer> lo
 	
 		assert columns[i].nonNull();
 		assert columns[i + 1].nonNull();
-		
+
 		Cap isoSource = columns[i].smoothings.get(k);
 		Cap isoTarget = columns[i + 1].smoothings.get(j);
-		int isoSourceGrading = columns[i].numbers.get(k);
-		int isoTargetGrading = columns[i + 1].numbers.get(j);
-		 
-		SmoothingColumn scb1 = new SmoothingColumn(1);
-		scb1.smoothings.set(0, isoSource);
-		scb1.numbers.set(0, isoSourceGrading);
-		
-		SmoothingColumn scD = new SmoothingColumn(columns[i].n - 1);
-		
-		scD.smoothings.clear();
-		scD.smoothings.addAll(columns[i].smoothings.subList(0, k));
-		scD.smoothings.addAll(columns[i].smoothings.subList(k + 1, columns[i].n));
-		scD.numbers.clear();
-		scD.numbers.addAll(columns[i].numbers.subList(0, k));
-		scD.numbers.addAll(columns[i].numbers.subList(k + 1, columns[i].n));
-		
-//		System.arraycopy(columns[i].smoothings, 0, scD.smoothings, 0, k);
-//		System.arraycopy(columns[i].smoothings, k + 1, scD.smoothings, k, scD.n
-//				- k);
-//		System.arraycopy(columns[i].numbers, 0, scD.numbers, 0, k);
-//		System.arraycopy(columns[i].numbers, k + 1, scD.numbers, k, scD.n - k);
-	
-		SmoothingColumn scb2 = new SmoothingColumn(1);
-		scb2.smoothings.set(0, isoTarget);
-		scb2.numbers.set(0, isoTargetGrading);
-		
-		SmoothingColumn scE = new SmoothingColumn(columns[i + 1].n - 1);
-
-		scE.smoothings.clear();
-		scE.smoothings.addAll(columns[i + 1].smoothings.subList(0, j));
-		scE.smoothings.addAll(columns[i + 1].smoothings.subList(j + 1, columns[i + 1].n));
-		scE.numbers.clear();
-		scE.numbers.addAll(columns[i + 1].numbers.subList(0, j));
-		scE.numbers.addAll(columns[i + 1].numbers.subList(j + 1, columns[i + 1].n));
-		
-//		System.arraycopy(columns[i + 1].smoothings, 0, scE.smoothings, 0, j);
-//		System.arraycopy(columns[i + 1].smoothings, j + 1, scE.smoothings, j,
-//				scE.n - j);
-//		System.arraycopy(columns[i + 1].numbers, 0, scE.numbers, 0, j);
-//		System.arraycopy(columns[i + 1].numbers, j + 1, scE.numbers, j, scE.n
-//				- j);
 
 		CobMatrix<R> m = getMatrix(i);
 
-		CobMatrix<R> delta = null, gamma = null;
-			delta = new CobMatrix<R>(scD, scb2);
-			
-			MatrixRow<LCCC<R>> mRowEntriesJ = m.entries.get(j);
-			m.entries.remove(j);
-			m.target.numbers.remove(j);
-			m.target.smoothings.remove(j);
-			m.target.n--;
-			
-			mRowEntriesJ.remove(k);
-			mRowEntriesJ.decrementIndexesAbove(k);
-			delta.entries.set(0, mRowEntriesJ);
-					
-//			CobMatrixRow<R> deltaRowEntries0 = delta.entries.get(0);
-//			for(int c : mRowEntriesJ.keys()) {
-//				if(c < k) {
-//					deltaRowEntries0.put(c, mRowEntriesJ.get(c));
-//				} else if(c > k) {
-//					deltaRowEntries0.put(c - 1, mRowEntriesJ.get(c));					
-//				}
-// 			}
-//			deltaRowEntries0.compact();
-			
-//			delta.values[0] = new LCCC[m.rowsizes[j]];
-//			delta.indices[0] = new int[m.rowsizes[j]];
-//			for (int a = 0; a < m.rowsizes[j]; a++) {
-//				int idx = m.indices[j][a];
-//				if (idx < k) {
-//					delta.values[0][delta.rowsizes[0]] = m.values[j][a];
-//					delta.indices[0][delta.rowsizes[0]++] = idx;
-//				} else if (idx > k) {
-//					delta.values[0][delta.rowsizes[0]] = m.values[j][a];
-//					delta.indices[0][delta.rowsizes[0]++] = idx - 1;
-//				}
-//			}
-			// fill this at the same time as epsilon
-		gamma = new CobMatrix<R>(scb1, scE);
-
-		m.source.numbers.remove(k);
-		m.source.smoothings.remove(k);
-		m.source.n--;
+		CobMatrix<R> delta = m.extractRow(j);
+		delta.extractColumn(k);
 		
-		for (int a = 0; a < m.entries.size(); a++) {
-			MatrixRow<LCCC<R>> row = m.entries.get(a);
-			if(row.containsKey(k)) {
-				gamma.entries.get(a).put(0, row.get(k));
-				row.remove(k);
-			}
-			row.decrementIndexesAbove(k);
-		}
-
+		CobMatrix<R> gamma = m.extractColumn(k);
 		
-		CobMatrix<R> phiinv = new CobMatrix<R>(scb2, scb1);
+		
+		CobMatrix<R> phiinv = new CobMatrix<R>(delta.target, gamma.source);
 		CannedCobordism phicc = new CannedCobordism(isoTarget, isoSource);
 		// assume delooping has been done
 		// make phicc an isomorphism
@@ -1209,31 +1127,25 @@ private boolean isomorphismsCompatible(CobMatrix<R> m, Pair<Integer, Integer> lo
 		LCCC<R> philc = new LCCC<R>(isoTarget, isoSource);
 		philc.add(phicc, n.inverse().multiply(-1));
 		phiinv.putEntry(0, 0, philc);
+		
 		CobMatrix<R> gpd = gamma.compose(phiinv).compose(delta);
 		gpd.add(m);
 		setMatrix(i, gpd);
-		columns[i] = scD;
-		columns[i + 1] = scE;
+		columns[i] = delta.source;
+		columns[i + 1] = gamma.target;
 
 		assert columns[i].nonNull();
 		assert columns[i + 1].nonNull();
 
 		if (i != 0) {
 			CobMatrix<R> previousMatrix = getMatrix(i - 1);
-
-			previousMatrix.target = columns[i];
-			previousMatrix.entries.remove(k);
+			previousMatrix.extractRow(k);
 			setMatrix(i - 1, previousMatrix);
 
 		}
 		if (i != ncolumns - 2) {
 			CobMatrix<R> nextMatrix = getMatrix(i + 1);
-
-			nextMatrix.source = columns[i + 1];
-			for(MatrixRow<LCCC<R>> row : nextMatrix.entries) {
-				row.remove(j);
-				row.decrementIndexesAbove(j);
-			}
+			nextMatrix.extractColumn(j);
 			setMatrix(i + 1, nextMatrix);
 		}
 	}

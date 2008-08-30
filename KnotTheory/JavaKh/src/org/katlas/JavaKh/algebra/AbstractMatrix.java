@@ -1,5 +1,8 @@
 package org.katlas.JavaKh.algebra;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class AbstractMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, Obj, Mor>> implements Matrix<R, Obj, Mor> {
 
 	public void addEntry(int row, int column, Mor t) {
@@ -13,24 +16,36 @@ public abstract class AbstractMatrix<R extends Ring<R>, Obj, Mor extends LinearM
 
 	public Matrix<R, Obj, Mor> extractColumns(Iterable<Integer> columns) {
 		Matrix<R, Obj, Mor> result = null;
+		List<Integer> columnsExtracted = new ArrayList<Integer>();
 		for(int column : columns) {
-			if(result == null) {
-				result = extractColumn(column);
-			} else {
-				result.insertAfterColumn(result.numberOfColumns(), extractColumn(column));
+			int effectiveColumn = column;
+			for(int extractedColumn : columnsExtracted) {
+				if(extractedColumn < column) --effectiveColumn;
 			}
+			if(result == null) {
+				result = extractColumn(effectiveColumn);
+			} else {
+				result.insertAfterColumn(result.numberOfColumns(), extractColumn(effectiveColumn));
+			}
+			columnsExtracted.add(column);
 		}
 		return result;
 	}
 
 	public Matrix<R, Obj, Mor> extractRows(Iterable<Integer> rows) {
 		Matrix<R, Obj, Mor> result = null;
+		List<Integer> rowsExtracted = new ArrayList<Integer>();
 		for(int row : rows) {
-			if(result == null) {
-				result = extractRow(row);
-			} else {
-				result.insertAfterRow(result.numberOfRows(), extractRow(row));
+			int effectiveRow = row;
+			for(int extractedRow : rowsExtracted) {
+				if(extractedRow < row) --effectiveRow;
 			}
+			if(result == null) {
+				result = extractRow(effectiveRow);
+			} else {
+				result.insertAfterRow(result.numberOfRows(), extractRow(effectiveRow));
+			}
+			rowsExtracted.add(row);
 		}
 		return result;
 	}
