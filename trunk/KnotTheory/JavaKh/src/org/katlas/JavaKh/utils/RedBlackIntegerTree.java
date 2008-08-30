@@ -142,13 +142,8 @@ class Node<V>
 //    }
 }
 
-public class RedBlackIntegerTree<V extends Serializable> implements Serializable
+public class RedBlackIntegerTree<V>
 {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2166427780360765127L;
 	
 	public Node<V> root;
 

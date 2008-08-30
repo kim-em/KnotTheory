@@ -25,8 +25,8 @@ public class CobMatrix<R extends Ring<R>> implements Serializable{
 	
 	private static final Log log = LogFactory.getLog(CobMatrix.class);
 	
-	SmoothingColumn source, target;
-ArrayList<MatrixRow<LCCC<R>>> entries;
+	transient SmoothingColumn source, target;
+	transient ArrayList<MatrixRow<LCCC<R>>> entries;
     
     public CobMatrix(SmoothingColumn s, SmoothingColumn t) {
 		source = new SmoothingColumn(s);
