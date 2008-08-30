@@ -59,20 +59,22 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 		return new Iterable<Integer>() {
 
 			public Iterator<Integer> iterator() {
-				return new AbstractIterator<Integer>() {
+				return new Iterator<Integer>() {
 
 					Entry nextEntry = initial;
 
-					@Override
 					public boolean hasNext() {
 						return nextEntry != null;
 					}
 
-					@Override
-					protected Integer returnNext() {
+					public Integer next() {
 						int result = nextEntry.index;
 						nextEntry = nextEntry.next;
 						return result;
+					}
+
+					public void remove() {
+						throw new UnsupportedOperationException();
 					}
 
 				};
