@@ -51,6 +51,7 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 
     public transient byte boundaryComponents[][]; // which boundary components are connected to each connected component
     public transient byte edges[][]; // which edges are part of each mixed boundary component
+	private transient int hashcode;
 
     static Cache<CannedCobordism> cobordismCache = new HashCodeCache<CannedCobordism>();
 
@@ -194,6 +195,8 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
     }
 
     public int hashCode() {
+    	if(hashcode != 0) return hashcode;
+    	
 	int r = n;
 //	for (int i = 0; i < n; i++) {
 //	    r += top.pairings[i] << (i % 16);
@@ -215,6 +218,8 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 //	    r += (i+1)*dots[i] << (i % 16);
 //	    r += (i+1)*genus[i] << ((i + 9) % 16);
 //	}
+	
+	hashcode = r;
 	return r;
     }
 
