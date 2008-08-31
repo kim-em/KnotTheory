@@ -219,6 +219,8 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
     }
 
     public int compareTo(CannedCobordism cc) {
+    if(this == cc) return 0;
+    	
 	if (nbc != cc.nbc)
 	    return nbc - cc.nbc;
 	for (int i = 0; i < nbc; i++)

@@ -25,9 +25,30 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 	}
 
 	public boolean containsKey(int key) {
-		Entry entry = firstEntry;
+		if(lastEntry != null) {
+			if(key > lastEntry.index) return false;
+			if(key == lastEntry.index) {
+				cachedEntry = lastEntry;
+				return true;
+			}
+		}
+		
+		Entry entry;
+		
+		if(cachedEntry != null) {
+			if(key == cachedEntry.index) return true;
+			else if(key > cachedEntry.index) {
+				entry = cachedEntry;
+			} else {
+				entry = firstEntry;
+			}
+		} else {
+			entry = firstEntry;
+		}
+		
 		while (entry != null && entry.index <= key) {
 			if (entry.index == key) {
+				cachedEntry = entry;
 				return true;
 			}
 			entry = entry.next;
@@ -50,6 +71,8 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 			return cachedEntry.value;
 		}
 			
+//		assert false; // hopefully we never pass this point!
+		
 		Entry entry = firstEntry;
 		while (entry != null && entry.index <= key) {
 			if (entry.index == key) {
