@@ -14,7 +14,7 @@ public abstract class AbstractMatrix<R extends Ring<R>, Obj, Mor extends LinearM
 		}
 	}
 
-	public Matrix<R, Obj, Mor> extractColumns(Iterable<Integer> columns) {
+	public Matrix<R, Obj, Mor> extractColumns(List<Integer> columns) {
 		Matrix<R, Obj, Mor> result = null;
 		List<Integer> columnsExtracted = new ArrayList<Integer>();
 		for(int column : columns) {
@@ -32,7 +32,7 @@ public abstract class AbstractMatrix<R extends Ring<R>, Obj, Mor extends LinearM
 		return result;
 	}
 
-	public Matrix<R, Obj, Mor> extractRows(Iterable<Integer> rows) {
+	public Matrix<R, Obj, Mor> extractRows(List<Integer> rows) {
 		Matrix<R, Obj, Mor> result = null;
 		List<Integer> rowsExtracted = new ArrayList<Integer>();
 		for(int row : rows) {

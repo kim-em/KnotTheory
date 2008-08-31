@@ -122,24 +122,7 @@ class Node<V>
     		return right.leastDescendent();
     	}
     }
-    
-//    @SuppressWarnings("unchecked")
-//	public Iterable<Node<V>> descendents() {
-//    	Iterable<Node<V>> self = Iterables.singleton(this);
-//    	if(null != left) {
-//    		if(null != right) {
-//    			return Iterables.concatenate(left.descendents(), self, right.descendents());
-//    		} else {
-//    			return Iterables.concatenate(left.descendents(), self);
-//    		}
-//    	} else {
-//    		if(null != right) {
-//    			return Iterables.concatenate(self, right.descendents());
-//    		} else {
-//    			return self;
-//    		}	
-//    	}
-//    }
+   
 }
 
 public class RedBlackIntegerTree<V>

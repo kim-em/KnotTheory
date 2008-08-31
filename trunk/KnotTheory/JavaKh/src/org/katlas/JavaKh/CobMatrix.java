@@ -4,8 +4,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
@@ -151,7 +153,7 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 						if (result.containsKey(k)) {
 							result.get(k).add(lc);
 						} else {
-							result.put(k, lc);
+							result.put(k, lc);  // stopping to think, sadly we can't use putLast here.
 						}
 					}
 				}
@@ -201,7 +203,7 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 				if(!thisIterator.hasNext()) {
 					while(thatIterator.hasNext()) {
 						int j = thatIterator.next();
-						thisRowEntriesI.put(j, thatRowEntriesI.get(j));
+						thisRowEntriesI.putLast(j, thatRowEntriesI.get(j));
 					}
 				} else {
 					// both rows are non-empty!
@@ -212,7 +214,7 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 								thisKey = thisIterator.next();
 								continue;
 							} else {
-								thisRowEntriesI.put(thatKey, thatRowEntriesI.get(thatKey));								
+								thisRowEntriesI.putLast(thatKey, thatRowEntriesI.get(thatKey));								
 								break;
 							}
 						} else if(thisKey == thatKey) {
@@ -238,7 +240,7 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 
 					while (thatIterator.hasNext()) {
 						int j = thatIterator.next();
-						thisRowEntriesI.put(j, thatRowEntriesI.get(j));
+						thisRowEntriesI.putLast(j, thatRowEntriesI.get(j));
 					}
 					
 				}
@@ -256,7 +258,7 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 		return this;
     }
 
-    public void reduce() { // modifies this CobMatrix in place
+    public CobMatrix<R> reduce() { // modifies this CobMatrix in place
     	for(MatrixRow<LCCC<R>> rowEntries : entries) {
     		Set<Integer> entriesToRemove = new HashSet<Integer>();
     		for(int i : rowEntries.keys()) {
@@ -271,6 +273,7 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
     			rowEntries.remove(i);
     		}
     	}
+    	return this;
    	}
 
     public boolean isZero() {
@@ -393,7 +396,7 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
     		if(i == -1 && j == -1) {
     			break;
     		} else {
-    			entries.get(i).put(j, lc);
+    			entries.get(i).putLast(j, lc);
     		}
     	}
 	}
@@ -435,7 +438,102 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 		
 		return result;
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.katlas.JavaKh.algebra.AbstractMatrix#extractColumns(java.util.List)
+	 */
+	public CobMatrix<R> extractColumns(List<Integer> columns) {
+		List<Integer> reverseSortedColumns = new ArrayList<Integer>(columns);
+		Collections.sort(reverseSortedColumns);
+		Collections.reverse(reverseSortedColumns);
+		
+		List<Integer> reducedColumns = new ArrayList<Integer>(columns);
+		for(int i = 0; i < columns.size(); ++i) {
+			int reducedColumn = columns.get(i);
+			for(int j = 0; j < i; ++j) {
+				if(columns.get(j) < columns.get(i)) --reducedColumn;
+			}
+			reducedColumns.set(i, reducedColumn);
+		}
+		
+		SmoothingColumn sc = new SmoothingColumn(columns.size());
+		int i = 0;
+		for(int column : columns) {
+			sc.smoothings.set(i, source.smoothings.get(column));
+			sc.numbers.set(i, source.numbers.get(column));
+			++i;
+		}
+		
+		for(int column : reverseSortedColumns) {
+			source.numbers.remove(column);
+			source.smoothings.remove(column);
+		}
+		
+		source.n -= columns.size();
+		
+		CobMatrix<R> result = new CobMatrix<R>(sc, target);
+		for (int j = 0; j < entries.size(); j++) {
+			MatrixRow<LCCC<R>> row = entries.get(j);
+			i = 0;	
+			for (int reducedColumn : reducedColumns) {
+				if (row.containsKey(reducedColumn)) {
+					result.entries.get(j).put(i, row.get(reducedColumn));
+					row.remove(reducedColumn);
+				}
+				row.decrementIndexesAbove(reducedColumn);
+				++i;
+			}
+		}
 
+		assert result.check();
+		assert check();
+		
+		return result;
+	}
+
+	public CobMatrix<R> extractRows(List<Integer> rows) {
+		List<Integer> reverseSortedRows = new ArrayList<Integer>(rows);
+		Collections.sort(reverseSortedRows);
+		Collections.reverse(reverseSortedRows);
+		
+		List<Integer> reducedRows = new ArrayList<Integer>(rows);
+		for(int i = 0; i < rows.size(); ++i) {
+			int reducedRow = rows.get(i);
+			for(int j = 0; j < i; ++j) {
+				if(rows.get(j) < rows.get(i)) --reducedRow;
+			}
+			reducedRows.set(i, reducedRow);
+		}
+		
+		SmoothingColumn sc = new SmoothingColumn(rows.size());
+		int i = 0;
+		for(int row : rows) {
+			sc.smoothings.set(i, target.smoothings.get(row));
+			sc.numbers.set(i, target.numbers.get(row));
+			++i;
+		}
+		
+		for(int row : reverseSortedRows) {
+			target.numbers.remove(row);
+			target.smoothings.remove(row);
+		}
+		
+		target.n -= rows.size();
+		
+		CobMatrix<R> result = new CobMatrix<R>(source, sc);
+		i = 0;
+		for(int reducedRow : reducedRows) {
+			result.entries.set(i, entries.remove(reducedRow));
+			++i;
+		}
+
+		assert result.check();
+		assert check();
+		
+		return result;
+	}
+
+	
 	public void insertAfterColumn(int column,
 			Matrix<R, Obj, LCCC<R>> extraColumns) {
 		// TODO
