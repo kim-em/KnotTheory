@@ -1,8 +1,7 @@
 package org.katlas.JavaKh.utils;
 
-import gnu.trove.TIntObjectHashMap;
-
-import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,7 +10,10 @@ public class HashCodeCache<E> implements Cache<E> {
 
 	private static final Log log = LogFactory.getLog(HashCodeCache.class);
 	
-	private final TIntObjectHashMap<WeakReference<E>> hashmap = new TIntObjectHashMap<WeakReference<E>>();
+//	private final TIntObjectHashMap<WeakReference<E>> hashmap = new TIntObjectHashMap<WeakReference<E>>();
+//	private final TIntObjectHashMap<E> hashmap = new TIntObjectHashMap<E>();
+//	private final RedBlackIntegerTree<E> hashmap = new RedBlackIntegerTree<E>();
+	private final Map<Integer, E> hashmap = new HashMap<Integer, E>();
 	private transient long hits = 0;
 	private transient long checks = 0;
 	
@@ -19,9 +21,8 @@ public class HashCodeCache<E> implements Cache<E> {
 		++checks;
 		int hash = e.hashCode();
 		if(hashmap.containsKey(hash)) {
-			E result = hashmap.get(hash).get();
+			E result = hashmap.get(hash);
 			if(result != null) {
-//				log.info("Returning object from HashCodeCache. (requested hash: " + hash + ", returned hash: " + result.hashCode() + ", objects " + (e.equals(result) ? "" : "not ") + "equal, objects " + (e == result ? "" : "not ") + "==");
 				if(hash != result.hashCode()) {
 					log.info("Hashcode has mysteriously changed.");
 				} else if(!e.equals(result)) {
@@ -35,10 +36,7 @@ public class HashCodeCache<E> implements Cache<E> {
 				hashmap.remove(hash);
 			}
 		}
-//		if(e instanceof Cap) {
-//			log.info("Caching cap: " + Arrays.toString(((Cap)e).pairings) + " " + ((Cap)e).ncycles);
-//		}
-		hashmap.put(hash, new WeakReference<E>(e));
+		hashmap.put(hash, e);
 		return e;
 	}
 	

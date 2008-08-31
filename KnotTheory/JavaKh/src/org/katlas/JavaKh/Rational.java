@@ -54,4 +54,11 @@ public class Rational implements Ring<Rational>, Serializable {
 	Rational r = (Rational) o;
 	return n.multiply(r.d).equals(r.n.multiply(d));
     }
+
+	@Override
+	public String toString() {
+		return n.toString() + "/" + d.toString();
+	}
+    
+    
 }

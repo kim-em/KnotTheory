@@ -128,9 +128,11 @@ class Node<V>
 public class RedBlackIntegerTree<V>
 {
 	
+	private int size;
 	public Node<V> root;
 
     public RedBlackIntegerTree() {
+    	size = 0;
         root = null;
     }
 
@@ -140,6 +142,7 @@ public class RedBlackIntegerTree<V>
     }
 
     public void clear() {
+    	size = 0;
     	root = null;
     }
     
@@ -279,6 +282,7 @@ public class RedBlackIntegerTree<V>
             }
             insertedNode.parent = n;
         }
+        ++size;
         insertCase1(insertedNode);
     }
 
@@ -331,8 +335,11 @@ public class RedBlackIntegerTree<V>
 
     public void remove(int key) {
         Node<V> n = getNode(key);
-        if (n == null)
+        if (n == null) {
             return;  // Key not found, do nothing
+        } else {
+        	--size;
+        }
         if (n.left != null && n.right != null) {
             // Copy key/value from predecessor and then delete it instead
             Node<V> pred = n.left.greatestDescendent();
@@ -433,6 +440,11 @@ public class RedBlackIntegerTree<V>
             rotateRight(n.parent);
         }
     }
+
+
+	public int size() {
+		return size;
+	}
 
 }
 

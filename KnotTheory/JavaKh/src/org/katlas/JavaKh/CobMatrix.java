@@ -208,21 +208,24 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 				} else {
 					// both rows are non-empty!
 					int thisKey = thisIterator.next(), thatKey = thatIterator.next();
+					LCCC<R> thisRowEntry = thisRowEntriesI.get(thisKey);
 					while(true) {
 						if(thisKey < thatKey) {
 							if(thisIterator.hasNext()) {
 								thisKey = thisIterator.next();
+								thisRowEntry = thisRowEntriesI.get(thisKey);
 								continue;
 							} else {
 								thisRowEntriesI.putLast(thatKey, thatRowEntriesI.get(thatKey));								
 								break;
 							}
 						} else if(thisKey == thatKey) {
-							thisRowEntriesI.get(thisKey).add(thatRowEntriesI.get(thatKey));	
+							thisRowEntry.add(thatRowEntriesI.get(thatKey));	
 							if(!thisIterator.hasNext() || !thatIterator.hasNext()) {
 								break;
 							} else {
 								thisKey = thisIterator.next();
+								thisRowEntry = thisRowEntriesI.get(thisKey);
 								thatKey = thatIterator.next();
 								continue;
 							}
