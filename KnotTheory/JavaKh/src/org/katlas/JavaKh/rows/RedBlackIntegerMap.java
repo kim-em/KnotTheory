@@ -15,4 +15,8 @@ public class RedBlackIntegerMap<F> extends RedBlackIntegerTree<F> implements Mat
 	
 	}
 
+	public void putLast(int key, F f) {
+		put(key, f);
+	}
+
 }

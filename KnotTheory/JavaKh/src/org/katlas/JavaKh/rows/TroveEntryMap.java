@@ -78,4 +78,8 @@ public class TroveEntryMap<F> implements MatrixRow<F>, Serializable {
 		map.clear();
 	}
 
+	public void putLast(int key, F f) {
+		put(key, f);
+	}
+
 }

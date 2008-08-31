@@ -1,6 +1,5 @@
 package org.katlas.JavaKh.rows;
 
-import java.io.Serializable;
 import java.util.Iterator;
 
 public class LinkedListRow<F> implements MatrixRow<F> {
@@ -135,6 +134,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 			entry.value = f;
 			return;
 		}
+		
 		while (entry.next != null && entry.next.index < key) {
 			entry = entry.next;
 		}
@@ -160,23 +160,60 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 			}
 		}
 	}
+	
+	public void putLast(int key, F f) {
+		if(lastEntry != null) {
+			if(key > lastEntry.index) {
+				lastEntry.next = new Entry(key, f);
+				lastEntry = lastEntry.next;
+				return;
+			} else if (key == lastEntry.index) {
+				lastEntry.value = f;
+				return;
+			} else {
+				assert false;
+				return;
+			}
+		} else {
+			assert firstEntry == null;
+			firstEntry = new Entry(key, f);
+			lastEntry = firstEntry;
+			return;
+		}
+	}
 
 	public void remove(int j) {
 		cachedEntry = null;
-		if(lastEntry != null && lastEntry.index == j) lastEntry = null;
+		if(lastEntry != null) {
+			if(lastEntry.index < j) return;
+			if(lastEntry.index == j) lastEntry = null;
+		}
 		
-		Entry entry = firstEntry;
+		Entry entry;
+		if(cachedEntry != null) {
+			if(cachedEntry.index < j) { // can only do strictly less than here.
+				entry = cachedEntry;
+			} else {
+				entry = firstEntry;
+			}
+		} else {
+			entry = firstEntry;
+		}
+		
 		if (entry == null) {
 			return;
 		}
 		if (entry.index == j) {
 			firstEntry = entry.next;
+			cachedEntry = entry.next;
+			return;
 		} else {
 			while (entry.next != null && entry.next.index < j) {
 				entry = entry.next;
 			}
 			if (entry.next != null && entry.next.index == j) {
 				entry.next = entry.next.next;
+				cachedEntry = entry;
 			}
 		}
 	}

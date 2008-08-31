@@ -39,6 +39,7 @@ import org.katlas.JavaKh.utils.LimitedSizeInputStream;
 import org.katlas.JavaKh.utils.SerializingList;
 
 import com.mallardsoft.tuple.Pair;
+import com.mallardsoft.tuple.Triple;
 import com.mallardsoft.tuple.Tuple;
 
 public class Komplex<R extends Ring<R>> implements Serializable {
@@ -227,9 +228,6 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		for (int i = 0; i < ncolumns; i++) {
 			if (columns[i].n == 0)
 				continue;
-//			int nums[] = new int[columns[i].n];
-//			System.arraycopy(columns[i].numbers, 0, nums, 0, columns[i].n);
-//			Arrays.sort(nums);
 			List<Integer> nums = new ArrayList<Integer>(columns[i].numbers);
 			Collections.sort(nums);
 			for (int j = 0; j < nums.size();) {
@@ -474,14 +472,6 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 					rowEntries.put(j, rowEntries.get(j).finalizeH());
 				}
 			}
-//			for (int j = 0; j < m.target.n; j++)
-//				for (int k = 0; k < m.rowsizes[j]; k++) {
-//					LCCC lc = m.values[j][k];
-//					if (lc != null && lc.size() != 0) {
-//						m.values[j][k] = lc.finalizeH();
-//						assert m.values[j][k] == null || m.values[j][k].size() < 2;
-//					}
-//				}
 			setMatrix(i, m);
 		}
 	}
@@ -512,7 +502,8 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 					setMatrix(i - 1, m);
 					invokeGC();
 					debug("applying reduction lemma " + (i + 1) + "/" + ncolumns);
-					reductionLemma(i - 1);
+					blockReductionLemma(i - 1);
+//					reductionLemma(i - 1);
 					invokeGC();
 				}
 			}
@@ -675,7 +666,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						MatrixRow<LCCC<R>> prevMatrixEntriesI = prevMatrix.entries.get(i);
 						MatrixRow<LCCC<R>> prevEntriesNewN = prev.entries.get(newn);
 						for(int k : prevMatrixEntriesI.keys()) {
-							prevEntriesNewN.put(k, lc.compose(prevMatrixEntriesI.get(k)));
+							prevEntriesNewN.putLast(k, lc.compose(prevMatrixEntriesI.get(k)));
 						}
 //						for (int k = 0; k < prev.rowsizes[newn]; k++) {
 //							prev.values[newn][k] = lc.compose(prevMatrix.values[i][k]);
@@ -823,7 +814,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						MatrixRow<LCCC<R>> prevMatrixEntriesI = prevMatrix.entries.get(i);
 						MatrixRow<LCCC<R>> prevEntriesNewN = prev.entries.get(newn);
 						for(int k : prevMatrixEntriesI.keys()) {
-							prevEntriesNewN.put(k, prevlc.compose(prevMatrixEntriesI.get(k)));
+							prevEntriesNewN.putLast(k, prevlc.compose(prevMatrixEntriesI.get(k)));
 						}
 //						for (int k = 0; k < prev.rowsizes[newn]; k++) {
 //							prev.values[newn][k] = prevlc
@@ -891,6 +882,16 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			reductionLemma(i);
 	}
 
+	class Isomorphism {
+		final int row, column;
+		final R coefficient;
+		Isomorphism(int row, int column, R coefficient) {
+			this.coefficient = coefficient;
+			this.column = column;
+			this.row = row;
+		}
+	}
+	
 	public boolean reductionLemma(int i) { // does one matrix
 		// this assumes delooping has taken place
 		boolean found, found2 = false, ret = false;
@@ -900,7 +901,13 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			log.info("Largest matrix: " + largestMatrix + " rows.");
 		}
 		
-		describeIsomorphisms(m);
+		List<Isomorphism> block = findBlock(m, findIsomorphisms(m));
+
+		if (block.size() > largestIsomorphismBlock) {
+			largestIsomorphismBlock = block.size();
+			log.info("New largest block of isomorphisms: "
+					+ largestIsomorphismBlock);
+		}
 		
 		int count = 0;
 		do {
@@ -952,11 +959,45 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		return ret;
 	}
 	
-private void describeIsomorphisms(CobMatrix<R> m) {
-		List<Pair<Integer, Integer>> locations = new ArrayList<Pair<Integer,Integer>>();
+	public void blockReductionLemma(int i) { // does one matrix
+		// this assumes delooping has taken place
+		boolean found, found2 = false, ret = false;
+		CobMatrix<R> m = getMatrix(i);
+		if(m.target.n > largestMatrix) {
+			largestMatrix = m.target.n;
+			log.info("Largest matrix: " + largestMatrix + " rows.");
+		}
 		
+		List<Isomorphism> block;
+		int count = 0;
+		
+		while(!(block = findBlock(m, findIsomorphisms(m))).isEmpty()) {
+			++count;
+			
+			if (block.size() > largestIsomorphismBlock) {
+				largestIsomorphismBlock = block.size();
+				log.info("New largest block of isomorphisms: "
+						+ largestIsomorphismBlock);
+			}
+			
+			blockReductionLemma(i, block);
+						
+			setMatrix(i, m = getMatrix(i).reduce());
+
+		}
+		
+		if(count > mostReductions) {
+			mostReductions = count;
+			log.info("Most reductions: " + mostReductions);
+		}
+
+	}
+	
+	private List<Isomorphism> findIsomorphisms(CobMatrix<R> m) {
+		List<Isomorphism> locations = new ArrayList<Isomorphism>();
+
 		for (int j = 0; j < m.entries.size(); j++) {
-			for(int k : m.entries.get(j).keys()) {
+			for (int k : m.entries.get(j).keys()) {
 				LCCC<R> lc = m.entries.get(j).get(k);
 				if (lc != null && lc.size() == 1) {
 					CannedCobordism cc = lc.coefficients.firstKey();
@@ -967,144 +1008,76 @@ private void describeIsomorphisms(CobMatrix<R> m) {
 					if (!cc.isIsomorphism()) {
 						continue;
 					}
-					locations.add(Tuple.from(j, k));
+					locations.add(new Isomorphism(j, k, n));
 				}
 			}
 		}
-		StringBuilder sb = new StringBuilder();
-//		for(Pair<Integer, Integer> location : locations) {
-//			sb.append("(");
-//			sb.append(Tuple.get1(location));
-//			sb.append(",");
-//			sb.append(Tuple.get2(location));
-//			sb.append(") ");
-//		}
-//		log.info("Isomorphisms at: " + sb.toString());
 		
-		List<List<Pair<Integer, Integer>>> blocks = new ArrayList<List<Pair<Integer,Integer>>>();
-		while(! locations.isEmpty()) {
-			List<Pair<Integer, Integer>> block = new ArrayList<Pair<Integer,Integer>>();
+		return locations;
+	}
+
+	private List<Isomorphism> findBlock(CobMatrix<R> m, List<Isomorphism> locations) {
+		List<Isomorphism> block = new ArrayList<Isomorphism>();
+		
+		if(locations.size() == 0) return block;
+		
+		for (Isomorphism newLocation : locations) {
+			boolean compatible = true;
+			for (Isomorphism oldLocation : block) {
+				if (!isomorphismsCompatible(m, newLocation, oldLocation)) {
+					compatible = false;
+					break;
+				}
+			}
+			if (compatible) {
+				block.add(newLocation);
+			}
+		}
+		return block;
+	}
+	
+	private List<List<Isomorphism>> assembleBlocks(CobMatrix<R> m, List<Isomorphism> locations) {
+		
+		List<List<Isomorphism>> blocks = new ArrayList<List<Isomorphism>>();
+		while (!locations.isEmpty()) {
+			List<Isomorphism> block = new ArrayList<Isomorphism>();
 			blocks.add(block);
 			block.add(locations.remove(0));
-			for(Pair<Integer, Integer> newLocation : locations) {
+			for (Isomorphism newLocation : locations) {
 				boolean compatible = true;
-				for(Pair<Integer, Integer> oldLocation : block) {
-					if(!isomorphismsCompatible(m, newLocation, oldLocation)) {
+				for (Isomorphism oldLocation : block) {
+					if (!isomorphismsCompatible(m, newLocation, oldLocation)) {
 						compatible = false;
 						break;
 					}
 				}
-				if(compatible) {
+				if (compatible) {
 					block.add(newLocation);
 				}
 			}
 			locations.removeAll(block);
 		}
-		
-		Collections.sort(blocks, new Comparator<List<Pair<Integer, Integer>>>() {
-			public int compare(List<Pair<Integer, Integer>> arg0,
-					List<Pair<Integer, Integer>> arg1) {
-				int compare = arg1.size() - arg0.size();
-				if(compare != 0) return compare;
-				for(int i = 0; i < arg0.size(); ++i) {
-					compare = arg0.get(i).compareTo(arg1.get(i));
-					if(compare != 0) return compare;
-				}
-				return 0;
-			}
-		}
-		);
-		
-//		sb = new StringBuilder();
-//		for(List<Pair<Integer, Integer>> block : blocks) {
-//			sb.append("[");
-//			for(Pair<Integer, Integer> location : block) {
-//				sb.append("(");
-//				sb.append(Tuple.get1(location));
-//				sb.append(",");
-//				sb.append(Tuple.get2(location));
-//				sb.append(") ");
-//			}
-//			sb.append("] ");
-//		}
-//		
-//		log.info("Blocks: " + sb.toString());
-		
-		if(blocks.size() > 0) {
-			if(blocks.get(0).size() > largestIsomorphismBlock) {
-				largestIsomorphismBlock = blocks.get(0).size();
-				log.info("New largest block of isomorphisms: " + largestIsomorphismBlock);
-			}
-		}
-		
+
+		Collections.sort(blocks,
+				new Comparator<List<Isomorphism>>() {
+					public int compare(List<Isomorphism> arg0,
+							List<Isomorphism> arg1) {
+						return arg1.size() - arg0.size();
+					}
+				});
+
+		return blocks;
+
 	}
 
-private boolean isomorphismsCompatible(CobMatrix<R> m, Pair<Integer, Integer> location1, Pair<Integer, Integer> location2) {
-	return m.entries.get(Tuple.get1(location1)).get(Tuple.get2(location2)) == null &&
-	m.entries.get(Tuple.get1(location2)).get(Tuple.get2(location1)) == null;
-}
-//	public boolean reductionLemma2(int i) { // does one matrix
-//		// this assumes delooping has taken place
-//		boolean found, found2 = false, ret = false;
-//		AlternativeCobMatrix<R> m = new AlternativeCobMatrix<R>(getMatrix(i));
-//		if(m.numberOfRows() > largestMatrix) {
-//			largestMatrix = m.numberOfRows();
-//			log.info("Largest matrix: " + largestMatrix + " rows.");
-//		}
-//		
-//		int count = 0;
-//		do {
-//			found = false;
-//			
-//			for(MatrixEntry<LCCC<R>> entry : m) {
-//				LCCC<R> lc = entry.getValue();
-//				if(lc != null && lc.size() == 1) {
-//					if (!m.source.smoothings.get(entry.getColumn()).equals(m.target.smoothings.get(entry.getRow()))) {
-//						continue;
-//					}
-//					CannedCobordism cc = lc.coefficients.firstKey();
-//					R n = lc.coefficients.get(cc);
-//					if (!n.isInvertible()) {
-//						continue;
-//					}
-//					if (!cc.isIsomorphism()) {
-//						continue;
-//					}
-//					found2 = found = true;
-//					++count;
-//					reductionLemma2(m, entry.getRow(), entry.getColumn(), n);
-//					break;
-//				}
-//			}
-//			
-//			if (found)
-//				ret = true;
-//			if (!found) {
-//				if (found2) {
-//					// System.out.println("Reduce Local:" + i);
-//					m.reduce();
-//					found = true;
-//					found2 = false;
-//				}
-//			}
-//		} while (found);
-//		
-//		if(count > mostReductions) {
-//			mostReductions = count;
-//			log.info("Most reductions: " + mostReductions);
-//		}
-//
-//		setMatrix(i, m.asCobMatrix());
-//		
-//		return ret;
-//	}
-//
-//	private void reductionLemma2(AlternativeCobMatrix<R> m, int row,
-//			int column, R n) {
-//		// TODO Auto-generated method stub
-//		
-//	}
+	private boolean isomorphismsCompatible(CobMatrix<R> m,
+			Isomorphism location1, Isomorphism location2) {
+		return m.entries.get(location1.row).get(location2.column) == null
+				&& m.entries.get(location2.row).get(
+						location1.column) == null;
+	}
 
+	
 	public void reductionLemma(int i, int j, int k, R n) {
 		// matrices[i].matrix[j][k] is the isomorphism, with coefficient n
 		// zeros is true if row j or column k is zero
@@ -1158,6 +1131,65 @@ private boolean isomorphismsCompatible(CobMatrix<R> m, Pair<Integer, Integer> lo
 		}
 	}
 
+	private void blockReductionLemma(int i, List<Isomorphism> block) {
+		// first transpose everything.
+		List<Integer> rows = new ArrayList<Integer>(block.size()), columns = new ArrayList<Integer>(block.size());
+		List<R> coefficients = new ArrayList<R>(block.size());
+		
+		for(Isomorphism iso : block) {
+			rows.add(iso.row);
+			columns.add(iso.column);
+			coefficients.add(iso.coefficient);
+		}
+		
+		CobMatrix<R> m = getMatrix(i);
+		
+		CobMatrix<R> delta = m.extractRows(rows);
+		delta.extractColumns(columns);
+		
+		CobMatrix<R> gamma = m.extractColumns(columns);
+		assert gamma.check();
+
+		assert delta.target.equals(gamma.source);
+		
+		CobMatrix<R> phiinv = new CobMatrix<R>(delta.target, gamma.source);
+		for (int k = 0; k < block.size(); ++k) {
+			Cap isoObject = gamma.source.smoothings.get(k);
+			CannedCobordism phicc = new CannedCobordism(isoObject, isoObject);
+			// assume delooping has been done
+			// make phicc an isomorphism
+			for (byte a = 0; a < phicc.nbc; a++)
+				phicc.connectedComponent[a] = a;
+			phicc.ncc = phicc.nbc;
+			phicc.dots = new byte[phicc.ncc];
+			phicc.genus = new byte[phicc.ncc];
+			LCCC<R> philc = new LCCC<R>(isoObject, isoObject);
+			philc.add(phicc, coefficients.get(k).inverse().multiply(-1));
+			phiinv.putEntry(k, k, philc);
+		}
+		assert phiinv.check();
+		CobMatrix<R> gpd = gamma.compose(phiinv).compose(delta);
+		assert gpd.check();
+		
+		gpd.add(m);
+		setMatrix(i, gpd);
+		this.columns[i] = delta.source;
+		this.columns[i + 1] = gamma.target;
+
+		if (i != 0) {
+			CobMatrix<R> previousMatrix = getMatrix(i - 1);
+			previousMatrix.extractRows(columns); // yes, this is right!
+			setMatrix(i - 1, previousMatrix);
+
+		}
+		if (i != ncolumns - 2) {
+			CobMatrix<R> nextMatrix = getMatrix(i + 1);
+			nextMatrix.extractColumns(rows);
+			setMatrix(i + 1, nextMatrix);
+		}
+
+	}
+	
 	private static int takeNextCrossing(int edges[], int pd[][], boolean in[],
 			boolean done[], int depth, int retmax[]) {
 		for (int i = 0; i < pd.length; ++i) {
