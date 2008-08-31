@@ -16,6 +16,7 @@ import org.katlas.JavaKh.algebra.AbstractMatrix;
 import org.katlas.JavaKh.algebra.Matrix;
 import org.katlas.JavaKh.algebra.MatrixEntry;
 import org.katlas.JavaKh.algebra.Ring;
+import org.katlas.JavaKh.rows.ArrayListRow;
 import org.katlas.JavaKh.rows.LinkedListRow;
 import org.katlas.JavaKh.rows.MatrixRow;
 
@@ -61,10 +62,10 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
     
     private MatrixRow<LCCC<R>> newRow() {
 //    	return new TroveEntryMap<LCCC<R>>();
-//    	return new ArrayListRow<LCCC<R>>();
+    	return new ArrayListRow<LCCC<R>>();
 //    	return new TreeEntryMap<LCCC<R>>();
 //    	return new RedBlackIntegerMap<LCCC<R>>();
-    	return new LinkedListRow<LCCC<R>>();
+//    	return new LinkedListRow<LCCC<R>>();
     }
 
     // assumes matrix[i][j] is not contained in this sparse matrix
@@ -249,6 +250,7 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 				}
 			}
 
+			thisRowEntriesI.compact();
 //			for (int j : thatRowEntriesI.keys()) {
 //				if (thisRowEntriesI.containsKey(j)) {
 //					thisRowEntriesI.get(j).add(thatRowEntriesI.get(j));
