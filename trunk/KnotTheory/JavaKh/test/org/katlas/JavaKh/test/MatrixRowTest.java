@@ -38,9 +38,13 @@ public abstract class MatrixRowTest<Row extends MatrixRow<String>> {
 		row.put(1, "1");
 
 		iterator = row.keys().iterator();
+		assertTrue(iterator.hasNext());
 		assertEquals(1, iterator.next());
+		assertTrue(iterator.hasNext());
 		assertEquals(2, iterator.next());
+		assertTrue(iterator.hasNext());
 		assertEquals(3, iterator.next());
+		assertFalse(iterator.hasNext());
 	}
 
 	@Test
@@ -104,8 +108,11 @@ public abstract class MatrixRowTest<Row extends MatrixRow<String>> {
 		row.remove(2);
 		
 		iterator = row.keys().iterator();
+		assertTrue(iterator.hasNext());
 		assertEquals(1, iterator.next());
+		assertTrue(iterator.hasNext());
 		assertEquals(3, iterator.next());
+		assertFalse(iterator.hasNext());
 
 	}
 

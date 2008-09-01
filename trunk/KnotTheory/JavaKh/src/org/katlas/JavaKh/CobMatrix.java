@@ -16,6 +16,7 @@ import org.katlas.JavaKh.algebra.AbstractMatrix;
 import org.katlas.JavaKh.algebra.Matrix;
 import org.katlas.JavaKh.algebra.MatrixEntry;
 import org.katlas.JavaKh.algebra.Ring;
+import org.katlas.JavaKh.rows.ArrayRow;
 import org.katlas.JavaKh.rows.LinkedListRow;
 import org.katlas.JavaKh.rows.MatrixRow;
 
@@ -61,10 +62,11 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
     
     private MatrixRow<LCCC<R>> newRow() {
 //    	return new TroveEntryMap<LCCC<R>>();
-//    	return new ArrayListRow<LCCC<R>>();
+//    	return new PackedArrayRow<LCCC<R>>();
+    	return new ArrayRow<LCCC<R>>(source.n);
 //    	return new TreeEntryMap<LCCC<R>>();
 //    	return new RedBlackIntegerMap<LCCC<R>>();
-    	return new LinkedListRow<LCCC<R>>();
+//    	return new LinkedListRow<LCCC<R>>();
     }
 
     // assumes matrix[i][j] is not contained in this sparse matrix
@@ -126,25 +128,26 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
     
     public CobMatrix<R> compose(Matrix<R, Obj, LCCC<R>> matrix) { // this * cm
 
-    	CobMatrix<R> cm;
-    	
-    	if(matrix instanceof CobMatrix) {
-			cm =((CobMatrix<R>) matrix);
-    	} else {
+		CobMatrix<R> cm;
+
+		if (matrix instanceof CobMatrix) {
+			cm = ((CobMatrix<R>) matrix);
+		} else {
 			throw new UnsupportedOperationException();
 		}
 
-    	assert check();
-    	assert cm.check();
-    	
-    	assert source.equals(cm.target);
-	/*if (!source.equals(cm.target))
-	  throw new IllegalArgumentException();*/
-	CobMatrix<R> ret = new CobMatrix<R>(cm.source, target);
+		assert check();
+		assert cm.check();
 
-	for (int i = 0; i < target.n; ++i) {
+		assert source.equals(cm.target);
+		/*
+		 * if (!source.equals(cm.target)) throw new IllegalArgumentException();
+		 */
+		CobMatrix<R> ret = new CobMatrix<R>(cm.source, target);
+
+		for (int i = 0; i < target.n; ++i) {
 			MatrixRow<LCCC<R>> rowEntriesI = entries.get(i);
-			MatrixRow<LCCC<R>> result = newRow();
+			MatrixRow<LCCC<R>> result = ret.newRow();
 			for (int j : rowEntriesI.keys()) {
 				for (int k : cm.entries.get(j).keys()) {
 					LCCC<R> lc = rowEntriesI.get(j).compose(
@@ -153,16 +156,17 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 						if (result.containsKey(k)) {
 							result.get(k).add(lc);
 						} else {
-							result.put(k, lc);  // stopping to think, sadly we can't use putLast here.
+							result.put(k, lc); // stopping to think, sadly we
+												// can't use putLast here.
 						}
 					}
 				}
 			}
 			ret.entries.set(i, result);
 		}
-	
-	return ret;
-    }
+
+		return ret;
+	}
 
     public CobMatrix<R> multiply(R n) { // modifies in place
     	for(MatrixRow<LCCC<R>> rowEntries : entries) {
