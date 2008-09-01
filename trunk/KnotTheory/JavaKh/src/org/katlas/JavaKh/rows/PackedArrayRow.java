@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import net.tqft.iterables.AbstractIterator;
 
-public class ArrayListRow<F> implements MatrixRow<F> {
+public class PackedArrayRow<F> implements MatrixRow<F> {
 
 	private static final int INITIAL_SIZE = 1;
 
