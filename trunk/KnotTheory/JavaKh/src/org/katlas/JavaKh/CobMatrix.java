@@ -69,8 +69,8 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Cap, LCCC<R>
 //    	return new ArrayRow<LCCC<R>>(source.n);
 //    	return new TreeEntryMap<LCCC<R>>();
 //    	return new RedBlackIntegerMap<LCCC<R>>();
-//    	return new LinkedListRow<LCCC<R>>();
-    	return new DoublyLinkedListRow<LCCC<R>>();
+    	return new LinkedListRow<LCCC<R>>();
+//    	return new DoublyLinkedListRow<LCCC<R>>();
     }
 
     // assumes matrix[i][j] is not contained in this sparse matrix
