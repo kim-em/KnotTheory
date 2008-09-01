@@ -15,18 +15,18 @@ public class IntMatrix {
 		matrix[i][j] = BigInteger.ZERO;
     }
 
-    public IntMatrix(CobMatrix<?> cm) {
+    public IntMatrix(CobMatrix<Int> cm) {
 	rows = cm.target.n;
 	columns = cm.source.n;
 	matrix = new BigInteger[rows][columns];
 
 	for (int i = 0; i < rows; i++) {
-	    LCCC<?> rowi[] = cm.unpackRow(i);
+	    LCCC<Int> rowi[] = cm.unpackRow(i);
 	    for (int j = 0; j < columns; j++)
-		if (rowi[j] == null || rowi[j].size() == 0)
+		if (rowi[j] == null || rowi[j].numberOfTerms() == 0)
 		    matrix[i][j] = BigInteger.ZERO;
 		else {
-		    assert rowi[j].size() == 1;
+		    assert rowi[j].numberOfTerms() == 1;
 		    matrix[i][j] = ((Int) rowi[j].firstCoefficient()).n;
 		}
 	}

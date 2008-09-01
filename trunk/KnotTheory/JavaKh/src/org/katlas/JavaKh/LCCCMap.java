@@ -3,63 +3,51 @@ package org.katlas.JavaKh;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
-import org.katlas.JavaKh.algebra.LinearMorphism;
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.algebra.Rings;
 
-public class LCCC<R extends Ring<R>> implements
-		LinearMorphism<R, Obj, LCCC<R>>, Serializable { // Linear Combination of
+public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCobordism, LCCC<R>> implements
+		 LCCC<R>, Serializable { // Linear Combination of
 														// Canned Cobordisms
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8539035436108747574L;
 	// static int maxsz = 0; // is 10 for T(7.6)
-	Cap top, bottom;
+//	Cap top, bottom;
 	// coefficients are BaseRing
 	// List<CannedCobordism> cobordisms;
 	// List<BaseRing> coefficients;
 	// consider storing the hash codes?
 
-	final SortedMap<CannedCobordism, R> coefficients;
-	transient private boolean alreadyReduced = false;
+	transient boolean alreadyReduced = false;
 
-	public R firstCoefficient() {
-		return coefficients.get(coefficients.firstKey());
-	}
-
-	public LCCC(Cap t, Cap b) {
+	public LCCCMap(Cap t, Cap b) {
+		super(t, b); // TODO
 		// if (t == null || b == null)
 		// throw new IllegalArgumentException();
-		top = t;
-		bottom = b;
+//		top = t;
+//		bottom = b;
 		// n = 0;
 		// cobordisms = new LinkedList<CannedCobordism>();
 		// coefficients = new LinkedList<BaseRing>();
-		coefficients = new TreeMap<CannedCobordism, R>();
-	}
-
-	int size() {
-		return coefficients.size();
 	}
 
 	@SuppressWarnings("unchecked")
 	public boolean equals(Object o) {
-		if (o == null && size() == 0)
+		if (o == null && numberOfTerms() == 0)
 			return true;
-		if (!(o instanceof LCCC))
+		if (!(o instanceof LCCCMap))
 			return false;
-		LCCC<R> other = (LCCC<R>) o;
-		if (size() > 1 || other.size() > 1)
+		LCCCMap<R> other = (LCCCMap<R>) o;
+		if (numberOfTerms() > 1 || other.numberOfTerms() > 1)
 			// not working right now
 			throw new UnsupportedOperationException();
-		if (size() == 0) {
-			if (other.size() != 0 && !other.firstCoefficient().isZero())
+		if (numberOfTerms() == 0) {
+			if (other.numberOfTerms() != 0 && !other.firstCoefficient().isZero())
 				return false;
-		} else if (other.size() == 0 && !firstCoefficient().isZero())
+		} else if (other.numberOfTerms() == 0 && !firstCoefficient().isZero())
 			return false;
 		else if (!(coefficients.firstKey()
 				.equals(other.coefficients.firstKey()) && coefficients.get(
@@ -113,118 +101,51 @@ public class LCCC<R extends Ring<R>> implements
 	// System.out.println("Associativity checks OK!");
 	// }
 
-	@SuppressWarnings("unchecked")
-	public void add(CannedCobordism cc, int n) {
-		add(cc, (R) Rings.createInstance(n));
-	}
-
-	public void add(CannedCobordism cc, R num) {
-
-		if (coefficients.containsKey(cc)) {
-			R newCoefficient = coefficients.get(cc).add(num);
-			if (newCoefficient.isZero()) {
-				coefficients.remove(cc);
-			} else {
-				coefficients.put(cc, newCoefficient);
-			}
-			alreadyReduced = false;
-			return;
-		}
-
-		if (num.isZero()) {
-			return;
-		}
-
-		coefficients.put(cc, num);
-		alreadyReduced = false;
-		// DEBUG
-		/*
-		 * if (entries.size() > maxsz) maxsz = entries.size();
-		 */
-	}
-
-	public LCCC<R> add(LCCC<R> other) {
-		if (other != null)
-			for (CannedCobordism cc : other.coefficients.keySet())
-				add(cc, other.coefficients.get(cc));
-		return this;
-	}
-
-	public LCCC<R> multiply(R num) {
-		if (num.isZero()) {
-			coefficients.clear();
+	public LCCC<R> compose(int start, CannedCobordism cc, int cstart, int nc,
+			boolean reverse) {
+		if (numberOfTerms() == 0)
 			return null;
+
+		LCCC<R> ret = null;
+
+		CannedCobordism composition;
+		
+		if (reverse) {
+			for (CannedCobordism occ : coefficients.keySet()) {
+				composition = cc.compose(cstart, occ, start, nc);
+				if(ret == null) {
+					ret = new LCCCMap<R>(composition.top, composition.bottom);
+				}
+				ret.add(composition, coefficients.get(occ));
+			}
 		} else {
-			for (CannedCobordism cc : coefficients.keySet()) {
-				coefficients.put(cc, coefficients.get(cc).multiply(num));
-			}
-			return this;
-		}
-	}
-
-	public LCCC<R> compose(LCCC<R> other) { // vertical composition
-		if (other == null || size() == 0 || other.size() == 0)
-			return null;
-		assert top.equals(other.bottom);
-		LCCC<R> ret = new LCCC<R>(other.top, bottom);
-
-		for (CannedCobordism cc : coefficients.keySet()) {
-			for (CannedCobordism occ : other.coefficients.keySet()) {
-				ret.add(cc.compose(occ), coefficients.get(cc).multiply(
-						other.coefficients.get(occ)));
+			for (CannedCobordism occ : coefficients.keySet()) {
+				composition = occ.compose(start, cc, cstart, nc);
+				if(ret == null) {
+					ret = new LCCCMap<R>(composition.top, composition.bottom);
+				}
+				ret.add(composition, coefficients.get(occ));
 			}
 		}
-
+		
 		return ret;
 	}
 
-	// horizontal composition
-	public LCCC<R> compose(int start, CannedCobordism cc, int cstart, int nc,
-			boolean reverse) {
-		if (size() == 0)
-			return null;
-		LCCC<R> ret = new LCCC<R>(null, null);
-		if (reverse) {
-			for (CannedCobordism occ : coefficients.keySet()) {
-				ret.add(cc.compose(cstart, occ, start, nc), coefficients
-						.get(occ));
-			}
-			// for (int i = 0; i < size(); i++) {
-			// ret.add(cc.compose(cstart, cobordisms.get(i), start, nc),
-			// coefficients.get(i));
-			// }
-		} else {
-			for (CannedCobordism occ : coefficients.keySet()) {
-				ret.add(occ.compose(start, cc, cstart, nc), coefficients
-						.get(occ));
-			}
-
-			// for (int i = 0; i < size(); i++) {
-			// ret.add(cobordisms.get(i).compose(start, cc, cstart, nc),
-			// coefficients.get(i));
-			// }
-		}
-		if (ret.size() == 0)
-			return null;
-		else {
-			ret.top = ret.coefficients.firstKey().top;
-			ret.bottom = ret.coefficients.firstKey().bottom;
-			return ret;
-		}
-	}
-
+	/* (non-Javadoc)
+	 * @see org.katlas.JavaKh.LCCC#reduce()
+	 */
 	public LCCC<R> reduce() {
 
 		if (JavaKh.using_h)
 			return reduceWithH();
-		if (size() == 0)
+		if (numberOfTerms() == 0)
 			return null;
 
 		if (alreadyReduced) {
 			return this;
 		}
 
-		LCCC<R> ret = new LCCC<R>(top, bottom);
+		LCCCMap<R> ret = new LCCCMap<R>(source, target);
 		for (CannedCobordism cc : coefficients.keySet()) {
 			R num = coefficients.get(cc);
 			cc.reverseMaps();
@@ -286,7 +207,7 @@ public class LCCC<R extends Ring<R>> implements
 			}
 			byte connectedComponent[] = CannedCobordism.counting[cc.nbc];
 			for (int i = 0; i < neckCutting.length; i++) {
-				CannedCobordism newcc = new CannedCobordism(top, bottom);
+				CannedCobordism newcc = new CannedCobordism(source, target);
 				// IMPORTANT!!! in order for them to safely share arrays
 				// CannedCobordisms must be treated as immutable
 				newcc.connectedComponent = connectedComponent;
@@ -296,7 +217,7 @@ public class LCCC<R extends Ring<R>> implements
 				ret.add(newcc, num);
 			}
 		}
-		if (ret.size() == 0) {
+		if (ret.numberOfTerms() == 0) {
 			return null;
 		} else {
 			ret.alreadyReduced = true;
@@ -304,16 +225,19 @@ public class LCCC<R extends Ring<R>> implements
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.katlas.JavaKh.LCCC#reduceWithH()
+	 */
 	@SuppressWarnings("unchecked")
 	public LCCC<R> reduceWithH() {
-		if (size() == 0)
+		if (numberOfTerms() == 0)
 			return null;
 
 		if (alreadyReduced) {
 			return this;
 		}
 
-		LCCC<R> ret = new LCCC<R>(top, bottom);
+		LCCCMap<R> ret = new LCCCMap<R>(source, target);
 		for (CannedCobordism cc : coefficients.keySet()) {
 			R num = coefficients.get(cc);
 			cc.reverseMaps();
@@ -422,7 +346,7 @@ public class LCCC<R extends Ring<R>> implements
 				nCnum = newnum;
 			}
 			for (int i = 0; i < nCdots.length; i++) {
-				CannedCobordism newcc = new CannedCobordism(top, bottom);
+				CannedCobordism newcc = new CannedCobordism(source, target);
 				newcc.connectedComponent = CannedCobordism.counting[newcc.nbc];
 				newcc.ncc = newcc.nbc;
 				newcc.genus = CannedCobordism.zeros[cc.nbc];
@@ -431,7 +355,7 @@ public class LCCC<R extends Ring<R>> implements
 				ret.add(newcc, nCnum.get(i));
 			}
 		}
-		if (ret.size() == 0) {
+		if (ret.numberOfTerms() == 0) {
 			return null;
 		} else {
 			ret.alreadyReduced = true;
@@ -439,13 +363,16 @@ public class LCCC<R extends Ring<R>> implements
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.katlas.JavaKh.LCCC#finalizeH()
+	 */
 	public LCCC<R> finalizeH() {
-		if (size() == 0)
+		if (numberOfTerms() == 0)
 			return null;
-		assert top.n == 2 && top.ncycles == 0 && bottom.n == 2
-				&& bottom.ncycles == 0;
-		LCCC<R> ret = new LCCC<R>(top, bottom);
-		CannedCobordism cc = CannedCobordism.isomorphism(top);
+		assert source.n == 2 && source.ncycles == 0 && target.n == 2
+				&& target.ncycles == 0;
+		LCCCMap<R> ret = new LCCCMap<R>(source, target);
+		CannedCobordism cc = CannedCobordism.isomorphism(source);
 		boolean hset = false;
 		for (CannedCobordism occ : coefficients.keySet()) {
 			if (!coefficients.get(occ).isZero()) {
@@ -456,9 +383,15 @@ public class LCCC<R extends Ring<R>> implements
 				ret.add(cc, coefficients.get(occ));
 			}
 		}
-		if (ret.size() == 0)
+		if (ret.numberOfTerms() == 0)
 			return null;
 		else
 			return ret;
 	}
+
+	@Override
+	public LCCC<R> zeroLinearCombo(Cap source, Cap target) {
+		return new LCCCMap<R>(source, target);
+}
+
 }

@@ -3,7 +3,7 @@ package org.katlas.JavaKh.algebra;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, Obj, Mor>> implements Matrix<R, Obj, Mor> {
+public abstract class AbstractMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, Obj, Mor>> extends AbstractLinearMorphism<R, DirectSum<Obj>, Matrix<R, Obj, Mor>> implements Matrix<R, Obj, Mor> {
 
 	public void addEntry(int row, int column, Mor t) {
 		Mor existingEntry = getEntry(row, column);

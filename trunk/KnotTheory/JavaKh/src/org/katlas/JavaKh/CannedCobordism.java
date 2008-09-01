@@ -3,13 +3,14 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import org.katlas.JavaKh.algebra.Morphism;
 import org.katlas.JavaKh.utils.Cache;
 import org.katlas.JavaKh.utils.HashCodeCache;
 import org.katlas.JavaKh.utils.TrivialCache;
 
 // CannedCobordisms should be treated as immutable
 // don't touch them except just after calling the constructor
-public class CannedCobordism implements Comparable<CannedCobordism>, Serializable {
+public class CannedCobordism implements Comparable<CannedCobordism>, Serializable, Morphism<Cap, CannedCobordism> {
     /**
 	 * 
 	 */
@@ -1292,6 +1293,14 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 //	return ret;
     return cobordismCache.cache(ret);
     }
+
+	public Cap source() {
+		return top;
+	}
+
+	public Cap target() {
+		return bottom;
+	}
 
 //    private class VComposeInput implements Comparable<VComposeInput> {
 //	int n;
