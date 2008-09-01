@@ -1,8 +1,5 @@
-package org.katlas.JavaKh;
+package org.katlas.JavaKh.algebra;
 
-import org.katlas.JavaKh.algebra.LinearMorphism;
-import org.katlas.JavaKh.algebra.Morphism;
-import org.katlas.JavaKh.algebra.Ring;
 
 public interface LinearCombo<R extends Ring<R>, O, Mor extends Morphism<O, Mor>, LinearMor extends LinearMorphism<R, O, LinearMor>> extends LinearMorphism<R, O, LinearMor> {
 	// ooof, generics get confusing. See the interface LCCC for an example of how to use this.

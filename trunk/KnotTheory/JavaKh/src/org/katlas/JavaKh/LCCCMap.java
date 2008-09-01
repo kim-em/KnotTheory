@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.katlas.JavaKh.algebra.LinearComboMap;
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.algebra.Rings;
 
