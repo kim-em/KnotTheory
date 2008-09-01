@@ -1,4 +1,4 @@
-package org.katlas.JavaKh.test;
+package org.katlas.JavaKh.test.MatrixRow;
 
 
 import org.junit.Before;

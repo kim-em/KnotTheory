@@ -18,8 +18,10 @@ import org.katlas.JavaKh.algebra.Matrix;
 import org.katlas.JavaKh.algebra.MatrixEntry;
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.rows.ArrayRow;
+import org.katlas.JavaKh.rows.DoublyLinkedListRow;
 import org.katlas.JavaKh.rows.LinkedListRow;
 import org.katlas.JavaKh.rows.MatrixRow;
+import org.katlas.JavaKh.rows.RedBlackIntegerMap;
 
 
 public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Cap, LCCC<R>> implements Matrix<R, Cap, LCCC<R>>, Serializable{
@@ -67,7 +69,8 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Cap, LCCC<R>
 //    	return new ArrayRow<LCCC<R>>(source.n);
 //    	return new TreeEntryMap<LCCC<R>>();
 //    	return new RedBlackIntegerMap<LCCC<R>>();
-    	return new LinkedListRow<LCCC<R>>();
+//    	return new LinkedListRow<LCCC<R>>();
+    	return new DoublyLinkedListRow<LCCC<R>>();
     }
 
     // assumes matrix[i][j] is not contained in this sparse matrix

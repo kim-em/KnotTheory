@@ -4,15 +4,12 @@ import java.util.Iterator;
 
 public class DoublyLinkedListRow<F> implements MatrixRow<F> {
 
-	private Entry firstEntry;
+	private Entry first, last, current;
 
-	private transient Entry lastEntry;
-	private transient Entry cachedEntry;
-	
 	class Entry {
 		int index;
 		F value;
-		Entry next;
+		Entry previous, next;
 
 		Entry(int index, F value) {
 			this.index = index;
@@ -25,63 +22,85 @@ public class DoublyLinkedListRow<F> implements MatrixRow<F> {
 	}
 
 	public boolean containsKey(int key) {
-		if(lastEntry != null) {
-			if(key > lastEntry.index) return false;
-			if(key == lastEntry.index) {
-				cachedEntry = lastEntry;
-				return true;
-			}
-		}
-		
-		Entry entry;
-		
-		if(cachedEntry != null) {
-			if(key == cachedEntry.index) return true;
-			else if(key > cachedEntry.index) {
-				entry = cachedEntry;
-			} else {
-				entry = firstEntry;
-			}
-		} else {
-			entry = firstEntry;
-		}
-		
-		while (entry != null && entry.index <= key) {
-			if (entry.index == key) {
-				cachedEntry = entry;
-				return true;
-			}
-			entry = entry.next;
-		}
-		return false;
+		return get(key) != null;
 	}
 
 	public void decrementIndexesAbove(int j) {
-		Entry entry = firstEntry;
-		while (entry != null) {
-			if (entry.index > j) {
-				entry.index--;
+		if(current == null) return;
+		Entry entry;
+		if (!containsKey(j)) {
+			if (current.index < j) {
+				entry = current.next;
+			} else {
+				entry = current;
 			}
+		} else {
+			// this shouldn't happen, recover anyway.
+			assert false;
+			entry = current;
+		}
+		while (entry != null) {
+			--(entry.index);
 			entry = entry.next;
 		}
 	}
 
 	public F get(int key) {
-		if(cachedEntry != null && cachedEntry.index == key) {
-			return cachedEntry.value;
-		}
-			
-//		assert false; // hopefully we never pass this point!
+		if (current == null)
+			return null;
 		
-		Entry entry = firstEntry;
-		while (entry != null && entry.index <= key) {
-			if (entry.index == key) {
-				cachedEntry = entry;
-				return entry.value;
-			}
-			entry = entry.next;
+		if (key == current.index)
+			return current.value;
+
+		if (key < first.index) {
+			current = first;
+			return null;
 		}
-		return null;
+		if (key == first.index) {
+			current = first;
+			return current.value;
+		}
+
+		if (key > last.index) {
+			current = last;
+			return null;
+		}
+		if (key == last.index) {
+			current = last;
+			return current.value;
+		}
+
+		if (key > current.index) {
+			while (true) {
+				if (current.next == null) {
+					return null;
+				} else {
+					if (current.next.index < key) {
+						current = current.next;
+					} else if (current.next.index == key) {
+						current = current.next;
+						return current.value;
+					} else {
+						return null;
+					}
+				}
+			}
+		} else {
+			while (true) {
+				if (current.previous == null) {
+					return null;
+				} else {
+					if (current.previous.index > key) {
+						current = current.previous;
+					} else if (current.previous.index == key) {
+						current = current.previous;
+						return current.value;
+					} else {
+						return null;
+					}
+				}
+			}
+		}
 	}
 
 	public Iterable<Integer> keys() {
@@ -90,7 +109,7 @@ public class DoublyLinkedListRow<F> implements MatrixRow<F> {
 			public Iterator<Integer> iterator() {
 				return new Iterator<Integer>() {
 
-					Entry nextEntry = firstEntry;
+					Entry nextEntry = first;
 
 					public boolean hasNext() {
 						return nextEntry != null;
@@ -98,7 +117,7 @@ public class DoublyLinkedListRow<F> implements MatrixRow<F> {
 
 					public Integer next() {
 						int result = nextEntry.index;
-						cachedEntry = nextEntry;
+						current = nextEntry;
 						nextEntry = nextEntry.next;
 						return result;
 					}
@@ -112,140 +131,79 @@ public class DoublyLinkedListRow<F> implements MatrixRow<F> {
 
 		};
 	}
-	
+
 	public void put(int key, F f) {
-		if(lastEntry != null) {
-			if(key > lastEntry.index) {
-				lastEntry.next = new Entry(key, f);
-				lastEntry = lastEntry.next;
-				return;
-			} else if (key == lastEntry.index) {
-				lastEntry.value = f;
-				return;
-			}
-		}
-		
-		Entry entry;
-		
-		if(cachedEntry != null) {
-			if(cachedEntry.index == key) {
-				cachedEntry.value = f;
-				return;
-			} else if(cachedEntry.index < key) {
-				entry = cachedEntry;
-				cachedEntry = null;
-			} else {
-				entry = firstEntry;
-				cachedEntry = null;
-			}
+		if (containsKey(key)) {
+			current.value = f;
 		} else {
-			entry = firstEntry;
-		}
-		
-		if (entry == null) {
-			firstEntry = new Entry(key, f);
-			lastEntry = firstEntry;
-			return;
-		}
-		if(entry.index > key) {
 			Entry newEntry = new Entry(key, f);
-			newEntry.next = entry;
-			firstEntry = newEntry;
-			return;
-		}
-		if(entry.index == key) {
-			entry.value = f;
-			return;
-		}
-		
-		while (entry.next != null && entry.next.index < key) {
-			entry = entry.next;
-		}
-		if (entry.next == null) {
-			if(entry.index == key) {
-				entry.value = f;
-				lastEntry = entry;
-				return;
+			if (current == null) {
+				current = last = first = newEntry;
 			} else {
-				entry.next = new Entry(key, f);
-				lastEntry = entry.next;
-				return;
-			}
-		} else {
-			if (entry.next.index == key) {
-				entry.next.value = f;
-				return;
-			} else {
-				Entry newEntry = new Entry(key, f);
-				newEntry.next = entry.next;
-				entry.next = newEntry;
-				return;
+				// we're next to it!
+				if (current.index < key) {
+					newEntry.previous = current;
+					newEntry.next = current.next;
+					if (current.next != null) {
+						current.next.previous = newEntry;
+					} else {
+						last = newEntry;
+					}
+					current.next = newEntry;
+					current = newEntry;
+				} else {
+					newEntry.next = current;
+					newEntry.previous = current.previous;
+					if (current.previous != null) {
+						current.previous.next = newEntry;
+					} else {
+						first = newEntry;
+					}
+					current.previous = newEntry;
+					current = newEntry;
+				}
 			}
 		}
 	}
-	
+
 	public void putLast(int key, F f) {
-		if(lastEntry != null) {
-			if(key > lastEntry.index) {
-				lastEntry.next = new Entry(key, f);
-				lastEntry = lastEntry.next;
-				return;
-			} else if (key == lastEntry.index) {
-				lastEntry.value = f;
-				return;
-			} else {
-				assert false;
-				return;
-			}
-		} else {
-			assert firstEntry == null;
-			firstEntry = new Entry(key, f);
-			lastEntry = firstEntry;
+		if(last == null) {
+			current = last = first = new Entry(key, f);
 			return;
+		}
+		
+		if (last.index == key) {
+			last.value = f;
+			current = last;
+			return;
+		} else {
+			assert last.index < key;
+			Entry newEntry = new Entry(key, f);
+			last.next = newEntry;
+			newEntry.previous = last;
+			current = last = newEntry;
 		}
 	}
 
 	public void remove(int j) {
-		cachedEntry = null;
-		if(lastEntry != null) {
-			if(lastEntry.index < j) return;
-			if(lastEntry.index == j) lastEntry = null;
-		}
-		
-		Entry entry;
-		if(cachedEntry != null) {
-			if(cachedEntry.index < j) { // can only do strictly less than here.
-				entry = cachedEntry;
+		if (containsKey(j)) {
+			if (current.next != null) {
+				current.next.previous = current.previous;
 			} else {
-				entry = firstEntry;
+				last = current.previous;
 			}
-		} else {
-			entry = firstEntry;
-		}
-		
-		if (entry == null) {
-			return;
-		}
-		if (entry.index == j) {
-			firstEntry = entry.next;
-			cachedEntry = entry.next;
-			return;
-		} else {
-			while (entry.next != null && entry.next.index < j) {
-				entry = entry.next;
-			}
-			if (entry.next != null && entry.next.index == j) {
-				entry.next = entry.next.next;
-				cachedEntry = entry;
+			if (current.previous != null) {
+				current.previous.next = current.next;
+				current = current.previous;
+			} else {
+				first = current.next;
+				current = current.next;
 			}
 		}
 	}
 
 	public void clear() {
-		firstEntry = null;
-		cachedEntry = null;
-		lastEntry = null;
+		first = last = current = null;
 	}
-	
 
 }
