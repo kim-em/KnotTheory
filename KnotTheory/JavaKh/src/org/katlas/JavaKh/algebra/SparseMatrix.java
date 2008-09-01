@@ -416,16 +416,6 @@ public class SparseMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, 
 		};
 	}
 
-//	public DirectSum<Obj> source() {
-//		// TODO
-//		throw new UnsupportedOperationException();
-//	}
-//
-//	public DirectSum<Obj> target() {
-//		// TODO
-//		throw new UnsupportedOperationException();
-//	}
-
 
 	class SparseMatrixEntry<T> implements MatrixEntry<T> {
 		SparseMatrixEntry(Label row, Label column) {
@@ -466,6 +456,16 @@ public class SparseMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, 
 	public Mor getEntry(int row, int column) {
 		// TODO
 		throw new UnsupportedOperationException();
+	}
+
+	public DirectSum<Obj> source() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public DirectSum<Obj> target() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

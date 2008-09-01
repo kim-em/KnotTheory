@@ -13,15 +13,15 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.katlas.JavaKh.algebra.AbstractMatrix;
+import org.katlas.JavaKh.algebra.DirectSum;
 import org.katlas.JavaKh.algebra.Matrix;
 import org.katlas.JavaKh.algebra.MatrixEntry;
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.rows.ArrayRow;
-import org.katlas.JavaKh.rows.LinkedListRow;
 import org.katlas.JavaKh.rows.MatrixRow;
 
 
-public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>> implements Matrix<R, Obj, LCCC<R>>, Serializable{
+public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Cap, LCCC<R>> implements Matrix<R, Cap, LCCC<R>>, Serializable{
     /**
 	 * 
 	 */
@@ -61,18 +61,18 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
     }
     
     private MatrixRow<LCCC<R>> newRow() {
-//    	return new TroveEntryMap<LCCC<R>>();
-//    	return new PackedArrayRow<LCCC<R>>();
+//    	return new TroveEntryMap<LCCC<R, CannedCobordism>>();
+//    	return new PackedArrayRow<LCCC<R, CannedCobordism>>();
     	return new ArrayRow<LCCC<R>>(source.n);
-//    	return new TreeEntryMap<LCCC<R>>();
-//    	return new RedBlackIntegerMap<LCCC<R>>();
-//    	return new LinkedListRow<LCCC<R>>();
+//    	return new TreeEntryMap<LCCC<R, CannedCobordism>>();
+//    	return new RedBlackIntegerMap<LCCC<R, CannedCobordism>>();
+//    	return new LinkedListRow<LCCC<R, CannedCobordism>>();
     }
 
     // assumes matrix[i][j] is not contained in this sparse matrix
 	public void putEntry(int i, int j, LCCC<R> lc) {
 		assert check();
-		if (lc == null || lc.size() == 0) {
+		if (lc == null || lc.numberOfTerms() == 0) {
 			return;
 		}
 		entries.get(i).put(j, lc);
@@ -80,7 +80,7 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 	}
 
 	public void addEntry(int row, int column, LCCC<R> t) {
-		if (t == null || t.size() == 0) {
+		if (t == null || t.numberOfTerms() == 0) {
 			return;
 		}
 		LCCC<R> entry = entries.get(row).get(column);
@@ -119,14 +119,14 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 		if (arowi[j] != null) {
 		    if (!arowi[j].equals(browi[j]))
 			return false;
-		} else if (browi[j] != null && browi[j].size() != 0)
+		} else if (browi[j] != null && browi[j].numberOfTerms() != 0)
 		    return false;
 	}
 	return true;
     }
 
     
-    public CobMatrix<R> compose(Matrix<R, Obj, LCCC<R>> matrix) { // this * cm
+    public CobMatrix<R> compose(Matrix<R, Cap, LCCC<R>> matrix) { // this * cm
 
 		CobMatrix<R> cm;
 
@@ -168,6 +168,7 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 		return ret;
 	}
 
+
     public CobMatrix<R> multiply(R n) { // modifies in place
     	for(MatrixRow<LCCC<R>> rowEntries : entries) {
     		for(int i : rowEntries.keys()) {
@@ -180,7 +181,7 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
     	return this;
    	}
     
-    public CobMatrix<R> add(Matrix<R, Obj, LCCC<R>> m) { // edits in place
+    public CobMatrix<R> add(Matrix<R, Cap, LCCC<R>> m) { // edits in place
     	
     	CobMatrix<R> that;
     	
@@ -289,7 +290,7 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
     	for(MatrixRow<LCCC<R>> rowEntries : entries) {
     		for(int i : rowEntries.keys()) {
     			LCCC<R> lc = rowEntries.get(i);
-    			if(lc != null && lc.size() > 0) {
+    			if(lc != null && lc.numberOfTerms() > 0) {
     				return false;
     			}
     		}
@@ -306,11 +307,11 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 			MatrixRow<LCCC<R>> row = entries.get(i);
 			for (int j : row.keys()) {
 				assert row.get(j) != null;
-				if (!row.get(j).top.equals(source.smoothings.get(j))) {
+				if (!row.get(j).source().equals(source.smoothings.get(j))) {
 					assert false;
 					return false;
 				}
-				if (!row.get(j).bottom.equals(target.smoothings.get(i))) {
+				if (!row.get(j).target().equals(target.smoothings.get(i))) {
 					assert false;
 					return false;
 				}
@@ -325,10 +326,10 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 	    LCCC<R> rowi[] = unpackRow(i);
 	    for (int j = 0; j < source.n; j++) {
 		String n;
-		if (rowi[j] == null || rowi[j].size() == 0)
+		if (rowi[j] == null || rowi[j].numberOfTerms() == 0)
 		    n = "0";
 		else {
-		    assert rowi[j].size() == 1;
+		    assert rowi[j].numberOfTerms() == 1;
 		    n = rowi[j].firstCoefficient().toString();
 		}
 		System.out.print(n);
@@ -348,9 +349,9 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 		if (rowi[j] == null)
 		    System.out.print("0");
 		else {
-		    int n = rowi[j].size();
+		    int n = rowi[j].numberOfTerms();
 		    if (n == 1) {
-			CannedCobordism cc = rowi[j].coefficients.firstKey();
+			CannedCobordism cc = rowi[j].firstTerm();
 			if (cc.isIsomorphism())
 			    System.out.print("i");
 			else
@@ -544,12 +545,12 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 
 	
 	public void insertAfterColumn(int column,
-			Matrix<R, Obj, LCCC<R>> extraColumns) {
+			Matrix<R, Cap, LCCC<R>> extraColumns) {
 		// TODO
 		throw new UnsupportedOperationException();
 	}
 
-	public void insertAfterRow(int row, Matrix<R, Obj, LCCC<R>> extraRows) {
+	public void insertAfterRow(int row, Matrix<R, Cap, LCCC<R>> extraRows) {
 		// TODO
 		throw new UnsupportedOperationException();
 	}
@@ -581,6 +582,16 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 
 	public LCCC<R> getEntry(int row, int column) {
 		return entries.get(row).get(column);
+	}
+
+	public DirectSum<Cap> source() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public DirectSum<Cap> target() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

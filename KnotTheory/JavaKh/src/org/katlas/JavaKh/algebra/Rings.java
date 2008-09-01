@@ -25,6 +25,7 @@ public class Rings {
 	
 	@SuppressWarnings("unchecked")
 	public static <R> R createInstance(int i) {
+		assert constructor != null;
 		try {
 			return (R)(constructor.newInstance(i));
 		} catch (Exception e) {

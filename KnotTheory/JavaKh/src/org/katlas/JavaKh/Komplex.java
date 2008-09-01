@@ -41,10 +41,6 @@ import org.katlas.JavaKh.utils.DiskBackedList;
 import org.katlas.JavaKh.utils.LimitedSizeInputStream;
 import org.katlas.JavaKh.utils.SerializingList;
 
-import com.mallardsoft.tuple.Pair;
-import com.mallardsoft.tuple.Triple;
-import com.mallardsoft.tuple.Tuple;
-
 public class Komplex<R extends Ring<R>> implements Serializable {
 	/**
 	 * 
@@ -314,10 +310,10 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 									 * if (first2) first2 = false; else
 									 */
 									ret.append(", ");
-									if (row[k] == null || row[k].size() == 0)
+									if (row[k] == null || row[k].numberOfTerms() == 0)
 										ret.append("0");
 									else {
-										assert row[k].size() == 1;
+										assert row[k].numberOfTerms() == 1;
 										ret.append(row[k].firstCoefficient());
 									}
 								}
@@ -341,7 +337,8 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 							columns[i].n);
 		}
 		for (int i = 0; i < matrices.size(); i++) {
-			mats[i] = new IntMatrix(getMatrix(i));
+			assert Rings.ring.equals("Int");
+			mats[i] = new IntMatrix((CobMatrix<Int>)getMatrix(i));
 			mats[i].source = colcopy[i];
 			mats[i].target = colcopy[i + 1];
 			if (i > 0) {
@@ -687,9 +684,9 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 					// prev.rowsizes[newn] = prevMatrix.rowsizes[i];
 					// prev.indices[newn] = prevMatrix.indices[i];
 					if (oldsm.ncycles != 0) {
-						LCCC<R> lc = new LCCC<R>(oldsm, newsm);
+						LCCC<R> lc = new LCCCMap<R>(oldsm, newsm);
 						lc.add(prevcc, 1);
-						// prev.values[newn] = new LCCC[prev.rowsizes[newn]];
+						// prev.values[newn] = new LCCCMap[prev.rowsizes[newn]];
 						MatrixRow<LCCC<R>> prevMatrixEntriesI = prevMatrix.entries
 								.get(i);
 						MatrixRow<LCCC<R>> prevEntriesNewN = prev.entries
@@ -710,7 +707,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				if (next != null) {
 					CobMatrix<R> nextMatrix = getMatrix(colnum);
 					if (oldsm.ncycles != 0) {
-						LCCC<R> lc = new LCCC<R>(newsm, oldsm);
+						LCCC<R> lc = new LCCCMap<R>(newsm, oldsm);
 						lc.add(nextcc, 1);
 
 						for (int k = 0; k < nextMatrix.entries.size(); ++k) {
@@ -807,7 +804,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						nextcc.dots[nextcc.offbot + k] = 1;
 					}
 				}
-				LCCC<R> prevlc = new LCCC<R>(oldsm, newsm);
+				LCCC<R> prevlc = new LCCCMap<R>(oldsm, newsm);
 				if (prev != null) {
 					for (int k = 0; k < (1 << nmore); k++) {
 						byte prevdots[] = new byte[prevcc.ncc], prevhpow = 0;
@@ -833,6 +830,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						newprev.genus = CannedCobordism.zeros[newprev.ncc];
 						newprev.dots = prevdots;
 						newprev.hpower = prevhpow;
+						
 						prevlc.add(newprev, coeff);
 					}
 				}
@@ -843,7 +841,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 					// prev.rowsizes[newn] = prevMatrix.rowsizes[i];
 					// prev.indices[newn] = prevMatrix.indices[i];
 					if (oldsm.ncycles != 0) {
-						// prev.values[newn] = new LCCC[prev.rowsizes[newn]];
+						// prev.values[newn] = new LCCCMap[prev.rowsizes[newn]];
 						MatrixRow<LCCC<R>> prevMatrixEntriesI = prevMatrix.entries
 								.get(i);
 						MatrixRow<LCCC<R>> prevEntriesNewN = prev.entries
@@ -864,7 +862,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				if (next != null) {
 					CobMatrix<R> nextMatrix = getMatrix(colnum);
 					if (oldsm.ncycles != 0) {
-						LCCC<R> lc = new LCCC<R>(newsm, oldsm);
+						LCCC<R> lc = new LCCCMap<R>(newsm, oldsm);
 						lc.add(nextcc, 1);
 
 						for (int k = 0; k < nextMatrix.entries.size(); ++k) {
@@ -961,13 +959,13 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			rlfor: for (int j = 0; j < m.entries.size(); j++) {
 				for (int k : m.entries.get(j).keys()) {
 					LCCC<R> lc = m.entries.get(j).get(k);
-					if (lc != null && lc.size() == 1) {
+					if (lc != null && lc.numberOfTerms() == 1) {
 						if (!columns[i].smoothings.get(k).equals(
 								columns[i + 1].smoothings.get(j))) {
 							continue;
 						}
-						CannedCobordism cc = lc.coefficients.firstKey();
-						R n = lc.coefficients.get(cc);
+						CannedCobordism cc = lc.firstTerm();
+						R n = lc.firstCoefficient();
 						if (!n.isInvertible()) {
 							continue;
 						}
@@ -1007,7 +1005,6 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 
 	public void blockReductionLemma(int i) { // does one matrix
 		// this assumes delooping has taken place
-		boolean found, found2 = false, ret = false;
 		CobMatrix<R> m = getMatrix(i);
 		if (m.target.n > largestMatrix) {
 			largestMatrix = m.target.n;
@@ -1070,9 +1067,9 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 					} else {
 						potentialDisallowedColumns.add(k);
 						if (rowCandidate == null) {
-							if (lc.size() == 1) {
-								CannedCobordism cc = lc.coefficients.firstKey();
-								R n = lc.coefficients.get(cc);
+							if (lc.numberOfTerms() == 1) {
+								CannedCobordism cc = lc.firstTerm();
+								R n = lc.firstCoefficient();
 								if (!n.isInvertible()) {
 									continue;
 								}
@@ -1114,9 +1111,9 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		for (int j = 0; j < m.entries.size(); j++) {
 			for (int k : m.entries.get(j).keys()) {
 				LCCC<R> lc = m.entries.get(j).get(k);
-				if (lc != null && lc.size() == 1) {
-					CannedCobordism cc = lc.coefficients.firstKey();
-					R n = lc.coefficients.get(cc);
+				if (lc != null && lc.numberOfTerms() == 1) {
+					CannedCobordism cc = lc.firstTerm();
+					R n = lc.firstCoefficient();
 					if (!n.isInvertible()) {
 						continue;
 					}
@@ -1218,7 +1215,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		phicc.ncc = phicc.nbc;
 		phicc.dots = new byte[phicc.ncc];
 		phicc.genus = new byte[phicc.ncc];
-		LCCC<R> philc = new LCCC<R>(isoTarget, isoSource);
+		LCCC<R> philc = new LCCCMap<R>(isoTarget, isoSource);
 		philc.add(phicc, n.inverse().multiply(-1));
 		phiinv.putEntry(0, 0, philc);
 
@@ -1277,7 +1274,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			phicc.ncc = phicc.nbc;
 			phicc.dots = new byte[phicc.ncc];
 			phicc.genus = new byte[phicc.ncc];
-			LCCC<R> philc = new LCCC<R>(isoObject, isoObject);
+			LCCC<R> philc = new LCCCMap<R>(isoObject, isoObject);
 			philc.add(phicc, coefficients.get(k).inverse().multiply(-1));
 			phiinv.putEntry(k, k, philc);
 		}
@@ -1697,7 +1694,6 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 	// WARNING: this destroys the original Komplex object in the process, for
 	// the sake
 	// of speedy(?) garbage collection.
-	@SuppressWarnings("unchecked")
 	public Komplex<R> compose(int start, Komplex<R> kom, int kstart, int nc,
 			boolean inMemory) {
 		Komplex<R> ret = new Komplex<R>(ncolumns + kom.ncolumns - 1, inMemory);
@@ -1753,13 +1749,12 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 							for (int n = 0; n < columns[j + 1].n; n++) {
 								for (int l : matrixJ.entries.get(n).keys()) {
 									LCCC<R> lc = matrixJ.entries.get(n).get(l);
-									if (lc != null && lc.size() != 0) {
+									if (lc != null && lc.numberOfTerms() != 0) {
 										lc = lc.compose(start, komcc, kstart,
 												nc, false);
 										if (lc != null) {
 											if (k % 2 == 0) {
-												lc.multiply((R) Rings
-														.createInstance(-1));
+												lc.multiply(-1);
 											}
 											newMatrix.putEntry(
 													startnum[j + 1][k] + n
@@ -1791,7 +1786,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 								for (int m : komMatrixK.entries.get(n).keys()) {
 									LCCC<R> lc = komMatrixK.entries.get(n).get(
 											m);
-									if (lc != null && lc.size() != 0) {
+									if (lc != null && lc.numberOfTerms() != 0) {
 										lc = lc.compose(kstart, thiscc, start,
 												nc, true);
 										if (lc != null)
@@ -2095,7 +2090,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 							} else if (cc.connectedComponent[l] == cc.ncc)
 								cc.ncc++;
 						cc.dots = cc.genus = CannedCobordism.zeros[cc.ncc];
-						LCCC<R> lc = new LCCC<R>(cc.top, cc.bottom);
+						LCCC<R> lc = new LCCCMap<R>(cc.top, cc.bottom);
 						int num = 1;
 						for (int l = j + 1; l < pd.length; l++) {
 							if ((i & (1 << l)) != 0) {
