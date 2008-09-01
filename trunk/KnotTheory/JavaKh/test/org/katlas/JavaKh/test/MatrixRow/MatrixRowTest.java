@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -63,6 +64,9 @@ public abstract class MatrixRowTest<Row extends MatrixRow<String>> {
 		row.put(8, "8");
 		row.decrementIndexesAbove(7);
 		assertEquals("8", row.get(7));
+		
+		row.put(9, "9");
+		assertEquals("9", row.get(9));
 	}
 
 	@Test
@@ -122,7 +126,7 @@ public abstract class MatrixRowTest<Row extends MatrixRow<String>> {
 	}
 
 	@Test
-	public void testDecrementRemove() {
+	public void testDecrementRemove1() {
 		row.put(1, "1");
 		row.put(2, "2");
 		row.put(3, "3");
@@ -132,8 +136,68 @@ public abstract class MatrixRowTest<Row extends MatrixRow<String>> {
 		row.decrementIndexesAbove(2);
 		assertEquals("3", row.get(2));
 		row.remove(2);
+		assertEquals(null, row.get(2));
 		row.decrementIndexesAbove(2);
 		assertEquals("4", row.get(2));
+	}
+	
+	@Test
+	public void testDecrementRemove2() {
+		row.put(1, "1");
+		row.put(2, "2");
+		row.put(3, "3");
+		row.put(4, "4");
+		row.remove(2);
+		row.decrementIndexesAbove(2);
+		row.remove(2);
+		row.decrementIndexesAbove(2);
+
+		Iterator<Integer> iterator = row.keys().iterator();
+		int key;
+		assertTrue(iterator.hasNext());
+		assertEquals(1, key = iterator.next());
+		assertEquals("1", row.get(key));
+		assertTrue(iterator.hasNext());
+		assertEquals(2, key = iterator.next());
+		assertEquals("4", row.get(key));
+		assertFalse(iterator.hasNext());	
+	}
+	
+	@Test
+	public void testDecrementRemove3() {
+		List<Integer> ints = Arrays.asList(new Integer[] {1,2,3,4,5,6,7,8,9});
+		for (int i : ints) {
+			row.put(i, Integer.toString(i));
+		}
+		
+		row.remove(5);
+		row.decrementIndexesAbove(5);
+		row.remove(7);
+		row.decrementIndexesAbove(7);
+		row.remove(6);
+		row.decrementIndexesAbove(6);
+		row.remove(6);
+		row.decrementIndexesAbove(6);
+
+		Iterator<Integer> iterator = row.keys().iterator();
+		int key;
+		assertTrue(iterator.hasNext());
+		assertEquals(1, key = iterator.next());
+		assertEquals("1", row.get(key));
+		assertTrue(iterator.hasNext());
+		assertEquals(2, key = iterator.next());
+		assertEquals("2", row.get(key));
+		assertTrue(iterator.hasNext());
+		assertEquals(3, key = iterator.next());
+		assertEquals("3", row.get(key));
+		assertTrue(iterator.hasNext());
+		assertEquals(4, key = iterator.next());
+		assertEquals("4", row.get(key));
+		assertTrue(iterator.hasNext());
+		assertEquals(5, key = iterator.next());
+		assertEquals("6", row.get(key));
+		assertFalse(iterator.hasNext());	
+		
 	}
 
 	@Test
