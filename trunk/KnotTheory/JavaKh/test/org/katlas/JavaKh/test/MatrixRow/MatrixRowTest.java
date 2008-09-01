@@ -1,10 +1,11 @@
-package org.katlas.JavaKh.test;
+package org.katlas.JavaKh.test.MatrixRow;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -70,9 +71,12 @@ public abstract class MatrixRowTest<Row extends MatrixRow<String>> {
 		ints.add(5);
 		ints.add(6);
 		ints.add(8);
+		ints.add(2);
+		ints.add(4);
 		for (int i : ints) {
 			row.put(i, Integer.toString(i));
 		}
+		Collections.sort(ints);
 		for (int k : row.keys()) {
 			assertEquals(k, ints.get(0));
 			ints.remove(0);
@@ -115,7 +119,6 @@ public abstract class MatrixRowTest<Row extends MatrixRow<String>> {
 		assertTrue(iterator.hasNext());
 		assertEquals(3, iterator.next());
 		assertFalse(iterator.hasNext());
-
 	}
 
 	@Test
@@ -133,4 +136,21 @@ public abstract class MatrixRowTest<Row extends MatrixRow<String>> {
 		assertEquals("4", row.get(2));
 	}
 
+	@Test
+	public void testPutLast() {
+		row.putLast(1, "1");
+		row.putLast(2, "2");
+		row.putLast(4, "4");
+
+		row.remove(2);
+		
+		Iterator<Integer> iterator = row.keys().iterator();
+		assertTrue(iterator.hasNext());
+		assertEquals("1", row.get(iterator.next()));
+		assertTrue(iterator.hasNext());
+		assertEquals("4", row.get(iterator.next()));
+		assertFalse(iterator.hasNext());
+	}
+
+	
 }
