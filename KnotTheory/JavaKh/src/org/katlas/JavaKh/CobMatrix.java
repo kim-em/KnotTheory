@@ -20,6 +20,7 @@ import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.rows.ArrayRow;
 import org.katlas.JavaKh.rows.DoublyLinkedListRow;
 import org.katlas.JavaKh.rows.LinkedListRow;
+import org.katlas.JavaKh.rows.MaskedArrayRow;
 import org.katlas.JavaKh.rows.MatrixRow;
 import org.katlas.JavaKh.rows.RedBlackIntegerMap;
 
@@ -67,9 +68,10 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Cap, LCCC<R>
 //    	return new TroveEntryMap<LCCC<R>>();
 //    	return new PackedArrayRow<LCCC<R>>();
 //    	return new ArrayRow<LCCC<R>>(source.n);
+    	return new MaskedArrayRow<LCCC<R>>(source.n);
 //    	return new TreeEntryMap<LCCC<R>>();
 //    	return new RedBlackIntegerMap<LCCC<R>>();
-    	return new LinkedListRow<LCCC<R>>();
+//    	return new LinkedListRow<LCCC<R>>();
 //    	return new DoublyLinkedListRow<LCCC<R>>();
     }
 
