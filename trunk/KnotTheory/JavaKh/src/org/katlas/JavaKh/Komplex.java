@@ -1748,8 +1748,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						CobMatrix<R> matrixJ = getMatrix(j);
 						// entries derived from matrices[j] and kom.columns[k]
 						for (int m = 0; m < kom.columns[k].n; m++) {
-							CannedCobordismImpl komcc = CannedCobordismImpl
-									.isomorphism(kom.columns[k].smoothings
+							CannedCobordism komcc = new IdentityCannedCobordism(kom.columns[k].smoothings
 											.get(m));
 							for (int n = 0; n < columns[j + 1].n; n++) {
 								for (int l : matrixJ.entries.get(n).keys()) {
@@ -1785,7 +1784,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						// entries derived from kom.matrix[k] and columns[j]
 						CobMatrix<R> komMatrixK = kom.getMatrix(k);
 						for (int l = 0; l < columns[j].n; l++) {
-							CannedCobordismImpl thiscc = CannedCobordismImpl
+							CannedCobordism thiscc = CannedCobordismImpl
 									.isomorphism(columns[j].smoothings.get(l));
 							for (int n = 0; n < kom.columns[k + 1].n; n++) {
 								for (int m : komMatrixK.entries.get(n).keys()) {

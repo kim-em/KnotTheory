@@ -102,13 +102,8 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
 	// System.out.println("Associativity checks OK!");
 	// }
 
-	public LCCC<R> compose(int start, CannedCobordism icc, int cstart, int nc,
+	public LCCC<R> compose(int start, CannedCobordism cc, int cstart, int nc,
 			boolean reverse) {
-		
-		if(!(icc instanceof CannedCobordismImpl)) {
-			throw new UnsupportedOperationException();
-		}
-		CannedCobordismImpl cc = (CannedCobordismImpl)icc;
 		
 		if (numberOfTerms() == 0)
 			return null;
