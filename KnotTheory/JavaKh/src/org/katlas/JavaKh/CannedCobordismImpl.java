@@ -62,7 +62,7 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 	private transient int hashcode;
 	static private CompositionCache compositionCache = new CompositionCache();
 
-	static Cache<CannedCobordismImpl> cobordismCache = new HashCodeCache<CannedCobordismImpl>();
+	static Cache<CannedCobordism> cobordismCache = new HashCodeCache<CannedCobordism>();
 
 	// static Map<VComposeInput, ComposeOutput> vcache = new
 	// TreeMap<VComposeInput, ComposeOutput>();
@@ -72,13 +72,13 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 	public static void disableCache() {
 		// vcache = new AlwaysEmptyMap<VComposeInput, ComposeOutput>();
 		// hcache = new AlwaysEmptyMap<HComposeInput, ComposeOutput>();
-		cobordismCache = new TrivialCache<CannedCobordismImpl>();
+		cobordismCache = new TrivialCache<CannedCobordism>();
 	}
 
 	public static void enableCache() {
 		// vcache = new TreeMap<VComposeInput, ComposeOutput>();
 		// hcache = new TreeMap<HComposeInput, ComposeOutput>();
-		cobordismCache = new HashCodeCache<CannedCobordismImpl>();
+		cobordismCache = new HashCodeCache<CannedCobordism>();
 	}
 
 	public static void flushCache() {
@@ -294,13 +294,15 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 		if (c.ncycles != 0)
 			throw new IllegalArgumentException(
 					"Cycles in cap not supported by CannedCobordism.isomorphism()");
+
+//		CannedCobordism ret = new IdentityCannedCobordism(c);
+		
 		CannedCobordismImpl ret = new CannedCobordismImpl(c, c);
 		ret.ncc = ret.nbc;
 		ret.connectedComponent = counting[ret.nbc];
 		ret.genus = zeros[ret.ncc];
 		ret.dots = zeros[ret.ncc];
-		return cobordismCache.cache(ret);
-		// return ret;
+		return ret;
 	}
 
 	// public static CannedCobordism generateDisconnected(Cap t, Cap b) {
@@ -471,7 +473,7 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 	// }
 
 	// new vertical composition
-	public CannedCobordismImpl compose(CannedCobordism icc) {
+	public CannedCobordism compose(CannedCobordism icc) {
 //		return compositionCache.compose(this, cc);
 		
 		if(icc instanceof CannedCobordismImpl) {
@@ -481,7 +483,7 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 		}
 	}
 
-	private CannedCobordismImpl composeWithoutCache(CannedCobordismImpl cc) {// cc on
+	private CannedCobordism composeWithoutCache(CannedCobordismImpl cc) {// cc on
 																		// top
 																		// of
 																		// this
@@ -845,7 +847,7 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 	// }
 
 	// horizontal composition
-	public CannedCobordismImpl compose(int start, CannedCobordism icc, int cstart,
+	public CannedCobordism compose(int start, CannedCobordism icc, int cstart,
 			int nc) {
 		if(!(icc instanceof CannedCobordismImpl)) {
 			throw new UnsupportedOperationException();
@@ -1508,32 +1510,32 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 	// }
 
 	static class CompositionCache {
-		Map<Integer, Map<Integer, Triple<CannedCobordismImpl, CannedCobordismImpl, CannedCobordismImpl>>> map = new SoftHashMap<Integer, Map<Integer, Triple<CannedCobordismImpl, CannedCobordismImpl, CannedCobordismImpl>>>();
+		Map<Integer, Map<Integer, Triple<CannedCobordismImpl, CannedCobordismImpl, CannedCobordism>>> map = new SoftHashMap<Integer, Map<Integer, Triple<CannedCobordismImpl, CannedCobordismImpl, CannedCobordism>>>();
 
-		public CannedCobordismImpl compose(CannedCobordismImpl cc1, CannedCobordismImpl cc2) {
-			Map<Integer, Triple<CannedCobordismImpl, CannedCobordismImpl, CannedCobordismImpl>> map2 = map
+		public CannedCobordism compose(CannedCobordismImpl cc1, CannedCobordismImpl cc2) {
+			Map<Integer, Triple<CannedCobordismImpl, CannedCobordismImpl, CannedCobordism>> map2 = map
 					.get(cc1.hashCode());
 			if (map2 != null) {
-				Triple<CannedCobordismImpl, CannedCobordismImpl, CannedCobordismImpl> triple = map2
+				Triple<CannedCobordismImpl, CannedCobordismImpl, CannedCobordism> triple = map2
 						.get(cc2.hashCode());
 				if (triple == null) {
-					CannedCobordismImpl composition = cc1.composeWithoutCache(cc2);
+					CannedCobordism composition = cc1.composeWithoutCache(cc2);
 					map2.put(cc2.hashCode(), Tuple.from(cc1, cc2, composition));
 					return composition;
 				} else {
-					CannedCobordismImpl result = Tuple.get3(triple);
+					CannedCobordism result = Tuple.get3(triple);
 					if (Tuple.get1(triple) != cc1 || Tuple.get2(triple) != cc2) {
 						assert false;
 						return cc1.composeWithoutCache(cc2);
 					} else {
 						if (result != null) {
-							CannedCobordismImpl test;
+							CannedCobordism test;
 							assert result.equals(test = cc1.composeWithoutCache(cc2));
 							assert result == cc1.composeWithoutCache(cc2);
 							return result;							
 						}
 						else {
-							CannedCobordismImpl composition = cc1
+							CannedCobordism composition = cc1
 									.composeWithoutCache(cc2);
 							map2.put(cc2.hashCode(), Tuple.from(cc1, cc2,
 									composition));
@@ -1542,8 +1544,8 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 					}
 				}
 			} else {
-				CannedCobordismImpl composition = cc1.composeWithoutCache(cc2);
-				map2 = new HashMap<Integer, Triple<CannedCobordismImpl, CannedCobordismImpl, CannedCobordismImpl>>();
+				CannedCobordism composition = cc1.composeWithoutCache(cc2);
+				map2 = new HashMap<Integer, Triple<CannedCobordismImpl, CannedCobordismImpl, CannedCobordism>>();
 				map2.put(cc2.hashCode(), Tuple.from(cc1, cc2, composition));
 				map.put(cc1.hashCode(), map2);
 				return composition;
