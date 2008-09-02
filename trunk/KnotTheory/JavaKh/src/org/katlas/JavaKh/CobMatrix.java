@@ -382,7 +382,7 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Cap, LCCC<R>
 		else {
 		    int n = rowi[j].numberOfTerms();
 		    if (n == 1) {
-			CannedCobordism cc = rowi[j].firstTerm();
+			ICannedCobordism cc = rowi[j].firstTerm();
 			if (cc.isIsomorphism())
 			    System.out.print("i");
 			else

@@ -18,7 +18,7 @@ import com.mallardsoft.tuple.Tuple;
 // CannedCobordisms should be treated as immutable
 // don't touch them except just after calling the constructor
 public class CannedCobordism implements Comparable<CannedCobordism>,
-		Serializable, Morphism<Cap, CannedCobordism> {
+		Serializable, ICannedCobordism {
 	/**
 	 * 
 	 */
@@ -100,24 +100,25 @@ public class CannedCobordism implements Comparable<CannedCobordism>,
 	// private CannedCobordism() {
 	// }
 
-	public CannedCobordism(CannedCobordism cc) {
-		// copies most of cc
-		n = cc.n;
-		top = cc.top;
-		bottom = cc.bottom;
-		offtop = cc.offtop;
-		offbot = cc.offbot;
-		component = cc.component;
-		connectedComponent = cc.connectedComponent;
-		nbc = cc.nbc;
-		ncc = cc.ncc;
-		// leaves dots and genus null
-		dots = null;
-		genus = null;
-		/*
-		 * dots = new int[ncc]; genus = new int[ncc];
-		 */
-	}
+	// unused!
+//	public CannedCobordism(CannedCobordism cc) {
+//		// copies most of cc
+//		n = cc.n;
+//		top = cc.top;
+//		bottom = cc.bottom;
+//		offtop = cc.offtop;
+//		offbot = cc.offbot;
+//		component = cc.component;
+//		connectedComponent = cc.connectedComponent;
+//		nbc = cc.nbc;
+//		ncc = cc.ncc;
+//		// leaves dots and genus null
+//		dots = null;
+//		genus = null;
+//		/*
+//		 * dots = new int[ncc]; genus = new int[ncc];
+//		 */
+//	}
 
 	public CannedCobordism(Cap t, Cap b) {
 		top = t;
@@ -470,9 +471,14 @@ public class CannedCobordism implements Comparable<CannedCobordism>,
 	// }
 
 	// new vertical composition
-	public CannedCobordism compose(CannedCobordism cc) {
+	public CannedCobordism compose(ICannedCobordism icc) {
 //		return compositionCache.compose(this, cc);
-		return composeWithoutCache(cc);
+		
+		if(icc instanceof CannedCobordism) {
+			return composeWithoutCache((CannedCobordism)icc);
+		} else {
+			throw new UnsupportedOperationException();
+		}
 	}
 
 	private CannedCobordism composeWithoutCache(CannedCobordism cc) {// cc on
@@ -839,8 +845,13 @@ public class CannedCobordism implements Comparable<CannedCobordism>,
 	// }
 
 	// horizontal composition
-	public CannedCobordism compose(int start, CannedCobordism cc, int cstart,
+	public CannedCobordism compose(int start, ICannedCobordism icc, int cstart,
 			int nc) {
+		if(!(icc instanceof CannedCobordism)) {
+			throw new UnsupportedOperationException();
+		}
+		CannedCobordism cc = (CannedCobordism)icc;
+		
 		assert check() && cc.check();
 		/*
 		 * if (!check() || !cc.check()) throw new AssertionError();
