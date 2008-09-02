@@ -650,16 +650,16 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			for (int j = 0; j < oldsm.n; j++)
 				newsm.pairings[j] = oldsm.pairings[j];
 			newsm = Cap.capCache.cache(newsm);
-			CannedCobordism prevcc = new CannedCobordism(oldsm, newsm);
+			CannedCobordismImpl prevcc = new CannedCobordismImpl(oldsm, newsm);
 			prevcc.ncc = prevcc.nbc;
-			prevcc.connectedComponent = CannedCobordism.counting[prevcc.nbc];
+			prevcc.connectedComponent = CannedCobordismImpl.counting[prevcc.nbc];
 			prevcc.dots = new byte[prevcc.ncc];
-			prevcc.genus = CannedCobordism.zeros[prevcc.ncc];
-			CannedCobordism nextcc = new CannedCobordism(newsm, oldsm);
+			prevcc.genus = CannedCobordismImpl.zeros[prevcc.ncc];
+			CannedCobordismImpl nextcc = new CannedCobordismImpl(newsm, oldsm);
 			nextcc.ncc = nextcc.nbc;
-			nextcc.connectedComponent = CannedCobordism.counting[nextcc.nbc];
+			nextcc.connectedComponent = CannedCobordismImpl.counting[nextcc.nbc];
 			nextcc.dots = new byte[nextcc.ncc];
-			nextcc.genus = CannedCobordism.zeros[nextcc.ncc];
+			nextcc.genus = CannedCobordismImpl.zeros[nextcc.ncc];
 			// the dots array for prevcc and nextcc is reused here
 			// this is safe because dots are not stored in the CC cache
 			for (int j = 0; j < (1 << oldsm.ncycles); j++) {
@@ -777,16 +777,16 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			for (int j = 0; j < oldsm.n; j++)
 				newsm.pairings[j] = oldsm.pairings[j];
 			newsm = Cap.capCache.cache(newsm);
-			CannedCobordism prevcc = new CannedCobordism(oldsm, newsm);
+			CannedCobordismImpl prevcc = new CannedCobordismImpl(oldsm, newsm);
 			prevcc.ncc = prevcc.nbc;
-			prevcc.connectedComponent = CannedCobordism.counting[prevcc.nbc];
+			prevcc.connectedComponent = CannedCobordismImpl.counting[prevcc.nbc];
 			prevcc.dots = new byte[prevcc.ncc];
-			prevcc.genus = CannedCobordism.zeros[prevcc.ncc];
-			CannedCobordism nextcc = new CannedCobordism(newsm, oldsm);
+			prevcc.genus = CannedCobordismImpl.zeros[prevcc.ncc];
+			CannedCobordismImpl nextcc = new CannedCobordismImpl(newsm, oldsm);
 			nextcc.ncc = nextcc.nbc;
-			nextcc.connectedComponent = CannedCobordism.counting[nextcc.nbc];
+			nextcc.connectedComponent = CannedCobordismImpl.counting[nextcc.nbc];
 			nextcc.dots = new byte[nextcc.ncc];
-			nextcc.genus = CannedCobordism.zeros[nextcc.ncc];
+			nextcc.genus = CannedCobordismImpl.zeros[nextcc.ncc];
 			for (int j = 0; j < (1 << oldsm.ncycles); j++) {
 				int nmod = 0;
 				int morechoices[] = new int[oldsm.ncycles], nmore = 0;
@@ -823,11 +823,11 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 							coeff = 1;
 						else
 							coeff = -1;
-						CannedCobordism newprev = new CannedCobordism(oldsm,
+						CannedCobordismImpl newprev = new CannedCobordismImpl(oldsm,
 								newsm);
 						newprev.ncc = newprev.nbc;
-						newprev.connectedComponent = CannedCobordism.counting[newprev.nbc];
-						newprev.genus = CannedCobordism.zeros[newprev.ncc];
+						newprev.connectedComponent = CannedCobordismImpl.counting[newprev.nbc];
+						newprev.genus = CannedCobordismImpl.zeros[newprev.ncc];
 						newprev.dots = prevdots;
 						newprev.hpower = prevhpow;
 						
@@ -964,7 +964,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 								columns[i + 1].smoothings.get(j))) {
 							continue;
 						}
-						ICannedCobordism cc = lc.firstTerm();
+						CannedCobordism cc = lc.firstTerm();
 						R n = lc.firstCoefficient();
 						if (!n.isInvertible()) {
 							continue;
@@ -1073,7 +1073,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						potentialDisallowedColumns.add(k);
 						if (rowCandidate == null) {
 							if (lc.numberOfTerms() == 1) {
-								ICannedCobordism cc = lc.firstTerm();
+								CannedCobordism cc = lc.firstTerm();
 								R n = lc.firstCoefficient();
 								if (!n.isInvertible()) {
 									continue;
@@ -1117,7 +1117,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			for (int k : m.entries.get(j).keys()) {
 				LCCC<R> lc = m.entries.get(j).get(k);
 				if (lc != null && lc.numberOfTerms() == 1) {
-					ICannedCobordism cc = lc.firstTerm();
+					CannedCobordism cc = lc.firstTerm();
 					R n = lc.firstCoefficient();
 					if (!n.isInvertible()) {
 						continue;
@@ -1212,7 +1212,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		CobMatrix<R> gamma = m.extractColumn(k);
 
 		CobMatrix<R> phiinv = new CobMatrix<R>(delta.target, gamma.source);
-		CannedCobordism phicc = new CannedCobordism(isoTarget, isoSource);
+		CannedCobordismImpl phicc = new CannedCobordismImpl(isoTarget, isoSource);
 		// assume delooping has been done
 		// make phicc an isomorphism
 		for (byte a = 0; a < phicc.nbc; a++)
@@ -1271,7 +1271,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		CobMatrix<R> phiinv = new CobMatrix<R>(delta.target, gamma.source);
 		for (int k = 0; k < block.size(); ++k) {
 			Cap isoObject = gamma.source.smoothings.get(k);
-			CannedCobordism phicc = new CannedCobordism(isoObject, isoObject);
+			CannedCobordismImpl phicc = new CannedCobordismImpl(isoObject, isoObject);
 			// assume delooping has been done
 			// make phicc an isomorphism
 			for (byte a = 0; a < phicc.nbc; a++)
@@ -1469,9 +1469,9 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				+ // CannedCobordism.vcacheSize() + "/" +
 				// CannedCobordism.hcacheSize() +
 				Cap.capCache.size() + "/"
-				+ CannedCobordism.cobordismCache.size() + "("
-				+ (CannedCobordism.cobordismCache.getNumberOfChecks() - CannedCobordism.cobordismCache.getNumberOfHits()) + "/"
-				+ CannedCobordism.cobordismCache.getNumberOfChecks() + ") "
+				+ CannedCobordismImpl.cobordismCache.size() + "("
+				+ (CannedCobordismImpl.cobordismCache.getNumberOfChecks() - CannedCobordismImpl.cobordismCache.getNumberOfHits()) + "/"
+				+ CannedCobordismImpl.cobordismCache.getNumberOfChecks() + ") "
 				+ msg;
 
 	}
@@ -1631,7 +1631,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			assert kom.check(true);
 
 			// flush the cobordism cache again!
-			CannedCobordism.flushCache();
+			CannedCobordismImpl.flushCache();
 			// Cap.flushCache();
 
 			if (!dryRun) {
@@ -1653,7 +1653,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				in[pd[best][j]] = true;
 
 			// flush the cobordism cache
-			CannedCobordism.flushCache();
+			CannedCobordismImpl.flushCache();
 			// Cap.flushCache();
 
 			if (caching) {
@@ -1748,7 +1748,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						CobMatrix<R> matrixJ = getMatrix(j);
 						// entries derived from matrices[j] and kom.columns[k]
 						for (int m = 0; m < kom.columns[k].n; m++) {
-							CannedCobordism komcc = CannedCobordism
+							CannedCobordismImpl komcc = CannedCobordismImpl
 									.isomorphism(kom.columns[k].smoothings
 											.get(m));
 							for (int n = 0; n < columns[j + 1].n; n++) {
@@ -1785,7 +1785,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						// entries derived from kom.matrix[k] and columns[j]
 						CobMatrix<R> komMatrixK = kom.getMatrix(k);
 						for (int l = 0; l < columns[j].n; l++) {
-							CannedCobordism thiscc = CannedCobordism
+							CannedCobordismImpl thiscc = CannedCobordismImpl
 									.isomorphism(columns[j].smoothings.get(l));
 							for (int n = 0; n < kom.columns[k + 1].n; n++) {
 								for (int m : komMatrixK.entries.get(n).keys()) {
@@ -2011,7 +2011,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				for (int j = 0; j < pd.length; j++)
 					if ((i & (1 << j)) != 0) {
 						int k = i ^ (1 << j);
-						CannedCobordism cc = new CannedCobordism(smoothings[k],
+						CannedCobordismImpl cc = new CannedCobordismImpl(smoothings[k],
 								c);
 						// now, join the components on either side
 						// of each smoothed crossing
@@ -2094,7 +2094,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 								cc.ncc++;
 							} else if (cc.connectedComponent[l] == cc.ncc)
 								cc.ncc++;
-						cc.dots = cc.genus = CannedCobordism.zeros[cc.ncc];
+						cc.dots = cc.genus = CannedCobordismImpl.zeros[cc.ncc];
 						LCCC<R> lc = new LCCCMap<R>(cc.top, cc.bottom);
 						int num = 1;
 						for (int l = j + 1; l < pd.length; l++) {
