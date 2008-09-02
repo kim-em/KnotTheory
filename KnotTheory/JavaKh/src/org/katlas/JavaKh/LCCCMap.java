@@ -8,7 +8,7 @@ import org.katlas.JavaKh.algebra.LinearComboMap;
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.algebra.Rings;
 
-public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, ICannedCobordism, LCCC<R>> implements
+public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCobordism, LCCC<R>> implements
 		 LCCC<R>, Serializable { // Linear Combination of
 														// Canned Cobordisms
 	/**
@@ -102,23 +102,23 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, ICannedCo
 	// System.out.println("Associativity checks OK!");
 	// }
 
-	public LCCC<R> compose(int start, ICannedCobordism icc, int cstart, int nc,
+	public LCCC<R> compose(int start, CannedCobordism icc, int cstart, int nc,
 			boolean reverse) {
 		
-		if(!(icc instanceof CannedCobordism)) {
+		if(!(icc instanceof CannedCobordismImpl)) {
 			throw new UnsupportedOperationException();
 		}
-		CannedCobordism cc = (CannedCobordism)icc;
+		CannedCobordismImpl cc = (CannedCobordismImpl)icc;
 		
 		if (numberOfTerms() == 0)
 			return null;
 
 		LCCC<R> ret = null;
 
-		ICannedCobordism composition;
+		CannedCobordism composition;
 		
 		if (reverse) {
-			for (ICannedCobordism occ : coefficients.keySet()) {
+			for (CannedCobordism occ : coefficients.keySet()) {
 				composition = cc.compose(cstart, occ, start, nc);
 				if(ret == null) {
 					ret = new LCCCMap<R>(composition.source(), composition.target());
@@ -126,7 +126,7 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, ICannedCo
 				ret.add(composition, coefficients.get(occ));
 			}
 		} else {
-			for (ICannedCobordism occ : coefficients.keySet()) {
+			for (CannedCobordism occ : coefficients.keySet()) {
 				composition = occ.compose(start, cc, cstart, nc);
 				if(ret == null) {
 					ret = new LCCCMap<R>(composition.source(), composition.target());
@@ -153,17 +153,17 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, ICannedCo
 		}
 
 		LCCCMap<R> ret = new LCCCMap<R>(source, target);
-		for (ICannedCobordism icc : coefficients.keySet()) {
+		for (CannedCobordism icc : coefficients.keySet()) {
 			
-			if(!(icc instanceof CannedCobordism)) {
+			if(!(icc instanceof CannedCobordismImpl)) {
 				throw new UnsupportedOperationException();
 			}
-			CannedCobordism cc = (CannedCobordism)icc;
+			CannedCobordismImpl cc = (CannedCobordismImpl)icc;
 			
 			R num = coefficients.get(cc);
 			cc.reverseMaps();
 			byte dots[] = new byte[cc.nbc];
-			byte genus[] = CannedCobordism.zeros[cc.nbc];
+			byte genus[] = CannedCobordismImpl.zeros[cc.nbc];
 			int moreWork[] = new int[cc.ncc];
 			int nmoreWork = 0;
 			boolean kill = false;
@@ -218,9 +218,9 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, ICannedCo
 				}
 				neckCutting = newarr;
 			}
-			byte connectedComponent[] = CannedCobordism.counting[cc.nbc];
+			byte connectedComponent[] = CannedCobordismImpl.counting[cc.nbc];
 			for (int i = 0; i < neckCutting.length; i++) {
-				CannedCobordism newcc = new CannedCobordism(source, target);
+				CannedCobordismImpl newcc = new CannedCobordismImpl(source, target);
 				// IMPORTANT!!! in order for them to safely share arrays
 				// CannedCobordisms must be treated as immutable
 				newcc.connectedComponent = connectedComponent;
@@ -251,12 +251,12 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, ICannedCo
 		}
 
 		LCCCMap<R> ret = new LCCCMap<R>(source, target);
-		for (ICannedCobordism icc : coefficients.keySet()) {
+		for (CannedCobordism icc : coefficients.keySet()) {
 			
-			if(!(icc instanceof CannedCobordism)) {
+			if(!(icc instanceof CannedCobordismImpl)) {
 				throw new UnsupportedOperationException();
 			}
-			CannedCobordism cc = (CannedCobordism)icc;
+			CannedCobordismImpl cc = (CannedCobordismImpl)icc;
 			
 			R num = coefficients.get(cc);
 			cc.reverseMaps();
@@ -365,10 +365,10 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, ICannedCo
 				nCnum = newnum;
 			}
 			for (int i = 0; i < nCdots.length; i++) {
-				CannedCobordism newcc = new CannedCobordism(source, target);
-				newcc.connectedComponent = CannedCobordism.counting[newcc.nbc];
+				CannedCobordismImpl newcc = new CannedCobordismImpl(source, target);
+				newcc.connectedComponent = CannedCobordismImpl.counting[newcc.nbc];
 				newcc.ncc = newcc.nbc;
-				newcc.genus = CannedCobordism.zeros[cc.nbc];
+				newcc.genus = CannedCobordismImpl.zeros[cc.nbc];
 				newcc.dots = nCdots[i];
 				newcc.hpower = nChpow[i];
 				ret.add(newcc, nCnum.get(i));
@@ -391,13 +391,13 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, ICannedCo
 		assert source.n == 2 && source.ncycles == 0 && target.n == 2
 				&& target.ncycles == 0;
 		LCCCMap<R> ret = new LCCCMap<R>(source, target);
-		CannedCobordism cc = CannedCobordism.isomorphism(source);
+		CannedCobordismImpl cc = CannedCobordismImpl.isomorphism(source);
 		boolean hset = false;
-		for (ICannedCobordism iocc : coefficients.keySet()) {
-			if(!(iocc instanceof CannedCobordism)) {
+		for (CannedCobordism iocc : coefficients.keySet()) {
+			if(!(iocc instanceof CannedCobordismImpl)) {
 				throw new UnsupportedOperationException();
 			}
-			CannedCobordism occ = (CannedCobordism)iocc;
+			CannedCobordismImpl occ = (CannedCobordismImpl)iocc;
 			
 			if (!coefficients.get(occ).isZero()) {
 				if (!hset)
