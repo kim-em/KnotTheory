@@ -964,7 +964,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 								columns[i + 1].smoothings.get(j))) {
 							continue;
 						}
-						CannedCobordism cc = lc.firstTerm();
+						ICannedCobordism cc = lc.firstTerm();
 						R n = lc.firstCoefficient();
 						if (!n.isInvertible()) {
 							continue;
@@ -1073,7 +1073,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						potentialDisallowedColumns.add(k);
 						if (rowCandidate == null) {
 							if (lc.numberOfTerms() == 1) {
-								CannedCobordism cc = lc.firstTerm();
+								ICannedCobordism cc = lc.firstTerm();
 								R n = lc.firstCoefficient();
 								if (!n.isInvertible()) {
 									continue;
@@ -1117,7 +1117,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			for (int k : m.entries.get(j).keys()) {
 				LCCC<R> lc = m.entries.get(j).get(k);
 				if (lc != null && lc.numberOfTerms() == 1) {
-					CannedCobordism cc = lc.firstTerm();
+					ICannedCobordism cc = lc.firstTerm();
 					R n = lc.firstCoefficient();
 					if (!n.isInvertible()) {
 						continue;
@@ -1470,7 +1470,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				// CannedCobordism.hcacheSize() +
 				Cap.capCache.size() + "/"
 				+ CannedCobordism.cobordismCache.size() + "("
-				+ CannedCobordism.cobordismCache.getNumberOfHits() + "/"
+				+ (CannedCobordism.cobordismCache.getNumberOfChecks() - CannedCobordism.cobordismCache.getNumberOfHits()) + "/"
 				+ CannedCobordism.cobordismCache.getNumberOfChecks() + ") "
 				+ msg;
 
