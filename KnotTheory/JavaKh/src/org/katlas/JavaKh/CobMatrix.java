@@ -68,10 +68,10 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Cap, LCCC<R>
 //    	return new TroveEntryMap<LCCC<R>>();
 //    	return new PackedArrayRow<LCCC<R>>();
 //    	return new ArrayRow<LCCC<R>>(source.n);
-    	return new MaskedArrayRow<LCCC<R>>(source.n);
+//    	return new MaskedArrayRow<LCCC<R>>(source.n);
 //    	return new TreeEntryMap<LCCC<R>>();
 //    	return new RedBlackIntegerMap<LCCC<R>>();
-//    	return new LinkedListRow<LCCC<R>>();
+    	return new LinkedListRow<LCCC<R>>();
 //    	return new DoublyLinkedListRow<LCCC<R>>();
     }
 
@@ -347,7 +347,21 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Cap, LCCC<R>
 	System.out.println("]");
     }
 
-    public void printZeros() {
+    @Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for(MatrixRow<LCCC<R>> row : entries) {
+			sb.append('(');
+			for(int i = 0; i < target.n; ++i) {
+				sb.append(row.containsKey(i) ? '*' : ' '); 
+				}
+			sb.append(")\r\n");
+			}
+		
+    return sb.toString();
+    }	
+
+	public void printZeros() {
 	//throw new UnsupportedOperationException();
 	for (int i = 0; i < target.n; i++) {
 	    LCCC<R> rowi[] = unpackRow(i);
