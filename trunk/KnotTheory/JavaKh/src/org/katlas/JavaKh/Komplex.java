@@ -1006,15 +1006,22 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 	public void blockReductionLemma(int i) { // does one matrix
 		// this assumes delooping has taken place
 		CobMatrix<R> m = getMatrix(i);
-		if (m.target.n > largestMatrix) {
-			largestMatrix = m.target.n;
-			log.info("Largest matrix: " + largestMatrix + " rows.");
-		}
-
+		
+		int initialNumberOfRows = m.target.n;
+		
+//		if (initialNumberOfRows > largestMatrix) {
+//			largestMatrix = initialNumberOfRows;
+//			log.info("Largest matrix: " + largestMatrix + " rows.");
+//		}
+//		
+		log.info("\r\n" + m.toString());
+		
 		List<Isomorphism> block;
 		int count = 0;
-
+		int totalReduction = 0;
+		
 		while (!(block = findBlock(m)).isEmpty()) {
+			totalReduction += block.size();
 			++count;
 
 			if (block.size() > largestIsomorphismBlock) {
@@ -1029,11 +1036,9 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 
 		}
 
-		if (count > mostReductions) {
-			mostReductions = count;
-			log.info("Most reductions: " + mostReductions);
-		}
-
+		info("Reduced " + initialNumberOfRows + " ---> " + m.target.n + " in " + count + " steps.");
+		log.info("\r\n" + m.toString());
+		
 	}
 
 	private List<Isomorphism> findBlock(CobMatrix<R> m) {
