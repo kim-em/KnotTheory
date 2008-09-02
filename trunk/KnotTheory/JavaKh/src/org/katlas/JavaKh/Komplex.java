@@ -1014,7 +1014,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 //			log.info("Largest matrix: " + largestMatrix + " rows.");
 //		}
 //		
-		log.info("\r\n" + m.toString());
+//		log.info("\r\n" + m.toString());
 		
 		List<Isomorphism> block;
 		int count = 0;
@@ -1037,7 +1037,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		}
 
 		info("Reduced " + initialNumberOfRows + " ---> " + m.target.n + " in " + count + " steps.");
-		log.info("\r\n" + m.toString());
+//		log.info("\r\n" + m.toString());
 		
 	}
 
