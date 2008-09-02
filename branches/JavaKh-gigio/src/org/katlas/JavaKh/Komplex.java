@@ -588,7 +588,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				m.reduce();
 				setMatrix(i - 1, m);
 				debug("applying reduction lemma " + (i + 1) + "/" + ncolumns);
-				reductionLemma(i - 1);
+				blockReductionLemma(i - 1);
 				debug("done " + (i + 1) + "/" + ncolumns);
 			}
 			return true;
