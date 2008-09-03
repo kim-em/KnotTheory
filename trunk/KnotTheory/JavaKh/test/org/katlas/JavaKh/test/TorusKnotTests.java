@@ -4,15 +4,13 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.text.DecimalFormat;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.katlas.JavaKh.Komplex;
-import org.katlas.JavaKh.Rational;
-import org.katlas.JavaKh.algebra.Rings;
+import org.katlas.JavaKh.algebra.rings.Rational;
+import org.katlas.JavaKh.algebra.rings.Rings;
 
 
 public class TorusKnotTests {

@@ -1,4 +1,4 @@
-package org.katlas.JavaKh;
+package org.katlas.JavaKh.algebra.rings;
 import java.math.BigInteger;
 
 import org.katlas.JavaKh.algebra.Ring;
@@ -6,9 +6,13 @@ import org.katlas.JavaKh.algebra.Ring;
 public class Int implements Ring<Int> {
 	private static final BigInteger MINUSONE = BigInteger.valueOf(-1);
 	
-    BigInteger n;
+    private BigInteger n;
 
-    public Int(int i) {
+    public BigInteger getN() {
+		return n;
+	}
+
+	public Int(int i) {
 	n = BigInteger.valueOf(i);
     }
 

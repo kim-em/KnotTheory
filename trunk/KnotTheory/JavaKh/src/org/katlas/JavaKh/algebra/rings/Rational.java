@@ -1,4 +1,4 @@
-package org.katlas.JavaKh;
+package org.katlas.JavaKh.algebra.rings;
 import java.io.Serializable;
 import java.math.BigInteger;
 

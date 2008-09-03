@@ -1,5 +1,6 @@
-package org.katlas.JavaKh;
+package org.katlas.JavaKh.interfaces;
 
+import org.katlas.JavaKh.Cap;
 import org.katlas.JavaKh.algebra.LinearCombo;
 import org.katlas.JavaKh.algebra.Ring;
 
