@@ -10,7 +10,7 @@ public class ModP implements Ring<ModP>, Serializable {
 	 */
 	private static final long serialVersionUID = 6755912305388859426L;
 	static int p, inv[];
-    int n;
+    final int n;
 
     public static void setP(int i) {
 	p = i;
@@ -24,9 +24,10 @@ public class ModP implements Ring<ModP>, Serializable {
     }
 
     public ModP(int i) {
-	n = i % p;
-	if (n < 0)
-	    n += p;
+	int n_ = i % p;
+	if (n_ < 0)
+	    n_ += p;
+	n = n_;
     }
 
     public boolean equals(Object o) {

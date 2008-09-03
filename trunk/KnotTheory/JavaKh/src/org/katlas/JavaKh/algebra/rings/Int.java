@@ -6,7 +6,7 @@ import org.katlas.JavaKh.algebra.Ring;
 public class Int implements Ring<Int> {
 	private static final BigInteger MINUSONE = BigInteger.valueOf(-1);
 	
-    private BigInteger n;
+    final private BigInteger n;
 
     public BigInteger getN() {
 		return n;

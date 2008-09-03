@@ -8,7 +8,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 
 	private transient Entry lastEntry;
 	private transient Entry cachedEntry;
-	
+
 	class Entry {
 		int index;
 		F value;
@@ -25,19 +25,21 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 	}
 
 	public boolean containsKey(int key) {
-		if(lastEntry != null) {
-			if(key > lastEntry.index) return false;
-			if(key == lastEntry.index) {
+		if (lastEntry != null) {
+			if (key > lastEntry.index)
+				return false;
+			if (key == lastEntry.index) {
 				cachedEntry = lastEntry;
 				return true;
 			}
 		}
-		
+
 		Entry entry;
-		
-		if(cachedEntry != null) {
-			if(key == cachedEntry.index) return true;
-			else if(key > cachedEntry.index) {
+
+		if (cachedEntry != null) {
+			if (key == cachedEntry.index)
+				return true;
+			else if (key > cachedEntry.index) {
 				entry = cachedEntry;
 			} else {
 				entry = firstEntry;
@@ -45,7 +47,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 		} else {
 			entry = firstEntry;
 		}
-		
+
 		while (entry != null && entry.index <= key) {
 			if (entry.index == key) {
 				cachedEntry = entry;
@@ -67,12 +69,12 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 	}
 
 	public F get(int key) {
-		if(cachedEntry != null && cachedEntry.index == key) {
+		if (cachedEntry != null && cachedEntry.index == key) {
 			return cachedEntry.value;
 		}
-			
-//		assert false; // hopefully we never pass this point!
-		
+
+		// assert false; // hopefully we never pass this point!
+
 		Entry entry = firstEntry;
 		while (entry != null && entry.index <= key) {
 			if (entry.index == key) {
@@ -112,10 +114,15 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 
 		};
 	}
-	
+
 	public void put(int key, F f) {
-		if(lastEntry != null) {
-			if(key > lastEntry.index) {
+		if (f == null) {
+			remove(key);
+			return;
+		}
+
+		if (lastEntry != null) {
+			if (key > lastEntry.index) {
 				lastEntry.next = new Entry(key, f);
 				lastEntry = lastEntry.next;
 				return;
@@ -124,14 +131,14 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 				return;
 			}
 		}
-		
+
 		Entry entry;
-		
-		if(cachedEntry != null) {
-			if(cachedEntry.index == key) {
+
+		if (cachedEntry != null) {
+			if (cachedEntry.index == key) {
 				cachedEntry.value = f;
 				return;
-			} else if(cachedEntry.index < key) {
+			} else if (cachedEntry.index < key) {
 				entry = cachedEntry;
 				cachedEntry = null;
 			} else {
@@ -141,28 +148,28 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 		} else {
 			entry = firstEntry;
 		}
-		
+
 		if (entry == null) {
 			firstEntry = new Entry(key, f);
 			lastEntry = firstEntry;
 			return;
 		}
-		if(entry.index > key) {
+		if (entry.index > key) {
 			Entry newEntry = new Entry(key, f);
 			newEntry.next = entry;
 			firstEntry = newEntry;
 			return;
 		}
-		if(entry.index == key) {
+		if (entry.index == key) {
 			entry.value = f;
 			return;
 		}
-		
+
 		while (entry.next != null && entry.next.index < key) {
 			entry = entry.next;
 		}
 		if (entry.next == null) {
-			if(entry.index == key) {
+			if (entry.index == key) {
 				entry.value = f;
 				lastEntry = entry;
 				return;
@@ -183,38 +190,49 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 			}
 		}
 	}
-	
+
 	public void putLast(int key, F f) {
-		if(lastEntry != null) {
-			if(key > lastEntry.index) {
+		if (f == null) {
+			remove(key);
+			return;
+		}
+
+		if (lastEntry != null) {
+			if (key > lastEntry.index) {
 				lastEntry.next = new Entry(key, f);
 				lastEntry = lastEntry.next;
 				return;
 			} else if (key == lastEntry.index) {
 				lastEntry.value = f;
 				return;
+
 			} else {
 				assert false;
 				return;
 			}
 		} else {
-			assert firstEntry == null;
-			firstEntry = new Entry(key, f);
-			lastEntry = firstEntry;
-			return;
+			if(firstEntry == null) {
+				firstEntry = new Entry(key, f);
+				lastEntry = firstEntry;
+				return;
+			} else {
+				put(key, f);
+			}
 		}
 	}
 
 	public void remove(int j) {
 		cachedEntry = null;
-		if(lastEntry != null) {
-			if(lastEntry.index < j) return;
-			if(lastEntry.index == j) lastEntry = null;
+		if (lastEntry != null) {
+			if (lastEntry.index < j)
+				return;
+			if (lastEntry.index == j)
+				lastEntry = null;
 		}
-		
+
 		Entry entry;
-		if(cachedEntry != null) {
-			if(cachedEntry.index < j) { // can only do strictly less than here.
+		if (cachedEntry != null) {
+			if (cachedEntry.index < j) { // can only do strictly less than here.
 				entry = cachedEntry;
 			} else {
 				entry = firstEntry;
@@ -222,7 +240,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 		} else {
 			entry = firstEntry;
 		}
-		
+
 		if (entry == null) {
 			return;
 		}
@@ -246,6 +264,5 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 		cachedEntry = null;
 		lastEntry = null;
 	}
-	
 
 }

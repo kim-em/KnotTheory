@@ -236,6 +236,11 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 		return r;
 	}
 
+	@Override
+	public String toString() {
+		return "CannedCobordism[" + hashCode() + "]";
+	}
+
 	public int compareTo(CannedCobordismImpl cc) {
 		if (this == cc)
 			return 0;

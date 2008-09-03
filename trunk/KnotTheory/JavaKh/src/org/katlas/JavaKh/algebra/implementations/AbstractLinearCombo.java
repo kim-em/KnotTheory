@@ -24,6 +24,10 @@ public abstract class AbstractLinearCombo<R extends Ring<R>, O, Mor extends Morp
 		return terms().iterator().next();
 	}
 
+	public boolean isZero() {
+		return terms().isEmpty();
+	}
+	
 	public int numberOfTerms() {
 		return terms().size();
 	}

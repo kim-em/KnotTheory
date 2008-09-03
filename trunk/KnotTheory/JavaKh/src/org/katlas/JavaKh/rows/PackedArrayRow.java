@@ -100,6 +100,11 @@ public class PackedArrayRow<F> implements MatrixRow<F> {
 	}
 
 	public void put(int key, F f) {
+		if(f == null) {
+			remove(key);
+			return;
+		}
+		
 		int i = 0;
 		if (pointer != -1) {
 			if (keys[pointer] == key) {
@@ -163,6 +168,11 @@ public class PackedArrayRow<F> implements MatrixRow<F> {
 	}
 
 	public void putLast(int key, F f) {
+		if(f == null) {
+			remove(key);
+			return;
+		}
+		
 		if (keys.length == size)
 			extendArrays();
 		keys[size] = key;
