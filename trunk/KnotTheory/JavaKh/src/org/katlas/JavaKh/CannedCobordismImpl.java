@@ -123,6 +123,7 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 	public CannedCobordismImpl(Cap t, Cap b) {
 		top = t;
 		bottom = b;
+		assert b.n == t.n;
 		n = t.n; // assume b.n == t.n
 
 		component = new byte[n];
