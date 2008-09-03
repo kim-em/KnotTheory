@@ -1,5 +1,6 @@
-package org.katlas.JavaKh;
+package org.katlas.JavaKh.interfaces;
 
+import org.katlas.JavaKh.Cap;
 import org.katlas.JavaKh.algebra.Morphism;
 
 public interface CannedCobordism extends Morphism<Cap, CannedCobordism> {

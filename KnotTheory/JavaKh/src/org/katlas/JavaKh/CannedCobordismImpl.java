@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.katlas.JavaKh.algebra.Morphism;
+import org.katlas.JavaKh.interfaces.CannedCobordism;
 import org.katlas.JavaKh.utils.Cache;
 import org.katlas.JavaKh.utils.HashCodeCache;
 import org.katlas.JavaKh.utils.SoftHashMap;
@@ -60,7 +60,7 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 	public transient byte edges[][]; // which edges are part of each mixed
 										// boundary component
 	private transient int hashcode;
-	static private CompositionCache compositionCache = new CompositionCache();
+//	static private CompositionCache compositionCache = new CompositionCache();
 
 	static Cache<CannedCobordism> cobordismCache = new HashCodeCache<CannedCobordism>();
 
@@ -217,14 +217,14 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 		// }
 		r += top.hashCode();
 		r += bottom.hashCode() << 1;
-		int[] f = new int[] { top.ncycles, bottom.ncycles, nbc, ncc, hpower };
-		r += Arrays.hashCode(f) << 2;
+
 		// r += dots.hashCode();
 		// r += genus.hashCode();
 		// r += connectedComponent.hashCode();
 		r += Arrays.hashCode(connectedComponent) << 3;
 		r += Arrays.hashCode(dots) << 5;
 		r += Arrays.hashCode(genus) << 7;
+		r += hpower << 9;
 		// for (int i = 0; i < nbc; i++)
 		// r += (i+1)*connectedComponent[i] << (i % 16);
 		// for (int i = 0; i < ncc; i++) {
@@ -305,148 +305,6 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 		return ret;
 	}
 
-	// public static CannedCobordism generateDisconnected(Cap t, Cap b) {
-	// CannedCobordism ret = new CannedCobordism(t, b);
-	// ret.ncc = ret.nbc;
-	// for (int i = 0; i < ret.nbc; i++)
-	// ret.connectedComponent[i] = i;
-	// ret.dots = new int[ret.ncc];
-	// for (int i = 0; i < ret.ncc; i++)
-	// ret.dots[i] = (int) (Math.random() * 10);
-	// //java.util.Arrays.fill(ret.dots, 2);
-	// ret.genus = new int[ret.ncc];
-	// for (int i = 0; i < ret.ncc; i++)
-	// ret.genus[i] = 0;//(int) (Math.random() * 5);
-	// return ret;
-	// }
-	//
-	// public static CannedCobordism generateConnected(Cap t, Cap b) {
-	// CannedCobordism ret = new CannedCobordism(t, b);
-	// ret.ncc = 1;
-	// java.util.Arrays.fill(ret.connectedComponent, 0);
-	// ret.dots = new int[ret.ncc];
-	// ret.dots[0] = (int) (Math.random() * 30);
-	// ret.genus = new int[ret.ncc];
-	// ret.genus[0] = (int) (Math.random() * 10);
-	// return ret;
-	// }
-	//
-	// public static CannedCobordism generateRandom(Cap t, Cap b) {
-	// CannedCobordism ret = new CannedCobordism(t, b);
-	// ret.ncc = 1 + (int) (Math.random() * (ret.nbc - 1));
-	// for (int i = 0; i < ret.nbc; i++)
-	// ret.connectedComponent[i] = (int) (Math.random() * ret.ncc);
-	// // need to fix the proper consistent ordering
-	// int j = 0;
-	// for (int i = 0; i < ret.nbc; i++)
-	// if (ret.connectedComponent[i] > j) { // swap values
-	// int k = ret.connectedComponent[i];
-	// for (int l = i; l < ret.nbc; l++) {
-	// if (ret.connectedComponent[l] == k)
-	// ret.connectedComponent[l] = j;
-	// else if (ret.connectedComponent[l] == j)
-	// ret.connectedComponent[l] = k;
-	// }
-	// j++;
-	// } else if (ret.connectedComponent[i] == j)
-	// j++;
-	// ret.dots = new int[ret.ncc];
-	// for (int i = 0; i < ret.ncc; i++)
-	// ret.dots[i] = (int) (Math.random() * 10);
-	// //java.util.Arrays.fill(ret.dots, 2);
-	// ret.genus = new int[ret.ncc];
-	// //for (int i = 0; i < ret.ncc; i++)
-	// //ret.genus[i] = (int) (Math.random() * 5);
-	// System.arraycopy(ret.dots, 0, ret.genus, 0, ret.ncc);
-	// return ret;
-	// }
-	//
-	// public static boolean findGenusExample(int n) {
-	// Cap[] caps = Cap.generate(n);
-	// for (int i = 0; i < caps.length; i++)
-	// for (int j = 0; j < caps.length; j++)
-	// for (int k = 0; k < caps.length; k++) {
-	// CannedCobordism a = generateDisconnected(caps[i], caps[j]),
-	// b = generateDisconnected(caps[j], caps[k]);
-	// CannedCobordism c = b.compose(a);
-	// for (int l = 0; l < c.ncc; l++)
-	// if (c.genus[l] > 0) {
-	// int nbc = 0;
-	// for (int m = 0; m < c.nbc; m++)
-	// if (c.connectedComponent[m] == l)
-	// nbc++;
-	// if (nbc == 1)
-	// return true;
-	// }
-	// }
-	// return false;
-	// }
-	//
-	// public static boolean checkAssociativity(int n) {
-	// Cap[] caps = Cap.generate(n);
-	// for (int i = 0; i < caps.length; i++)
-	// for (int j = 0; j < caps.length; j++)
-	// for (int k = 0; k < caps.length; k++)
-	// for (int l = 0; l < caps.length; l++) {
-	// CannedCobordism
-	// a = generateRandom(caps[i], caps[j]),
-	// b = generateRandom(caps[j], caps[k]),
-	// c = generateRandom(caps[k], caps[l]);
-	// CannedCobordism d = (c.compose(b)).compose(a);
-	// CannedCobordism e = c.compose(b.compose(a));
-	// if (!(d.equals(e)))
-	// return false;
-	// int ndots = 0; // check that dots add up properly
-	// for (int m = 0; m < a.ncc; m++)
-	// ndots += a.dots[m];
-	// for (int m = 0; m < b.ncc; m++)
-	// ndots += b.dots[m];
-	// for (int m = 0; m < c.ncc; m++)
-	// ndots += c.dots[m];
-	// for (int m = 0; m < d.ncc; m++)
-	// ndots -= d.dots[m];
-	// if (ndots != 0)
-	// return false;
-	// if (!java.util.Arrays.equals(d.dots, d.genus))
-	// i = i + 0;
-	// }
-	// return true;
-	// }
-	//
-	// public static boolean checkHorizontal() {
-	// Cap caps[] = Cap.generate(6);
-	// for (int i = 0; i < caps.length; i++)
-	// for (int j = 0; j < caps.length; j++)
-	// for (int k = 0; k < caps.length; k++)
-	// for (int l = 0; l < caps.length; l++) {
-	// // there is no reason for the caps to match up
-	// // like this, but all of the combinations is
-	// // a very big number
-	// CannedCobordism
-	// a = generateRandom(caps[i], caps[j]),
-	// b = generateRandom(caps[j], caps[k]),
-	// c = generateRandom(caps[k], caps[l]);
-	// CannedCobordism d = a.compose(1, b, 4, 2).compose(5, c, 3, 3);
-	// CannedCobordism e = a.compose(1, b.compose(1, c, 3, 3), 0, 2);
-	// if (!d.equals(e))
-	// return false;
-	// int ndots = 0; // check that dots add up properly
-	// for (int m = 0; m < a.ncc; m++)
-	// ndots += a.dots[m];
-	// for (int m = 0; m < b.ncc; m++)
-	// ndots += b.dots[m];
-	// for (int m = 0; m < c.ncc; m++)
-	// ndots += c.dots[m];
-	// for (int m = 0; m < d.ncc; m++)
-	// ndots -= d.dots[m];
-	// if (ndots != 0)
-	// return false;
-	// if (!java.util.Arrays.equals(d.dots, d.genus))
-	// i = i + 0;
-	// }
-	// return true;
-	// }
-
 	// sanity check
 	public boolean check() {
 		if (nbc > 0 && ncc < 1)
@@ -458,19 +316,6 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 				return false;
 		return true;
 	}
-
-	// public CannedCobordism compose(CannedCobordism cc) {// cc on top of this
-	// assert top.equals(cc.bottom);
-	// if (ncc + cc.ncc > 20)
-	// return compose2(cc);
-	// VComposeInput ci = new VComposeInput(this, cc);
-	// ComposeOutput co = vcache.get(ci);
-	// if (co == null) {
-	// co = new ComposeOutput(this, cc);
-	// vcache.put(ci, co);
-	// }
-	// return co.get(this, cc);
-	// }
 
 	// new vertical composition
 	public CannedCobordism compose(CannedCobordism icc) {
@@ -1529,6 +1374,7 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 						return cc1.composeWithoutCache(cc2);
 					} else {
 						if (result != null) {
+							@SuppressWarnings("unused")
 							CannedCobordism test;
 							assert result.equals(test = cc1.composeWithoutCache(cc2));
 							assert result == cc1.composeWithoutCache(cc2);

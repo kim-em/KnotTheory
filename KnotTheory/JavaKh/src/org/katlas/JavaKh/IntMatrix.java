@@ -1,5 +1,8 @@
 package org.katlas.JavaKh;
 import java.math.BigInteger;
+
+import org.katlas.JavaKh.algebra.rings.Int;
+import org.katlas.JavaKh.interfaces.LCCC;
 public class IntMatrix {
     int rows, columns;
     BigInteger matrix[][];
@@ -27,7 +30,7 @@ public class IntMatrix {
 		    matrix[i][j] = BigInteger.ZERO;
 		else {
 		    assert rowi[j].numberOfTerms() == 1;
-		    matrix[i][j] = ((Int) rowi[j].firstCoefficient()).n;
+		    matrix[i][j] = ((Int) rowi[j].firstCoefficient()).getN();
 		}
 	}
     }

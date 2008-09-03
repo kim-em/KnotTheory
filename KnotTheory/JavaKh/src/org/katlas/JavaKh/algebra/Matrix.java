@@ -21,8 +21,8 @@ public interface Matrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, Ob
 	public Matrix<R, Obj, Mor> extractRows(List<Integer> rows);
 	public Matrix<R, Obj, Mor> extractColumns(List<Integer> columns);
 	
-	public void insertAfterRow(int row, Matrix<R, Obj, Mor> extraRows);
-	public void insertAfterColumn(int column, Matrix<R, Obj, Mor> extraColumns);
+//	public void insertAfterRow(int row, Matrix<R, Obj, Mor> extraRows);
+//	public void insertAfterColumn(int column, Matrix<R, Obj, Mor> extraColumns);
 	
 	public Matrix<R, Obj, Mor> compose(Matrix<R, Obj, Mor> matrix);
 	

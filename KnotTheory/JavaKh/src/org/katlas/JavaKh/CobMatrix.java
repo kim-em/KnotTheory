@@ -12,17 +12,15 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.katlas.JavaKh.algebra.AbstractMatrix;
 import org.katlas.JavaKh.algebra.DirectSum;
 import org.katlas.JavaKh.algebra.Matrix;
 import org.katlas.JavaKh.algebra.MatrixEntry;
 import org.katlas.JavaKh.algebra.Ring;
-import org.katlas.JavaKh.rows.ArrayRow;
-import org.katlas.JavaKh.rows.DoublyLinkedListRow;
+import org.katlas.JavaKh.algebra.implementations.AbstractMatrix;
+import org.katlas.JavaKh.interfaces.CannedCobordism;
+import org.katlas.JavaKh.interfaces.LCCC;
 import org.katlas.JavaKh.rows.LinkedListRow;
-import org.katlas.JavaKh.rows.MaskedArrayRow;
 import org.katlas.JavaKh.rows.MatrixRow;
-import org.katlas.JavaKh.rows.RedBlackIntegerMap;
 
 
 public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Cap, LCCC<R>> implements Matrix<R, Cap, LCCC<R>>, Serializable{
@@ -159,8 +157,10 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Cap, LCCC<R>
 					LCCC<R> lc = rowEntriesI.get(j).compose(
 							cm.entries.get(j).get(k));
 					if (lc != null) {
+						assert lc.numberOfTerms() > 0;
 						if (result.containsKey(k)) {
-							result.get(k).add(lc);
+							LCCC<R> sum = result.get(k).add(lc);
+							result.put(k, sum);
 						} else {
 							result.put(k, lc); // stopping to think, sadly we
 												// can't use putLast here.
@@ -180,7 +180,7 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Cap, LCCC<R>
     		for(int i : rowEntries.keys()) {
     			LCCC<R> lc = rowEntries.get(i);
     			if(lc != null) {
-    				lc.multiply(n);
+    				rowEntries.put(i, lc.multiply(n));
     			}
     		}
     	}
@@ -231,7 +231,7 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Cap, LCCC<R>
 								break;
 							}
 						} else if(thisKey == thatKey) {
-							thisRowEntry.add(thatRowEntriesI.get(thatKey));	
+							thisRowEntry = thisRowEntry.add(thatRowEntriesI.get(thatKey));	
 							if(!thisIterator.hasNext() || !thatIterator.hasNext()) {
 								break;
 							} else {
@@ -575,17 +575,6 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Cap, LCCC<R>
 	}
 
 	
-	public void insertAfterColumn(int column,
-			Matrix<R, Cap, LCCC<R>> extraColumns) {
-		// TODO
-		throw new UnsupportedOperationException();
-	}
-
-	public void insertAfterRow(int row, Matrix<R, Cap, LCCC<R>> extraRows) {
-		// TODO
-		throw new UnsupportedOperationException();
-	}
-
 	public Iterable<? extends MatrixEntry<LCCC<R>>> matrixColumnEntries(
 			int column) {
 		// TODO Auto-generated method stub

@@ -1,5 +1,7 @@
 package org.katlas.JavaKh;
 
+import org.katlas.JavaKh.interfaces.CannedCobordism;
+
 public class IdentityCannedCobordism implements CannedCobordism {
 
 	private final Cap cap;
