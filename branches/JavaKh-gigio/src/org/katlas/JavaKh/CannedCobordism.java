@@ -204,14 +204,13 @@ public class CannedCobordism implements Comparable<CannedCobordism>, Serializabl
 //	}
 	r += top.hashCode();
 	r += bottom.hashCode() << 1;
-	int[] f = new int[] {top.ncycles, bottom.ncycles, nbc, ncc, hpower};
-	r += Arrays.hashCode(f) << 2;
 //	r += dots.hashCode();
 //	r += genus.hashCode();
 //	r += connectedComponent.hashCode();
 	r += Arrays.hashCode(connectedComponent) << 3;
-	r += Arrays.hashCode(dots) << 4;
-	r += Arrays.hashCode(genus) << 5;
+	r += Arrays.hashCode(dots) << 5;
+	r += Arrays.hashCode(genus) << 7;
+	r += hpower << 9;	
 //	for (int i = 0; i < nbc; i++)
 //	    r += (i+1)*connectedComponent[i] << (i % 16);
 //	for (int i = 0; i < ncc; i++) {

@@ -1468,7 +1468,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				// CannedCobordism.hcacheSize() +
 				Cap.capCache.size() + "/"
 				+ CannedCobordism.cobordismCache.size() + "("
-				+ CannedCobordism.cobordismCache.getNumberOfHits() + "/"
+				+ (CannedCobordism.cobordismCache.getNumberOfChecks() - CannedCobordism.cobordismCache.getNumberOfHits()) + "/"
 				+ CannedCobordism.cobordismCache.getNumberOfChecks() + ") "
 				+ msg;
 
