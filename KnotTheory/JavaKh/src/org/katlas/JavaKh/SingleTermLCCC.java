@@ -27,6 +27,7 @@ public class SingleTermLCCC<R extends Ring<R>> extends
 
 	public SingleTermLCCC(CannedCobordism cc, R coefficient) {
 		super(cc, coefficient);
+		assert false;
 	}
 
 	public LCCC<R> compose(int start, CannedCobordism cc, int cstart, int nc,

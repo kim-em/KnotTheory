@@ -65,7 +65,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 	int startnum;
 
 	transient static boolean parallel;
-	transient static boolean intenseGarbage;
+	transient static boolean intenseGarbage = false;
 
 	private CobMatrix<R> getMatrix(int i) {
 		CobMatrix<R> result = matrices.get(i);
