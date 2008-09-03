@@ -241,7 +241,7 @@ public class LCCCMap<R extends Ring<R>> extends
 		Rings<R> ring = Rings.current();
 
 		LCCC<R> ret = new LCCCMap<R>(source, target);
-		for (CannedCobordism icc : coefficients.keySet()) {
+		for (CannedCobordism icc : terms()) {
 
 			if (!(icc instanceof CannedCobordismImpl)) {
 				throw new UnsupportedOperationException();
