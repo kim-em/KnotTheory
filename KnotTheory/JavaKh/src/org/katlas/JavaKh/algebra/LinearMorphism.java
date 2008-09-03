@@ -5,5 +5,6 @@ public interface LinearMorphism<R extends Ring<R>, Obj, Mor extends LinearMorphi
 	Mor add(Mor m);
 	Mor multiply(int r);
 	Mor multiply(R r);
+	boolean isZero();
 	
 }

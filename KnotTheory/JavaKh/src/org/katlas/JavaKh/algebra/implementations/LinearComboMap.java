@@ -57,28 +57,31 @@ public abstract class LinearComboMap<R extends Ring<R>, O, Mor extends Morphism<
 			R newCoefficient = coefficients.get(cc).add(num);
 			if (newCoefficient.isZero()) {
 				coefficients.remove(cc);
+				if (numberOfTerms() == 0) {
+					return fixedZeroLinearCombo(source(), target());
+				} else {
+					return (LinearMor) this;
+				}
 			} else {
 				coefficients.put(cc, newCoefficient);
+				return (LinearMor) this;
+			}
+		} else {
+
+			if (!num.isZero()) {
+				coefficients.put(cc, num);
 			}
 			return (LinearMor) this;
 		}
-
-		if (num.isZero()) {
-			return (LinearMor) this;
-		}
-
-		coefficients.put(cc, num);
-		return (LinearMor) this;
 	}
 
-	@SuppressWarnings("unchecked")
 	public LinearMor add(LinearMor other) {
 		if (other != null) {
 			for (Mor cc : other.terms()) {
-				/* this = */add(cc, other.getCoefficient(cc));
+				/* this = */ add(cc, other.getCoefficient(cc));
 			}
 		}
-		return (LinearMor) this;
+		return (LinearMor) this.compact();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -95,7 +98,7 @@ public abstract class LinearComboMap<R extends Ring<R>, O, Mor extends Morphism<
 	}
 
 	public LinearMor compose(LinearMor other) { // vertical composition
-		if (other == null || numberOfTerms() == 0 || other.numberOfTerms() == 0) {
+		if (other == null || isZero() || other.isZero()) {
 			return null;
 		}
 
@@ -125,13 +128,5 @@ public abstract class LinearComboMap<R extends Ring<R>, O, Mor extends Morphism<
 	abstract public LinearMor fixedZeroLinearCombo(O source, O target);
 
 	abstract public LinearMor flexibleZeroLinearCombo(O source, O target);
-
-	// @SuppressWarnings("unchecked")
-	// public LinearMor flexibleZeroLinearCombo(O source, O target) {
-	// // You have to override this method if you want to subclass.
-	// // Unless LinearMor is just LinearComboMap, this cast really will fail!
-	// return (LinearMor)(new LinearComboMap<R, O, Mor, LinearMor>(source,
-	// target));
-	// }
 
 }

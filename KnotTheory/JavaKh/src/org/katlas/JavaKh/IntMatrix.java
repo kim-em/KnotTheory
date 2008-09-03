@@ -1,5 +1,6 @@
 package org.katlas.JavaKh;
 import java.math.BigInteger;
+import java.util.List;
 
 import org.katlas.JavaKh.algebra.rings.Int;
 import org.katlas.JavaKh.interfaces.LCCC;
@@ -7,7 +8,7 @@ public class IntMatrix {
     int rows, columns;
     BigInteger matrix[][];
     IntMatrix prev, next;
-    int[] source, target;
+    List<Integer> source, target;
 
     public IntMatrix(int r, int c) {
 	rows = r;
@@ -56,9 +57,9 @@ public class IntMatrix {
 	if (next != null)
 	    next.swapColumns2(a, b);
 	if (target != null) {
-	    int tmp = target[a];
-	    target[a] = target[b];
-	    target[b] = tmp;
+	    int tmp = target.get(a);
+	    target.set(a, target.get(b));
+	    target.set(b, tmp);
 	}
     }
 
@@ -73,9 +74,9 @@ public class IntMatrix {
 	if (prev != null)
 	    prev.swapRows2(a, b);
 	if (source != null) {
-	    int tmp = source[a];
-	    source[a] = source[b];
-	    source[b] = tmp;
+	    int tmp = source.get(a);
+	    source.set(a, source.get(b));
+	    source.set(b, tmp);
 	}
     }
 
@@ -91,7 +92,7 @@ public class IntMatrix {
 	addRow2(a, b, n);
 	/*if (next != null)  --- not needed for our purposes
 	  next.addColumn2(a, b, n);*/
-	assert target == null || target[a] == target[b];
+	assert target == null || target.get(a) == target.get(b);
     }
 
     private void addRow2(int a, int b, BigInteger n) { // a += b * n
@@ -103,7 +104,7 @@ public class IntMatrix {
 	addColumn2(a, b, n);
 	/*if (prev != null) --- same as above
 	  prev.addRow2(a, b, n);*/
-	assert source == null || source[a] == source[b];
+	assert source == null || source.get(a) == source.get(b);
     }
 
     private void addColumn2(int a, int b, BigInteger n) { // a += b * n

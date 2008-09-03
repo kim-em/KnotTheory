@@ -28,6 +28,10 @@ implements LinearCombo<R, O, Mor, LinearMor> {
 		return 0;
 	}
 
+	public boolean isZero() {
+		return true;
+	}
+	
 	public LinearMor add(LinearMor m) {
 		return m;
 	}
@@ -60,7 +64,6 @@ implements LinearCombo<R, O, Mor, LinearMor> {
 	}
 
 	public LinearMor add(Mor mor, R r) {
-		assert false;
 		return singleTermLinearCombo(mor, r);
 	}
 

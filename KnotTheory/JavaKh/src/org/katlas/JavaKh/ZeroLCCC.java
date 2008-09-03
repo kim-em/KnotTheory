@@ -18,7 +18,6 @@ public class ZeroLCCC<R extends Ring<R>> extends
 
 	ZeroLCCC(Cap source, Cap target) {
 		super(source, target);
-		assert false;
 	}
 
 	public LCCC<R> finalizeH() {
@@ -35,14 +34,15 @@ public class ZeroLCCC<R extends Ring<R>> extends
 	
 	public LCCC<R> compose(int start, CannedCobordism cc, int cstart, int nc,
 			boolean reverse) {
-		return new ZeroLCCC<R>(source().compose(start, cc.source(),
-				cstart, nc), target().compose(start, cc.target(), cstart, nc));
+		assert false;
+		throw new UnsupportedOperationException();
+//		return new ZeroLCCC<R>(source().compose(start, cc.source(),
+//				cstart, nc), target().compose(start, cc.target(), cstart, nc));
 	}
 
 	@Override
 	public LCCC<R> fixedZeroLinearCombo(Cap source, Cap target) {
-		return null;
-//		return new ZeroLCCC<R>(source, target);
+		return new ZeroLCCC<R>(source, target);
 	}
 
 	@Override
@@ -52,7 +52,15 @@ public class ZeroLCCC<R extends Ring<R>> extends
 
 	@Override
 	public LCCC<R> singleTermLinearCombo(CannedCobordism mor, R r) {
-		return new SingleTermLCCC<R>(mor, r);
+		/*
+		 * WARNING
+		 * SingleTermLCCC is somehow horribly broken. Don't use it.
+		 * You've been warned.
+		 */
+
+//		return new SingleTermLCCC<R>(mor, r);
+		LCCC<R> result = new LCCCMap<R>(mor.source(), mor.target());
+		return result.add(mor, r);
 	}
 
 }

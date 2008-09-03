@@ -12,10 +12,12 @@ public abstract class SingleTermLinearCombo<R extends Ring<R>, O, Mor extends Mo
 extends	AbstractLinearMorphism<R, O, LinearMor>
 implements LinearCombo<R, O, Mor, LinearMor> {
 
-	protected R coefficient;
-	protected Mor mor;
+	protected final R coefficient;
+	protected final Mor mor;
 	
 	public SingleTermLinearCombo(Mor cc, R coefficient) {
+		assert cc != null;
+		assert coefficient != null;
 		this.mor = cc;
 		this.coefficient = coefficient;
 	}
@@ -25,18 +27,16 @@ implements LinearCombo<R, O, Mor, LinearMor> {
 		return add(m, ring.createInstance(num));
 	}
 
-	@SuppressWarnings("unchecked")
 	public LinearMor add(Mor m, R num) {
 		if(mor.equals(m)) {
-			coefficient = coefficient.add(num);
-			return (LinearMor)this;
+			return singleTermLinearCombo(mor, coefficient.add(num)).compact();
 		} else {
 			assert source().equals(m.source());
 			assert target().equals(m.target());
 			LinearMor result = flexibleZeroLinearCombo(source(), target());
 			result = result.add(mor, coefficient);
 			result = result.add(m, num);
-			return result;
+			return result.compact();
 		}
 	}
 
@@ -52,6 +52,10 @@ implements LinearCombo<R, O, Mor, LinearMor> {
 		return coefficient.isZero() ? 0 : 1;
 	}
 
+	public boolean isZero() {
+		return coefficient.isZero();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public LinearMor add(LinearMor m) {
 		if(m.numberOfTerms() == 0) {
@@ -59,7 +63,7 @@ implements LinearCombo<R, O, Mor, LinearMor> {
 		} else if (m.numberOfTerms() == 1) {
 			if(mor.equals(m.firstTerm())) {
 				R sum = coefficient.add(m.firstCoefficient());
-				return (sum.isZero()) ? fixedZeroLinearCombo(source(), target()) : (LinearMor)this;
+				return (sum.isZero()) ? fixedZeroLinearCombo(source(), target()) : singleTermLinearCombo(mor, sum);
 			} 
 		}
 		// otherwise, create a new LCCC
@@ -73,26 +77,21 @@ implements LinearCombo<R, O, Mor, LinearMor> {
 		return multiply(ring.createInstance(r));
 	}
 
-	@SuppressWarnings("unchecked")
 	public LinearMor multiply(R r) {
-		coefficient = coefficient.multiply(r);
-		return (LinearMor)this;
+		return singleTermLinearCombo(mor, coefficient.multiply(r)).compact();
 	}
 
-	@SuppressWarnings("unchecked")
 	public LinearMor compose(LinearMor m) {
 		if(m.numberOfTerms() == 0) {
 			return fixedZeroLinearCombo(m.source(), target());
 		} else if(m.numberOfTerms() == 1) {
-			mor = mor.compose(m.firstTerm());
-			coefficient = coefficient.multiply(m.firstCoefficient());
-			return (LinearMor)this;
+			return singleTermLinearCombo(mor.compose(m.firstTerm()), coefficient.multiply(m.firstCoefficient())).compact();
 		} else {
 			LinearMor result = flexibleZeroLinearCombo(m.source(), target());
 			for(Mor mor : m.terms()) {
 				result.add(this.mor.compose(mor), coefficient.multiply(m.getCoefficient(mor)));
 			}
-			return result;
+			return result.compact();
 		}
 	}
 

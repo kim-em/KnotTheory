@@ -50,6 +50,13 @@ public abstract class MatrixRowTest<Row extends MatrixRow<String>> {
 		assertEquals(3, iterator.next());
 		assertFalse(iterator.hasNext());
 	}
+	
+	@Test
+	public void testPut3() {
+		row.put(1, "1");
+		row.put(1, null);
+		assertFalse(row.containsKey(1));
+	}
 
 	@Test
 	public void testContainsKey() {
@@ -125,6 +132,15 @@ public abstract class MatrixRowTest<Row extends MatrixRow<String>> {
 		assertFalse(iterator.hasNext());
 	}
 
+	@Test
+	public void testPutLastRemove() {
+		row.putLast(1, "1");
+		row.putLast(2, "2");
+		row.remove(2);
+		row.putLast(3, "3");
+		assertEquals("3", row.get(3));
+	}
+	
 	@Test
 	public void testDecrementRemove1() {
 		row.put(1, "1");

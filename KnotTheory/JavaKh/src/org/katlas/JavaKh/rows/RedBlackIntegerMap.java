@@ -17,4 +17,15 @@ public class RedBlackIntegerMap<F> extends RedBlackIntegerTree<F> implements Mat
 		put(key, f);
 	}
 
+	@Override
+	public void put(int key, F value) {
+		if(value == null) {
+			remove(key);
+		} else {
+			super.put(key, value);
+		}
+	}
+	
+	
+
 }
