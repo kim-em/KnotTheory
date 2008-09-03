@@ -41,10 +41,6 @@ import org.katlas.JavaKh.utils.DiskBackedList;
 import org.katlas.JavaKh.utils.LimitedSizeInputStream;
 import org.katlas.JavaKh.utils.SerializingList;
 
-import com.mallardsoft.tuple.Pair;
-import com.mallardsoft.tuple.Triple;
-import com.mallardsoft.tuple.Tuple;
-
 public class Komplex<R extends Ring<R>> implements Serializable {
 	/**
 	 * 
@@ -1007,7 +1003,6 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 
 	public void blockReductionLemma(int i) { // does one matrix
 		// this assumes delooping has taken place
-		boolean found, found2 = false, ret = false;
 		CobMatrix<R> m = getMatrix(i);
 		if (m.target.n > largestMatrix) {
 			largestMatrix = m.target.n;
@@ -1108,6 +1103,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		return isos;
 	}
 
+	@SuppressWarnings("unused")
 	private List<Isomorphism> findIsomorphisms(CobMatrix<R> m) {
 		List<Isomorphism> locations = new ArrayList<Isomorphism>();
 
@@ -1131,6 +1127,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		return locations;
 	}
 
+	@SuppressWarnings("unused")
 	private List<Isomorphism> findBlockSlow(CobMatrix<R> m,
 			List<Isomorphism> locations) {
 		List<Isomorphism> block = new ArrayList<Isomorphism>();
@@ -1153,6 +1150,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		return block;
 	}
 
+	@SuppressWarnings("unused")
 	private List<List<Isomorphism>> assembleBlocks(CobMatrix<R> m,
 			List<Isomorphism> locations) {
 
@@ -1559,7 +1557,6 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						// System.exit(0);
 						//						
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 						// log.warn("Trying to delete broken cache file...");
 						// cache.deleteOnExit();
@@ -1682,7 +1679,6 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			serializer.writeObject(kom);
 			serializer.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			log.warn("Trying to delete failed output file...");
 			output.deleteOnExit();
