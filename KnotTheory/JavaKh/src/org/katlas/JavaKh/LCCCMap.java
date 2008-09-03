@@ -2,6 +2,7 @@ package org.katlas.JavaKh;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.katlas.JavaKh.algebra.Ring;
@@ -285,10 +286,9 @@ public class LCCCMap<R extends Ring<R>> extends
 				continue;
 			byte nCdots[][] = new byte[1][];
 			int nChpow[] = new int[1];
-			List<R> nCnum = new ArrayList<R>(1);
+			List<R> nCnum = Collections.singletonList(num);
 			nCdots[0] = dots;
 			nChpow[0] = hpow;
-			nCnum.set(0, num);
 			for (int i = 0; i < nmoreWork; i++) {
 				int concomp = moreWork[i];
 				int nbc = cc.boundaryComponents[concomp].length;
@@ -296,6 +296,9 @@ public class LCCCMap<R extends Ring<R>> extends
 				byte newdots[][] = new byte[nCdots.length << nbc][cc.nbc];
 				int newhpow[] = new int[nChpow.length << nbc];
 				List<R> newnum = new ArrayList<R>(nCnum.size() << nbc);
+				for(int s = 0; s < nCnum.size() << nbc; ++s) {
+					newnum.add(ring.ZERO);
+				}
 				for (int j = 0; j < nCdots.length; j++) {
 					for (int k = 0; k < (1 << nbc); k++) {
 						int idx = (j << nbc) + k;
