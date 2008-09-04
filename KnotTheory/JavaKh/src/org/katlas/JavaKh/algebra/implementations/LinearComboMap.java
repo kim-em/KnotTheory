@@ -32,7 +32,9 @@ public abstract class LinearComboMap<R extends Ring<R>, O, Mor extends Morphism<
 	}
 	
 	private Map<Mor, R> newMap(Map<Mor, R> map) {
-		return new TreeMap<Mor, R>(map);
+		Map<Mor, R> newMap = newMap();
+		newMap.putAll(map);
+		return newMap;
 	}
 	
 	protected Map<Mor, R> newMap() {

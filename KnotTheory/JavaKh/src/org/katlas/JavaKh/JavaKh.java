@@ -74,7 +74,7 @@ public class JavaKh {
 					Rings.setRing("Rational");
 				else {
 					ModP.setP(p);
-									Rings.setRing("ModP");
+					Rings.setRing("ModP");
 				}
 			} else {
 				// default
