@@ -66,8 +66,7 @@ public class Rings<R extends Ring<R>> {
 			return (constructor.newInstance(i));
 		} catch (Exception e) {
 			log.warn(e);
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		} 
-		return null;
 	}
 }
