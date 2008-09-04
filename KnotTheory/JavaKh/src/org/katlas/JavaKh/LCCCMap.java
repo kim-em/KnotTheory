@@ -62,10 +62,18 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
      * 		INFO - Peak memory usage: 153,852,960
      * 		INFO - Elapsed time: 402,758
      * 
-     * 		(without -G):
+     * 	  	(without -G):
      * 		INFO - Peak memory usage: 742,332,616
      * 		INFO - Elapsed time: 18,581
      * 
+     *    (and after byte array caching...)
+     *    INFO - Peak memory usage: 174,748,960
+     *    INFO - Elapsed time: 379,354
+     *    
+     *      (without -G):
+     *    INFO - Peak memory usage: 772,997,560
+     *    INFO - Elapsed time: 23,532
+     *      
      * 	TreeMap
      * 		INFO - Peak memory usage: 131,218,096
      * 		INFO - Elapsed time: 403,006

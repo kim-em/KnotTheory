@@ -1,8 +1,8 @@
 package org.katlas.JavaKh.utils;
 
+import gnu.trove.TIntObjectHashMap;
+
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,7 +11,8 @@ public class ArrayCache implements Cache<byte[]> {
 
 	private static final Log log = LogFactory.getLog(ArrayCache.class);
 	
-	private final Map<Integer, byte[]> hashmap = new HashMap<Integer, byte[]>();
+	 private final TIntObjectHashMap<byte[]> hashmap = new TIntObjectHashMap<byte[]>();
+//	private final Map<Integer, byte[]> hashmap = new HashMap<Integer, byte[]>();
 	private transient long hits = 0;
 	private transient long checks = 0;
 //	private transient long hashCollisions = 0;
