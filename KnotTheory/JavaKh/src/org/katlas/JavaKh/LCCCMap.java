@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.TreeMap;
 
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.algebra.implementations.LinearComboMap;
@@ -32,8 +33,11 @@ public class LCCCMap<R extends Ring<R>> extends
 
 	public LCCCMap(LCCC<R> lc) {
 		super(lc.source(), lc.target());
-		assert false;
-		throw new UnsupportedOperationException();
+		if(lc instanceof LCCCMap) {
+			coefficients.putAll(((LCCCMap<R>)lc).coefficients);
+		} else {
+			throw new UnsupportedOperationException();
+		}
 	}
 
 	public LCCCMap(SingleTermLCCC<R> lc) {
@@ -47,27 +51,15 @@ public class LCCCMap<R extends Ring<R>> extends
 
 	@SuppressWarnings("unchecked")
 	public boolean equals(Object o) {
-		assert false;
-
 		if (o == null && numberOfTerms() == 0)
 			return true;
-		if (!(o instanceof LCCCMap))
+		if (!(o instanceof LCCC))
 			return false;
-		LCCCMap<R> other = (LCCCMap<R>) o;
-		if (numberOfTerms() > 1 || other.numberOfTerms() > 1)
-			// not working right now
-			throw new UnsupportedOperationException();
-		if (numberOfTerms() == 0) {
-			if (other.numberOfTerms() != 0
-					&& !other.firstCoefficient().isZero())
-				return false;
-		} else if (other.numberOfTerms() == 0 && !firstCoefficient().isZero())
-			return false;
-		else if (!(coefficients.firstKey()
-				.equals(other.coefficients.firstKey()) && coefficients.get(
-				coefficients.firstKey()).equals(
-				other.coefficients.get(coefficients.firstKey()))))
-			return false;
+		LCCC<R> other = (LCCC<R>) o;
+		if(other.numberOfTerms() != numberOfTerms()) return false;
+		for(CannedCobordism term : terms()) {
+			if(!getCoefficient(term).equals(other.getCoefficient(term))) return false;
+		}
 		return true;
 	}
 
@@ -286,7 +278,8 @@ public class LCCCMap<R extends Ring<R>> extends
 				continue;
 			byte nCdots[][] = new byte[1][];
 			int nChpow[] = new int[1];
-			List<R> nCnum = Collections.singletonList(num);
+			List<R> nCnum = new ArrayList<R>(1);
+			nCnum.add(num);
 			nCdots[0] = dots;
 			nChpow[0] = hpow;
 			for (int i = 0; i < nmoreWork; i++) {
@@ -299,6 +292,7 @@ public class LCCCMap<R extends Ring<R>> extends
 				for(int s = 0; s < nCnum.size() << nbc; ++s) {
 					newnum.add(ring.ZERO);
 				}
+				assert newnum.size() == nCnum.size() << nbc;
 				for (int j = 0; j < nCdots.length; j++) {
 					for (int k = 0; k < (1 << nbc); k++) {
 						int idx = (j << nbc) + k;

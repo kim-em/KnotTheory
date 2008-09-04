@@ -837,6 +837,9 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						prevlc = prevlc.add(newprev, coeff);
 					}
 				}
+				
+				LCCCMap<R> prevlcCopy = new LCCCMap<R>(prevlc);
+				
 				newsc.smoothings.set(newn, newsm);
 				newsc.numbers.set(newn, columns[colnum].numbers.get(i) + nmod);
 				if (prev != null) {
@@ -852,6 +855,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						for (int k : prevMatrixEntriesI.keys()) {
 							LCCC<R> composition = prevlc
 									.compose(prevMatrixEntriesI.get(k));
+							assert prevlc.equals(prevlcCopy);
 							if (!composition.isZero()) {
 								prevEntriesNewN.putLast(k, composition);
 							}

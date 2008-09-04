@@ -60,13 +60,14 @@ public class JavaKh {
 			else
 				rootLogger.setLevel(Level.WARN);
 
+			if(line.hasOption("U")) {
+				using_h = true;
+			} 
+			
 			if(line.hasOption("Z")) {
 				Rings.setRing("Int");
 			} else if(line.hasOption("Q")) {
 				Rings.setRing("Rational");
-			} else if(line.hasOption("U")) {
-				using_h = true;
-				Rings.setRing("Int");				
 			} else if(line.hasOption("m")) {
 				int p = Integer.parseInt(line.getOptionValue("m"));
 				if (p == 0)
