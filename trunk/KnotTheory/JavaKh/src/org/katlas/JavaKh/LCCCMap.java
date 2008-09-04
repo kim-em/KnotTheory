@@ -48,15 +48,24 @@ public class LCCCMap<R extends Ring<R>> extends
 		 * 
 		 * T(8,7)
 		 * 
+		 * SizeRarelyMoreThanOneMap
+		 * INFO - Peak memory usage: 950,488,128
+		 * INFO - Elapsed time: 3,764,186
+		
 		 * TreeMap
 		 * INFO - Peak memory usage: 1,007,876,128
 		 * INFO - Elapsed time: 3,646,449
+		 * 
 		 * 
 		 * T(7,6)
 		 * 
 		 * SizeRarelyMoreThanOneMap
 		 * INFO - Peak memory usage: 153,852,960
 		 * INFO - Elapsed time: 402,758
+		 * 
+		 * TreeMap
+		 * INFO - Peak memory usage: 131,218,096
+		 * INFO - Elapsed time: 403,006
 		 * 
 		 */
 		return new TreeMap<CannedCobordism, R>();
@@ -223,7 +232,7 @@ public class LCCCMap<R extends Ring<R>> extends
 				newcc.ncc = newcc.nbc;
 				newcc.genus = genus;
 				newcc.dots = neckCutting[i];
-				ret = ret.add(newcc, num);
+				ret = ret.add(CannedCobordismImpl.cobordismCache.cache(newcc), num);
 			}
 		}
 
@@ -373,7 +382,7 @@ public class LCCCMap<R extends Ring<R>> extends
 				newcc.genus = CannedCobordismImpl.zeros[cc.nbc];
 				newcc.dots = nCdots[i];
 				newcc.hpower = nChpow[i];
-				ret = ret.add(newcc, nCnum.get(i));
+				ret = ret.add(CannedCobordismImpl.cobordismCache.cache(newcc), nCnum.get(i));
 			}
 		}
 
@@ -393,7 +402,7 @@ public class LCCCMap<R extends Ring<R>> extends
 		assert source.n == 2 && source.ncycles == 0 && target.n == 2
 				&& target.ncycles == 0;
 		LCCC<R> ret = new LCCCMap<R>(source, target);
-		CannedCobordismImpl cc = CannedCobordismImpl.isomorphism(source);
+		CannedCobordismImpl cc = (CannedCobordismImpl)CannedCobordismImpl.isomorphism(source);
 		boolean hset = false;
 		for (CannedCobordism iocc : coefficients.keySet()) {
 			if (!(iocc instanceof CannedCobordismImpl)) {

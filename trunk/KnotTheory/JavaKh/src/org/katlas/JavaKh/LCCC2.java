@@ -255,7 +255,7 @@ public class LCCC2<R extends Ring<R>> implements LCCC<R> {
 				newcc.ncc = newcc.nbc;
 				newcc.genus = genus;
 				newcc.dots = neckCutting[i];
-				ret = (ret == null) ? new LCCC2<R>(newcc, num) : ret.add(newcc,
+				ret = (ret == null) ? new LCCC2<R>(CannedCobordismImpl.cobordismCache.cache(newcc), num) : ret.add(CannedCobordismImpl.cobordismCache.cache(newcc),
 						num);
 			}
 		}
@@ -398,8 +398,8 @@ public class LCCC2<R extends Ring<R>> implements LCCC<R> {
 				newcc.genus = CannedCobordismImpl.zeros[cc.nbc];
 				newcc.dots = nCdots[i];
 				newcc.hpower = nChpow[i];
-				ret = (ret == null ? new LCCC2<R>(newcc, nCnum.get(i)) : ret
-						.add(newcc, nCnum.get(i)));
+				ret = (ret == null ? new LCCC2<R>(CannedCobordismImpl.cobordismCache.cache(newcc), nCnum.get(i)) : ret
+						.add(CannedCobordismImpl.cobordismCache.cache(newcc), nCnum.get(i)));
 			}
 		}
 

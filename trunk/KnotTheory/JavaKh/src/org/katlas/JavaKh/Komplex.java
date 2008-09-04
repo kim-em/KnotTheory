@@ -656,6 +656,10 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			for (int j = 0; j < oldsm.n; j++)
 				newsm.pairings[j] = oldsm.pairings[j];
 			newsm = Cap.capCache.cache(newsm);
+			/*
+			 * prevcc and nextcc can't be cached, because they get reused, changing their dots array
+			 * It shouldn't matter, since they just get composed then discarded.
+			 */
 			CannedCobordismImpl prevcc = new CannedCobordismImpl(oldsm, newsm);
 			prevcc.ncc = prevcc.nbc;
 			prevcc.connectedComponent = CannedCobordismImpl.counting[prevcc.nbc];
@@ -666,8 +670,6 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			nextcc.connectedComponent = CannedCobordismImpl.counting[nextcc.nbc];
 			nextcc.dots = new byte[nextcc.ncc];
 			nextcc.genus = CannedCobordismImpl.zeros[nextcc.ncc];
-			// the dots array for prevcc and nextcc is reused here
-			// this is safe because dots are not stored in the CC cache
 			for (int j = 0; j < (1 << oldsm.ncycles); j++) {
 				int nmod = 0;
 				for (int k = 0; k < oldsm.ncycles; k++) {
@@ -838,8 +840,8 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 						newprev.dots = prevdots;
 						newprev.hpower = prevhpow;
 
-						prevlc = (prevlc == null ? new LCCCMap<R>(newprev, coeff)
-								: prevlc.add(newprev, coeff));
+						prevlc = (prevlc == null ? new LCCCMap<R>(newprev,
+								coeff) : prevlc.add(newprev, coeff));
 					}
 				}
 
@@ -1245,7 +1247,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		phicc.ncc = phicc.nbc;
 		phicc.dots = new byte[phicc.ncc];
 		phicc.genus = new byte[phicc.ncc];
-		LCCC<R> philc = new LCCCMap<R>(phicc, n.inverse().multiply(-1));
+		LCCC<R> philc = new LCCCMap<R>(CannedCobordismImpl.cobordismCache.cache(phicc), n.inverse().multiply(-1));
 		phiinv.putEntry(0, 0, philc);
 
 		CobMatrix<R> gpd = gamma.compose(phiinv).compose(delta);
@@ -1305,8 +1307,9 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			phicc.ncc = phicc.nbc;
 			phicc.dots = new byte[phicc.ncc];
 			phicc.genus = new byte[phicc.ncc];
-			LCCC<R> philc = new LCCCMap<R>(phicc, coefficients.get(k).inverse()
-					.multiply(-1));
+			LCCC<R> philc = new LCCCMap<R>(
+					CannedCobordismImpl.cobordismCache.cache(phicc), 
+					coefficients.get(k).inverse().multiply(-1));
 			// SingleTermLCCC<R> philc = new SingleTermLCCC<R>(phicc,
 			// coefficients.get(k).inverse().multiply(-1));
 			phiinv.putEntry(k, k, philc);
@@ -1492,25 +1495,38 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 	private static String prependLoggingStatus(String msg) {
 		// return "Time: " + System.currentTimeMillis() + " Memory: " +
 		// memoryInUse() + " " + msg;
-		return timeFormatter.format(new Date())
-				+ " "
-				+ dateFormatter.format(new Date())
-				+ " Memory(peak): "
-				+ memoryFormatter.format(memoryInUse())
-				+ "("
-				+ memoryFormatter.format(peakMemoryInUse)
-				+ ")"
-				+ " Cache size(hits): "
-				+ // CannedCobordism.vcacheSize() + "/" +
-				// CannedCobordism.hcacheSize() +
-				Cap.capCache.size()
-				+ "/"
-				+ CannedCobordismImpl.cobordismCache.size()
-				+ "("
-				+ (CannedCobordismImpl.cobordismCache.getNumberOfChecks() - CannedCobordismImpl.cobordismCache
-						.getNumberOfHits()) + "/"
-				+ CannedCobordismImpl.cobordismCache.getNumberOfChecks() + ") "
-				+ msg;
+		StringBuilder sb = new StringBuilder();
+		sb.append(timeFormatter.format(new Date()));
+		sb.append(" ");
+		sb.append(dateFormatter.format(new Date()));
+		sb.append(" Memory(peak): ");
+		sb.append(memoryFormatter.format(memoryInUse()));
+		sb.append("(");
+		sb.append(memoryFormatter.format(peakMemoryInUse));
+		sb.append(") Cache size(hits): ");
+		sb.append(Cap.capCache.size());
+		sb.append("/");
+		sb.append(CannedCobordismImpl.cobordismCache.size());
+		sb.append("(");
+		sb.append(CannedCobordismImpl.cobordismCache.getNumberOfChecks()
+				- CannedCobordismImpl.cobordismCache.getNumberOfHits());
+		sb.append("/");
+		sb.append(CannedCobordismImpl.cobordismCache.getNumberOfChecks());
+		sb.append(")");
+		sb.append("(");
+		sb.append(CannedCobordismImpl.byteArrayCache.getNumberOfChecks()
+				- CannedCobordismImpl.byteArrayCache.getNumberOfHits());
+		sb.append("/");
+		sb.append(CannedCobordismImpl.byteArrayCache.getNumberOfChecks());
+		sb.append(")");
+		sb.append("(");
+		sb.append(CannedCobordismImpl.byteDoubleArrayCache.getNumberOfChecks()
+				- CannedCobordismImpl.byteDoubleArrayCache.getNumberOfHits());
+		sb.append("/");
+		sb.append(CannedCobordismImpl.byteDoubleArrayCache.getNumberOfChecks());
+		sb.append(") ");
+		sb.append(msg);
+		return sb.toString();
 
 	}
 
@@ -1656,11 +1672,10 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			kstart += 4 - nbest + 1;
 			kstart %= 4;
 
+			// for(CobMatrix<R> matrix : kom.matrices) {
+			// System.out.println(matrix);
+			// }
 
-//			for(CobMatrix<R> matrix : kom.matrices) {
-//				System.out.println(matrix);
-//			}
-			
 			if (!dryRun) {
 				info("Crossing number: " + i + "\tGirth: " + nedges + "\t ");
 				if (xsigns[best] == 1)
@@ -1671,10 +1686,10 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				info("Finished composition.");
 			}
 
-//			for(CobMatrix<R> matrix : kom.matrices) {
-//				System.out.println(matrix);
-//			}
-			
+			// for(CobMatrix<R> matrix : kom.matrices) {
+			// System.out.println(matrix);
+			// }
+
 			assert kom.check(true);
 
 			// flush the cobordism cache again!
@@ -2149,7 +2164,9 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 								num = -num;
 							}
 						}
-						LCCC<R> lc = new LCCCMap<R>(cc, ring.createInstance(num));
+						
+						LCCC<R> lc = new LCCCMap<R>(CannedCobordismImpl.cobordismCache.cache(cc), ring
+								.createInstance(num));
 
 						matrices.get(num1 - 1).putEntry(whichRow[i],
 								whichRow[k], lc);
@@ -2171,7 +2188,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				if (reduce) {
 					cm.reduce();
 					if (!cm.isZero()) {
-//						System.out.println(cm);
+						// System.out.println(cm);
 						assert false;
 						return false;
 					}

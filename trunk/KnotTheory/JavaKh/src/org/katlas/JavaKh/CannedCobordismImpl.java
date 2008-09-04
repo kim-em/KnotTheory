@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.katlas.JavaKh.interfaces.CannedCobordism;
+import org.katlas.JavaKh.utils.ArrayCache;
 import org.katlas.JavaKh.utils.Cache;
+import org.katlas.JavaKh.utils.DoubleArrayCache;
 import org.katlas.JavaKh.utils.HashCodeCache;
 import org.katlas.JavaKh.utils.SoftHashMap;
 import org.katlas.JavaKh.utils.TrivialCache;
@@ -62,7 +64,9 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 	private transient int hashcode;
 //	static private CompositionCache compositionCache = new CompositionCache();
 
-	static Cache<CannedCobordism> cobordismCache = new HashCodeCache<CannedCobordism>();
+	static Cache<CannedCobordism> cobordismCache = new CannedCobordismCache();
+	static Cache<byte[]> byteArrayCache = new ArrayCache();
+	static Cache<byte[][]> byteDoubleArrayCache = new DoubleArrayCache();
 
 	// static Map<VComposeInput, ComposeOutput> vcache = new
 	// TreeMap<VComposeInput, ComposeOutput>();
@@ -73,18 +77,24 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 		// vcache = new AlwaysEmptyMap<VComposeInput, ComposeOutput>();
 		// hcache = new AlwaysEmptyMap<HComposeInput, ComposeOutput>();
 		cobordismCache = new TrivialCache<CannedCobordism>();
+		byteArrayCache = new TrivialCache<byte[]>();
+		byteDoubleArrayCache = new TrivialCache<byte[][]>();		
 	}
 
 	public static void enableCache() {
 		// vcache = new TreeMap<VComposeInput, ComposeOutput>();
 		// hcache = new TreeMap<HComposeInput, ComposeOutput>();
 		cobordismCache = new HashCodeCache<CannedCobordism>();
+		byteArrayCache = new ArrayCache();
+		byteDoubleArrayCache = new DoubleArrayCache();
 	}
 
 	public static void flushCache() {
 		// vcache.clear();
 		// hcache.clear();
 		cobordismCache.flush();
+		byteArrayCache.flush();
+		byteDoubleArrayCache.flush();
 	}
 
 	// public static void main(String args[]) {
@@ -167,6 +177,12 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 			int k = connectedComponent[i];
 			boundaryComponents[k][j[k]++] = i;
 		}
+		
+//		for(int i = 0; i < boundaryComponents.length; ++i) {
+//			boundaryComponents[i] = byteArrayCache.cache(boundaryComponents[i]);
+//		}
+		boundaryComponents = byteDoubleArrayCache.cache(boundaryComponents);
+		
 		int nedges[] = new int[offtop];
 		for (int i = 0; i < n; i++)
 			nedges[component[i]]++;
@@ -178,6 +194,11 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 			int k = component[i];
 			edges[k][j[k]++] = (byte) i;
 		}
+		
+//		for(int i = 0; i < edges.length; ++i) {
+//			edges[i] = byteArrayCache.cache(edges[i]);
+//		}
+		edges = byteDoubleArrayCache.cache(edges);
 	}
 
 	public boolean equals(Object o) {
@@ -296,7 +317,7 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 		return true;
 	}
 
-	public static CannedCobordismImpl isomorphism(Cap c) {
+	public static CannedCobordism isomorphism(Cap c) {
 		if (c.ncycles != 0)
 			throw new IllegalArgumentException(
 					"Cycles in cap not supported by CannedCobordism.isomorphism()");
@@ -308,7 +329,7 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 		ret.connectedComponent = counting[ret.nbc];
 		ret.genus = zeros[ret.ncc];
 		ret.dots = zeros[ret.ncc];
-		return ret;
+		return cobordismCache.cache(ret);
 	}
 
 	// sanity check
@@ -1360,6 +1381,21 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 	// return hcache.size();
 	// }
 
+	static class CannedCobordismCache extends HashCodeCache<CannedCobordism> {
+
+		@Override
+		public synchronized CannedCobordism cache(CannedCobordism _cc) {
+			if(_cc instanceof CannedCobordismImpl) {
+				CannedCobordismImpl cc = (CannedCobordismImpl)_cc;
+				cc.dots = byteArrayCache.cache(cc.dots);
+				cc.genus = byteArrayCache.cache(cc.genus);
+				cc.component = byteArrayCache.cache(cc.component);				
+			}
+			return super.cache(_cc);
+		}
+		
+	}
+	
 	static class CompositionCache {
 		Map<Integer, Map<Integer, Triple<CannedCobordismImpl, CannedCobordismImpl, CannedCobordism>>> map = new SoftHashMap<Integer, Map<Integer, Triple<CannedCobordismImpl, CannedCobordismImpl, CannedCobordism>>>();
 
