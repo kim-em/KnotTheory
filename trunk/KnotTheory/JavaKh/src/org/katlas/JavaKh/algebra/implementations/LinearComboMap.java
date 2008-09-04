@@ -1,55 +1,46 @@
 package org.katlas.JavaKh.algebra.implementations;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.katlas.JavaKh.algebra.LinearCombo;
 import org.katlas.JavaKh.algebra.Morphism;
 import org.katlas.JavaKh.algebra.Ring;
-import org.katlas.JavaKh.algebra.implementations.AbstractLinearCombo;
 import org.katlas.JavaKh.algebra.rings.Rings;
 
 public abstract class LinearComboMap<R extends Ring<R>, O, Mor extends Morphism<O, Mor>, LinearMor extends LinearCombo<R, O, Mor, LinearMor>>
 		extends AbstractLinearCombo<R, O, Mor, LinearMor> implements
 		LinearCombo<R, O, Mor, LinearMor> {
 
-	public final SortedMap<Mor, R> coefficients;
+	public final Map<Mor, R> coefficients;
 
 	public LinearComboMap(O source, O target) {
 		super(source, target);
-		coefficients = emptyMap();
+		coefficients = newMap();
 	}
 
 	public LinearComboMap(O source, O target, Map<Mor, R> coefficients) {
 		super(source, target);
-		this.coefficients = unmodifiableMap(new TreeMap<Mor, R>(coefficients));
+		this.coefficients = newMap(coefficients);
 	}
 
 	public LinearComboMap(Mor mor, R r) {
 		super(mor.source(), mor.target());
-		SortedMap<Mor, R> coefficients_ = new TreeMap<Mor, R>();
-		coefficients_.put(mor, r);
-		coefficients = unmodifiableMap(coefficients_);
+		coefficients = newMap();
+		coefficients.put(mor, r);
 	}
 	
-	private SortedMap<Mor, R> emptyMap() {
+	private Map<Mor, R> newMap(Map<Mor, R> map) {
+		return new TreeMap<Mor, R>(map);
+	}
+	
+	protected Map<Mor, R> newMap() {
 		return new TreeMap<Mor, R>();
-//		return EmptySortedMap.instance();
-	}
-	
-	private SortedMap<Mor, R> unmodifiableMap(SortedMap<Mor, R> map) {
-//		return (SortedMap<Mor, R>) Collections.unmodifiableMap(map);
-		return map;
 	}
 	
 	public Mor firstTerm() {
-		return coefficients.firstKey();
+		return coefficients.keySet().iterator().next();
 	}
 
 	public R firstCoefficient() {
