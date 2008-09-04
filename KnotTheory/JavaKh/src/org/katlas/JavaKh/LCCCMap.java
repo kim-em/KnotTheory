@@ -3,7 +3,10 @@ package org.katlas.JavaKh;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
+import org.katlas.JavaKh.LCCC.SizeRarelyMoreThanOneMap;
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.algebra.implementations.LinearComboMap;
 import org.katlas.JavaKh.algebra.rings.Rings;
@@ -25,10 +28,6 @@ public class LCCCMap<R extends Ring<R>> extends
 		super(source, target);
 	}
 	
-//	public LCCCMap(LCCCMap<R> lc) {
-//		super(lc);
-//	}
-
 	public LCCCMap(LCCC<R> lc) {
 		super(lc.source(), lc.target());
 		if(lc instanceof LCCCMap) {
@@ -38,19 +37,16 @@ public class LCCCMap<R extends Ring<R>> extends
 		}
 	}
 
-//	public LCCCMap(SingleTermLCCC<R> lc) {
-//		super(lc.source(), lc.target());
-//		coefficients.put(lc.firstTerm(), lc.firstCoefficient());
-//	}
-//
-//	public LCCCMap(ZeroLCCC<R> lc) {
-//		super(lc.source(), lc.target());
-//	}
-
 	public LCCCMap(CannedCobordism cc, R r) {
 		super(cc, r);
 	}
-	
+
+	@Override
+	protected Map<CannedCobordism, R> newMap() {
+		return new TreeMap<CannedCobordism, R>();
+//		return new SizeRarelyMoreThanOneMap<CannedCobordism, R>();
+	}
+
 	@SuppressWarnings("unchecked")
 	public boolean equals(Object o) {
 		if (o == null && numberOfTerms() == 0)
