@@ -57,21 +57,16 @@ public abstract class LinearComboMap<R extends Ring<R>, O, Mor extends Morphism<
 			R newCoefficient = coefficients.get(cc).add(num);
 			if (newCoefficient.isZero()) {
 				coefficients.remove(cc);
-				if (numberOfTerms() == 0) {
-					return fixedZeroLinearCombo(source(), target());
-				} else {
-					return (LinearMor) this;
-				}
+				return compact();
 			} else {
 				coefficients.put(cc, newCoefficient);
-				return (LinearMor) this;
+				return (LinearMor)this;
 			}
 		} else {
-
 			if (!num.isZero()) {
 				coefficients.put(cc, num);
 			}
-			return (LinearMor) this;
+			return (LinearMor)this;
 		}
 	}
 

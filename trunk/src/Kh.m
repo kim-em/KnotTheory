@@ -527,7 +527,7 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     cl = StringJoin[
       "!java -classpath \"", classpath,
       "\" ", javaoptions, " org.katlas.JavaKh.JavaKh ",
-      If[universal, "-U", If[modulus === Null, "-Z", "--mod "<>ToString[modulus]]],
+      If[universal, "-U -Z", If[modulus === Null, "-Z", "--mod "<>ToString[modulus]]],
       " < pd 2> JavaKh.log"
     ];
     f = OpenRead[cl];
