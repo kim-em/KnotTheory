@@ -43,8 +43,17 @@ public class LCCCMap<R extends Ring<R>> extends
 
 	@Override
 	protected Map<CannedCobordism, R> newMap() {
-		return new TreeMap<CannedCobordism, R>();
-//		return new SizeRarelyMoreThanOneMap<CannedCobordism, R>();
+		/* 
+		 * Performance data on T(8,7), at rev ~476
+		 * 
+		 * TreeMap
+		 * INFO - Peak memory usage: 1,007,876,128
+		 * INFO - Elapsed time: 3,646,449
+		 * 
+		 * 
+		 */
+//		return new TreeMap<CannedCobordism, R>();
+		return new SizeRarelyMoreThanOneMap<CannedCobordism, R>();
 	}
 
 	@SuppressWarnings("unchecked")
