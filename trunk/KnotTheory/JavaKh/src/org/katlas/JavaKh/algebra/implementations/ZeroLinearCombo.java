@@ -6,6 +6,7 @@ import java.util.Set;
 import org.katlas.JavaKh.algebra.LinearCombo;
 import org.katlas.JavaKh.algebra.Morphism;
 import org.katlas.JavaKh.algebra.Ring;
+import org.katlas.JavaKh.algebra.implementations.AbstractLinearCombo;
 import org.katlas.JavaKh.algebra.rings.Rings;
 
 public abstract class ZeroLinearCombo<R extends Ring<R>, O, Mor extends Morphism<O, Mor>, LinearMor extends LinearCombo<R, O, Mor, LinearMor>>
@@ -81,7 +82,6 @@ implements LinearCombo<R, O, Mor, LinearMor> {
 	public abstract LinearMor flexibleZeroLinearCombo(O source, O target);
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public LinearMor compact() {
 		return (LinearMor)this;
 	}

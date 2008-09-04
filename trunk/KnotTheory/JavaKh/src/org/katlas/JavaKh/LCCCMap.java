@@ -2,9 +2,7 @@ package org.katlas.JavaKh;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.TreeMap;
 
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.algebra.implementations.LinearComboMap;
@@ -26,10 +24,10 @@ public class LCCCMap<R extends Ring<R>> extends
 	public LCCCMap(Cap source, Cap target) {
 		super(source, target);
 	}
-
-	public LCCCMap(LCCCMap<R> lc) {
-		super(lc);
-	}
+	
+//	public LCCCMap(LCCCMap<R> lc) {
+//		super(lc);
+//	}
 
 	public LCCCMap(LCCC<R> lc) {
 		super(lc.source(), lc.target());
@@ -40,15 +38,19 @@ public class LCCCMap<R extends Ring<R>> extends
 		}
 	}
 
-	public LCCCMap(SingleTermLCCC<R> lc) {
-		super(lc.source(), lc.target());
-		coefficients.put(lc.firstTerm(), lc.firstCoefficient());
-	}
+//	public LCCCMap(SingleTermLCCC<R> lc) {
+//		super(lc.source(), lc.target());
+//		coefficients.put(lc.firstTerm(), lc.firstCoefficient());
+//	}
+//
+//	public LCCCMap(ZeroLCCC<R> lc) {
+//		super(lc.source(), lc.target());
+//	}
 
-	public LCCCMap(ZeroLCCC<R> lc) {
-		super(lc.source(), lc.target());
+	public LCCCMap(CannedCobordism cc, R r) {
+		super(cc, r);
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public boolean equals(Object o) {
 		if (o == null && numberOfTerms() == 0)
@@ -95,7 +97,7 @@ public class LCCCMap<R extends Ring<R>> extends
 			}
 		}
 
-		return ret.compact();
+		return ret == null ? null : ret.compact();
 	}
 
 	@Override
@@ -213,12 +215,13 @@ public class LCCCMap<R extends Ring<R>> extends
 			}
 		}
 
-		ret = ret.compact();
+		ret = ret == null ? null : ret.compact();
 		if (ret instanceof LCCCMap) {
 			((LCCCMap<R>) ret).alreadyReduced = true;
-		} else if (ret instanceof SingleTermLCCC) {
-			((SingleTermLCCC<R>) ret).alreadyReduced = true;
 		}
+//		else if (ret instanceof SingleTermLCCC) {
+//			((SingleTermLCCC<R>) ret).alreadyReduced = true;
+//		}
 		return ret;
 	}
 
@@ -365,9 +368,10 @@ public class LCCCMap<R extends Ring<R>> extends
 		ret = ret.compact();
 		if (ret instanceof LCCCMap) {
 			((LCCCMap<R>) ret).alreadyReduced = true;
-		} else if (ret instanceof SingleTermLCCC) {
-			((SingleTermLCCC<R>) ret).alreadyReduced = true;
 		}
+//		else if (ret instanceof SingleTermLCCC) {
+//			((SingleTermLCCC<R>) ret).alreadyReduced = true;
+//		}
 		return ret;
 	}
 
@@ -414,8 +418,13 @@ public class LCCCMap<R extends Ring<R>> extends
 		 * You've been warned.
 		 */
 //		return new SingleTermLCCC<R>(mor, r);
-		 LCCC<R> result = new LCCCMap<R>(mor.source(), mor.target());
-		 return result.add(mor, r);
+		LCCCMap<R> result = new LCCCMap<R>(mor, r);
+		return result;
+	}
+
+	public LCCC<R> compact() {
+		if(numberOfTerms() == 0) return fixedZeroLinearCombo(source(), target());
+		else return this;
 	}
 
 }

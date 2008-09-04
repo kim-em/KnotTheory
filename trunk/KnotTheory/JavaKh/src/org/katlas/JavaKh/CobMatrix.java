@@ -95,7 +95,7 @@ public class CobMatrix<R extends Ring<R>> extends
 			if (sum.isZero()) {
 				entries.get(row).remove(column);
 			} else {
-				entries.get(row).put(column, entry.add(t));
+				entries.get(row).put(column, sum);
 			}
 		}
 	}
@@ -177,7 +177,7 @@ public class CobMatrix<R extends Ring<R>> extends
 						assert lc.source().equals(cm.entries.get(j).get(k).source());
 						if (result.containsKey(k)) {
 							LCCC<R> sum = result.get(k).add(lc);
-							if (sum.isZero()) {
+							if (sum == null || sum.isZero()) {
 								result.remove(k);
 							} else {
 								result.put(k, sum);
@@ -262,8 +262,8 @@ public class CobMatrix<R extends Ring<R>> extends
 								break;
 							}
 						} else if (thisKey == thatKey) {
-							thisRowEntry = thisRowEntry.add(thatRowEntriesI
-									.get(thatKey));
+							thisRowEntriesI.put(thisKey, thisRowEntry.add(thatRowEntriesI
+									.get(thatKey)));
 							if (!thisIterator.hasNext()
 									|| !thatIterator.hasNext()) {
 								break;
@@ -315,8 +315,8 @@ public class CobMatrix<R extends Ring<R>> extends
 			Set<Integer> entriesToRemove = new HashSet<Integer>();
 			for (int i : rowEntries.keys()) {
 				LCCC<R> rlc = rowEntries.get(i).reduce();
-				assert rlc != null;
-				if (rlc.isZero()) {
+//				assert rlc != null;
+				if (rlc == null || rlc.isZero()) {
 					entriesToRemove.add(i);
 				} else {
 					rowEntries.put(i, rlc);
@@ -335,6 +335,8 @@ public class CobMatrix<R extends Ring<R>> extends
 				LCCC<R> lc = rowEntries.get(i);
 				if (lc != null && lc.numberOfTerms() > 0) {
 					return false;
+				} else {
+					assert false;
 				}
 			}
 		}
@@ -387,6 +389,11 @@ public class CobMatrix<R extends Ring<R>> extends
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
+		sb.append("CobMatrix: ");
+		sb.append(source.toString());
+		sb.append(" ---> ");
+		sb.append(target.toString());
+		sb.append("\r\n");
 		for (int i = 0; i < entries.size(); ++i) {
 			MatrixRow<LCCC<R>> row = entries.get(i);
 			sb.append('(');

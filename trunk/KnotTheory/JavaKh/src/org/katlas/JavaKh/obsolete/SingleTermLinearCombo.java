@@ -1,4 +1,4 @@
-package org.katlas.JavaKh.algebra.implementations;
+package org.katlas.JavaKh.obsolete;
 
 import java.util.Collections;
 import java.util.Set;
@@ -6,6 +6,7 @@ import java.util.Set;
 import org.katlas.JavaKh.algebra.LinearCombo;
 import org.katlas.JavaKh.algebra.Morphism;
 import org.katlas.JavaKh.algebra.Ring;
+import org.katlas.JavaKh.algebra.implementations.AbstractLinearMorphism;
 import org.katlas.JavaKh.algebra.rings.Rings;
 
 public abstract class SingleTermLinearCombo<R extends Ring<R>, O, Mor extends Morphism<O, Mor>, LinearMor extends LinearCombo<R, O, Mor, LinearMor>>
@@ -58,6 +59,8 @@ implements LinearCombo<R, O, Mor, LinearMor> {
 	
 	@SuppressWarnings("unchecked")
 	public LinearMor add(LinearMor m) {
+		assert source().equals(m.source());
+		
 		if(m.numberOfTerms() == 0) {
 			return (LinearMor)this;
 		} else if (m.numberOfTerms() == 1) {

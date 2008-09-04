@@ -7,7 +7,7 @@ import org.katlas.JavaKh.algebra.LinearMorphism;
 import org.katlas.JavaKh.algebra.Morphism;
 import org.katlas.JavaKh.algebra.Ring;
 
-public abstract class AbstractLinearCombo<R extends Ring<R>, O, Mor extends Morphism<O, Mor>, LinearMor extends LinearMorphism<R, O, LinearMor>> extends AbstractLinearMorphism<R, O, LinearMor> implements LinearCombo<R, O, Mor, LinearMor> {
+public abstract class AbstractLinearCombo<R extends Ring<R>, O, Mor extends Morphism<O, Mor>, LinearMor extends LinearMorphism<R, O, LinearMor>> implements LinearCombo<R, O, Mor, LinearMor> {
 
 	protected final O source, target;
 	
@@ -51,17 +51,17 @@ public abstract class AbstractLinearCombo<R extends Ring<R>, O, Mor extends Morp
 		return sb.toString();
 	}
 	
-	@SuppressWarnings("unchecked")
-	public	LinearMor compact() {
-//		return (LinearMor)this;
-		
-		if(numberOfTerms() == 0) {
-			return fixedZeroLinearCombo(source(), target());
-		} else if (numberOfTerms() == 1) {
-			return singleTermLinearCombo(firstTerm(), firstCoefficient());
-		} else {
-			return (LinearMor)this;
-		}	
-	}
+//	@SuppressWarnings("unchecked")
+//	public	LinearMor compact() {
+////		return (LinearMor)this;
+//		
+//		if(numberOfTerms() == 0) {
+//			return fixedZeroLinearCombo(source(), target());
+//		} else if (numberOfTerms() == 1) {
+//			return singleTermLinearCombo(firstTerm(), firstCoefficient());
+//		} else {
+//			return (LinearMor)this;
+//		}	
+//	}
 	
 }
