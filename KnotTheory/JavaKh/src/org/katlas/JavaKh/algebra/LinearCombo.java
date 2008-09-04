@@ -14,12 +14,12 @@ public interface LinearCombo<R extends Ring<R>, O, Mor extends Morphism<O, Mor>,
 	public abstract Set<Mor> terms();
 	public abstract R getCoefficient(Mor term);
 	
-	public abstract LinearMor add(Mor m, int num);
+//	public abstract LinearMor add(Mor m, int num);
 	public abstract LinearMor add(Mor m, R r);
 	
-	public abstract LinearMor singleTermLinearCombo(Mor mor, R r);
-	public abstract LinearMor flexibleZeroLinearCombo(O source, O target);
-	public abstract LinearMor fixedZeroLinearCombo(O source, O target);
-
+//	public abstract LinearMor singleTermLinearCombo(Mor mor, R r);
+//	public abstract LinearMor flexibleZeroLinearCombo(O source, O target);
+//	public abstract LinearMor fixedZeroLinearCombo(O source, O target);
+//
 	LinearMor compact();
 }

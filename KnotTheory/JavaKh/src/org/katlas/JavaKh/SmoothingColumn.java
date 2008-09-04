@@ -49,6 +49,17 @@ public class SmoothingColumn implements Serializable {
 	return true;
     }
 
+    public String toString() {
+    	StringBuilder sb = new StringBuilder();
+    	if(n > 0) {
+    		sb.append("q^(" + numbers.get(0) + ")*" + smoothings.get(0).toString());
+    	}
+    	for(int i = 1; i < n; ++i) {
+        	sb.append(" + q^(" + numbers.get(i) + ")*" + smoothings.get(i).toString());    		
+    	}
+    	return sb.toString();
+    }
+    
     public void printNumbers() {
 	for (int i = 0; i < n; i++)
 	    System.out.print(" " + numbers.get(i));

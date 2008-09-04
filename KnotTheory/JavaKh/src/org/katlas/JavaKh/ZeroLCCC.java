@@ -2,6 +2,8 @@ package org.katlas.JavaKh;
 
 import java.io.Serializable;
 
+import org.katlas.JavaKh.Cap;
+import org.katlas.JavaKh.LCCCMap;
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.algebra.implementations.ZeroLinearCombo;
 import org.katlas.JavaKh.interfaces.CannedCobordism;
@@ -59,8 +61,8 @@ public class ZeroLCCC<R extends Ring<R>> extends
 		 */
 
 //		return new SingleTermLCCC<R>(mor, r);
-		LCCC<R> result = new LCCCMap<R>(mor.source(), mor.target());
-		return result.add(mor, r);
+		LCCCMap<R> result = new LCCCMap<R>(mor, r);
+		return result;
 	}
 
 }

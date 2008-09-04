@@ -1,11 +1,10 @@
 package org.katlas.JavaKh.algebra.implementations;
 
-import org.katlas.JavaKh.algebra.DirectSum;
 import org.katlas.JavaKh.algebra.LinearMorphism;
 import org.katlas.JavaKh.algebra.Matrix;
 import org.katlas.JavaKh.algebra.Ring;
 
-public abstract class AbstractMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, Obj, Mor>> extends AbstractLinearMorphism<R, DirectSum<Obj>, Matrix<R, Obj, Mor>> implements Matrix<R, Obj, Mor> {
+public abstract class AbstractMatrix<R extends Ring<R>, Obj, Mor extends LinearMorphism<R, Obj, Mor>> implements Matrix<R, Obj, Mor> {
 
 	public void addEntry(int row, int column, Mor t) {
 		Mor existingEntry = getEntry(row, column);

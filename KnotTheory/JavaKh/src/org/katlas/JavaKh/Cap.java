@@ -64,6 +64,11 @@ public class Cap implements Comparable<Cap>, Serializable {
     	return Arrays.hashCode(pairings) + ncycles;
     }
     
+	@Override
+	public String toString() {
+		return "Cap[" + hashCode() + "]";
+	}
+    
     public int compareTo(Cap c) {
 	if (n != c.n)
 	    return n - c.n;

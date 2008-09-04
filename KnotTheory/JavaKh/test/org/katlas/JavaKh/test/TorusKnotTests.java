@@ -15,6 +15,9 @@ import org.katlas.JavaKh.algebra.rings.Rings;
 
 public class TorusKnotTests {
 
+	private static final String pdT32 = "PD[X[1, 4, 2, 5], X[3, 6, 4, 1], X[5, 2, 6, 3]]";
+	private static final String T32_polynomial = "q^-9*t^-3 + q^-5*t^-2 + q^-3*t^0 + q^-1*t^0 ";
+	
 	private static final String pdT43 = "PD[X[4,16,5,15],X[5,11,6,10],X[16,12,1,11],X[1,7,2,6],X[12,8,13,7],X[9,15,10,14],X[13,3,14,2],X[8,4,9,3]]";
 	private static final String T43_polynomial = "q^5*t^0 + q^7*t^0 + q^9*t^2 + q^13*t^3 + q^11*t^4 + q^13*t^4 + q^15*t^5 + q^17*t^5 ";
 	
@@ -39,6 +42,11 @@ public class TorusKnotTests {
 		return createComplex(parseKnot(pd));
 	}
 	
+	@Test
+	public void testT32() throws IOException {
+		assertEquals(T32_polynomial, createComplex(pdT32).Kh());
+	}
+
 	@Test
 	public void testT43() throws IOException {
 		assertEquals(T43_polynomial, createComplex(pdT43).Kh());
