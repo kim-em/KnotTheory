@@ -1,7 +1,6 @@
 package org.katlas.JavaKh.utils;
 
-import java.util.HashMap;
-import java.util.Map;
+import gnu.trove.TIntObjectHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,9 +10,9 @@ public class HashCodeCache<E> implements Cache<E> {
 	private static final Log log = LogFactory.getLog(HashCodeCache.class);
 	
 //	private final TIntObjectHashMap<WeakReference<E>> hashmap = new TIntObjectHashMap<WeakReference<E>>();
-//	private final TIntObjectHashMap<E> hashmap = new TIntObjectHashMap<E>();
+	private final TIntObjectHashMap<E> hashmap = new TIntObjectHashMap<E>();
 //	private final RedBlackIntegerTree<E> hashmap = new RedBlackIntegerTree<E>();
-	private final Map<Integer, E> hashmap = new HashMap<Integer, E>();
+//	private final Map<Integer, E> hashmap = new HashMap<Integer, E>();
 	private transient long hits = 0;
 	private transient long checks = 0;
 	

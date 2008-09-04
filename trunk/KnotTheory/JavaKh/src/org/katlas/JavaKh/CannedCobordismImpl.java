@@ -329,7 +329,7 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 		ret.connectedComponent = counting[ret.nbc];
 		ret.genus = zeros[ret.ncc];
 		ret.dots = zeros[ret.ncc];
-		return cobordismCache.cache(ret);
+		return ret;
 	}
 
 	// sanity check
