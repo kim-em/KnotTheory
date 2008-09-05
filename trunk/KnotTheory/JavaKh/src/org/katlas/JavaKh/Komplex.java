@@ -48,26 +48,25 @@ public class Komplex<R extends Ring<R>> implements Serializable {
   /**
 	 * 
 	 */
-  private static final long               serialVersionUID           = -6669296477790589829L;
-  private static final int                LOAD_SERIALIZATION_VERSION = 2;
+  private static final long            serialVersionUID           = -6669296477790589829L;
+  private static final int             LOAD_SERIALIZATION_VERSION = 1;
 
-  private static final Log                log                        = LogFactory.getLog(Komplex.class);
+  private static final Log             log                        = LogFactory.getLog(Komplex.class);
 
-  private static final int                MAXDEPTH                   = 3;
+  private static final int             MAXDEPTH                   = 3;
 
-  private static int                      mostReductions             = 0;
-  private static int                      largestMatrix              = 0;
-  private static int                      largestIsomorphismBlock    = 0;
+  private static int                   mostReductions             = 0;
+  private static int                   largestMatrix              = 0;
+  private static int                   largestIsomorphismBlock    = 0;
 
-  private transient int                   ncolumns;
-//  private transient int                   nfixed;
-  private transient final SmoothingColumn columns[];
-  private transient List<CobMatrix<R>>    matrices;
-  private transient int                   startnum;
-  private transient boolean               inMemory;
-  
-  transient static boolean        parallel;
-  transient static boolean        intenseGarbage             = false;
+  private transient int                ncolumns;
+  private transient SmoothingColumn    columns[];
+  private transient List<CobMatrix<R>> matrices;
+  private transient int                startnum;
+  private transient boolean            inMemory;
+
+  transient static boolean             parallel;
+  transient static boolean             intenseGarbage             = false;
 
   private CobMatrix<R> getMatrix(int i) {
     CobMatrix<R> result = matrices.get(i);
@@ -1561,17 +1560,16 @@ public class Komplex<R extends Ring<R>> implements Serializable {
             kom = (Komplex<R>) (deserializer.readObject());
             dryRun = true;
 
-//             uncomment this if you just want to check that you can read a serialization
-//             System.out.println("Successful deserialization!");
-//             System.exit(0);
-            
-//             uncomment this to upconvert serialization versions...
-//             System.out.println(
-//             "Writing the complex back to disk, in the new serialization format..."
-//             );
-//             writeCache(kom, i);
-//             System.exit(0);
-            						
+            //             uncomment this if you just want to check that you can read a serialization
+            //             System.out.println("Successful deserialization!");
+            //             System.exit(0);
+
+            //             uncomment this to upconvert serialization versions...
+                         System.out.println(
+                         "Writing the complex back to disk, in the new serialization format..."
+                         );
+                         writeCache(kom, i);
+                         System.exit(0);
           } catch (Exception e) {
             e.printStackTrace();
             // log.warn("Trying to delete broken cache file...");
@@ -1725,7 +1723,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
       ((CachingList<CobMatrix<R>>) (ret.matrices)).resetCacheSize(1);
     }
     ret.startnum = startnum + kom.startnum;
-//    ret.nfixed = nfixed + kom.nfixed - 2 * nc;
+    //    ret.nfixed = nfixed + kom.nfixed - 2 * nc;
     int colsizes[] = new int[ret.ncolumns];
     for (int i = 0; i < ret.ncolumns; i++)
       // want columns a from this and b from kom s.t. a + b = i
@@ -1841,7 +1839,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
     Rings<R> ring = Rings.current();
 
     // pd defines a tangle in PD form, with nfixed fixed points
-//    this.nfixed = nfixed;
+    //    this.nfixed = nfixed;
     ncolumns = pd.length + 1; // pd.length is the number of crossings
     columns = new SmoothingColumn[ncolumns];
     this.inMemory = true;
@@ -2126,12 +2124,16 @@ public class Komplex<R extends Ring<R>> implements Serializable {
           .getProperty("java.io.tmpdir"))), 3);
     }
   }
+
   private void writeObject(ObjectOutputStream s) throws IOException {
     // as of version 2 we *don't* call defaultWriteObject, so other classes can do partial deserializations.
     // c.f. CheckKomplex
     s.writeInt(2); // Serialization version
     s.writeInt(matrices.size());
     s.writeInt(startnum);
+    for (int i = 0; i <= matrices.size(); ++i) {
+      s.writeObject(columns[i]);
+    }
     int i = 0;
     if (matrices instanceof SerializingList) {
       assert !inMemory;
@@ -2211,6 +2213,10 @@ public class Komplex<R extends Ring<R>> implements Serializable {
       int size = s.readInt();
       ncolumns = size + 1;
       startnum = s.readInt();
+      columns = new SmoothingColumn[ncolumns];
+      for (int i = 0; i < ncolumns; ++i) {
+        columns[i] = (SmoothingColumn) s.readObject();
+      }
       inMemory = !s.readBoolean();
       createMatrixList();
       if (!inMemory) {
