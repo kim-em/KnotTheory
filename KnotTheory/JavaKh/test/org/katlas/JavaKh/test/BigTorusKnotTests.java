@@ -9,7 +9,6 @@ import java.io.StringReader;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.katlas.JavaKh.Komplex;
-import org.katlas.JavaKh.algebra.rings.Int;
 import org.katlas.JavaKh.algebra.rings.Rational;
 import org.katlas.JavaKh.algebra.rings.Rings;
 

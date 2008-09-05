@@ -4,15 +4,15 @@ import java.util.Iterator;
 
 public class LinkedListRow<F> implements MatrixRow<F> {
 
-	private Entry firstEntry;
+	private Entry<F> firstEntry;
 
-	private transient Entry lastEntry;
-	private transient Entry cachedEntry;
+	private transient Entry<F> lastEntry;
+	private transient Entry<F> cachedEntry;
 
-	class Entry {
+	static class Entry<F> {
 		int index;
 		F value;
-		Entry next;
+		Entry<F> next;
 
 		Entry(int index, F value) {
 			this.index = index;
@@ -34,7 +34,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 			}
 		}
 
-		Entry entry;
+		Entry<F> entry;
 
 		if (cachedEntry != null) {
 			if (key == cachedEntry.index)
@@ -59,7 +59,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 	}
 
 	public void decrementIndexesAbove(int j) {
-		Entry entry = firstEntry;
+		Entry<F> entry = firstEntry;
 		while (entry != null) {
 			if (entry.index > j) {
 				entry.index--;
@@ -75,7 +75,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 
 		// assert false; // hopefully we never pass this point!
 
-		Entry entry = firstEntry;
+		Entry<F> entry = firstEntry;
 		while (entry != null && entry.index <= key) {
 			if (entry.index == key) {
 				cachedEntry = entry;
@@ -92,7 +92,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 			public Iterator<Integer> iterator() {
 				return new Iterator<Integer>() {
 
-					Entry nextEntry = firstEntry;
+					Entry<F> nextEntry = firstEntry;
 
 					public boolean hasNext() {
 						return nextEntry != null;
@@ -123,7 +123,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 
 		if (lastEntry != null) {
 			if (key > lastEntry.index) {
-				lastEntry.next = new Entry(key, f);
+				lastEntry.next = new Entry<F>(key, f);
 				lastEntry = lastEntry.next;
 				return;
 			} else if (key == lastEntry.index) {
@@ -132,7 +132,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 			}
 		}
 
-		Entry entry;
+		Entry<F> entry;
 
 		if (cachedEntry != null) {
 			if (cachedEntry.index == key) {
@@ -150,12 +150,12 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 		}
 
 		if (entry == null) {
-			firstEntry = new Entry(key, f);
+			firstEntry = new Entry<F>(key, f);
 			lastEntry = firstEntry;
 			return;
 		}
 		if (entry.index > key) {
-			Entry newEntry = new Entry(key, f);
+			Entry<F> newEntry = new Entry<F>(key, f);
 			newEntry.next = entry;
 			firstEntry = newEntry;
 			return;
@@ -174,7 +174,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 				lastEntry = entry;
 				return;
 			} else {
-				entry.next = new Entry(key, f);
+				entry.next = new Entry<F>(key, f);
 				lastEntry = entry.next;
 				return;
 			}
@@ -183,7 +183,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 				entry.next.value = f;
 				return;
 			} else {
-				Entry newEntry = new Entry(key, f);
+				Entry<F> newEntry = new Entry<F>(key, f);
 				newEntry.next = entry.next;
 				entry.next = newEntry;
 				return;
@@ -199,7 +199,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 
 		if (lastEntry != null) {
 			if (key > lastEntry.index) {
-				lastEntry.next = new Entry(key, f);
+				lastEntry.next = new Entry<F>(key, f);
 				lastEntry = lastEntry.next;
 				return;
 			} else if (key == lastEntry.index) {
@@ -212,7 +212,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 			}
 		} else {
 			if(firstEntry == null) {
-				firstEntry = new Entry(key, f);
+				firstEntry = new Entry<F>(key, f);
 				lastEntry = firstEntry;
 				return;
 			} else {
@@ -230,7 +230,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 				lastEntry = null;
 		}
 
-		Entry entry;
+		Entry<F> entry;
 		if (cachedEntry != null) {
 			if (cachedEntry.index < j) { // can only do strictly less than here.
 				entry = cachedEntry;

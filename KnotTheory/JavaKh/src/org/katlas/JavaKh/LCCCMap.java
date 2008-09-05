@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
+import org.katlas.JavaKh.LCCC.ListMap;
 import org.katlas.JavaKh.LCCC.SizeRarelyMoreThanOneMap;
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.algebra.implementations.LinearComboMap;
@@ -72,13 +72,23 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
      *      (without -G):
      *    INFO - Peak memory usage: 772,997,560
      *    INFO - Elapsed time: 23,532
+     *    
+     *    (and after the real optimisation!)    
+     *    INFO - Peak memory usage: 14,489,352
+     *    INFO - Elapsed time: 277,047
+     *
      *      
      * 	TreeMap
      * 		INFO - Peak memory usage: 131,218,096
      * 		INFO - Elapsed time: 403,006
      * 
+     *    (and after the real optimisation!) The custom implementation wins!
+     *    INFO - Peak memory usage: 15,995,800
+     *    INFO - Elapsed time: 296,166
+     *    
      */
-    return new TreeMap<CannedCobordism, R>();
+//    return new TreeMap<CannedCobordism, R>();
+    return new ListMap<CannedCobordism, R>();
 //    		return new SizeRarelyMoreThanOneMap<CannedCobordism, R>();
   }
 
