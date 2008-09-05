@@ -1,5 +1,8 @@
 package org.katlas.JavaKh;
 
+import java.io.IOException;
+import java.io.NotSerializableException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -460,4 +463,7 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
       return this;
   }
 
+  private void writeObject(ObjectOutputStream s) throws IOException {
+    throw new NotSerializableException();
+  }
 }
