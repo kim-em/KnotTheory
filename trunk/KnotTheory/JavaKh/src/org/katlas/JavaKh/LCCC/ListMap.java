@@ -13,7 +13,12 @@ public class ListMap<K, V> implements Map<K, V> {
 	private List<K> keys;
 	private List<V> values;
 
-	protected <R> List<R> newList() {
+	public ListMap() {
+    this.keys = newList();
+    this.values = newList();
+  }
+
+  protected <R> List<R> newList() {
 		return new LinkedList<R>();
 	}
 
