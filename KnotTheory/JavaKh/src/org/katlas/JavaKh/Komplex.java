@@ -2181,6 +2181,8 @@ public class Komplex<R extends Ring<R>> implements Serializable {
     }
   }
 
+  public static transient boolean CHECK_DURING_DESERIALIZATION = false;
+  
   @SuppressWarnings("unchecked")
   private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
     if (LOAD_SERIALIZATION_VERSION == 1) {
@@ -2238,9 +2240,25 @@ public class Komplex<R extends Ring<R>> implements Serializable {
           }
         }
       } else {
+        CobMatrix<R> currentMatrix = null, lastMatrix = null;
         for (int i = 0; i < size; ++i) {
-          debug("Reading height " + (i + 1) + "/" + size);
-          matrices.add((CobMatrix<R>) (s.readObject()));
+          info("Reading height " + (i + 1) + "/" + size);
+          lastMatrix = currentMatrix;
+          currentMatrix = (CobMatrix<R>) (s.readObject());
+          if(CHECK_DURING_DESERIALIZATION && lastMatrix != null) {
+            CobMatrix<R> composition = currentMatrix.compose(lastMatrix);
+            if(!composition.isZero()) {
+              debug("Composition is not immediately zero");
+              composition = composition.reduce();
+              if(!composition.isZero()) {
+                debug("Composition doesn't simplify to zero either!");
+                throw new AssertionError();
+              } else {
+                debug(" ... but simplifies to zero.");
+              }
+            }
+          }
+          matrices.add(currentMatrix);
           invokeGC();
         }
       }
