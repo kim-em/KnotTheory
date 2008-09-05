@@ -2158,6 +2158,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
     }
   }
 
+  @SuppressWarnings("unused")
   private void writeObjectV1(ObjectOutputStream s) throws IOException {
     s.defaultWriteObject();
     s.writeInt(1); // Serialization version
@@ -2246,6 +2247,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
           lastMatrix = currentMatrix;
           currentMatrix = (CobMatrix<R>) (s.readObject());
           if(CHECK_DURING_DESERIALIZATION && lastMatrix != null) {
+            debug("Calculating composition of last two matrices.");
             CobMatrix<R> composition = currentMatrix.compose(lastMatrix);
             if(!composition.isZero()) {
               debug("Composition is not immediately zero");

@@ -4,9 +4,6 @@ import gnu.trove.TObjectHashingStrategy;
 
 import java.util.Arrays;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 public class ArrayCache extends HashCodeCache<byte[]> implements Cache<byte[]> {
 
   public ArrayCache() {
