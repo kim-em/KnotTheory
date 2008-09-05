@@ -2211,9 +2211,9 @@ public class Komplex<R extends Ring<R>> implements Serializable {
       int size = s.readInt();
       ncolumns = size + 1;
       startnum = s.readInt();
+      inMemory = !s.readBoolean();
       createMatrixList();
-      if (s.readBoolean()) {
-        inMemory = false;
+      if (!inMemory) {
         for (int i = 0; i < size; ++i) {
           debug("Reading height " + (i + 1) + "/" + size);
           long fileLength = s.readLong();
@@ -2229,7 +2229,6 @@ public class Komplex<R extends Ring<R>> implements Serializable {
           }
         }
       } else {
-        inMemory = true;
         for (int i = 0; i < size; ++i) {
           debug("Reading height " + (i + 1) + "/" + size);
           matrices.add((CobMatrix<R>) (s.readObject()));
