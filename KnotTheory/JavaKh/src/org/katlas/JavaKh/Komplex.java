@@ -48,24 +48,26 @@ public class Komplex<R extends Ring<R>> implements Serializable {
   /**
 	 * 
 	 */
-  private static final long            serialVersionUID        = -6669296477790589829L;
+  private static final long               serialVersionUID           = -6669296477790589829L;
+  private static final int                LOAD_SERIALIZATION_VERSION = 1;
 
-  private static final Log             log                     = LogFactory.getLog(Komplex.class);
+  private static final Log                log                        = LogFactory.getLog(Komplex.class);
 
-  static final int                     MAXDEPTH                = 3;
+  private static final int                MAXDEPTH                   = 3;
 
-  private static int                   mostReductions          = 0;
-  private static int                   largestMatrix           = 0;
-  private static int                   largestIsomorphismBlock = 0;
+  private static int                      mostReductions             = 0;
+  private static int                      largestMatrix              = 0;
+  private static int                      largestIsomorphismBlock    = 0;
 
-  int                                  ncolumns, nfixed;
-  final SmoothingColumn                columns[];
-  final boolean                        inMemory;
-  private transient List<CobMatrix<R>> matrices;
-  int                                  startnum;
-
-  transient static boolean             parallel;
-  transient static boolean             intenseGarbage          = false;
+  private transient int                   ncolumns;
+//  private transient int                   nfixed;
+  private transient final SmoothingColumn columns[];
+  private transient List<CobMatrix<R>>    matrices;
+  private transient int                   startnum;
+  private transient boolean               inMemory;
+  
+  transient static boolean        parallel;
+  transient static boolean        intenseGarbage             = false;
 
   private CobMatrix<R> getMatrix(int i) {
     CobMatrix<R> result = matrices.get(i);
@@ -999,7 +1001,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
       ++count;
 
       executionGuard();
-      
+
       if (block.size() > largestIsomorphismBlock) {
         largestIsomorphismBlock = block.size();
         log.info("New largest block of isomorphisms: " + largestIsomorphismBlock);
@@ -1026,11 +1028,11 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 
     // execution guard.
     File guard = new File("/dev/shm/1");
-    if(guard.exists()) {
+    if (guard.exists()) {
       log.warn("/dev/shm/1 exists, aborting!");
       System.exit(1);
     }
-    
+
   }
 
   private List<Isomorphism> findBlock(CobMatrix<R> m) {
@@ -1460,28 +1462,28 @@ public class Komplex<R extends Ring<R>> implements Serializable {
     sb.append("(");
     sb.append(memoryFormatter.format(peakMemoryInUse));
     sb.append(") ");
-//    sb.append("Cache size(hits): ");
-//    sb.append(Cap.capCache.size());
-//    sb.append("/");
-//    sb.append(CannedCobordismImpl.cobordismCache.size());
-//    sb.append("(");
-//    sb.append(CannedCobordismImpl.cobordismCache.getNumberOfChecks()
-//        - CannedCobordismImpl.cobordismCache.getNumberOfHits());
-//    sb.append("/");
-//    sb.append(CannedCobordismImpl.cobordismCache.getNumberOfChecks());
-//    sb.append(")");
-//    sb.append("(");
-//    sb.append(CannedCobordismImpl.byteArrayCache.getNumberOfChecks()
-//        - CannedCobordismImpl.byteArrayCache.getNumberOfHits());
-//    sb.append("/");
-//    sb.append(CannedCobordismImpl.byteArrayCache.getNumberOfChecks());
-//    sb.append(")");
-//    sb.append("(");
-//    sb.append(CannedCobordismImpl.byteDoubleArrayCache.getNumberOfChecks()
-//        - CannedCobordismImpl.byteDoubleArrayCache.getNumberOfHits());
-//    sb.append("/");
-//    sb.append(CannedCobordismImpl.byteDoubleArrayCache.getNumberOfChecks());
-//    sb.append(") ");
+    //    sb.append("Cache size(hits): ");
+    //    sb.append(Cap.capCache.size());
+    //    sb.append("/");
+    //    sb.append(CannedCobordismImpl.cobordismCache.size());
+    //    sb.append("(");
+    //    sb.append(CannedCobordismImpl.cobordismCache.getNumberOfChecks()
+    //        - CannedCobordismImpl.cobordismCache.getNumberOfHits());
+    //    sb.append("/");
+    //    sb.append(CannedCobordismImpl.cobordismCache.getNumberOfChecks());
+    //    sb.append(")");
+    //    sb.append("(");
+    //    sb.append(CannedCobordismImpl.byteArrayCache.getNumberOfChecks()
+    //        - CannedCobordismImpl.byteArrayCache.getNumberOfHits());
+    //    sb.append("/");
+    //    sb.append(CannedCobordismImpl.byteArrayCache.getNumberOfChecks());
+    //    sb.append(")");
+    //    sb.append("(");
+    //    sb.append(CannedCobordismImpl.byteDoubleArrayCache.getNumberOfChecks()
+    //        - CannedCobordismImpl.byteDoubleArrayCache.getNumberOfHits());
+    //    sb.append("/");
+    //    sb.append(CannedCobordismImpl.byteDoubleArrayCache.getNumberOfChecks());
+    //    sb.append(") ");
     sb.append(msg);
     return sb.toString();
 
@@ -1559,6 +1561,10 @@ public class Komplex<R extends Ring<R>> implements Serializable {
             kom = (Komplex<R>) (deserializer.readObject());
             dryRun = true;
 
+//             uncomment this if you just want to check that you can read a serialization
+             System.out.println("Successful deserialization!");
+             System.exit(0);
+            
             // uncomment this to upconvert serialization versions...
             // System.out.println(
             // "Writing the complex back to disk, in the new serialization format..."
@@ -1719,7 +1725,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
       ((CachingList<CobMatrix<R>>) (ret.matrices)).resetCacheSize(1);
     }
     ret.startnum = startnum + kom.startnum;
-    ret.nfixed = nfixed + kom.nfixed - 2 * nc;
+//    ret.nfixed = nfixed + kom.nfixed - 2 * nc;
     int colsizes[] = new int[ret.ncolumns];
     for (int i = 0; i < ret.ncolumns; i++)
       // want columns a from this and b from kom s.t. a + b = i
@@ -1747,9 +1753,9 @@ public class Komplex<R extends Ring<R>> implements Serializable {
         }
     // fill the matrices
     for (int i = 0; i < ret.ncolumns - 1; i++) {
-      
+
       executionGuard();
-      
+
       CobMatrix<R> newMatrix = new CobMatrix<R>(ret.columns[i], ret.columns[i + 1]);
       boolean first = true;
       for (int j = 0; j <= i && j < ncolumns; j++)
@@ -1835,7 +1841,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
     Rings<R> ring = Rings.current();
 
     // pd defines a tangle in PD form, with nfixed fixed points
-    this.nfixed = nfixed;
+//    this.nfixed = nfixed;
     ncolumns = pd.length + 1; // pd.length is the number of crossings
     columns = new SmoothingColumn[ncolumns];
     this.inMemory = true;
@@ -2120,8 +2126,34 @@ public class Komplex<R extends Ring<R>> implements Serializable {
           .getProperty("java.io.tmpdir"))), 3);
     }
   }
-
   private void writeObject(ObjectOutputStream s) throws IOException {
+    // as of version 2 we *don't* call defaultWriteObject, so other classes can do partial deserializations.
+    // c.f. CheckKomplex
+    s.writeInt(2); // Serialization version
+    s.writeInt(matrices.size());
+    s.writeInt(startnum);
+    int i = 0;
+    if (matrices instanceof SerializingList) {
+      assert !inMemory;
+      s.writeBoolean(true);
+      for (File file : ((SerializingList<CobMatrix<R>>) (matrices)).getSerializedForms()) {
+        debug("Writing height " + (++i) + "/" + matrices.size());
+        s.writeLong(file.length());
+        s.writeInt(Integer.parseInt(file.getName()));
+        IOUtils.copy(new FileInputStream(file), s);
+      }
+    } else {
+      assert inMemory;
+      s.writeBoolean(false);
+      for (CobMatrix<R> m : matrices) {
+        debug("Writing height " + (++i) + "/" + matrices.size());
+        s.writeObject(m);
+        invokeGC();
+      }
+    }
+  }
+
+  private void writeObjectV1(ObjectOutputStream s) throws IOException {
     s.defaultWriteObject();
     s.writeInt(1); // Serialization version
     s.writeInt(matrices.size());
@@ -2146,34 +2178,67 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 
   @SuppressWarnings("unchecked")
   private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
-    s.defaultReadObject();
-    int serializationVersion = s.readInt();
-    if (serializationVersion < 1 || serializationVersion > 1) {
-      log.warn("Serialization version looks wrong...");
+    if (LOAD_SERIALIZATION_VERSION == 1) {
+      s.defaultReadObject();
     }
-    int size = s.readInt();
-    createMatrixList();
-    if (s.readBoolean()) {
-      for (int i = 0; i < size; ++i) {
-        debug("Reading height " + (i + 1) + "/" + size);
-        long fileLength = s.readLong();
-        int hash = s.readInt();
-        InputStream lsis = new LimitedSizeInputStream(s, fileLength);
-        if (matrices instanceof SerializingList) {
-          matrices.add(null);
-          ((SerializingList<CobMatrix<R>>) matrices).setSerializedForm(i, hash, lsis);
-        } else {
-          ObjectInputStream p = new ObjectInputStream(lsis);
-          matrices.add((CobMatrix<R>) (p.readObject()));
+    int serializationVersion = s.readInt();
+    if (serializationVersion == 1) {
+      int size = s.readInt();
+      createMatrixList();
+      if (s.readBoolean()) {
+        for (int i = 0; i < size; ++i) {
+          debug("Reading height " + (i + 1) + "/" + size);
+          long fileLength = s.readLong();
+          int hash = s.readInt();
+          InputStream lsis = new LimitedSizeInputStream(s, fileLength);
+          if (matrices instanceof SerializingList) {
+            matrices.add(null);
+            ((SerializingList<CobMatrix<R>>) matrices).setSerializedForm(i, hash, lsis);
+          } else {
+            ObjectInputStream p = new ObjectInputStream(lsis);
+            matrices.add((CobMatrix<R>) (p.readObject()));
+            invokeGC();
+          }
+        }
+      } else {
+        for (int i = 0; i < size; ++i) {
+          debug("Reading height " + (i + 1) + "/" + size);
+          matrices.add((CobMatrix<R>) (s.readObject()));
+          invokeGC();
+        }
+      }
+    } else if (serializationVersion == 2) {
+      int size = s.readInt();
+      ncolumns = size + 1;
+      startnum = s.readInt();
+      createMatrixList();
+      if (s.readBoolean()) {
+        inMemory = false;
+        for (int i = 0; i < size; ++i) {
+          debug("Reading height " + (i + 1) + "/" + size);
+          long fileLength = s.readLong();
+          int hash = s.readInt();
+          InputStream lsis = new LimitedSizeInputStream(s, fileLength);
+          if (matrices instanceof SerializingList) {
+            matrices.add(null);
+            ((SerializingList<CobMatrix<R>>) matrices).setSerializedForm(i, hash, lsis);
+          } else {
+            ObjectInputStream p = new ObjectInputStream(lsis);
+            matrices.add((CobMatrix<R>) (p.readObject()));
+            invokeGC();
+          }
+        }
+      } else {
+        inMemory = true;
+        for (int i = 0; i < size; ++i) {
+          debug("Reading height " + (i + 1) + "/" + size);
+          matrices.add((CobMatrix<R>) (s.readObject()));
           invokeGC();
         }
       }
     } else {
-      for (int i = 0; i < size; ++i) {
-        debug("Reading height " + (i + 1) + "/" + size);
-        matrices.add((CobMatrix<R>) (s.readObject()));
-        invokeGC();
-      }
+      log.warn("Serialization version looks wrong...");
+      assert false;
     }
   }
 
