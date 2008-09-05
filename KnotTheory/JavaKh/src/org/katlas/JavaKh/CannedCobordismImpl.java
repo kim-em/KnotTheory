@@ -152,7 +152,7 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 		// hpower = 0
 	}
 
-	public void reverseMaps() { // fills the boundaryComponents array
+	public synchronized void reverseMaps() { // fills the boundaryComponents array
 		if (boundaryComponents != null) // already done
 			return;
 		int numBC[] = new int[ncc];
