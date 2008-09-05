@@ -2257,6 +2257,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
                 debug(" ... but simplifies to zero.");
               }
             }
+            matrices.set(i-1, null);
           }
           matrices.add(currentMatrix);
           invokeGC();
