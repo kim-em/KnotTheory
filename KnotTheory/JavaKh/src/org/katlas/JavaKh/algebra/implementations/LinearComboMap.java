@@ -15,18 +15,15 @@ public abstract class LinearComboMap<R extends Ring<R>, O, Mor extends Morphism<
 
 	public final Map<Mor, R> coefficients;
 
-	public LinearComboMap(O source, O target) {
-		super(source, target);
+	public LinearComboMap() {
 		coefficients = newMap();
 	}
 
-	public LinearComboMap(O source, O target, Map<Mor, R> coefficients) {
-		super(source, target);
+	public LinearComboMap(Map<Mor, R> coefficients) {
 		this.coefficients = newMap(coefficients);
 	}
 
 	public LinearComboMap(Mor mor, R r) {
-		super(mor.source(), mor.target());
 		coefficients = newMap();
 		coefficients.put(mor, r);
 	}
@@ -68,9 +65,6 @@ public abstract class LinearComboMap<R extends Ring<R>, O, Mor extends Morphism<
 
 	@SuppressWarnings("unchecked")
 	public LinearMor add(Mor cc, R num) {
-		assert source().equals(cc.source());
-		assert target().equals(cc.target());
-
 		if (coefficients.containsKey(cc)) {
 			R newCoefficient = coefficients.get(cc).add(num);
 			if (newCoefficient.isZero()) {
@@ -141,7 +135,7 @@ public abstract class LinearComboMap<R extends Ring<R>, O, Mor extends Morphism<
 		}
 
 		assert source().equals(other.target());
-		LinearMor ret = flexibleZeroLinearCombo(other.source(), target());
+		LinearMor ret = flexibleZeroLinearCombo();
 
 		for (Mor cc : terms()) {
 			for (Mor occ : other.terms()) {
@@ -154,18 +148,18 @@ public abstract class LinearComboMap<R extends Ring<R>, O, Mor extends Morphism<
 	}
 
 	public O source() {
-		return source;
+		return firstTerm().source();
 	}
 
 	public O target() {
-		return target;
+		return firstTerm().target();
 	}
 
 	abstract public LinearMor singleTermLinearCombo(Mor mor, R r);
 
-	abstract public LinearMor fixedZeroLinearCombo(O source, O target);
+	abstract public LinearMor fixedZeroLinearCombo();
 
-	abstract public LinearMor flexibleZeroLinearCombo(O source, O target);
+	abstract public LinearMor flexibleZeroLinearCombo();
 
 }
 //

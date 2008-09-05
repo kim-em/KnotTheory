@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.katlas.JavaKh.LCCC.SizeRarelyMoreThanOneMap;
 import org.katlas.JavaKh.algebra.Ring;
@@ -23,12 +22,11 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
 
   transient boolean         alreadyReduced   = false;
 
-  public LCCCMap(Cap source, Cap target) {
-    super(source, target);
+  public LCCCMap() {
+    super();
   }
 
   public LCCCMap(LCCC<R> lc) {
-    super(lc.source(), lc.target());
     if (lc instanceof LCCCMap) {
       coefficients.putAll(((LCCCMap<R>) lc).coefficients);
     } else {
@@ -114,7 +112,7 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
       for (CannedCobordism occ : coefficients.keySet()) {
         composition = cc.compose(cstart, occ, start, nc);
         if (ret == null) {
-          ret = new LCCCMap<R>(composition.source(), composition.target());
+          ret = new LCCCMap<R>();
         }
         ret = ret.add(composition, coefficients.get(occ));
       }
@@ -122,7 +120,7 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
       for (CannedCobordism occ : coefficients.keySet()) {
         composition = occ.compose(start, cc, cstart, nc);
         if (ret == null) {
-          ret = new LCCCMap<R>(composition.source(), composition.target());
+          ret = new LCCCMap<R>();
         }
         ret = ret.add(composition, coefficients.get(occ));
       }
@@ -166,7 +164,7 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
       return this;
     }
 
-    LCCC<R> ret = new LCCCMap<R>(source, target);
+    LCCC<R> ret = new LCCCMap<R>();
     for (CannedCobordism icc : coefficients.keySet()) {
 
       if (!(icc instanceof CannedCobordismImpl)) {
@@ -232,7 +230,7 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
       }
       byte connectedComponent[] = CannedCobordismImpl.counting[cc.nbc];
       for (int i = 0; i < neckCutting.length; i++) {
-        CannedCobordismImpl newcc = new CannedCobordismImpl(source, target);
+        CannedCobordismImpl newcc = new CannedCobordismImpl(source(), target());
         // IMPORTANT!!! in order for them to safely share arrays
         // CannedCobordisms must be treated as immutable
         newcc.connectedComponent = connectedComponent;
@@ -263,7 +261,7 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
 
     Rings<R> ring = Rings.current();
 
-    LCCC<R> ret = new LCCCMap<R>(source, target);
+    LCCC<R> ret = new LCCCMap<R>();
     for (CannedCobordism icc : terms()) {
 
       if (!(icc instanceof CannedCobordismImpl)) {
@@ -382,7 +380,7 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
         nCnum = newnum;
       }
       for (int i = 0; i < nCdots.length; i++) {
-        CannedCobordismImpl newcc = new CannedCobordismImpl(source, target);
+        CannedCobordismImpl newcc = new CannedCobordismImpl(source(), target());
         newcc.connectedComponent = CannedCobordismImpl.counting[newcc.nbc];
         newcc.ncc = newcc.nbc;
         newcc.genus = CannedCobordismImpl.zeros[cc.nbc];
@@ -405,9 +403,9 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
   public LCCC<R> finalizeH() {
     if (numberOfTerms() == 0)
       return null;
-    assert source.n == 2 && source.ncycles == 0 && target.n == 2 && target.ncycles == 0;
-    LCCC<R> ret = new LCCCMap<R>(source, target);
-    CannedCobordismImpl cc = (CannedCobordismImpl) CannedCobordismImpl.isomorphism(source);
+    assert source().n == 2 && source().ncycles == 0 && target().n == 2 && target().ncycles == 0;
+    LCCC<R> ret = new LCCCMap<R>();
+    CannedCobordismImpl cc = (CannedCobordismImpl) CannedCobordismImpl.isomorphism(source());
     boolean hset = false;
     for (CannedCobordism iocc : coefficients.keySet()) {
       if (!(iocc instanceof CannedCobordismImpl)) {
@@ -427,13 +425,13 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
   }
 
   @Override
-  public LCCC<R> flexibleZeroLinearCombo(Cap source, Cap target) {
-    return new LCCCMap<R>(source, target);
+  public LCCC<R> flexibleZeroLinearCombo() {
+    return new LCCCMap<R>();
   }
 
   @Override
-  public LCCC<R> fixedZeroLinearCombo(Cap source, Cap target) {
-    return new ZeroLCCC<R>(source, target);
+  public LCCC<R> fixedZeroLinearCombo() {
+    return new ZeroLCCC<R>();
   }
 
   @Override
@@ -450,7 +448,7 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
 
   public LCCC<R> compact() {
     if (numberOfTerms() == 0)
-      return fixedZeroLinearCombo(source(), target());
+      return fixedZeroLinearCombo();
     else
       return this;
   }

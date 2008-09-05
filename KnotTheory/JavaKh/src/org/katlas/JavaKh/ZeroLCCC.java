@@ -18,8 +18,7 @@ public class ZeroLCCC<R extends Ring<R>> extends
 	 */
 	private static final long serialVersionUID = -985131448758667387L;
 
-	ZeroLCCC(Cap source, Cap target) {
-		super(source, target);
+	ZeroLCCC() {
 	}
 
 	public LCCC<R> finalizeH() {
@@ -43,13 +42,13 @@ public class ZeroLCCC<R extends Ring<R>> extends
 	}
 
 	@Override
-	public LCCC<R> fixedZeroLinearCombo(Cap source, Cap target) {
-		return new ZeroLCCC<R>(source, target);
+	public LCCC<R> fixedZeroLinearCombo() {
+		return new ZeroLCCC<R>();
 	}
 
 	@Override
-	public LCCC<R> flexibleZeroLinearCombo(Cap source, Cap target) {
-		return new LCCCMap<R>(source, target);
+	public LCCC<R> flexibleZeroLinearCombo() {
+		return new LCCCMap<R>();
 	}
 
 	@Override
