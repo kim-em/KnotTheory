@@ -998,6 +998,8 @@ public class Komplex<R extends Ring<R>> implements Serializable {
       totalReduction += block.size();
       ++count;
 
+      executionGuard();
+      
       if (block.size() > largestIsomorphismBlock) {
         largestIsomorphismBlock = block.size();
         log.info("New largest block of isomorphisms: " + largestIsomorphismBlock);
@@ -1018,6 +1020,17 @@ public class Komplex<R extends Ring<R>> implements Serializable {
     info("Reduced " + initialNumberOfRows + " ---> " + m.target.n + " in " + count + " steps.");
     // log.info("\r\n" + m.toString());
 
+  }
+
+  private void executionGuard() {
+
+    // execution guard.
+    File guard = new File("/dev/shm/1");
+    if(guard.exists()) {
+      log.warn("/dev/shm/1 exists, aborting!");
+      System.exit(1);
+    }
+    
   }
 
   private List<Isomorphism> findBlock(CobMatrix<R> m) {
@@ -1734,6 +1747,9 @@ public class Komplex<R extends Ring<R>> implements Serializable {
         }
     // fill the matrices
     for (int i = 0; i < ret.ncolumns - 1; i++) {
+      
+      executionGuard();
+      
       CobMatrix<R> newMatrix = new CobMatrix<R>(ret.columns[i], ret.columns[i + 1]);
       boolean first = true;
       for (int j = 0; j <= i && j < ncolumns; j++)
