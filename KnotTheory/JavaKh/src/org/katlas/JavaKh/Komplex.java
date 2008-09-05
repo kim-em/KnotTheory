@@ -49,7 +49,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 	 * 
 	 */
   private static final long               serialVersionUID           = -6669296477790589829L;
-  private static final int                LOAD_SERIALIZATION_VERSION = 1;
+  private static final int                LOAD_SERIALIZATION_VERSION = 2;
 
   private static final Log                log                        = LogFactory.getLog(Komplex.class);
 
@@ -59,12 +59,12 @@ public class Komplex<R extends Ring<R>> implements Serializable {
   private static int                      largestMatrix              = 0;
   private static int                      largestIsomorphismBlock    = 0;
 
-  private /* transient */ int                   ncolumns;
+  private transient int                   ncolumns;
 //  private transient int                   nfixed;
   private transient final SmoothingColumn columns[];
   private transient List<CobMatrix<R>>    matrices;
-  private /* transient */ int                   startnum;
-  private /* transient */ boolean               inMemory;
+  private transient int                   startnum;
+  private transient boolean               inMemory;
   
   transient static boolean        parallel;
   transient static boolean        intenseGarbage             = false;
@@ -1562,15 +1562,15 @@ public class Komplex<R extends Ring<R>> implements Serializable {
             dryRun = true;
 
 //             uncomment this if you just want to check that you can read a serialization
-             System.out.println("Successful deserialization!");
+//             System.out.println("Successful deserialization!");
 //             System.exit(0);
             
-            // uncomment this to upconvert serialization versions...
-             System.out.println(
-             "Writing the complex back to disk, in the new serialization format..."
-             );
-             writeCache(kom, i);
-             System.exit(0);
+//             uncomment this to upconvert serialization versions...
+//             System.out.println(
+//             "Writing the complex back to disk, in the new serialization format..."
+//             );
+//             writeCache(kom, i);
+//             System.exit(0);
             						
           } catch (Exception e) {
             e.printStackTrace();
