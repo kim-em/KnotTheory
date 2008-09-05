@@ -259,7 +259,12 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Cap, LCCC<R>
                 break;
               }
             } else if (thisKey == thatKey) {
-              thisRowEntriesI.put(thisKey, thisRowEntry.add(thatRowEntriesI.get(thatKey)));
+              LCCC<R> sum = thisRowEntry.add(thatRowEntriesI.get(thatKey));
+              if(sum.isZero()) {
+                thisRowEntriesI.remove(thisKey);
+              } else {
+                thisRowEntriesI.put(thisKey, sum);
+              }
               if (!thisIterator.hasNext() || !thatIterator.hasNext()) {
                 break;
               } else {
@@ -346,13 +351,14 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Cap, LCCC<R>
       MatrixRow<LCCC<R>> row = entries.get(i);
       for (int j : row.keys()) {
         assert row.get(j) != null;
+        assert !row.get(j).isZero();
         Cap rowSource = row.get(j).source();
-        if (rowSource != null && !rowSource.equals(source.smoothings.get(j))) {
+        if (!rowSource.equals(source.smoothings.get(j))) {
           assert false;
           return false;
         }
         Cap rowTarget = row.get(j).target();
-        if (rowTarget != null && !row.get(j).target().equals(target.smoothings.get(i))) {
+        if (!rowTarget.equals(target.smoothings.get(i))) {
           assert false;
           return false;
         }
@@ -443,17 +449,22 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Cap, LCCC<R>
     s.writeObject(target);
     for (int i = 0; i < entries.size(); ++i) {
       for (int j : entries.get(i).keys()) {
-        // write the row and column
-        s.writeInt(i);
-        s.writeInt(j);
         LCCC<R> lc = entries.get(i).get(j);
-        // write the number of terms;
-        s.writeInt(lc.numberOfTerms());
-        // and then for each term
-        for (CannedCobordism cc : lc.terms()) {
-          // write the coefficient
-          s.writeObject(lc.getCoefficient(cc));
-          s.writeObject(cc);
+        int numberOfTerms = lc.numberOfTerms();
+        if (numberOfTerms > 0) {
+          // write the row and column
+          s.writeInt(i);
+          s.writeInt(j);
+          // write the number of terms;
+          s.writeInt(numberOfTerms);
+          // and then for each term
+          for (CannedCobordism cc : lc.terms()) {
+            // write the coefficient
+            s.writeObject(lc.getCoefficient(cc));
+            s.writeObject(cc);
+          }
+        } else {
+          assert false;
         }
       }
     }
@@ -505,14 +516,18 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Cap, LCCC<R>
           break;
         } else {
           int numberOfTerms = s.readInt();
-          Map<CannedCobordism, R> terms = new HashMap<CannedCobordism, R>(numberOfTerms);
-          for(int k = 0; k < numberOfTerms; ++k) {
-            R coefficient = (R) s.readObject();
-            CannedCobordism cc = (CannedCobordism) s.readObject();
-            terms.put(cc, coefficient);
+          if (numberOfTerms > 0) {
+            Map<CannedCobordism, R> terms = new HashMap<CannedCobordism, R>(numberOfTerms);
+            for (int k = 0; k < numberOfTerms; ++k) {
+              R coefficient = (R) s.readObject();
+              CannedCobordism cc = (CannedCobordism) s.readObject();
+              terms.put(cc, coefficient);
+            }
+            LCCC<R> lc = new LCCCMap<R>(terms);
+            entries.get(i).putLast(j, lc);
+          } else {
+            assert false;
           }
-          LCCC<R> lc = new LCCCMap<R>(terms);
-          entries.get(i).putLast(j, lc);
         }
       }
     } else {
