@@ -26,12 +26,9 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
     super();
   }
 
-  public LCCCMap(LCCC<R> lc) {
-    if (lc instanceof LCCCMap) {
-      coefficients.putAll(((LCCCMap<R>) lc).coefficients);
-    } else {
-      throw new UnsupportedOperationException();
-    }
+  public LCCCMap(Map<CannedCobordism, R> terms) {
+    super();
+    coefficients.putAll(terms);
   }
 
   public LCCCMap(CannedCobordism cc, R r) {
@@ -86,9 +83,9 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
      *    INFO - Elapsed time: 296,166
      *    
      */
-//    return new TreeMap<CannedCobordism, R>();
-//    return new ListMap<CannedCobordism, R>();
-    		return new SizeRarelyMoreThanOneMap<CannedCobordism, R>();
+    //    return new TreeMap<CannedCobordism, R>();
+    //    return new ListMap<CannedCobordism, R>();
+    return new SizeRarelyMoreThanOneMap<CannedCobordism, R>();
   }
 
   @SuppressWarnings("unchecked")
