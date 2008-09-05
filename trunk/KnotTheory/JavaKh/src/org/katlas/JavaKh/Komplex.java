@@ -1005,11 +1005,11 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 
       blockReductionLemma(i, block);
 
-//      if (i > 0) {
-//        CobMatrix<R> composition = getMatrix(i).compose(getMatrix(i - 1));
-//        CobMatrix<R> reduction = composition.reduce();
-//        assert reduction.isZero();
-//      }
+      //      if (i > 0) {
+      //        CobMatrix<R> composition = getMatrix(i).compose(getMatrix(i - 1));
+      //        CobMatrix<R> reduction = composition.reduce();
+      //        assert reduction.isZero();
+      //      }
 
       setMatrix(i, m = getMatrix(i).reduce());
 
@@ -1077,11 +1077,11 @@ public class Komplex<R extends Ring<R>> implements Serializable {
       }
     }
 
-//    for (int i = 0; i < isos.size(); ++i) {
-//      for (int j = 0; j < i; ++j) {
-//        assert isomorphismsCompatible(m, isos.get(i), isos.get(j));
-//      }
-//    }
+    //    for (int i = 0; i < isos.size(); ++i) {
+    //      for (int j = 0; j < i; ++j) {
+    //        assert isomorphismsCompatible(m, isos.get(i), isos.get(j));
+    //      }
+    //    }
 
     if (!isos.isEmpty()) {
       info("found a block of size " + isos.size());
@@ -1446,28 +1446,29 @@ public class Komplex<R extends Ring<R>> implements Serializable {
     sb.append(memoryFormatter.format(memoryInUse()));
     sb.append("(");
     sb.append(memoryFormatter.format(peakMemoryInUse));
-    sb.append(") Cache size(hits): ");
-    sb.append(Cap.capCache.size());
-    sb.append("/");
-    sb.append(CannedCobordismImpl.cobordismCache.size());
-    sb.append("(");
-    sb.append(CannedCobordismImpl.cobordismCache.getNumberOfChecks()
-        - CannedCobordismImpl.cobordismCache.getNumberOfHits());
-    sb.append("/");
-    sb.append(CannedCobordismImpl.cobordismCache.getNumberOfChecks());
-    sb.append(")");
-    sb.append("(");
-    sb.append(CannedCobordismImpl.byteArrayCache.getNumberOfChecks()
-        - CannedCobordismImpl.byteArrayCache.getNumberOfHits());
-    sb.append("/");
-    sb.append(CannedCobordismImpl.byteArrayCache.getNumberOfChecks());
-    sb.append(")");
-    sb.append("(");
-    sb.append(CannedCobordismImpl.byteDoubleArrayCache.getNumberOfChecks()
-        - CannedCobordismImpl.byteDoubleArrayCache.getNumberOfHits());
-    sb.append("/");
-    sb.append(CannedCobordismImpl.byteDoubleArrayCache.getNumberOfChecks());
     sb.append(") ");
+//    sb.append("Cache size(hits): ");
+//    sb.append(Cap.capCache.size());
+//    sb.append("/");
+//    sb.append(CannedCobordismImpl.cobordismCache.size());
+//    sb.append("(");
+//    sb.append(CannedCobordismImpl.cobordismCache.getNumberOfChecks()
+//        - CannedCobordismImpl.cobordismCache.getNumberOfHits());
+//    sb.append("/");
+//    sb.append(CannedCobordismImpl.cobordismCache.getNumberOfChecks());
+//    sb.append(")");
+//    sb.append("(");
+//    sb.append(CannedCobordismImpl.byteArrayCache.getNumberOfChecks()
+//        - CannedCobordismImpl.byteArrayCache.getNumberOfHits());
+//    sb.append("/");
+//    sb.append(CannedCobordismImpl.byteArrayCache.getNumberOfChecks());
+//    sb.append(")");
+//    sb.append("(");
+//    sb.append(CannedCobordismImpl.byteDoubleArrayCache.getNumberOfChecks()
+//        - CannedCobordismImpl.byteDoubleArrayCache.getNumberOfHits());
+//    sb.append("/");
+//    sb.append(CannedCobordismImpl.byteDoubleArrayCache.getNumberOfChecks());
+//    sb.append(") ");
     sb.append(msg);
     return sb.toString();
 
