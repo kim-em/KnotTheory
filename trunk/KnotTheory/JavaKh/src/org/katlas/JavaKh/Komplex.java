@@ -48,25 +48,30 @@ public class Komplex<R extends Ring<R>> implements Serializable {
   /**
 	 * 
 	 */
-  private static final long            serialVersionUID           = -6669296477790589829L;
-  private static final int             LOAD_SERIALIZATION_VERSION = 1;
+  private static final long              serialVersionUID           = -6669296477790589829L;
+  /**
+   *  if you need to set LOAD_SERIALIZATION_VERSION back to 1,
+   * remember to mark ncolumns, columns, startnum and inMemory
+   * as *non*-transient
+   */
+  private static final int               LOAD_SERIALIZATION_VERSION = 2;
 
-  private static final Log             log                        = LogFactory.getLog(Komplex.class);
+  private static final Log               log                        = LogFactory.getLog(Komplex.class);
 
-  private static final int             MAXDEPTH                   = 3;
+  private static final int               MAXDEPTH                   = 3;
 
-  private static int                   mostReductions             = 0;
-  private static int                   largestMatrix              = 0;
-  private static int                   largestIsomorphismBlock    = 0;
+  private static int                     mostReductions             = 0;
+  private static int                     largestMatrix              = 0;
+  private static int                     largestIsomorphismBlock    = 0;
 
-  private /* transient */ int                ncolumns;
-  private /* transient */ SmoothingColumn    columns[];
-  private transient List<CobMatrix<R>> matrices;
-  private /* transient */ int                startnum;
-  private /* transient */ boolean            inMemory;
+  private transient int             ncolumns;
+  private transient SmoothingColumn columns[];
+  private transient List<CobMatrix<R>>   matrices;
+  private transient int             startnum;
+  private transient boolean         inMemory;
 
-  transient static boolean             parallel;
-  transient static boolean             intenseGarbage             = false;
+  transient static boolean               parallel;
+  transient static boolean               intenseGarbage             = false;
 
   private CobMatrix<R> getMatrix(int i) {
     CobMatrix<R> result = matrices.get(i);
@@ -1565,11 +1570,9 @@ public class Komplex<R extends Ring<R>> implements Serializable {
             //             System.exit(0);
 
             //             uncomment this to upconvert serialization versions...
-                         System.out.println(
-                         "Writing the complex back to disk, in the new serialization format..."
-                         );
-                         writeCache(kom, i);
-                         System.exit(0);
+//            System.out.println("Writing the complex back to disk, in the new serialization format...");
+//            writeCache(kom, i);
+//            System.exit(0);
           } catch (Exception e) {
             e.printStackTrace();
             // log.warn("Trying to delete broken cache file...");
