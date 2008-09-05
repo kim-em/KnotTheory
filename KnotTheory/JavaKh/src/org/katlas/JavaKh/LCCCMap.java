@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.katlas.JavaKh.LCCC.ListMap;
 import org.katlas.JavaKh.LCCC.SizeRarelyMoreThanOneMap;
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.algebra.implementations.LinearComboMap;
@@ -88,8 +87,8 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
      *    
      */
 //    return new TreeMap<CannedCobordism, R>();
-    return new ListMap<CannedCobordism, R>();
-//    		return new SizeRarelyMoreThanOneMap<CannedCobordism, R>();
+//    return new ListMap<CannedCobordism, R>();
+    		return new SizeRarelyMoreThanOneMap<CannedCobordism, R>();
   }
 
   @SuppressWarnings("unchecked")
