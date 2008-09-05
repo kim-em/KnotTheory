@@ -1077,11 +1077,11 @@ public class Komplex<R extends Ring<R>> implements Serializable {
       }
     }
 
-    for (int i = 0; i < isos.size(); ++i) {
-      for (int j = 0; j < i; ++j) {
-        assert isomorphismsCompatible(m, isos.get(i), isos.get(j));
-      }
-    }
+//    for (int i = 0; i < isos.size(); ++i) {
+//      for (int j = 0; j < i; ++j) {
+//        assert isomorphismsCompatible(m, isos.get(i), isos.get(j));
+//      }
+//    }
 
     if (!isos.isEmpty()) {
       info("found a block of size " + isos.size());

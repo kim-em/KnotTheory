@@ -9,7 +9,7 @@ public class TrivialCache<E> implements Cache<E> {
 		return e;
 	}
 
-	public void flush() {
+	public void clear() {
 	}
 
 	public int size() {
