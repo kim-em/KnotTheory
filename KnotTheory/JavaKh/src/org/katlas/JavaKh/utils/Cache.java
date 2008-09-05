@@ -4,7 +4,7 @@ public interface Cache<E> {
 	
 	public E cache(E e);
 	public int size();
-	public void flush();
+	public void clear();
 	public long getNumberOfChecks();
 	public long getNumberOfHits();
 	

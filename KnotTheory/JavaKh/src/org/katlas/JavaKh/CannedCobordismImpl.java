@@ -65,36 +65,25 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 //	static private CompositionCache compositionCache = new CompositionCache();
 
 	static Cache<CannedCobordism> cobordismCache = new CannedCobordismCache();
-	static Cache<byte[]> byteArrayCache = new ArrayCache();
-	static Cache<byte[][]> byteDoubleArrayCache = new DoubleArrayCache();
-
-	// static Map<VComposeInput, ComposeOutput> vcache = new
-	// TreeMap<VComposeInput, ComposeOutput>();
-	// static Map<HComposeInput, ComposeOutput> hcache = new
-	// TreeMap<HComposeInput, ComposeOutput>();
+  static Cache<byte[]> byteArrayCache = new ArrayCache();
+  static Cache<byte[][]> byteDoubleArrayCache = new DoubleArrayCache();
 
 	public static void disableCache() {
-		// vcache = new AlwaysEmptyMap<VComposeInput, ComposeOutput>();
-		// hcache = new AlwaysEmptyMap<HComposeInput, ComposeOutput>();
 		cobordismCache = new TrivialCache<CannedCobordism>();
 		byteArrayCache = new TrivialCache<byte[]>();
 		byteDoubleArrayCache = new TrivialCache<byte[][]>();		
 	}
 
 	public static void enableCache() {
-		// vcache = new TreeMap<VComposeInput, ComposeOutput>();
-		// hcache = new TreeMap<HComposeInput, ComposeOutput>();
 		cobordismCache = new HashCodeCache<CannedCobordism>();
 		byteArrayCache = new ArrayCache();
 		byteDoubleArrayCache = new DoubleArrayCache();
 	}
 
 	public static void flushCache() {
-		// vcache.clear();
-		// hcache.clear();
-		cobordismCache.flush();
-		byteArrayCache.flush();
-		byteDoubleArrayCache.flush();
+		cobordismCache.clear();
+		byteArrayCache.clear();
+		byteDoubleArrayCache.clear();
 	}
 
 	// public static void main(String args[]) {
@@ -1416,9 +1405,6 @@ public class CannedCobordismImpl implements Comparable<CannedCobordismImpl>,
 						return cc1.composeWithoutCache(cc2);
 					} else {
 						if (result != null) {
-							@SuppressWarnings("unused")
-							CannedCobordism test;
-							assert result.equals(test = cc1.composeWithoutCache(cc2));
 							assert result == cc1.composeWithoutCache(cc2);
 							return result;							
 						}

@@ -7,7 +7,6 @@
 	<classpathentry kind="lib" path="jars/commons-logging-1.1.jar"/>
 	<classpathentry kind="lib" path="jars/log4j-1.2.12.jar"/>
 	<classpathentry kind="lib" path="jars/commons-io-1.2.jar"/>
-	<classpathentry kind="lib" path="jars/trove-2.0.4.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
