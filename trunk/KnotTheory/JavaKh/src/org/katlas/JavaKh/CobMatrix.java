@@ -352,11 +352,13 @@ public class CobMatrix<R extends Ring<R>> extends
 			MatrixRow<LCCC<R>> row = entries.get(i);
 			for (int j : row.keys()) {
 				assert row.get(j) != null;
-				if (!row.get(j).source().equals(source.smoothings.get(j))) {
+				Cap rowSource = row.get(j).source();
+				if (rowSource != null && !rowSource.equals(source.smoothings.get(j))) {
 					assert false;
 					return false;
 				}
-				if (!row.get(j).target().equals(target.smoothings.get(i))) {
+				Cap rowTarget = row.get(j).target();
+        if (rowTarget != null && !row.get(j).target().equals(target.smoothings.get(i))) {
 					assert false;
 					return false;
 				}

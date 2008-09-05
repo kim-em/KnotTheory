@@ -13,8 +13,7 @@ public abstract class ZeroLinearCombo<R extends Ring<R>, O, Mor extends Morphism
 extends	AbstractLinearCombo<R, O, Mor, LinearMor>
 implements LinearCombo<R, O, Mor, LinearMor> {
 	
-	protected ZeroLinearCombo(O source, O target) {
-		super(source, target);
+	protected ZeroLinearCombo() {
 	}
 
 	public R firstCoefficient() {
@@ -48,15 +47,15 @@ implements LinearCombo<R, O, Mor, LinearMor> {
 	}
 
 	public LinearMor compose(LinearMor m) {
-		return fixedZeroLinearCombo(m.source(), target);
+		return fixedZeroLinearCombo();
 	}
 
 	public O source() {
-		return source;
+		return null;
 	}
 
 	public O target() {
-		return target;
+		return null;
 	}
 
 	public LinearMor add(Mor mor, int r) {
@@ -78,8 +77,8 @@ implements LinearCombo<R, O, Mor, LinearMor> {
 	}
 	
 	public abstract LinearMor singleTermLinearCombo(Mor mor, R r);
-	public abstract LinearMor fixedZeroLinearCombo(O source, O target);
-	public abstract LinearMor flexibleZeroLinearCombo(O source, O target);
+	public abstract LinearMor fixedZeroLinearCombo();
+	public abstract LinearMor flexibleZeroLinearCombo();
 
 	@SuppressWarnings("unchecked")
 	public LinearMor compact() {

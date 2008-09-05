@@ -9,12 +9,12 @@ import org.katlas.JavaKh.algebra.Ring;
 
 public abstract class AbstractLinearCombo<R extends Ring<R>, O, Mor extends Morphism<O, Mor>, LinearMor extends LinearMorphism<R, O, LinearMor>> implements LinearCombo<R, O, Mor, LinearMor> {
 
-	protected final O source, target;
-	
-	public AbstractLinearCombo(O source, O target) {
-		this.source = source;
-		this.target = target;
-	}
+//	protected final O source, target;
+//	
+//	public AbstractLinearCombo(O source, O target) {
+//		this.source = source;
+//		this.target = target;
+//	}
 	
 	public R firstCoefficient() {
 		return getCoefficient(firstTerm());
