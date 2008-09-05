@@ -59,11 +59,11 @@ public class Komplex<R extends Ring<R>> implements Serializable {
   private static int                   largestMatrix              = 0;
   private static int                   largestIsomorphismBlock    = 0;
 
-  private transient int                ncolumns;
-  private transient SmoothingColumn    columns[];
+  private /* transient */ int                ncolumns;
+  private /* transient */ SmoothingColumn    columns[];
   private transient List<CobMatrix<R>> matrices;
-  private transient int                startnum;
-  private transient boolean            inMemory;
+  private /* transient */ int                startnum;
+  private /* transient */ boolean            inMemory;
 
   transient static boolean             parallel;
   transient static boolean             intenseGarbage             = false;
