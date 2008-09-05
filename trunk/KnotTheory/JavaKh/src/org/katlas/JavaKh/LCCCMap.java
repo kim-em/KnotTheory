@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.katlas.JavaKh.LCCC.SizeRarelyMoreThanOneMap;
 import org.katlas.JavaKh.algebra.Ring;
@@ -77,8 +78,8 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
      * 		INFO - Elapsed time: 403,006
      * 
      */
-//    return new TreeMap<CannedCobordism, R>();
-    		return new SizeRarelyMoreThanOneMap<CannedCobordism, R>();
+    return new TreeMap<CannedCobordism, R>();
+//    		return new SizeRarelyMoreThanOneMap<CannedCobordism, R>();
   }
 
   @SuppressWarnings("unchecked")
