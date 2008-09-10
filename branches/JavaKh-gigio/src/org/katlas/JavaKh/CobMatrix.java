@@ -335,6 +335,36 @@ public class CobMatrix<R extends Ring<R>> extends AbstractMatrix<R, Obj, LCCC<R>
 	}
 	System.out.println("]");
     }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("CobMatrix: ");
+		sb.append(source.toString());
+		sb.append(" ---> ");
+		sb.append(target.toString());
+		sb.append("\r\n");
+		for (int i = 0; i < entries.size(); ++i) {
+			MatrixRow<LCCC<R>> row = entries.get(i);
+			sb.append('(');
+			for (int j = 0; j < source.n; ++j) {
+				if (row.containsKey(j)) {
+					int k = target.numbers.get(i) - source.numbers.get(j);
+					assert k >= 0;
+					if (k <= 9) {
+						sb.append(k);
+					} else {
+						sb.append('*');
+					}
+				} else {
+					sb.append(' ');
+				}
+			}
+			sb.append(")\r\n");
+		}
+
+		return sb.toString();
+	}
+
 
     public void printZeros() {
 	//throw new UnsupportedOperationException();

@@ -1623,6 +1623,10 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				info("Finished composition.");
 			}
 
+			for(CobMatrix<R> matrix : kom.matrices) {
+				System.out.println(matrix);
+			}
+			
 			assert kom.check(true);
 
 			// flush the cobordism cache again!
@@ -2118,6 +2122,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				if (reduce) {
 					cm.reduce();
 					if (!cm.isZero()) {
+						System.out.println(cm);
 						assert false;
 						return false;
 					}
