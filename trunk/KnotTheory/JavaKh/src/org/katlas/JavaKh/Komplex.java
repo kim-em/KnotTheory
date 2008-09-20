@@ -1031,9 +1031,9 @@ public class Komplex<R extends Ring<R>> implements Serializable {
   private void executionGuard() {
 
     // execution guard.
-    File guard = new File("/dev/shm/1");
+    File guard = new File("/dev/shm/2");
     if (guard.exists()) {
-      log.warn("/dev/shm/1 exists, aborting!");
+      log.warn("/dev/shm/2 exists, aborting!");
       System.exit(1);
     }
 
