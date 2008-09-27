@@ -15,6 +15,7 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.katlas.JavaKh.CannedCobordismImpl;
 
 
 public class DiskBackedList<Element extends Serializable> extends AbstractList<Element> implements SerializingList<Element> {
@@ -44,6 +45,10 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 	@Override
 	public Element get(int index) {
 		if(hashlist.get(index) == null) return null;
+		
+		// try this!
+		CannedCobordismImpl.flushCache();
+		
 		ObjectInputStream ois = null;
 		try {
 			ois = new ObjectInputStream(new FileInputStream(file(hashlist.get(index))));
