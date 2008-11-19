@@ -134,16 +134,7 @@ KnotTheory\scripts\upload_script_neuron.sh
 KnotTheory\scripts\upload_script_nice.sh
 KnotTheory\scripts\upload_script.sh
 KnotTheory\WikiLink\ant\build.xml
-KnotTheory\WikiLink\bin\wikilink\MediawikiConnection.class
-KnotTheory\WikiLink\bin\wikilink\Test.class
-KnotTheory\WikiLink\bin\wikilink\wikidelete.class
-KnotTheory\WikiLink\bin\wikilink\wikiget.class
-KnotTheory\WikiLink\bin\wikilink\wikilink.class
-KnotTheory\WikiLink\bin\wikilink\wikiset.class
-KnotTheory\WikiLink\bin\wikilink\wikiuploadfile.class
 KnotTheory\WikiLink\config\base-url.txt
-KnotTheory\WikiLink\config\password.txt
-KnotTheory\WikiLink\config\username.txt
 KnotTheory\WikiLink\config\username.txt.template
 KnotTheory\WikiLink\jars\commons-codec-1.3.jar
 KnotTheory\WikiLink\jars\commons-httpclient-3.0-rc2.jar

@@ -28,7 +28,7 @@ KnotTheory::credits = "`1`";
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2008, 11, 18, 16, 9, 2.2432720};
+KnotTheoryVersion[] = {2008, 11, 19, 11, 39, 57.9760544};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
@@ -3632,10 +3632,10 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
   ]
 ]
 
-JavaKhv1ClassPath[] := ToFileName[KnotTheoryDirectory[], "JavaKh1"]
+JavaKhv1ClassPath[] := ToFileName[KnotTheoryDirectory[], "JavaKh-v1"]
 
 JavaKhv2ClassPath[] := Module[{JavaKhDirectory, jarDirectory, classDirectory, pathCharacter}, 
-    JavaKhDirectory = ToFileName[KnotTheoryDirectory[], "JavaKh2"];
+    JavaKhDirectory = ToFileName[KnotTheoryDirectory[], "JavaKh-v2"];
     jarDirectory = ToFileName[JavaKhDirectory, "jars"];
     classDirectory = ToFileName[JavaKhDirectory, "bin"];
     pathCharacter = If[$PathnameSeparator == "\\", ";", ":"];
@@ -3644,8 +3644,7 @@ JavaKhv2ClassPath[] := Module[{JavaKhDirectory, jarDirectory, classDirectory, pa
         pathCharacter , ToFileName[jarDirectory, "commons-cli-1.0.jar"],
         pathCharacter , ToFileName[jarDirectory, "commons-io-1.2.jar"],
         pathCharacter , ToFileName[jarDirectory, "commons-logging-1.1.jar"],
-        pathCharacter , ToFileName[jarDirectory, "log4j-1.2.12.jar"],
-        pathCharacter , ToFileName[jarDirectory, "trove-2.0.4.jar"]
+        pathCharacter , ToFileName[jarDirectory, "log4j-1.2.12.jar"]
     ]
 ]
 
