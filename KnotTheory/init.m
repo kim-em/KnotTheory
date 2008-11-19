@@ -28,7 +28,7 @@ KnotTheory::credits = "`1`";
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2008, 8, 26, 13, 57, 21.1548432};
+KnotTheoryVersion[] = {2008, 11, 18, 16, 9, 2.2432720};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
@@ -3060,16 +3060,17 @@ Khovanov Homology of a knot/link L (over a field of characteristic 0)
 in terms of the variables q and t. Kh[L, Program -> prog] uses the
 program prog to perform the computation. The currently available
 programs are \"FastKh\", written in Mathematica by Dror Bar-Natan in
-the winter of 2005 and \"JavaKh\" (default), written in java (java 1.5
-required!) by Jeremy Green in the summer of 2005. The java program is
-several thousand times faster than the Mathematica program, though java
-may not be available on some systems. \"JavaKh\" also takes the option
+the winter of 2005, \"JavaKh-v1\", written in java (java 1.5
+required!) by Jeremy Green in the summer of 2005 and \"JavaKh-v2\" (default), an update of \"JavaKh-v1\" (now requiring java 1.6) written by Scott Morrison in 2008.
+(\"JavaKh\" is also available, currently an alias for \"JavaKh-v2\".)
+The java programs are several thousand times faster than the Mathematica program, though java
+may not be available on some systems. \"JavaKh2\" also takes the option
 \"Modulus -> p\" which changes the characteristic of the ground field
 to p. If p==0 JavaKh works over the rational numbers; if p==Null JavaKh
 works over Z (see ?ZMod for the output format)."
 
 JavaOptions::usage = "JavaOptions is an option to Kh. Kh[L, Program ->
-\"JavaKh\", JavaOptions -> jopts] calls java with options jopts. Thus
+\"JavaKh2\", JavaOptions -> jopts] calls java with options jopts. Thus
 for example, JavaOptions -> \"-Xmx256m\" sets the maximum java heap
 size to 256MB - useful for large computations."
 
@@ -3539,9 +3540,11 @@ Kh[TorusKnot[m_, n_]] := (
   Kh[TorusKnot[m,n]]
 )
 
+latestJavaKh = "JavaKh-v2";
+
 Options[Kh] = {
   ExpansionOrder -> Automatic,
-  Program -> "JavaKh",
+  Program -> latestJavaKh,
   Modulus -> 0,
   Universal -> False,
   JavaOptions -> ""
@@ -3551,7 +3554,7 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
   {
     L1, pos, inside, L2, f, cl,
     eo = (ExpansionOrder /. {opts} /. Options[Kh]),
-    prog = (Program /. {opts} /. Options[Kh]),
+    prog = (Program /. {opts} /. Options[Kh] /. {"JavaKh" -> latestJavaKh}),
     modulus = (Modulus /. {opts} /. Options[Kh]),
     universal = (Universal /. {opts} /. Options[Kh]),
     javaoptions = (JavaOptions /. {opts} /. Options[Kh]),
@@ -3560,6 +3563,7 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
   L1 = PD[L];
   Switch[prog,
   "FastKh", (
+    CreditMessage["The Khovanov homology program FastKh was written by Dror Bar-Natan."];
     If[eo === Automatic,
       L2 = List @@ L1; L1 = PD[]; inside = {};
       While[Length[L2] > 0,
@@ -3571,16 +3575,43 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     ];
     Function @@ {KhPoly[KhComplex[L1]] /. {q -> #1, t -> #2}}
   ),
-  "JavaKh", (
-    CreditMessage["The Khovanov homology program JavaKh was written by Jeremy Green in the summer of 2005 at the University of Toronto."];
+  "JavaKh-v1", (
+    CreditMessage["The Khovanov homology program JavaKh-v1 was written by Jeremy Green in the summer of 2005 at the University of Toronto."];
     f = OpenWrite["pd", PageWidth -> Infinity];
     WriteString[f, ToString[L1]];
     Close[f];
-    classpath = JavaKhClassPath[]; 
+    classpath = JavaKhv1ClassPath[]; 
     cl = StringJoin[
       "!java -classpath \"", classpath,
       "\" ", javaoptions, " org.katlas.JavaKh.JavaKh ",
-      If[universal, "-U", If[modulus === Null, "-Z", "--mod "<>ToString[modulus]]],
+      If[universal, "-U", If[modulus === Null, "-Z", "-mod "<>ToString[modulus]]],
+      " < pd 2> JavaKh.log"
+    ];
+    f = OpenRead[cl];
+    out = Read[f, Expression];
+    Close[f];
+    If[out == EndOfFile, 
+        Print["Something went wrong running JavaKh; nothing was returned. The command line was: "];
+        Print[cl];
+        Print["There may have been an error log produced by Java: "];
+        FilePrint["JavaKh.log"];
+        Return[$Failed]
+    ];
+    out = StringReplace[out, {
+      "q" -> "#1", "t" -> "#2", "Z" -> "ZMod"
+    }];
+    ToExpression[out <> "&"]
+  ),
+  "JavaKh-v2", (
+    CreditMessage["The Khovanov homology program JavaKh-v2 is an update of Jeremy Green's program JavaKh-v1, written by Scott Morrison in 2008 at Microsoft Station Q."];
+    f = OpenWrite["pd", PageWidth -> Infinity];
+    WriteString[f, ToString[L1]];
+    Close[f];
+    classpath = JavaKhv2ClassPath[]; 
+    cl = StringJoin[
+      "!java -classpath \"", classpath,
+      "\" ", javaoptions, " org.katlas.JavaKh.JavaKh ",
+      If[universal, "-U -Z", If[modulus === Null, "-Z", "--mod "<>ToString[modulus]]],
       " < pd 2> JavaKh.log"
     ];
     f = OpenRead[cl];
@@ -3601,8 +3632,10 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
   ]
 ]
 
-JavaKhClassPath[] := Module[{JavaKhDirectory, jarDirectory, classDirectory, pathCharacter}, 
-    JavaKhDirectory = ToFileName[KnotTheoryDirectory[], "JavaKh"];
+JavaKhv1ClassPath[] := ToFileName[KnotTheoryDirectory[], "JavaKh1"]
+
+JavaKhv2ClassPath[] := Module[{JavaKhDirectory, jarDirectory, classDirectory, pathCharacter}, 
+    JavaKhDirectory = ToFileName[KnotTheoryDirectory[], "JavaKh2"];
     jarDirectory = ToFileName[JavaKhDirectory, "jars"];
     classDirectory = ToFileName[JavaKhDirectory, "bin"];
     pathCharacter = If[$PathnameSeparator == "\\", ";", ":"];
