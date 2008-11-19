@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       145,          7]
-NotebookDataLength[    151408,       3402]
-NotebookOptionsPosition[     34009,        948]
-NotebookOutlinePosition[    149411,       3339]
-CellTagsIndexPosition[    149368,       3336]
+NotebookDataLength[    151448,       3402]
+NotebookOptionsPosition[     34049,        948]
+NotebookOutlinePosition[    149451,       3339]
+CellTagsIndexPosition[    149408,       3336]
 WindowFrame->Normal
 ContainsDynamic->False*)
 
@@ -216,9 +216,8 @@ Cell[BoxData[{
        RowBox[{
        "\"\<!java -classpath \\\"\>\"", ",", "classpath", ",", 
         "\"\<\\\" \>\"", ",", 
-        "\"\< org.katlas.JavaKh.JavaKh -U -Q < pd\>\""}], "]"}]}]}], ",", 
-    "\[IndentingNewLine]", 
-    RowBox[{
+        "\"\< org.katlas.JavaKh.JavaKh -U -Q < pd\>\""}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
      RowBox[{"f", "=", 
       RowBox[{"OpenRead", "[", "cl", "]"}]}], ";", "\[IndentingNewLine]", 
      RowBox[{"out", "=", 
@@ -404,7 +403,8 @@ command line was: \>\"", "]"}], ";",
    3.4294767618352337`*^9, {3.4294774006538095`*^9, 3.429477402346243*^9}, {
    3.429477723457979*^9, 3.4294777241089153`*^9}, {3.4294777703854575`*^9, 
    3.429477805435858*^9}, {3.4360452186769667`*^9, 3.4360452268587313`*^9}, {
-   3.436045264132328*^9, 3.4360453534808044`*^9}}],
+   3.436045264132328*^9, 3.4360453534808044`*^9}, {3.4360454205672703`*^9, 
+   3.4360454211681347`*^9}}],
 
 Cell[BoxData[
  RowBox[{
@@ -3359,49 +3359,49 @@ Cell[3159, 98, 101, 2, 28, "Input",
  InitializationCell->True],
 Cell[3263, 102, 141, 4, 28, "Input",
  InitializationCell->True],
-Cell[3407, 108, 12488, 298, 1169, "Input",
+Cell[3407, 108, 12528, 298, 1169, "Input",
  InitializationCell->True],
-Cell[15898, 408, 265, 6, 28, "Input",
+Cell[15938, 408, 265, 6, 28, "Input",
  InitializationCell->True],
-Cell[16166, 416, 924, 24, 129, "Input",
+Cell[16206, 416, 924, 24, 129, "Input",
  InitializationCell->True],
-Cell[17093, 442, 753, 25, 28, "Input",
+Cell[17133, 442, 753, 25, 28, "Input",
  InitializationCell->True],
 Cell[CellGroupData[{
-Cell[17871, 471, 3633, 85, 249, "Input",
+Cell[17911, 471, 3633, 85, 249, "Input",
  InitializationCell->True],
-Cell[21507, 558, 426, 9, 20, "Message",
+Cell[21547, 558, 426, 9, 20, "Message",
  InitializationCell->True]
 }, Open  ]],
-Cell[21948, 570, 196, 6, 28, "Input",
+Cell[21988, 570, 196, 6, 28, "Input",
  InitializationCell->True],
-Cell[22147, 578, 462, 13, 28, "Input",
+Cell[22187, 578, 462, 13, 28, "Input",
  InitializationCell->True],
-Cell[22612, 593, 2159, 63, 169, "Input",
+Cell[22652, 593, 2159, 63, 169, "Input",
  InitializationCell->True],
-Cell[24774, 658, 575, 16, 49, "Input",
+Cell[24814, 658, 575, 16, 49, "Input",
  InitializationCell->True],
-Cell[25352, 676, 742, 24, 49, "Input",
+Cell[25392, 676, 742, 24, 49, "Input",
  InitializationCell->True],
-Cell[26097, 702, 133, 4, 28, "Input",
+Cell[26137, 702, 133, 4, 28, "Input",
  InitializationCell->True],
-Cell[26233, 708, 418, 14, 28, "Input",
+Cell[26273, 708, 418, 14, 28, "Input",
  InitializationCell->True],
-Cell[26654, 724, 1831, 50, 149, "Input",
+Cell[26694, 724, 1831, 50, 149, "Input",
  InitializationCell->True],
-Cell[28488, 776, 2081, 50, 725, "Input",
+Cell[28528, 776, 2081, 50, 725, "Input",
  InitializationCell->True],
-Cell[30572, 828, 1212, 35, 129, "Input",
+Cell[30612, 828, 1212, 35, 129, "Input",
  InitializationCell->True],
-Cell[31787, 865, 1057, 36, 30, "Input",
+Cell[31827, 865, 1057, 36, 30, "Input",
  InitializationCell->True],
-Cell[32847, 903, 589, 20, 30, "Input",
+Cell[32887, 903, 589, 20, 30, "Input",
  InitializationCell->True],
-Cell[33439, 925, 385, 12, 28, "Input",
+Cell[33479, 925, 385, 12, 28, "Input",
  InitializationCell->True],
-Cell[33827, 939, 78, 2, 28, "Input",
+Cell[33867, 939, 78, 2, 28, "Input",
  InitializationCell->True],
-Cell[33908, 943, 85, 2, 28, "Input",
+Cell[33948, 943, 85, 2, 28, "Input",
  InitializationCell->True]
 }, Open  ]]
 }

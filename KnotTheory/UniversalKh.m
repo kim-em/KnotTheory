@@ -68,7 +68,7 @@ f=OpenWrite["pd",PageWidth->Infinity];
 WriteString[f,ToString[pd1]];
 Close[f];
 
-cl=StringJoin["!java -classpath \"",classpath,"\" "," org.katlas.JavaKh.JavaKh -U -Q < pd"],
+cl=StringJoin["!java -classpath \"",classpath,"\" "," org.katlas.JavaKh.JavaKh -U -Q < pd"];
 f=OpenRead[cl];
 out=Read[f,Expression];
 Close[f];
