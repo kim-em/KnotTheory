@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       145,          7]
-NotebookDataLength[    152119,       3419]
-NotebookOptionsPosition[     34720,        965]
-NotebookOutlinePosition[    150122,       3356]
-CellTagsIndexPosition[    150079,       3353]
+NotebookDataLength[    151408,       3402]
+NotebookOptionsPosition[     34009,        948]
+NotebookOutlinePosition[    149411,       3339]
+CellTagsIndexPosition[    149368,       3336]
 WindowFrame->Normal
 ContainsDynamic->False*)
 
@@ -166,22 +166,7 @@ Cell[BoxData[{
           RowBox[{"X", "[", 
            RowBox[{"j", ",", " ", "n", ",", " ", "i", ",", " ", 
             RowBox[{"n", "+", "1"}]}], "]"}]}]}], "\[IndentingNewLine]", 
-        "}"}]}]}], ";", "\[IndentingNewLine]", 
-     RowBox[{"SetDirectory", "[", 
-      RowBox[{"ToFileName", "[", 
-       RowBox[{
-        RowBox[{"KnotTheoryDirectory", "[", "]"}], ",", "\"\<JavaKh\>\""}], 
-       "]"}], "]"}], ";", "\[IndentingNewLine]", 
-     RowBox[{"f", "=", 
-      RowBox[{"OpenWrite", "[", 
-       RowBox[{"\"\<pd\>\"", ",", 
-        RowBox[{"PageWidth", "\[Rule]", "Infinity"}]}], "]"}]}], ";", 
-     "\[IndentingNewLine]", 
-     RowBox[{"WriteString", "[", 
-      RowBox[{"f", ",", 
-       RowBox[{"ToString", "[", "pd1", "]"}]}], "]"}], ";", 
-     "\[IndentingNewLine]", 
-     RowBox[{"Close", "[", "f", "]"}], ";", "\[IndentingNewLine]", 
+        "}"}]}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
      RowBox[{"new", "=", "True"}], ";", " ", 
      RowBox[{"(*", " ", 
       RowBox[{
@@ -198,47 +183,42 @@ Cell[BoxData[{
         RowBox[{"JavaKhDirectory", "=", 
          RowBox[{"ToFileName", "[", 
           RowBox[{
-           RowBox[{"KnotTheoryDirectory", "[", "]"}], ",", "\"\<JavaKh\>\""}],
-           "]"}]}], ";", "\[IndentingNewLine]", 
-        RowBox[{"jarDirectory", "=", 
-         RowBox[{"ToFileName", "[", 
-          RowBox[{"JavaKhDirectory", ",", "\"\<jars\>\""}], "]"}]}], ";", 
-        "\[IndentingNewLine]", 
-        RowBox[{"classDirectory", "=", 
-         RowBox[{"ToFileName", "[", 
-          RowBox[{"JavaKhDirectory", ",", "\"\<bin\>\""}], "]"}]}], ";", 
-        "\[IndentingNewLine]", 
+           RowBox[{"KnotTheoryDirectory", "[", "]"}], ",", 
+           "\"\<JavaKh2\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
         RowBox[{"classpath", "=", 
-         RowBox[{"KnotTheory`FastKh`JavaKhClassPath", "[", "]"}]}], ";", 
-        "\[IndentingNewLine]", 
-        RowBox[{"cl", "=", 
-         RowBox[{"StringJoin", "[", 
-          RowBox[{
-          "\"\<!java -classpath \\\"\>\"", ",", "classpath", ",", 
-           "\"\<\\\" \>\"", ",", 
-           "\"\< org.katlas.JavaKh.JavaKh -U -Q < pd\>\""}], "]"}]}]}], ",", 
-       "\[IndentingNewLine]", 
+         RowBox[{"KnotTheory`FastKh`JavaKhv2ClassPath", "[", "]"}]}], ";"}], 
+       ",", "\[IndentingNewLine]", 
        RowBox[{
         RowBox[{"JavaKhDirectory", "=", 
          RowBox[{"ToFileName", "[", 
           RowBox[{
-           RowBox[{"ToFileName", "[", 
-            RowBox[{
-             RowBox[{"ToFileName", "[", 
-              RowBox[{
-               RowBox[{"ToFileName", "[", 
-                RowBox[{
-                 RowBox[{"KnotTheoryDirectory", "[", "]"}], ",", 
-                 "\"\<..\>\""}], "]"}], ",", "\"\<..\>\""}], "]"}], ",", 
-             "\"\<branches\>\""}], "]"}], ",", "\"\<JavaKh-before\>\""}], 
-          "]"}]}], ";", "\[IndentingNewLine]", 
-        RowBox[{"cl", "=", 
-         RowBox[{"StringJoin", "[", 
-          RowBox[{
-          "\"\<!java -classpath \\\"\>\"", ",", "JavaKhDirectory", ",", 
-           "\"\<\\\" \>\"", ",", 
-           "\"\< org.katlas.JavaKh.JavaKh -U < pd\>\""}], "]"}]}]}], ","}], 
-      "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+           RowBox[{"KnotTheoryDirectory", "[", "]"}], ",", 
+           "\"\<JavaKh1\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"classpath", "=", 
+         RowBox[{"KnotTheory`FastKh`JavaKhv1ClassPath", "[", "]"}]}], ";"}], 
+       ","}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"SetDirectory", "[", "JavaKhDirectory", "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"f", "=", 
+      RowBox[{"OpenWrite", "[", 
+       RowBox[{"\"\<pd\>\"", ",", 
+        RowBox[{"PageWidth", "\[Rule]", "Infinity"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"WriteString", "[", 
+      RowBox[{"f", ",", 
+       RowBox[{"ToString", "[", "pd1", "]"}]}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Close", "[", "f", "]"}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"cl", "=", 
+      RowBox[{"StringJoin", "[", 
+       RowBox[{
+       "\"\<!java -classpath \\\"\>\"", ",", "classpath", ",", 
+        "\"\<\\\" \>\"", ",", 
+        "\"\< org.katlas.JavaKh.JavaKh -U -Q < pd\>\""}], "]"}]}]}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{
      RowBox[{"f", "=", 
       RowBox[{"OpenRead", "[", "cl", "]"}]}], ";", "\[IndentingNewLine]", 
      RowBox[{"out", "=", 
@@ -246,7 +226,9 @@ Cell[BoxData[{
        RowBox[{"f", ",", "Expression"}], "]"}]}], ";", "\[IndentingNewLine]", 
      
      RowBox[{"Close", "[", "f", "]"}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
      RowBox[{"ResetDirectory", "[", "]"}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
      RowBox[{"If", "[", 
       RowBox[{
        RowBox[{"out", "\[Equal]", "EndOfFile"}], ",", 
@@ -421,7 +403,8 @@ command line was: \>\"", "]"}], ";",
    3.429462727855362*^9}, {3.429462774322178*^9, 3.4294627757542367`*^9}, 
    3.4294767618352337`*^9, {3.4294774006538095`*^9, 3.429477402346243*^9}, {
    3.429477723457979*^9, 3.4294777241089153`*^9}, {3.4294777703854575`*^9, 
-   3.429477805435858*^9}}],
+   3.429477805435858*^9}, {3.4360452186769667`*^9, 3.4360452268587313`*^9}, {
+   3.436045264132328*^9, 3.4360453534808044`*^9}}],
 
 Cell[BoxData[
  RowBox[{
@@ -3376,49 +3359,49 @@ Cell[3159, 98, 101, 2, 28, "Input",
  InitializationCell->True],
 Cell[3263, 102, 141, 4, 28, "Input",
  InitializationCell->True],
-Cell[3407, 108, 13199, 315, 1109, "Input",
+Cell[3407, 108, 12488, 298, 1169, "Input",
  InitializationCell->True],
-Cell[16609, 425, 265, 6, 28, "Input",
+Cell[15898, 408, 265, 6, 28, "Input",
  InitializationCell->True],
-Cell[16877, 433, 924, 24, 129, "Input",
+Cell[16166, 416, 924, 24, 129, "Input",
  InitializationCell->True],
-Cell[17804, 459, 753, 25, 28, "Input",
+Cell[17093, 442, 753, 25, 28, "Input",
  InitializationCell->True],
 Cell[CellGroupData[{
-Cell[18582, 488, 3633, 85, 249, "Input",
+Cell[17871, 471, 3633, 85, 249, "Input",
  InitializationCell->True],
-Cell[22218, 575, 426, 9, 20, "Message",
+Cell[21507, 558, 426, 9, 20, "Message",
  InitializationCell->True]
 }, Open  ]],
-Cell[22659, 587, 196, 6, 28, "Input",
+Cell[21948, 570, 196, 6, 28, "Input",
  InitializationCell->True],
-Cell[22858, 595, 462, 13, 28, "Input",
+Cell[22147, 578, 462, 13, 28, "Input",
  InitializationCell->True],
-Cell[23323, 610, 2159, 63, 169, "Input",
+Cell[22612, 593, 2159, 63, 169, "Input",
  InitializationCell->True],
-Cell[25485, 675, 575, 16, 49, "Input",
+Cell[24774, 658, 575, 16, 49, "Input",
  InitializationCell->True],
-Cell[26063, 693, 742, 24, 49, "Input",
+Cell[25352, 676, 742, 24, 49, "Input",
  InitializationCell->True],
-Cell[26808, 719, 133, 4, 28, "Input",
+Cell[26097, 702, 133, 4, 28, "Input",
  InitializationCell->True],
-Cell[26944, 725, 418, 14, 28, "Input",
+Cell[26233, 708, 418, 14, 28, "Input",
  InitializationCell->True],
-Cell[27365, 741, 1831, 50, 149, "Input",
+Cell[26654, 724, 1831, 50, 149, "Input",
  InitializationCell->True],
-Cell[29199, 793, 2081, 50, 725, "Input",
+Cell[28488, 776, 2081, 50, 725, "Input",
  InitializationCell->True],
-Cell[31283, 845, 1212, 35, 129, "Input",
+Cell[30572, 828, 1212, 35, 129, "Input",
  InitializationCell->True],
-Cell[32498, 882, 1057, 36, 30, "Input",
+Cell[31787, 865, 1057, 36, 30, "Input",
  InitializationCell->True],
-Cell[33558, 920, 589, 20, 30, "Input",
+Cell[32847, 903, 589, 20, 30, "Input",
  InitializationCell->True],
-Cell[34150, 942, 385, 12, 28, "Input",
+Cell[33439, 925, 385, 12, 28, "Input",
  InitializationCell->True],
-Cell[34538, 956, 78, 2, 28, "Input",
+Cell[33827, 939, 78, 2, 28, "Input",
  InitializationCell->True],
-Cell[34619, 960, 85, 2, 28, "Input",
+Cell[33908, 943, 85, 2, 28, "Input",
  InitializationCell->True]
 }, Open  ]]
 }

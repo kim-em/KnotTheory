@@ -54,24 +54,27 @@ X[i_, 1, j_, n] :> X[i, n+1, j, n],
 X[1, j_, n, i_] :> X[n+1, j, n, i],
 X[j_, n, i_, 1] :> X[j, n, i, n+1]
 };
-SetDirectory[ToFileName[KnotTheoryDirectory[],"JavaKh"]];
+
+new=True; (* This is just an option for Scott, to allow comparing against Jeremy's program before butchering it. *)
+If[new,
+JavaKhDirectory=ToFileName[KnotTheoryDirectory[],"JavaKh2"];
+classpath=KnotTheory`FastKh`JavaKhv2ClassPath[];,
+JavaKhDirectory=ToFileName[KnotTheoryDirectory[],"JavaKh1"];
+classpath=KnotTheory`FastKh`JavaKhv1ClassPath[];,
+];
+
+SetDirectory[JavaKhDirectory];
 f=OpenWrite["pd",PageWidth->Infinity];
 WriteString[f,ToString[pd1]];
 Close[f];
-new=True; (* This is just an option for Scott, to allow comparing against Jeremy's program before butchering it. *)
-If[new,
-JavaKhDirectory=ToFileName[KnotTheoryDirectory[],"JavaKh"];
-jarDirectory=ToFileName[JavaKhDirectory,"jars"];
-classDirectory=ToFileName[JavaKhDirectory,"bin"];
-classpath=KnotTheory`FastKh`JavaKhClassPath[];
+
 cl=StringJoin["!java -classpath \"",classpath,"\" "," org.katlas.JavaKh.JavaKh -U -Q < pd"],
-JavaKhDirectory=ToFileName[ToFileName[ToFileName[ToFileName[KnotTheoryDirectory[],".."],".."],"branches"],"JavaKh-before"];
-cl=StringJoin["!java -classpath \"",JavaKhDirectory,"\" "," org.katlas.JavaKh.JavaKh -U < pd"],
-];
 f=OpenRead[cl];
 out=Read[f,Expression];
 Close[f];
+
 ResetDirectory[];
+
 If[out==EndOfFile,Print["Something went wrong running JavaKh; nothing was returned. The command line was: "];Print[cl];Return[$Failed]];
 out=StringReplace[out,{"q"->"#1","t"->"#2"}];
 (* ToExpression is dangerous! We have to fiddle with the $Context here. *)
