@@ -55,13 +55,10 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 	public Element get(int index) {
 		if(hashlist.get(index) == null) return null;
 		
-		// try this!
-		// CannedCobordismImpl.flushCache();
-		
 		ObjectInputStream ois = null;
 		try {
 			ois = new ObjectInputStream(new FileInputStream(file(hashlist.get(index))));
-//			log.debug("Getting index " + index + " ...");
+			log.debug("Getting index " + index + " ...");
 			Element r = (Element)(ois.readObject());
 			return r;
 		} catch (FileNotFoundException e) {
@@ -100,7 +97,7 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 			try {
 				oos = new ObjectOutputStream(
 						new FileOutputStream(f));
-//				log.debug("Storing " + element.hashCode() + " ...");
+				log.debug("Storing " + element.hashCode() + " ...");
 				oos.writeObject(element);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();

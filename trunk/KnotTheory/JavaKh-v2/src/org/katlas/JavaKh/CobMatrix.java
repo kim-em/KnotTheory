@@ -26,6 +26,7 @@ import org.katlas.JavaKh.rows.LinkedListRow;
 import org.katlas.JavaKh.rows.MatrixRow;
 import org.katlas.JavaKh.utils.CachingList;
 import org.katlas.JavaKh.utils.DiskBackedList;
+import org.katlas.JavaKh.utils.SoftReferenceCachingList;
 
 public class CobMatrix<R extends Ring<R>> extends
 		AbstractMatrix<R, Cap, LCCC<R>> implements Matrix<R, Cap, LCCC<R>>,
@@ -36,18 +37,13 @@ public class CobMatrix<R extends Ring<R>> extends
 	private static final long serialVersionUID = 6928267083411895640L;
 
 	private static final Log log = LogFactory.getLog(CobMatrix.class);
-	private static boolean inMemory = true;
-
+	
+	private transient boolean inMemory;
 	transient SmoothingColumn source, target;
 	transient List<MatrixRow<LCCC<R>>> entries;
 
-	public CobMatrix(SmoothingColumn s, SmoothingColumn t) {
-		source = new SmoothingColumn(s);
-		target = new SmoothingColumn(t);
-		createRowList(t.n);
-	}
-
-	public CobMatrix(SmoothingColumn s, SmoothingColumn t, boolean shared) {
+	public CobMatrix(SmoothingColumn s, SmoothingColumn t, boolean shared, boolean inMemory) {
+		this.inMemory = inMemory;
 		if (shared) {
 			source = s;
 			target = t;
@@ -60,11 +56,12 @@ public class CobMatrix<R extends Ring<R>> extends
 	}
 
 	private void createRowList(int n) {
-		if (isInMemory()) {
+		if (inMemory) {
 			entries = new ArrayList<MatrixRow<LCCC<R>>>(n);
 		} else {
 //			entries = new DiskBackedList<MatrixRow<LCCC<R>>>();
-			entries = new CachingList<MatrixRow<LCCC<R>>>(new DiskBackedList<MatrixRow<LCCC<R>>>(), 100);
+//			entries = new CachingList<MatrixRow<LCCC<R>>>(new DiskBackedList<MatrixRow<LCCC<R>>>(), 100);
+			entries = new SoftReferenceCachingList<MatrixRow<LCCC<R>>>(new DiskBackedList<MatrixRow<LCCC<R>>>());
 		}
 		for (int i = 0; i < n; ++i) {
 			entries.add(newRow());
@@ -113,9 +110,7 @@ public class CobMatrix<R extends Ring<R>> extends
 				row.put(columnIndex, sum);
 			}
 		}
-		if (!isInMemory()) {
-			entries.set(rowIndex, row);
-		}
+		entries.set(rowIndex, row);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -173,7 +168,7 @@ public class CobMatrix<R extends Ring<R>> extends
 		/*
 		 * if (!source.equals(cm.target)) throw new IllegalArgumentException();
 		 */
-		CobMatrix<R> ret = new CobMatrix<R>(cm.source, target);
+		CobMatrix<R> ret = new CobMatrix<R>(cm.source, target, false, inMemory);
 
 		for (int i = 0; i < target.n; ++i) {
 			MatrixRow<LCCC<R>> rowEntriesI = entries.get(i);
@@ -325,10 +320,7 @@ public class CobMatrix<R extends Ring<R>> extends
 					}
 
 				}
-
-				if (!isInMemory()) {
-					entries.set(i, thisRowEntriesI);
-				}
+				entries.set(i, thisRowEntriesI);
 			}
 
 			// thisRowEntriesI.compact();
@@ -515,6 +507,9 @@ public class CobMatrix<R extends Ring<R>> extends
 	private void readObject(ObjectInputStream s) throws IOException,
 			ClassNotFoundException {
 		s.defaultReadObject();
+		
+		inMemory = JavaKh.inMemory;
+		
 		int serializationVersion = s.readInt();
 		if (serializationVersion == 1) {
 			int rows = s.readInt();
@@ -539,10 +534,7 @@ public class CobMatrix<R extends Ring<R>> extends
 			int columns = s.readInt();
 			source = (SmoothingColumn) s.readObject();
 			target = (SmoothingColumn) s.readObject();
-			entries = new ArrayList<MatrixRow<LCCC<R>>>(rows);
-			for (int i = 0; i < rows; ++i) {
-				entries.add(newRow());
-			}
+			createRowList(rows);
 			while (true) {
 				int i = s.readInt();
 				int j = s.readInt();
@@ -583,7 +575,7 @@ public class CobMatrix<R extends Ring<R>> extends
 		source.smoothings.remove(column);
 		source.n--;
 
-		CobMatrix<R> result = new CobMatrix<R>(sc, target);
+		CobMatrix<R> result = new CobMatrix<R>(sc, target, false, true);
 
 		for (int a = 0; a < entries.size(); a++) {
 			MatrixRow<LCCC<R>> row = entries.get(a);
@@ -611,7 +603,7 @@ public class CobMatrix<R extends Ring<R>> extends
 		target.smoothings.remove(row);
 		target.n--;
 
-		CobMatrix<R> result = new CobMatrix<R>(source, sc);
+		CobMatrix<R> result = new CobMatrix<R>(source, sc, false, inMemory);
 		result.entries.set(0, entries.get(row));
 		entries.remove(row);
 
@@ -654,7 +646,7 @@ public class CobMatrix<R extends Ring<R>> extends
 
 		source.n -= columns.size();
 
-		CobMatrix<R> result = new CobMatrix<R>(sc, target);
+		CobMatrix<R> result = new CobMatrix<R>(sc, target, false, inMemory);
 		for (int j = 0; j < entries.size(); j++) {
 			MatrixRow<LCCC<R>> row = entries.get(j);
 			MatrixRow<LCCC<R>> resultRow = result.entries.get(j);
@@ -709,7 +701,7 @@ public class CobMatrix<R extends Ring<R>> extends
 
 		target.n -= rows.size();
 
-		CobMatrix<R> result = new CobMatrix<R>(source, sc);
+		CobMatrix<R> result = new CobMatrix<R>(source, sc, false, inMemory);
 		i = 0;
 		for (int reducedRow : reducedRows) {
 			result.entries.set(i, entries.get(reducedRow));
@@ -759,14 +751,6 @@ public class CobMatrix<R extends Ring<R>> extends
 	public DirectSum<Cap> target() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public static void setInMemory(boolean inMemory) {
-		CobMatrix.inMemory = inMemory;
-	}
-
-	public static boolean isInMemory() {
-		return inMemory;
 	}
 
 }
