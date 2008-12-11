@@ -83,7 +83,10 @@ public class JavaKh {
 			
 			if(line.hasOption("O")) reorderCrossings = false;
 			if(line.hasOption("C")) caching = true;
-			if(line.hasOption("D")) inMemory = false;
+			if(line.hasOption("D")) {
+				inMemory = false;
+				CobMatrix.setInMemory(false);
+			}
 			if(line.hasOption("N")) CannedCobordismImpl.disableCache();
 			if(line.hasOption("P")) Komplex.parallel = true;
 			if(line.hasOption("G")) Komplex.intenseGarbage = true;

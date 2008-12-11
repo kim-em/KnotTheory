@@ -2,12 +2,16 @@ package org.katlas.JavaKh;
 
 import java.io.IOException;
 import java.io.NotSerializableException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.katlas.JavaKh.LCCC.SizeRarelyMoreThanOneMap;
 import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.algebra.implementations.LinearComboMap;
@@ -22,6 +26,7 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
 	 * 
 	 */
   private static final long serialVersionUID = 8539035436108747574L;
+	private static final Log log = LogFactory.getLog(LCCCMap.class);
 
   transient boolean         alreadyReduced   = false;
 
@@ -463,7 +468,35 @@ public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCob
       return this;
   }
 
+	@SuppressWarnings("unchecked")
+	private void readObject(ObjectInputStream s) throws IOException,
+	ClassNotFoundException {
+		int serializationVersion = s.readInt();
+		if (serializationVersion == 1) {
+			int numberOfTerms = s.readInt();
+			if (numberOfTerms > 0) {
+				Map<CannedCobordism, R> terms = new HashMap<CannedCobordism, R>(
+						numberOfTerms);
+				for (int k = 0; k < numberOfTerms; ++k) {
+					R coefficient = (R) s.readObject();
+					CannedCobordism cc = (CannedCobordism) s
+							.readObject();
+					terms.put(cc, coefficient);
+				}
+				coefficients = terms;
+			}
+		} else {
+			log.warn("Serialization version looks wrong...");
+			assert false;
+		}
+	}
+  
   private void writeObject(ObjectOutputStream s) throws IOException {
-    throw new NotSerializableException();
+    s.writeInt(1); // serialization version
+    s.writeInt(numberOfTerms());
+    for(CannedCobordism cc : terms()) {
+    	s.writeObject(getCoefficient(cc));
+    	s.writeObject(cc);
+    }
   }
 }

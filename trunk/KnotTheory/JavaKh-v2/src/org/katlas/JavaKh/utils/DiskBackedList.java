@@ -26,11 +26,20 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 	private final File storePath;
 	private final List<Integer> hashlist = new ArrayList<Integer>();
 	
+	public DiskBackedList() {
+		storePath = new File(System.getProperty("java.io.tmpdir"));
+		prepareStorePath();
+	}
+	
 	public DiskBackedList(File basePath) {
 		storePath = new File(basePath, "DiskBackedList" + (++counter));
+		prepareStorePath();
+	}
+	
+	private void prepareStorePath() {
 		storePath.delete();
 		storePath.mkdirs();
-		storePath.deleteOnExit();
+		storePath.deleteOnExit();		
 	}
 	
 	private File file(Element element) {
@@ -47,12 +56,12 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 		if(hashlist.get(index) == null) return null;
 		
 		// try this!
-		CannedCobordismImpl.flushCache();
+		// CannedCobordismImpl.flushCache();
 		
 		ObjectInputStream ois = null;
 		try {
 			ois = new ObjectInputStream(new FileInputStream(file(hashlist.get(index))));
-			log.debug("Getting index " + index + " ...");
+//			log.debug("Getting index " + index + " ...");
 			Element r = (Element)(ois.readObject());
 			return r;
 		} catch (FileNotFoundException e) {
@@ -71,7 +80,7 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 					e.printStackTrace();
 				}
 			}
-			log.debug("   ... finished.");
+//			log.debug("   ... finished.");
 		}
 	}
 
@@ -91,7 +100,7 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 			try {
 				oos = new ObjectOutputStream(
 						new FileOutputStream(f));
-				log.debug("Storing " + element.hashCode() + " ...");
+//				log.debug("Storing " + element.hashCode() + " ...");
 				oos.writeObject(element);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -107,7 +116,7 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 						e.printStackTrace();
 					}
 				}
-				log.debug("   ... finished.");
+//				log.debug("   ... finished.");
 			}
 			return true;
 		} else{
@@ -130,10 +139,12 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 	@Override
 	public Element remove(int index) {
 //		Element e = get(index);
-		int hashCode = hashlist.get(index);
+		Integer hashCode = hashlist.get(index);
 		hashlist.remove(index);
+		if(hashCode != null) {
 		if(!hashlist.contains(hashCode)) {
 			erase(hashCode);
+		}
 		}
 //		return e;
 		return null;
@@ -143,6 +154,7 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 	public Element set(int index, Element element) {
 //		Element e = get(index);
 		if(element == null) {
+			assert false;
 			hashlist.set(index, null);
 		} else {
 			if(!(hashlist.contains(element.hashCode()))) {

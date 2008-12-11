@@ -3,8 +3,10 @@
  */
 package org.katlas.JavaKh.rows;
 
+import java.io.Serializable;
 
-public interface MatrixRow<F> {
+
+public interface MatrixRow<F> extends Serializable {
 
 	void decrementIndexesAbove(int key);
 	

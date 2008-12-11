@@ -1,5 +1,6 @@
 package org.katlas.JavaKh.rows;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
 public class LinkedListRow<F> implements MatrixRow<F> {
@@ -9,7 +10,7 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 	private transient Entry<F> lastEntry;
 	private transient Entry<F> cachedEntry;
 
-	static class Entry<F> {
+	static class Entry<F> implements Serializable {
 		int index;
 		F value;
 		Entry<F> next;

@@ -28,12 +28,6 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 		cacheSize = (newCacheSize > 1) ? newCacheSize : 1;
 		while(cache.size() > cacheSize) reduceCacheSize();	
 	}
-	
-	private static void invokeGC() {
-		for(int i = 0; i < 4; ++i) {
-			System.gc();
-		}
-	}
 
 	private void checkSizes() {
 		if(cacheOrder.size() != cache.size()) {
@@ -47,7 +41,6 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 		Element e = cache.remove(deleteIndex);
 		cacheOrder.remove(0);
 		innerList.set(deleteIndex, e);
-		invokeGC();
 		checkSizes();
 	}
 	
@@ -97,8 +90,23 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 
 	@Override
 	public synchronized Element remove(int index) {
-		// blegh, I don't want to have to deal with shifting indices.
-		throw new UnsupportedOperationException();
+		if(cacheOrder.contains(index)) {
+			cacheOrder.remove(cacheOrder.indexOf(index));
+			cache.remove(index);
+		}
+		Map<Integer, Element> newCacheEntries = new HashMap<Integer, Element>();
+		for(int i = 0; i < cacheOrder.size(); ++i) {
+			int key = cacheOrder.get(i);
+			if(key > index) {
+				cacheOrder.set(i, key - 1);
+				newCacheEntries.put(key - 1, cache.remove(key));
+			}
+		}
+		cache.putAll(newCacheEntries);
+		
+		// blegh, I don't want to have to deal with shifting indices; just dump the cache.
+//		while(cache.size() >0) reduceCacheSize();
+		return innerList.remove(index);
 	}
 
 	@Override
