@@ -13,7 +13,7 @@ public abstract class LinearComboMap<R extends Ring<R>, O, Mor extends Morphism<
 		extends AbstractLinearCombo<R, O, Mor, LinearMor> implements
 		LinearCombo<R, O, Mor, LinearMor> {
 
-	public final Map<Mor, R> coefficients;
+	public Map<Mor, R> coefficients;
 
 	public LinearComboMap() {
 		coefficients = newMap();
