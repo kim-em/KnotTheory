@@ -27,7 +27,7 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 	private final List<Integer> hashlist = new ArrayList<Integer>();
 	
 	public DiskBackedList() {
-		storePath = new File(System.getProperty("java.io.tmpdir"));
+		storePath = new File(System.getProperty("java.io.tmpdir"), "DiskBackedList" + (++counter));
 		prepareStorePath();
 	}
 	
