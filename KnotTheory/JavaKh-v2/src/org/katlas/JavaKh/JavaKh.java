@@ -20,12 +20,13 @@ public class JavaKh {
 	
     public static boolean using_h = false;
     
+    public static boolean inMemory = true;
+    
     @SuppressWarnings("unchecked")
 	public static void main(String args[]) throws java.io.IOException {
     	
     	boolean reorderCrossings = true;
     	boolean caching = false;
-    	boolean inMemory = true;
     	
     /* Process command-line arguments */
     	
@@ -85,7 +86,6 @@ public class JavaKh {
 			if(line.hasOption("C")) caching = true;
 			if(line.hasOption("D")) {
 				inMemory = false;
-				CobMatrix.setInMemory(false);
 			}
 			if(line.hasOption("N")) CannedCobordismImpl.disableCache();
 			if(line.hasOption("P")) Komplex.parallel = true;
