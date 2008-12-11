@@ -16,7 +16,7 @@
   <appender name="NullAppender" class="org.apache.log4j.varia.NullAppender"/>
 
   <root>
-    <level value="INFO" />
+    <level value="DEBUG" />
     <!-- Configure your logging here. Choose between 
         1) NullAppender, for no output
         2) ConsoleAppender, for logging output interspersed with usual program output
