@@ -2242,8 +2242,10 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		} else {
 //			matrices = new CachingList<CobMatrix<R>>(
 //					new DiskBackedList<CobMatrix<R>>(), 3);
-			matrices = new SoftReferenceCachingList<CobMatrix<R>>(
-					new DiskBackedList<CobMatrix<R>>());
+			matrices = new CachingList<CobMatrix<R>>(
+						new SoftReferenceCachingList<CobMatrix<R>>(
+								new DiskBackedList<CobMatrix<R>>()),
+								3);
 		}
 	}
 
