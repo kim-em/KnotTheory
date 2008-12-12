@@ -60,8 +60,11 @@ public class CobMatrix<R extends Ring<R>> extends
 			entries = new ArrayList<MatrixRow<LCCC<R>>>(n);
 		} else {
 //			entries = new DiskBackedList<MatrixRow<LCCC<R>>>();
-			entries = new CachingList<MatrixRow<LCCC<R>>>(new DiskBackedList<MatrixRow<LCCC<R>>>(), 100);
-//			entries = new SoftReferenceCachingList<MatrixRow<LCCC<R>>>(new DiskBackedList<MatrixRow<LCCC<R>>>());
+//			entries = new CachingList<MatrixRow<LCCC<R>>>(new DiskBackedList<MatrixRow<LCCC<R>>>(), 100);
+			entries = new CachingList<MatrixRow<LCCC<R>>>(
+						new SoftReferenceCachingList<MatrixRow<LCCC<R>>>(
+							new DiskBackedList<MatrixRow<LCCC<R>>>()),
+							10);
 		}
 		for (int i = 0; i < n; ++i) {
 			entries.add(newRow());
