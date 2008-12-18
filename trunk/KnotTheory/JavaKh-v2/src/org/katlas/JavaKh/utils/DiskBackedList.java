@@ -42,6 +42,12 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 		storePath.deleteOnExit();		
 	}
 	
+	@Override
+	protected void finalize() throws Throwable {
+		super.finalize();
+		storePath.delete();
+	}
+
 	private File file(Element element) {
 		return new File(storePath, new Integer(element.hashCode()).toString());
 	}
@@ -58,7 +64,7 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 		ObjectInputStream ois = null;
 		try {
 			ois = new ObjectInputStream(new FileInputStream(file(hashlist.get(index))));
-			log.debug("Getting index " + index + " ...");
+//			log.debug("Getting index " + index + " ...");
 			Element r = (Element)(ois.readObject());
 			return r;
 		} catch (FileNotFoundException e) {
@@ -97,7 +103,7 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 			try {
 				oos = new ObjectOutputStream(
 						new FileOutputStream(f));
-				log.debug("Storing " + element.hashCode() + " ...");
+//				log.debug("Storing " + element.hashCode() + " ...");
 				oos.writeObject(element);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
