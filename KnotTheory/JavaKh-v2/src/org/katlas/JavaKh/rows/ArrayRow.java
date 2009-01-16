@@ -6,6 +6,10 @@ import net.tqft.iterables.AbstractIterator;
 
 public class ArrayRow<F> implements MatrixRow<F> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5773066111238552922L;
 	int size;
 	Object[] values;
 	

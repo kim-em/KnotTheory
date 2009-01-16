@@ -6,6 +6,11 @@ import net.tqft.iterables.AbstractIterator;
 
 public class PackedArrayRow<F> implements MatrixRow<F> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7270137819666353651L;
+
 	private static final int INITIAL_SIZE = 1;
 
 	private transient int pointer = -1;

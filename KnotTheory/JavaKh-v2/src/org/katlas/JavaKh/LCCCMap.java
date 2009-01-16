@@ -1,7 +1,6 @@
 package org.katlas.JavaKh;
 
 import java.io.IOException;
-import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -20,11 +19,7 @@ import org.katlas.JavaKh.interfaces.CannedCobordism;
 import org.katlas.JavaKh.interfaces.LCCC;
 
 public class LCCCMap<R extends Ring<R>> extends LinearComboMap<R, Cap, CannedCobordism, LCCC<R>> implements LCCC<R>,
-    Serializable { // Linear Combination of
-  // Canned Cobordisms
-  /**
-	 * 
-	 */
+    Serializable {
   private static final long serialVersionUID = 8539035436108747574L;
 	private static final Log log = LogFactory.getLog(LCCCMap.class);
 
