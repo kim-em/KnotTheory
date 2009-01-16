@@ -64,11 +64,15 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 	
 	@Override
 	public synchronized boolean add(Element element) {
+		if(element == null) {
+			throw new NullPointerException();
+		}
+		
 		while(cache.size() >= cacheSize) reduceCacheSize();
 		int size = size();
 		cache.put(size, element);
 		cacheOrder.add(size);
-		innerList.add(null);
+		innerList.add(element);
 		
 		checkSizes();
 		
@@ -111,6 +115,10 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 
 	@Override
 	public synchronized Element set(int index, Element element) {
+		if(element == null) {
+			throw new NullPointerException();
+		}
+		
 //		Element old = get(index);
 		if(!cache.containsKey(index)) {
 			reduceCacheSize();
