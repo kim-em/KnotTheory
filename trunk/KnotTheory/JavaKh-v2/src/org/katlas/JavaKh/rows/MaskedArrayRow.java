@@ -8,6 +8,10 @@ import net.tqft.iterables.AbstractIterator;
 
 public class MaskedArrayRow<F> implements MatrixRow<F> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5061272587543177870L;
 	int size;
 	Object[] values;
 	final Set<Integer> deletedIndexes;

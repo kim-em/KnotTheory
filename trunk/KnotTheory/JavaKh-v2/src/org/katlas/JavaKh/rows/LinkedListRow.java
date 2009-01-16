@@ -5,12 +5,21 @@ import java.util.Iterator;
 
 public class LinkedListRow<F> implements MatrixRow<F> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8815364403706665179L;
+
 	private Entry<F> firstEntry;
 
 	private transient Entry<F> lastEntry;
 	private transient Entry<F> cachedEntry;
 
 	static class Entry<F> implements Serializable {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1570122780884308873L;
 		int index;
 		F value;
 		Entry<F> next;

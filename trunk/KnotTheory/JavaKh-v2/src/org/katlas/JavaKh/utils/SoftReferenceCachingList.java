@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.ref.Reference;
-import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.util.AbstractList;
 import java.util.ArrayList;
@@ -14,6 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class SoftReferenceCachingList<Element extends Serializable> extends AbstractList<Element> implements SerializingList<Element> {
+	@SuppressWarnings("unused")
 	private static final Log log = LogFactory.getLog(SoftReferenceCachingList.class);
 
 	private final SerializingList<Element> innerList;
@@ -22,7 +22,7 @@ public class SoftReferenceCachingList<Element extends Serializable> extends Abst
 	public SoftReferenceCachingList(SerializingList<Element> innerList) {
 		this.innerList = innerList;
 		this.softReferenceList = new ArrayList<SoftReference<Element>>(innerList.size());
-		for(Element e : innerList) {
+		for(@SuppressWarnings("unused") Element e : innerList) {
 			this.softReferenceList.add(null);
 		}
 	}
@@ -50,8 +50,7 @@ public class SoftReferenceCachingList<Element extends Serializable> extends Abst
 	}
 	
 	@Override
-	public synchronized boolean add(Element element) {
-		
+	public synchronized boolean add(Element element) {		
 		innerList.add(element);
 		softReferenceList.add(new SoftReference<Element>(element));	
 		return true;
@@ -59,8 +58,8 @@ public class SoftReferenceCachingList<Element extends Serializable> extends Abst
 
 	@Override
 	public synchronized void add(int index, Element element) {
-		// blegh, I don't want to have to deal with this for now.
-		throw new UnsupportedOperationException();
+		innerList.add(index, element);
+		softReferenceList.add(index, new SoftReference<Element>(element));
 	}
 	
 	@Override

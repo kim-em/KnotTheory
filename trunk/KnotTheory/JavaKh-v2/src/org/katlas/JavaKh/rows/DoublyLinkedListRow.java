@@ -4,6 +4,10 @@ import java.util.Iterator;
 
 public class DoublyLinkedListRow<F> implements MatrixRow<F> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2450756606041401437L;
 	private Entry first, last, current;
 
 	class Entry {
