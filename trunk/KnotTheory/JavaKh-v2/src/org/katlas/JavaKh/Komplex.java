@@ -40,7 +40,7 @@ import org.katlas.JavaKh.interfaces.CannedCobordism;
 import org.katlas.JavaKh.interfaces.LCCC;
 import org.katlas.JavaKh.rows.MatrixRow;
 import org.katlas.JavaKh.utils.CachingList;
-import org.katlas.JavaKh.utils.DiskBackedList;
+import org.katlas.JavaKh.utils.DiskBackedList2;
 import org.katlas.JavaKh.utils.LimitedSizeInputStream;
 import org.katlas.JavaKh.utils.SerializingList;
 import org.katlas.JavaKh.utils.SoftReferenceCachingList;
@@ -1873,12 +1873,13 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 								}
 							}
 						}
-						if (first
-								&& ((j == 0 && k == kom.ncolumns - 1) || j != 0)
-								&& ncolumns > 2)
-							// WARNING!!! this assumes "this" is to be thrown
-							// away.
-							setMatrix(j, null); // to be garbage collected
+//						if (first
+//								&& ((j == 0 && k == kom.ncolumns - 1) || j != 0)
+//								&& ncolumns > 2) {
+//							// WARNING!!! this assumes "this" is to be thrown
+//							// away.
+//							setMatrix(j, null); // to be garbage collected
+//						}
 						first = false;
 					}
 					if (k < kom.ncolumns - 1) {
@@ -2244,7 +2245,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 //					new DiskBackedList<CobMatrix<R>>(), 3);
 			matrices = new CachingList<CobMatrix<R>>(
 						new SoftReferenceCachingList<CobMatrix<R>>(
-								new DiskBackedList<CobMatrix<R>>()),
+								new DiskBackedList2<CobMatrix<R>>()),
 								3);
 		}
 	}
