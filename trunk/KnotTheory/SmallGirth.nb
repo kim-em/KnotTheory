@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       145,          7]
-NotebookDataLength[      9680,        273]
-NotebookOptionsPosition[      8757,        238]
-NotebookOutlinePosition[      9125,        254]
-CellTagsIndexPosition[      9082,        251]
+NotebookDataLength[      9611,        273]
+NotebookOptionsPosition[      8689,        238]
+NotebookOutlinePosition[      9057,        254]
+CellTagsIndexPosition[      9014,        251]
 WindowFrame->Normal
 ContainsDynamic->False*)
 
@@ -26,12 +26,12 @@ Cell["KnotTheory`SmallGirth` package", "Subtitle",
  CellChangeTimes->{{3.441300920347542*^9, 3.441300921735297*^9}}],
 
 Cell["\<\
-A subpackage for KnotTheory`, providing access to the \"universal mode\" of \
-Jeremy Green's JavaKh program, and a program written by Scott Morrison to \
-decompose complexes over Q[t] into indecomposable direct summands.
-May 27, 2007, Scott Morrison\
+A subpackage for KnotTheory`, which reorders PD presentations to minimise \
+girth.
+January 18, 2009, Scott Morrison\
 \>", "Text",
- InitializationCell->True],
+ InitializationCell->True,
+ CellChangeTimes->{{3.441302362136074*^9, 3.441302385067758*^9}}],
 
 Cell[BoxData[
  RowBox[{
@@ -256,23 +256,23 @@ Notebook[{
 Cell[CellGroupData[{
 Cell[590, 23, 143, 2, 46, "Subtitle",
  InitializationCell->True],
-Cell[736, 27, 300, 6, 71, "Text",
+Cell[736, 27, 232, 6, 41, "Text",
  InitializationCell->True],
-Cell[1039, 35, 327, 7, 27, "Input",
+Cell[971, 35, 327, 7, 27, "Input",
  InitializationCell->True],
-Cell[1369, 44, 564, 10, 118, "Input",
+Cell[1301, 44, 564, 10, 118, "Input",
  InitializationCell->True],
-Cell[1936, 56, 101, 2, 27, "Input",
+Cell[1868, 56, 101, 2, 27, "Input",
  InitializationCell->True],
-Cell[2040, 60, 3697, 91, 298, "Input",
+Cell[1972, 60, 3697, 91, 298, "Input",
  InitializationCell->True],
-Cell[5740, 153, 269, 6, 27, "Input",
+Cell[5672, 153, 269, 6, 27, "Input",
  InitializationCell->True],
-Cell[6012, 161, 2560, 66, 208, "Input",
+Cell[5944, 161, 2560, 66, 208, "Input",
  InitializationCell->True],
-Cell[8575, 229, 78, 2, 27, "Input",
+Cell[8507, 229, 78, 2, 27, "Input",
  InitializationCell->True],
-Cell[8656, 233, 85, 2, 27, "Input",
+Cell[8588, 233, 85, 2, 27, "Input",
  InitializationCell->True]
 }, Open  ]]
 }
