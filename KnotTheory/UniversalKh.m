@@ -57,9 +57,9 @@ X[j_, n, i_, 1] :> X[j, n, i, n+1]
 
 new=True; (* This is just an option for Scott, to allow comparing against Jeremy's program before butchering it. *)
 If[new,
-JavaKhDirectory=ToFileName[KnotTheoryDirectory[],"JavaKh2"];
+JavaKhDirectory=ToFileName[KnotTheoryDirectory[],"JavaKh-v2"];
 classpath=KnotTheory`FastKh`JavaKhv2ClassPath[];,
-JavaKhDirectory=ToFileName[KnotTheoryDirectory[],"JavaKh1"];
+JavaKhDirectory=ToFileName[KnotTheoryDirectory[],"JavaKh-v1"];
 classpath=KnotTheory`FastKh`JavaKhv1ClassPath[];,
 ];
 

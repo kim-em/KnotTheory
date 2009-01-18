@@ -104,3 +104,8 @@ DeclarePackage["KnotTheory`QuantumKnotInvariants`",
 (* declare the public interfaces of the UniversalKh` subpackage *)
 DeclarePackage["KnotTheory`UniversalKh`",
     {"UniversalKh", "KhReduced", "sInvariant", "KhC", "KhE"}]
+
+
+(* declare the public interfaces of the SmallGirth` subpackage *)
+DeclarePackage["KnotTheory`SmallGirth`",
+    {"FindSmallGirthOrdering"}]
