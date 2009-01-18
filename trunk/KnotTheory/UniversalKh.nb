@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       145,          7]
-NotebookDataLength[    151448,       3402]
-NotebookOptionsPosition[     34049,        948]
-NotebookOutlinePosition[    149451,       3339]
-CellTagsIndexPosition[    149408,       3336]
+NotebookDataLength[    151484,       3402]
+NotebookOptionsPosition[     34099,        948]
+NotebookOutlinePosition[    149489,       3339]
+CellTagsIndexPosition[    149446,       3336]
 WindowFrame->Normal
 ContainsDynamic->False*)
 
@@ -184,7 +184,7 @@ Cell[BoxData[{
          RowBox[{"ToFileName", "[", 
           RowBox[{
            RowBox[{"KnotTheoryDirectory", "[", "]"}], ",", 
-           "\"\<JavaKh2\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
+           "\"\<JavaKh-v2\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
         RowBox[{"classpath", "=", 
          RowBox[{"KnotTheory`FastKh`JavaKhv2ClassPath", "[", "]"}]}], ";"}], 
        ",", "\[IndentingNewLine]", 
@@ -193,7 +193,7 @@ Cell[BoxData[{
          RowBox[{"ToFileName", "[", 
           RowBox[{
            RowBox[{"KnotTheoryDirectory", "[", "]"}], ",", 
-           "\"\<JavaKh1\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
+           "\"\<JavaKh-v1\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
         RowBox[{"classpath", "=", 
          RowBox[{"KnotTheory`FastKh`JavaKhv1ClassPath", "[", "]"}]}], ";"}], 
        ","}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
@@ -404,7 +404,7 @@ command line was: \>\"", "]"}], ";",
    3.429477723457979*^9, 3.4294777241089153`*^9}, {3.4294777703854575`*^9, 
    3.429477805435858*^9}, {3.4360452186769667`*^9, 3.4360452268587313`*^9}, {
    3.436045264132328*^9, 3.4360453534808044`*^9}, {3.4360454205672703`*^9, 
-   3.4360454211681347`*^9}}],
+   3.4360454211681347`*^9}, {3.440870891579186*^9, 3.440870893700836*^9}}],
 
 Cell[BoxData[
  RowBox[{
@@ -1007,7 +1007,7 @@ InputAliases->{"intt" -> RowBox[{"\[Integral]",
     "NotationPatternWrapperStyle"], "madeboxeswraper" -> 
   TagBox["\[Placeholder]", NotationMadeBoxesTag, TagStyle -> 
     "NotationMadeBoxesWrapperStyle"]},
-FrontEndVersion->"6.0 for Microsoft Windows (32-bit) (June 19, 2007)",
+FrontEndVersion->"6.0 for Mac OS X x86 (32-bit) (May 21, 2008)",
 StyleDefinitions->Notebook[{
    Cell[
     CellGroupData[{
@@ -3324,7 +3324,7 @@ These styles serve to make visible otherwise invisible tagboxes.", "Text",
        Background -> RGBColor[0.900008, 0.889998, 1], 
        TagBoxOptions -> {SyntaxForm -> "symbol"}, CellTags -> 
        "NotationPackage"]}, Closed]]}, Visible -> False, FrontEndVersion -> 
-  "6.0 for Microsoft Windows (32-bit) (June 19, 2007)", StyleDefinitions -> 
+  "6.0 for Mac OS X x86 (32-bit) (May 21, 2008)", StyleDefinitions -> 
   "Default.nb"]
 ]
 (* End of Notebook Content *)
@@ -3339,69 +3339,69 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[590, 23, 78, 1, 49, "Subtitle",
+Cell[590, 23, 78, 1, 46, "Subtitle",
  InitializationCell->True],
-Cell[671, 26, 300, 6, 65, "Text",
+Cell[671, 26, 300, 6, 56, "Text",
  InitializationCell->True],
-Cell[974, 34, 364, 10, 28, "Input",
+Cell[974, 34, 364, 10, 24, "Input",
  InitializationCell->True],
-Cell[1341, 46, 388, 8, 69, "Input",
+Cell[1341, 46, 388, 8, 55, "Input",
  InitializationCell->True],
-Cell[1732, 56, 300, 7, 69, "Input",
+Cell[1732, 56, 300, 7, 55, "Input",
  InitializationCell->True],
-Cell[2035, 65, 271, 7, 49, "Input",
+Cell[2035, 65, 271, 7, 40, "Input",
  InitializationCell->True],
-Cell[2309, 74, 243, 6, 28, "Input",
+Cell[2309, 74, 243, 6, 24, "Input",
  InitializationCell->True],
-Cell[2555, 82, 601, 14, 109, "Input",
+Cell[2555, 82, 601, 14, 85, "Input",
  InitializationCell->True],
-Cell[3159, 98, 101, 2, 28, "Input",
+Cell[3159, 98, 101, 2, 24, "Input",
  InitializationCell->True],
-Cell[3263, 102, 141, 4, 28, "Input",
+Cell[3263, 102, 141, 4, 24, "Input",
  InitializationCell->True],
-Cell[3407, 108, 12528, 298, 1169, "Input",
+Cell[3407, 108, 12578, 298, 880, "Input",
  InitializationCell->True],
-Cell[15938, 408, 265, 6, 28, "Input",
+Cell[15988, 408, 265, 6, 24, "Input",
  InitializationCell->True],
-Cell[16206, 416, 924, 24, 129, "Input",
+Cell[16256, 416, 924, 24, 100, "Input",
  InitializationCell->True],
-Cell[17133, 442, 753, 25, 28, "Input",
+Cell[17183, 442, 753, 25, 24, "Input",
  InitializationCell->True],
 Cell[CellGroupData[{
-Cell[17911, 471, 3633, 85, 249, "Input",
+Cell[17961, 471, 3633, 85, 190, "Input",
  InitializationCell->True],
-Cell[21547, 558, 426, 9, 20, "Message",
+Cell[21597, 558, 426, 9, 20, "Message",
  InitializationCell->True]
 }, Open  ]],
-Cell[21988, 570, 196, 6, 28, "Input",
+Cell[22038, 570, 196, 6, 24, "Input",
  InitializationCell->True],
-Cell[22187, 578, 462, 13, 28, "Input",
+Cell[22237, 578, 462, 13, 24, "Input",
  InitializationCell->True],
-Cell[22652, 593, 2159, 63, 169, "Input",
+Cell[22702, 593, 2159, 63, 130, "Input",
  InitializationCell->True],
-Cell[24814, 658, 575, 16, 49, "Input",
+Cell[24864, 658, 575, 16, 40, "Input",
  InitializationCell->True],
-Cell[25392, 676, 742, 24, 49, "Input",
+Cell[25442, 676, 742, 24, 40, "Input",
  InitializationCell->True],
-Cell[26137, 702, 133, 4, 28, "Input",
+Cell[26187, 702, 133, 4, 24, "Input",
  InitializationCell->True],
-Cell[26273, 708, 418, 14, 28, "Input",
+Cell[26323, 708, 418, 14, 28, "Input",
  InitializationCell->True],
-Cell[26694, 724, 1831, 50, 149, "Input",
+Cell[26744, 724, 1831, 50, 149, "Input",
  InitializationCell->True],
-Cell[28528, 776, 2081, 50, 725, "Input",
+Cell[28578, 776, 2081, 50, 725, "Input",
  InitializationCell->True],
-Cell[30612, 828, 1212, 35, 129, "Input",
+Cell[30662, 828, 1212, 35, 129, "Input",
  InitializationCell->True],
-Cell[31827, 865, 1057, 36, 30, "Input",
+Cell[31877, 865, 1057, 36, 30, "Input",
  InitializationCell->True],
-Cell[32887, 903, 589, 20, 30, "Input",
+Cell[32937, 903, 589, 20, 30, "Input",
  InitializationCell->True],
-Cell[33479, 925, 385, 12, 28, "Input",
+Cell[33529, 925, 385, 12, 28, "Input",
  InitializationCell->True],
-Cell[33867, 939, 78, 2, 28, "Input",
+Cell[33917, 939, 78, 2, 28, "Input",
  InitializationCell->True],
-Cell[33948, 943, 85, 2, 28, "Input",
+Cell[33998, 943, 85, 2, 28, "Input",
  InitializationCell->True]
 }, Open  ]]
 }
