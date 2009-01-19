@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       145,          7]
-NotebookDataLength[    149254,       3361]
-NotebookOptionsPosition[     31855,        907]
-NotebookOutlinePosition[    147258,       3298]
-CellTagsIndexPosition[    147215,       3295]
+NotebookDataLength[    151484,       3402]
+NotebookOptionsPosition[     34099,        948]
+NotebookOutlinePosition[    149489,       3339]
+CellTagsIndexPosition[    149446,       3336]
 WindowFrame->Normal
 ContainsDynamic->False*)
 
@@ -41,7 +41,8 @@ Cell[BoxData[
      "\"\<KnotTheory`\>\"", ",", 
       "\"\<QuantumGroups`Utilities`MatrixWrapper`\>\""}], "}"}]}], "]"}], 
   ";"}]], "Input",
- InitializationCell->True],
+ InitializationCell->True,
+ CellChangeTimes->{{3.4294630944324737`*^9, 3.4294630956041584`*^9}}],
 
 Cell[BoxData[
  RowBox[{
@@ -122,7 +123,8 @@ Cell[BoxData[{
      "n", ",", "pd1", ",", "  ", "f", ",", " ", "cl", ",", " ", "out", ",", 
       "kh", ",", "saveContext", ",", "saveContextPath", ",", 
       "JavaKhDirectory", ",", "jarDirectory", ",", "classDirectory", ",", 
-      "classpath"}], "}"}], ",", "\[IndentingNewLine]", 
+      "classpath", ",", 
+      RowBox[{"new", "=", "True"}]}], "}"}], ",", "\[IndentingNewLine]", 
     RowBox[{
      RowBox[{"n", "=", 
       RowBox[{"Max", " ", "@@", " ", 
@@ -164,12 +166,40 @@ Cell[BoxData[{
           RowBox[{"X", "[", 
            RowBox[{"j", ",", " ", "n", ",", " ", "i", ",", " ", 
             RowBox[{"n", "+", "1"}]}], "]"}]}]}], "\[IndentingNewLine]", 
-        "}"}]}]}], ";", "\[IndentingNewLine]", 
-     RowBox[{"SetDirectory", "[", 
-      RowBox[{"ToFileName", "[", 
+        "}"}]}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"new", "=", "True"}], ";", " ", 
+     RowBox[{"(*", " ", 
+      RowBox[{
        RowBox[{
-        RowBox[{"KnotTheoryDirectory", "[", "]"}], ",", "\"\<JavaKh\>\""}], 
-       "]"}], "]"}], ";", "\[IndentingNewLine]", 
+       "This", " ", "is", " ", "just", " ", "an", " ", "option", " ", "for", 
+        " ", "Scott"}], ",", " ", 
+       RowBox[{"to", " ", "allow", " ", "comparing", " ", "against", " ", 
+        RowBox[{"Jeremy", "'"}], "s", " ", "program", " ", "before", " ", 
+        "butchering", " ", 
+        RowBox[{"it", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{"new", ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"JavaKhDirectory", "=", 
+         RowBox[{"ToFileName", "[", 
+          RowBox[{
+           RowBox[{"KnotTheoryDirectory", "[", "]"}], ",", 
+           "\"\<JavaKh-v2\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"classpath", "=", 
+         RowBox[{"KnotTheory`FastKh`JavaKhv2ClassPath", "[", "]"}]}], ";"}], 
+       ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"JavaKhDirectory", "=", 
+         RowBox[{"ToFileName", "[", 
+          RowBox[{
+           RowBox[{"KnotTheoryDirectory", "[", "]"}], ",", 
+           "\"\<JavaKh-v1\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"classpath", "=", 
+         RowBox[{"KnotTheory`FastKh`JavaKhv1ClassPath", "[", "]"}]}], ";"}], 
+       ","}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"SetDirectory", "[", "JavaKhDirectory", "]"}], ";", 
+     "\[IndentingNewLine]", 
      RowBox[{"f", "=", 
       RowBox[{"OpenWrite", "[", 
        RowBox[{"\"\<pd\>\"", ",", 
@@ -180,28 +210,14 @@ Cell[BoxData[{
        RowBox[{"ToString", "[", "pd1", "]"}]}], "]"}], ";", 
      "\[IndentingNewLine]", 
      RowBox[{"Close", "[", "f", "]"}], ";", "\[IndentingNewLine]", 
-     RowBox[{"JavaKhDirectory", "=", 
-      RowBox[{"ToFileName", "[", 
-       RowBox[{
-        RowBox[{"KnotTheoryDirectory", "[", "]"}], ",", "\"\<JavaKh\>\""}], 
-       "]"}]}], ";", "\[IndentingNewLine]", 
-     RowBox[{"jarDirectory", "=", 
-      RowBox[{"ToFileName", "[", 
-       RowBox[{"JavaKhDirectory", ",", "\"\<jars\>\""}], "]"}]}], ";", 
-     "\[IndentingNewLine]", 
-     RowBox[{"classDirectory", "=", 
-      RowBox[{"ToFileName", "[", 
-       RowBox[{"JavaKhDirectory", ",", "\"\<bin\>\""}], "]"}]}], ";", 
-     "\[IndentingNewLine]", 
-     RowBox[{"classpath", "=", 
-      RowBox[{"KnotTheory`FastKh`JavaKhClassPath", "[", "]"}]}], ";", 
      "\[IndentingNewLine]", 
      RowBox[{"cl", "=", 
       RowBox[{"StringJoin", "[", 
        RowBox[{
        "\"\<!java -classpath \\\"\>\"", ",", "classpath", ",", 
-        "\"\<\\\" \>\"", ",", "\"\< org.katlas.JavaKh.JavaKh -U < pd\>\""}], 
-       "]"}]}], ";", "\[IndentingNewLine]", 
+        "\"\<\\\" \>\"", ",", 
+        "\"\< org.katlas.JavaKh.JavaKh -U -Q < pd\>\""}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
      RowBox[{"f", "=", 
       RowBox[{"OpenRead", "[", "cl", "]"}]}], ";", "\[IndentingNewLine]", 
      RowBox[{"out", "=", 
@@ -209,7 +225,9 @@ Cell[BoxData[{
        RowBox[{"f", ",", "Expression"}], "]"}]}], ";", "\[IndentingNewLine]", 
      
      RowBox[{"Close", "[", "f", "]"}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
      RowBox[{"ResetDirectory", "[", "]"}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
      RowBox[{"If", "[", 
       RowBox[{
        RowBox[{"out", "\[Equal]", "EndOfFile"}], ",", 
@@ -378,9 +396,15 @@ command line was: \>\"", "]"}], ";",
        "]"}]}]}]}], "\[IndentingNewLine]", "]"}]}]}], "Input",
  InitializationCell->True,
  CellChangeTimes->{{3.427643628589238*^9, 3.4276437155943456`*^9}, {
-  3.4276437530281725`*^9, 3.427643769081256*^9}, {3.428678796617854*^9, 
-  3.4286788322891474`*^9}, {3.428772729146197*^9, 3.4287727372478466`*^9}, {
-  3.428772808460245*^9, 3.4287728173630466`*^9}}],
+   3.4276437530281725`*^9, 3.427643769081256*^9}, {3.428678796617854*^9, 
+   3.4286788322891474`*^9}, {3.428772729146197*^9, 3.4287727372478466`*^9}, {
+   3.428772808460245*^9, 3.4287728173630466`*^9}, {3.4294625662930465`*^9, 
+   3.429462727855362*^9}, {3.429462774322178*^9, 3.4294627757542367`*^9}, 
+   3.4294767618352337`*^9, {3.4294774006538095`*^9, 3.429477402346243*^9}, {
+   3.429477723457979*^9, 3.4294777241089153`*^9}, {3.4294777703854575`*^9, 
+   3.429477805435858*^9}, {3.4360452186769667`*^9, 3.4360452268587313`*^9}, {
+   3.436045264132328*^9, 3.4360453534808044`*^9}, {3.4360454205672703`*^9, 
+   3.4360454211681347`*^9}, {3.440870891579186*^9, 3.440870893700836*^9}}],
 
 Cell[BoxData[
  RowBox[{
@@ -464,57 +488,61 @@ Cell[BoxData[
          RowBox[{"gradings", "=", 
           RowBox[{
            RowBox[{"GradingsList", "[", "k", "]"}], "\[LeftDoubleBracket]", 
-           "2", "\[RightDoubleBracket]"}]}], ",", "dimensions"}], "}"}], ",", 
-       "\[IndentingNewLine]", 
+           "2", "\[RightDoubleBracket]"}]}], ",", "dimensions", ",", 
+         "matrix"}], "}"}], ",", "\[IndentingNewLine]", 
        RowBox[{
         RowBox[{"dimensions", "=", 
          RowBox[{"Length", "/@", "gradings"}]}], ";", "\[IndentingNewLine]", 
         RowBox[{"Table", "[", "\[IndentingNewLine]", 
          RowBox[{
           RowBox[{
-           RowBox[{
+           RowBox[{"matrix", "=", 
             RowBox[{"ZeroesMatrix", "[", 
              RowBox[{
               RowBox[{"dimensions", "\[LeftDoubleBracket]", 
                RowBox[{"i", "+", "1"}], "\[RightDoubleBracket]"}], ",", 
               RowBox[{
               "dimensions", "\[LeftDoubleBracket]", "i", 
-               "\[RightDoubleBracket]"}]}], "]"}], "+", "\[IndentingNewLine]",
-             
-            RowBox[{"k", "\[LeftDoubleBracket]", 
-             RowBox[{"i", ",", "3"}], "\[RightDoubleBracket]"}]}], "/.", 
-           RowBox[{"(", 
-            RowBox[{
-             RowBox[{"Curtain", "[", 
-              RowBox[{"q1_", ",", "m1_", ",", "q2_", ",", "m2_"}], "]"}], 
-             "\[RuleDelayed]", 
-             RowBox[{"ElementaryMatrix", "[", 
+               "\[RightDoubleBracket]"}]}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"matrix", " ", "=", 
+            RowBox[{"matrix", "+", 
+             RowBox[{"(", 
               RowBox[{
-               RowBox[{"dimensions", "\[LeftDoubleBracket]", 
-                RowBox[{"i", "+", "1"}], "\[RightDoubleBracket]"}], ",", 
-               RowBox[{
-               "dimensions", "\[LeftDoubleBracket]", "i", 
-                "\[RightDoubleBracket]"}], ",", 
-               RowBox[{
+               RowBox[{"k", "\[LeftDoubleBracket]", 
+                RowBox[{"i", ",", "3"}], "\[RightDoubleBracket]"}], "/.", 
+               RowBox[{"(", 
                 RowBox[{
-                 RowBox[{"Position", "[", 
+                 RowBox[{"Curtain", "[", 
+                  RowBox[{"q1_", ",", "m1_", ",", "q2_", ",", "m2_"}], "]"}], 
+                 "\[RuleDelayed]", 
+                 RowBox[{"ElementaryMatrix", "[", 
                   RowBox[{
-                   RowBox[{"gradings", "\[LeftDoubleBracket]", 
+                   RowBox[{"dimensions", "\[LeftDoubleBracket]", 
                     RowBox[{"i", "+", "1"}], "\[RightDoubleBracket]"}], ",", 
-                   "q2"}], "]"}], "\[LeftDoubleBracket]", 
-                 RowBox[{"1", ",", "1"}], "\[RightDoubleBracket]"}], "+", 
-                "m2", "-", "1"}], ",", 
-               RowBox[{
-                RowBox[{
-                 RowBox[{"Position", "[", 
-                  RowBox[{
                    RowBox[{
-                   "gradings", "\[LeftDoubleBracket]", "i", 
+                   "dimensions", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], ",", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"Position", "[", 
+                    RowBox[{
+                    RowBox[{"gradings", "\[LeftDoubleBracket]", 
+                    RowBox[{"i", "+", "1"}], "\[RightDoubleBracket]"}], ",", 
+                    "q2"}], "]"}], "\[LeftDoubleBracket]", 
+                    RowBox[{"1", ",", "1"}], "\[RightDoubleBracket]"}], "+", 
+                    "m2", "-", "1"}], ",", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"Position", "[", 
+                    RowBox[{
+                    RowBox[{
+                    "gradings", "\[LeftDoubleBracket]", "i", 
                     "\[RightDoubleBracket]"}], ",", "q1"}], "]"}], 
-                 "\[LeftDoubleBracket]", 
-                 RowBox[{"1", ",", "1"}], "\[RightDoubleBracket]"}], "+", 
-                "m1", "-", "1"}]}], "]"}]}], ")"}]}], "\[IndentingNewLine]", 
-          ",", 
+                    "\[LeftDoubleBracket]", 
+                    RowBox[{"1", ",", "1"}], "\[RightDoubleBracket]"}], "+", 
+                    "m1", "-", "1"}]}], "]"}]}], ")"}]}], ")"}]}]}]}], 
+          "\[IndentingNewLine]", ",", 
           RowBox[{"{", 
            RowBox[{"i", ",", "1", ",", 
             RowBox[{
@@ -523,7 +551,10 @@ Cell[BoxData[
      RowBox[{"{", 
       RowBox[{"H", "\[Rule]", "T"}], "}"}]}]}], "\[IndentingNewLine]", 
    "}"}]}]], "Input",
- InitializationCell->True],
+ InitializationCell->True,
+ CellChangeTimes->{{3.4294637480423183`*^9, 3.4294637562040544`*^9}, {
+   3.429463844551091*^9, 3.4294638601535263`*^9}, {3.4294639556408305`*^9, 
+   3.429463985353555*^9}, 3.429464051518696*^9}],
 
 Cell[BoxData[
  RowBox[{
@@ -754,8 +785,15 @@ While[
    While[(exponents = DeleteCases[Union[(Exponent[#1, T] & ) /@ \
 Flatten[MatrixData[matrix]]], -Infinity]) != {}, 
      k = First[exponents];
-     If[k == 0, Print[\"Found an isomorphism I wasn't expecting!\"]; \
-Return[$Failed]];
+     If[k == 0,
+       Print[\"Found an isomorphism I wasn't expecting!\"];
+       Print[\"Result so far: \",result];
+       Print[\"Remaining objects at this height: \",objects];
+       Print[\"Remaining matrices at this height: \",matrix];
+       Print[\"Other gradings: \",gradings];
+       Print[\"Other matrices: \",matrices];
+       Return[$Failed]
+     ];
      {i, j} = Position[MatrixData[matrix], e_ /; Exponent[e, T] == k, 2, \
 1][[1]];
      objects = RotateLeft[objects, j - 1];
@@ -783,7 +821,10 @@ Return[$Failed]];
  result
  ]\
 \>", "Input",
- InitializationCell->True],
+ InitializationCell->True,
+ CellChangeTimes->{{3.4294770001879683`*^9, 3.429477029480088*^9}, {
+   3.429477064009739*^9, 3.4294770835678625`*^9}, {3.429477133639862*^9, 
+   3.4294772491159086`*^9}, 3.429477300489781*^9}],
 
 Cell[BoxData[
  RowBox[{
@@ -907,7 +948,7 @@ Cell[BoxData[
 },
 AutoGeneratedPackage->Automatic,
 WindowSize->{1105, 637},
-WindowMargins->{{Automatic, 66}, {Automatic, -12}},
+WindowMargins->{{Automatic, -4}, {17, Automatic}},
 Visible->True,
 ShowSelection->True,
 InputAliases->{"intt" -> RowBox[{"\[Integral]", 
@@ -966,7 +1007,7 @@ InputAliases->{"intt" -> RowBox[{"\[Integral]",
     "NotationPatternWrapperStyle"], "madeboxeswraper" -> 
   TagBox["\[Placeholder]", NotationMadeBoxesTag, TagStyle -> 
     "NotationMadeBoxesWrapperStyle"]},
-FrontEndVersion->"6.0 for Microsoft Windows (32-bit) (June 19, 2007)",
+FrontEndVersion->"6.0 for Mac OS X x86 (32-bit) (May 21, 2008)",
 StyleDefinitions->Notebook[{
    Cell[
     CellGroupData[{
@@ -3283,7 +3324,7 @@ These styles serve to make visible otherwise invisible tagboxes.", "Text",
        Background -> RGBColor[0.900008, 0.889998, 1], 
        TagBoxOptions -> {SyntaxForm -> "symbol"}, CellTags -> 
        "NotationPackage"]}, Closed]]}, Visible -> False, FrontEndVersion -> 
-  "6.0 for Microsoft Windows (32-bit) (June 19, 2007)", StyleDefinitions -> 
+  "6.0 for Mac OS X x86 (32-bit) (May 21, 2008)", StyleDefinitions -> 
   "Default.nb"]
 ]
 (* End of Notebook Content *)
@@ -3298,69 +3339,69 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[590, 23, 78, 1, 49, "Subtitle",
+Cell[590, 23, 78, 1, 46, "Subtitle",
  InitializationCell->True],
-Cell[671, 26, 300, 6, 65, "Text",
+Cell[671, 26, 300, 6, 56, "Text",
  InitializationCell->True],
-Cell[974, 34, 294, 9, 28, "Input",
+Cell[974, 34, 364, 10, 24, "Input",
  InitializationCell->True],
-Cell[1271, 45, 388, 8, 69, "Input",
+Cell[1341, 46, 388, 8, 55, "Input",
  InitializationCell->True],
-Cell[1662, 55, 300, 7, 69, "Input",
+Cell[1732, 56, 300, 7, 55, "Input",
  InitializationCell->True],
-Cell[1965, 64, 271, 7, 49, "Input",
+Cell[2035, 65, 271, 7, 40, "Input",
  InitializationCell->True],
-Cell[2239, 73, 243, 6, 28, "Input",
+Cell[2309, 74, 243, 6, 24, "Input",
  InitializationCell->True],
-Cell[2485, 81, 601, 14, 109, "Input",
+Cell[2555, 82, 601, 14, 85, "Input",
  InitializationCell->True],
-Cell[3089, 97, 101, 2, 28, "Input",
+Cell[3159, 98, 101, 2, 24, "Input",
  InitializationCell->True],
-Cell[3193, 101, 141, 4, 28, "Input",
+Cell[3263, 102, 141, 4, 24, "Input",
  InitializationCell->True],
-Cell[3337, 107, 11339, 275, 1009, "Input",
+Cell[3407, 108, 12578, 298, 880, "Input",
  InitializationCell->True],
-Cell[14679, 384, 265, 6, 28, "Input",
+Cell[15988, 408, 265, 6, 24, "Input",
  InitializationCell->True],
-Cell[14947, 392, 924, 24, 129, "Input",
+Cell[16256, 416, 924, 24, 100, "Input",
  InitializationCell->True],
-Cell[15874, 418, 753, 25, 28, "Input",
+Cell[17183, 442, 753, 25, 24, "Input",
  InitializationCell->True],
 Cell[CellGroupData[{
-Cell[16652, 447, 3166, 78, 209, "Input",
+Cell[17961, 471, 3633, 85, 190, "Input",
  InitializationCell->True],
-Cell[19821, 527, 426, 9, 20, "Message",
+Cell[21597, 558, 426, 9, 20, "Message",
  InitializationCell->True]
 }, Open  ]],
-Cell[20262, 539, 196, 6, 28, "Input",
+Cell[22038, 570, 196, 6, 24, "Input",
  InitializationCell->True],
-Cell[20461, 547, 462, 13, 28, "Input",
+Cell[22237, 578, 462, 13, 24, "Input",
  InitializationCell->True],
-Cell[20926, 562, 2159, 63, 169, "Input",
+Cell[22702, 593, 2159, 63, 130, "Input",
  InitializationCell->True],
-Cell[23088, 627, 575, 16, 50, "Input",
+Cell[24864, 658, 575, 16, 40, "Input",
  InitializationCell->True],
-Cell[23666, 645, 742, 24, 50, "Input",
+Cell[25442, 676, 742, 24, 40, "Input",
  InitializationCell->True],
-Cell[24411, 671, 133, 4, 30, "Input",
+Cell[26187, 702, 133, 4, 24, "Input",
  InitializationCell->True],
-Cell[24547, 677, 418, 14, 30, "Input",
+Cell[26323, 708, 418, 14, 28, "Input",
  InitializationCell->True],
-Cell[24968, 693, 1831, 50, 150, "Input",
+Cell[26744, 724, 1831, 50, 149, "Input",
  InitializationCell->True],
-Cell[26802, 745, 1613, 40, 624, "Input",
+Cell[28578, 776, 2081, 50, 725, "Input",
  InitializationCell->True],
-Cell[28418, 787, 1212, 35, 130, "Input",
+Cell[30662, 828, 1212, 35, 129, "Input",
  InitializationCell->True],
-Cell[29633, 824, 1057, 36, 31, "Input",
+Cell[31877, 865, 1057, 36, 30, "Input",
  InitializationCell->True],
-Cell[30693, 862, 589, 20, 31, "Input",
+Cell[32937, 903, 589, 20, 30, "Input",
  InitializationCell->True],
-Cell[31285, 884, 385, 12, 30, "Input",
+Cell[33529, 925, 385, 12, 28, "Input",
  InitializationCell->True],
-Cell[31673, 898, 78, 2, 30, "Input",
+Cell[33917, 939, 78, 2, 28, "Input",
  InitializationCell->True],
-Cell[31754, 902, 85, 2, 30, "Input",
+Cell[33998, 943, 85, 2, 28, "Input",
  InitializationCell->True]
 }, Open  ]]
 }

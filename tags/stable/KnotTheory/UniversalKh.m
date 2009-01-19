@@ -46,7 +46,7 @@ q=Global`q;t=Global`t;
 
 KhN[L_] :=KhN[L]= KhN[PD[L]];
 KhN[pd_PD] := Module[
-{n,pd1,  f, cl, out,kh,saveContext,saveContextPath,JavaKhDirectory,jarDirectory,classDirectory,classpath},
+{n,pd1,  f, cl, out,kh,saveContext,saveContextPath,JavaKhDirectory,jarDirectory,classDirectory,classpath,new=True},
 n=Max @@ (Max @@@ pd);
 pd1 = pd /. {
 X[n, i_, 1, j_] :> X[n, i, n+1, j],
@@ -54,19 +54,27 @@ X[i_, 1, j_, n] :> X[i, n+1, j, n],
 X[1, j_, n, i_] :> X[n+1, j, n, i],
 X[j_, n, i_, 1] :> X[j, n, i, n+1]
 };
-SetDirectory[ToFileName[KnotTheoryDirectory[],"JavaKh"]];
+
+new=True; (* This is just an option for Scott, to allow comparing against Jeremy's program before butchering it. *)
+If[new,
+JavaKhDirectory=ToFileName[KnotTheoryDirectory[],"JavaKh-v2"];
+classpath=KnotTheory`FastKh`JavaKhv2ClassPath[];,
+JavaKhDirectory=ToFileName[KnotTheoryDirectory[],"JavaKh-v1"];
+classpath=KnotTheory`FastKh`JavaKhv1ClassPath[];,
+];
+
+SetDirectory[JavaKhDirectory];
 f=OpenWrite["pd",PageWidth->Infinity];
 WriteString[f,ToString[pd1]];
 Close[f];
-JavaKhDirectory=ToFileName[KnotTheoryDirectory[],"JavaKh"];
-jarDirectory=ToFileName[JavaKhDirectory,"jars"];
-classDirectory=ToFileName[JavaKhDirectory,"bin"];
-classpath=KnotTheory`FastKh`JavaKhClassPath[];
-cl=StringJoin["!java -classpath \"",classpath,"\" "," org.katlas.JavaKh.JavaKh -U < pd"];
+
+cl=StringJoin["!java -classpath \"",classpath,"\" "," org.katlas.JavaKh.JavaKh -U -Q < pd"];
 f=OpenRead[cl];
 out=Read[f,Expression];
 Close[f];
+
 ResetDirectory[];
+
 If[out==EndOfFile,Print["Something went wrong running JavaKh; nothing was returned. The command line was: "];Print[cl];Return[$Failed]];
 out=StringReplace[out,{"q"->"#1","t"->"#2"}];
 (* ToExpression is dangerous! We have to fiddle with the $Context here. *)
@@ -110,11 +118,11 @@ GradingsList[k:Komplex[{n_,_,_},___]]:={n,Cases[{#},Arc[m_,_]:>m,2]&/@(List@@k)[
 
 
 Matrices[k:Komplex[{n_,_,_},___]]:={n,
-Module[{gradings=GradingsList[k][[2]],dimensions},
+Module[{gradings=GradingsList[k][[2]],dimensions,matrix},
 dimensions=Length/@gradings;
 Table[
-ZeroesMatrix[dimensions[[i+1]],dimensions[[i]]]+
-k[[i,3]]/.(Curtain[q1_,m1_,q2_,m2_]:>ElementaryMatrix[dimensions[[i+1]],dimensions[[i]],Position[gradings[[i+1]],q2][[1,1]]+m2-1,Position[gradings[[i]],q1][[1,1]]+m1-1])
+matrix=ZeroesMatrix[dimensions[[i+1]],dimensions[[i]]];
+matrix =matrix+(k[[i,3]]/.(Curtain[q1_,m1_,q2_,m2_]:>ElementaryMatrix[dimensions[[i+1]],dimensions[[i]],Position[gradings[[i+1]],q2][[1,1]]+m2-1,Position[gradings[[i]],q1][[1,1]]+m1-1]))
 ,{i,1,Length[k]-1}]
 ]/.{H->T}
 }
@@ -168,7 +176,15 @@ While[
    matrix = matrices[[1]];
    While[(exponents = DeleteCases[Union[(Exponent[#1, T] & ) /@ Flatten[MatrixData[matrix]]], -Infinity]) != {}, 
      k = First[exponents];
-     If[k == 0, Print["Found an isomorphism I wasn't expecting!"]; Return[$Failed]];
+     If[k == 0,
+       Print["Found an isomorphism I wasn't expecting!"];
+       Print["Result so far: ",result];
+       Print["Remaining objects at this height: ",objects];
+       Print["Remaining matrices at this height: ",matrix];
+       Print["Other gradings: ",gradings];
+       Print["Other matrices: ",matrices];
+       Return[$Failed]
+     ];
      {i, j} = Position[MatrixData[matrix], e_ /; Exponent[e, T] == k, 2, 1][[1]];
      objects = RotateLeft[objects, j - 1];
      gradings[[2]] = RotateLeft[gradings[[2]], i - 1];
