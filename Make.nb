@@ -10,11 +10,12 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       145,          7]
-NotebookDataLength[   1533404,      25546]
-NotebookOptionsPosition[   1529968,      25429]
-NotebookOutlinePosition[   1530335,      25445]
-CellTagsIndexPosition[   1530292,      25442]
-WindowFrame->Normal*)
+NotebookDataLength[   1533605,      25551]
+NotebookOptionsPosition[   1530179,      25434]
+NotebookOutlinePosition[   1530536,      25450]
+CellTagsIndexPosition[   1530493,      25447]
+WindowFrame->Normal
+ContainsDynamic->False*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
@@ -48,7 +49,7 @@ Cell[CellGroupData[{
 Cell[BoxData[
  RowBox[{"Switch", "[", 
   RowBox[{
-  "\"\<Dror\>\"", ",", "\[IndentingNewLine]", "\"\<Dror\>\"", ",", " ", 
+  "\"\<Scott\>\"", ",", "\[IndentingNewLine]", "\"\<Dror\>\"", ",", " ", 
    RowBox[{
    "SetDirectory", "[", "\"\<C:/drorbn/projects/KnotTheory/svn/trunk\>\"", 
     "]"}], ",", "\[IndentingNewLine]", "\"\<Scott\>\"", ",", " ", 
@@ -62,11 +63,12 @@ Cell[BoxData[
   3.4132249674194417`*^9}, {3.441302426202787*^9, 3.4413024346674433`*^9}, {
   3.441302679952997*^9, 3.441302699941946*^9}, {3.441302817095511*^9, 
   3.4413028191180573`*^9}, {3.441304111405154*^9, 3.4413041233083057`*^9}, {
-  3.4414825234300003`*^9, 3.4414825238206253`*^9}}],
+  3.4414825234300003`*^9, 3.4414825238206253`*^9}, {3.441491052176383*^9, 
+  3.441491052926303*^9}}],
 
-Cell[BoxData["\<\"C:\\\\drorbn\\\\projects\\\\KnotTheory\\\\svn\\\\trunk\"\>"]\
-, "Output",
- CellChangeTimes->{3.4414825339456253`*^9}]
+Cell[BoxData["\<\"/Users/scott/projects/KnotTheory/trunk\"\>"], "Output",
+ CellChangeTimes->{
+  3.4414825339456253`*^9, {3.441491045755319*^9, 3.441491053342017*^9}}]
 }, Open  ]],
 
 Cell["\<\
@@ -122,10 +124,11 @@ Cell[BoxData[{
            "&"}], "/@", 
           RowBox[{"{", 
            RowBox[{
-           "\"\<JavaKh\>\"", ",", "\"\<WikiLink\>\"", ",", " ", 
-            "\"\<KnotAtlas\>\"", ",", " ", "\"\<scripts\>\"", ",", " ", 
-            "\"\<QuantumGroups\>\"", ",", " ", "\"\<HFK-Zurich\>\""}], 
-           "}"}]}], ",", " ", "Infinity"}], "]"}], ",", "\[IndentingNewLine]", 
+           "\"\<JavaKh-v1\>\"", ",", "\"\<JavaKh-v2\>\"", ",", 
+            "\"\<WikiLink\>\"", ",", " ", "\"\<KnotAtlas\>\"", ",", " ", 
+            "\"\<scripts\>\"", ",", " ", "\"\<QuantumGroups\>\"", ",", " ", 
+            "\"\<HFK-Zurich\>\""}], "}"}]}], ",", " ", "Infinity"}], "]"}], 
+       ",", "\[IndentingNewLine]", 
        RowBox[{
         RowBox[{
          RowBox[{"(", 
@@ -147,7 +150,8 @@ Cell[BoxData[{
    3.405684235421875*^9, 3.4056842561875*^9}, {3.4276585169564466`*^9, 
    3.427658519680363*^9}, {3.427658569101427*^9, 3.427658571855387*^9}, {
    3.441302773839615*^9, 3.441302807591146*^9}, 3.441303088790779*^9, {
-   3.4413042047147827`*^9, 3.4413042903924417`*^9}}],
+   3.4413042047147827`*^9, 3.4413042903924417`*^9}, {3.441491034239715*^9, 
+   3.441491041855824*^9}}],
 
 Cell[BoxData[
  RowBox[{
@@ -161,6 +165,7 @@ Cell[BoxData[
      RowBox[{"Switch", "[", 
       RowBox[{
       "$OperatingSystem", ",", "\[IndentingNewLine]", "\"\<Windows\>\"", ",", 
+       
        RowBox[{"Run", "[", 
         RowBox[{"StringJoin", "[", "\[IndentingNewLine]", 
          RowBox[{
@@ -191,6 +196,7 @@ Cell[BoxData[
      RowBox[{"Switch", "[", 
       RowBox[{
       "$OperatingSystem", ",", "\[IndentingNewLine]", "\"\<Windows\>\"", ",", 
+       
        RowBox[{"Block", "[", 
         RowBox[{
          RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
@@ -309,10 +315,9 @@ Cell[BoxData[
  RowBox[{"Directory", "[", "]"}]], "Input",
  CellChangeTimes->{{3.4276580425442753`*^9, 3.4276580435857725`*^9}}],
 
-Cell[BoxData["\<\"C:\\\\drorbn\\\\projects\\\\KnotTheory\\\\svn\\\\trunk\"\>"]\
-, "Output",
+Cell[BoxData["\<\"/Users/scott/projects/KnotTheory/trunk\"\>"], "Output",
  CellChangeTimes->{3.4276580438661757`*^9, 3.441302956738349*^9, 
-  3.4414826075237503`*^9}]
+  3.4414826075237503`*^9, 3.44149108317588*^9}]
 }, Open  ]]
 }, Open  ]],
 
@@ -25430,7 +25435,7 @@ Cell[BoxData[
 WindowSize->{916, 1072},
 WindowMargins->{{155, Automatic}, {Automatic, 0}},
 ShowSelection->True,
-FrontEndVersion->"7.0 for Microsoft Windows (32-bit) (November 10, 2008)",
+FrontEndVersion->"6.0 for Mac OS X x86 (32-bit) (May 21, 2008)",
 StyleDefinitions->"Default.nb"
 ]
 (* End of Notebook Content *)
@@ -25445,106 +25450,106 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[567, 22, 36, 0, 83, "Title"],
-Cell[606, 24, 557, 9, 83, "Text"],
+Cell[590, 23, 36, 0, 76, "Title"],
+Cell[629, 25, 557, 9, 71, "Text"],
 Cell[CellGroupData[{
-Cell[1188, 37, 33, 0, 49, "Subtitle"],
-Cell[1224, 39, 172, 4, 29, "Text"],
+Cell[1211, 38, 33, 0, 46, "Subtitle"],
+Cell[1247, 40, 172, 4, 26, "Text"],
 Cell[CellGroupData[{
-Cell[1421, 47, 971, 17, 112, "Input"],
-Cell[2395, 66, 135, 2, 30, "Output"]
+Cell[1444, 48, 1021, 18, 88, "Input"],
+Cell[2468, 68, 166, 2, 27, "Output"]
 }, Open  ]],
-Cell[2545, 71, 207, 4, 29, "Text"],
-Cell[2755, 77, 3566, 72, 332, "Input"],
-Cell[6324, 151, 1297, 28, 212, "Input"],
-Cell[7624, 181, 1787, 38, 312, "Input"],
-Cell[9414, 221, 572, 16, 72, "Input"],
-Cell[9989, 239, 154, 2, 29, "Text"],
-Cell[10146, 243, 2899, 60, 292, "Input"],
+Cell[2649, 73, 207, 4, 26, "Text"],
+Cell[2859, 79, 3654, 74, 268, "Input"],
+Cell[6516, 155, 1305, 29, 163, "Input"],
+Cell[7824, 186, 1795, 39, 238, "Input"],
+Cell[9622, 227, 572, 16, 58, "Input"],
+Cell[10197, 245, 154, 2, 26, "Text"],
+Cell[10354, 249, 2899, 60, 223, "Input"],
 Cell[CellGroupData[{
-Cell[13070, 307, 127, 2, 31, "Input"],
-Cell[13200, 311, 184, 3, 30, "Output"]
+Cell[13278, 313, 127, 2, 27, "Input"],
+Cell[13408, 317, 187, 2, 27, "Output"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[13433, 320, 114, 1, 49, "Subtitle"],
-Cell[13550, 323, 1170, 29, 212, "Input"],
+Cell[13644, 325, 114, 1, 46, "Subtitle"],
+Cell[13761, 328, 1170, 29, 163, "Input"],
 Cell[CellGroupData[{
-Cell[14745, 356, 60, 1, 31, "Input"],
-Cell[14808, 359, 872, 14, 43, "Print"]
+Cell[14956, 361, 60, 1, 27, "Input"],
+Cell[15019, 364, 872, 14, 36, "Print"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[15717, 378, 367, 11, 31, "Input"],
-Cell[16087, 391, 437, 9, 21, "Message"],
-Cell[16527, 402, 432, 8, 21, "Message"],
-Cell[16962, 412, 391, 7, 21, "Message"],
-Cell[17356, 421, 122, 2, 30, "Output"]
+Cell[15928, 383, 367, 11, 27, "Input"],
+Cell[16298, 396, 437, 9, 23, "Message"],
+Cell[16738, 407, 432, 8, 23, "Message"],
+Cell[17173, 417, 391, 7, 23, "Message"],
+Cell[17567, 426, 122, 2, 27, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[17515, 428, 666, 21, 49, "Input"],
-Cell[18184, 451, 432, 8, 21, "Message"],
-Cell[18619, 461, 425, 8, 39, "Message"],
-Cell[19047, 471, 671, 10, 30, "Output"]
+Cell[17726, 433, 666, 21, 50, "Input"],
+Cell[18395, 456, 432, 8, 23, "Message"],
+Cell[18830, 466, 425, 8, 58, "Message"],
+Cell[19258, 476, 671, 10, 27, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[19755, 486, 763, 23, 49, "Input"],
-Cell[20521, 511, 319, 7, 21, "Message"],
-Cell[20843, 520, 169, 2, 30, "Output"]
+Cell[19966, 491, 763, 23, 50, "Input"],
+Cell[20732, 516, 319, 7, 23, "Message"],
+Cell[21054, 525, 169, 2, 27, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[21049, 527, 521, 15, 33, "Input"],
-Cell[21573, 544, 620, 9, 30, "Output"]
+Cell[21260, 532, 521, 15, 33, "Input"],
+Cell[21784, 549, 620, 9, 27, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[22230, 558, 290, 9, 33, "Input"],
-Cell[22523, 569, 531, 11, 21, "Message"],
-Cell[23057, 582, 504, 10, 21, "Message"],
-Cell[23564, 594, 185, 3, 30, "Output"]
+Cell[22441, 563, 290, 9, 33, "Input"],
+Cell[22734, 574, 531, 11, 23, "Message"],
+Cell[23268, 587, 504, 10, 41, "Message"],
+Cell[23775, 599, 185, 3, 27, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[23786, 602, 1203, 37, 98, "Input"],
-Cell[24992, 641, 188, 3, 30, "Output"]
+Cell[23997, 607, 1203, 37, 89, "Input"],
+Cell[25203, 646, 188, 3, 27, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[25217, 649, 1075, 31, 92, "Input"],
-Cell[26295, 682, 475, 9, 39, "Message"],
-Cell[26773, 693, 184, 3, 30, "Output"]
+Cell[25428, 654, 1075, 31, 73, "Input"],
+Cell[26506, 687, 475, 9, 41, "Message"],
+Cell[26984, 698, 184, 3, 27, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[26994, 701, 1506, 42, 112, "Input"],
-Cell[28503, 745, 465, 9, 21, "Message"],
-Cell[28971, 756, 189, 3, 30, "Output"]
+Cell[27205, 706, 1506, 42, 88, "Input"],
+Cell[28714, 750, 465, 9, 23, "Message"],
+Cell[29182, 761, 189, 3, 27, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[29197, 764, 625, 18, 47, "Input"],
-Cell[29825, 784, 529, 11, 21, "Message"],
-Cell[30357, 797, 456, 7, 30, "Output"]
+Cell[29408, 769, 625, 18, 48, "Input"],
+Cell[30036, 789, 529, 11, 23, "Message"],
+Cell[30568, 802, 456, 7, 27, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[30850, 809, 662, 19, 47, "Input"],
-Cell[31515, 830, 380, 8, 21, "Message"],
-Cell[31898, 840, 393, 8, 39, "Message"],
-Cell[32294, 850, 216, 4, 30, "Output"]
+Cell[31061, 814, 662, 19, 47, "Input"],
+Cell[31726, 835, 380, 8, 21, "Message"],
+Cell[32109, 845, 393, 8, 39, "Message"],
+Cell[32505, 855, 216, 4, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[32547, 859, 420, 12, 31, "Input"],
-Cell[32970, 873, 392, 6, 30, "Output"]
+Cell[32758, 864, 420, 12, 31, "Input"],
+Cell[33181, 878, 392, 6, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[33399, 884, 265, 7, 31, "Input"],
-Cell[33667, 893, 209, 3, 30, "Output"]
+Cell[33610, 889, 265, 7, 31, "Input"],
+Cell[33878, 898, 209, 3, 30, "Output"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[33925, 902, 110, 1, 49, "Subtitle"],
+Cell[34136, 907, 110, 1, 49, "Subtitle"],
 Cell[CellGroupData[{
-Cell[34060, 907, 160, 4, 31, "Input"],
-Cell[34223, 913, 1494012, 24473, 375, 1459259, 23902, "CachedBoxData", \
+Cell[34271, 912, 160, 4, 31, "Input"],
+Cell[34434, 918, 1494012, 24473, 375, 1459259, 23902, "CachedBoxData", \
 "BoxData", "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1528272, 25391, 223, 5, 31, "Input"],
-Cell[1528498, 25398, 1430, 26, 374, "Output"]
+Cell[1528483, 25396, 223, 5, 31, "Input"],
+Cell[1528709, 25403, 1430, 26, 374, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
