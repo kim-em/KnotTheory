@@ -1,3 +1,5 @@
+(* ::Package:: *)
+
 BeginPackage["KnotTheory`"]
 
 Kauffman::usage = "
@@ -158,7 +160,7 @@ Kauffman[pd_PD] := Kauffman[pd] = (
       If[L === PD[],
         (-((1 + a^2 - a*z)/(a*z)))^(Length[loops]-1),
         (-((1 + a^2 - a*z)/(a*z)))^Length[loops] *
-        (I a)^(-Writhe[SignedGaussCode[L]]) *
+        (I a)^(-Writhe[SignedGaussCode[L]]) * (-1)^(Length[Skeleton[L]]-1) *
         (Plus @@
           (StateValuation[I a, -I z] /@ Decorate[SignedGaussCode[L]])
         )

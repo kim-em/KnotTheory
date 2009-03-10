@@ -1,3 +1,5 @@
+(* ::Package:: *)
+
 BeginPackage["KnotTheory`"]
 
 $RecursionLimit = 65536;
@@ -558,6 +560,7 @@ Kh[L_, opts___] := Kh[L, opts] = Module[
     cl = StringJoin[
       "!java -classpath \"", classpath,
       "\" ", javaoptions, " org.katlas.JavaKh.JavaKh ",
+      If[eo =!= Automatic, " -O", ""],
       If[universal, "-U -Z", If[modulus === Null, "-Z", "--mod "<>ToString[modulus]]],
       " < pd 2> JavaKh.log"
     ];
@@ -619,11 +622,11 @@ TabularKh[khG_,highlight_List]:=
         chi+=(-1)^r*c;
         critical=MemberQ[highlight,j-2r];
         out=
-          out<>Which[critical&&c\[NotEqual]0,
+          out<>Which[critical&&c!=0,
               "<td bgcolor=yellow>"<>ToString[c]<>"</td>",
-              critical&&c\[Equal]0,
-              "<td bgcolor=yellow>&nbsp;</td>",!critical&&c\[NotEqual]0,
-              "<td bgcolor=red>"<>ToString[c]<>"</td>",!critical&&c\[Equal]0,
+              critical&&c==0,
+              "<td bgcolor=yellow>&nbsp;</td>",!critical&&c!=0,
+              "<td bgcolor=red>"<>ToString[c]<>"</td>",!critical&&c==0,
               "<td>&nbsp;</td>"],{r,minr,maxr}];
       out=out<>"<td>"<>ToString[chi]<>"</td></tr>\n",{j,maxj,minj,-2}];
     out=out<>"</table>"]
