@@ -1,5 +1,8 @@
 package org.katlas.JavaKh.rows;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Iterator;
 
 public class DoublyLinkedListRow<F> implements MatrixRow<F> {
@@ -8,7 +11,7 @@ public class DoublyLinkedListRow<F> implements MatrixRow<F> {
 	 * 
 	 */
 	private static final long serialVersionUID = -2450756606041401437L;
-	private Entry first, last, current;
+	private transient Entry first, last, current;
 
 	class Entry {
 		int index;
@@ -210,4 +213,21 @@ public class DoublyLinkedListRow<F> implements MatrixRow<F> {
 		first = last = current = null;
 	}
 
+	private void writeObject(ObjectOutputStream s) throws IOException {
+		for(int i : keys()) {
+			s.writeInt(i);
+			s.writeObject(get(i));
+		}
+		s.writeInt(-1);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void readObject(ObjectInputStream s) throws IOException,
+			ClassNotFoundException {
+		int key;
+		while((key = s.readInt()) != -1) {
+			putLast(key, (F) s.readObject());
+		}
+	}
+	
 }

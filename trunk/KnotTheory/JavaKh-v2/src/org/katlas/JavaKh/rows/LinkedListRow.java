@@ -1,7 +1,18 @@
 package org.katlas.JavaKh.rows;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+
+import org.katlas.JavaKh.JavaKh;
+import org.katlas.JavaKh.LCCCMap;
+import org.katlas.JavaKh.SmoothingColumn;
+import org.katlas.JavaKh.interfaces.CannedCobordism;
+import org.katlas.JavaKh.interfaces.LCCC;
 
 public class LinkedListRow<F> implements MatrixRow<F> {
 
@@ -10,16 +21,12 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 	 */
 	private static final long serialVersionUID = 8815364403706665179L;
 
-	private Entry<F> firstEntry;
-
+	private transient Entry<F> firstEntry;
+	
 	private transient Entry<F> lastEntry;
 	private transient Entry<F> cachedEntry;
 
-	static class Entry<F> implements Serializable {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1570122780884308873L;
+	static class Entry<F> {
 		int index;
 		F value;
 		Entry<F> next;
@@ -275,4 +282,24 @@ public class LinkedListRow<F> implements MatrixRow<F> {
 		lastEntry = null;
 	}
 
+
+	private void writeObject(ObjectOutputStream s) throws IOException {
+		for(int i : keys()) {
+			s.writeInt(i);
+			s.writeObject(get(i));
+		}
+		s.writeInt(-1);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void readObject(ObjectInputStream s) throws IOException,
+			ClassNotFoundException {
+		int key;
+		while((key = s.readInt()) != -1) {
+			putLast(key, (F) s.readObject());
+		}
+	}
+
+	
+	
 }
