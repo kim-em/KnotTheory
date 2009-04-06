@@ -2269,7 +2269,9 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				debug("Writing height " + (++i) + "/" + matrices.size());
 				s.writeLong(file.length());
 				s.writeInt(Integer.parseInt(file.getName()));
-				IOUtils.copy(new FileInputStream(file), s);
+				FileInputStream fis = new FileInputStream(file); 
+				IOUtils.copy(fis, s);
+				fis.close();
 			}
 		} else {
 			assert inMemory;
