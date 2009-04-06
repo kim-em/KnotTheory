@@ -64,9 +64,11 @@ public class DiskBackedList2<Element extends Serializable> extends
 			return null;
 		}
 
+		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		try {
-			ois = new ObjectInputStream(new FileInputStream(file));
+			fis = new FileInputStream(file);
+			ois = new ObjectInputStream(fis);
 			// log.debug("Getting index " + index + " ...");
 			Element r = (Element) (ois.readObject());
 			return r;
@@ -79,6 +81,13 @@ public class DiskBackedList2<Element extends Serializable> extends
 			log.warn(e);
 			return null;
 		} finally {
+			if (fis != null) {
+				try {
+					fis.close();
+				} catch (IOException e) {
+					log.warn(e);
+				}
+			}
 			if (ois != null) {
 				try {
 					ois.close();
@@ -103,9 +112,11 @@ public class DiskBackedList2<Element extends Serializable> extends
 
 		if (element != null) {
 			File f = nextFile();
+			FileOutputStream fos = null;
 			ObjectOutputStream oos = null;
 			try {
-				oos = new ObjectOutputStream(new FileOutputStream(f));
+				fos = new FileOutputStream(f);
+				oos = new ObjectOutputStream(fos);
 				// log.debug("Storing " + element.hashCode() + " ...");
 				oos.writeObject(element);
 				return f;
@@ -119,6 +130,13 @@ public class DiskBackedList2<Element extends Serializable> extends
 				if (oos != null) {
 					try {
 						oos.close();
+					} catch (IOException e) {
+						log.warn(e);
+					}
+				}
+				if (fos != null) {
+					try {
+						fos.close();
 					} catch (IOException e) {
 						log.warn(e);
 					}
@@ -192,7 +210,9 @@ public class DiskBackedList2<Element extends Serializable> extends
 			throws IOException {
 		File f = nextFile();
 		log.debug("Setting serialised form for index " + index + " ...");
-		IOUtils.copy(is, new FileOutputStream(f));
+		FileOutputStream fos = new FileOutputStream(f);
+		IOUtils.copy(is, fos);
+		fos.close();
 		log.debug("   ...finished.");
 		files.set(index, f);
 	}
