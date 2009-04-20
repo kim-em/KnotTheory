@@ -167,7 +167,6 @@ KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\algebra\DirectSum.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\algebra\implementations\AbstractLinearCombo.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\algebra\implementations\AbstractMatrix.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\algebra\implementations\LinearComboMap.class
-KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\algebra\implementations\SingleTermLinearCombo.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\algebra\implementations\ZeroLinearCombo.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\algebra\LinearCombo.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\algebra\LinearMorphism.class
@@ -230,9 +229,6 @@ KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\rows\PackedArrayRow$1.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\rows\PackedArrayRow$1$1.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\rows\RedBlackIntegerMap.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\rows\TreeEntryMap.class
-KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\rows\TroveEntryMap$1.class
-KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\rows\TroveEntryMap$1$1.class
-KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\SingleTermLCCC.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\SmoothingColumn.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\test\BigTorusKnotTests.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\test\IntBigTorusKnotTests.class
@@ -254,6 +250,7 @@ KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\ArrayCache$ArrayHashingStrategy
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\Cache.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\CachingList.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\Color.class
+KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\DiskBackedList2.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\DiskBackedList.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\DoubleArrayCache.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\DoubleArrayCache$DoubleArrayHashingStrategy.class
@@ -414,6 +411,7 @@ KnotTheory\QuantumGroups\QuantumGroups\Utilities\MatrixWrapper.m
 KnotTheory\QuantumGroups\QuantumGroups\Utilities\MatrixWrapper.nb
 KnotTheory\QuantumGroups\QuantumGroups\WeylGroups.m
 KnotTheory\QuantumGroups\QuantumGroups\WeylGroups.nb
+KnotTheory\QuantumGroups\testing\Notebook.nb
 KnotTheory\scripts\upload_script_neuron.sh
 KnotTheory\scripts\upload_script_nice.sh
 KnotTheory\scripts\upload_script.sh
