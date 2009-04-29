@@ -206,8 +206,13 @@ public class DiskBackedList3<Element extends Serializable> extends
 
 	public void setSerializedForm(int index, int hash, InputStream is)
 			throws IOException {
-		// TODO
-		throw new UnsupportedOperationException();
+		File f = new File(storePath, Integer.toString(hash, 16));
+		log.debug("Setting serialised form for index " + index + " ...");
+		OutputStream os = new FileOutputStream(f);
+		IOUtils.copy(is, os);
+		os.close();
+		log.debug("   ...finished.");
+		files.set(index, f);
 	}
 
 }
