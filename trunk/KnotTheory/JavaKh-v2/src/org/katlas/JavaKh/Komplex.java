@@ -41,6 +41,7 @@ import org.katlas.JavaKh.interfaces.LCCC;
 import org.katlas.JavaKh.rows.MatrixRow;
 import org.katlas.JavaKh.utils.CachingList;
 import org.katlas.JavaKh.utils.DiskBackedList2;
+import org.katlas.JavaKh.utils.DiskBackedList3;
 import org.katlas.JavaKh.utils.LimitedSizeInputStream;
 import org.katlas.JavaKh.utils.SerializingList;
 import org.katlas.JavaKh.utils.SoftReferenceCachingList;
@@ -1266,7 +1267,8 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 
 		CobMatrix<R> gamma = m.extractColumn(k);
 
-		CobMatrix<R> phiinv = new CobMatrix<R>(delta.target, gamma.source, false, inMemory);
+		CobMatrix<R> phiinv = new CobMatrix<R>(delta.target, gamma.source,
+				false, inMemory);
 		CannedCobordismImpl phicc = new CannedCobordismImpl(isoTarget,
 				isoSource);
 		// assume delooping has been done
@@ -1323,7 +1325,8 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 
 		assert delta.target.equals(gamma.source);
 
-		CobMatrix<R> phiinv = new CobMatrix<R>(delta.target, gamma.source, false, inMemory);
+		CobMatrix<R> phiinv = new CobMatrix<R>(delta.target, gamma.source,
+				false, inMemory);
 		for (int k = 0; k < block.size(); ++k) {
 			Cap isoObject = gamma.source.smoothings.get(k);
 			assert isoObject != null;
@@ -1873,13 +1876,13 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 								}
 							}
 						}
-//						if (first
-//								&& ((j == 0 && k == kom.ncolumns - 1) || j != 0)
-//								&& ncolumns > 2) {
-//							// WARNING!!! this assumes "this" is to be thrown
-//							// away.
-//							setMatrix(j, null); // to be garbage collected
-//						}
+						// if (first
+						// && ((j == 0 && k == kom.ncolumns - 1) || j != 0)
+						// && ncolumns > 2) {
+						// // WARNING!!! this assumes "this" is to be thrown
+						// // away.
+						// setMatrix(j, null); // to be garbage collected
+						// }
 						first = false;
 					}
 					if (k < kom.ncolumns - 1) {
@@ -1966,7 +1969,8 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			/*
 			 * share the columns ; don't make defensive copies
 			 */
-			matrices.add(new CobMatrix<R>(columns[i], columns[i + 1], true, inMemory));
+			matrices.add(new CobMatrix<R>(columns[i], columns[i + 1], true,
+					inMemory));
 		}
 
 		int numsmoothings[] = new int[ncolumns];
@@ -2241,12 +2245,11 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		if (inMemory) {
 			matrices = new ArrayList<CobMatrix<R>>(ncolumns - 1);
 		} else {
-//			matrices = new CachingList<CobMatrix<R>>(
-//					new DiskBackedList<CobMatrix<R>>(), 3);
+			// matrices = new CachingList<CobMatrix<R>>(
+			// new DiskBackedList<CobMatrix<R>>(), 3);
 			matrices = new CachingList<CobMatrix<R>>(
-						new SoftReferenceCachingList<CobMatrix<R>>(
-								new DiskBackedList2<CobMatrix<R>>()),
-								3);
+					new SoftReferenceCachingList<CobMatrix<R>>(
+							new DiskBackedList3<CobMatrix<R>>()), 3);
 		}
 	}
 
@@ -2269,7 +2272,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				debug("Writing height " + (++i) + "/" + matrices.size());
 				s.writeLong(file.length());
 				s.writeInt(Integer.parseInt(file.getName()));
-				FileInputStream fis = new FileInputStream(file); 
+				FileInputStream fis = new FileInputStream(file);
 				IOUtils.copy(fis, s);
 				fis.close();
 			}

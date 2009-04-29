@@ -26,6 +26,7 @@ import org.katlas.JavaKh.rows.LinkedListRow;
 import org.katlas.JavaKh.rows.MatrixRow;
 import org.katlas.JavaKh.utils.CachingList;
 import org.katlas.JavaKh.utils.DiskBackedList2;
+import org.katlas.JavaKh.utils.DiskBackedList3;
 import org.katlas.JavaKh.utils.SoftReferenceCachingList;
 
 public class CobMatrix<R extends Ring<R>> extends
@@ -63,7 +64,7 @@ public class CobMatrix<R extends Ring<R>> extends
 //			entries = new CachingList<MatrixRow<LCCC<R>>>(new DiskBackedList<MatrixRow<LCCC<R>>>(), 100);
 			entries = new CachingList<MatrixRow<LCCC<R>>>(
 						new SoftReferenceCachingList<MatrixRow<LCCC<R>>>(
-							new DiskBackedList2<MatrixRow<LCCC<R>>>()),
+							new DiskBackedList3<MatrixRow<LCCC<R>>>()),
 							10);
 		}
 		for (int i = 0; i < n; ++i) {
