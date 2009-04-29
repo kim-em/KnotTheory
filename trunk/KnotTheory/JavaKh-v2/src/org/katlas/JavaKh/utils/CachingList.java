@@ -64,9 +64,9 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 	
 	@Override
 	public synchronized boolean add(Element element) {
-		if(element == null) {
-			throw new NullPointerException();
-		}
+//		if(element == null) {
+//			throw new NullPointerException();
+//		}
 		
 		while(cache.size() >= cacheSize) reduceCacheSize();
 		int size = size();
