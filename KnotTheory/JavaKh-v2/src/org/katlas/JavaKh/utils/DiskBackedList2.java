@@ -211,7 +211,7 @@ public class DiskBackedList2<Element extends Serializable> extends
 	}
 
 	// *don't* do any GZIP wrapping here
-	public void setSerializedForm(int index, int hash, InputStream is)
+	public void setSerializedForm(int index, String hash, InputStream is)
 			throws IOException {
 		File f = nextFile();
 		log.debug("Setting serialised form for index " + index + " ...");
