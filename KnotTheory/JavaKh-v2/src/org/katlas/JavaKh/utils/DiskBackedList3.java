@@ -31,6 +31,7 @@ public class DiskBackedList3<Element extends Serializable> extends
 
 	private final File storePath;
 	private final List<File> files = new ArrayList<File>();
+	private static int tempCounter = 0;
 
 	public DiskBackedList3() {
 		storePath = new File(System.getProperty("java.io.tmpdir"),
@@ -113,14 +114,13 @@ public class DiskBackedList3<Element extends Serializable> extends
 				e.printStackTrace();
 				System.exit(1);
 			}
-			File temp = new File(storePath, "tmp");
+			File temp = new File(storePath, "tmp" + ++tempCounter);
 			OutputStream os = null;
 			try {
 				os = new FileOutputStream(temp);
 				os = new DigestOutputStream(os, md);
 				ObjectOutputStream oos = new ObjectOutputStream(os);
 				oos.writeObject(element);
-				// read stream to EOF as normal...
 			} catch (FileNotFoundException e) {
 				log.warn(e);
 				e.printStackTrace();
@@ -139,13 +139,16 @@ public class DiskBackedList3<Element extends Serializable> extends
 			String signature = new BigInteger(1, md.digest()).toString(16);
 			File target = new File(storePath, signature);
 			if (!target.exists()) {
-				temp.renameTo(target);
+				assert temp.renameTo(target);
+				assert target.exists();
+				assert !temp.exists();
 			}
 			temp.delete();
 			return target;
 
 		} else {
-			throw new NullPointerException();
+//			throw new NullPointerException();
+			return null;
 		}
 
 	}
@@ -153,13 +156,7 @@ public class DiskBackedList3<Element extends Serializable> extends
 	@Override
 	public void add(int index, Element element) {
 		File f = store(element);
-		if (f != null) {
 			files.add(index, f);
-		} else {
-			log
-					.warn("Tried to store an element, but the resulting File object was null.");
-		}
-
 	}
 
 	@Override
@@ -171,12 +168,7 @@ public class DiskBackedList3<Element extends Serializable> extends
 	@Override
 	public Element set(int index, Element element) {
 		File f = store(element);
-		if (f != null) {
-			files.set(index, f);
-		} else {
-			log
-					.warn("Tried to store an element, but the resulting File object was null.");
-		}
+		files.set(index, f);
 		return null;
 	}
 
@@ -201,6 +193,9 @@ public class DiskBackedList3<Element extends Serializable> extends
 	}
 
 	public List<File> getSerializedForms() throws IOException {
+		for(File file : files) {
+			assert file.exists();
+		}
 		return files;
 	}
 
