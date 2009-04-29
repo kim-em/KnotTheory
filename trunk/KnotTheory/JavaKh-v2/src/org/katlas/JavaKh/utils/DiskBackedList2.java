@@ -8,10 +8,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
@@ -68,7 +71,7 @@ public class DiskBackedList2<Element extends Serializable> extends
 		ObjectInputStream ois = null;
 		try {
 			fis = new FileInputStream(file);
-			ois = new ObjectInputStream(fis);
+			ois = new ObjectInputStream(new GZIPInputStream(fis));
 			// log.debug("Getting index " + index + " ...");
 			Element r = (Element) (ois.readObject());
 			return r;
@@ -116,7 +119,7 @@ public class DiskBackedList2<Element extends Serializable> extends
 			ObjectOutputStream oos = null;
 			try {
 				fos = new FileOutputStream(f);
-				oos = new ObjectOutputStream(fos);
+				oos = new ObjectOutputStream(new GZIPOutputStream(fos));
 				// log.debug("Storing " + element.hashCode() + " ...");
 				oos.writeObject(element);
 				return f;
@@ -202,17 +205,19 @@ public class DiskBackedList2<Element extends Serializable> extends
 		throw new UnsupportedOperationException();
 	}
 
+	// *don't* do any GZIP wrapping here
 	public List<File> getSerializedForms() throws IOException {
 		return files;
 	}
 
+	// *don't* do any GZIP wrapping here
 	public void setSerializedForm(int index, int hash, InputStream is)
 			throws IOException {
 		File f = nextFile();
 		log.debug("Setting serialised form for index " + index + " ...");
-		FileOutputStream fos = new FileOutputStream(f);
-		IOUtils.copy(is, fos);
-		fos.close();
+		OutputStream os = new FileOutputStream(f);
+		IOUtils.copy(is, os);
+		os.close();
 		log.debug("   ...finished.");
 		files.set(index, f);
 	}
