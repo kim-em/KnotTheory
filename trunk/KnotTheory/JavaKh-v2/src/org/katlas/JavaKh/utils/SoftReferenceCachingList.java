@@ -86,7 +86,7 @@ public class SoftReferenceCachingList<Element extends Serializable> extends Abst
 		return innerList.getSerializedForms();
 	}
 
-	public synchronized void setSerializedForm(int index, int hash, InputStream is)
+	public synchronized void setSerializedForm(int index, String hash, InputStream is)
 			throws IOException {
 		softReferenceList.set(index, null);
 		innerList.setSerializedForm(index, hash, is);

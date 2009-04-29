@@ -134,7 +134,7 @@ public class CachingList<Element extends Serializable> extends AbstractList<Elem
 		return innerList.getSerializedForms();
 	}
 
-	public synchronized void setSerializedForm(int index, int hash, InputStream is)
+	public synchronized void setSerializedForm(int index, String hash, InputStream is)
 			throws IOException {
 		if(cache.containsKey(index)) {
 			checkSizes();

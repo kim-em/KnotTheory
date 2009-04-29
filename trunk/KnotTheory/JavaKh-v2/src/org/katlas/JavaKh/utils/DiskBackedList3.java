@@ -204,9 +204,9 @@ public class DiskBackedList3<Element extends Serializable> extends
 		return files;
 	}
 
-	public void setSerializedForm(int index, int hash, InputStream is)
+	public void setSerializedForm(int index, String hash, InputStream is)
 			throws IOException {
-		File f = new File(storePath, Integer.toString(hash, 16));
+		File f = new File(storePath, hash);
 		log.debug("Setting serialised form for index " + index + " ...");
 		OutputStream os = new FileOutputStream(f);
 		IOUtils.copy(is, os);

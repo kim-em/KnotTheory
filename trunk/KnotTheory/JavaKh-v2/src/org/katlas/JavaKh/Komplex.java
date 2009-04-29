@@ -2271,7 +2271,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 					.getSerializedForms()) {
 				debug("Writing height " + (++i) + "/" + matrices.size());
 				s.writeLong(file.length());
-				s.writeInt(Integer.parseInt(file.getName(), 16));
+				s.writeObject(file.getName());
 				FileInputStream fis = new FileInputStream(file);
 				IOUtils.copy(fis, s);
 				fis.close();
@@ -2322,6 +2322,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		}
 		int serializationVersion = s.readInt();
 		if (serializationVersion == 1) {
+			/*
 			int size = s.readInt();
 			createMatrixList();
 			if (s.readBoolean()) {
@@ -2346,7 +2347,8 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 					matrices.add((CobMatrix<R>) (s.readObject()));
 					invokeGC();
 				}
-			}
+			} */
+			throw new AssertionError("SerializationVersion1 no longer supported.");
 		} else if (serializationVersion == 2) {
 			int size = s.readInt();
 			ncolumns = size + 1;
@@ -2361,7 +2363,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				for (int i = 0; i < size; ++i) {
 					debug("Reading height " + (i + 1) + "/" + size);
 					long fileLength = s.readLong();
-					int hash = s.readInt();
+					String hash = (String)(s.readObject());
 					InputStream lsis = new LimitedSizeInputStream(s, fileLength);
 					if (matrices instanceof SerializingList) {
 						matrices.add(null);

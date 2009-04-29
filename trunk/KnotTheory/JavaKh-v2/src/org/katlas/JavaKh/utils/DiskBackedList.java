@@ -200,7 +200,8 @@ public class DiskBackedList<Element extends Serializable> extends AbstractList<E
 		return result;
 	}
 
-	public void setSerializedForm(int index, int hash, InputStream is) throws IOException {
+	public void setSerializedForm(int index, String stringHash, InputStream is) throws IOException {
+		int hash = Integer.parseInt(stringHash);
 		if(! hashlist.contains(hash)) {
 			log.debug("Setting serialised form for index " + index + " ...");
 			IOUtils.copy(is, new FileOutputStream(file(hash)));
