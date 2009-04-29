@@ -139,9 +139,7 @@ public class DiskBackedList3<Element extends Serializable> extends
 			String signature = new BigInteger(1, md.digest()).toString(16);
 			File target = new File(storePath, signature);
 			if (!target.exists()) {
-				assert temp.renameTo(target);
-				assert target.exists();
-				assert !temp.exists();
+				temp.renameTo(target);
 			}
 			temp.delete();
 			return target;
