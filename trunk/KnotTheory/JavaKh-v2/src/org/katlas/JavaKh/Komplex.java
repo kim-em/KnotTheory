@@ -40,11 +40,10 @@ import org.katlas.JavaKh.interfaces.CannedCobordism;
 import org.katlas.JavaKh.interfaces.LCCC;
 import org.katlas.JavaKh.rows.MatrixRow;
 import org.katlas.JavaKh.utils.CachingList;
-import org.katlas.JavaKh.utils.DiskBackedList2;
 import org.katlas.JavaKh.utils.DiskBackedList3;
 import org.katlas.JavaKh.utils.LimitedSizeInputStream;
 import org.katlas.JavaKh.utils.SerializingList;
-import org.katlas.JavaKh.utils.SoftReferenceCachingList;
+import org.katlas.JavaKh.utils.SoftReferenceCachingList2;
 
 public class Komplex<R extends Ring<R>> implements Serializable {
 	/**
@@ -640,6 +639,14 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 
 		Rings<R> ring = Rings.current();
 
+		CobMatrix<R> prevMatrix = null, nextMatrix = null;
+		if (colnum != 0) {
+			prevMatrix = getMatrix(colnum - 1);
+		}
+		if (colnum != ncolumns - 1) {
+			nextMatrix = getMatrix(colnum);
+		}
+		
 		int size = 0;
 		for (int i = 0; i < columns[colnum].n; i++)
 			size += 1 << columns[colnum].smoothings.get(i).ncycles;
@@ -699,7 +706,6 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				newsc.smoothings.set(newn, newsm);
 				newsc.numbers.set(newn, columns[colnum].numbers.get(i) + nmod);
 				if (prev != null) {
-					CobMatrix<R> prevMatrix = getMatrix(colnum - 1);
 					// prev.rowsizes[newn] = prevMatrix.rowsizes[i];
 					// prev.indices[newn] = prevMatrix.indices[i];
 					if (oldsm.ncycles != 0) {
@@ -729,7 +735,6 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 					}
 				}
 				if (next != null) {
-					CobMatrix<R> nextMatrix = getMatrix(colnum);
 					if (oldsm.ncycles != 0) {
 						LCCC<R> lc = new LCCCMap<R>(nextcc, ring.ONE);
 
@@ -773,6 +778,14 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 	public void deLoopWithH(int colnum) { // deloops one column
 
 		Rings<R> ring = Rings.current();
+
+		CobMatrix<R> prevMatrix = null, nextMatrix = null;
+		if (colnum != 0) {
+			prevMatrix = getMatrix(colnum - 1);
+		}
+		if (colnum != ncolumns - 1) {
+			nextMatrix = getMatrix(colnum);
+		}
 
 		int size = 0;
 		for (int i = 0; i < columns[colnum].n; i++)
@@ -865,7 +878,6 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 				newsc.numbers.set(newn, columns[colnum].numbers.get(i) + nmod);
 
 				if (prev != null) {
-					CobMatrix<R> prevMatrix = getMatrix(colnum - 1);
 					// prev.rowsizes[newn] = prevMatrix.rowsizes[i];
 					// prev.indices[newn] = prevMatrix.indices[i];
 					if (oldsm.ncycles != 0) {
@@ -896,7 +908,6 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 					}
 				}
 				if (next != null) {
-					CobMatrix<R> nextMatrix = getMatrix(colnum);
 					if (oldsm.ncycles != 0) {
 						LCCC<R> lc = new LCCCMap<R>(nextcc, ring.ONE);
 
@@ -2248,7 +2259,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 			// matrices = new CachingList<CobMatrix<R>>(
 			// new DiskBackedList<CobMatrix<R>>(), 3);
 			matrices = new CachingList<CobMatrix<R>>(
-					new SoftReferenceCachingList<CobMatrix<R>>(
+					new SoftReferenceCachingList2<CobMatrix<R>>(
 							new DiskBackedList3<CobMatrix<R>>()), 3);
 		}
 	}

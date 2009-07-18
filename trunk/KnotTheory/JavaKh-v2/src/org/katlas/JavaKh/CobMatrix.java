@@ -25,9 +25,8 @@ import org.katlas.JavaKh.interfaces.LCCC;
 import org.katlas.JavaKh.rows.LinkedListRow;
 import org.katlas.JavaKh.rows.MatrixRow;
 import org.katlas.JavaKh.utils.CachingList;
-import org.katlas.JavaKh.utils.DiskBackedList2;
 import org.katlas.JavaKh.utils.DiskBackedList3;
-import org.katlas.JavaKh.utils.SoftReferenceCachingList;
+import org.katlas.JavaKh.utils.SoftReferenceCachingList2;
 
 public class CobMatrix<R extends Ring<R>> extends
 		AbstractMatrix<R, Cap, LCCC<R>> implements Matrix<R, Cap, LCCC<R>>,
@@ -62,10 +61,9 @@ public class CobMatrix<R extends Ring<R>> extends
 		} else {
 //			entries = new DiskBackedList<MatrixRow<LCCC<R>>>();
 //			entries = new CachingList<MatrixRow<LCCC<R>>>(new DiskBackedList<MatrixRow<LCCC<R>>>(), 100);
-			entries = new CachingList<MatrixRow<LCCC<R>>>(
-						new SoftReferenceCachingList<MatrixRow<LCCC<R>>>(
-							new DiskBackedList3<MatrixRow<LCCC<R>>>()),
-							10);
+			entries = 
+						new SoftReferenceCachingList2<MatrixRow<LCCC<R>>>(
+							new DiskBackedList3<MatrixRow<LCCC<R>>>());
 		}
 		for (int i = 0; i < n; ++i) {
 			entries.add(newRow());
