@@ -10,12 +10,11 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       145,          7]
-NotebookDataLength[    151484,       3402]
-NotebookOptionsPosition[     34099,        948]
-NotebookOutlinePosition[    149489,       3339]
-CellTagsIndexPosition[    149446,       3336]
-WindowFrame->Normal
-ContainsDynamic->False*)
+NotebookDataLength[    160013,       3587]
+NotebookOptionsPosition[     42619,       1142]
+NotebookOutlinePosition[    158010,       3524]
+CellTagsIndexPosition[    157967,       3521]
+WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
@@ -223,7 +222,6 @@ Cell[BoxData[{
      RowBox[{"out", "=", 
       RowBox[{"Read", "[", 
        RowBox[{"f", ",", "Expression"}], "]"}]}], ";", "\[IndentingNewLine]", 
-     
      RowBox[{"Close", "[", "f", "]"}], ";", "\[IndentingNewLine]", 
      "\[IndentingNewLine]", 
      RowBox[{"ResetDirectory", "[", "]"}], ";", "\[IndentingNewLine]", 
@@ -314,7 +312,6 @@ command line was: \>\"", "]"}], ";",
            RowBox[{
             RowBox[{"M", "[", 
              RowBox[{"0", ",", "_"}], "]"}], "\[Rule]", " ", "0"}], ",", " ", 
-           
            RowBox[{
             RowBox[{"M", "[", 
              RowBox[{"_", ",", " ", "0"}], "]"}], " ", "\[Rule]", " ", "0"}], 
@@ -558,9 +555,8 @@ Cell[BoxData[
 
 Cell[BoxData[
  RowBox[{
-  RowBox[{"General", "::", "\<\"spell1\"\>"}], 
-  RowBox[{
-  ":", " "}], "\<\"Possible spelling error: new symbol name \
+  RowBox[{"General", "::", "\<\"spell1\"\>"}], ":", 
+  " ", "\<\"Possible spelling error: new symbol name \
 \\\"\\!\\(dimensions\\)\\\" is similar to existing symbol \
 \\\"\\!\\(Dimensions\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
 ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
@@ -679,8 +675,7 @@ Cell[BoxData[{
   RowBox[{"RotateRows", "[", 
    RowBox[{
     RowBox[{"Matrix", "[", 
-     RowBox[{"r_", ",", "c_", ",", "data_"}], "]"}], ",", "n_"}], "]"}], ":=",
-   
+     RowBox[{"r_", ",", "c_", ",", "data_"}], "]"}], ",", "n_"}], "]"}], ":=", 
   RowBox[{"Matrix", "[", 
    RowBox[{"r", ",", "c", ",", 
     RowBox[{"RotateLeft", "[", 
@@ -689,8 +684,7 @@ Cell[BoxData[{
   RowBox[{"RotateColumns", "[", 
    RowBox[{
     RowBox[{"Matrix", "[", 
-     RowBox[{"r_", ",", "c_", ",", "data_"}], "]"}], ",", "n_"}], "]"}], ":=",
-   
+     RowBox[{"r_", ",", "c_", ",", "data_"}], "]"}], ",", "n_"}], "]"}], ":=", 
   RowBox[{"Matrix", "[", 
    RowBox[{"r", ",", "c", ",", 
     RowBox[{
@@ -757,8 +751,7 @@ Cell[BoxData[{
          RowBox[{"K", ",", 
           RowBox[{
            RowBox[{
-           "result", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], "/.",
-            
+           "result", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], "/.", 
            RowBox[{"Second", "\[Rule]", "1"}]}]}], "}"}]}], "]"}], ";", 
       "\[IndentingNewLine]", 
       RowBox[{
@@ -774,57 +767,258 @@ Cell[BoxData[{
      RowBox[{"KhN", "[", "d", "]"}], "]"}]}], "]"}]}]}], "Input",
  InitializationCell->True],
 
-Cell["\<\
-DecomposeComplex[{g0_, gradings0_}, {g0_, matrices0_List}] := Module[
-{g = g0, gradings = gradings0, matrices = matrices0, result = 0, 
-    matrix, objects, exponents, i, j, k, \[Alpha], \[Lambda], \[Mu], \[Nu]}, 
-While[
-   Length[matrices] > 0,
-   objects = gradings[[1]];
-   matrix = matrices[[1]];
-   While[(exponents = DeleteCases[Union[(Exponent[#1, T] & ) /@ \
-Flatten[MatrixData[matrix]]], -Infinity]) != {}, 
-     k = First[exponents];
-     If[k == 0,
-       Print[\"Found an isomorphism I wasn't expecting!\"];
-       Print[\"Result so far: \",result];
-       Print[\"Remaining objects at this height: \",objects];
-       Print[\"Remaining matrices at this height: \",matrix];
-       Print[\"Other gradings: \",gradings];
-       Print[\"Other matrices: \",matrices];
-       Return[$Failed]
-     ];
-     {i, j} = Position[MatrixData[matrix], e_ /; Exponent[e, T] == k, 2, \
-1][[1]];
-     objects = RotateLeft[objects, j - 1];
-     gradings[[2]] = RotateLeft[gradings[[2]], i - 1];
-     matrix = RotateRows[matrix, i - 1];
-     matrix = RotateColumns[matrix, j - 1];
-     If[Length[matrices] > 1, matrices[[2]] = RotateColumns[matrices[[2]], i \
-- 1]];
-     \[Alpha] = matrix[[1,1]]/T^k;
-     \[Lambda] = RestColumns[FirstRow[matrix]];
-     \[Mu] = RestRows[FirstColumn[matrix]];
-     \[Nu] = RestRows[RestColumns[matrix]];
-     matrix = twist[\[Alpha], k, \[Lambda], \[Mu], \[Nu]];
-     If[Length[matrices] > 1, matrices[[2]] = RestColumns[matrices[[2]]]]; 
-     result += t^(g + 1)*q^(2*k + objects[[1]])*KhC[k];
-     objects = Rest[objects];
-     gradings[[2]] = Rest[gradings[[2]]];
-   ]; 
-   If[ !ZeroMatrixQ[matrix], Return[$Failed]];
-   result += KhE*Plus @@ (t^g*q^#1 & ) /@ objects;
-   matrices = Rest[matrices];
-   gradings = Rest[gradings]; g++;
-   ];
- result += KhE*Plus @@ (t^g*q^#1 & ) /@ gradings[[1]];
- result
- ]\
-\>", "Input",
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"DecomposeComplex", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"g0_", ",", "gradings0_"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"g0_", ",", "matrices0_List"}], "}"}]}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"g", "=", "g0"}], ",", 
+      RowBox[{"gradings", "=", "gradings0"}], ",", 
+      RowBox[{"matrices", "=", "matrices0"}], ",", 
+      RowBox[{"result", "=", "0"}], ",", "matrix", ",", "objects", ",", 
+      "exponents", ",", "i", ",", "j", ",", "k", ",", "\[Alpha]", ",", 
+      "\[Lambda]", ",", "\[Mu]", ",", "\[Nu]"}], "}"}], ",", 
+    RowBox[{
+     RowBox[{"While", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Length", "[", "matrices", "]"}], ">", "0"}], ",", 
+       RowBox[{
+        RowBox[{"objects", "=", 
+         RowBox[{
+         "gradings", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}],
+         ";", 
+        RowBox[{"matrix", "=", 
+         RowBox[{
+         "matrices", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}],
+         ";", "\[IndentingNewLine]", 
+        RowBox[{"While", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"exponents", "=", 
+             RowBox[{"DeleteCases", "[", 
+              RowBox[{
+               RowBox[{"Union", "[", 
+                RowBox[{
+                 RowBox[{"(", 
+                  RowBox[{
+                   RowBox[{"Exponent", "[", 
+                    RowBox[{"#1", ",", "T"}], "]"}], "&"}], ")"}], "/@", 
+                 RowBox[{"Flatten", "[", 
+                  RowBox[{"MatrixData", "[", "matrix", "]"}], "]"}]}], "]"}], 
+               ",", 
+               RowBox[{"-", "\[Infinity]"}]}], "]"}]}], ")"}], "\[NotEqual]", 
+           RowBox[{"{", "}"}]}], ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"k", "=", 
+            RowBox[{"First", "[", "exponents", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"k", "\[Equal]", "0"}], ",", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{
+              "Print", "[", 
+               "\"\<Found an isomorphism I wasn't expecting!\>\"", "]"}], ";",
+               "\[IndentingNewLine]", 
+              RowBox[{"Print", "[", 
+               RowBox[{"\"\<Result so far: \>\"", ",", "result"}], "]"}], ";",
+               "\[IndentingNewLine]", 
+              RowBox[{"Print", "[", 
+               RowBox[{
+               "\"\<Remaining objects at this height: \>\"", ",", "objects"}],
+                "]"}], ";", "\[IndentingNewLine]", 
+              RowBox[{"Print", "[", 
+               RowBox[{
+               "\"\<Remaining matrices at this height: \>\"", ",", "matrix"}],
+                "]"}], ";", "\[IndentingNewLine]", 
+              RowBox[{"Print", "[", 
+               RowBox[{"\"\<Other gradings: \>\"", ",", "gradings"}], "]"}], 
+              ";", "\[IndentingNewLine]", 
+              RowBox[{"Print", "[", 
+               RowBox[{"\"\<Other matrices: \>\"", ",", "matrices"}], "]"}], 
+              ";", "\[IndentingNewLine]", 
+              RowBox[{"Return", "[", "$Failed", "]"}]}]}], "]"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"i", ",", "j"}], "}"}], "=", 
+            RowBox[{
+             RowBox[{"Position", "[", 
+              RowBox[{
+               RowBox[{"MatrixData", "[", "matrix", "]"}], ",", 
+               RowBox[{"e_", "/;", 
+                RowBox[{
+                 RowBox[{"Exponent", "[", 
+                  RowBox[{"e", ",", "T"}], "]"}], "\[Equal]", "k"}]}], ",", 
+               "2", ",", "1"}], "]"}], "\[LeftDoubleBracket]", "1", 
+             "\[RightDoubleBracket]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"objects", "=", 
+            RowBox[{"RotateLeft", "[", 
+             RowBox[{"objects", ",", 
+              RowBox[{"j", "-", "1"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "gradings", "\[LeftDoubleBracket]", "2", 
+             "\[RightDoubleBracket]"}], "=", 
+            RowBox[{"RotateLeft", "[", 
+             RowBox[{
+              RowBox[{
+              "gradings", "\[LeftDoubleBracket]", "2", 
+               "\[RightDoubleBracket]"}], ",", 
+              RowBox[{"i", "-", "1"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"matrix", "=", 
+            RowBox[{"RotateRows", "[", 
+             RowBox[{"matrix", ",", 
+              RowBox[{"i", "-", "1"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"matrix", "=", 
+            RowBox[{"RotateColumns", "[", 
+             RowBox[{"matrix", ",", 
+              RowBox[{"j", "-", "1"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Length", "[", "matrices", "]"}], ">", "1"}], ",", 
+             RowBox[{
+              RowBox[{
+              "matrices", "\[LeftDoubleBracket]", "2", 
+               "\[RightDoubleBracket]"}], "=", 
+              RowBox[{"RotateColumns", "[", 
+               RowBox[{
+                RowBox[{
+                "matrices", "\[LeftDoubleBracket]", "2", 
+                 "\[RightDoubleBracket]"}], ",", 
+                RowBox[{"i", "-", "1"}]}], "]"}]}]}], "]"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"\[Alpha]", "=", 
+            FractionBox[
+             RowBox[{"matrix", "\[LeftDoubleBracket]", 
+              RowBox[{"1", ",", "1"}], "\[RightDoubleBracket]"}], 
+             SuperscriptBox["T", "k"]]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"\[Lambda]", "=", 
+            RowBox[{"RestColumns", "[", 
+             RowBox[{"FirstRow", "[", "matrix", "]"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"\[Mu]", "=", 
+            RowBox[{"RestRows", "[", 
+             RowBox[{"FirstColumn", "[", "matrix", "]"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"\[Nu]", "=", 
+            RowBox[{"RestRows", "[", 
+             RowBox[{"RestColumns", "[", "matrix", "]"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"matrix", "=", 
+            RowBox[{"twist", "[", 
+             RowBox[{
+             "\[Alpha]", ",", "k", ",", "\[Lambda]", ",", "\[Mu]", ",", 
+              "\[Nu]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Length", "[", "matrices", "]"}], ">", "1"}], ",", 
+             RowBox[{
+              RowBox[{
+              "matrices", "\[LeftDoubleBracket]", "2", 
+               "\[RightDoubleBracket]"}], "=", 
+              RowBox[{"RestColumns", "[", 
+               RowBox[{
+               "matrices", "\[LeftDoubleBracket]", "2", 
+                "\[RightDoubleBracket]"}], "]"}]}]}], "]"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"result", "+=", 
+            RowBox[{
+             SuperscriptBox["t", 
+              RowBox[{"g", "+", "1"}]], " ", 
+             SuperscriptBox["q", 
+              RowBox[{
+               RowBox[{"2", " ", "k"}], "+", 
+               RowBox[{
+               "objects", "\[LeftDoubleBracket]", "1", 
+                "\[RightDoubleBracket]"}]}]], " ", 
+             RowBox[{"KhC", "[", "k", "]"}]}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"objects", "=", 
+            RowBox[{"Rest", "[", "objects", "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "gradings", "\[LeftDoubleBracket]", "2", 
+             "\[RightDoubleBracket]"}], "=", 
+            RowBox[{"Rest", "[", 
+             RowBox[{
+             "gradings", "\[LeftDoubleBracket]", "2", 
+              "\[RightDoubleBracket]"}], "]"}]}], ";"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"!", 
+           RowBox[{"ZeroMatrixQ", "[", "matrix", "]"}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+           "Print", "[", "\"\<I was expecting the matrix to be zero now.\>\"",
+             "]"}], ";", "\[IndentingNewLine]", 
+           RowBox[{"Print", "[", 
+            RowBox[{"\"\<Result so far: \>\"", ",", "result"}], "]"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"Print", "[", 
+            RowBox[{
+            "\"\<Remaining objects at this height: \>\"", ",", "objects"}], 
+            "]"}], ";", "\[IndentingNewLine]", 
+           RowBox[{"Print", "[", 
+            RowBox[{
+            "\"\<Remaining matrices at this height: \>\"", ",", "matrix"}], 
+            "]"}], ";", "\[IndentingNewLine]", 
+           RowBox[{"Print", "[", 
+            RowBox[{"\"\<Other gradings: \>\"", ",", "gradings"}], "]"}], ";",
+            "\[IndentingNewLine]", 
+           RowBox[{"Print", "[", 
+            RowBox[{"\"\<Other matrices: \>\"", ",", "matrices"}], "]"}], ";",
+            "\[IndentingNewLine]", 
+           RowBox[{"Return", "[", "$Failed", "]"}]}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"result", "+=", 
+         RowBox[{"KhE", " ", 
+          RowBox[{"Plus", "@@", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               SuperscriptBox["t", "g"], " ", 
+               SuperscriptBox["q", "#1"]}], "&"}], ")"}], "/@", 
+            "objects"}]}]}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"matrices", "=", 
+         RowBox[{"Rest", "[", "matrices", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"gradings", "=", 
+         RowBox[{"Rest", "[", "gradings", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"g", "++"}], ";"}]}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"result", "+=", 
+      RowBox[{"KhE", " ", 
+       RowBox[{"Plus", "@@", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            SuperscriptBox["t", "g"], " ", 
+            SuperscriptBox["q", "#1"]}], "&"}], ")"}], "/@", 
+         RowBox[{
+         "gradings", "\[LeftDoubleBracket]", "1", 
+          "\[RightDoubleBracket]"}]}]}]}]}], ";", "result"}]}], 
+   "]"}]}]], "Input",
  InitializationCell->True,
  CellChangeTimes->{{3.4294770001879683`*^9, 3.429477029480088*^9}, {
    3.429477064009739*^9, 3.4294770835678625`*^9}, {3.429477133639862*^9, 
-   3.4294772491159086`*^9}, 3.429477300489781*^9}],
+   3.4294772491159086`*^9}, 3.429477300489781*^9, {3.479138072286153*^9, 
+   3.479138085658778*^9}, {3.479138149924748*^9, 3.4791382759059963`*^9}, {
+   3.47913836110141*^9, 3.479138377016591*^9}, {3.479138425463806*^9, 
+   3.479138426453793*^9}}],
 
 Cell[BoxData[
  RowBox[{
@@ -953,8 +1147,7 @@ Visible->True,
 ShowSelection->True,
 InputAliases->{"intt" -> RowBox[{"\[Integral]", 
      RowBox[{"\[SelectionPlaceholder]", 
-       RowBox[{"\[DifferentialD]", "\[Placeholder]"}]}]}], "dintt" -> 
-  RowBox[{
+       RowBox[{"\[DifferentialD]", "\[Placeholder]"}]}]}], "dintt" -> RowBox[{
      SubsuperscriptBox[
      "\[Integral]", "\[SelectionPlaceholder]", "\[Placeholder]"], 
      RowBox[{"\[Placeholder]", 
@@ -989,8 +1182,7 @@ InputAliases->{"intt" -> RowBox[{"\[Integral]",
         " ", "\[DoubleLongLeftArrow]", " ", 
        TagBox[
        "\[Placeholder]", NotationBoxTag, TagStyle -> 
-        "NotationTemplateStyle"]}], "]"}], "symb" -> 
-  RowBox[{"Symbolize", "[", 
+        "NotationTemplateStyle"]}], "]"}], "symb" -> RowBox[{"Symbolize", "[", 
      TagBox[
      "\[Placeholder]", NotationBoxTag, TagStyle -> "NotationTemplateStyle"], 
      "]"}], "infixnotation" -> RowBox[{"InfixNotation", "[", 
@@ -1007,7 +1199,7 @@ InputAliases->{"intt" -> RowBox[{"\[Integral]",
     "NotationPatternWrapperStyle"], "madeboxeswraper" -> 
   TagBox["\[Placeholder]", NotationMadeBoxesTag, TagStyle -> 
     "NotationMadeBoxesWrapperStyle"]},
-FrontEndVersion->"6.0 for Mac OS X x86 (32-bit) (May 21, 2008)",
+FrontEndVersion->"7.0 for Mac OS X x86 (32-bit) (February 18, 2009)",
 StyleDefinitions->Notebook[{
    Cell[
     CellGroupData[{
@@ -1242,8 +1434,7 @@ Notebook level.", "Text"],
                Inherited}, LineSpacing -> {1, 2}, LanguageCategory -> 
              "NaturalLanguage", CounterIncrements -> "Section", 
              CounterAssignments -> {{"Subsection", 0}, {"Subsubsection", 0}}, 
-             FontFamily -> "Helvetica", FontSize -> 20, FontWeight -> "Bold"],
-             
+             FontFamily -> "Helvetica", FontSize -> 20, FontWeight -> "Bold"], 
             Cell[
              StyleData["Section", "Presentation"], 
              CellMargins -> {{40, 10}, {11, 32}}, LineSpacing -> {1, 0}, 
@@ -1842,7 +2033,7 @@ or between Notebooks.", "Text"],
              ButtonStyleMenuListing -> Automatic, FontColor -> 
              RGBColor[0.269993, 0.308507, 0.6], 
              ButtonBoxOptions -> {
-              Active -> True, ButtonFrame -> "None", 
+              Active -> True, Appearance -> {Automatic, None}, 
                ButtonFunction :> (FrontEndExecute[{
                   FrontEnd`NotebookLocate[#2]}]& ), ButtonNote -> 
                ButtonData}], 
@@ -1866,7 +2057,7 @@ help system.", "Text"],
              ButtonStyleMenuListing -> Automatic, FontColor -> 
              RGBColor[0.269993, 0.308507, 0.6], 
              ButtonBoxOptions -> {
-              Active -> True, ButtonFrame -> "None", 
+              Active -> True, Appearance -> {Automatic, None}, 
                ButtonFunction :> (FrontEndExecute[{
                   FrontEnd`HelpBrowserLookup["MainBook", #]}]& )}], 
             Cell[
@@ -1886,7 +2077,7 @@ help system.", "Text"],
              ButtonStyleMenuListing -> Automatic, FontFamily -> "Courier", 
              FontColor -> RGBColor[0.269993, 0.308507, 0.6], 
              ButtonBoxOptions -> {
-              Active -> True, ButtonFrame -> "None", 
+              Active -> True, Appearance -> {Automatic, None}, 
                ButtonFunction :> (FrontEndExecute[{
                   FrontEnd`HelpBrowserLookup["AddOns", #]}]& )}], 
             Cell[
@@ -1906,7 +2097,7 @@ help system.", "Text"],
              ButtonStyleMenuListing -> Automatic, FontFamily -> "Courier", 
              FontColor -> RGBColor[0.269993, 0.308507, 0.6], 
              ButtonBoxOptions -> {
-              Active -> True, ButtonFrame -> "None", 
+              Active -> True, Appearance -> {Automatic, None}, 
                ButtonFunction :> (FrontEndExecute[{
                   FrontEnd`HelpBrowserLookup["RefGuide", #]}]& )}], 
             Cell[
@@ -1926,7 +2117,7 @@ help system.", "Text"],
              ButtonStyleMenuListing -> Automatic, FontColor -> 
              RGBColor[0.269993, 0.308507, 0.6], 
              ButtonBoxOptions -> {
-              Active -> True, ButtonFrame -> "None", 
+              Active -> True, Appearance -> {Automatic, None}, 
                ButtonFunction :> (FrontEndExecute[{
                   FrontEnd`HelpBrowserLookup["RefGuide", #]}]& )}], 
             Cell[
@@ -1946,12 +2137,11 @@ help system.", "Text"],
              ButtonStyleMenuListing -> Automatic, FontColor -> 
              RGBColor[0.269993, 0.308507, 0.6], 
              ButtonBoxOptions -> {
-              Active -> True, ButtonFrame -> "None", 
+              Active -> True, Appearance -> {Automatic, None}, 
                ButtonFunction :> (FrontEndExecute[{
                   FrontEnd`HelpBrowserLookup["GettingStarted", #]}]& )}], 
             Cell[
-             StyleData["GettingStartedLink", "Presentation"], FontSize -> 16],
-             
+             StyleData["GettingStartedLink", "Presentation"], FontSize -> 16], 
             Cell[
              StyleData["GettingStartedLink", "Condensed"], FontSize -> 11], 
             Cell[
@@ -1967,7 +2157,7 @@ help system.", "Text"],
              ButtonStyleMenuListing -> Automatic, FontColor -> 
              RGBColor[0.269993, 0.308507, 0.6], 
              ButtonBoxOptions -> {
-              Active -> True, ButtonFrame -> "None", 
+              Active -> True, Appearance -> {Automatic, None}, 
                ButtonFunction :> (FrontEndExecute[{
                   FrontEnd`HelpBrowserLookup["Demos", #]}]& )}], 
             Cell[
@@ -1983,7 +2173,7 @@ help system.", "Text"],
              ButtonStyleMenuListing -> Automatic, FontColor -> 
              RGBColor[0.269993, 0.308507, 0.6], 
              ButtonBoxOptions -> {
-              Active -> True, ButtonFrame -> "None", 
+              Active -> True, Appearance -> {Automatic, None}, 
                ButtonFunction :> (FrontEndExecute[{
                   FrontEnd`HelpBrowserLookup["Tour", #]}]& )}], 
             Cell[
@@ -1999,7 +2189,7 @@ help system.", "Text"],
              ButtonStyleMenuListing -> Automatic, FontColor -> 
              RGBColor[0.269993, 0.308507, 0.6], 
              ButtonBoxOptions -> {
-              Active -> True, ButtonFrame -> "None", 
+              Active -> True, Appearance -> {Automatic, None}, 
                ButtonFunction :> (FrontEndExecute[{
                   FrontEnd`HelpBrowserLookup["OtherInformation", #]}]& )}], 
             Cell[
@@ -2007,7 +2197,6 @@ help system.", "Text"],
              16], 
             Cell[
              StyleData["OtherInformationLink", "Condensed"], FontSize -> 11], 
-            
             Cell[
              StyleData["OtherInformationLink", "SlideShow"]], 
             Cell[
@@ -2021,7 +2210,7 @@ help system.", "Text"],
              ButtonStyleMenuListing -> Automatic, FontColor -> 
              RGBColor[0.269993, 0.308507, 0.6], 
              ButtonBoxOptions -> {
-              Active -> True, ButtonFrame -> "None", 
+              Active -> True, Appearance -> {Automatic, None}, 
                ButtonFunction :> (FrontEndExecute[{
                   FrontEnd`HelpBrowserLookup["MasterIndex", #]}]& )}], 
             Cell[
@@ -2434,7 +2623,6 @@ stand out).", "Text"],
                     "RowsIndexed" -> {}}}], 
                Cell[
                 StyleData["2ColumnEvenBox", "Presentation"], FontSize -> 18], 
-               
                Cell[
                 StyleData["2ColumnEvenBox", "SlideShow"]], 
                Cell[
@@ -2465,8 +2653,7 @@ stand out).", "Text"],
                     Offset[0.4]}, 
                     Offset[0.2]}, "RowsIndexed" -> {}}}], 
                Cell[
-                StyleData["2ColumnSmallBox", "Presentation"], FontSize -> 18],
-                
+                StyleData["2ColumnSmallBox", "Presentation"], FontSize -> 18], 
                Cell[
                 StyleData["2ColumnSmallBox", "SlideShow"]], 
                Cell[
@@ -2517,8 +2704,7 @@ stand out).", "Text"],
                     Offset[0.4]}, 
                     Offset[0.2]}, "RowsIndexed" -> {}}}], 
                Cell[
-                StyleData["3ColumnSmallBox", "Presentation"], FontSize -> 18],
-                
+                StyleData["3ColumnSmallBox", "Presentation"], FontSize -> 18], 
                Cell[
                 StyleData["3ColumnSmallBox", "SlideShow"]], 
                Cell[
@@ -3014,8 +3200,7 @@ stand out).", "Text"],
                 "GraphicsGrouping", CellHorizontalScrolling -> True, 
                 StyleMenuListing -> None], 
                Cell[
-                StyleData["ItemizedPicture", "Presentation"], FontSize -> 18],
-                
+                StyleData["ItemizedPicture", "Presentation"], FontSize -> 18], 
                Cell[
                 StyleData["ItemizedPicture", "SlideShow"]], 
                Cell[
@@ -3324,7 +3509,7 @@ These styles serve to make visible otherwise invisible tagboxes.", "Text",
        Background -> RGBColor[0.900008, 0.889998, 1], 
        TagBoxOptions -> {SyntaxForm -> "symbol"}, CellTags -> 
        "NotationPackage"]}, Closed]]}, Visible -> False, FrontEndVersion -> 
-  "6.0 for Mac OS X x86 (32-bit) (May 21, 2008)", StyleDefinitions -> 
+  "7.0 for Mac OS X x86 (32-bit) (February 18, 2009)", StyleDefinitions -> 
   "Default.nb"]
 ]
 (* End of Notebook Content *)
@@ -3339,69 +3524,69 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[590, 23, 78, 1, 46, "Subtitle",
+Cell[567, 22, 78, 1, 46, "Subtitle",
  InitializationCell->True],
-Cell[671, 26, 300, 6, 56, "Text",
+Cell[648, 25, 300, 6, 56, "Text",
  InitializationCell->True],
-Cell[974, 34, 364, 10, 24, "Input",
+Cell[951, 33, 364, 10, 24, "Input",
  InitializationCell->True],
-Cell[1341, 46, 388, 8, 55, "Input",
+Cell[1318, 45, 388, 8, 55, "Input",
  InitializationCell->True],
-Cell[1732, 56, 300, 7, 55, "Input",
+Cell[1709, 55, 300, 7, 55, "Input",
  InitializationCell->True],
-Cell[2035, 65, 271, 7, 40, "Input",
+Cell[2012, 64, 271, 7, 40, "Input",
  InitializationCell->True],
-Cell[2309, 74, 243, 6, 24, "Input",
+Cell[2286, 73, 243, 6, 24, "Input",
  InitializationCell->True],
-Cell[2555, 82, 601, 14, 85, "Input",
+Cell[2532, 81, 601, 14, 85, "Input",
  InitializationCell->True],
-Cell[3159, 98, 101, 2, 24, "Input",
+Cell[3136, 97, 101, 2, 24, "Input",
  InitializationCell->True],
-Cell[3263, 102, 141, 4, 24, "Input",
+Cell[3240, 101, 141, 4, 24, "Input",
  InitializationCell->True],
-Cell[3407, 108, 12578, 298, 880, "Input",
+Cell[3384, 107, 12560, 296, 880, "Input",
  InitializationCell->True],
-Cell[15988, 408, 265, 6, 24, "Input",
+Cell[15947, 405, 265, 6, 24, "Input",
  InitializationCell->True],
-Cell[16256, 416, 924, 24, 100, "Input",
+Cell[16215, 413, 924, 24, 100, "Input",
  InitializationCell->True],
-Cell[17183, 442, 753, 25, 24, "Input",
+Cell[17142, 439, 753, 25, 24, "Input",
  InitializationCell->True],
 Cell[CellGroupData[{
-Cell[17961, 471, 3633, 85, 190, "Input",
+Cell[17920, 468, 3633, 85, 190, "Input",
  InitializationCell->True],
-Cell[21597, 558, 426, 9, 20, "Message",
+Cell[21556, 555, 413, 8, 20, "Message",
  InitializationCell->True]
 }, Open  ]],
-Cell[22038, 570, 196, 6, 24, "Input",
+Cell[21984, 566, 196, 6, 24, "Input",
  InitializationCell->True],
-Cell[22237, 578, 462, 13, 24, "Input",
+Cell[22183, 574, 462, 13, 24, "Input",
  InitializationCell->True],
-Cell[22702, 593, 2159, 63, 130, "Input",
+Cell[22648, 589, 2159, 63, 134, "Input",
  InitializationCell->True],
-Cell[24864, 658, 575, 16, 40, "Input",
+Cell[24810, 654, 575, 16, 40, "Input",
  InitializationCell->True],
-Cell[25442, 676, 742, 24, 40, "Input",
+Cell[25388, 672, 736, 22, 40, "Input",
  InitializationCell->True],
-Cell[26187, 702, 133, 4, 24, "Input",
+Cell[26127, 696, 133, 4, 24, "Input",
  InitializationCell->True],
-Cell[26323, 708, 418, 14, 28, "Input",
+Cell[26263, 702, 418, 14, 24, "Input",
  InitializationCell->True],
-Cell[26744, 724, 1831, 50, 149, "Input",
+Cell[26684, 718, 1819, 49, 116, "Input",
  InitializationCell->True],
-Cell[28578, 776, 2081, 50, 725, "Input",
+Cell[28506, 769, 10673, 251, 740, "Input",
  InitializationCell->True],
-Cell[30662, 828, 1212, 35, 129, "Input",
+Cell[39182, 1022, 1212, 35, 125, "Input",
  InitializationCell->True],
-Cell[31877, 865, 1057, 36, 30, "Input",
+Cell[40397, 1059, 1057, 36, 30, "Input",
  InitializationCell->True],
-Cell[32937, 903, 589, 20, 30, "Input",
+Cell[41457, 1097, 589, 20, 30, "Input",
  InitializationCell->True],
-Cell[33529, 925, 385, 12, 28, "Input",
+Cell[42049, 1119, 385, 12, 24, "Input",
  InitializationCell->True],
-Cell[33917, 939, 78, 2, 28, "Input",
+Cell[42437, 1133, 78, 2, 24, "Input",
  InitializationCell->True],
-Cell[33998, 943, 85, 2, 28, "Input",
+Cell[42518, 1137, 85, 2, 24, "Input",
  InitializationCell->True]
 }, Open  ]]
 }

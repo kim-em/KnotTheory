@@ -167,48 +167,46 @@ result[[2]]
 UniversalKh[d_PD]:=DecomposeComplex[GradingsList[KhN[d]],Matrices[KhN[d]]]
 
 
-DecomposeComplex[{g0_, gradings0_}, {g0_, matrices0_List}] := Module[
-{g = g0, gradings = gradings0, matrices = matrices0, result = 0, 
-    matrix, objects, exponents, i, j, k, \[Alpha], \[Lambda], \[Mu], \[Nu]}, 
+DecomposeComplex[{g0_,gradings0_},{g0_,matrices0_List}]:=Module[{g=g0,gradings=gradings0,matrices=matrices0,result=0,matrix,objects,exponents,i,j,k,\[Alpha],\[Lambda],\[Mu],\[Nu]},While[Length[matrices]>0,objects=gradings[[1]];matrix=matrices[[1]];
 While[
-   Length[matrices] > 0,
-   objects = gradings[[1]];
-   matrix = matrices[[1]];
-   While[(exponents = DeleteCases[Union[(Exponent[#1, T] & ) /@ Flatten[MatrixData[matrix]]], -Infinity]) != {}, 
-     k = First[exponents];
-     If[k == 0,
-       Print["Found an isomorphism I wasn't expecting!"];
-       Print["Result so far: ",result];
-       Print["Remaining objects at this height: ",objects];
-       Print["Remaining matrices at this height: ",matrix];
-       Print["Other gradings: ",gradings];
-       Print["Other matrices: ",matrices];
-       Return[$Failed]
-     ];
-     {i, j} = Position[MatrixData[matrix], e_ /; Exponent[e, T] == k, 2, 1][[1]];
-     objects = RotateLeft[objects, j - 1];
-     gradings[[2]] = RotateLeft[gradings[[2]], i - 1];
-     matrix = RotateRows[matrix, i - 1];
-     matrix = RotateColumns[matrix, j - 1];
-     If[Length[matrices] > 1, matrices[[2]] = RotateColumns[matrices[[2]], i - 1]];
-     \[Alpha] = matrix[[1,1]]/T^k;
-     \[Lambda] = RestColumns[FirstRow[matrix]];
-     \[Mu] = RestRows[FirstColumn[matrix]];
-     \[Nu] = RestRows[RestColumns[matrix]];
-     matrix = twist[\[Alpha], k, \[Lambda], \[Mu], \[Nu]];
-     If[Length[matrices] > 1, matrices[[2]] = RestColumns[matrices[[2]]]]; 
-     result += t^(g + 1)*q^(2*k + objects[[1]])*KhC[k];
-     objects = Rest[objects];
-     gradings[[2]] = Rest[gradings[[2]]];
-   ]; 
-   If[ !ZeroMatrixQ[matrix], Return[$Failed]];
-   result += KhE*Plus @@ (t^g*q^#1 & ) /@ objects;
-   matrices = Rest[matrices];
-   gradings = Rest[gradings]; g++;
-   ];
- result += KhE*Plus @@ (t^g*q^#1 & ) /@ gradings[[1]];
- result
- ]
+(exponents=DeleteCases[Union[(Exponent[#1,T]&)/@Flatten[MatrixData[matrix]]],-\[Infinity]])!={},
+k=First[exponents];
+If[k==0,
+Print["Found an isomorphism I wasn't expecting!"];
+Print["Result so far: ",result];
+Print["Remaining objects at this height: ",objects];
+Print["Remaining matrices at this height: ",matrix];
+Print["Other gradings: ",gradings];
+Print["Other matrices: ",matrices];
+Return[$Failed]];
+{i,j}=Position[MatrixData[matrix],e_/;Exponent[e,T]==k,2,1][[1]];
+objects=RotateLeft[objects,j-1];
+gradings[[2]]=RotateLeft[gradings[[2]],i-1];
+matrix=RotateRows[matrix,i-1];
+matrix=RotateColumns[matrix,j-1];
+If[Length[matrices]>1,matrices[[2]]=RotateColumns[matrices[[2]],i-1]];
+\[Alpha]=matrix[[1,1]]/T^k;
+\[Lambda]=RestColumns[FirstRow[matrix]];
+\[Mu]=RestRows[FirstColumn[matrix]];
+\[Nu]=RestRows[RestColumns[matrix]];
+matrix=twist[\[Alpha],k,\[Lambda],\[Mu],\[Nu]];
+If[Length[matrices]>1,matrices[[2]]=RestColumns[matrices[[2]]]];
+result+=t^(g+1) q^(2 k+objects[[1]]) KhC[k];
+objects=Rest[objects];
+gradings[[2]]=Rest[gradings[[2]]];];
+If[!ZeroMatrixQ[matrix],
+Print["I was expecting the matrix to be zero now."];
+Print["Result so far: ",result];
+Print["Remaining objects at this height: ",objects];
+Print["Remaining matrices at this height: ",matrix];
+Print["Other gradings: ",gradings];
+Print["Other matrices: ",matrices];
+Return[$Failed]];
+result+=KhE Plus@@(t^g q^#1&)/@objects;
+matrices=Rest[matrices];
+gradings=Rest[gradings];
+g++;];
+result+=KhE Plus@@(t^g q^#1&)/@gradings[[1]];result]
 
 
 sInvariant[K_]:=With[{ukh=UniversalKh[K]},
