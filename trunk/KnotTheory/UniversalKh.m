@@ -44,9 +44,12 @@ Begin["`Private`"]
 q=Global`q;t=Global`t;
 
 
-KhN[L_] :=KhN[L]= KhN[PD[L]];
-KhN[pd_PD] := Module[
-{n,pd1,  f, cl, out,kh,saveContext,saveContextPath,JavaKhDirectory,jarDirectory,classDirectory,classpath,new=True},
+KhN[L_] :=KhN[PD[L]];
+KhN[pd_PD,options___] := KhN[pd,options]=Module[
+{n,pd1,  f, cl, out,kh,saveContext,saveContextPath,JavaKhDirectory,jarDirectory,classDirectory,classpath,new=True,javaoptions},
+
+javaoptions=(JavaOptions/.{options}/.Options[Kh]);
+
 n=Max @@ (Max @@@ pd);
 pd1 = pd /. {
 X[n, i_, 1, j_] :> X[n, i, n+1, j],
@@ -68,14 +71,16 @@ f=OpenWrite["pd",PageWidth->Infinity];
 WriteString[f,ToString[pd1]];
 Close[f];
 
-cl=StringJoin["!java -classpath \"",classpath,"\" "," org.katlas.JavaKh.JavaKh -U -Q < pd"];
+cl=StringJoin["!java -classpath \"",classpath,"\" ",javaoptions," org.katlas.JavaKh.JavaKh -U -Q < pd 2> JavaKh.log"];
 f=OpenRead[cl];
 out=Read[f,Expression];
 Close[f];
 
+If[out==EndOfFile,Print["Something went wrong running JavaKh; nothing was returned. The command line was: "];Print[cl];Print["There may have been an error log produced by Java: "];
+FilePrint["JavaKh.log"];Return[$Failed]];
+
 ResetDirectory[];
 
-If[out==EndOfFile,Print["Something went wrong running JavaKh; nothing was returned. The command line was: "];Print[cl];Return[$Failed]];
 out=StringReplace[out,{"q"->"#1","t"->"#2"}];
 (* ToExpression is dangerous! We have to fiddle with the $Context here. *)
 saveContext=$Context;
@@ -158,13 +163,16 @@ UniversalKhTimingData={};
 twist[\[Alpha]_,k_,\[Lambda]_,\[Mu]_,\[Nu]_]:=\[Nu]-(1/\[Alpha])T^(-k)\[Mu].\[Lambda]
 
 
-UniversalKh[K:((Knot|Link|TorusKnot)[_Integer,__])]:=UniversalKh[K]=Module[{result,components,factor},
+UniversalKh[K:((Knot|Link|TorusKnot)[_Integer,__]),options___]:=UniversalKh[K,options]=Module[{khn,result,components,factor},
 CreditMessage[UniversalKh::about];
-result=AbsoluteTiming[DecomposeComplex[GradingsList[KhN[K]],Matrices[KhN[K]]]];
+khn=KhN[K,options];
+result=AbsoluteTiming[DecomposeComplex[GradingsList[khn],Matrices[khn]]];
 AppendTo[UniversalKhTimingData,{K,result[[1]]/.Second->1}];
 result[[2]]
 ]
-UniversalKh[d_PD]:=DecomposeComplex[GradingsList[KhN[d]],Matrices[KhN[d]]]
+UniversalKh[d_PD,options___]:=With[{khn=KhN[d,options]},
+DecomposeComplex[GradingsList[khn],Matrices[khn]]
+]
 
 
 DecomposeComplex[{g0_,gradings0_},{g0_,matrices0_List}]:=Module[{g=g0,gradings=gradings0,matrices=matrices0,result=0,matrix,objects,exponents,i,j,k,\[Alpha],\[Lambda],\[Mu],\[Nu]},While[Length[matrices]>0,objects=gradings[[1]];matrix=matrices[[1]];
