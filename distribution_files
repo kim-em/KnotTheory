@@ -251,6 +251,7 @@ KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\Cache.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\CachingList.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\Color.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\DiskBackedList2.class
+KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\DiskBackedList3.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\DiskBackedList.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\DoubleArrayCache.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\DoubleArrayCache$DoubleArrayHashingStrategy.class
@@ -267,11 +268,13 @@ KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\SoftHashMap$SoftValue.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\SoftReferenceCachingList.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\utils\TrivialCache.class
 KnotTheory\JavaKh-v2\bin\org\katlas\JavaKh\ZeroLCCC.class
+KnotTheory\JavaKh-v2\copy-class-files.sh
 KnotTheory\JavaKh-v2\jars\commons-cli-1.0.jar
 KnotTheory\JavaKh-v2\jars\commons-io-1.2.jar
 KnotTheory\JavaKh-v2\jars\commons-logging-1.1.jar
 KnotTheory\JavaKh-v2\jars\log4j-1.2.12.jar
 KnotTheory\JavaKh-v2\jars\log4j.xml
+KnotTheory\JavaKh-v2\log4j\log4j.xml
 KnotTheory\JavaKh-v2\src\com\mallardsoft\tuple\End.java
 KnotTheory\JavaKh-v2\src\com\mallardsoft\tuple\Pair.java
 KnotTheory\JavaKh-v2\src\com\mallardsoft\tuple\Quadruple.java
@@ -346,6 +349,7 @@ KnotTheory\JavaKh-v2\src\org\katlas\JavaKh\utils\ArrayCache.java
 KnotTheory\JavaKh-v2\src\org\katlas\JavaKh\utils\Cache.java
 KnotTheory\JavaKh-v2\src\org\katlas\JavaKh\utils\CachingList.java
 KnotTheory\JavaKh-v2\src\org\katlas\JavaKh\utils\DiskBackedList2.java
+KnotTheory\JavaKh-v2\src\org\katlas\JavaKh\utils\DiskBackedList3.java
 KnotTheory\JavaKh-v2\src\org\katlas\JavaKh\utils\DiskBackedList.java
 KnotTheory\JavaKh-v2\src\org\katlas\JavaKh\utils\DoubleArrayCache.java
 KnotTheory\JavaKh-v2\src\org\katlas\JavaKh\utils\HashCodeCache.java
@@ -354,7 +358,9 @@ KnotTheory\JavaKh-v2\src\org\katlas\JavaKh\utils\NonNullValueMapWrapper.java
 KnotTheory\JavaKh-v2\src\org\katlas\JavaKh\utils\RedBlackIntegerTree.java
 KnotTheory\JavaKh-v2\src\org\katlas\JavaKh\utils\SerializingList.java
 KnotTheory\JavaKh-v2\src\org\katlas\JavaKh\utils\SoftHashMap.java
+KnotTheory\JavaKh-v2\src\org\katlas\JavaKh\utils\SoftReferenceCachingList2.java
 KnotTheory\JavaKh-v2\src\org\katlas\JavaKh\utils\SoftReferenceCachingList.java
+KnotTheory\JavaKh-v2\src\org\katlas\JavaKh\utils\TreeMapList.java
 KnotTheory\JavaKh-v2\src\org\katlas\JavaKh\utils\TrivialCache.java
 KnotTheory\JavaKh-v2\src\org\katlas\JavaKh\ZeroLCCC.java
 KnotTheory\JavaKh-v2\test\org\katlas\JavaKh\test\BigTorusKnotTests.java
