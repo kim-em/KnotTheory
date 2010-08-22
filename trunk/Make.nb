@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       145,          7]
-NotebookDataLength[   1548469,      25911]
-NotebookOptionsPosition[   1544468,      25777]
-NotebookOutlinePosition[   1544838,      25793]
-CellTagsIndexPosition[   1544795,      25790]
+NotebookDataLength[   1546485,      25871]
+NotebookOptionsPosition[   1542524,      25738]
+NotebookOutlinePosition[   1542893,      25754]
+CellTagsIndexPosition[   1542850,      25751]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -71,7 +71,7 @@ Cell[BoxData["\<\"C:\\\\drorbn\\\\projects\\\\KnotTheory\\\\svn\\\\trunk\"\>"]\
   3.4414825339456253`*^9, {3.441491045755319*^9, 3.441491053342017*^9}, 
    3.446293749258*^9, 3.446293999117*^9, 3.446294044139*^9, 
    3.4470728421728015`*^9, 3.4470737078214016`*^9, 3.4476754323712*^9, 
-   3.4476771035062*^9}]
+   3.4476771035062*^9, 3.4914873888789997`*^9}]
 }, Open  ]],
 
 Cell["\<\
@@ -321,7 +321,7 @@ Cell[BoxData["\<\"C:\\\\drorbn\\\\projects\\\\KnotTheory\\\\svn\\\\trunk\"\>"]\
  CellChangeTimes->{3.4276580438661757`*^9, 3.441302956738349*^9, 
   3.4414826075237503`*^9, 3.44149108317588*^9, 3.446293803617*^9, 
   3.44629402106*^9, 3.4462940663710003`*^9, 3.4470728673980017`*^9, 
-  3.4470737259018016`*^9, 3.4476771421001997`*^9}]
+  3.4470737259018016`*^9, 3.4476771421001997`*^9, 3.491487446776*^9}]
 }, Open  ]]
 }, Open  ]],
 
@@ -366,8 +366,8 @@ Cell[CellGroupData[{
 Cell[BoxData[
  RowBox[{"<<", " ", "KnotTheory`"}]], "Input"],
 
-Cell[BoxData["\<\"Loading KnotTheory` version of April 2, 2009, \
-12:5:8.7722.\\nRead more at http://katlas.org/wiki/KnotTheory.\"\>"], "Print",
+Cell[BoxData["\<\"Loading KnotTheory` version of August 22, 2010, \
+13:36:57.55.\\nRead more at http://katlas.org/wiki/KnotTheory.\"\>"], "Print",
  CellChangeTimes->{
   3.390661077734375*^9, 3.405206398015625*^9, {3.405370744953125*^9, 
    3.40537075315625*^9}, 3.4053713140625*^9, 3.40537158359375*^9, 
@@ -381,7 +381,7 @@ Cell[BoxData["\<\"Loading KnotTheory` version of April 2, 2009, \
    3.409687064713375*^9, 3.4132250174714127`*^9, 3.413226310981389*^9, 
    3.4414826140393753`*^9, 3.446293822815*^9, 3.4462940212349997`*^9, 
    3.4462940666359997`*^9, 3.4470728675228014`*^9, 3.4470737260578012`*^9, 
-   3.4476771421562*^9}]
+   3.4476771421562*^9, 3.491487450208*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -409,7 +409,7 @@ Cell[BoxData[
 \\\"MT\\\"]\\)\[NoBreak]\\!\\(\\*StyleBox[\\\"\\\\\\\".\\\\\\\"\\\", \\\"MT\\\
 \"]\\)\"\>"}]], "Message", "MSG",
  CellChangeTimes->{3.446294067042*^9, 3.4470728677256017`*^9, 
-  3.4470737262606015`*^9, 3.4476771423592*^9}],
+  3.4470737262606015`*^9, 3.4476771423592*^9, 3.491487453112*^9}],
 
 Cell[BoxData[
  RowBox[{
@@ -420,7 +420,7 @@ Cell[BoxData[
 \"\\), \\\"MT\\\"]\\)\[NoBreak]\\!\\(\\*StyleBox[\\\"\\\\\\\".\\\\\\\"\\\", \
 \\\"MT\\\"]\\)\"\>"}]], "Message", "MSG",
  CellChangeTimes->{3.446294067042*^9, 3.4470728677256017`*^9, 
-  3.4470737262606015`*^9, 3.4476771427251997`*^9}],
+  3.4470737262606015`*^9, 3.4476771423592*^9, 3.491487453455*^9}],
 
 Cell[BoxData[
  RowBox[{
@@ -430,13 +430,13 @@ Cell[BoxData[
 conversion was written by Siddarth Sankaran at the University of Toronto in \
 the summer of 2005.\\\"\\), \\\"MT\\\"]\\)\[NoBreak]\"\>"}]], "Message", "MSG",
  CellChangeTimes->{3.446294067042*^9, 3.4470728677256017`*^9, 
-  3.4470737262606015`*^9, 3.4476771429372*^9}],
+  3.4470737262606015`*^9, 3.4476771423592*^9, 3.491487453679*^9}],
 
 Cell[BoxData["True"], "Output",
  CellChangeTimes->{3.413225118066061*^9, 3.413226314446371*^9, 
   3.4414826185550003`*^9, 3.4462938241070004`*^9, 3.446294021278*^9, 
   3.446294067744*^9, 3.4470728682560015`*^9, 3.4470737269470015`*^9, 
-  3.4476771429832*^9}]
+  3.4476771429832*^9, 3.4914874537530003`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -473,7 +473,7 @@ Cell[BoxData[
 \"\\), \\\"MT\\\"]\\)\[NoBreak]\\!\\(\\*StyleBox[\\\"\\\\\\\".\\\\\\\"\\\", \
 \\\"MT\\\"]\\)\"\>"}]], "Message", "MSG",
  CellChangeTimes->{3.4462940679049997`*^9, 3.447072868365202*^9, 
-  3.4470737271654015`*^9, 3.4476771430452003`*^9}],
+  3.4470737271654015`*^9, 3.4476771430452003`*^9, 3.491487454998*^9}],
 
 Cell[BoxData[
  RowBox[{
@@ -484,7 +484,7 @@ homology program JavaKh-v2 is an update of Jeremy Green's program JavaKh-v1, \
 written by Scott Morrison in 2008 at Microsoft Station Q.\\\"\\), \\\"MT\\\"]\
 \\)\[NoBreak]\"\>"}]], "Message", "MSG",
  CellChangeTimes->{3.4462940679049997`*^9, 3.447072868365202*^9, 
-  3.4470737271654015`*^9, 3.4476771430922003`*^9}],
+  3.4470737271654015`*^9, 3.4476771430452003`*^9, 3.491487455038*^9}],
 
 Cell[BoxData["True"], "Output",
  CellChangeTimes->{3.39066107953125*^9, 3.40537132028125*^9, 
@@ -498,7 +498,7 @@ Cell[BoxData["True"], "Output",
   3.4096870671665*^9, 3.41322502269893*^9, 3.4132251188772273`*^9, 
   3.4132263162089057`*^9, 3.4414826217112503`*^9, 3.446293827822*^9, 
   3.4462940213190002`*^9, 3.446294068619*^9, 3.447072870752002*^9, 
-  3.4470737277426014`*^9, 3.4476771455252*^9}]
+  3.4470737277426014`*^9, 3.4476771455252*^9, 3.491487457263*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -536,13 +536,14 @@ Cell[BoxData[
 homology program FastKh was written by Dror Bar-Natan.\\\"\\), \\\"MT\\\"]\\)\
 \[NoBreak]\"\>"}]], "Message", "MSG",
  CellChangeTimes->{3.446294068704*^9, 3.447072870908002*^9, 
-  3.4470737277894015`*^9, 3.4476771456302*^9}],
+  3.4470737277894015`*^9, 3.4476771456302*^9, 3.491487458759*^9}],
 
 Cell[BoxData["True"], "Output",
  CellChangeTimes->{{3.4132250476448*^9, 3.413225075254501*^9}, 
    3.413225122121893*^9, 3.4132263184921885`*^9, 3.4414826244612503`*^9, 
    3.446293828091*^9, 3.446294021359*^9, 3.446294068818*^9, 
-   3.4470728709392014`*^9, 3.4470737278674016`*^9, 3.4476771457802*^9}]
+   3.4470728709392014`*^9, 3.4470737278674016`*^9, 3.4476771457802*^9, 
+   3.491487458874*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -575,7 +576,8 @@ Cell[BoxData["True"], "Output",
   3.409261593729*^9, 3.40926207163525*^9, 3.40926302938525*^9, 
   3.409687068104*^9, 3.4132263226281357`*^9, 3.4414826296487503`*^9, 
   3.446293830108*^9, 3.446294021391*^9, 3.446294070457*^9, 
-  3.4470728730608015`*^9, 3.4470737293494015`*^9, 3.4476771473862*^9}]
+  3.4470728730608015`*^9, 3.4470737293494015`*^9, 3.4476771473862*^9, 
+  3.491487461692*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -601,7 +603,7 @@ Cell[BoxData[
 \\\"MT\\\"]\\)\[NoBreak]\\!\\(\\*StyleBox[\\\"\\\\\\\".\\\\\\\"\\\", \\\"MT\\\
 \"]\\)\"\>"}]], "Message", "MSG",
  CellChangeTimes->{3.446294070599*^9, 3.4470728734664016`*^9, 
-  3.447073729521002*^9, 3.4476771474842*^9}],
+  3.447073729521002*^9, 3.4476771474842*^9, 3.491487462883*^9}],
 
 Cell[BoxData[
  RowBox[{
@@ -612,14 +614,14 @@ Alexander[K, r] to compute Alexander ideals was written by Jana Archibald at \
 the University of Toronto in the summer of 2005.\\\"\\), \\\"MT\\\"]\\)\
 \[NoBreak]\"\>"}]], "Message", "MSG",
  CellChangeTimes->{3.446294070599*^9, 3.4470728734664016`*^9, 
-  3.447073729521002*^9, 3.4476771475722*^9}],
+  3.447073729521002*^9, 3.4476771474842*^9, 3.491487462968*^9}],
 
 Cell[BoxData["True"], "Output",
  CellChangeTimes->{3.406499962953125*^9, 3.40926159532275*^9, 
   3.409262072119625*^9, 3.4092630299165*^9, 3.409687068604*^9, 
   3.4414826319456253`*^9, 3.446293830791*^9, 3.446294021447*^9, 
   3.446294071092*^9, 3.447072874028002*^9, 3.447073730035802*^9, 
-  3.4476771479172*^9}]
+  3.4476771479172*^9, 3.491487463318*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -668,7 +670,7 @@ Cell[BoxData["True"], "Output",
   3.40926207226025*^9, 3.409263030057125*^9, 3.409687068713375*^9, 
   3.4414826343518753`*^9, 3.446293830959*^9, 3.4462940215039997`*^9, 
   3.4462940712530003`*^9, 3.4470728747924013`*^9, 3.4470737302074013`*^9, 
-  3.4476771480741997`*^9}]
+  3.4476771480741997`*^9, 3.491487464653*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -714,14 +716,14 @@ Cell[BoxData[
 to KnotTheory` by Siddarth Sankaran\\\\nat the University of Toronto in the \
 summer of 2005.\\\"\\), \\\"MT\\\"]\\)\[NoBreak]\"\>"}]], "Message", "MSG",
  CellChangeTimes->{3.446294071316*^9, 3.4470728761964016`*^9, 
-  3.4470737302698016`*^9, 3.4476771481352*^9}],
+  3.4470737302698016`*^9, 3.4476771481352*^9, 3.491487466382*^9}],
 
 Cell[BoxData["True"], "Output",
  CellChangeTimes->{3.406499963125*^9, 3.40926159738525*^9, 
   3.409262072338375*^9, 3.40926303013525*^9, 3.4096870687915*^9, 
   3.4414826373675003`*^9, 3.446293831137*^9, 3.446294021597*^9, 
   3.446294071382*^9, 3.4470728762276015`*^9, 3.4470737303166018`*^9, 
-  3.4476771481712*^9}]
+  3.4476771481712*^9, 3.491487466435*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -778,14 +780,14 @@ Cell[BoxData[
 was implemented by Dan Carney in the summer of 2005 at the University of \
 Toronto.\\\"\\), \\\"MT\\\"]\\)\[NoBreak]\"\>"}]], "Message", "MSG",
  CellChangeTimes->{3.446294071442*^9, 3.4470728763524017`*^9, 
-  3.4470737303790016`*^9, 3.4476771482262*^9}],
+  3.4470737303790016`*^9, 3.4476771482262*^9, 3.491487467851*^9}],
 
 Cell[BoxData["True"], "Output",
  CellChangeTimes->{3.4064999631875*^9, 3.409261598338375*^9, 
   3.409262072400875*^9, 3.409263030182125*^9, 3.409687068838375*^9, 
   3.4414826397893753`*^9, 3.4462938315039997`*^9, 3.446294021649*^9, 
   3.4462940715179996`*^9, 3.447072876368002*^9, 3.4470737304102015`*^9, 
-  3.4476771482542*^9}]
+  3.4476771482542*^9, 3.49148746787*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -820,7 +822,7 @@ Cell[BoxData[
 \\\"MT\\\"]\\)\[NoBreak]\\!\\(\\*StyleBox[\\\"\\\\\\\".\\\\\\\"\\\", \\\"MT\\\
 \"]\\)\"\>"}]], "Message", "MSG",
  CellChangeTimes->{3.446294071693*^9, 3.447072876430402*^9, 
-  3.4470737305662017`*^9, 3.4476771483162003`*^9}],
+  3.4470737305662017`*^9, 3.4476771483162003`*^9, 3.49148746902*^9}],
 
 Cell[BoxData["True"], "Output",
  CellChangeTimes->{3.405684670578125*^9, 3.4056847248125*^9, 
@@ -831,7 +833,7 @@ Cell[BoxData["True"], "Output",
   3.409262072588375*^9, 3.409263030369625*^9, 3.409687069025875*^9, 
   3.4414826419612503`*^9, 3.4462938317139997`*^9, 3.4462940216879997`*^9, 
   3.4462940719049997`*^9, 3.4470728765552015`*^9, 3.4470737307222013`*^9, 
-  3.4476771484491997`*^9}]
+  3.4476771484491997`*^9, 3.491487469166*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -866,7 +868,7 @@ representing the knots with up to 10 crossings were provided by Thomas \
 Gittings. See arXiv:math.GT/0401051.\\\"\\), \
 \\\"MT\\\"]\\)\[NoBreak]\"\>"}]], "Message", "MSG",
  CellChangeTimes->{3.446294071961*^9, 3.4470728766176014`*^9, 
-  3.4470737307690015`*^9, 3.4476771485622*^9}],
+  3.4470737307690015`*^9, 3.4476771485622*^9, 3.491487470231*^9}],
 
 Cell[BoxData[
  RowBox[{
@@ -877,7 +879,7 @@ was written by Jean-Marie Droz in 2007 at the University of Zurich, based on \
 methods of Anna Beliakova's arXiv:07050669.\\\"\\), \
 \\\"MT\\\"]\\)\[NoBreak]\"\>"}]], "Message", "MSG",
  CellChangeTimes->{3.446294071961*^9, 3.4470728766176014`*^9, 
-  3.4470737307690015`*^9, 3.4476771485972*^9}],
+  3.4470737307690015`*^9, 3.4476771485622*^9, 3.4914874702650003`*^9}],
 
 Cell[BoxData[
  InterpretationBox[
@@ -904,7 +906,7 @@ Hold[(HFKHat[BR[Knot[8, 19]]][t, m] /. m -> -) == -- + --]\n                  \
   Editable->False]], "Print",
  CellChangeTimes->{3.446293835408*^9, 3.4462940217650003`*^9, 
   3.4462940726689997`*^9, 3.4470728792228017`*^9, 3.4470737314554014`*^9, 
-  3.4476771509852*^9}]
+  3.4476771509852*^9, 3.4914874726809998`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -931,7 +933,7 @@ Cell[BoxData["True"], "Output",
    3.409262072619625*^9, 3.409263031229*^9, 3.40968706994775*^9, 
    3.4414826516956253`*^9, 3.44629383558*^9, 3.44629402181*^9, 
    3.4462940728529997`*^9, 3.447072879347602*^9, 3.4470737316426015`*^9, 
-   3.4476771511191998`*^9}]
+   3.4476771511191998`*^9, 3.49148749138*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -950,7 +952,7 @@ Cell[BoxData["True"], "Output",
   3.409261601244625*^9, 3.409262072650875*^9, 3.40926303126025*^9, 
   3.409687069979*^9, 3.4414826547737503`*^9, 3.446293835632*^9, 
   3.446294021983*^9, 3.4462940729309998`*^9, 3.4470728794100018`*^9, 
-  3.447073731705002*^9, 3.4476771511752*^9}]
+  3.447073731705002*^9, 3.4476771511752*^9, 3.4914874925360003`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -981,7 +983,7 @@ Cell[BoxData[
 MultivariableAlexander4Links`\\\"\\), \
 \\\"MT\\\"]\\)\[NoBreak]\\!\\(\\*StyleBox[\\\"\\\\\\\".\\\\\\\"\\\", \\\"MT\\\
 \"]\\)\"\>"}]], "Message", "MSG",
- CellChangeTimes->{3.4476771512292*^9}],
+ CellChangeTimes->{3.4476771512292*^9, 3.491487493557*^9}],
 
 Cell[BoxData[
  RowBox[{
@@ -991,12 +993,12 @@ Cell[BoxData[
 Alexander program \\\\\\\"MVA2\\\\\\\" was written by Jana Archibald at the \
 University of Toronto in 2007-2008.\\\"\\), \\\"MT\\\"]\\)\[NoBreak]\"\>"}]], \
 "Message", "MSG",
- CellChangeTimes->{3.4476771517262*^9}],
+ CellChangeTimes->{3.4476771512292*^9, 3.491487494001*^9}],
 
 Cell[BoxData["True"], "Output",
  CellChangeTimes->{
   3.447073732282202*^9, {3.4476756502282*^9, 3.4476756719561996`*^9}, 
-   3.4476771517832003`*^9}]
+   3.4476771517832003`*^9, 3.491487494106*^9}]
 }, Open  ]],
 
 Cell[BoxData[{
@@ -1136,7 +1138,8 @@ Cell[BoxData["True"], "Output",
  CellChangeTimes->{
   3.4476764184231997`*^9, 3.4476765923212*^9, {3.4476766511622*^9, 
    3.4476766672312*^9}, 3.4476767249842*^9, 3.4476767960232*^9, 
-   3.4476768425341997`*^9, 3.4476768929382*^9, 3.4476771542232*^9}]
+   3.4476768425341997`*^9, 3.4476768929382*^9, 3.4476771542232*^9, 
+   3.4914875017679996`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -1204,10 +1207,11 @@ Cell[BoxData[
 Alexander program \\\\\\\"MVA1\\\\\\\" was written by Dan Carney at the \
 University of Toronto in the summer of 2005.\\\"\\), \\\"MT\\\"]\\)\[NoBreak]\
 \"\>"}]], "Message", "MSG",
- CellChangeTimes->{3.4476771543582*^9}],
+ CellChangeTimes->{3.4476771543582*^9, 3.491487503375*^9}],
 
 Cell[BoxData["True"], "Output",
- CellChangeTimes->{3.4476770495072002`*^9, 3.4476771546352*^9}]
+ CellChangeTimes->{3.4476770495072002`*^9, 3.4476771546352*^9, 
+  3.4914875036070004`*^9}]
 }, Open  ]]
 }, Open  ]],
 
@@ -25130,7 +25134,8 @@ Cell[BoxData[
  CellChangeTimes->{3.40926161638525*^9, 3.40926207626025*^9, 
   3.409263034807125*^9, 3.40968707457275*^9, 3.4414826618831253`*^9, 
   3.446293858264*^9, 3.446294026282*^9, 3.446294077354*^9, 
-  3.4470728913284016`*^9, 3.4470737365722017`*^9, 3.4476771713262*^9},
+  3.4470728913284016`*^9, 3.4470737365722017`*^9, 3.4476771713262*^9, 
+  3.491487516259*^9},
  ImageCache->GraphicsData["CompressedBitmap", "\<\
 eJzsvXmwHNWR9n3es1V19xVexhMTE/POjCfije+d7c54X8a7xzsWXvC+Axck
 bHYDxtiAbbDA7CCBMWDMLgRIgCQsZFaBEEggiX0TCBBCIARCBsTe4S+fJ0+d
@@ -25725,58 +25730,14 @@ Cell[BoxData[
  CellChangeTimes->{3.409261617869625*^9, 3.40926207669775*^9, 
   3.40926303507275*^9, 3.409687076557125*^9, 3.4414826655862503`*^9, 
   3.4462938592539997`*^9, 3.446294026458*^9, 3.4462940777060003`*^9, 
-  3.4470728921084013`*^9, 3.4470737369310017`*^9, 3.4476771721851997`*^9},
- ImageCache->GraphicsData["CompressedBitmap", "\<\
-eJztnU1oG0cYhtfZdTHkotAiS8EQkULxqTgkhzoJRJfWhbbgU2roT2TU4JgS
-bJxAAi2OTC6+FPtYcIoVnENuDuTgXoJCQutDoSKnnIoMhYoegikUfOhhq29m
-Zz36jWTJtuQ8IjuRdub7eV5Wa+Od+eazyZvXrl6fvDmdnkyMzU3OXptO30h8
-NDNXOuX2OU7ftdIxlXDkve84pvFL//xpaeRMa+8/Uf956+Pj408vXbokx49T
-U1N+5s6dOxFpHE8+mz4Z95Zt6f7neZ5vpeI476i3qkMNUQHatfH+PX78uLF5
-OTw87OeSyWREGsdTn4M+GVeWoVdIJBKmN7W6uqq8R3Sf/qz7ZByWXWz5ob56
-Vv3dl+Oq1vMtb37Jul93Jsy1pA5pjzlhR5UPK6r4Uz76MoQmNKEJTWhCE5rQ
-hCZ0F4Qe1mazS0tLZohzUrWuMmsuHfu086u0F0hnv9LxPn38+HE4pHTEk7lc
-znE3isVikxlNbG5uipEyfKZaz4ZsP0fxWZZje5f4s9peyZEcyZEcgxzfFbN+
-9d7LVrjUp91xO/qJ9pJ/8vpwKXv82XaognGVYfyQoLNUDcPloIIKKqigggoq
-qKCCCiqooIIKKqiggqoRVVS13ucPHz40UwJ/HhsbW5OZgo2zKJReMkrNKRzU
-MwvF1LgRl7Ee0sC9l06nzVDnwW6seinYp82zKPFR6Rf6rqf3fpibmzNDdwYG
-BtZkHmrjLLbz+byMUjNWB/W8VTE1w8RlL13/VZM011q84Q1qNwUrorhEAzRA
-AzRAAzRAg17UINJilo6bsc1XWtQqyDZzQNmiKZqiKZqiKZqiKZqiKZqiKZqi
-KZqiKZqi6X5rKitBMsERcHvbVpaPJEvdGUHT12jaob80ohVaoRVaoRVaodWb
-odVf8XjcDFu8detWTFczkBIFTWqVLRQKYTWDQWlVxQbHPbW1tRWGmz/CIpaX
-QlRyOrrsRHMK+plMJjQPptUpCREP8RCv8+K1Ok274geC0t7Vaqm7HmqhFmqh
-FmqhFmqhFmp1VK0AcqnU5oJDyxAomM9JDnbHd8hYV8ZclXkgo69VtDqQERmR
-ERmRERmRERmRERmRERmRERmRERmRsddlzCiLenXl96pWnQX0wQ6AiIIoiIIo
-iIIoiIIoLYjyzcrKSpkoqgSfW8hms02KsjkxMRFW8Is23Hm6R0SpvT+aTOxr
-ThH7tJlCWGsLb+ToRTm8i8+fPzflWeWIq6qt7tOq8XUVWS4JGhZ9jTbcTr7r
-RfmpvbtoAkwwwQQTTDDBBBNMMMEEE0wwwQQTTDDB3MWU2l0Zv7zM1yMLU0p+
-BWW+kr2IOaraqscqcdInfdInfdJvnP7M8vKyGVaMxWJxXX4ov7293WT62sL7
-+v79+/LkTw7ZhTBziFTl++qdrJd5XaQh3bEdiURCz/PwwFPFc7nlb7u+P3ir
-qVTKOJZJEIfzdSF90id90if9fU//bW0x4lfW0HC8ooW0LVvg6s6P7YC3ewsz
-WStPC9MPd/p1U2CCCSaYYIIJJphgggkmmE1hfunsIpUVcoxCAw000EADzf7Q
-5EdGRiqWsrr52dnZJmleLi4uVpj3/3L+/Hl5rGWO91+8eOF8dXikwZM2ybpJ
-Kvu0ebQnSyBDv19A06GrUNZ+Ou7yzMxMxepQNyuTEpojfLS+vl5h3i8u7RQO
-8Sq83d5NQt9j+hOFQsGOJJ8BAggggADqPqBg9vEHpTYZHM4x1fZPVEDKZ8dL
-huNDH5d7GLxgmx9Tbb9fAe4rcD8cDzjggAMOOOCAAw444IADDngVuCyKTQZH
-sO7V27DA8wKuO2NHA1yvjqmaPB0HCCCAAALoQIB0lVbvXjqdNsVbs1euXFEl
-YRtz5kuv8DHdvK4BK8+fzTApodxtnGqBprHQT08bQ4rXcPyCassXeQ5CeNDX
-6p9DQ0PGQq1vz4W/FdaDLG5sbIQTG+Z1ie8/Tp8+bSY1/H7mzJluu1Y9SdNY
-yNcr3uK9ZwUggAACCCCA9gJUx4HF54e/Jeq/WZjjBMwwwwwzzDDDDDPMMMMM
-M8wdYM6p8flKZnXavX3UmINtKis3v1wDDTTQQAMNtN5FK9+b9oFqXcXQApfd
-Z9YEq6W4JtYorLDuG6t3amtry1Ral2NNl2wv7uzstIIr48VSWQ/qIu72jBJZ
-BH7hkImfdODOo2dUVD0oAg000EAD7SijBTP2pep2xi/fBatgpfBUUshUM5w9
-OhKk9pgCEiABEiABEiABEiABEiABEiABEnSjBG1VTOuMBAm/enF90ZJgUSTQ
-nQMdleCZamtXwYu1hxZsllqwMGTf12FSJmVSJuUDT1kqMtspy8M6J6aLP0tF
-5yZdS53ocFX5qF5Vbi9pnl9YWOhQyqpsthka7vkrK/Wbc2mfdi5q83vpdDoM
-896blae6BOxS8VI63omp1daqtHyTrqVgfbhYe1Qv1v47Go0at9/fvXu37Uug
-0N6X6SrxiU984hOf+MQnPvGJfxjx5WzGb30eSRB/r9NQgvh1Sl68qn36OkYd
-M/rt3LlzplcKtr2qPV22zKi8Ntg/qi2fT/ztQQxXH6bbf+/0/Q9ijNKd\
-\>"]]
+  3.4470728921084013`*^9, 3.4470737369310017`*^9, 3.4476771721851997`*^9, 
+  3.49148751795*^9}]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
 },
 WindowSize->{916, 1014},
-WindowMargins->{{Automatic, -1012}, {Automatic, 72}},
+WindowMargins->{{Automatic, 211}, {Automatic, -54}},
 ShowSelection->True,
 FrontEndVersion->"7.0 for Microsoft Windows (32-bit) (February 18, 2009)",
 StyleDefinitions->"Default.nb"
@@ -25800,116 +25761,115 @@ Cell[1188, 37, 33, 0, 49, "Subtitle"],
 Cell[1224, 39, 172, 4, 29, "Text"],
 Cell[CellGroupData[{
 Cell[1421, 47, 1060, 18, 112, "Input"],
-Cell[2484, 67, 341, 6, 30, "Output"]
+Cell[2484, 67, 365, 6, 30, "Output"]
 }, Open  ]],
-Cell[2840, 76, 207, 4, 29, "Text"],
-Cell[3050, 82, 3654, 74, 332, "Input"],
-Cell[6707, 158, 1297, 28, 212, "Input"],
-Cell[8007, 188, 1787, 38, 312, "Input"],
-Cell[9797, 228, 572, 16, 72, "Input"],
-Cell[10372, 246, 154, 2, 29, "Text"],
-Cell[10529, 250, 2899, 60, 292, "Input"],
+Cell[2864, 76, 207, 4, 29, "Text"],
+Cell[3074, 82, 3654, 74, 332, "Input"],
+Cell[6731, 158, 1297, 28, 212, "Input"],
+Cell[8031, 188, 1787, 38, 312, "Input"],
+Cell[9821, 228, 572, 16, 72, "Input"],
+Cell[10396, 246, 154, 2, 29, "Text"],
+Cell[10553, 250, 2899, 60, 292, "Input"],
 Cell[CellGroupData[{
-Cell[13453, 314, 127, 2, 31, "Input"],
-Cell[13583, 318, 344, 5, 30, "Output"]
+Cell[13477, 314, 127, 2, 31, "Input"],
+Cell[13607, 318, 363, 5, 30, "Output"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[13976, 329, 114, 1, 49, "Subtitle"],
-Cell[14093, 332, 1170, 29, 212, "Input"],
+Cell[14019, 329, 114, 1, 49, "Subtitle"],
+Cell[14136, 332, 1170, 29, 212, "Input"],
 Cell[CellGroupData[{
-Cell[15288, 365, 60, 1, 31, "Input"],
-Cell[15351, 368, 1008, 15, 43, "Print"]
+Cell[15331, 365, 60, 1, 31, "Input"],
+Cell[15394, 368, 1029, 15, 43, "Print"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[16396, 388, 367, 11, 31, "Input"],
-Cell[16766, 401, 479, 10, 21, "Message"],
-Cell[17248, 413, 478, 9, 21, "Message"],
-Cell[17729, 424, 433, 8, 21, "Message"],
-Cell[18165, 434, 258, 4, 30, "Output"]
+Cell[16460, 388, 367, 11, 31, "Input"],
+Cell[16830, 401, 498, 10, 21, "Message"],
+Cell[17331, 413, 493, 9, 21, "Message"],
+Cell[17827, 424, 452, 8, 21, "Message"],
+Cell[18282, 434, 282, 4, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[18460, 443, 666, 21, 49, "Input"],
-Cell[19129, 466, 481, 9, 21, "Message"],
-Cell[19613, 477, 474, 9, 56, "Message"],
-Cell[20090, 488, 805, 12, 30, "Output"]
+Cell[18601, 443, 666, 21, 49, "Input"],
+Cell[19270, 466, 500, 9, 21, "Message"],
+Cell[19773, 477, 493, 9, 56, "Message"],
+Cell[20269, 488, 824, 12, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[20932, 505, 763, 23, 49, "Input"],
-Cell[21698, 530, 383, 8, 21, "Message"],
-Cell[22084, 540, 302, 4, 30, "Output"]
+Cell[21130, 505, 763, 23, 49, "Input"],
+Cell[21896, 530, 402, 8, 21, "Message"],
+Cell[22301, 540, 325, 5, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[22423, 549, 521, 15, 33, "Input"],
-Cell[22947, 566, 751, 11, 30, "Output"]
+Cell[22663, 550, 521, 15, 33, "Input"],
+Cell[23187, 567, 773, 12, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[23735, 582, 290, 9, 33, "Input"],
-Cell[24028, 593, 482, 10, 21, "Message"],
-Cell[24513, 605, 455, 9, 39, "Message"],
-Cell[24971, 616, 312, 5, 30, "Output"]
+Cell[23997, 584, 290, 9, 33, "Input"],
+Cell[24290, 595, 501, 10, 21, "Message"],
+Cell[24794, 607, 474, 9, 39, "Message"],
+Cell[25271, 618, 331, 5, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[25320, 626, 1203, 37, 98, "Input"],
-Cell[26526, 665, 333, 5, 30, "Output"]
+Cell[25639, 628, 1203, 37, 98, "Input"],
+Cell[26845, 667, 352, 5, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[26896, 675, 1075, 31, 92, "Input"],
-Cell[27974, 708, 429, 8, 39, "Message"],
-Cell[28406, 718, 315, 5, 30, "Output"]
+Cell[27234, 677, 1075, 31, 92, "Input"],
+Cell[28312, 710, 448, 8, 39, "Message"],
+Cell[28763, 720, 334, 5, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[28758, 728, 1506, 42, 112, "Input"],
-Cell[30267, 772, 417, 8, 21, "Message"],
-Cell[30687, 782, 328, 5, 30, "Output"]
+Cell[29134, 730, 1506, 42, 112, "Input"],
+Cell[30643, 774, 436, 8, 21, "Message"],
+Cell[31082, 784, 346, 5, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[31052, 792, 625, 18, 47, "Input"],
-Cell[31680, 812, 486, 10, 21, "Message"],
-Cell[32169, 824, 606, 9, 30, "Output"]
+Cell[31465, 794, 625, 18, 47, "Input"],
+Cell[32093, 814, 504, 10, 21, "Message"],
+Cell[32600, 826, 625, 9, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[32812, 838, 662, 19, 47, "Input"],
-Cell[33477, 859, 446, 9, 21, "Message"],
-Cell[33926, 870, 459, 9, 39, "Message"],
-Cell[34388, 881, 1167, 25, 97, "Print"]
+Cell[33262, 840, 662, 19, 47, "Input"],
+Cell[33927, 861, 465, 9, 21, "Message"],
+Cell[34395, 872, 483, 9, 39, "Message"],
+Cell[34881, 883, 1191, 25, 97, "Print"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[35592, 911, 420, 12, 31, "Input"],
-Cell[36015, 925, 530, 8, 30, "Output"]
+Cell[36109, 913, 420, 12, 31, "Input"],
+Cell[36532, 927, 548, 8, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[36582, 938, 265, 7, 31, "Input"],
-Cell[36850, 947, 343, 5, 30, "Output"]
+Cell[37117, 940, 265, 7, 31, "Input"],
+Cell[37385, 949, 367, 5, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[37230, 957, 582, 14, 72, "Input"],
-Cell[37815, 973, 428, 10, 21, "Message"],
-Cell[38246, 985, 379, 8, 21, "Message"],
-Cell[38628, 995, 150, 3, 30, "Output"]
+Cell[37789, 959, 582, 14, 72, "Input"],
+Cell[38374, 975, 447, 10, 21, "Message"],
+Cell[38824, 987, 398, 8, 21, "Message"],
+Cell[39225, 997, 169, 3, 30, "Output"]
 }, Open  ]],
-Cell[38793, 1001, 1563, 44, 112, "Input"],
+Cell[39409, 1003, 1563, 44, 112, "Input"],
 Cell[CellGroupData[{
-Cell[40381, 1049, 3110, 83, 178, "Input"],
-Cell[43494, 1134, 252, 4, 30, "Output"]
+Cell[40997, 1051, 3110, 83, 178, "Input"],
+Cell[44110, 1136, 280, 5, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[43783, 1143, 2001, 53, 178, "Input"],
-Cell[45787, 1198, 384, 8, 21, "Message"],
-Cell[46174, 1208, 95, 1, 30, "Output"]
+Cell[44427, 1146, 2001, 53, 178, "Input"],
+Cell[46431, 1201, 403, 8, 21, "Message"],
+Cell[46837, 1211, 122, 2, 30, "Output"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[46318, 1215, 110, 1, 49, "Subtitle"],
+Cell[47008, 1219, 110, 1, 49, "Subtitle"],
 Cell[CellGroupData[{
-Cell[46453, 1220, 160, 4, 31, "Input"],
-Cell[46616, 1226, 1493297, 24461, 375, 1459279, 23902, "CachedBoxData", \
+Cell[47143, 1224, 160, 4, 31, "Input"],
+Cell[47306, 1230, 1493319, 24462, 375, 1459279, 23902, "CachedBoxData", \
 "BoxData", "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1539950, 25692, 223, 5, 31, "Input"],
-Cell[1540176, 25699, 4252, 73, 374, 1297, 24, "CachedBoxData", "BoxData", \
-"Output"]
+Cell[1540662, 25697, 223, 5, 31, "Input"],
+Cell[1540888, 25704, 1596, 29, 374, "Output"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
