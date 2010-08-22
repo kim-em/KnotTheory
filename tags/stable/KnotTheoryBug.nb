@@ -1,0 +1,156 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 6.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[      4063,        147]
+NotebookOptionsPosition[      3262,        114]
+NotebookOutlinePosition[      3604,        129]
+CellTagsIndexPosition[      3561,        126]
+WindowFrame->Normal
+ContainsDynamic->False*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+  "KnotTheoryPathScott", " ", "=", " ", 
+   "\"\<c:\\\\scott\\\\projects\\\\KnotTheory\\\\trunk\\\\\>\""}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"AppendTo", "[", 
+   RowBox[{"$Path", ",", " ", "KnotTheoryPathScott"}], "]"}], ";"}], "\n", 
+ RowBox[{"<<", " ", "KnotTheory`"}]}], "Input",
+ CellChangeTimes->{{3.4131552503211775`*^9, 3.4131552523941584`*^9}, {
+  3.4131554750443134`*^9, 3.4131554899156976`*^9}}],
+
+Cell[BoxData["\<\"Loading KnotTheory` version of January 18, 2008, \
+18:17:28.7446.\\nRead more at http://katlas.org/wiki/KnotTheory.\"\>"], \
+"Print",
+ CellChangeTimes->{3.4132162481817937`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["GaussCode crashes kernel on knots that don' t exist.", "Subsection",
+ CellChangeTimes->{{3.41321602000369*^9, 3.413216038390128*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"GaussCode", "[", 
+  RowBox[{"Knot", "[", 
+   RowBox[{"11", ",", "NonAlternating", ",", "1"}], "]"}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"KnotTheory", "::", "\<\"loading\"\>"}], 
+  RowBox[{
+  ":", " "}], "\<\"Loading precomputed data in \
+\\!\\(\\\"DTCode4KnotsTo11`\\\"\\).\"\>"}]], "Message",
+ CellChangeTimes->{3.41321596057824*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"KnotTheory", "::", "\<\"credits\"\>"}], 
+  RowBox[{
+  ":", " "}], "\<\"\\!\\(\\\"The GaussCode to PD conversion was wri\\\" \
+\[Ellipsis] \\\"rsity of Toronto in the summer of 2005.\\\"\\)\"\>"}]], \
+"Message",
+ CellChangeTimes->{3.4132159613793917`*^9}],
+
+Cell[BoxData[
+ RowBox[{"GaussCode", "[", 
+  RowBox[{"1", ",", 
+   RowBox[{"-", "5"}], ",", "2", ",", 
+   RowBox[{"-", "1"}], ",", "3", ",", 
+   RowBox[{"-", "8"}], ",", "4", ",", 
+   RowBox[{"-", "2"}], ",", "5", ",", 
+   RowBox[{"-", "3"}], ",", 
+   RowBox[{"-", "6"}], ",", "10", ",", 
+   RowBox[{"-", "7"}], ",", 
+   RowBox[{"-", "4"}], ",", "8", ",", "6", ",", 
+   RowBox[{"-", "9"}], ",", "11", ",", 
+   RowBox[{"-", "10"}], ",", "7", ",", 
+   RowBox[{"-", "11"}], ",", "9"}], "]"}]], "Output",
+ CellChangeTimes->{3.413215961479536*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"NumberOfKnots", "[", 
+  RowBox[{"11", ",", "NonAlternating"}], "]"}]], "Input"],
+
+Cell[BoxData["185"], "Output",
+ CellChangeTimes->{3.41321596342233*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"GaussCode", "[", 
+  RowBox[{"Knot", "[", 
+   RowBox[{"11", ",", "NonAlternating", ",", "200"}], "]"}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"KnotTheory", "::", "\<\"loading\"\>"}], 
+  RowBox[{
+  ":", " "}], "\<\"Loading precomputed data in \
+\\!\\(\\\"DTCode4KnotsTo11`\\\"\\).\"\>"}]], "Message"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{495, 525},
+WindowMargins->{{Automatic, 289}, {35, Automatic}},
+FrontEndVersion->"6.0 for Microsoft Windows (32-bit) (June 19, 2007)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[590, 23, 445, 11, 92, "Input"],
+Cell[1038, 36, 195, 3, 62, "Print"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1270, 44, 139, 1, 36, "Subsection"],
+Cell[CellGroupData[{
+Cell[1434, 49, 141, 3, 31, "Input"],
+Cell[1578, 54, 232, 6, 41, "Message"],
+Cell[1813, 62, 289, 7, 59, "Message"],
+Cell[2105, 71, 541, 14, 50, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2683, 90, 103, 2, 31, "Input"],
+Cell[2789, 94, 71, 1, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2897, 100, 143, 3, 31, "Input"],
+Cell[3043, 105, 191, 5, 41, "Message"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
