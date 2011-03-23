@@ -44,7 +44,6 @@ Begin["`Private`"]
 q=Global`q;t=Global`t;
 
 
-KhN[L_] :=KhN[PD[L]];
 KhN[pd_PD,options___] := KhN[pd,options]=Module[
 {n,pd1,  f, cl, out,kh,saveContext,saveContextPath,JavaKhDirectory,jarDirectory,classDirectory,classpath,new=True,javaoptions},
 
@@ -165,7 +164,7 @@ twist[\[Alpha]_,k_,\[Lambda]_,\[Mu]_,\[Nu]_]:=\[Nu]-(1/\[Alpha])T^(-k)\[Mu].\[La
 
 UniversalKh[K:((Knot|Link|TorusKnot)[_Integer,__]),options___]:=UniversalKh[K,options]=Module[{khn,result,components,factor},
 CreditMessage[UniversalKh::about];
-khn=KhN[K,options];
+khn=KhN[PD[K],options];
 result=AbsoluteTiming[DecomposeComplex[GradingsList[khn],Matrices[khn]]];
 AppendTo[UniversalKhTimingData,{K,result[[1]]/.Second->1}];
 result[[2]]
