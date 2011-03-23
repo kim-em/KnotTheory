@@ -10,12 +10,11 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       145,          7]
-NotebookDataLength[      4063,        147]
-NotebookOptionsPosition[      3262,        114]
-NotebookOutlinePosition[      3604,        129]
-CellTagsIndexPosition[      3561,        126]
-WindowFrame->Normal
-ContainsDynamic->False*)
+NotebookDataLength[      4020,        142]
+NotebookOptionsPosition[      3221,        109]
+NotebookOutlinePosition[      3562,        124]
+CellTagsIndexPosition[      3519,        121]
+WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
@@ -25,14 +24,14 @@ Cell[BoxData[{
  RowBox[{
   RowBox[{
   "KnotTheoryPathScott", " ", "=", " ", 
-   "\"\<c:\\\\scott\\\\projects\\\\KnotTheory\\\\trunk\\\\\>\""}], 
-  ";"}], "\n", 
+   "\"\<~/projects/KnotTheory/trunk/\>\""}], ";"}], "\n", 
  RowBox[{
   RowBox[{"AppendTo", "[", 
    RowBox[{"$Path", ",", " ", "KnotTheoryPathScott"}], "]"}], ";"}], "\n", 
  RowBox[{"<<", " ", "KnotTheory`"}]}], "Input",
  CellChangeTimes->{{3.4131552503211775`*^9, 3.4131552523941584`*^9}, {
-  3.4131554750443134`*^9, 3.4131554899156976`*^9}}],
+  3.4131554750443134`*^9, 3.4131554899156976`*^9}, {3.46271308178364*^9, 
+  3.462713089273717*^9}}],
 
 Cell[BoxData["\<\"Loading KnotTheory` version of January 18, 2008, \
 18:17:28.7446.\\nRead more at http://katlas.org/wiki/KnotTheory.\"\>"], \
@@ -54,19 +53,16 @@ Cell[BoxData[
 
 Cell[BoxData[
  RowBox[{
-  RowBox[{"KnotTheory", "::", "\<\"loading\"\>"}], 
-  RowBox[{
-  ":", " "}], "\<\"Loading precomputed data in \
-\\!\\(\\\"DTCode4KnotsTo11`\\\"\\).\"\>"}]], "Message",
+  RowBox[{"KnotTheory", "::", "\<\"loading\"\>"}], ":", 
+  " ", "\<\"Loading precomputed data in \\!\\(\\\"DTCode4KnotsTo11`\\\"\\).\"\
+\>"}]], "Message",
  CellChangeTimes->{3.41321596057824*^9}],
 
 Cell[BoxData[
  RowBox[{
-  RowBox[{"KnotTheory", "::", "\<\"credits\"\>"}], 
-  RowBox[{
-  ":", " "}], "\<\"\\!\\(\\\"The GaussCode to PD conversion was wri\\\" \
-\[Ellipsis] \\\"rsity of Toronto in the summer of 2005.\\\"\\)\"\>"}]], \
-"Message",
+  RowBox[{"KnotTheory", "::", "\<\"credits\"\>"}], ":", 
+  " ", "\<\"\\!\\(\\\"The GaussCode to PD conversion was wri\\\" \[Ellipsis] \
+\\\"rsity of Toronto in the summer of 2005.\\\"\\)\"\>"}]], "Message",
  CellChangeTimes->{3.4132159613793917`*^9}],
 
 Cell[BoxData[
@@ -105,16 +101,15 @@ Cell[BoxData[
 
 Cell[BoxData[
  RowBox[{
-  RowBox[{"KnotTheory", "::", "\<\"loading\"\>"}], 
-  RowBox[{
-  ":", " "}], "\<\"Loading precomputed data in \
-\\!\\(\\\"DTCode4KnotsTo11`\\\"\\).\"\>"}]], "Message"]
+  RowBox[{"KnotTheory", "::", "\<\"loading\"\>"}], ":", 
+  " ", "\<\"Loading precomputed data in \\!\\(\\\"DTCode4KnotsTo11`\\\"\\).\"\
+\>"}]], "Message"]
 }, Open  ]]
 }, Open  ]]
 },
 WindowSize->{495, 525},
 WindowMargins->{{Automatic, 289}, {35, Automatic}},
-FrontEndVersion->"6.0 for Microsoft Windows (32-bit) (June 19, 2007)",
+FrontEndVersion->"7.0 for Mac OS X x86 (32-bit) (February 18, 2009)",
 StyleDefinitions->"Default.nb"
 ]
 (* End of Notebook Content *)
@@ -129,24 +124,24 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[590, 23, 445, 11, 92, "Input"],
-Cell[1038, 36, 195, 3, 62, "Print"]
+Cell[567, 22, 468, 11, 73, "Input"],
+Cell[1038, 35, 195, 3, 51, "Print"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1270, 44, 139, 1, 36, "Subsection"],
+Cell[1270, 43, 139, 1, 34, "Subsection"],
 Cell[CellGroupData[{
-Cell[1434, 49, 141, 3, 31, "Input"],
-Cell[1578, 54, 232, 6, 41, "Message"],
-Cell[1813, 62, 289, 7, 59, "Message"],
-Cell[2105, 71, 541, 14, 50, "Output"]
+Cell[1434, 48, 141, 3, 27, "Input"],
+Cell[1578, 53, 219, 5, 34, "Message"],
+Cell[1800, 60, 274, 5, 48, "Message"],
+Cell[2077, 67, 541, 14, 43, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[2683, 90, 103, 2, 31, "Input"],
-Cell[2789, 94, 71, 1, 30, "Output"]
+Cell[2655, 86, 103, 2, 27, "Input"],
+Cell[2761, 90, 71, 1, 27, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[2897, 100, 143, 3, 31, "Input"],
-Cell[3043, 105, 191, 5, 41, "Message"]
+Cell[2869, 96, 143, 3, 27, "Input"],
+Cell[3015, 101, 178, 4, 34, "Message"]
 }, Open  ]]
 }, Open  ]]
 }
