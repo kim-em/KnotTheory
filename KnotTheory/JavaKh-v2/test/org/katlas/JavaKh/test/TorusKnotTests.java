@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.katlas.JavaKh.JavaKh;
 import org.katlas.JavaKh.Komplex;
+import org.katlas.JavaKh.algebra.rings.Int;
 import org.katlas.JavaKh.algebra.rings.Rational;
 import org.katlas.JavaKh.algebra.rings.Rings;
 
@@ -43,7 +44,7 @@ public class TorusKnotTests {
 	}
 	
 	private Komplex<Rational> createComplex(int[][] knot) {
-		return Komplex.generateFast(knot, Komplex.getSigns(knot), false, false, JavaKh.inMemory);
+		return (Komplex<Rational>) Komplex.generateFast(knot, Komplex.getSigns(knot), false, false, JavaKh.inMemory);
 	}
 	
 	private Komplex<Rational> createComplex(String pd) throws IOException {

@@ -12,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.katlas.JavaKh.algebra.Ring;
 import org.katlas.JavaKh.algebra.rings.ModP;
 import org.katlas.JavaKh.algebra.rings.Rings;
 

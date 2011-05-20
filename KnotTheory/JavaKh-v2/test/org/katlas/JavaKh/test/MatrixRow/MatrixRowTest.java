@@ -43,11 +43,11 @@ public abstract class MatrixRowTest<Row extends MatrixRow<String>> {
 
 		iterator = row.keys().iterator();
 		assertTrue(iterator.hasNext());
-		assertEquals(1, iterator.next());
+		assertTrue(1 == iterator.next());
 		assertTrue(iterator.hasNext());
-		assertEquals(2, iterator.next());
+		assertTrue(2 == iterator.next());
 		assertTrue(iterator.hasNext());
-		assertEquals(3, iterator.next());
+		assertTrue(3 == iterator.next());
 		assertFalse(iterator.hasNext());
 	}
 	
@@ -89,7 +89,7 @@ public abstract class MatrixRowTest<Row extends MatrixRow<String>> {
 		}
 		Collections.sort(ints);
 		for (int k : row.keys()) {
-			assertEquals(k, ints.get(0));
+			assertTrue(k == ints.get(0));
 			ints.remove(0);
 		}
 	}
@@ -126,9 +126,9 @@ public abstract class MatrixRowTest<Row extends MatrixRow<String>> {
 		
 		iterator = row.keys().iterator();
 		assertTrue(iterator.hasNext());
-		assertEquals(1, iterator.next());
+		assertTrue(1 == iterator.next());
 		assertTrue(iterator.hasNext());
-		assertEquals(3, iterator.next());
+		assertTrue(3 == iterator.next());
 		assertFalse(iterator.hasNext());
 	}
 
