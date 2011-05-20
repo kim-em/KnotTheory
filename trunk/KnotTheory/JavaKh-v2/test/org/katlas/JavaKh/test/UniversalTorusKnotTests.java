@@ -40,7 +40,7 @@ public class UniversalTorusKnotTests {
 	}
 	
 	private Komplex<Int> createComplex(int[][] knot) {
-		return Komplex.generateFast(knot, Komplex.getSigns(knot), false, false, true);
+		return (Komplex<Int>) Komplex.generateFast(knot, Komplex.getSigns(knot), false, false, true);
 	}
 	
 	private Komplex<Int> createComplex(String pd) throws IOException {
