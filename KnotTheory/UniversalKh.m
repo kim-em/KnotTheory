@@ -34,8 +34,8 @@ sInvariant::usage="sInvariant[K] computes the s-invariant of a knot K, using the
 KhReduced::usage="KhReduced[K][q,t] gives the reduced Khovanov homology of the knot K, using the UniversalKh program.";
 
 
-KhE::usage="KhE denotes a free generator in Khovanov homology, corresponding to an exceptional pair. See ?UniversalKh for more information."l
-KhC::usage="KhC denotes a torsion generator in Khovanov homology, with the differential in KhC[n] being the n-th power of the punctured torus. Thus KhC[1] corresponds to a knight's move pair. See ?UniversalKh for more information."l
+KhE::usage="KhE denotes a free generator in Khovanov homology, corresponding to an exceptional pair. See ?UniversalKh for more information."
+KhC::usage="KhC denotes a torsion generator in Khovanov homology, with the differential in KhC[n] being the n-th power of the punctured torus. Thus KhC[1] corresponds to a knight's move pair. See ?UniversalKh for more information."
 
 
 Begin["`Private`"]
@@ -56,6 +56,8 @@ X[i_, 1, j_, n] :> X[i, n+1, j, n],
 X[1, j_, n, i_] :> X[n+1, j, n, i],
 X[j_, n, i_, 1] :> X[j, n, i, n+1]
 };
+
+Print["pd1->",pd1];
 
 new=True; (* This is just an option for Scott, to allow comparing against Jeremy's program before butchering it. *)
 If[new,
@@ -89,6 +91,7 @@ $ContextPath={"KnotTheory`UniversalKh`Private`"};
 kh=ToExpression[out<>"&"][q,t];
 $Context=saveContext;
 $ContextPath=saveContextPath;
+Print["kh->",kh];
 minr=Exponent[kh, t, Min];
 maxr=Exponent[kh, t, Max];
 obs = Expand[kh /. h -> 0 /. M[_, n_, ___]  :> Plus @@ Array[Arc, n]];
@@ -164,6 +167,9 @@ twist[\[Alpha]_,k_,\[Lambda]_,\[Mu]_,\[Nu]_]:=\[Nu]-(1/\[Alpha])T^(-k)\[Mu].\[La
 
 UniversalKh[K:((Knot|Link|TorusKnot)[_Integer,__]),options___]:=UniversalKh[K,options]=Module[{khn,result,components,factor},
 CreditMessage[UniversalKh::about];
+If[Length[Skeleton[K]]>1,
+Print["Warning: UniversalKh is currently *broken* for links. It may be a simple matter of dividing the coefficient of KhE by (q+q^{-1}), but we haven't identified the bug."];
+];
 khn=KhN[PD[K],options];
 result=AbsoluteTiming[DecomposeComplex[GradingsList[khn],Matrices[khn]]];
 AppendTo[UniversalKhTimingData,{K,result[[1]]/.Second->1}];
@@ -174,7 +180,8 @@ DecomposeComplex[GradingsList[khn],Matrices[khn]]
 ]
 
 
-DecomposeComplex[{g0_,gradings0_},{g0_,matrices0_List}]:=Module[{g=g0,gradings=gradings0,matrices=matrices0,result=0,matrix,objects,exponents,i,j,k,\[Alpha],\[Lambda],\[Mu],\[Nu]},While[Length[matrices]>0,objects=gradings[[1]];matrix=matrices[[1]];
+DecomposeComplex[{g0_,gradings0_},{g0_,matrices0_List}]:=Module[{g=g0,gradings=gradings0,matrices=matrices0,result=0,matrix,objects,exponents,i,j,k,\[Alpha],\[Lambda],\[Mu],\[Nu]},
+While[Length[matrices]>0,objects=gradings[[1]];matrix=matrices[[1]];
 While[
 (exponents=DeleteCases[Union[(Exponent[#1,T]&)/@Flatten[MatrixData[matrix]]],-\[Infinity]])!={},
 k=First[exponents];
