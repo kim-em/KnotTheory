@@ -1,5 +1,5 @@
 
-BeginPackage["TubePlot`", {"Utilities`FilterOptions`"}]
+BeginPackage["TubePlot`"]
 
 TubePlot::usage = "
   TubePlot[gamma, {t, t0, t1}, r, opts] plots the space curve gamma
@@ -66,7 +66,7 @@ TubePlot[gamma_, {t_, t1_, t2_}, r_, opts___Rule] := Module[
   Graphics3D[{prelude, Table[ 
     Polygon[{tube[[i, j]], tube[[i+1, j]], tube[[i+1, j+1]], tube[[i, j+1]]}],
     {i, 2, l + 1}, {j, m}
-  ]}, FilterOptions[Graphics3D, opts]]
+  ]}, Sequence@@FilterRules[{opts}, Options@Graphics3D]]
 ]
 
 End[]; EndPackage[]
