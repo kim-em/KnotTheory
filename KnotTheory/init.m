@@ -28,7 +28,7 @@ KnotTheory::credits = "`1`";
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2011, 3, 22, 21, 10, 4.677367};
+KnotTheoryVersion[] = {2013, 2, 5, 3, 48, 46.4762255};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
@@ -694,7 +694,7 @@ End[]; EndPackage[]
 
 (* Begin source file src/TubePlot.m*)
 
-BeginPackage["TubePlot`", {"Utilities`FilterOptions`"}]
+BeginPackage["TubePlot`"]
 
 TubePlot::usage = "
   TubePlot[gamma, {t, t0, t1}, r, opts] plots the space curve gamma
@@ -761,7 +761,7 @@ TubePlot[gamma_, {t_, t1_, t2_}, r_, opts___Rule] := Module[
   Graphics3D[{prelude, Table[ 
     Polygon[{tube[[i, j]], tube[[i+1, j]], tube[[i+1, j+1]], tube[[i, j+1]]}],
     {i, 2, l + 1}, {j, m}
-  ]}, FilterOptions[Graphics3D, opts]]
+  ]}, Sequence@@FilterRules[{opts}, Options@Graphics3D]]
 ]
 
 End[]; EndPackage[]
