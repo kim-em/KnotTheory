@@ -274,7 +274,9 @@ KnotTheory\JavaKh-v2\jars\commons-io-1.2.jar
 KnotTheory\JavaKh-v2\jars\commons-logging-1.1.jar
 KnotTheory\JavaKh-v2\jars\log4j-1.2.12.jar
 KnotTheory\JavaKh-v2\jars\log4j.xml
+KnotTheory\JavaKh-v2\JavaKh.log
 KnotTheory\JavaKh-v2\log4j\log4j.xml
+KnotTheory\JavaKh-v2\pd
 KnotTheory\JavaKh-v2\src\com\mallardsoft\tuple\End.java
 KnotTheory\JavaKh-v2\src\com\mallardsoft\tuple\Pair.java
 KnotTheory\JavaKh-v2\src\com\mallardsoft\tuple\Quadruple.java

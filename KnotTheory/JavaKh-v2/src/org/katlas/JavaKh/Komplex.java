@@ -1591,13 +1591,13 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 
 	// adds crossings one by one
 	@SuppressWarnings("unchecked")
-	public static <R extends Ring<R>> Komplex<R> generateFast(int pd[][],
+	public static Komplex<?> generateFast(int pd[][],
 			int xsigns[], boolean reorderCrossings, boolean caching,
 			boolean inMemory) {
 		invokeGC();
 
 		if (pd.length == 0) { // assume unknot
-			Komplex<R> kom = new Komplex<R>(1, true);
+			Komplex kom = new Komplex(1, true);
 			kom.columns[0] = new SmoothingColumn(1);
 			kom.columns[0].smoothings.set(0, Cap.capCache.cache(new Cap(0, 1)));
 			kom.reduce();
@@ -1608,10 +1608,10 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 		int pd1[][] = { { 0, 1, 2, 3 } };
 		int xsign1[] = new int[1];
 		xsign1[0] = 1;
-		Komplex<R> kplus = new Komplex<R>(pd1, xsign1, 4);
+		Komplex kplus = new Komplex(pd1, xsign1, 4);
 		xsign1[0] = -1;
-		Komplex<R> kminus = new Komplex<R>(pd1, xsign1, 4);
-		Komplex<R> kom;
+		Komplex kminus = new Komplex(pd1, xsign1, 4);
+		Komplex kom;
 		int edges[] = new int[0];
 		int firstdepth = (pd.length > MAXDEPTH + 1 ? MAXDEPTH : pd.length - 1);
 		int firstdummy[] = new int[firstdepth + 1];
@@ -1647,7 +1647,7 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 								new FileInputStream(cache));
 						info("Beginning to load cached complex for crossing: "
 								+ i);
-						kom = (Komplex<R>) (deserializer.readObject());
+						kom = (Komplex) (deserializer.readObject());
 						dryRun = true;
 
 						// uncomment this if you just want to check that you can
@@ -1713,6 +1713,17 @@ public class Komplex<R extends Ring<R>> implements Serializable {
 					kstart = j;
 					break;
 				}
+			
+			// This next for-loop worth of assertions is new, May 19 2011, following up on a bug reported by Chuck Livingston
+			// not yet tested!
+			
+			for(int j = 0; j < nbest; j++) {
+				if(pd[best][(-j + kstart + 4) % 4] != edges[(start + j) % nedges]) {
+					System.out.println("If you use -O, it's your responsibility to ensure that each initial segment of the PD defines a tangle in a simply connected region.");
+					throw new UnsupportedOperationException();
+				}
+			}
+			
 			assert kstart != -1;
 			kstart += 4 - nbest + 1;
 			kstart %= 4;

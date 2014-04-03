@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       145,          7]
-NotebookDataLength[    161602,       3617]
-NotebookOptionsPosition[     44207,       1172]
-NotebookOutlinePosition[    159599,       3554]
-CellTagsIndexPosition[    159556,       3551]
+NotebookDataLength[    162711,       3641]
+NotebookOptionsPosition[     45265,       1194]
+NotebookOutlinePosition[    160662,       3576]
+CellTagsIndexPosition[    160619,       3573]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -82,22 +82,28 @@ using the UniversalKh program.\>\""}], ";"}]], "Input",
 Cell[BoxData[{
  RowBox[{
   RowBox[{"KhE", "::", "usage"}], "=", 
-  RowBox[{
   "\"\<KhE denotes a free generator in Khovanov homology, corresponding to an \
-exceptional pair. See ?UniversalKh for more information.\>\"", 
-   "l"}]}], "\[IndentingNewLine]", 
+exceptional pair. See ?UniversalKh for more information.\>\""}], "\
+\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"KhC", "::", "usage"}], "=", 
-  RowBox[{
   "\"\<KhC denotes a torsion generator in Khovanov homology, with the \
 differential in KhC[n] being the n-th power of the punctured torus. Thus \
 KhC[1] corresponds to a knight's move pair. See ?UniversalKh for more \
-information.\>\"", "l"}]}]}], "Input",
- InitializationCell->True],
+information.\>\""}]}], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.5316774507583227`*^9, 3.531677459643817*^9}}],
+
+Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}]], "Input",
  InitializationCell->True],
+
+Cell[BoxData["\<\"KnotTheory`UniversalKh`Private`\"\>"], "Output",
+ CellChangeTimes->{{3.531676441083721*^9, 3.5316764428426523`*^9}, 
+   3.531676577676794*^9}]
+}, Open  ]],
 
 Cell[BoxData[
  RowBox[{
@@ -171,6 +177,9 @@ Cell[BoxData[
             RowBox[{"j", ",", " ", "n", ",", " ", "i", ",", " ", 
              RowBox[{"n", "+", "1"}]}], "]"}]}]}], "\[IndentingNewLine]", 
          "}"}]}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"Print", "[", 
+       RowBox[{"\"\<pd1->\>\"", ",", "pd1"}], "]"}], ";", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
       RowBox[{"new", "=", "True"}], ";", " ", 
       RowBox[{"(*", " ", 
        RowBox[{
@@ -276,6 +285,8 @@ command line was: \>\"", "]"}], ";",
       RowBox[{"$Context", "=", "saveContext"}], ";", "\[IndentingNewLine]", 
       RowBox[{"$ContextPath", "=", "saveContextPath"}], ";", 
       "\[IndentingNewLine]", 
+      RowBox[{"Print", "[", 
+       RowBox[{"\"\<kh->\>\"", ",", "kh"}], "]"}], ";", "\[IndentingNewLine]", 
       RowBox[{"minr", "=", 
        RowBox[{"Exponent", "[", 
         RowBox[{"kh", ",", " ", "t", ",", " ", "Min"}], "]"}]}], ";", 
@@ -415,7 +426,8 @@ command line was: \>\"", "]"}], ";",
    3.4791418096834803`*^9, 3.479141816359941*^9}, {3.479141855708859*^9, 
    3.479141872932847*^9}, {3.4791421579553137`*^9, 3.479142162302726*^9}, {
    3.479142343614765*^9, 3.479142417755108*^9}, {3.509841572160133*^9, 
-   3.509841573087188*^9}}],
+   3.509841573087188*^9}, {3.531676413295127*^9, 3.531676436409396*^9}, {
+   3.531676567052416*^9, 3.531676575931653*^9}}],
 
 Cell[BoxData[
  RowBox[{
@@ -478,11 +490,9 @@ Cell[BoxData[
    "}"}]}]], "Input",
  InitializationCell->True],
 
-Cell[CellGroupData[{
-
 Cell[BoxData[
  RowBox[{
-  RowBox[{"Matrices", "[", 
+  RowBox[{"AllMatrices", "[", 
    RowBox[{"k", ":", 
     RowBox[{"Komplex", "[", 
      RowBox[{
@@ -565,18 +575,8 @@ Cell[BoxData[
  InitializationCell->True,
  CellChangeTimes->{{3.4294637480423183`*^9, 3.4294637562040544`*^9}, {
    3.429463844551091*^9, 3.4294638601535263`*^9}, {3.4294639556408305`*^9, 
-   3.429463985353555*^9}, 3.429464051518696*^9}],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"General", "::", "\<\"spell1\"\>"}], ":", 
-  " ", "\<\"Possible spelling error: new symbol name \
-\\\"\\!\\(dimensions\\)\\\" is similar to existing symbol \
-\\\"\\!\\(Dimensions\\)\\\". \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
-ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
-ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}]], "Message",
- InitializationCell->True]
-}, Open  ]],
+   3.429463985353555*^9}, 3.429464051518696*^9, {3.6055452927092376`*^9, 
+   3.6055452930972595`*^9}}],
 
 Cell[BoxData[
  RowBox[{
@@ -753,6 +753,19 @@ Cell[BoxData[{
       RowBox[{"CreditMessage", "[", 
        RowBox[{"UniversalKh", "::", "about"}], "]"}], ";", 
       "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Length", "[", 
+          RowBox[{"Skeleton", "[", "K", "]"}], "]"}], ">", "1"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{
+         "Print", "[", 
+          "\"\<Warning: UniversalKh is currently *broken* for links. It may \
+be a simple matter of dividing the coefficient of KhE by (q+q^{-1}), but we \
+haven't identified the bug.\>\"", "]"}], ";"}]}], "\[IndentingNewLine]", 
+       "]"}], ";", "\[IndentingNewLine]", 
       RowBox[{"khn", "=", 
        RowBox[{"KhN", "[", 
         RowBox[{
@@ -763,7 +776,7 @@ Cell[BoxData[{
         RowBox[{"DecomposeComplex", "[", 
          RowBox[{
           RowBox[{"GradingsList", "[", "khn", "]"}], ",", 
-          RowBox[{"Matrices", "[", "khn", "]"}]}], "]"}], "]"}]}], ";", 
+          RowBox[{"AllMatrices", "[", "khn", "]"}]}], "]"}], "]"}]}], ";", 
       "\[IndentingNewLine]", 
       RowBox[{"AppendTo", "[", 
        RowBox[{"UniversalKhTimingData", ",", 
@@ -790,12 +803,13 @@ Cell[BoxData[{
     RowBox[{"DecomposeComplex", "[", 
      RowBox[{
       RowBox[{"GradingsList", "[", "khn", "]"}], ",", 
-      RowBox[{"Matrices", "[", "khn", "]"}]}], "]"}]}], "\[IndentingNewLine]",
-    "]"}]}]}], "Input",
+      RowBox[{"AllMatrices", "[", "khn", "]"}]}], "]"}]}], 
+   "\[IndentingNewLine]", "]"}]}]}], "Input",
  InitializationCell->True,
  CellChangeTimes->{{3.479142440708848*^9, 3.479142501937842*^9}, {
   3.47914261083459*^9, 3.479142610917959*^9}, {3.50984154327634*^9, 
-  3.509841544945129*^9}}],
+  3.509841544945129*^9}, {3.531677484117547*^9, 3.531677537816416*^9}, {
+  3.6055453087241535`*^9, 3.605545310608261*^9}}],
 
 Cell[BoxData[
  RowBox[{
@@ -815,6 +829,7 @@ Cell[BoxData[
       RowBox[{"result", "=", "0"}], ",", "matrix", ",", "objects", ",", 
       "exponents", ",", "i", ",", "j", ",", "k", ",", "\[Alpha]", ",", 
       "\[Lambda]", ",", "\[Mu]", ",", "\[Nu]"}], "}"}], ",", 
+    "\[IndentingNewLine]", 
     RowBox[{
      RowBox[{"While", "[", 
       RowBox[{
@@ -1048,7 +1063,7 @@ Cell[BoxData[
    3.4294772491159086`*^9}, 3.429477300489781*^9, {3.479138072286153*^9, 
    3.479138085658778*^9}, {3.479138149924748*^9, 3.4791382759059963`*^9}, {
    3.47913836110141*^9, 3.479138377016591*^9}, {3.479138425463806*^9, 
-   3.479138426453793*^9}}],
+   3.479138426453793*^9}, 3.531676027694219*^9}],
 
 Cell[BoxData[
  RowBox[{
@@ -1161,9 +1176,16 @@ Cell[BoxData[
      "]"}]}], "]"}]}]], "Input",
  InitializationCell->True],
 
+Cell[CellGroupData[{
+
 Cell[BoxData[
  RowBox[{"End", "[", "]"}]], "Input",
  InitializationCell->True],
+
+Cell[BoxData["\<\"KnotTheory`UniversalKh`Private`\"\>"], "Output",
+ CellChangeTimes->{{3.5316764421428432`*^9, 3.531676443885693*^9}, 
+   3.531676578868841*^9}]
+}, Open  ]],
 
 Cell[BoxData[
  RowBox[{"EndPackage", "[", "]"}]], "Input",
@@ -1171,8 +1193,8 @@ Cell[BoxData[
 }, Open  ]]
 },
 AutoGeneratedPackage->Automatic,
-WindowSize->{1105, 637},
-WindowMargins->{{Automatic, 289}, {Automatic, 52}},
+WindowSize->{1904, 985},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
 Visible->True,
 ShowSelection->True,
 InputAliases->{"intt" -> RowBox[{"\[Integral]", 
@@ -1229,7 +1251,7 @@ InputAliases->{"intt" -> RowBox[{"\[Integral]",
     "NotationPatternWrapperStyle"], "madeboxeswraper" -> 
   TagBox["\[Placeholder]", NotationMadeBoxesTag, TagStyle -> 
     "NotationMadeBoxesWrapperStyle"]},
-FrontEndVersion->"7.0 for Mac OS X x86 (32-bit) (February 18, 2009)",
+FrontEndVersion->"9.0 for Microsoft Windows (64-bit) (January 25, 2013)",
 StyleDefinitions->Notebook[{
    Cell[
     CellGroupData[{
@@ -3539,7 +3561,7 @@ These styles serve to make visible otherwise invisible tagboxes.", "Text",
        Background -> RGBColor[0.900008, 0.889998, 1], 
        TagBoxOptions -> {SyntaxForm -> "symbol"}, CellTags -> 
        "NotationPackage"]}, Closed]]}, Visible -> False, FrontEndVersion -> 
-  "7.0 for Mac OS X x86 (32-bit) (February 18, 2009)", StyleDefinitions -> 
+  "9.0 for Microsoft Windows (64-bit) (January 25, 2013)", StyleDefinitions -> 
   "Default.nb"]
 ]
 (* End of Notebook Content *)
@@ -3554,69 +3576,71 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[567, 22, 78, 1, 46, "Subtitle",
+Cell[567, 22, 78, 1, 49, "Subtitle",
  InitializationCell->True],
-Cell[648, 25, 300, 6, 56, "Text",
+Cell[648, 25, 300, 6, 47, "Text",
  InitializationCell->True],
-Cell[951, 33, 364, 10, 24, "Input",
+Cell[951, 33, 364, 10, 28, "Input",
  InitializationCell->True],
-Cell[1318, 45, 388, 8, 55, "Input",
+Cell[1318, 45, 388, 8, 49, "Input",
  InitializationCell->True],
-Cell[1709, 55, 300, 7, 55, "Input",
+Cell[1709, 55, 300, 7, 28, "Input",
  InitializationCell->True],
-Cell[2012, 64, 271, 7, 40, "Input",
+Cell[2012, 64, 271, 7, 28, "Input",
  InitializationCell->True],
-Cell[2286, 73, 243, 6, 24, "Input",
+Cell[2286, 73, 243, 6, 28, "Input",
  InitializationCell->True],
-Cell[2532, 81, 601, 14, 85, "Input",
- InitializationCell->True],
-Cell[3136, 97, 101, 2, 24, "Input",
- InitializationCell->True],
-Cell[3240, 101, 141, 4, 24, "Input",
- InitializationCell->True],
-Cell[3384, 107, 13589, 310, 940, "Input",
- InitializationCell->True],
-Cell[16976, 419, 265, 6, 24, "Input",
- InitializationCell->True],
-Cell[17244, 427, 924, 24, 100, "Input",
- InitializationCell->True],
-Cell[18171, 453, 753, 25, 24, "Input",
+Cell[2532, 81, 631, 13, 49, "Input",
  InitializationCell->True],
 Cell[CellGroupData[{
-Cell[18949, 482, 3633, 85, 190, "Input",
+Cell[3188, 98, 101, 2, 28, "Input",
  InitializationCell->True],
-Cell[22585, 569, 413, 8, 20, "Message",
- InitializationCell->True]
+Cell[3292, 102, 160, 2, 27, "Output"]
 }, Open  ]],
-Cell[23013, 580, 196, 6, 24, "Input",
+Cell[3467, 107, 141, 4, 28, "Input",
  InitializationCell->True],
-Cell[23212, 588, 462, 13, 24, "Input",
+Cell[3611, 113, 13935, 316, 1289, "Input",
  InitializationCell->True],
-Cell[23677, 603, 2159, 63, 134, "Input",
+Cell[17549, 431, 265, 6, 28, "Input",
  InitializationCell->True],
-Cell[25839, 668, 575, 16, 40, "Input",
+Cell[17817, 439, 924, 24, 129, "Input",
  InitializationCell->True],
-Cell[26417, 686, 736, 22, 40, "Input",
+Cell[18744, 465, 753, 25, 28, "Input",
  InitializationCell->True],
-Cell[27156, 710, 133, 4, 24, "Input",
+Cell[19500, 492, 3690, 86, 189, "Input",
  InitializationCell->True],
-Cell[27292, 716, 418, 14, 24, "Input",
+Cell[23193, 580, 196, 6, 28, "Input",
  InitializationCell->True],
-Cell[27713, 732, 2378, 65, 161, "Input",
+Cell[23392, 588, 462, 13, 28, "Input",
  InitializationCell->True],
-Cell[30094, 799, 10673, 251, 740, "Input",
+Cell[23857, 603, 2159, 63, 169, "Input",
  InitializationCell->True],
-Cell[40770, 1052, 1212, 35, 125, "Input",
+Cell[26019, 668, 575, 16, 49, "Input",
  InitializationCell->True],
-Cell[41985, 1089, 1057, 36, 30, "Input",
+Cell[26597, 686, 736, 22, 49, "Input",
  InitializationCell->True],
-Cell[43045, 1127, 589, 20, 30, "Input",
+Cell[27336, 710, 133, 4, 28, "Input",
  InitializationCell->True],
-Cell[43637, 1149, 385, 12, 24, "Input",
+Cell[27472, 716, 418, 14, 28, "Input",
  InitializationCell->True],
-Cell[44025, 1163, 78, 2, 24, "Input",
+Cell[27893, 732, 3009, 79, 269, "Input",
  InitializationCell->True],
-Cell[44106, 1167, 85, 2, 24, "Input",
+Cell[30905, 813, 10723, 252, 890, "Input",
+ InitializationCell->True],
+Cell[41631, 1067, 1212, 35, 139, "Input",
+ InitializationCell->True],
+Cell[42846, 1104, 1057, 36, 30, "Input",
+ InitializationCell->True],
+Cell[43906, 1142, 589, 20, 30, "Input",
+ InitializationCell->True],
+Cell[44498, 1164, 385, 12, 28, "Input",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[44908, 1180, 78, 2, 28, "Input",
+ InitializationCell->True],
+Cell[44989, 1184, 160, 2, 27, "Output"]
+}, Open  ]],
+Cell[45164, 1189, 85, 2, 28, "Input",
  InitializationCell->True]
 }, Open  ]]
 }
