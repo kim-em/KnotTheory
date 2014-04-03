@@ -124,7 +124,7 @@ Matrix[data]
 GradingsList[k:Komplex[{n_,_,_},___]]:={n,Cases[{#},Arc[m_,_]:>m,2]&/@(List@@k)[[All,2]]}
 
 
-Matrices[k:Komplex[{n_,_,_},___]]:={n,
+AllMatrices[k:Komplex[{n_,_,_},___]]:={n,
 Module[{gradings=GradingsList[k][[2]],dimensions,matrix},
 dimensions=Length/@gradings;
 Table[
@@ -171,12 +171,12 @@ If[Length[Skeleton[K]]>1,
 Print["Warning: UniversalKh is currently *broken* for links. It may be a simple matter of dividing the coefficient of KhE by (q+q^{-1}), but we haven't identified the bug."];
 ];
 khn=KhN[PD[K],options];
-result=AbsoluteTiming[DecomposeComplex[GradingsList[khn],Matrices[khn]]];
+result=AbsoluteTiming[DecomposeComplex[GradingsList[khn],AllMatrices[khn]]];
 AppendTo[UniversalKhTimingData,{K,result[[1]]/.Second->1}];
 result[[2]]
 ]
 UniversalKh[d_PD,options___]:=With[{khn=KhN[d,options]},
-DecomposeComplex[GradingsList[khn],Matrices[khn]]
+DecomposeComplex[GradingsList[khn],AllMatrices[khn]]
 ]
 
 

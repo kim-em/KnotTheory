@@ -28,7 +28,7 @@ KnotTheory::credits = "`1`";
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2013, 2, 5, 3, 48, 46.4762255};
+KnotTheoryVersion[] = {2014, 4, 3, 16, 23, 56.0784378};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
