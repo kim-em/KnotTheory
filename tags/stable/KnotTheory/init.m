@@ -28,7 +28,7 @@ KnotTheory::credits = "`1`";
 
 Begin["`System`"]
 
-KnotTheoryVersion[] = {2014, 4, 3, 16, 23, 56.0784378};
+KnotTheoryVersion[] = {2014, 9, 6, 13, 37, 37.2841322};
 KnotTheoryVersion[k_Integer] := KnotTheoryVersion[][[k]]
 
 KnotTheoryVersionString[] = StringJoin[
@@ -305,13 +305,13 @@ Crossings[Link[n_,__]] := n
 Crossings[TorusKnot[m_, n_]] /; (m>0 && n>0) := m*(n-1)
 Crossings[L_] := Crossings[PD[L]]
 
-PositiveQ[X[i_,j_,k_,l_]] /; j-l==1 || l-j>1 = True;
-PositiveQ[X[i_,j_,k_,l_]] /; l-j==1 || j-l>1 = False;
+PositiveQ[X[i_,j_,k_,l_]] /; i == j || k == l || j-l==1 || l-j>1 = True;
+PositiveQ[X[i_,j_,k_,l_]] /; i == l || j == k || l-j==1 || j-l>1 = False;
 PositiveQ[_Xp] = True;
 PositiveQ[_Xm] = False;
 
-NegativeQ[X[i_,j_,k_,l_]] /; j-l==1 || l-j>1 = False;
-NegativeQ[X[i_,j_,k_,l_]] /; l-j==1 || j-l>1 = True;
+NegativeQ[X[i_,j_,k_,l_]] /; i == j || k == l || j-l==1 || l-j>1 = False;
+NegativeQ[X[i_,j_,k_,l_]] /; i == l || j == k || l-j==1 || j-l>1 = True;
 NegativeQ[_Xp] = False;
 NegativeQ[_Xm] = True;
 
