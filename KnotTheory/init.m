@@ -1,3 +1,6 @@
+(* To avoid conflicts with other packages, we let the symbol X escape to the system context *)
+System`X;
+
 BeginPackage["KnotTheory`"];
 
 KnotTheoryVersion::usage = "
