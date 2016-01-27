@@ -149,4 +149,40 @@ DTCode[Knot[n_, t_, k_]] /; (12<=n<=16) := DTCode @@ (
   If[# >= 97, 2(#-96), -2(#-64)]& /@ ToCharacterCode[DT4Knots[n, t][[k]]] 
 )
 
+(* from http://mathematica.stackexchange.com/a/7512/35 *)
+
+dPcore[L_, p : {q___, _}] := 
+ Inner[L[[# ;; #2]] &, {0, q} + 1, p, Head@L]
+dPcore[L_, p_, All] := dPcore[L, p]~Append~Drop[L, Last@p]
+dPcore[L_, p_, n__] := dPcore[L, p]~Join~Partition[L~Drop~Last@p, n]
+dynamicPartition[L_, p : {__Integer}, x___] := 
+ dPcore[L, Accumulate@p, x] /; ! Negative@Min@p && Length@L >= Tr@p
+
+AlphabeticDTCode[S_String] := 
+ Module[{digits, crossings, components, sizes},
+  digits = 
+   ToCharacterCode[S] /. {n_ /; n >= 97 :> n - 96, 
+     n_ /; n < 97 :> 64 - n};
+  crossings = First[digits];
+  components = digits[[2]];
+  If[2 + crossings + components != StringLength[S],
+   Print["Invalid alphabetic link Gauss code: ", S]; Abort[]];
+  sizes = digits[[3 ;; 2 + components]];
+  DTCode @@ (2 dynamicPartition[digits[[3 + components ;;]], sizes])
+  ]
+
+DT4Links[12, t : (Alternating | NonAlternating)] := 
+ DT4Links[12, t] = Module[{},
+   CreditMessage[
+    "The table of links with 12 crossings was provided by Morwen \
+Thistlethwaite, but it has not been independently confirmed and may \
+contain omissions or duplications."];
+   Import[
+    FileNameJoin[{KnotTheoryDirectory[], 
+      "L12" <> (Switch[t, Alternating, "A", NonAlternating, "N"])}], 
+    "Lines"]
+   ]
+
+PD[Link[12, t_, k_]] := PD[AlphabeticDTCode[DT4Links[12, t][[k]]]]
+
 End[]; EndPackage[]
