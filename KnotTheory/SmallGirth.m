@@ -19,47 +19,56 @@
 
 
 
+(* ::Input::Initialization:: *)
 BeginPackage["KnotTheory`SmallGirth`",{"KnotTheory`"}];
 
 
+(* ::Input::Initialization:: *)
 FindSmallGirthOrdering::about="FindSmallGirthOrdering[K] tries to reorder the crossings in a PD presentation of K so that, when the crossings are read in order, the girth is minimised. It does this by repeatedly running a greedy algorithm, making random choices when they are available. FindSmallGirthOrdering[K, n] returns the best of n attempts; n defaults to 1000.";
 
 
+(* ::Input::Initialization:: *)
 Begin["`Private`"]
 
 
-randomOrderPD[K_]:=Module[{pd=PD[K],maxConnection,availableCrossings,nextCrossing,inside={},result=PD[],girth=0,girths={}},
+(* ::Input::Initialization:: *)
+randomOrderPD[K_]:=Module[{pd=K,maxConnection,availableCrossings,nextCrossing,inside={},result=Head[K][],girth=0,disklike,girths={}},
 While[Length[pd]>0,
-maxConnection=Max[(4-Length[Complement[List@@#1,inside]]&)/@List@@pd];
-availableCrossings=Cases[List@@pd,x_/;(4-Length[Complement[List@@x,inside]])==maxConnection];
+maxConnection=Max[(Length[#1]-Length[Complement[List@@#1,inside]]&)/@List@@pd];
+availableCrossings=Cases[List@@pd,x_/;(Length[x]-Length[Complement[List@@x,inside]])==maxConnection];
 nextCrossing=availableCrossings[[RandomInteger[{1,Length[availableCrossings]}]]];
-girth+=4-2Length[Intersection[List@@nextCrossing,inside]];
+disklike=MatchQ[MemberQ[inside,#]&/@(List@@nextCrossing),{False...,True..,False...}|{True..,False...,True..}];
+girth+=If[inside=={}||disklike,Length[nextCrossing]-2Length[Intersection[List@@nextCrossing,inside]],\[Infinity]];
 AppendTo[girths,girth];
 inside=Union[inside,List@@nextCrossing];
 AppendTo[result,nextCrossing];
-pd=DeleteCases[pd,nextCrossing];
+pd=DeleteCases[pd,nextCrossing,1,1];
 ];
 {girths,result}
 ]
 
 
+(* ::Input::Initialization:: *)
 FindSmallGirthOrdering[K_]:=FindSmallGirthOrdering[K,1000]
 
 
-FindSmallGirthOrdering[K_,k_]:=Module[{i=0,bestSoFar=randomOrderPD[K],next},
+(* ::Input::Initialization:: *)
+FindSmallGirthOrdering[K_,k_]:=Module[{i=0,pd=PD[K],bestSoFar,next},
+bestSoFar=randomOrderPD[pd];
 While[(++i)<=k,
-next=randomOrderPD[K];
-If[Max[next[[1]]]<=Max[bestSoFar[[1]]],
-If[Count[next[[1]],Max[next[[1]]]]<Count[bestSoFar[[1]],Max[bestSoFar[[1]]]],
+next=randomOrderPD[pd];
+If[Max[next[[1]]]<=Max[bestSoFar[[1]]]||Max[next[[1]]]==Max[bestSoFar[[1]]]\[And]Count[next[[1]],Max[next[[1]]]]<Count[bestSoFar[[1]],Max[bestSoFar[[1]]]],
 bestSoFar=next;
-]
 ];
 ];
+If[bestSoFar[[1,-1]]==\[Infinity],Print["FindSmallGirthOrdering failed."];Abort[]];
 bestSoFar[[2]]
 ]
 
 
+(* ::Input::Initialization:: *)
 End[]
 
 
+(* ::Input::Initialization:: *)
 EndPackage[]
