@@ -51,9 +51,7 @@ KnotTheoryVersionString[] = StringJoin[
   ToString[KnotTheoryVersion[6]]
 ]
 
-KnotTheoryDirectory[] = (
-  File /. Flatten[FileInformation[ToFileName[#,"KnotTheory"]] & /@ ($Path /. "." -> Directory[])]
-)
+KnotTheoryDirectory[] = DirectoryName[$InputFileName]
 
 (* might be dangerous if KnotTheoryDirectory[] is somehow incorrect! *)
 If[!MemberQ[$Path, ParentDirectory[KnotTheoryDirectory[]]],
